@@ -317,15 +317,16 @@ function ProductCard(props) {
       </Link>
     );
   } else {
+    console.log("i ran");
     let linkTo = `/seller/${vanityId}`;
     if (showSPLP === "true" || showSPLP === true) {
       id = id.replace("HOME::SELLER::", "");
       let categoryName = encodeURIComponent("All Categories");
       linkTo = `/seller/${id}/${categoryName}`;
+      console.log("id-->", id, linkTo);
     }
     return (
-      <Link href={linkTo} className="product-card">
-      <>
+      <div onClick={()=>router.push(linkTo)} className="product-card">
         {pageId === "seller-listing" && (
           <SellerBanner
             orgName={brandName || orgName}
@@ -379,8 +380,8 @@ function ProductCard(props) {
             })}
           </div>
         </div>
-          </>    
-     </Link>
+          
+     </div>
     );
   }
 }
