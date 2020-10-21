@@ -1,0 +1,26 @@
+[
+  {
+    "key": "Ready-to-ship small quantity",
+    "value": "Ready-to-ship small quantity"
+  },
+  {
+    "key": "Ready-to-ship large quantity",
+    "value": "Ready-to-ship large quantity"
+  },
+  {
+    "key": "Made-to-order medium quantity",
+    "value": "Made-to-order medium quantity"
+  },
+  {
+    "key": "Made-to-order large quantity",
+    "value": "Made-to-order large quantity"
+  },
+  {
+    "key": "Commissioned pieces/ projects",
+    "value": "Commissioned pieces/ projects"
+  },
+  {
+    "key": "Others",
+    "value": "Others"
+  }
+]

@@ -1,0 +1,201 @@
+.trends-home-container{
+	margin-top: 60px;
+	background-color: #332f2f;
+}
+
+.trends-home-wrapper{
+	padding: 58px 30px;
+	background-image: url("../../public/filestore/Background.png");
+	background-repeat: no-repeat;
+	background-size: contain;
+	height: 3000px; /* temporary */
+	color: #F9F7F2;
+}
+
+.trends-home-wrapper h1{
+	color: #F9F7F2;
+	font-family: Butler;
+	font-weight: normal;
+	font-size: 20px;
+}
+
+.trends-home-header h1{
+	font-size: 24px;
+	line-height: 110.65%;
+}
+
+.trends-home-header span{
+	font-size: 14px;
+	line-height: 22px;
+	font-family: senRegular;
+}
+
+#shop-by-trend, #shop-by-category, #shop-by-crafts, #shop-by-values, #shop-by-order-type h1{
+	/*display: flex;*/
+}
+
+#shop-by-trend .line{
+  border-top: 2px solid #D9BB7F;
+  display: inline-block;
+  width: 241px;
+}
+
+.shop-by-trend-images .ei,.uj,.gt{
+	position: relative;
+  width: 40%;
+  display: inline-block;
+  margin: 10px;
+}
+
+.shop-by-trend-images img{
+	height: 151.04px;
+	width: 113.91px;
+  margin: 0 15px 15px 0;
+}
+
+.shop-by-category-images img{
+	height: 151.04px;
+	width: 113.91px;
+  margin: 0 15px 15px 0;
+}
+
+.shop-by-category-images .cat-1,.cat-2,.cat-3{
+	position: relative;
+  width: 40%;
+  display: inline-block;
+  margin: 10px;
+}
+
+.shop-by-trend-images .ei label{
+  font-family: Sen;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 14px;
+  color: #F9F7F2;
+  position: absolute;
+  bottom: 30px;
+  left: 7px;
+}
+.shop-by-trend-images .uj label{
+  font-family: Sen;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 14px;
+  color: #F9F7F2;
+  position: absolute;
+  bottom: 30px;
+  left: 7px;
+}
+.shop-by-trend-images .gt label{
+  font-family: Sen;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 14px;
+  color: #F9F7F2;
+  position: absolute;
+  bottom: 30px;
+  left: 7px;
+}
+
+#shop-by-category .line{
+	border-top: 2px solid #D9BB7F;
+  display: inline-block;
+  width: 241px;
+}
+
+#shop-by-category .sub-head{
+	font-family: Sen;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 12px;
+	line-height: 18px;
+	color: #F9F7F2;
+}
+
+.shop-by-category-images .cat-1 label{
+  font-family: Sen;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 14px;
+  color: #F9F7F2;
+  position: absolute;
+  bottom: 30px;
+  left: 7px;
+}.shop-by-category-images .cat-2 label{
+  font-family: Sen;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 14px;
+  color: #F9F7F2;
+  position: absolute;
+  bottom: 30px;
+  left: 7px;
+}.shop-by-category-images .cat-3 label{
+  font-family: Sen;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 14px;
+  color: #F9F7F2;
+  position: absolute;
+  bottom: 30px;
+  left: 7px;
+}
+
+#shop-by-crafts .line{
+	border-top: 2px solid #D9BB7F;
+  display: inline-block;
+  width: 241px;
+}
+
+#shop-by-values .line{
+	border-top: 2px solid #D9BB7F;
+  display: inline-block;
+  width: 241px;
+}
+
+#shop-by-order-type .line{
+	border-top: 2px solid #D9BB7F;
+  display: inline-block;
+  width: 241px;
+}
+
+.rfq-cta {
+	font-family: senRegular;
+}
+
+.rfq-cta button{
+	background-color: #D9BB7F;
+  height: 40px;
+  width: 100%;
+  border: none;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #000000;
+  font-weight: bold;
+  letter-spacing: 4px;
+  padding: 10px 0;
+}
+
+.rfq-cta span{
+	font-size: 12px;
+	line-height: 19px;
+	color: rgba(249, 247, 242, 0.8);	
+	padding-left: 23px;
+}
+
+@media only screen and (max-width: 767px){
+	.trends-home-wrapper{
+		padding: 58px 30px;
+		background-image: url("../../public/filestore/Background-mobile.png");
+		background-repeat: no-repeat;
+		background-size: contain;
+		height: 3000px; /* temporary */
+		color: #F9F7F2;
+	}
+}

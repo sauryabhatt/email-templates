@@ -1,0 +1,428 @@
+/** @format */
+
+#seller-contact-form {
+  background-color: #f2f0eb;
+  /* padding-top: 30px; */
+}
+
+#seller-contact-form .link-text {
+  font-family: senregular;
+  /* text-decoration: none; */
+  color: #d9bb7f;
+}
+
+#seller-contact-form .register {
+  padding-top: 30px;
+}
+
+#seller-contact-form .left-details {
+  padding-top: 30px;
+  background-color: #332f2f;
+}
+
+#seller-contact-form .alert-info-top {
+  font-family: senregular;
+  font-size: 12px;
+  text-align: center;
+  color: rgba(249, 247, 242, 0.6);
+  margin: 20px auto 20px auto;
+  padding: 0;
+  /* background-color: rgb(217, 187, 127, 0.4);
+      border-color: rgb(217, 187, 127); */
+  background-color: #332f2f;
+  border-color: #332f2f;
+}
+
+#seller-contact-form .alert-paragraph {
+  font-family: senregular;
+  font-size: 12px;
+  line-height: 140%;
+  text-align: center;
+  margin: 0;
+  padding: 10px 40px;
+  color: #f9f7f2;
+}
+
+#seller-contact-form .alert-button {
+  font-family: senregular;
+  font-weight: bold;
+  font-size: 14px;
+  text-align: center;
+  color: #f9f7f2;
+  padding: 0;
+}
+
+#seller-contact-form .heading {
+  font-family: Butler;
+  font-weight: 500;
+  font-size: 32px;
+  color: #191919;
+  text-align: center;
+  margin: 0;
+}
+
+#seller-contact-form .paragraph {
+  font-family: senregular;
+  font-weight: normal;
+  font-size: 12px;
+  text-align: center;
+  max-width: 300px;
+  color: rgba(51, 47, 47, 0.8);
+  margin: 0 auto 1.5em auto;
+  line-height: 140%;
+}
+
+#seller-contact-form .label-heading {
+  font-family: senregular;
+  font-weight: 500;
+  color: #191919;
+}
+
+#seller-contact-form .label-paragraph {
+  font-family: senregular;
+  font-size: 12px;
+  color: rgba(51, 47, 47);
+  display: block;
+  line-height: 130%;
+}
+
+#seller-contact-form .check-box-tnc {
+  font-family: senregular;
+  font-size: 12px;
+  color: rgba(51, 47, 47);
+}
+
+#seller-contact-form input[type="text"] {
+  background-color: #f2f0eb;
+}
+
+#seller-contact-form textarea {
+  background-color: #f2f0eb;
+}
+
+#seller-contact-form .ant-select-selector {
+  background-color: #f2f0eb;
+}
+
+#seller-contact-form .ant-picker {
+  background-color: #f2f0eb;
+}
+
+#seller-contact-form .submit-button {
+  background-color: #d9bb7f;
+  width: 100%;
+  height: 50px;
+  font-family: senregular;
+  font-weight: bold;
+  color: #191919;
+  text-transform: uppercase;
+  border-color: #d9bb7f;
+}
+/* #seller-contact-form .ant-upload-list-picture-card-container    .ant-upload-list-item .ant-upload-list-item-done .ant-upload-list-item-list-type-picture-card      .ant-upload-list-picture .ant-upload-list-item, .ant-upload-list-picture-card .ant-upload-list-item     .ant-upload-list-picture-card {
+      background-color: #F2F0EB;
+      width: 60px;
+      height: 60px;
+      padding: 0;
+    } */
+
+/* .avatar-uploader > .ant-upload {
+      width: 80px;
+      height: 80px;
+    } */
+
+@media only screen and (min-width: 768px) {
+  #send-query-success-modal {
+    background-color: #f2f0eb;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url("https://cdn.qalara.com/images/Img_Bird_Outline.png");
+    background-position: center;
+    text-align: center;
+    padding: 40px;
+  }
+
+  #send-query-success-modal .send-query-success-modal-content {
+    padding: 55px 35px;
+  }
+
+  #send-query-success-modal .send-query-success-modal-para1 {
+    font-family: Butler;
+    font-weight: 600;
+    font-size: 35px;
+    line-height: 110%;
+    letter-spacing: 0.01em;
+    margin-bottom: 15px;
+    color: #191919;
+  }
+
+  #send-query-success-modal .send-query-success-modal-para2 {
+    font-family: senregular;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 140%;
+    letter-spacing: 0.01em;
+    margin-bottom: 30px;
+    color: rgba(51, 47, 47, 0.8);
+  }
+
+  #send-query-success-modal .send-query-success-modal-button {
+    font-family: senregular;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 140%;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1px solid #191919;
+    box-sizing: border-box;
+    width: 100%;
+    height: 60px;
+    color: #191919;
+  }
+
+  #seller-contact-form .left-verified-seller {
+    /* background: #908e89; */
+    border-radius: 4px;
+    margin: auto;
+    padding: 0px 30px 30px;
+  }
+
+  #seller-contact-form .left-verified-seller .heading {
+    font-family: Butler;
+    /* font-style: normal; */
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 110%;
+    letter-spacing: 0.01em;
+    color: #f9f7f2;
+    margin-bottom: 15px;
+    text-align: left;
+  }
+
+  #seller-contact-form .left-verified-seller .para {
+    font-family: senregular;
+    /* font-style: normal; */
+    /* font-weight: normal; */
+    font-size: 12px;
+    line-height: 140%;
+    letter-spacing: 0.01em;
+    color: #f9f7f2;
+    /* background: #F2F0EB; */
+    /* border: 1px solid #cecbc2; */
+    /* box-sizing: border-box; */
+    /* border-radius: 4px; */
+    /* padding: 5px 0; */
+    margin-bottom: 10px;
+    /* border-bottom: 1px dashed rgba(249, 247, 242, 0.6);
+    padding-bottom: 15px; */
+  }
+
+  #seller-contact-form .left-verified-seller .para .label {
+    color: #f9f7f2;
+    opacity: 0.6;
+  }
+
+  #seller-contact-form .left-verified-seller .para .text-avatar {
+    font-family: senregular;
+    /* font-style: normal; */
+    /* font-weight: normal; */
+    font-size: 12px;
+    line-height: 140%;
+    letter-spacing: 0.01em;
+    color: #f9f7f2;
+    /* padding-left: 10px; */
+    padding-right: 5px;
+  }
+
+  #seller-contact-form .left-verified-seller .para .text {
+    font-family: senregular;
+    /* font-style: normal; */
+    /* font-weight: normal; */
+    font-size: 12px;
+    line-height: 140%;
+    letter-spacing: 0.01em;
+    color: #f9f7f2;
+    /* float: right; */
+    padding-left: 10px;
+  }
+
+  #seller-contact-form .left-verified-seller .button {
+    font-family: senregular;
+    /* font-style: normal; */
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 140%;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #191919;
+    background-color: #d9bb7f;
+    border: none;
+    border-radius: 0;
+    width: 100%;
+    height: 42px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  #send-query-success-modal {
+    background-color: #f2f0eb;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url("https://cdn.qalara.com/images/Img_Bird_Outline.png");
+    background-position: center;
+    text-align: center;
+    padding: 15px;
+  }
+
+  #send-query-success-modal .send-query-success-modal-content {
+    padding: 55px 35px;
+  }
+
+  #send-query-success-modal .send-query-success-modal-para1 {
+    font-family: Butler;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 110%;
+    letter-spacing: 0.01em;
+    margin-bottom: 10px;
+    color: #191919;
+  }
+
+  #send-query-success-modal .send-query-success-modal-para2 {
+    font-family: senregular;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 140%;
+    letter-spacing: 0.01em;
+    margin-bottom: 30px;
+    color: rgba(51, 47, 47, 0.8);
+  }
+
+  #send-query-success-modal .send-query-success-modal-button {
+    font-family: senregular;
+    font-weight: bold;
+    font-size: 10px;
+    line-height: 140%;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1px solid #191919;
+    box-sizing: border-box;
+    width: 100%;
+    height: 40px;
+    color: #191919;
+  }
+
+  #seller-carousel .button-seller {
+    padding: 0 15vw 0 15vw;
+  }
+
+  #seller-contact-form .left-verified-seller {
+    /* background: #908e89; */
+    border-radius: 4px;
+    margin: auto;
+    padding: 20px 30px;
+  }
+
+  #seller-contact-form .left-verified-seller .heading {
+    font-family: Butler;
+    /* font-style: normal; */
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 110%;
+    letter-spacing: 0.01em;
+    color: #f9f7f2;
+    margin-bottom: 15px;
+    text-align: left;
+  }
+
+  #seller-contact-form .left-verified-seller .para {
+    font-family: senregular;
+    /* font-style: normal; */
+    /* font-weight: normal; */
+    font-size: 12px;
+    line-height: 140%;
+    letter-spacing: 0.01em;
+    color: #f9f7f2;
+    /* background: #F2F0EB; */
+    /* border: 1px solid #cecbc2; */
+    /* box-sizing: border-box; */
+    /* border-radius: 4px; */
+    padding-bottom: 10px;
+  }
+
+  #seller-contact-form .left-verified-seller .para .text-avatar {
+    font-family: senregular;
+    /* font-style: normal; */
+    /* font-weight: normal; */
+    font-size: 12px;
+    line-height: 140%;
+    letter-spacing: 0.01em;
+    color: #f9f7f2;
+    /* padding-left: 10px; */
+    padding-right: 5px;
+  }
+
+  #seller-contact-form .left-verified-seller .para .text {
+    font-family: senregular;
+    /* font-style: normal; */
+    /* font-weight: normal; */
+    font-size: 12px;
+    line-height: 140%;
+    letter-spacing: 0.01em;
+    color: #f9f7f2;
+    padding-left: 10px;
+  }
+
+  #seller-contact-form .left-verified-seller .button {
+    font-family: senregular;
+    /* font-style: normal; */
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 140%;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #191919;
+    background-color: #d9bb7f;
+    border: none;
+    border-radius: 0;
+    width: 100%;
+    height: 42px;
+  }
+  #seller-contact-form .left-verified-seller .para .label {
+    color: #f9f7f2;
+    opacity: 0.6;
+  }
+}
+#seller-contact-form .ant-checkbox-inner {
+  background: transparent;
+}
+#seller-contact-form .ant-form-item-explain {
+  font-size: 12px;
+}
+#seller-contact-form .ant-upload.ant-upload-select-picture-card {
+  background: rgba(217, 187, 127, 0.1);
+  border-radius: 15px;
+  border: none;
+}
+#seller-contact-form
+  .ant-upload.ant-upload-select-picture-card
+  span.anticon.anticon-plus {
+  background: #d9bb7f;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: #fff;
+  padding-top: 11px;
+  margin-top: -2px;
+}
+#seller-contact-form span.ant-checkbox.ant-checkbox-checked {
+  background: #d9bb7f;
+}
+#seller-contact-form .ant-checkbox-checked .ant-checkbox-inner {
+  border: 1px solid #d9bb7f;
+}
+.certified-icon {
+  width: 15px;
+}
+#seller-contact-form .left-verified-seller.rfq-benefits-section .para {
+  opacity: 0.6;
+}

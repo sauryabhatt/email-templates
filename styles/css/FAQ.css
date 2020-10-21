@@ -1,0 +1,148 @@
+/** @format */
+
+#faq {
+  background-color: rgba(144, 142, 136);
+}
+
+#faq-banner {
+  /* background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url("https://cdn.qalara.com/images/banner_top.png"); */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url("https://cdn.qalara.com/images/Img_Faq_1x_Full_Width_Banner.jpg");
+  background-color: #4e4848;
+  background-position: center;
+  min-width: 100%;
+  max-width: 100%;
+  height: 60vh;
+  max-height: 60vh;
+}
+
+@media only screen and (min-width: 768px) {
+  #faq-banner .banner-text {
+    position: absolute;
+    left: 10%;
+    /* right: 56.44%; */
+    top: 25.93vh;
+    font-family: Butler;
+    /* font-style: normal; */
+    font-weight: 300;
+    font-size: 41pt;
+    /* letter-spacing: 0.01em; */
+    color: #ffffff;
+  }
+
+  #faq-banner .banner-text-small {
+    font-family: senregular;
+    font-size: 14.5px;
+    line-height: 160%;
+    letter-spacing: 0.02em;
+    color: #ffffff;
+  }
+
+  #faq-body-parent {
+    padding-top: 8vh;
+    padding-bottom: 8vh;
+    margin: auto;
+    width: 65vw;
+  }
+
+  #faq-body-parent .faq-body-text-heading {
+    font-family: senbold;
+    /* font-style: normal; */
+    font-weight: normal;
+    font-size: 18px;
+    margin-bottom: 20px;
+    /* or 121px */
+    /* letter-spacing: 0.01em; */
+    color: #ffffff;
+    text-transform: uppercase;
+  }
+  #faq-body-parent .faq-body-text-para {
+    font-family: senregular;
+    /* font-style: normal; */
+    font-weight: normal;
+    font-size: 10pt;
+    /* or 121px */
+    /* letter-spacing: 0.01em; */
+    color: #ffffff;
+    text-align: justify;
+    margin-bottom: 20px;
+  }
+
+  #faq-body-parent .faq-body-question {
+    font-family: senbold;
+    /* font-style: normal; */
+    font-weight: normal;
+    font-size: 16px;
+    margin-bottom: 10px;
+    /* or 121px */
+    /* letter-spacing: 0.01em; */
+    color: #ffffff;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  #faq-banner .banner-text {
+    position: absolute;
+    left: 10%;
+    /* right: 39.44%; */
+    top: 25.93vh;
+    font-family: Butler;
+    /* font-style: normal; */
+    font-weight: 300;
+    font-size: 30pt;
+    /* letter-spacing: 0.01em; */
+    color: #ffffff;
+  }
+
+  #faq-banner .banner-text-small {
+    font-family: senregular;
+    font-size: 12.5px;
+    line-height: 160%;
+    letter-spacing: 0.02em;
+    color: #ffffff;
+  }
+  #faq-body-parent .faq-body-question {
+    font-family: senbold;
+    /* font-style: normal; */
+    font-weight: normal;
+    font-size: 16px;
+    margin-bottom: 10px;
+    /* or 121px */
+    /* letter-spacing: 0.01em; */
+    color: #ffffff;
+  }
+
+  #faq-body-parent {
+    padding-top: 8vh;
+    padding-bottom: 8vh;
+    margin: auto;
+    width: 65vw;
+  }
+
+  #faq-body-parent .faq-body-text-heading {
+    font-family: senbold;
+    /* font-style: normal; */
+    font-weight: normal;
+    font-size: 18px;
+    margin-bottom: 0;
+    /* or 121px */
+    /* letter-spacing: 0.01em; */
+    color: #ffffff;
+    text-transform: uppercase;
+  }
+  #faq-body-parent .faq-body-text-para {
+    font-family: senregular;
+    /* font-style: normal; */
+    font-weight: normal;
+    font-size: 10pt;
+    /* or 121px */
+    /* letter-spacing: 0.01em; */
+    color: #ffffff;
+    /* text-align: justify; */
+    margin-bottom: 20px;
+  }
+}
+#faq a {
+  color: #fff;
+}

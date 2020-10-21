@@ -1,0 +1,57 @@
+[
+    {
+        "id": "CHECKED_OUT",
+        "name": "Confirmed",
+        "index": 0
+    },
+    {
+        "id": "PARTIALLY_CANCELLED",
+        "name": "Partially canceled",
+        "index": 1
+    },
+    {
+        "id": "CANCELED",
+        "name": "Canceled",
+        "index": 2
+    },
+    {
+        "id": "PARTIALLY_SHIPPED",
+        "name": "Partially shipped",
+        "index": 3
+    },
+    {
+        "id": "OUT_FOR_DELIVERY",
+        "name": "Out for delivery",
+        "index": 4
+    },
+    {
+        "id": "SHIPPED",
+        "name": "Shipped",
+        "index": 5
+    },
+    {
+        "id": "PARTIALLY_DELIVERED",
+        "name": "Partially delivered",
+        "index": 6
+    },
+    {
+        "id": "DELIVERED",
+        "name": "Delivered",
+        "index": 7
+    },
+    {
+        "id": "PARTIALLY_RETURNED",
+        "name": "Partially returned",
+        "index": 8
+    },
+    {
+        "id": "RETURNED",
+        "name": "Returned",
+        "index": 9
+    },
+    {
+        "id": "DRAFT",
+        "name": "Payment failed",
+        "index": 10
+    }
+]

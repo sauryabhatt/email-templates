@@ -1,0 +1,788 @@
+/** @format */
+
+.user-registration {
+  background-color: #332f2f;
+}
+#user-register-form {
+  background-color: #332f2f;
+  min-height: 100vh;
+}
+
+#user-register-form .link-text {
+  font-family: senregular;
+  /* text-decoration: none; */
+  color: #d9bb7f;
+}
+
+@media only screen and (min-width: 768px) {
+  .user-registration .app-header {
+    text-align: center;
+    padding-top: 20px;
+    background-color: #332f2f;
+  }
+  #user-register-form .main-left {
+    min-height: 100vh;
+  }
+  #user-register-form .app-header div:first-of-type {
+    display: flex;
+    margin: 0;
+  }
+
+  #user-register-form .main-right {
+    /* padding-top: 8%; */
+    min-height: 60vh;
+    padding-top: 4%;
+  }
+
+  #user-register-form .ellipse {
+    position: absolute;
+    /* background: url("./../../filestore/Ellipse\ 160.png"); */
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: top;
+    width: 100%;
+    height: 100%;
+  }
+
+  #user-register-form .bird {
+    position: absolute;
+    /* background: url("./../../filestore/Vector.png"); */
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: bottom;
+    width: 100%;
+    height: 100%;
+    left: 6%;
+  }
+
+  #user-register-form .picture {
+    position: absolute;
+    /* background: url("./../../filestore/Vector-1.png"); */
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: bottom;
+    width: 100%;
+    height: 100%;
+  }
+
+  #user-register-form .button-back {
+    position: absolute;
+    top: 17%;
+    left: 3%;
+    z-index: 1;
+  }
+
+  #user-register-form .signup-heading,
+  #user-register-form .signup-sub-heading {
+    font-family: Butler;
+    font-size: 50px;
+    line-height: 110%;
+    letter-spacing: 0.01em;
+    color: #f9f7f2;
+    margin-bottom: 30px;
+  }
+
+  #user-register-form .signup-sub-heading {
+    font-size: 14px;
+    margin-bottom: 20px;
+    font-family: senregular;
+    text-align: justify;
+    line-height: 140%;
+  }
+  #user-register-form .form-item {
+    /* margin-bottom: 2.5%; */
+  }
+
+  #user-register-form .radio-group {
+    width: 100%;
+  }
+
+  #user-register-form .buy-sell {
+    font-size: 12px;
+    height: 100%;
+    padding: 8% 0% 8% 0%;
+    /* line-height: 110%; */
+    letter-spacing: 0.01em;
+  }
+
+  #user-register-form .buy-sell span {
+    display: flex;
+    margin-left: 5%;
+  }
+
+  #user-register-form .buy-sell .span-text {
+    margin-left: 6%;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  #user-register-form .buy-sell .span-logo {
+    text-align: center;
+    font-size: 16px;
+    margin-left: 5px;
+  }
+
+  #user-register-form input[type="text"] {
+    padding: 17px 24px;
+    height: 100%;
+  }
+
+  /* #user-register-form .ant-input-group-addon {
+    padding: 14px;
+    height: 100%;
+  } */
+
+  #user-register-form .ant-select-selector {
+    padding: 11px 24px;
+    height: 100%;
+  }
+
+  #user-register-form .congratulation-content {
+    /* position: relative;
+    top: 50%;
+    transform: translateY(-50%); */
+    text-align: center;
+  }
+
+  #user-register-form .congratulation-head {
+    font-family: Butler;
+    font-size: 50px;
+    line-height: 110%;
+    letter-spacing: 0.01em;
+    color: #ffffff;
+    margin-bottom: 30px;
+  }
+
+  #user-register-form .congratulation-para {
+    font-family: senregular;
+    font-size: 16px;
+    line-height: 110%;
+    letter-spacing: 0.01em;
+    color: #ffffff;
+    margin-bottom: 5%;
+    padding: 0 20% 0 20%;
+    opacity: 0.9;
+    line-height: 1.45;
+  }
+
+  .confirmation-modal .congratulation-button {
+    height: 60px;
+    background: transparent;
+    border: 1px solid black;
+    font-family: senregular;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #000000;
+    border-radius: 0;
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 10px;
+  }
+
+  /* .congratulation-button {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 100px;
+    background: transparent;
+    border: 1px solid rgb(217, 187, 127);
+    font-family: senregular;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: rgb(217, 187, 127);
+    border-radius: 0;
+  } */
+}
+
+@media only screen and (max-width: 767px) {
+  .user-registration .app-header {
+    background-color: #332f2f;
+    height: 64px;
+  }
+  /* .confirmation-modal .congratulation-button {
+    height: 100px;
+    background: transparent;
+    border: 1px solid black;
+    font-family: senregular;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #000000;
+    border-radius: 0;
+    width: 100%;
+    margin-top: 30px;
+  } */
+  #user-register-form .main-left {
+    min-height: 75vh;
+    /* margin-bottom: 7%; */
+  }
+
+  #user-register-form .signup-sub-heading {
+    font-size: 14px;
+    color: #fff;
+    font-family: senregular;
+  }
+  #user-register-form .main-right {
+    padding-top: 10%;
+  }
+
+  #user-register-form .ellipse {
+    position: absolute;
+    /* background: url("./../../filestore/Ellipse\ 160\ \(2\).png"); */
+    background-size: 85%;
+    background-repeat: no-repeat;
+    background-position: center right;
+    width: 100%;
+    height: 100%;
+  }
+
+  #user-register-form .bird {
+    position: absolute;
+    /* background: url("./../../filestore/Vector\ \(2\).png"); */
+    background-size: 85%;
+    background-repeat: no-repeat;
+    background-position: bottom left;
+    width: 100%;
+    height: 100%;
+    /* left: 0%; */
+    top: 7%;
+  }
+
+  #user-register-form .picture {
+    position: absolute;
+    /* background: url("./../../filestore/Vector-1\ \(2\).png"); */
+    background-size: 85%;
+    background-repeat: no-repeat;
+    background-position: bottom left;
+    width: 100%;
+    height: 100%;
+  }
+
+  #user-register-form .button-back {
+    position: absolute;
+    top: 17%;
+    left: 3%;
+    z-index: 1;
+  }
+
+  #user-register-form .signup-heading {
+    font-family: Butler;
+    font-size: 32px;
+    line-height: 110%;
+    letter-spacing: 0.01em;
+    color: #ffffff;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+
+  #user-register-form .form-item {
+    /* margin-bottom: 2.5%; */
+  }
+
+  #user-register-form .radio-group {
+    width: 100%;
+  }
+
+  #user-register-form .buy-sell {
+    height: 100%;
+    padding: 20px;
+    /* line-height: 110%; */
+    letter-spacing: 0.01em;
+  }
+
+  #user-register-form .buy-sell span {
+    display: block;
+    margin: 0 auto;
+  }
+
+  #user-register-form .buy-sell .span-text {
+    display: block;
+    text-align: center;
+    font-size: 16px;
+    margin-top: 5px;
+    text-transform: uppercase;
+    line-height: 130%;
+  }
+
+  #user-register-form .buy-sell .span-logo {
+    text-align: center;
+    font-size: 16px;
+    margin-top: -5px;
+  }
+
+  #user-register-form input[type="text"] {
+    padding: 17px 24px;
+    height: 100%;
+  }
+
+  /* #user-register-form .ant-input-group-addon {
+    padding: 14px;
+    height: 100%;
+  } */
+
+  #user-register-form .ant-select-selector {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    height: 100%;
+  }
+
+  #user-register-form .congratulation-content {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    padding: 25% 0 50% 0;
+  }
+
+  #user-register-form .congratulation-head {
+    font-family: Butler;
+    font-size: 40px;
+    line-height: 110%;
+    letter-spacing: 0.01em;
+    color: #ffffff;
+    margin-bottom: 5%;
+  }
+
+  #user-register-form .congratulation-para {
+    font-family: senregular;
+    font-size: 16px;
+    line-height: 110%;
+    letter-spacing: 0.01em;
+    color: #ffffff;
+    margin-bottom: 5%;
+    padding: 0 20% 0 20%;
+    opacity: 0.9;
+    line-height: 1.45;
+  }
+
+  /* .congratulation-button {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 100px;
+    background: transparent;
+    border: 1px solid rgb(217, 187, 127);
+    font-family: senregular;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: rgb(217, 187, 127);
+    border-radius: 4px;
+    border-radius: 0;
+  } */
+  .user-registration-container {
+    padding: 0 30px;
+  }
+  .confirmation-modal p.verification-heading {
+    font-size: 32px;
+  }
+  .confirmation-modal p.verification-text {
+    font-size: 12px;
+  }
+}
+
+#user-register-form .label-paragraph {
+  font-family: senregular;
+  font-size: 14px;
+  color:#F9F7F2;
+  margin-bottom: 10px;
+}
+
+#user-register-form .check-box-tnc {
+  font-family: senregular;
+  font-size: 12px;
+  color: #f9f7f2;
+}
+
+#user-register-form .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: rgb(217, 187, 127) !important;
+  border-radius: 4px !important;
+  border: 1px solid rgb(217, 187, 127) !important;
+}
+
+#user-register-form .ant-checkbox-wrapper:hover .ant-checkbox-inner,
+.ant-checkbox:hover .ant-checkbox-inner,
+.ant-checkbox-input:focus + .ant-checkbox-inner {
+  border: 1px solid rgb(217, 187, 127) !important;
+}
+
+#user-register-form .ant-checkbox-checked::after {
+  border: 1px solid rgb(217, 187, 127) !important;
+}
+
+/* #user-register-form  input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+  -webkit-text-fill-color: rgb(217, 187, 127, 0.9) !important;
+  -webkit-box-shadow: 0 0 0px 1000px #332f2f inset;
+  border: 1px solid rgb(255, 255, 255, 0.16) !important;
+} */
+
+#user-register-form input[type="text"] {
+  background-color: #332f2f;
+  font-family: senregular;
+  font-size: 16px;
+  color: rgb(217, 187, 127, 0.9);
+  box-sizing: border-box;
+  border: 1px solid rgb(255, 255, 255, 0.16);
+  border-radius: 4px;
+}
+
+#user-register-form input[type="text"]:hover {
+  border: 1.5px solid rgb(217, 187, 127, 0.4);
+}
+
+#user-register-form .no-border {
+  border: none;
+}
+
+/* #user-register-form .ant-form-item-has-error .ant-input:not([disabled]):hover,
+.ant-form-item-has-error .ant-input-affix-wrapper:not([disabled]):hover {
+  border-color: #ff4d4f;
+}
+
+#user-register-form .ant-form-item-has-error .ant-input:focus,
+.ant-form-item-has-error .ant-input-affix-wrapper:focus,
+.ant-form-item-has-error .ant-input-focused,
+.ant-form-item-has-error .ant-input-affix-wrapper-focused {
+  border-color: #ff4d4f;
+} */
+
+#user-register-form textarea {
+  background-color: #332f2f;
+  font-family: senregular;
+  font-size: 12px;
+  color: rgb(217, 187, 127, 0.9);
+  box-sizing: border-box;
+  border: 1px solid rgb(255, 255, 255, 0.16);
+  border-radius: 4px;
+}
+
+#user-register-form textarea:hover {
+  border: 1.5px solid rgb(217, 187, 127, 0.4);
+}
+
+#user-register-form .ant-input-group-addon {
+  background-color: #332f2f;
+  font-family: senregular;
+  font-size: 12px;
+  color: rgb(217, 187, 127, 0.9);
+  box-sizing: border-box;
+  border: 1px solid rgb(255, 255, 255, 0.16);
+  border-radius: 4px;
+}
+
+#user-register-form .ant-input-group-addon:hover {
+  border: 1.5px solid rgb(217, 187, 127, 0.4);
+}
+
+#user-register-form .ant-select-selector {
+  background-color: #332f2f;
+  font-family: senregular;
+  font-size: 16px;
+  color: rgb(217, 187, 127, 0.9);
+  box-sizing: border-box;
+  border: 1px solid rgb(255, 255, 255, 0.16) !important;
+  border-radius: 4px;
+}
+
+#user-register-form .ant-select-selector:hover,
+#user-register-form .submit-button:hover {
+  border: 1.5px solid rgb(217, 187, 127);
+}
+
+#user-register-form .ant-form-item-has-error .ant-select .ant-select-selector {
+  border: 1px solid rgb(255, 255, 255) !important;
+}
+
+#user-register-form .ant-picker {
+  background-color: #f9f7f2;
+}
+
+#user-register-form .ant-select-arrow {
+  color: rgb(217, 187, 127, 0.9);
+}
+
+#user-register-form .ant-form-item-has-error .ant-form-item-explain,
+.ant-form-item-has-error .ant-form-item-split {
+  font-family: senregular;
+  font-size: 12px;
+  line-height: 110%;
+  letter-spacing: 0.01em;
+  margin: 5px 0px;
+  margin-top: 5px;
+}
+
+#user-register-form .submit-button {
+  background: #ffffff;
+  border-radius: 4px;
+  width: 100%;
+  height: 12vh;
+  font-size: 16px;
+  font-family: senregular;
+  font-weight: bold;
+  color: black;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 0;
+  margin-bottom: 20px;
+  margin-top: 30px;
+}
+
+#user-register-form
+  .user-profile-btn
+  .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):first-child
+  .icon-theme-1
+  path {
+  /* fill: #d9bb7f; */
+  stroke: #332f2f;
+}
+
+#user-register-form
+  .user-profile-btn
+  .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):first-child
+  .icon-theme-1
+  circle {
+  fill: #d9bb7f;
+  stroke: #332f2f;
+}
+
+#user-register-form
+  .user-profile-btn
+  .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):first-child
+  .icon-theme-1
+  rect {
+  /* fill: #d9bb7f; */
+  stroke: #332f2f;
+}
+
+/* #user-register-form .ant-radio-button-wrapper:hover .icon-theme-1 path {
+  stroke: #332f2f;
+}
+
+#user-register-form .ant-radio-button-wrapper:hover .icon-theme-1 circle {
+  fill: #d9bb7f;
+  stroke: #332f2f;
+}
+
+#user-register-form .ant-radio-button-wrapper:hover .icon-theme-1 rect {
+  stroke: #332f2f;
+} */
+
+#user-register-form .buy-sell {
+  font-family: senregular;
+  color: #d9bb7f;
+  width: 100%;
+  border: none;
+  background: rgb(217, 187, 127, 0.1);
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+#user-register-form
+  .user-profile-btn
+  .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):first-child {
+  color: #332f2f;
+  background: rgb(217, 187, 127);
+}
+
+*:focus,
+*:hover {
+  outline: none;
+}
+#user-register-form
+  .ant-select-single:not(.ant-select-customize-input)
+  .ant-select-selector
+  .ant-select-selection-search-input {
+  height: 100%;
+  padding: 0 10px;
+}
+/* #user-register-form .ant-radio-button-wrapper:hover {
+  color: #332f2f;
+  background: rgb(217, 187, 127);
+  opacity: 0.4;
+  border: 1.5px solid rgb(217, 187, 127, 0.4);
+} */
+
+#user-register-form .text-right {
+  float: right;
+  color: #d9bb7f;
+}
+#user-register-form .qa-radio-home.ant-radio-wrapper.qa-radio-home {
+  font-size: 16px;
+  font-family: senregular;
+  color: #fff;
+}
+#user-register-form .qa-radio-home .ant-radio-inner,
+#user-register-form .qa-radio-home .ant-radio-checked.ant-radio-inner {
+  border: 1px solid #d9bb7f;
+  background-color: transparent;
+  opacity: 1;
+}
+#user-register-form .qa-radio-home .ant-radio-inner::after {
+  background-color: #d9bb7f;
+  opacity: 1;
+}
+#user-register-form .ant-checkbox + span {
+  color: #ffffff;
+  padding-left: 8px;
+  font-size: 14px;
+}
+p.verification-heading {
+  font-family: Butler;
+  font-size: 36px;
+  font-weight: bold;
+  color: #000000;
+  text-align: center;
+  line-height: 120%;
+}
+p.verification-text {
+  font-size: 12px;
+  text-align: center;
+  line-height: 140%;
+  font-family: senregular;
+}
+.user-registration #app-footer {
+  background-image: none;
+}
+.qa-tooltip .ant-tooltip-inner {
+  padding: 15px 20px;
+  font-family: senregular;
+  background-color: #000000;
+}
+
+#user-register-form .create-account {
+  /* text-align: left; */
+  font-size: 14px;
+  font-family: senregular;
+  color: #d9bb7f;
+  margin-bottom: 30px;
+  display: block;
+}
+
+#user-register-form .create-account:hover {
+  text-decoration: underline;
+}
+.buyer-invite-text {
+  text-align: center;
+  color: #fff;
+  padding-top: 20px;
+  font-family: senregular;
+  margin: 0 30px;
+}
+.buyer-invite-text a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+@media only screen and (max-width: 1024px) {
+  .confirmation-modal .congratulation-button {
+    height: 60px;
+    background: transparent;
+    border: 1px solid black;
+    font-family: senregular;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #000000;
+    border-radius: 0;
+    width: 100%;
+    margin-top: 30px;
+  }
+}
+#user-register-form .react-tel-input .form-control {
+  width: 100% !important;
+  height: 54px !important;
+  background: transparent !important;
+  border: 1px solid rgb(255, 255, 255, 0.16) !important;
+  border-radius: 4px !important;
+  color: #d9bb7f;
+  font-family: senregular !important;
+  font-size: 16px !important;
+}
+#user-register-form .react-tel-input .flag-dropdown {
+  border: none !important;
+  border-right: 1px solid rgb(255, 255, 255, 0.16) !important;
+  border-radius: 4px !important;
+  background: transparent !important;
+}
+#user-register-form .react-tel-input .flag-dropdown.open .selected-flag {
+  background: transparent;
+  border-radius: 3px 0 0 0;
+}
+#user-register-form .react-tel-input .form-control:hover,
+#user-register-form .react-tel-input .flag-dropdown:hover {
+  border: 1.5px solid rgb(217, 187, 127, 0.4) !important;
+}
+#user-register-form .react-tel-input .selected-flag:hover,
+.react-tel-input .selected-flag:focus {
+  background-color: transparent !important;
+}
+#user-register-form .react-tel-input .country-list {
+  font-size: 16px;
+  padding: 17px 10px;
+  color: #d9bb7f;
+  font-weight: 400;
+  background-color: #332f2f;
+  font-family: senregular;
+}
+#user-register-form .react-tel-input .country-list .country:hover,
+#user-register-form .react-tel-input .country-list .country.highlight {
+  background-color: #443d37;
+}
+#user-register-form .react-tel-input .country-list .search {
+  background-color: #443d37;
+  padding: 5px 0 5px 10px;
+}
+#user-register-form .react-tel-input .country-list .search-box {
+  background: transparent;
+  border: 1px solid rgb(255, 255, 255, 0.16);
+  font-family: senregular;
+  padding: 8px;
+}
+
+
+.referral-btn {
+  background: #ffffff;
+  border-radius: 4px;
+  width: 100%;
+  font-size: 16px;
+  font-family: senregular;
+  font-weight: bold;
+  color: black;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 0;
+  height: 100%;
+  padding: 15px 24px;
+  background-color: #d9bb7f;
+}
+
+.referral-btn:hover {
+  background-color: #d9bb7f;
+  color: #000000;
+}
+
+.referral-box::placeholder {
+  color: rgba(249, 247, 242, 0.6);
+}
+
+.referral-btn:active,  .referral-btn:focus, .referral-btn:hover{
+  background-color: #d9bb7f !important;
+  color: #000000 !important;
+}
+
+.referral-error-block {
+  color: #ff4d4f !important;
+  letter-spacing: 0.01em;
+  margin-top: 5px;
+  margin: 5px 0px;
+  line-height: 110%;
+}

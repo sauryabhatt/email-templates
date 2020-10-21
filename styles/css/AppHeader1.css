@@ -1,0 +1,60 @@
+@media only screen and (min-width: 768px) {
+  .app-header {
+    height: 132px;
+    padding: 0 80px 0 90px;
+    background: #191919;
+    display: flex;
+    line-height: 0;
+    width: 100%;
+  }
+
+  .send-query-button {
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 15px 30px 13px 30px;
+    height: 50px;
+    width: 250px;
+  }
+
+  .send-query-button-text {
+    font-family: senregular;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 140%;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #000000;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .app-header {
+    height: 86px;
+    padding: 0 20px 0 26px;
+    background: #191919;
+    display: flex;
+    line-height: 0;
+    width: 100%;
+  }
+
+  .send-query-button {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 14px 19px 14px 19px;
+    height: 40px;
+    width: 165px;
+  }
+
+  .send-query-button-text {
+    margin: auto;
+    font-family: senregular;
+    font-style: normal;
+    font-weight: bold;
+    
+font-size: 12px;
+line-height: 12px;
+    text-transform: uppercase;
+    color: #000000;
+  }
+}

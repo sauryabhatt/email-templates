@@ -1,0 +1,263 @@
+/** @format */
+
+#send-query-form {
+  background-color: #f2f0eb;
+  padding-top: 30px;
+}
+
+#send-query-form .link-text {
+  font-family: senregular;
+  /* text-decoration: none; */
+  color: #d9bb7f;
+}
+
+#send-query-form .alert-info-top {
+  font-family: senregular;
+  font-size: 12px;
+  text-align: center;
+  color: rgba(249, 247, 242, 0.6);
+  margin: 1.5em auto 1.5em auto;
+  padding: 0;
+  /* background-color: rgb(217, 187, 127, 0.4);
+  border-color: rgb(217, 187, 127); */
+  background-color: #332f2f;
+  border-color: #332f2f;
+}
+
+#send-query-form .alert-paragraph {
+  font-family: senregular;
+  font-size: 12px;
+  text-align: center;
+  line-height: 140%;
+  /* color: rgba(51, 47, 47, 0.8); */
+  margin: 0;
+  padding: 10px 40px;
+  color: #f9f7f2;
+}
+
+#send-query-form .alert-button {
+  font-family: senregular;
+  font-weight: bold;
+  font-size: 14px;
+  text-align: center;
+  /* color: rgba(51, 47, 47, 0.8); */
+  color: #f9f7f2;
+  /* margin: 0; */
+  padding: 0;
+  /* color: rgb(217, 187, 127);*/
+}
+
+#send-query-form .heading {
+  font-family: Butler;
+  font-weight: 500;
+  font-size: 32px;
+  color: #191919;
+  text-align: center;
+  margin: 0;
+}
+
+#send-query-form .paragraph {
+  font-family: senregular;
+  font-weight: normal;
+  font-size: 12px;
+  text-align: center;
+  max-width: 300px;
+  color: rgba(51, 47, 47, 0.8);
+  margin: 0 auto 1.5em auto;
+}
+
+#send-query-form .label-heading {
+  font-family: senregular;
+  font-weight: 500;
+  color: #191919;
+}
+
+#send-query-form .label-paragraph {
+  font-family: senregular;
+  font-size: 12px;
+  color: rgba(51, 47, 47, 0.8);
+}
+
+#send-query-form .check-box-tnc {
+  font-family: senregular;
+  font-size: 12px;
+  color: rgba(51, 47, 47, 0.8);
+}
+
+#send-query-form input[type="text"] {
+  background-color: #f2f0eb;
+}
+
+#send-query-form textarea {
+  background-color: #f2f0eb;
+}
+
+#send-query-form .ant-select-selector {
+  background-color: #f2f0eb;
+  font-family: senregular;
+}
+
+#send-query-form .ant-picker {
+  background-color: #f2f0eb;
+}
+
+#send-query-form .submit-button {
+  background-color: #d9bb7f;
+  width: 100%;
+  height: 50px;
+  font-family: senregular;
+  font-weight: bold;
+  color: #191919;
+  text-transform: uppercase;
+  border-color: #d9bb7f;
+}
+/* #send-query-form .ant-upload-list-picture-card-container    .ant-upload-list-item .ant-upload-list-item-done .ant-upload-list-item-list-type-picture-card      .ant-upload-list-picture .ant-upload-list-item, .ant-upload-list-picture-card .ant-upload-list-item     .ant-upload-list-picture-card {
+  background-color: #F2F0EB;
+  width: 60px;
+  height: 60px;
+  padding: 0;
+} */
+
+/* .avatar-uploader > .ant-upload {
+  width: 80px;
+  height: 80px;
+} */
+
+@media only screen and (min-width: 768px) {
+  #send-query-success-modal {
+    background-color: #f2f0eb;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url("https://cdn.qalara.com/images/Img_Bird_Outline.png");
+    background-position: center;
+    text-align: center;
+    padding: 40px;
+  }
+
+  #send-query-success-modal .send-query-success-modal-content {
+    padding: 55px 35px;
+  }
+
+  #send-query-success-modal .send-query-success-modal-para1 {
+    font-family: Butler;
+    font-weight: 600;
+    font-size: 35px;
+    line-height: 110%;
+    letter-spacing: 0.01em;
+    margin-bottom: 15px;
+    color: #191919;
+  }
+
+  #send-query-success-modal .send-query-success-modal-para2 {
+    font-family: senregular;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 140%;
+    letter-spacing: 0.01em;
+    margin-bottom: 30px;
+    color: rgba(51, 47, 47, 0.8);
+  }
+
+  #send-query-success-modal .send-query-success-modal-button {
+    font-family: senregular;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 140%;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1px solid #191919;
+    box-sizing: border-box;
+    width: 100%;
+    height: 60px;
+    color: #191919;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  #send-query-success-modal {
+    background-color: #f2f0eb;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url("https://cdn.qalara.com/images/Img_Bird_Outline.png");
+    background-position: center;
+    text-align: center;
+    padding: 15px;
+  }
+
+  #send-query-success-modal .send-query-success-modal-content {
+    padding: 55px 35px;
+  }
+
+  #send-query-success-modal .send-query-success-modal-para1 {
+    font-family: Butler;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 110%;
+    letter-spacing: 0.01em;
+    margin-bottom: 10px;
+    color: #191919;
+  }
+
+  #send-query-success-modal .send-query-success-modal-para2 {
+    font-family: senregular;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 140%;
+    letter-spacing: 0.01em;
+    margin-bottom: 30px;
+    color: rgba(51, 47, 47, 0.8);
+  }
+
+  #send-query-success-modal .send-query-success-modal-button {
+    font-family: senregular;
+    font-weight: bold;
+    font-size: 10px;
+    line-height: 140%;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1px solid #191919;
+    box-sizing: border-box;
+    width: 100%;
+    height: 40px;
+    color: #191919;
+  }
+
+  #seller-carousel .button-seller {
+    padding: 0 15vw 0 15vw;
+  }
+}
+#send-query-form .ant-checkbox-inner {
+  background: transparent;
+}
+#send-query-form .ant-form-item-explain {
+  font-size: 12px;
+}
+#send-query-form .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #d9bb7f !important;
+  border-radius: 4px !important;
+  border: 1px solid #d9bb7f !important;
+}
+#send-query-form .ant-upload.ant-upload-select-picture-card {
+  background: rgba(217, 187, 127, 0.1);
+  border-radius: 15px;
+  border: none;
+}
+#send-query-form
+  .ant-upload.ant-upload-select-picture-card
+  span.anticon.anticon-plus {
+  background: #d9bb7f;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: #fff;
+  padding-top: 11px;
+  margin-top: -2px;
+}
+
+@media only screen and (min-width: 768px){
+  #send-query-form
+  .ant-upload.ant-upload-select-picture-card
+  span.anticon.anticon-plus {
+    margin-top: 27px;
+  }
+}

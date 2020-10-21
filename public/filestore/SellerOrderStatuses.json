@@ -1,0 +1,75 @@
+[
+    {
+        "id": "CHECKED_OUT",
+        "name": "Confirmed"
+    },
+    {
+        "id": "CANCELED_BY_SELLER",
+        "name": "Canceled"
+    },
+    {
+        "id": "CANCELED_BY_BUYER",
+        "name": "Canceled"
+    },
+    {
+        "id": "PRODUCTION_STARTED",
+        "name": "In-progress"
+    },
+    {
+        "id": "DU_PRO_QUALITY_TESTING_DONE",
+        "name": "In-progress"
+    },
+    {
+        "id": "FINAL_QUALITY_TESTING_DONE",
+        "name": "In-progress"
+    },
+    {
+        "id": "PACKED",
+        "name": "In-progress"
+    },
+    {
+        "id": "SHIPPED",
+        "name": "Shipped"
+    },
+    {
+        "id": "REACHED_ORIGIN_PORT",
+        "name": "Shipped"
+    },
+    {
+        "id": "IN_TRANSIT",
+        "name": "Shipped"
+    },
+    {
+        "id": "REACHED_DESTINATION_PORT",
+        "name": "Shipped"
+    },
+    {
+        "id": "CUSTOM_CLEARANCE_DONE",
+        "name": "Shipped"
+    },
+    {
+        "id": "OUT_FOR_DELIVERY",
+        "name": "Out for delivery"
+    },
+    {
+        "id": "DELIVERED",
+        "name": "Delivered"
+    },
+    {
+        "id": "RETURN_INITIATED",
+        "name": "Return initiated"
+    },
+    {
+        "id": "PICKUP_COMPLETE",
+        "name": "Return initiated"
+    },
+    {
+        "id": "RETURN_IN_TRANSIT",
+        "name": "Return initiated"
+    },
+    {
+        "id": "RETURN_DELIVERED",
+        "name": "Return initiated"
+    }
+
+]

@@ -1,0 +1,45 @@
+/** @format */
+
+#category-banner .link {
+  height: 15vh;
+}
+
+#category-banner .images {
+  background-color: #cfcbc2;
+}
+
+#category-banner .link-text {
+  font-family: Butler;
+  /*font-size: 22px;*/
+  text-align: center;
+  position: relative;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  line-height: 110%;
+  padding: 0px 10px;
+}
+
+.link-text span:nth-child(1){
+  font-size: 22px ;
+  line-height: 24px;
+}
+.link-text span:nth-last-child(1){
+  font-size: 12px ;
+  line-height: 17px;
+  font-family: senregular;
+}
+
+@media only screen and (max-width: 767px) {
+  .link-text span:nth-child(1){
+    font-size: 17px ;
+  }
+  .link-text span:nth-last-child(1){
+    font-size: 11px ;
+    font-family: senregular;
+  }
+}
+
+.kitchen, .fashion {
+  color: #332F2F;
+}

@@ -1,0 +1,30 @@
+[
+    {
+        "key": "Sole Proprietorship",
+        "value": "Sole Proprietorship"
+    },
+    {
+        "key": "Partnership Firm",
+        "value": "Partnership Firm"
+    },
+    {
+        "key": "LLP",
+        "value": "LLP"
+    },
+    {
+        "key": "Private Limited Company",
+        "value": "Private Limited Company"
+    },
+    {
+        "key": "Limited Company",
+        "value": "Limited Company"
+    },
+    {
+        "key": "Cooperative",
+        "value": "Cooperative"
+    },
+    {
+        "key": "Others",
+        "value": "Others"
+    }
+]

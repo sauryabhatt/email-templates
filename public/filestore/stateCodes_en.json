@@ -1,0 +1,1932 @@
+[
+  {
+    "country": "Argentina",
+    "localeCode": "en_US",
+    "countryCode": "AR",
+    "stateCodes": [
+      {
+        "state": "Chubut",
+        "stateCode": "CHUBUT"
+      },
+      {
+        "state": "Entre Ríos",
+        "stateCode": "ENTRE RÍOS"
+      },
+      {
+        "state": "Tucumán",
+        "stateCode": "TUCUMÁN"
+      },
+      {
+        "state": "Mendoza",
+        "stateCode": "MENDOZA"
+      },
+      {
+        "state": "Río Negro",
+        "stateCode": "RÍO NEGRO"
+      },
+      {
+        "state": "Santiago del Estero",
+        "stateCode": "SANTIAGO DEL ESTERO"
+      },
+      {
+        "state": "Tierra del Fuego",
+        "stateCode": "TIERRA DEL FUEGO"
+      },
+      {
+        "state": "San Luis",
+        "stateCode": "SAN LUIS"
+      },
+      {
+        "state": "Misiones",
+        "stateCode": "MISIONES"
+      },
+      {
+        "state": "Santa Fe",
+        "stateCode": "SANTA FE"
+      },
+      {
+        "state": "Buenos Aires (Provincia)",
+        "stateCode": "BUENOS AIRES"
+      },
+      {
+        "state": "Catamarca",
+        "stateCode": "CATAMARCA"
+      },
+      {
+        "state": "Neuquén",
+        "stateCode": "NEUQUÉN"
+      },
+      {
+        "state": "Salta",
+        "stateCode": "SALTA"
+      },
+      {
+        "state": "San Juan",
+        "stateCode": "SAN JUAN"
+      },
+      {
+        "state": "La Rioja",
+        "stateCode": "LA RIOJA"
+      },
+      {
+        "state": "Córdoba",
+        "stateCode": "CÓRDOBA"
+      },
+      {
+        "state": "Corrientes",
+        "stateCode": "CORRIENTES"
+      },
+      {
+        "state": "Santa Cruz",
+        "stateCode": "SANTA CRUZ"
+      },
+      {
+        "state": "Buenos Aires (Ciudad)",
+        "stateCode": "CIUDAD AUTÓNOMA DE BUENOS AIRES"
+      },
+      {
+        "state": "Formosa",
+        "stateCode": "FORMOSA"
+      },
+      {
+        "state": "Jujuy",
+        "stateCode": "JUJUY"
+      },
+      {
+        "state": "Chaco",
+        "stateCode": "CHACO"
+      },
+      {
+        "state": "La Pampa",
+        "stateCode": "LA PAMPA"
+      }
+    ]
+  },
+  {
+    "country": "Brazil",
+    "localeCode": "en_US",
+    "countryCode": "BR",
+    "stateCodes": [
+      {
+        "state": "Espírito Santo",
+        "stateCode": "ES"
+      },
+      {
+        "state": "Maranhão",
+        "stateCode": "MA"
+      },
+      {
+        "state": "Minas Gerais",
+        "stateCode": "MG"
+      },
+      {
+        "state": "Rio Grande do Norte",
+        "stateCode": "RN"
+      },
+      {
+        "state": "Roraima",
+        "stateCode": "RR"
+      },
+      {
+        "state": "Distrito Federal",
+        "stateCode": "DF"
+      },
+      {
+        "state": "Acre",
+        "stateCode": "AC"
+      },
+      {
+        "state": "Pernambuco",
+        "stateCode": "PE"
+      },
+      {
+        "state": "Rio de Janeiro",
+        "stateCode": "RJ"
+      },
+      {
+        "state": "Amazonas",
+        "stateCode": "AM"
+      },
+      {
+        "state": "Rio Grande do Sul",
+        "stateCode": "RS"
+      },
+      {
+        "state": "Santa Catarina",
+        "stateCode": "SC"
+      },
+      {
+        "state": "Mato Grosso do Sul",
+        "stateCode": "MS"
+      },
+      {
+        "state": "Paraíba",
+        "stateCode": "PB"
+      },
+      {
+        "state": "Rondônia",
+        "stateCode": "RO"
+      },
+      {
+        "state": "São Paulo",
+        "stateCode": "SP"
+      },
+      {
+        "state": "Sergipe",
+        "stateCode": "SE"
+      },
+      {
+        "state": "Ceará",
+        "stateCode": "CE"
+      },
+      {
+        "state": "Pará",
+        "stateCode": "PA"
+      },
+      {
+        "state": "Bahia",
+        "stateCode": "BA"
+      },
+      {
+        "state": "Amapá",
+        "stateCode": "AP"
+      },
+      {
+        "state": "Paraná",
+        "stateCode": "PR"
+      },
+      {
+        "state": "Tocantins",
+        "stateCode": "TO"
+      },
+      {
+        "state": "Mato Grosso",
+        "stateCode": "MT"
+      },
+      {
+        "state": "Alagoas",
+        "stateCode": "AL"
+      },
+      {
+        "state": "Goiás",
+        "stateCode": "GO"
+      },
+      {
+        "state": "Piauí",
+        "stateCode": "PI"
+      }
+    ]
+  },
+  {
+    "country": "Canada",
+    "countryCode": "CA",
+    "localeCode": "en_US",
+    "stateCodes": [
+      {
+        "state": "Ontario",
+        "stateCode": "ON"
+      },
+      {
+        "state": "Quebec",
+        "stateCode": "QC"
+      },
+      {
+        "state": "Yukon",
+        "stateCode": "YT"
+      },
+      {
+        "state": "Saskatchewan",
+        "stateCode": "SK"
+      },
+      {
+        "state": "Nunavut",
+        "stateCode": "NU"
+      },
+      {
+        "state": "Manitoba",
+        "stateCode": "MB"
+      },
+      {
+        "state": "Newfoundland and Labrador",
+        "stateCode": "NL"
+      },
+      {
+        "state": "Prince Edward Island",
+        "stateCode": "PE"
+      },
+      {
+        "state": "Northwest Territories",
+        "stateCode": "NT"
+      },
+      {
+        "state": "Nova Scotia",
+        "stateCode": "NS"
+      },
+      {
+        "state": "Alberta",
+        "stateCode": "AB"
+      },
+      {
+        "state": "British Columbia",
+        "stateCode": "BC"
+      },
+      {
+        "state": "New Brunswick",
+        "stateCode": "NB"
+      }
+    ]
+  },
+  {
+    "country": "India",
+    "countryCode": "IN",
+    "localeCode": "en_US",
+    "stateCodes": [
+      {
+        "state": "Mizoram",
+        "stateCode": "Mizoram"
+      },
+      {
+        "state": "Tamil Nadu",
+        "stateCode": "Tamil Nadu"
+      },
+      {
+        "state": "Uttar Pradesh",
+        "stateCode": "Uttar Pradesh"
+      },
+      {
+        "state": "Madhya Pradesh",
+        "stateCode": "Madhya Pradesh"
+      },
+      {
+        "state": "Tripura",
+        "stateCode": "Tripura"
+      },
+      {
+        "state": "Uttarakhand",
+        "stateCode": "Uttarakhand"
+      },
+      {
+        "state": "Army Post Office",
+        "stateCode": "APO"
+      },
+      {
+        "state": "Rajasthan",
+        "stateCode": "Rajasthan"
+      },
+      {
+        "state": "Bihar",
+        "stateCode": "Bihar"
+      },
+      {
+        "state": "Meghalaya",
+        "stateCode": "Meghalaya"
+      },
+      {
+        "state": "Chandigarh",
+        "stateCode": "Chandigarh"
+      },
+      {
+        "state": "Haryana",
+        "stateCode": "Haryana"
+      },
+      {
+        "state": "Andaman and Nicobar Islands",
+        "stateCode": "Andaman and Nicobar Islands"
+      },
+      {
+        "state": "Odisha",
+        "stateCode": "Odisha"
+      },
+      {
+        "state": "Dadra and Nagar Haveli",
+        "stateCode": "Dadra and Nagar Haveli"
+      },
+      {
+        "state": "Telangana",
+        "stateCode": "Telangana"
+      },
+      {
+        "state": "Kerala",
+        "stateCode": "Kerala"
+      },
+      {
+        "state": "Manipur",
+        "stateCode": "Manipur"
+      },
+      {
+        "state": "Nagaland",
+        "stateCode": "Nagaland"
+      },
+      {
+        "state": "West Bengal",
+        "stateCode": "West Bengal"
+      },
+      {
+        "state": "Maharashtra",
+        "stateCode": "Maharashtra"
+      },
+      {
+        "state": "Jammu and Kashmir",
+        "stateCode": "Jammu and Kashmir"
+      },
+      {
+        "state": "Jharkhand",
+        "stateCode": "Jharkhand"
+      },
+      {
+        "state": "Sikkim",
+        "stateCode": "Sikkim"
+      },
+      {
+        "state": "Lakshadweep",
+        "stateCode": "Lakshadweep"
+      },
+      {
+        "state": "Chhattisgarh",
+        "stateCode": "Chhattisgarh"
+      },
+      {
+        "state": "Assam",
+        "stateCode": "Assam"
+      },
+      {
+        "state": "Daman and Diu",
+        "stateCode": "Daman and Diu"
+      },
+      {
+        "state": "Gujarat",
+        "stateCode": "Gujarat"
+      },
+      {
+        "state": "Punjab",
+        "stateCode": "Punjab"
+      },
+      {
+        "state": "Goa",
+        "stateCode": "Goa"
+      },
+      {
+        "state": "Arunachal Pradesh",
+        "stateCode": "Arunachal Pradesh"
+      },
+      {
+        "state": "Delhi",
+        "stateCode": "Delhi (NCT)"
+      },
+      {
+        "state": "Himachal Pradesh",
+        "stateCode": "Himachal Pradesh"
+      },
+      {
+        "state": "Karnataka",
+        "stateCode": "Karnataka"
+      },
+      {
+        "state": "Andhra Pradesh",
+        "stateCode": "Andhra Pradesh"
+      },
+      {
+        "state": "Puducherry",
+        "stateCode": "Puducherry"
+      }
+    ]
+  },
+  {
+    "country": "Indonesia",
+    "countryCode": "ID",
+    "localeCode": "en_US",
+    "stateCodes": [
+      {
+        "state": "Jawa Tengah",
+        "stateCode": "ID-JT"
+      },
+      {
+        "state": "Sumatera Barat",
+        "stateCode": "ID-SB"
+      },
+      {
+        "state": "Papua",
+        "stateCode": "ID-PA"
+      },
+      {
+        "state": "Papua Barat",
+        "stateCode": "ID-PB"
+      },
+      {
+        "state": "Bangka Belitung",
+        "stateCode": "ID-BB"
+      },
+      {
+        "state": "Nusa Tenggara Barat",
+        "stateCode": "ID-NB"
+      },
+      {
+        "state": "Kalimantan Selatan",
+        "stateCode": "ID-KS"
+      },
+      {
+        "state": "Sumatera Selatan",
+        "stateCode": "ID-SS"
+      },
+      {
+        "state": "Sulawesi Tengah",
+        "stateCode": "ID-ST"
+      },
+      {
+        "state": "Bengkulu",
+        "stateCode": "ID-BE"
+      },
+      {
+        "state": "DKI Jakarta",
+        "stateCode": "ID-JK"
+      },
+      {
+        "state": "Jambi",
+        "stateCode": "ID-JA"
+      },
+      {
+        "state": "Riau",
+        "stateCode": "ID-RI"
+      },
+      {
+        "state": "Gorontalo",
+        "stateCode": "ID-GO"
+      },
+      {
+        "state": "Sulawesi Tenggara",
+        "stateCode": "ID-SG"
+      },
+      {
+        "state": "Kalimantan Barat",
+        "stateCode": "ID-KB"
+      },
+      {
+        "state": "Bali",
+        "stateCode": "ID-BA"
+      },
+      {
+        "state": "Sumatera Utara",
+        "stateCode": "ID-SU"
+      },
+      {
+        "state": "Jawa Timur",
+        "stateCode": "ID-JI"
+      },
+      {
+        "state": "Kalimantan Utara",
+        "stateCode": "ID-KU"
+      },
+      {
+        "state": "Sulawesi Barat",
+        "stateCode": "ID-SR"
+      },
+      {
+        "state": "Nusa Tenggara Timur",
+        "stateCode": "ID-NT"
+      },
+      {
+        "state": "Banten",
+        "stateCode": "ID-BT"
+      },
+      {
+        "state": "Lampung",
+        "stateCode": "ID-LA"
+      },
+      {
+        "state": "Maluku",
+        "stateCode": "ID-MA"
+      },
+      {
+        "state": "Maluku Utara",
+        "stateCode": "ID-MU"
+      },
+      {
+        "state": "Kalimantan Tengah",
+        "stateCode": "ID-KT"
+      },
+      {
+        "state": "Nanggroe Aceh Darussalam",
+        "stateCode": "ID-AC"
+      },
+      {
+        "state": "Sulawesi Utara",
+        "stateCode": "ID-SA"
+      },
+      {
+        "state": "Jawa Barat",
+        "stateCode": "ID-JB"
+      },
+      {
+        "state": "DI Yogyakarta",
+        "stateCode": "ID-YO"
+      },
+      {
+        "state": "Sulawesi Selatan",
+        "stateCode": "ID-SN"
+      },
+      {
+        "state": "Kalimantan Timur",
+        "stateCode": "ID-KI"
+      },
+      {
+        "state": "Kepulauan Riau",
+        "stateCode": "ID-KR"
+      }
+    ]
+  },
+  {
+    "country": "Italy",
+    "countryCode": "IT",
+    "localeCode": "en_US",
+    "stateCodes": [
+      {
+        "state": "Massa-Carrara",
+        "stateCode": "MS"
+      },
+      {
+        "state": "Ancona",
+        "stateCode": "AN"
+      },
+      {
+        "state": "Bergamo",
+        "stateCode": "BG"
+      },
+      {
+        "state": "Matera",
+        "stateCode": "MT"
+      },
+      {
+        "state": "Caserta",
+        "stateCode": "CE"
+      },
+      {
+        "state": "Genova",
+        "stateCode": "GE"
+      },
+      {
+        "state": "Crotone",
+        "stateCode": "KR"
+      },
+      {
+        "state": "Padova",
+        "stateCode": "PD"
+      },
+      {
+        "state": "Trapani",
+        "stateCode": "TP"
+      },
+      {
+        "state": "Bolzano",
+        "stateCode": "BZ"
+      },
+      {
+        "state": "Pistoia",
+        "stateCode": "PT"
+      },
+      {
+        "state": "Asti",
+        "stateCode": "AT"
+      },
+      {
+        "state": "Bologna",
+        "stateCode": "BO"
+      },
+      {
+        "state": "Carbonia-Iglesias",
+        "stateCode": "CI"
+      },
+      {
+        "state": "Ragusa",
+        "stateCode": "RG"
+      },
+      {
+        "state": "Avellino",
+        "stateCode": "AV"
+      },
+      {
+        "state": "Pisa",
+        "stateCode": "PI"
+      },
+      {
+        "state": "Chieti",
+        "stateCode": "CH"
+      },
+      {
+        "state": "Monza e della Brianza",
+        "stateCode": "MB"
+      },
+      {
+        "state": "Verbano-Cusio-Ossola",
+        "stateCode": "VB"
+      },
+      {
+        "state": "Ascoli Piceno",
+        "stateCode": "AP"
+      },
+      {
+        "state": "Imperia",
+        "stateCode": "IM"
+      },
+      {
+        "state": "Varese",
+        "stateCode": "VA"
+      },
+      {
+        "state": "Vercelli",
+        "stateCode": "VC"
+      },
+      {
+        "state": "Livorno",
+        "stateCode": "LI"
+      },
+      {
+        "state": "Brescia",
+        "stateCode": "BS"
+      },
+      {
+        "state": "Ravenna",
+        "stateCode": "RA"
+      },
+      {
+        "state": "La Spezia",
+        "stateCode": "SP"
+      },
+      {
+        "state": "Arezzo",
+        "stateCode": "AR"
+      },
+      {
+        "state": "Lodi",
+        "stateCode": "LO"
+      },
+      {
+        "state": "Trento",
+        "stateCode": "TN"
+      },
+      {
+        "state": "Savona",
+        "stateCode": "SV"
+      },
+      {
+        "state": "Benevento",
+        "stateCode": "BN"
+      },
+      {
+        "state": "Perugia",
+        "stateCode": "PG"
+      },
+      {
+        "state": "Latina",
+        "stateCode": "LT"
+      },
+      {
+        "state": "Palermo",
+        "stateCode": "PA"
+      },
+      {
+        "state": "Terni",
+        "stateCode": "TR"
+      },
+      {
+        "state": "Catania",
+        "stateCode": "CT"
+      },
+      {
+        "state": "Roma",
+        "stateCode": "RM"
+      },
+      {
+        "state": "Messina",
+        "stateCode": "ME"
+      },
+      {
+        "state": "Gorizia",
+        "stateCode": "GO"
+      },
+      {
+        "state": "Isernia",
+        "stateCode": "IS"
+      },
+      {
+        "state": "Pavia",
+        "stateCode": "PV"
+      },
+      {
+        "state": "Bari",
+        "stateCode": "BA"
+      },
+      {
+        "state": "Piacenza",
+        "stateCode": "PC"
+      },
+      {
+        "state": "Cremona",
+        "stateCode": "CR"
+      },
+      {
+        "state": "Reggio Emilia",
+        "stateCode": "RE"
+      },
+      {
+        "state": "Grosseto",
+        "stateCode": "GR"
+      },
+      {
+        "state": "Mantova",
+        "stateCode": "MN"
+      },
+      {
+        "state": "Cosenza",
+        "stateCode": "CS"
+      },
+      {
+        "state": "Foggia",
+        "stateCode": "FG"
+      },
+      {
+        "state": "Novara",
+        "stateCode": "NO"
+      },
+      {
+        "state": "Campobasso",
+        "stateCode": "CB"
+      },
+      {
+        "state": "Caltanissetta",
+        "stateCode": "CL"
+      },
+      {
+        "state": "Potenza",
+        "stateCode": "PZ"
+      },
+      {
+        "state": "Modena",
+        "stateCode": "MO"
+      },
+      {
+        "state": "Enna",
+        "stateCode": "EN"
+      },
+      {
+        "state": "Rieti",
+        "stateCode": "RI"
+      },
+      {
+        "state": "Ogliastra",
+        "stateCode": "OG"
+      },
+      {
+        "state": "Macerata",
+        "stateCode": "MC"
+      },
+      {
+        "state": "Nuoro",
+        "stateCode": "NU"
+      },
+      {
+        "state": "Cuneo",
+        "stateCode": "CN"
+      },
+      {
+        "state": "Biella",
+        "stateCode": "BI"
+      },
+      {
+        "state": "Pesaro e Urbino",
+        "stateCode": "PU"
+      },
+      {
+        "state": "Pescara",
+        "stateCode": "PE"
+      },
+      {
+        "state": "Agrigento",
+        "stateCode": "AG"
+      },
+      {
+        "state": "Lecco",
+        "stateCode": "LC"
+      },
+      {
+        "state": "Fermo",
+        "stateCode": "FM"
+      },
+      {
+        "state": "Sondrio",
+        "stateCode": "SO"
+      },
+      {
+        "state": "Vibo Valentia",
+        "stateCode": "VV"
+      },
+      {
+        "state": "Alessandria",
+        "stateCode": "AL"
+      },
+      {
+        "state": "Venezia",
+        "stateCode": "VE"
+      },
+      {
+        "state": "Ferrara",
+        "stateCode": "FE"
+      },
+      {
+        "state": "Siena",
+        "stateCode": "SI"
+      },
+      {
+        "state": "Udine",
+        "stateCode": "UD"
+      },
+      {
+        "state": "Siracusa",
+        "stateCode": "SR"
+      },
+      {
+        "state": "Medio Campidano",
+        "stateCode": "VS"
+      },
+      {
+        "state": "L'Aquila",
+        "stateCode": "AQ"
+      },
+      {
+        "state": "Treviso",
+        "stateCode": "TV"
+      },
+      {
+        "state": "Pordenone",
+        "stateCode": "PN"
+      },
+      {
+        "state": "Teramo",
+        "stateCode": "TE"
+      },
+      {
+        "state": "Viterbo",
+        "stateCode": "VT"
+      },
+      {
+        "state": "Milano",
+        "stateCode": "MI"
+      },
+      {
+        "state": "Belluno",
+        "stateCode": "BL"
+      },
+      {
+        "state": "Aosta",
+        "stateCode": "AO"
+      },
+      {
+        "state": "Rovigo",
+        "stateCode": "RO"
+      },
+      {
+        "state": "Parma",
+        "stateCode": "PR"
+      },
+      {
+        "state": "Trieste",
+        "stateCode": "TS"
+      },
+      {
+        "state": "Torino",
+        "stateCode": "TO"
+      },
+      {
+        "state": "Catanzaro",
+        "stateCode": "CZ"
+      },
+      {
+        "state": "Lecce",
+        "stateCode": "LE"
+      },
+      {
+        "state": "Vicenza",
+        "stateCode": "VI"
+      },
+      {
+        "state": "Sassari",
+        "stateCode": "SS"
+      },
+      {
+        "state": "Verona",
+        "stateCode": "VR"
+      },
+      {
+        "state": "Firenze",
+        "stateCode": "FI"
+      },
+      {
+        "state": "Reggio Calabria",
+        "stateCode": "RC"
+      },
+      {
+        "state": "Lucca",
+        "stateCode": "LU"
+      },
+      {
+        "state": "Napoli",
+        "stateCode": "NA"
+      },
+      {
+        "state": "Oristano",
+        "stateCode": "OR"
+      },
+      {
+        "state": "Prato",
+        "stateCode": "PO"
+      },
+      {
+        "state": "Rimini",
+        "stateCode": "RN"
+      },
+      {
+        "state": "Frosinone",
+        "stateCode": "FR"
+      },
+      {
+        "state": "Forlì-Cesena",
+        "stateCode": "FC"
+      },
+      {
+        "state": "Taranto",
+        "stateCode": "TA"
+      },
+      {
+        "state": "Como",
+        "stateCode": "CO"
+      },
+      {
+        "state": "Cagliari",
+        "stateCode": "CA"
+      },
+      {
+        "state": "Olbia-Tempio",
+        "stateCode": "OT"
+      },
+      {
+        "state": "Barletta-Andria-Trani",
+        "stateCode": "BT"
+      },
+      {
+        "state": "Brindisi",
+        "stateCode": "BR"
+      },
+      {
+        "state": "Salerno",
+        "stateCode": "SA"
+      }
+    ]
+  },
+  {
+    "country": "Japan",
+    "countryCode":"JP",
+    "localeCode": "en_US",
+    "stateCodes": [
+      {
+        "state": "Yamagata",
+        "stateCode": "YAMAGATA-KEN"
+      },
+      {
+        "state": "Osaka",
+        "stateCode": "OSAKA-FU"
+      },
+      {
+        "state": "Gifu",
+        "stateCode": "GIFU-KEN"
+      },
+      {
+        "state": "Shizuoka",
+        "stateCode": "SHIZUOKA-KEN"
+      },
+      {
+        "state": "Kanagawa",
+        "stateCode": "KANAGAWA-KEN"
+      },
+      {
+        "state": "Ehime",
+        "stateCode": "EHIME-KEN"
+      },
+      {
+        "state": "Shiga",
+        "stateCode": "SHIGA-KEN"
+      },
+      {
+        "state": "Fukuoka",
+        "stateCode": "FUKUOKA-KEN"
+      },
+      {
+        "state": "Fukushima",
+        "stateCode": "FUKUSHIMA-KEN"
+      },
+      {
+        "state": "Fukui",
+        "stateCode": "FUKUI-KEN"
+      },
+      {
+        "state": "Nagasaki",
+        "stateCode": "NAGASAKI-KEN"
+      },
+      {
+        "state": "Aomori",
+        "stateCode": "AOMORI-KEN"
+      },
+      {
+        "state": "Oita",
+        "stateCode": "OITA-KEN"
+      },
+      {
+        "state": "Yamaguchi",
+        "stateCode": "YAMAGUCHI-KEN"
+      },
+      {
+        "state": "Wakayama",
+        "stateCode": "WAKAYAMA-KEN"
+      },
+      {
+        "state": "Kumamoto",
+        "stateCode": "KUMAMOTO-KEN"
+      },
+      {
+        "state": "Tokushima",
+        "stateCode": "TOKUSHIMA-KEN"
+      },
+      {
+        "state": "Kochi",
+        "stateCode": "KOCHI-KEN"
+      },
+      {
+        "state": "Aichi",
+        "stateCode": "AICHI-KEN"
+      },
+      {
+        "state": "Saga",
+        "stateCode": "SAGA-KEN"
+      },
+      {
+        "state": "Kagoshima",
+        "stateCode": "KAGOSHIMA-KEN"
+      },
+      {
+        "state": "Kyoto",
+        "stateCode": "KYOTO-FU"
+      },
+      {
+        "state": "Ishikawa",
+        "stateCode": "ISHIKAWA-KEN"
+      },
+      {
+        "state": "Tokyo",
+        "stateCode": "TOKYO-TO"
+      },
+      {
+        "state": "Toyama",
+        "stateCode": "TOYAMA-KEN"
+      },
+      {
+        "state": "Gunma",
+        "stateCode": "GUNMA-KEN"
+      },
+      {
+        "state": "Yamanashi",
+        "stateCode": "YAMANASHI-KEN"
+      },
+      {
+        "state": "Ibaraki",
+        "stateCode": "IBARAKI-KEN"
+      },
+      {
+        "state": "Niigata",
+        "stateCode": "NIIGATA-KEN"
+      },
+      {
+        "state": "Saitama",
+        "stateCode": "SAITAMA-KEN"
+      },
+      {
+        "state": "Mie",
+        "stateCode": "MIE-KEN"
+      },
+      {
+        "state": "Tochigi",
+        "stateCode": "TOCHIGI-KEN"
+      },
+      {
+        "state": "Tottori",
+        "stateCode": "TOTTORI-KEN"
+      },
+      {
+        "state": "Okinawa",
+        "stateCode": "OKINAWA-KEN"
+      },
+      {
+        "state": "Okayama",
+        "stateCode": "OKAYAMA-KEN"
+      },
+      {
+        "state": "Iwate",
+        "stateCode": "IWATE-KEN"
+      },
+      {
+        "state": "Hokkaido",
+        "stateCode": "HOKKAIDO"
+      },
+      {
+        "state": "Kagawa",
+        "stateCode": "KAGAWA-KEN"
+      },
+      {
+        "state": "Nagano",
+        "stateCode": "NAGANO-KEN"
+      },
+      {
+        "state": "Nara",
+        "stateCode": "NARA-KEN"
+      },
+      {
+        "state": "Hiroshima",
+        "stateCode": "HIROSHIMA-KEN"
+      },
+      {
+        "state": "Hyogo",
+        "stateCode": "HYOGO-KEN"
+      },
+      {
+        "state": "Miyagi",
+        "stateCode": "MIYAGI-KEN"
+      },
+      {
+        "state": "Miyazaki",
+        "stateCode": "MIYAZAKI-KEN"
+      },
+      {
+        "state": "Shimane",
+        "stateCode": "SHIMANE-KEN"
+      },
+      {
+        "state": "Akita",
+        "stateCode": "AKITA-KEN"
+      },
+      {
+        "state": "Chiba",
+        "stateCode": "CHIBA-KEN"
+      }
+    ]
+  },
+  {
+    "country": "Mexico",
+    "countryCode": "MX",
+    "localeCode": "en_US",
+    "stateCodes": [
+      {
+        "state": "Nayarit",
+        "stateCode": "NAY"
+      },
+      {
+        "state": "Jalisco",
+        "stateCode": "JAL"
+      },
+      {
+        "state": "Durango",
+        "stateCode": "DGO"
+      },
+      {
+        "state": "Tlaxcala",
+        "stateCode": "TLAX"
+      },
+      {
+        "state": "Ciudad de México",
+        "stateCode": "CDMX"
+      },
+      {
+        "state": "Tabasco",
+        "stateCode": "TAB"
+      },
+      {
+        "state": "San Luis Potosí",
+        "stateCode": "SLP"
+      },
+      {
+        "state": "Estado de México",
+        "stateCode": "MEX"
+      },
+      {
+        "state": "Distrito Federal",
+        "stateCode": "DF"
+      },
+      {
+        "state": "Yucatán",
+        "stateCode": "YUC"
+      },
+      {
+        "state": "Colima",
+        "stateCode": "COL"
+      },
+      {
+        "state": "Tamaulipas",
+        "stateCode": "TAMPS"
+      },
+      {
+        "state": "Chihuahua",
+        "stateCode": "CHIH"
+      },
+      {
+        "state": "Chiapas",
+        "stateCode": "CHIS"
+      },
+      {
+        "state": "Oaxaca",
+        "stateCode": "OAX"
+      },
+      {
+        "state": "Nuevo León",
+        "stateCode": "NL"
+      },
+      {
+        "state": "Sonora",
+        "stateCode": "SON"
+      },
+      {
+        "state": "Campeche",
+        "stateCode": "CAMP"
+      },
+      {
+        "state": "Puebla",
+        "stateCode": "PUE"
+      },
+      {
+        "state": "Zacatecas",
+        "stateCode": "ZAC"
+      },
+      {
+        "state": "Guerrero",
+        "stateCode": "GRO"
+      },
+      {
+        "state": "Aguascalientes",
+        "stateCode": "AGS"
+      },
+      {
+        "state": "Baja California Sur",
+        "stateCode": "BCS"
+      },
+      {
+        "state": "Querétaro",
+        "stateCode": "QRO"
+      },
+      {
+        "state": "Morelos",
+        "stateCode": "MOR"
+      },
+      {
+        "state": "Guanajuato",
+        "stateCode": "GTO"
+      },
+      {
+        "state": "Michoacán",
+        "stateCode": "MICH"
+      },
+      {
+        "state": "Hidalgo",
+        "stateCode": "HGO"
+      },
+      {
+        "state": "Quintana Roo",
+        "stateCode": "Q ROO"
+      },
+      {
+        "state": "Coahuila",
+        "stateCode": "COAH"
+      },
+      {
+        "state": "Veracruz",
+        "stateCode": "VER"
+      },
+      {
+        "state": "Sinaloa",
+        "stateCode": "SIN"
+      },
+      {
+        "state": "Baja California",
+        "stateCode": "BC"
+      }
+    ]
+  },
+  {
+    "country": "Thailand",
+    "countryCode": "TH",
+    "localeCode": "en_US",
+    "stateCodes": [
+      {
+        "state": "Lop Buri",
+        "stateCode": "Lop Buri"
+      },
+      {
+        "state": "Saraburi",
+        "stateCode": "Saraburi"
+      },
+      {
+        "state": "Chumphon",
+        "stateCode": "Chumphon"
+      },
+      {
+        "state": "Nakhon Pathom",
+        "stateCode": "Nakhon Pathom"
+      },
+      {
+        "state": "Chaiyaphum",
+        "stateCode": "Chaiyaphum"
+      },
+      {
+        "state": "Chanthaburi",
+        "stateCode": "Chanthaburi"
+      },
+      {
+        "state": "Phitsanulok",
+        "stateCode": "Phitsanulok"
+      },
+      {
+        "state": "Lamphun",
+        "stateCode": "Lamphun"
+      },
+      {
+        "state": "Phra Nakhon Si Ayutthaya",
+        "stateCode": "Phra Nakhon Si Ayutthaya"
+      },
+      {
+        "state": "Chiang Mai",
+        "stateCode": "Chiang Mai"
+      },
+      {
+        "state": "Kanchanaburi",
+        "stateCode": "Kanchanaburi"
+      },
+      {
+        "state": "Prachuap Khiri Khan",
+        "stateCode": "Prachuap Khiri Khan"
+      },
+      {
+        "state": "Amnat Charoen",
+        "stateCode": "Amnat Charoen"
+      },
+      {
+        "state": "Phrae",
+        "stateCode": "Phrae"
+      },
+      {
+        "state": "Chiang Rai",
+        "stateCode": "Chiang Rai"
+      },
+      {
+        "state": "Chachoengsao",
+        "stateCode": "Chachoengsao"
+      },
+      {
+        "state": "Uttaradit",
+        "stateCode": "Uttaradit"
+      },
+      {
+        "state": "Mae Hong Son",
+        "stateCode": "Mae Hong Son"
+      },
+      {
+        "state": "Yasothon",
+        "stateCode": "Yasothon"
+      },
+      {
+        "state": "Chai Nat",
+        "stateCode": "Chai Nat"
+      },
+      {
+        "state": "Nakhon Nayok",
+        "stateCode": "Nakhon Nayok"
+      },
+      {
+        "state": "Lampang",
+        "stateCode": "Lampang"
+      },
+      {
+        "state": "Samut Songkhram",
+        "stateCode": "Samut Songkhram"
+      },
+      {
+        "state": "Nakhon Ratchasima",
+        "stateCode": "Nakhon Ratchasima"
+      },
+      {
+        "state": "Nan",
+        "stateCode": "Nan"
+      },
+      {
+        "state": "Prachin Buri",
+        "stateCode": "Prachin Buri"
+      },
+      {
+        "state": "Ranong",
+        "stateCode": "Ranong"
+      },
+      {
+        "state": "Si Sa Ket",
+        "stateCode": "Si Sa Ket"
+      },
+      {
+        "state": "Kamphaeng Phet",
+        "stateCode": "Kamphaeng Phet"
+      },
+      {
+        "state": "Maha Sarakham",
+        "stateCode": "Maha Sarakham"
+      },
+      {
+        "state": "Nakhon Phanom",
+        "stateCode": "Nakhon Phanom"
+      },
+      {
+        "state": "Narathiwat",
+        "stateCode": "Narathiwat"
+      },
+      {
+        "state": "Phatthaya",
+        "stateCode": "Phatthaya"
+      },
+      {
+        "state": "Surat Thani",
+        "stateCode": "Surat Thani"
+      },
+      {
+        "state": "Phang Nga",
+        "stateCode": "Phang Nga"
+      },
+      {
+        "state": "Udon Thani",
+        "stateCode": "Udon Thani"
+      },
+      {
+        "state": "Yala",
+        "stateCode": "Yala"
+      },
+      {
+        "state": "Phetchabun",
+        "stateCode": "Phetchabun"
+      },
+      {
+        "state": "Pattani",
+        "stateCode": "Pattani"
+      },
+      {
+        "state": "Nong Khai",
+        "stateCode": "Nong Khai"
+      },
+      {
+        "state": "Phayao",
+        "stateCode": "Phayao"
+      },
+      {
+        "state": "Satun",
+        "stateCode": "Satun"
+      },
+      {
+        "state": "Loei",
+        "stateCode": "Loei"
+      },
+      {
+        "state": "Roi Et",
+        "stateCode": "Roi Et"
+      },
+      {
+        "state": "Kalasin",
+        "stateCode": "Kalasin"
+      },
+      {
+        "state": "Trang",
+        "stateCode": "Trang"
+      },
+      {
+        "state": "Nong Bua Lamphu",
+        "stateCode": "Nong Bua Lamphu"
+      },
+      {
+        "state": "Phetchaburi",
+        "stateCode": "Phetchaburi"
+      },
+      {
+        "state": "Samut Prakan",
+        "stateCode": "Samut Prakan"
+      },
+      {
+        "state": "Trat",
+        "stateCode": "Trat"
+      },
+      {
+        "state": "Uthai Thani",
+        "stateCode": "Uthai Thani"
+      },
+      {
+        "state": "Samut Sakhon",
+        "stateCode": "Samut Sakhon"
+      },
+      {
+        "state": "Pathum Thani",
+        "stateCode": "Pathum Thani"
+      },
+      {
+        "state": "Phuket",
+        "stateCode": "Phuket"
+      },
+      {
+        "state": "Phatthalung",
+        "stateCode": "Phatthalung"
+      },
+      {
+        "state": "Suphan Buri",
+        "stateCode": "Suphan Buri"
+      },
+      {
+        "state": "Mukdahan",
+        "stateCode": "Mukdahan"
+      },
+      {
+        "state": "Sukhothai",
+        "stateCode": "Sukhothai"
+      },
+      {
+        "state": "Sing Buri",
+        "stateCode": "Sing Buri"
+      },
+      {
+        "state": "Songkhla",
+        "stateCode": "Songkhla"
+      },
+      {
+        "state": "Khon Kaen",
+        "stateCode": "Khon Kaen"
+      },
+      {
+        "state": "Ang Thong",
+        "stateCode": "Ang Thong"
+      },
+      {
+        "state": "Bangkok",
+        "stateCode": "Bangkok"
+      },
+      {
+        "state": "Krabi",
+        "stateCode": "Krabi"
+      },
+      {
+        "state": "Rayong",
+        "stateCode": "Rayong"
+      },
+      {
+        "state": "Ubon Ratchathani",
+        "stateCode": "Ubon Ratchathani"
+      },
+      {
+        "state": "Bueng Kan",
+        "stateCode": "Bueng Kan"
+      },
+      {
+        "state": "Tak",
+        "stateCode": "Tak"
+      },
+      {
+        "state": "Buri Ram",
+        "stateCode": "Buri Ram"
+      },
+      {
+        "state": "Nakhon Si Thammarat",
+        "stateCode": "Nakhon Si Thammarat"
+      },
+      {
+        "state": "Nakhon Sawan",
+        "stateCode": "Nakhon Sawan"
+      },
+      {
+        "state": "Ratchaburi",
+        "stateCode": "Ratchaburi"
+      },
+      {
+        "state": "Chon Buri",
+        "stateCode": "Chon Buri"
+      },
+      {
+        "state": "Nonthaburi",
+        "stateCode": "Nonthaburi"
+      },
+      {
+        "state": "Sakon Nakhon",
+        "stateCode": "Sakon Nakhon"
+      },
+      {
+        "state": "Phichit",
+        "stateCode": "Phichit"
+      },
+      {
+        "state": "Sa Kaeo",
+        "stateCode": "Sa Kaeo"
+      },
+      {
+        "state": "Surin",
+        "stateCode": "Surin"
+      }
+    ]
+  },
+  {
+    "country": "United States (US)",
+    "countryCode": "US",
+    "localeCode": "en_US",
+    "stateCodes": [
+      {
+        "state": "New Jersey",
+        "stateCode": "NJ"
+      },
+      {
+        "state": "Kansas",
+        "stateCode": "KS"
+      },
+      {
+        "state": "California",
+        "stateCode": "CA"
+      },
+      {
+        "state": "Hawaii",
+        "stateCode": "HI"
+      },
+      {
+        "state": "Mississippi",
+        "stateCode": "MS"
+      },
+      {
+        "state": "Armed Forces Pacific",
+        "stateCode": "AP"
+      },
+      {
+        "state": "Marshall Islands",
+        "stateCode": "MH"
+      },
+      {
+        "state": "Connecticut",
+        "stateCode": "CT"
+      },
+      {
+        "state": "Nebraska",
+        "stateCode": "NE"
+      },
+      {
+        "state": "Armed Forces Europe",
+        "stateCode": "AE"
+      },
+      {
+        "state": "Northern Mariana Islands",
+        "stateCode": "MP"
+      },
+      {
+        "state": "Florida",
+        "stateCode": "FL"
+      },
+      {
+        "state": "Montana",
+        "stateCode": "MT"
+      },
+      {
+        "state": "Alaska",
+        "stateCode": "AK"
+      },
+      {
+        "state": "Virgin Islands",
+        "stateCode": "VI"
+      },
+      {
+        "state": "Minnesota",
+        "stateCode": "MN"
+      },
+      {
+        "state": "Alabama",
+        "stateCode": "AL"
+      },
+      {
+        "state": "Kentucky",
+        "stateCode": "KY"
+      },
+      {
+        "state": "Oregon",
+        "stateCode": "OR"
+      },
+      {
+        "state": "Utah",
+        "stateCode": "UT"
+      },
+      {
+        "state": "West Virginia",
+        "stateCode": "WV"
+      },
+      {
+        "state": "American Samoa",
+        "stateCode": "AS"
+      },
+      {
+        "state": "Guam",
+        "stateCode": "GU"
+      },
+      {
+        "state": "Wyoming",
+        "stateCode": "WY"
+      },
+      {
+        "state": "North Carolina",
+        "stateCode": "NC"
+      },
+      {
+        "state": "Indiana",
+        "stateCode": "IN"
+      },
+      {
+        "state": "New Hampshire",
+        "stateCode": "NH"
+      },
+      {
+        "state": "New Mexico",
+        "stateCode": "NM"
+      },
+      {
+        "state": "Maryland",
+        "stateCode": "MD"
+      },
+      {
+        "state": "Texas",
+        "stateCode": "TX"
+      },
+      {
+        "state": "Maine",
+        "stateCode": "ME"
+      },
+      {
+        "state": "Michigan",
+        "stateCode": "MI"
+      },
+      {
+        "state": "Nevada",
+        "stateCode": "NV"
+      },
+      {
+        "state": "Missouri",
+        "stateCode": "MO"
+      },
+      {
+        "state": "New York",
+        "stateCode": "NY"
+      },
+      {
+        "state": "Idaho",
+        "stateCode": "ID"
+      },
+      {
+        "state": "Wisconsin",
+        "stateCode": "WI"
+      },
+      {
+        "state": "Rhode Island",
+        "stateCode": "RI"
+      },
+      {
+        "state": "Federated States of Micronesia",
+        "stateCode": "FM"
+      },
+      {
+        "state": "Louisiana",
+        "stateCode": "LA"
+      },
+      {
+        "state": "Armed Forces Americas",
+        "stateCode": "AA"
+      },
+      {
+        "state": "Massachusetts",
+        "stateCode": "MA"
+      },
+      {
+        "state": "Iowa",
+        "stateCode": "IA"
+      },
+      {
+        "state": "Arizona",
+        "stateCode": "AZ"
+      },
+      {
+        "state": "Illinois",
+        "stateCode": "IL"
+      },
+      {
+        "state": "Washington",
+        "stateCode": "WA"
+      },
+      {
+        "state": "South Carolina",
+        "stateCode": "SC"
+      },
+      {
+        "state": "Vermont",
+        "stateCode": "VT"
+      },
+      {
+        "state": "Arkansas",
+        "stateCode": "AR"
+      },
+      {
+        "state": "District of Columbia",
+        "stateCode": "DC"
+      },
+      {
+        "state": "Palau",
+        "stateCode": "PW"
+      },
+      {
+        "state": "Colorado",
+        "stateCode": "CO"
+      },
+      {
+        "state": "Tennessee",
+        "stateCode": "TN"
+      },
+      {
+        "state": "Ohio",
+        "stateCode": "OH"
+      },
+      {
+        "state": "Delaware",
+        "stateCode": "DE"
+      },
+      {
+        "state": "Pennsylvania",
+        "stateCode": "PA"
+      },
+      {
+        "state": "North Dakota",
+        "stateCode": "ND"
+      },
+      {
+        "state": "South Dakota",
+        "stateCode": "SD"
+      },
+      {
+        "state": "Oklahoma",
+        "stateCode": "OK"
+      },
+      {
+        "state": "Virginia",
+        "stateCode": "VA"
+      },
+      {
+        "state": "Puerto Rico",
+        "stateCode": "PR"
+      },
+      {
+        "state": "Georgia",
+        "stateCode": "GA"
+      }
+    ]
+  }
+]

@@ -1,0 +1,12 @@
+import React, { useEffect, Fragment } from "react";
+import { useRouter } from 'next/router'
+
+export default function ScrollToTop(props) {
+  const router = useRouter()
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [router.pathname]);
+
+  return <Fragment>{props.children}</Fragment>;
+}

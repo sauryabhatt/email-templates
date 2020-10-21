@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'senregular';
+    src: url('sen-regular-webfont.eot');
+    src: url('sen-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('sen-regular-webfont.woff') format('woff'),
+         url('sen-regular-webfont.ttf') format('truetype'),
+         url('sen-regular-webfont.svg#senregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+

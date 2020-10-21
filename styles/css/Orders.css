@@ -1,0 +1,125 @@
+.download-invoice-btn {
+    background: #D9BB7F;
+    border-radius: 10px;
+    /* height: 6vh; */
+    min-width: 35%;
+    font-size: 14px;
+    font-family: senregular;
+    font-weight: bold;
+    color: #191919;
+    text-transform: uppercase;
+    border: none;
+}
+
+.download-invoice-btn:hover,
+.download-invoice-btn:active,
+.download-invoice-btn:focus {
+    background: #d9bb7f !important;
+    color: #191919;
+}
+
+.download-invoice-btn:disabled {
+    background: #c4c4c4 !important;
+    color: #191919;
+    opacity: 0.4;
+}
+
+.download-invoice-btn-mob:disabled {
+    background: #d9bb7f !important;
+    color: #191919;
+}
+
+.download-section {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.first-row {
+    margin-bottom: 25px;
+}
+
+.seller-name {
+    display: flex;
+    align-items: center;
+}
+
+.download-invoice-btn-mob {
+    background: #D9BB7F;
+    border-radius: 10px;
+    /* height: 6vh; */
+    /* min-width: 35%; */
+    font-size: 12px;
+    font-family: senregular;
+    font-weight: bold;
+    color: #191919;
+    text-transform: uppercase;
+    border: none;
+}
+
+.download-invoice-btn-mob:hover,
+.download-invoice-btn-mob:active,
+.download-invoice-btn-mob:focus {
+    background: #d9bb7f !important;
+}
+
+.orders-breadcumb .breadcrumb-text {
+    font-family: senregular;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 110%;
+  letter-spacing: 0.01em;
+  text-transform: capitalize;
+  color: #d9bb7f;
+}
+
+.retry-payment-btn {
+    background: #874439;
+    border-radius: 10px;
+    /* height: 6vh; */
+    min-width: 35%;
+    font-size: 14px;
+    font-family: senregular;
+    font-weight: bold;
+    color: #191919;
+    text-transform: uppercase;
+    border: none;
+}
+
+.retry-payment-btn:hover {
+    background: #874439 !important;
+    color: #F9F7F2;
+}
+
+.retry-payment-btn-mob {
+    background: #874439;
+    border-radius: 10px;
+    /* height: 6vh; */
+    min-width: 35%;
+    font-size: 14px;
+    font-family: senregular;
+    font-weight: bold;
+    color: #191919;
+    text-transform: uppercase;
+    border: none;
+}
+
+.retry-payment-btn-mob:hover {
+    background: #874439 !important;
+    color: #F9F7F2;
+}
+
+.show-more-circle {
+    background: #191919;
+    opacity: 0.7;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.circle-position {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

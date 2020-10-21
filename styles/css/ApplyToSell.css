@@ -1,0 +1,624 @@
+#apply-to-sell-form {
+  background-color: #332f2f;
+  background-image: url("https://cdn.qalara.com/images/Img_ApplyToSell_Bird_Outline.png");
+  background-size: 30%;
+  background-repeat: no-repeat;
+  background-position: top left;
+  min-height: 100vh;
+  padding-top: calc(4% + 81px);
+}
+
+@media only screen and (min-width: 768px) {
+  #apply-to-sell-form .main-left {
+    min-height: 100vh;
+  }
+
+  #apply-to-sell-form .main-right {
+    /* padding-top: 8%; */
+    min-height: 60vh;
+    padding-top: 4%;
+  }
+
+  #apply-to-sell-form .ellipse {
+    position: absolute;
+    /* background: url("./../../filestore/Ellipse\ 160.png"); */
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: top;
+    width: 100%;
+    height: 100%;
+  }
+
+  #apply-to-sell-form .bird {
+    position: absolute;
+    /* background: url("./../../filestore/Vector.png"); */
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: bottom;
+    width: 100%;
+    height: 100%;
+    left: 6%;
+  }
+
+  #apply-to-sell-form .picture {
+    position: absolute;
+    /* background: url("./../../filestore/Vector-1.png"); */
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: bottom;
+    width: 100%;
+    height: 100%;
+  }
+
+  #apply-to-sell-form .button-back {
+    position: absolute;
+    top: 17%;
+    left: 3%;
+    z-index: 1;
+  }
+
+  #apply-to-sell-form .signup-heading {
+    font-family: Butler;
+    font-size: 50px;
+    line-height: 110%;
+    letter-spacing: 0.01em;
+    color: #ffffff;
+    margin-bottom: 5%;
+  }
+
+  #apply-to-sell-form .form-item {
+    /* margin-bottom: 2.5%; */
+  }
+
+  #apply-to-sell-form .radio-group {
+    width: 100%;
+  }
+
+  #apply-to-sell-form .buy-sell {
+    font-size: 12px;
+    height: 100%;
+    padding: 8% 0% 8% 0%;
+    /* line-height: 110%; */
+    letter-spacing: 0.01em;
+  }
+
+  #apply-to-sell-form .buy-sell span {
+    display: flex;
+    margin-left: 5%;
+  }
+
+  #apply-to-sell-form .buy-sell .span-text {
+    margin-left: 10%;
+  }
+
+  #apply-to-sell-form input[type="text"] {
+    padding: 14px;
+    height: 100%;
+  }
+
+  /* #apply-to-sell-form .ant-input-group-addon {
+      padding: 14px;
+      height: 100%;
+    } */
+
+  #apply-to-sell-form .ant-select-selector {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    height: 100%;
+  }
+
+  #apply-to-sell-form .congratulation-content {
+    /* position: relative;
+      top: 50%;
+      transform: translateY(-50%); */
+    text-align: center;
+  }
+
+  #apply-to-sell-form .congratulation-head {
+    font-family: Butler;
+    font-size: 40px;
+    line-height: 110%;
+    letter-spacing: 0.01em;
+    color: #ffffff;
+    margin-bottom: 5%;
+  }
+
+  #apply-to-sell-form .congratulation-para {
+    font-family: senregular;
+    font-size: 12px;
+    line-height: 110%;
+    letter-spacing: 0.01em;
+    color: #ffffff;
+    margin-bottom: 5%;
+    padding: 0 25% 0 25%;
+  }
+
+  #apply-to-sell-form .congratulation-button {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 70px;
+    background: transparent;
+    border: 1px solid rgb(217, 187, 127);
+    font-family: senregular;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: rgb(217, 187, 127);
+    border-radius: 0;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  #apply-to-sell-form .main-left {
+    min-height: 75vh;
+    /* margin-bottom: 7%; */
+  }
+
+  #apply-to-sell-form .main-right {
+    padding-top: 10%;
+  }
+
+  #apply-to-sell-form .ellipse {
+    position: absolute;
+    /* background: url("./../../filestore/Ellipse\ 160\ \(2\).png"); */
+    background-size: 85%;
+    background-repeat: no-repeat;
+    background-position: center right;
+    width: 100%;
+    height: 100%;
+  }
+
+  #apply-to-sell-form .bird {
+    position: absolute;
+    /* background: url("./../../filestore/Vector\ \(2\).png"); */
+    background-size: 85%;
+    background-repeat: no-repeat;
+    background-position: bottom left;
+    width: 100%;
+    height: 100%;
+    /* left: 0%; */
+    top: 7%;
+  }
+
+  #apply-to-sell-form .picture {
+    position: absolute;
+    /* background: url("./../../filestore/Vector-1\ \(2\).png"); */
+    background-size: 85%;
+    background-repeat: no-repeat;
+    background-position: bottom left;
+    width: 100%;
+    height: 100%;
+  }
+
+  #apply-to-sell-form .button-back {
+    position: absolute;
+    top: 17%;
+    left: 3%;
+    z-index: 1;
+  }
+
+  #apply-to-sell-form .signup-heading {
+    font-family: Butler;
+    font-size: 50px;
+    line-height: 110%;
+    letter-spacing: 0.01em;
+    color: #ffffff;
+    margin-bottom: 5%;
+    text-align: center;
+  }
+
+  #apply-to-sell-form .form-item {
+    /* margin-bottom: 2.5%; */
+  }
+
+  #apply-to-sell-form .radio-group {
+    width: 100%;
+  }
+
+  #apply-to-sell-form .buy-sell {
+    font-size: 12px;
+    height: 100%;
+    padding: 8% 0% 8% 0%;
+    /* line-height: 110%; */
+    letter-spacing: 0.01em;
+  }
+
+  #apply-to-sell-form .buy-sell span {
+    display: flex;
+    margin-left: 5%;
+  }
+
+  #apply-to-sell-form .buy-sell .span-text {
+    margin-left: 10%;
+  }
+
+  #apply-to-sell-form input[type="text"] {
+    padding: 14px;
+    height: 100%;
+  }
+
+  /* #apply-to-sell-form .ant-input-group-addon {
+      padding: 14px;
+      height: 100%;
+    } */
+
+  #apply-to-sell-form .ant-select-selector {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    height: 100%;
+  }
+
+  #apply-to-sell-form .congratulation-content {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    padding: 25% 0 50% 0;
+  }
+
+  #apply-to-sell-form .congratulation-head {
+    font-family: Butler;
+    font-size: 40px;
+    line-height: 110%;
+    letter-spacing: 0.01em;
+    color: #ffffff;
+    margin-bottom: 5%;
+  }
+
+  #apply-to-sell-form .congratulation-para {
+    font-family: senregular;
+    font-size: 12px;
+    line-height: 110%;
+    letter-spacing: 0.01em;
+    color: #ffffff;
+    margin-bottom: 5%;
+    padding: 0 20% 0 20%;
+  }
+
+  #apply-to-sell-form .congratulation-button {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: 70px;
+    background: transparent;
+    border: 1px solid rgb(217, 187, 127);
+    font-family: senregular;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: rgb(217, 187, 127);
+    /* border-radius: 4px; */
+    border-radius: 0;
+  }
+}
+
+#apply-to-sell-form .section-heading {
+  font-family: senregular;
+  font-size: 24px;
+  /* color: rgb(255, 255, 255, 0.3); */
+  color: rgb(255, 255, 255);
+}
+
+#apply-to-sell-form .section-button {
+  font-size: 24px;
+  color: rgb(255, 255, 255);
+}
+
+#apply-to-sell-form .label-paragraph-heading {
+  font-family: senregular;
+  font-size: 14px;
+  font-weight: 300;
+  /* color: rgb(255, 255, 255, 0.3); */
+  color: rgb(255, 255, 255);
+}
+
+#apply-to-sell-form .label-paragraph {
+  font-family: senregular;
+  font-size: 14px;
+  /* color: rgb(255, 255, 255, 0.3); */
+  color: rgb(255, 255, 255);
+  margin-bottom: 10px;
+}
+
+#apply-to-sell-form .upload-button {
+    border: none;
+    border-radius: 0;
+    color: #000000;
+    background-color: rgb(217, 187, 127);
+    height: 43.66px;
+}
+
+
+#apply-to-sell-form-modal {
+  background-color: #f9f7f2;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url("https://cdn.qalara.com/images/Img_Bird_Outline.png");
+  background-position: center;
+  text-align: center;
+  padding: 40px;
+}
+
+#apply-to-sell-form-modal .apply-to-sell-form-modal-content {
+  padding: 55px 35px;
+}
+
+#apply-to-sell-form-modal .apply-to-sell-form-modal-para1 {
+  font-family: Butler;
+  font-weight: 600;
+  font-size: 35px;
+  line-height: 110%;
+  letter-spacing: 0.01em;
+  margin-bottom: 15px;
+}
+
+#apply-to-sell-form-modal .apply-to-sell-form-modal-para2 {
+  font-family: senregular;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 160%;
+  letter-spacing: 0.01em;
+  margin-bottom: 40px;
+}
+
+#apply-to-sell-form-modal .apply-to-sell-form-modal-button {
+  font-family: senregular;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 140%;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border: 1px solid #000000;
+  box-sizing: border-box;
+  width: 100%;
+  height: 60px;
+  color: black;
+}
+/* #apply-to-sell-form .input-with-upload {
+  display: inline-block;
+  width: calc(80% - 17px);
+} */
+
+/* #apply-to-sell-form .upload-with-input {
+  display: inline-block;
+  border: none;
+  border-radius: 0;
+  color: #000000;
+  background-color: rgb(217, 187, 127);
+  width: 20%;
+  height: 43.66px;
+  margin-left: 17px;
+} */
+
+/* #apply-to-sell-form .upload-with-input-item{
+    display: block;
+    width: 100%;
+    text-align: center;
+} */
+
+#apply-to-sell-form .check-box-tnc {
+  font-family: senregular;
+  font-size: 12px;
+  color: rgb(255, 255, 255, 0.3);
+}
+
+#apply-to-sell-form .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: rgb(217, 187, 127) !important;
+  border-radius: 4px !important;
+  border: 1px solid rgb(217, 187, 127) !important;
+}
+
+#apply-to-sell-form .ant-checkbox-wrapper:hover .ant-checkbox-inner,
+.ant-checkbox:hover .ant-checkbox-inner,
+.ant-checkbox-input:focus + .ant-checkbox-inner {
+  border: 1px solid rgb(217, 187, 127) !important;
+}
+
+#apply-to-sell-form .ant-checkbox-checked::after {
+  border: 1px solid rgb(217, 187, 127) !important;
+}
+
+/* #apply-to-sell-form  input:-webkit-autofill,
+  input:-webkit-autofill:hover, 
+  input:-webkit-autofill:focus, 
+  input:-webkit-autofill:active  {
+    -webkit-text-fill-color: rgb(217, 187, 127, 0.9) !important;
+    -webkit-box-shadow: 0 0 0px 1000px #332f2f inset;
+    border: 1px solid rgb(255, 255, 255, 0.16) !important;
+  } */
+
+#apply-to-sell-form input[type="text"] {
+  background-color: #332f2f;
+  font-family: senregular;
+  font-size: 12px;
+  color: rgb(217, 187, 127, 0.9);
+  box-sizing: border-box;
+  border: 1px solid rgb(255, 255, 255, 0.16);
+  border-radius: 4px;
+}
+
+#apply-to-sell-form input[type="text"]:hover {
+  border: 1.5px solid rgb(217, 187, 127, 0.4);
+}
+
+#apply-to-sell-form .no-border {
+  border: none;
+}
+
+/* #apply-to-sell-form .ant-form-item-has-error .ant-input:not([disabled]):hover,
+  .ant-form-item-has-error .ant-input-affix-wrapper:not([disabled]):hover {
+    border-color: #ff4d4f;
+  }
+  
+  #apply-to-sell-form .ant-form-item-has-error .ant-input:focus,
+  .ant-form-item-has-error .ant-input-affix-wrapper:focus,
+  .ant-form-item-has-error .ant-input-focused,
+  .ant-form-item-has-error .ant-input-affix-wrapper-focused {
+    border-color: #ff4d4f;
+  } */
+
+#apply-to-sell-form textarea {
+  background-color: #332f2f;
+  font-family: senregular;
+  font-size: 12px;
+  color: rgb(217, 187, 127, 0.9);
+  box-sizing: border-box;
+  border: 1px solid rgb(255, 255, 255, 0.16);
+  border-radius: 4px;
+}
+
+#apply-to-sell-form textarea:hover {
+  border: 1.5px solid rgb(217, 187, 127, 0.4);
+}
+
+#apply-to-sell-form .ant-input-group-addon {
+  background-color: #332f2f;
+  font-family: senregular;
+  font-size: 12px;
+  color: rgb(217, 187, 127, 0.9);
+  box-sizing: border-box;
+  border: 1px solid rgb(255, 255, 255, 0.16);
+  border-radius: 4px;
+}
+
+#apply-to-sell-form .ant-input-group-addon:hover {
+  border: 1.5px solid rgb(217, 187, 127, 0.4);
+}
+
+#apply-to-sell-form .ant-select-selector {
+  background-color: #332f2f;
+  font-family: senregular;
+  font-size: 12px;
+  color: rgb(217, 187, 127, 0.9);
+  box-sizing: border-box;
+  border: 1px solid rgb(255, 255, 255, 0.16) !important;
+  border-radius: 4px;
+}
+
+#apply-to-sell-form .ant-select-selector:hover {
+  border: 1.5px solid rgb(217, 187, 127, 0.4);
+}
+
+#apply-to-sell-form .ant-form-item-has-error .ant-select .ant-select-selector {
+  border: 1px solid rgb(255, 255, 255, 0.16) !important;
+}
+
+#apply-to-sell-form .ant-picker {
+  background-color: #f9f7f2;
+}
+
+#apply-to-sell-form .ant-select-arrow {
+  color: rgb(217, 187, 127, 0.9);
+}
+
+#apply-to-sell-form .ant-form-item-has-error .ant-form-item-explain,
+.ant-form-item-has-error .ant-form-item-split {
+  font-family: senregular;
+  font-size: 12px;
+  line-height: 110%;
+  letter-spacing: 0.01em;
+}
+
+#apply-to-sell-form .submit-button {
+  background: #ffffff;
+  border-radius: 4px;
+  width: 100%;
+  height: 70px;
+  font-size: 12px;
+  font-family: senregular;
+  font-weight: bold;
+  color: black;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 0;
+  margin-bottom: 40px;
+}
+
+#apply-to-sell-form .ant-upload-list-item-list-type-text a{
+  color: #d9bb7f !important;
+}
+
+#apply-to-sell-form .ant-upload-list-item-info .anticon-loading .anticon, .ant-upload-list-item-info .ant-upload-text-icon .anticon{
+  color: #d9bb7f;
+}
+
+#apply-to-sell-form .ant-upload-list-item-card-actions .anticon{
+  color: #ffffff;
+}
+
+#apply-to-sell-form .ant-upload-list{
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#apply-to-sell-form .ant-upload-list-item{
+  margin: auto;
+}
+
+#apply-to-sell-form .ant-upload-list-item:hover .ant-upload-list-item-info{
+  background-color: rgb(207, 178, 122, 0.2);;
+}
+
+#apply-to-sell-form
+  .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):first-child
+  .icon-theme-1
+  path {
+  /* fill: #d9bb7f; */
+  stroke: #332f2f;
+}
+
+#apply-to-sell-form
+  .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):first-child
+  .icon-theme-1
+  circle {
+  fill: #d9bb7f;
+  stroke: #332f2f;
+}
+
+#apply-to-sell-form
+  .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):first-child
+  .icon-theme-1
+  rect {
+  /* fill: #d9bb7f; */
+  stroke: #332f2f;
+}
+
+/* #apply-to-sell-form .ant-radio-button-wrapper:hover .icon-theme-1 path {
+    stroke: #332f2f;
+  }
+  
+  #apply-to-sell-form .ant-radio-button-wrapper:hover .icon-theme-1 circle {
+    fill: #d9bb7f;
+    stroke: #332f2f;
+  }
+  
+  #apply-to-sell-form .ant-radio-button-wrapper:hover .icon-theme-1 rect {
+    stroke: #332f2f;
+  } */
+
+#apply-to-sell-form .buy-sell {
+  font-family: senregular;
+  color: #d9bb7f;
+  width: 100%;
+  border: none;
+  background: rgb(217, 187, 127, 0.1);
+  border-radius: 4px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+#apply-to-sell-form
+  .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):first-child {
+  color: #332f2f;
+  background: rgb(217, 187, 127);
+}
+
+/* #apply-to-sell-form .ant-radio-button-wrapper:hover {
+    color: #332f2f;
+    background: rgb(217, 187, 127);
+    opacity: 0.4;
+    border: 1.5px solid rgb(217, 187, 127, 0.4);
+  } */

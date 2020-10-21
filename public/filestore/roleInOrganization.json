@@ -1,0 +1,30 @@
+[
+    {
+        "key": "Owner/CEO",
+        "value": "Owner/CEO"
+    },
+    {
+        "key": "Business Development team",
+        "value": "Business Development team"
+    },
+    {
+        "key": "Marketing team",
+        "value": "Marketing team"
+    },
+    {
+        "key": "Design team",
+        "value": "Design team"
+    },
+    {
+        "key": "Sourcing team",
+        "value": "Sourcing team"
+    },
+    {
+        "key": "Buying team",
+        "value": "Buying team"
+    },
+    {
+        "key": "Others",
+        "value": "Others"
+    }
+]

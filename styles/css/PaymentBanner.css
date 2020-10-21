@@ -1,0 +1,195 @@
+/** @format */
+
+#payment-banner {
+  position: relative;
+  background-color: #d8d1c2;
+  /* background-image: url("https://cdn.qalara.com/images/Img_Bird_Outline.png"); */
+  /* background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center; */
+  /* height: 72vh; */
+  text-align: center;
+  margin-top: -10px;
+  padding: 5vh 8vw 8vh 8vw;
+}
+
+/* #payment-banner .circle {
+  position: absolute;
+  background-color: #918f89;
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  top: 32%;
+  left: 28%;
+} */
+
+/* #payment-banner .heading {
+  position: absolute;
+  font-family: Butler;
+  font-size: 50px;
+  top: -23%;
+  left: 28%;
+  width: 80vw;
+  color: white;
+} */
+
+/* #payment-banner .paragraph {
+  font-family: senregular;
+  font-size: medium;
+  letter-spacing: 0.04em;
+} */
+
+@media only screen and (min-width: 768px) {
+  #payment-banner .circle {
+    position: absolute;
+    background-color: #918f89;
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    top: 32%;
+    left: 28%;
+  }
+
+  #payment-banner .bird-shape {
+    position: absolute;
+    background-color: transparent;
+    /* background-image: url("https://cdn.qalara.com/images/bird-5.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center; */
+    width: 22vw;
+    height: 13vw;
+    top: 48%;
+    left: 50%;
+    transform: translateX(-50%) matrix(-1, 0, 0, 1, 0, 0);
+  }
+
+  #payment-banner .heading {
+    /* position: absolute; */
+    display: inline-block;
+    font-family: Butler;
+    font-size: 36px;
+    line-height: 110%;
+    letter-spacing: 0.01em;
+    font-weight: 300;
+    /* top: -23%; */
+    /* left: 28vw; */
+    width: 62vw;
+    text-align: center;
+    color: #191919;
+  }
+
+  #payment-banner .heading h5 {
+    /* position: absolute; */
+    font-family: Butler;
+    font-size: 36px;
+    line-height: 110%;
+    letter-spacing: 0.01em;
+    font-weight: 400;
+    margin-bottom: 10px;
+    /* top: -23%; */
+    /* left: 28vw; */
+    width: 62vw;
+    color: #191919 !important;
+  }
+
+  #payment-banner .paragraph {
+    font-family: senregular;
+    font-size: 16px;
+    padding: 2vw 12.5vw 0 12.5vw;
+    line-height: 140%;
+    letter-spacing: 0.01em;
+    font-weight: 400;
+    /* letter-spacing: 0.04em; */
+  }
+
+  #payment-banner .paragraph-points {
+    font-family: senregular;
+    font-size: 17px;
+    color: #191919;
+    line-height: 160%;
+    letter-spacing: 0.01em;
+    /* letter-spacing: 0.04em; */
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  #payment-banner .circle {
+    position: absolute;
+    background-color: #918f89;
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+    top: 32%;
+    left: 28%;
+  }
+
+  #payment-banner .bird-shape {
+    position: absolute;
+    background-color: transparent;
+    /* background-image: url("https://cdn.qalara.com/images/bird-5.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center; */
+    width: 58vw;
+    height: 34vw;
+    top: 64%;
+    left: 50%;
+    transform: translateX(-50%) matrix(-1, 0, 0, 1, 0, 0);
+  }
+
+  #payment-banner .heading {
+    /* position: absolute; */
+    font-family: Butler;
+    font-size: 24px;
+    line-height: 110%;
+    letter-spacing: 0.01em;
+    /* font-weight: bold; */
+    font-weight: 300;
+    /* top: -43%;
+    left: -14vw; */
+    width: 72vw;
+    color: white;
+    text-align: center;
+  }
+
+  #payment-banner .heading h5 {
+    /* position: absolute; */
+    font-size: 28px;
+
+    color: #191919 !important;
+  }
+
+  #payment-banner .paragraph {
+    font-family: senregular;
+    font-size: 14px;
+    line-height: 110%;
+    letter-spacing: 0.01em;
+    padding-top: 6vw;
+    line-height: 140%;
+    font-weight: 400;
+    /* letter-spacing: 0.04em; */
+  }
+
+  #payment-banner .paragraph-points {
+    font-family: senregular;
+    font-size: 14px;
+    line-height: 140%;
+    letter-spacing: 0.01em;
+    padding-top: 0vw;
+    color: #191919;
+    /* letter-spacing: 0.04em; */
+  }
+  #payment-banner {
+    position: relative;
+    background-color: #d8d1c2;
+    /* background-image: url("https://cdn.qalara.com/images/Img_Bird_Outline.png"); */
+    /* background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center; */
+    /* height: 72vh; */
+    text-align: center;
+    margin-top: -10px;
+    padding: 2.2vh 8vw 8vh 8vw;
+  }
+}

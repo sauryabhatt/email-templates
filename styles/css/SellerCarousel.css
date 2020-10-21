@@ -1,0 +1,421 @@
+/** @format */
+
+#seller-carousel {
+  position: relative;
+  background-color: #99907f;
+  height: 84vh;
+  text-align: center;
+  overflow: hidden;
+}
+
+#seller-carousel .carousel-inner {
+  position: relative;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+/* #seller-carousel .slick-current {
+      margin: auto 2vw auto 2vw;
+  } */
+
+#seller-carousel .slick-current .slider-slide-main {
+  transition: all 0.5s ease;
+  transform: translateY(-50%) scale(1.58);
+}
+
+#seller-carousel .slider-image-text {
+  display: none;
+}
+
+#seller-carousel .slider-button {
+  position: absolute;
+  bottom: 0;
+  margin: auto;
+  width: 100%;
+}
+
+#seller-carousel .button-seller-group {
+  height: 8vh;
+  background: #ffffff;
+}
+
+#seller-carousel .button-seller {
+  font-family: senregular;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 140%;
+  letter-spacing: 0.06em;
+  color: black;
+  text-transform: uppercase;
+  padding: 0 5vw 0 5vw;
+  border-color: #ffffff !important;
+  height: 48px !important;
+}
+
+@media only screen and (min-width: 320px) and (max-width: 400px) {
+  #seller-carousel {
+    height: 70vh !important;
+  }
+  #seller-carousel .slider-button {
+    bottom: 40px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    top: 72%;
+  }
+}
+
+@media only screen and (min-width: 350px) and (max-width: 400px) {
+  #seller-carousel {
+    height: 80vh !important;
+  }
+  #seller-carousel .slider-button {
+    bottom: 40px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    top: 75%;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  #seller-carousel {
+    height: 50vh !important;
+  }
+  #seller-carousel .slider-button {
+    bottom: 80px;
+  }
+}
+
+@media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation: landscape) {
+  /* For landscape layouts only */
+  #seller-carousel {
+    height: 69vh !important;
+  }
+}
+
+@media only screen and (min-width: 1025px) and (max-width: 1366px) {
+  #seller-carousel {
+    height: 88vh !important;
+  }
+  #seller-carousel .slider-button {
+    bottom: 40px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    top: 76%;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  #seller-carousel .carousel-text {
+    /* position: relative; */
+    /* top: 5vh; */
+    font-family: Butler;
+    font-size: 36px;
+    /* font-weight: 600; */
+    color: #ffffff;
+    letter-spacing: 0.01em;
+    line-height: 110%;
+    margin-bottom: 24px;
+    margin-top: 40px;
+  }
+
+  .seller-explore-text {
+    color: #f9f7f2;
+    font-size: 17px;
+    /*margin-bottom: 8px;*/
+    font-family: senregular;
+  }
+
+  #seller-carousel .circle {
+    position: absolute;
+    background-color: #c2b7a2;
+    /* opacity: 0.2; */
+    border-radius: 50%;
+    width: 24vw;
+    height: 24vw;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+  }
+
+  #seller-carousel .carousel-main {
+    /*font-family: Butler; */
+    /* font-size: x-large; */
+    position: relative;
+    top: 17%;
+    transform: translateY(-25%);
+    /* top: 9vh; */
+    margin-left: -75px;
+    margin-right: -75px;
+    /* height: 30vh;*/
+  }
+
+  #seller-carousel .slider-slide {
+    height: 20vw;
+  }
+
+  #seller-carousel .slider-slide-main {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #99907f;
+    background-position: center;
+    margin: auto;
+    width: 12vw;
+    height: 12vw;
+  }
+
+  #seller-carousel .slick-current .slider-image-text {
+    position: relative;
+    top: 85%;
+    font-family: Butler;
+    /* font-weight: bold; */
+    font-size: 14px;
+    /* line-height: 140%; */
+    display: flex;
+    line-height: 110%;
+    letter-spacing: 0.01em;
+    color: #ffffff;
+    transform: translateY(-50%);
+    justify-content: center;
+  }
+
+  #seller-carousel .button-show-more {
+    font-family: senregular;
+    font-size: 12px;
+    position: absolute;
+    color: #ffffff;
+    right: 7%;
+    top: 95%;
+    /* bottom: 29%; */
+    transform: translateY(-95%);
+    text-transform: uppercase;
+  }
+  #seller-carousel .button-show-more:hover, #seller-carousel .button-show-more:focus{
+    border: none !important;
+  }
+  
+  #seller-carousel .button-show-more span {
+    margin-left: -3px;
+  }
+
+  #seller-modal {
+    background-color: #f9f7f2;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url("https://cdn.qalara.com/images/Img_Bird_Outline.png");
+    background-position: center;
+    text-align: center;
+    padding: 60px;
+  }
+
+  #seller-modal .seller-modal-content {
+    padding: 0 35px;
+  }
+
+  #seller-modal .seller-modal-para1 {
+    font-family: Butler;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 110%;
+    letter-spacing: 0.01em;
+    margin-bottom: 40px;
+  }
+
+  #seller-modal .seller-modal-para2 {
+    font-family: senregular;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 160%;
+    letter-spacing: 0.01em;
+    margin-bottom: 40px;
+  }
+
+  #seller-modal .seller-modal-button {
+    font-family: senregular;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 140%;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    width: 100%;
+    height: 60px;
+    color: black;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  #seller-carousel .carousel-text {
+    padding: 8% 8% 2%;
+    font-family: Butler;
+    font-size: 24px;
+    /* font-weight: 600; */
+    color: #ffffff;
+    letter-spacing: 0.01em;
+    line-height: 110%;
+    margin-bottom: 0px;
+  }
+
+  .seller-explore-text {
+    color: #f9f7f2;
+    font-size: 14px;
+    margin-bottom: 0px;
+    margin-bottom: 20px;
+    font-family: senregular;
+  }
+
+  .seller-carousel-heading {
+    margin-bottom: 3%;
+  }
+
+  #seller-carousel {
+    height: 75vh;
+  }
+
+  #seller-carousel .circle {
+    position: absolute;
+    background-color: #c2b7a2;
+    /* opacity: 0.2; */
+    border-radius: 50%;
+    width: 72vw;
+    height: 72vw;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+  }
+
+  #seller-carousel .carousel-main {
+    /* font-family: Butler;
+    font-size: x-large;
+    position: relative;
+    top: 8vh; */
+    /* margin-left: -75px;
+        margin-right: -75px; */
+    /* -ms-transform: translateY(-50%);
+        transform: translateY(-50%); */
+    /* height: 30vh; */ /*font-family: Butler; */
+    /* font-size: x-large; */
+    position: relative;
+    top: 13%;
+    transform: translateY(-25%);
+    /* top: 9vh; */
+    margin-left: 5%;
+    margin-right: 5%;
+    /* height: 30vh;*/
+  }
+
+  #seller-carousel .slider-slide {
+    height: 66vw;
+  }
+
+  #seller-carousel .slider-slide-main {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #99907f;
+    background-position: center;
+    margin: auto;
+    width: 38vw;
+    height: 38vw;
+  }
+
+  #seller-carousel .slick-current .slider-image-text {
+    position: relative;
+    top: 85%;
+    font-family: Butler;
+    /* font-weight: bold; */
+    font-size: 14px;
+    /* line-height: 140%; */
+    display: flex;
+    line-height: 110%;
+    letter-spacing: 0.01em;
+    color: #ffffff;
+    transform: translateY(-50%);
+    justify-content: center;
+  }
+
+  #seller-carousel .button-show-more {
+    display: none;
+    font-family: senregular;
+    font-size: 12px;
+    position: absolute;
+    color: #ffffff;
+    right: 10%;
+    /* top: 86%; */
+    bottom: 25%;
+    /* transform: translateX(385%) translateY(100%); */
+    text-transform: uppercase;
+  }
+  #seller-carousel .button-show-more span {
+    margin-left: -3px;
+  }
+
+  #seller-modal {
+    background-color: #f9f7f2;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url("https://cdn.qalara.com/images/Img_Bird_Outline.png");
+    background-position: center;
+    text-align: center;
+    padding: 25px;
+  }
+
+  #seller-modal .seller-modal-content {
+    padding: 0 35px;
+  }
+
+  #seller-modal .seller-modal-para1 {
+    font-family: Butler;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 110%;
+    letter-spacing: 0.01em;
+    margin-bottom: 30px;
+  }
+
+  #seller-modal .seller-modal-para2 {
+    font-family: senregular;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 160%;
+    letter-spacing: 0.01em;
+    margin-bottom: 30px;
+  }
+
+  #seller-modal .seller-modal-button {
+    font-family: senregular;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 140%;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    width: 100%;
+    height: 40px;
+    color: black;
+  }
+
+  #seller-carousel .button-seller {
+    padding: 0 15vw 0 15vw;
+    font-size: 12px;
+  }
+
+  #seller-carousel .slider-button {
+    bottom: 80px;
+  }
+}
+
+@media only screen and (min-width: 321px) and (max-width: 400px) {
+  .seller-carousel-heading {
+    margin-bottom: 5%;
+  }
+}

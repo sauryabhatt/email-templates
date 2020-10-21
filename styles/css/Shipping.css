@@ -1,0 +1,60 @@
+/** @format */
+
+.shipping-button {
+  width: 100%;
+  background: #d9bb7f;
+}
+.shipping-button:hover {
+  background: #d9bb7f;
+}
+.cart-section .shipping-section .cart-info-text {
+  text-align: left;
+}
+.shipping-section .qa-horizontal-scroll {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+}
+.shipping-section .shipping-mode-section .cart-prod-name {
+  font-size: 14px;
+}
+.shipping-section .shipping-mode-section .cart-prod-title {
+  font-size: 12px;
+}
+.payment-section .payment-subtitle {
+  display: block;
+  margin-left: 24px;
+}
+.payment-section .cart-info-text {
+  text-align: left;
+}
+.payment-section .ant-radio-group.ant-radio-group-outline {
+  width: 100%;
+}
+
+.sen-font {
+  font-family: senregular !important;
+}
+
+.font-bold {
+  font-weight: bold !important;
+}
+.shipping-section .shipping-mode-section {
+  border: 2px solid #f9f7f2;
+}
+.shipping-section .shipping-mode-section.selected {
+  border: 2px solid #d9bb7f;
+}
+.shipping-section .p-out-of-stock {
+  position: relative;
+  bottom: 0px;
+}
+.shipping-section .qa-no-ship {
+  color: #191919;
+  line-height: 140%;
+}
+.shipping-section .qa-ship-section {
+  background: #f2f0eb;
+  box-shadow: 0px 0px 2px rgba(25, 25, 25, 0.2),
+    0px 1px 1px rgba(25, 25, 25, 0.2);
+}

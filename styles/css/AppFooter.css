@@ -1,0 +1,116 @@
+/**
+ * /* .app-footer-text {
+ *   font-family: senregular;
+ *   font-weight: bold;
+ *   font-size: xx-small;
+ *   text-transform: uppercase;
+ *   text-align: center;
+ * }
+ *
+ * @format
+ */
+
+@media only screen and (min-width: 768px) {
+  #app-footer {
+    /* position: relative; */
+    /* bottom: 0%; */
+    /* top: 140%; */
+    background-color: #191919;
+    background-image: url("https://cdn.qalara.com/images/Img_Bird_Outline.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    /* margin-top: -80px; */
+    /* background: transparent; */
+    color: #ffffff;
+    padding: 7vh 0 0 0;
+    /* height: 18vh; */
+  }
+
+
+  #app-footer .app-footer-text {
+    font-family: senregular;
+    font-weight: bold;
+    font-size: smaller;
+    text-transform: uppercase;
+    text-align: center;
+    
+  }
+
+  #app-footer .app-footer-social {
+    margin: auto;
+    text-align: center;
+  }
+
+  #app-footer .app-footer-copyright {
+    font-family: senregular;
+    font-size: 10px;
+    font-weight: 100;
+    color: #908e88;
+    text-transform: uppercase;
+    text-align: center;
+    padding-top: 9vh;
+    padding-bottom: 2vh;
+  }
+  #app-footer.ant-layout-footer a {
+    text-decoration: none;
+    color: white;
+  }
+  #app-footer .footer-links {
+    padding: 0 20px;
+    text-align: right;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  #app-footer {
+    /* position: absolute; */
+    /* bottom: 0%; */
+    /* top: 140%; */
+    background-color: #191919;
+    background-image: url("https://cdn.qalara.com/images/Img_Bird_Outline.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    /* margin-top: -250px; */
+    /* background: transparent; */
+    color: #ffffff;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+  }
+  #app-footer .app-footer-text {
+    font-family: senregular;
+    font-weight: bold;
+    font-size: smaller;
+    text-transform: uppercase;
+    text-align: center;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  #app-footer .app-footer-social {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    margin: auto;
+    text-align: center;
+  }
+
+  #app-footer .app-footer-copyright {
+    font-family: senregular;
+    font-size: 9px;
+    font-weight: 100;
+    color: #908e88;
+    text-transform: uppercase;
+    text-align: center;
+    padding-top: 9vh;
+    padding-bottom: 2vh;
+  }
+  #app-footer.ant-layout-footer a {
+    text-decoration: none;
+  }
+  #app-footer .footer-links {
+    padding: 12px 20px;
+    text-align: center;
+  }
+}

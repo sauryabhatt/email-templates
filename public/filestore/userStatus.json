@@ -1,0 +1,15 @@
+{
+  "BUYER": {
+    "IN_PROGRESS": "Verification in progress",
+    "ON_HOLD": "Verification on hold",
+    "REJECTED": "Verification on hold",
+    "VERIFIED": "Verified"
+  },
+  "SELLER": {
+    "CREATED": "Not registered",
+    "IN_PROGRESS": "Registration in progress",
+    "ON_HOLD": "Registration on hold",
+    "REJECTED": "Registration on hold",
+    "REGISTERED": "Registered"
+  }
+}

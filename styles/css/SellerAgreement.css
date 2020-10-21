@@ -1,0 +1,186 @@
+/** @format */
+
+.agreemnt_accept .banner-button {
+  font-family: senregular;
+  /* font-style: normal; */
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 140%;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #000000;
+  background-color: #d9bb7f;
+  border: none;
+  border-radius: 0;
+  width: 150px;
+  height: 5vh;
+  /* padding: 15px 0 30px 0; */
+}
+
+.agreemnt_accept .banner-button:disabled,
+.agreemnt_accept .banner-button[disabled] {
+  background-color: #d9bb7f;
+}
+
+.banner-container-agreement-body .react-pdf__Page {
+  display: flex;
+  justify-content: center;
+}
+
+.agreement-text {
+  /* position: absolute; */
+  width: 750px;
+  padding-top: 50px;
+  font-size: 20px;
+  color: white;
+}
+
+.agreemnt_accept {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+@media print {
+  object {
+    display: none;
+  }
+}
+
+#banner-container-tandc_seller {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #4e4848;
+  background-image: url("https://cdn.qalara.com/images/Img_TermsOfSale_1x_Full_Width_Banner.png");
+  background-position: center;
+  min-width: 100%;
+  max-width: 100%;
+  height: 60vh;
+  max-height: 60vh;
+}
+
+@media only screen and (min-width: 768px) {
+  #banner-container-tandc_seller .banner-text {
+    position: absolute;
+    left: 10%;
+    right: 39.44%;
+    top: 25.93vh;
+    font-family: Butler;
+    /* font-style: normal; */
+    font-weight: 300;
+    font-size: 30pt;
+    /* letter-spacing: 0.01em; */
+    color: #ffffff;
+  }
+
+  #banner-container-tandc_seller .banner-text-small {
+    font-family: senregular;
+    font-size: 14.5px;
+    line-height: 160%;
+    letter-spacing: 0.02em;
+    color: #ffffff;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  #banner-container-tandc_seller .banner-text {
+    position: absolute;
+    left: 10%;
+    right: 20.44%;
+    top: 15.93vh;
+    font-family: Butler;
+    /* font-style: normal; */
+    font-weight: 300;
+    font-size: 30pt;
+    /* letter-spacing: 0.01em; */
+    color: #ffffff;
+  }
+
+  #banner-container-tandc_seller .banner-text-small {
+    font-family: senregular;
+    font-size: 12.5px;
+    line-height: 160%;
+    letter-spacing: 0.02em;
+    color: #ffffff;
+  }
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-device-pixel-ratio: 2) and (device-aspect-ratio: 40/71) {
+  #banner-container-tandc_seller .banner-text {
+    font-size: 22pt !important;
+  }
+}
+
+@media only screen and (min-device-width: 360px) and (max-device-width: 640px) and (-webkit-device-pixel-ratio: 2) {
+  #banner-container-tandc_seller .banner-text {
+    font-size: 22pt !important;
+  }
+}
+
+@media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-device-pixel-ratio: 2) {
+  #banner-container-tandc_seller .banner-text {
+    font-size: 28pt !important;
+  }
+}
+
+
+.react-pdf__Page .ant-checkbox-checked .ant-checkbox-inner {
+  border-color: #d9bb7f !important;
+  background: #d9bb7f !important;
+}
+
+.agreement-header {
+  color: #D9BB7F;
+  font-size: 41px;
+}
+
+.agreement-header-mob {
+  font-size: 17px;
+  color: #D9BB7F;
+  padding-right: 25px;
+  padding-left: 25px;
+  text-align: center;
+}
+
+.body-first-row {
+  padding-left: 100px;
+  padding-top: 60px;
+}
+
+.body-first-row-mob {
+  padding-left: 25px;
+  padding-top: 25px;
+}
+
+.body-second-row {
+  padding-left: 100px;
+  padding-top: 20px;
+}
+
+.body-second-row-mob {
+  padding-left: 25px;
+  padding-top: 25px;
+}
+
+@media only screen 
+  and (min-width: 1024px) 
+  and (max-height: 1366px) 
+  and (-webkit-min-device-pixel-ratio: 1.5) {
+    .agreement-header {
+      font-size: 24px;
+      color: #D9BB7F;
+      padding-right: 25px;
+      padding-left: 25px;
+      text-align: center;
+    }
+
+    .body-first-row {
+      padding-left: 40px;
+      padding-top: 60px;
+    }
+
+    .body-second-row {
+      padding-left: 40px;
+      padding-top: 20px;
+    }
+}

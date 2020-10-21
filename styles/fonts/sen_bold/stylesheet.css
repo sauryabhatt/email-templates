@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'senbold';
+    src: url('sen-bold-webfont.eot');
+    src: url('sen-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('sen-bold-webfont.woff') format('woff'),
+         url('sen-bold-webfont.ttf') format('truetype'),
+         url('sen-bold-webfont.svg#senbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+

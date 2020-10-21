@@ -1,0 +1,130 @@
+/** @format */
+
+.category-carousel {
+  padding: 28px 0 28px 28px;
+  background-color: #d8d1c2;
+}
+.category-heading-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-right: 28px;
+}
+.category-heading h3 {
+  font-family: Butler;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 36px;
+  letter-spacing: 0.01em;
+  color: #191919;
+}
+
+.category-heading p {
+  font-family: senregular;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 17px;
+  line-height: 24px;
+  letter-spacing: 0.01em;
+  color: #191919;
+}
+
+.category-heading-section .button-show-more {
+  /* position: absolute; */
+  font-family: senregular;
+  font-size: 12px;
+  color: #191919 !important;
+  bottom: 4.9%;
+  text-transform: uppercase;
+  right: 9%;
+  margin-left: 5px;
+}
+.category-heading-section .button-show-prev {
+  /* position: absolute; */
+  font-family: senregular;
+  font-size: 12px;
+  color: #191919 !important;
+  bottom: 4.9%;
+  text-transform: uppercase;
+  margin-right: 5px;
+}
+.category-heading-section .button-show-more span {
+  margin-left: -3px !important;
+}
+
+.category-heading-section .button-show-prev span {
+  margin-left: -3px !important;
+}
+.category-heading-section .ant-btn.ant-btn-link:hover,
+.category-heading-section .ant-btn:focus {
+  border: 1px solid transparent !important;
+}
+
+.category-card {
+  max-width: 380px;
+  border-radius: 0px;
+}
+
+.category-title {
+  width: 100%;
+  background-color: #c2b7a2;
+  font-family: Butler;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 60px;
+  text-align: center;
+  letter-spacing: 0.01em;
+  color: #191919;
+}
+
+.category-slider {
+  margin-top: 30px;
+  overflow: hidden;
+}
+
+/* the slides */
+.category-slider .slick-slide {
+  margin: 0 15px;
+  text-align: center;
+  overflow: hidden;
+}
+/* the parent */
+.category-slider .slick-list {
+  margin: 0 -15px;
+  overflow: hidden;
+}
+
+/*media query*/
+
+@media only screen and (max-width: 600px) {
+  .category-heading h3 {
+    font-size: 24px;
+    margin-bottom: 0px !important;
+  }
+
+  .category-heading p {
+    font-size: 14px;
+    line-height: 130%;
+  }
+
+  .category-title {
+    font-size: 16px;
+    line-height: 45px;
+  }
+  .category-slider .slick-slide {
+    margin: 0 10px;
+  }
+}
+.category-carousel.search-listing {
+  padding: 0px;
+  background-color: transparent;
+}
+.category-carousel.search-listing .category-heading {
+  visibility: hidden;
+}
+@media only screen and (max-width: 768px) {
+  .category-carousel.search-listing .category-heading {
+    display: none;
+  }
+}

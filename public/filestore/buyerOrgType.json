@@ -1,0 +1,42 @@
+[
+  {
+      "key": "Digital/ Online retailer",
+      "value": "Digital/ Online retailer"
+  },
+  {
+      "key": "Independent/ Boutique owner",
+      "value": "Independent/ Boutique owner"
+  },
+  {
+      "key": "Brick-and-mortar / Multi channel retailer",
+      "value": "Brick-and-mortar / Multi channel retailer"
+  },
+  {
+      "key": "Lifestyle brand",
+      "value": "Lifestyle brand"
+  },
+  {
+      "key": "Whole-seller / Importer",
+      "value": "Whole-seller / Importer"
+  },
+  {
+      "key": "Hotel, Restaurant, Cafe",
+      "value": "Hotel, Restaurant, Cafe"
+  },
+  {
+      "key": "Architect/ Interior Designer",
+      "value": "Architect/ Interior Designer"
+  },
+  {
+      "key": "Buying Agent",
+      "value": "Buying Agent"
+  },
+  {
+      "key": "Individual",
+      "value": "Individual"
+  },
+  {
+      "key": "Others",
+      "value": "Others"
+  }
+]

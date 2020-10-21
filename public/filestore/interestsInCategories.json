@@ -1,0 +1,35 @@
+[
+    {
+        "key": "Décor",
+        "value": "Décor"
+    },
+    {
+        "key": "Kitchen",
+        "value": "Kitchen"
+    },
+    {
+        "key": "Rugs & Carpets",
+        "value": "Rugs & Carpets"
+    },
+    {
+        "key": "Home Linen",
+        "value": "Home Linen"
+    },
+    {
+        "key": "Furniture",
+        "value": "Furniture"
+    },
+    {
+        "key": "Jewellery",
+        "value": "Jewellery"
+    },
+    {
+        "key": "Baby & Kids",
+        "value": "Baby & Kids"
+    },
+    {
+        "key": "Others",
+        "value": "Others"
+    }
+
+]

@@ -1,0 +1,578 @@
+/** @format */
+
+#banner-container {
+  /* background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url("https://cdn.qalara.com/images/banner_top.png"); */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url("https://cdn.qalara.com/images/Img_Main_1x_Full_Width_Banner.jpg");
+  background-color: #4e4848;
+  background-position: center;
+  min-width: 100%;
+  max-width: 100%;
+  height: 100vh;
+  max-height: 100vh;
+}
+
+.steps-container {
+  font-size: 12px;
+}
+
+@media only screen and (min-width: 768px) {
+  #banner-container .bird-vector {
+    position: absolute;
+    background: url("https://cdn.qalara.com/images/Img_Bird_Outline.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    /* min-width: calc(100% - 8.19%) ;
+    max-width: calc(100% - 8.19%);
+    height: calc(100vh - 2.48vh);
+    max-height: calc(100vh - 2.48vh); */
+    min-width: 100%;
+    max-width: 100%;
+    height: 100vh;
+    max-height: 100vh;
+    /* left:  8.19%;
+    top: 2.48vh; */
+    opacity: 0.9;
+  }
+
+  #banner-container .banner-text {
+    position: absolute;
+    left: 8.62%;
+    right: 52.44%;
+    top: 23.93vh;
+    font-family: Butler;
+    /* font-style: normal; */
+    font-weight: 300;
+    font-size: 60px;
+    line-height: 110%;
+    /* letter-spacing: 0.01em; */
+    color: #ffffff;
+  }
+
+  #banner-container .banner-text-small {
+    font-family: senregular;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 25px;
+    letter-spacing: 0.31px;
+    color: #ffffff;
+    margin-top: 30px;
+  }
+
+  #banner-container .banner-button-circle {
+    left: 45%;
+    transform: translateX(-50%);
+    top: 68vh;
+    width: 110px;
+    height: 110px;
+    background: #d9bb7f;
+    border-color: #d9bb7f;
+    cursor: pointer;
+    padding: 5px;
+    margin: 0 10px;
+  }
+  #banner-container .banner-button-circle.b-sellers {
+    background: #c2b7a2;
+    border-color: #c2b7a2;
+  }
+  #banner-container .banner-button-circle.b-invite {
+    background: #ac9d80;
+    border-color: #ac9d80;
+  }
+
+  #banner-container .banner-button-circle-text {
+    font-family: senregular;
+    /* white-space: pre-wrap; */
+    text-align: center;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 130%;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #191919;
+  }
+  #banner-container .banner-button-circle-text .banner-sub-text {
+    font-size: 11px;
+    color: rgba(51, 47, 47, 0.8);
+    text-transform: none;
+    padding-top: 4px;
+    line-height: 110%;
+    font-weight: 400;
+  }
+  #q-source-banner,
+  #q-rts-section {
+    position: relative;
+    background-color: rgba(216, 209, 194, 0.5);
+    /* background-image: url("https://cdn.qalara.com/images/Img_Bird_Outline.png"); */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    /* height: 72vh; */
+    text-align: left;
+    padding: 5vh 5vw 9vh 5vw;
+    color: #191919;
+  }
+  #q-rts-section {
+    padding-bottom: 0px;
+  }
+  /* #q-source-banner {
+    padding-top: 0px;
+  } */
+  #q-source-banner .banner-text,
+  #q-rts-section .banner-text {
+    font-family: Butler;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 32px;
+    letter-spacing: 0.7px;
+    /*color: #4E4848;*/
+  }
+  .steps-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 0 3%;
+    font-size: 14px;
+  }
+  .steps-container .qa-next-line {
+    font-size: 17px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+  }
+
+  .source-steps {
+    display: flex !important;
+    max-width: 100% !important;
+    flex-direction: row !important;
+    flex: 1 !important;
+    margin: 5px 0 18px 0 !important;
+  }
+  .payment-banner-home-page {
+    margin-top: 20px;
+  }
+  .q-source-title {
+    padding: 0px;
+  }
+
+  .quote-cta-home-page .send-query-button-text {
+    font-size: 14px;
+  }
+
+  .source-field-icon1 svg {
+    width: 74px;
+    height: 40px;
+  }
+  .source-field-icon2 svg {
+    width: 45.47px;
+    height: 40px;
+  }
+  .source-field-icon3 svg {
+    width: 68px;
+    height: 40px;
+  }
+
+  .payment-banner-home-page .send-query-button-text {
+    font-size: 14px;
+  }
+}
+.q-source-title {
+  width: 100%;
+  text-align: center;
+  margin: 0px 24%;
+  /*padding: 10px 0 0;*/
+}
+
+.q-source-title .banner-text {
+  max-width: 100%;
+}
+@media only screen and (max-width: 767px) {
+  #banner-container .bird-vector {
+    position: absolute;
+    background: url("https://cdn.qalara.com/images/Img_Bird_Outline.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    /* min-width: calc(100% - 8.19%) ;
+    max-width: calc(100% - 8.19%);
+    height: calc(100vh - 2.48vh);
+    max-height: calc(100vh - 2.48vh); */
+    min-width: 100%;
+    max-width: 100%;
+    height: 100vh;
+    max-height: 100vh;
+    /* left:  8.19%;
+    top: 2.48vh; */
+    opacity: 0.5;
+  }
+
+  #banner-container .banner-text {
+    position: absolute;
+    left: 9.62%;
+    right: 9.62%;
+    top: 20vh;
+    font-family: Butler;
+    /* font-style: normal; */
+    font-weight: 300;
+    font-size: 36px;
+    line-height: 110%;
+    /* or 121px */
+    /* letter-spacing: 0.01em; */
+    color: #ffffff;
+  }
+
+  #banner-container .banner-text span,
+  #banner-container .banner-text-small span {
+    display: block;
+  }
+
+  #banner-container .banner-text-small strong {
+    font-weight: 600;
+  }
+
+  #banner-container .banner-text-small {
+    font-family: senregular;
+    font-size: 14px;
+    line-height: 160%;
+    letter-spacing: 0.02em;
+    color: #ffffff;
+    margin-top: 20px;
+  }
+
+  #banner-container .banner-button-circle {
+    left: 6.5%;
+    /* top: 65vh; */
+    top: 65%;
+    width: 96px;
+    height: 96px;
+    background: #d9bb7f;
+    border-color: #d9bb7f;
+    padding: 15px 5px;
+    cursor: pointer;
+  }
+
+  #banner-container .banner-button-circle-text {
+    font-family: senregular;
+    /* white-space: pre-wrap; */
+    text-align: center;
+    font-weight: bold;
+    font-size: 11px;
+    line-height: 130%;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #191919;
+  }
+  #banner-container .banner-button-circle.b-sellers {
+    background: #c2b7a2;
+    border-color: #c2b7a2;
+    margin: 0px 20px;
+  }
+  #banner-container .banner-button-circle.b-invite {
+    background: #ac9d80;
+    border-color: #ac9d80;
+  }
+  #banner-container .banner-button-circle-text .banner-sub-text {
+    font-size: 10px;
+    color: rgba(51, 47, 47, 0.8);
+    text-transform: none;
+    padding-top: 3px;
+    line-height: 110%;
+    font-weight: 400;
+  }
+  #q-source-banner {
+    position: relative;
+    background-color: rgba(216, 209, 194, 0.5);
+    /* background-image: url("https://cdn.qalara.com/images/Img_Bird_Outline.png"); */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    /* height: 72vh; */
+    text-align: center;
+    padding: 5vh 5vw 5vh 5vw;
+    color: #191919;
+  }
+  #q-rts-section {
+    position: relative;
+    background-color: #d8d1c2;
+    /* background-image: url("https://cdn.qalara.com/images/Img_Bird_Outline.png"); */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    /* height: 72vh; */
+    text-align: left;
+    padding: 5vh 5vw 1vh 5vw;
+    color: #191919;
+  }
+  #q-source-banner .banner-text,
+  #q-rts-section .banner-text {
+    font-family: Butler;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    letter-spacing: 0.7px;
+    line-height: 29px;
+    color: #332f2f;
+    text-align: center;
+  }
+  .qa-next-line {
+    display: block;
+    font-size: 12px;
+    width: 100%;
+    display: inline-block;
+    border-radius: 8px;
+    margin: 5px 0;
+    font-weight: bold;
+    color: #191919;
+    text-align: center;
+  }
+  .steps-container {
+    margin: 15px 15px;
+  }
+  .payment-banner-home-page {
+    margin-top: 20px;
+    margin-bottom: -20px;
+  }
+  .q-source-title {
+    padding: 10px 0;
+    margin: 0 12%;
+  }
+  .ship-home-page {
+    margin-top: 15px !important;
+    margin-bottom: 45px !important;
+  }
+  .buyer-notification.qa-bg-dark-theme {
+    bottom: 0px;
+    position: absolute;
+  }
+}
+
+.quote-cta-home-page {
+  margin-top: 5px;
+  margin-bottom: 0px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.ship-home-page {
+  margin-top: 30px;
+  margin-bottom: 50px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.ship-home-page .ready-ship-button {
+  background-color: #7e473b;
+  border-radius: 0;
+  font-weight: bold;
+  color: #f9f7f2;
+  padding: 10px 60px;
+  height: 48px !important;
+  text-transform: uppercase;
+  font-family: senregular;
+}
+
+.quote-cta-home-page .send-query-button-text {
+  color: #191919;
+}
+
+.quote-cta-home-page .send-query-button {
+  background-color: transparent;
+  border-radius: 0;
+  border: 2px solid #7e473b !important;
+  font-weight: bold;
+  color: #191919;
+  padding: 10px 60px 30px;
+  height: 48px !important;
+}
+
+.payment-banner-home-page button.ant-btn {
+  background-color: #7e473b;
+  border-radius: 0;
+  border: none;
+  padding: 10px 60px;
+  height: 48px !important;
+}
+
+.payment-banner-home-page .send-query-button-text {
+  color: #f9f7f2 !important;
+}
+
+.invite-access-modal
+  #send-query-success-modal
+  .send-query-success-modal-content {
+  padding: 40px 35px 20px 35px;
+}
+.invite-access-modal #send-query-success-modal p a {
+  color: rgba(51, 47, 47, 0.8);
+  text-decoration: underline;
+}
+.invite-access-modal
+  #send-query-success-modal
+  .send-query-success-modal-button {
+  background-color: #d9bb7f;
+  width: 80%;
+  margin-bottom: 5px;
+  border: none;
+}
+.invite-access-modal
+  #send-query-success-modal
+  .send-query-success-modal-button:hover {
+  border: none;
+}
+.invite-access-modal #send-query-success-modal .send-query-success-modal-para2 {
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.invite-access-modal .send-query-input {
+  /* width: 80%; */
+  background: #f9f7f2;
+  border: 1px solid #cecbc2;
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding: 12px 24px;
+}
+
+.invite-access-modal .send-query-input::placeholder {
+  font-family: senregular;
+  font-size: 12px;
+  color: #332f2f;
+  opacity: 0.8;
+  letter-spacing: 0.02em;
+  line-height: 110%;
+}
+
+.invite-access-modal .query-button {
+  background-color: #874439;
+  box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.016);
+  border-radius: 2px;
+  margin-bottom: 5px;
+  border: none;
+  height: 60px;
+  width: 100%;
+}
+
+.invite-access-modal .send-query-input-width {
+  width: 100% !important;
+}
+
+.invite-access-modal .query-button-width {
+  width: 100% !important;
+}
+
+.invite-access-modal .query-submit-button {
+  background-color: #f9f7f2;
+  border-radius: 2px;
+  width: 100%;
+  margin-bottom: 5px;
+  border: none;
+  height: 60px;
+}
+
+.invite-access-modal .query-submit-button-width {
+  width: 100%;
+}
+
+.invite-access-modal .query-submit-button:hover {
+  border: 1px solid #874439 !important;
+}
+
+.invite-access-modal .ant-form-item {
+  padding: 0px 35px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.invite-access-modal .ant-form-item-explain {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.invite-access-modal .ant-form-item-has-error .ant-form-item-explain {
+  color: #f01b1b;
+  font-family: senregular;
+  font-size: 12px;
+  opacity: 0.8;
+  letter-spacing: 0.02em;
+}
+
+@media only screen and (min-width: 768px) {
+  .invite-access-modal .ant-form-item {
+    padding: 0px 80px;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .buyer-notification {
+    position: absolute;
+    right: 4%;
+    top: 18vh;
+    width: 28%;
+  }
+}
+.ant-btn.banner-button-circle#banner-container,
+.ant-btn.banner-button-circle:hover,
+.ant-btn.banner-button-circle:focus {
+  border-color: transparent !important;
+}
+
+.verified-buyer-section {
+  margin-left: -17px;
+  margin-top: -15px;
+}
+.buyer-notification .notification-section {
+  padding: 24px 15px;
+}
+.buyer-notification .notification-title {
+  font-family: Butler;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 140%;
+  text-align: center;
+  color: #191919;
+}
+.buyer-notification .notification-para {
+  font-family: senregular;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 140%;
+  text-align: center;
+}
+@media only screen and (max-width: 360px) {
+  #banner-container .banner-button-circle.b-sellers {
+    margin: 0 10px;
+  }
+  #banner-container .banner-button-circle {
+    margin-right: 0px;
+    /* top: 65vh; */
+    top: 65%;
+  }
+}
+@media only screen and (max-width: 320px) {
+  #banner-container .banner-button-circle {
+    left: 2%;
+    margin-right: 0px;
+    /* top: 75vh; */
+    top: 75%;
+  }
+  #banner-container .banner-button-circle.b-sellers {
+    margin: 0px 10px;
+  }
+}
+
+.supplier-text {
+  font-family: senregular;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  letter-spacing: 0.72px;
+  color: #f9f7f2;
+}
