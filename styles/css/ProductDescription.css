@@ -636,6 +636,22 @@
   #product-description .p-box.even {
     margin: 20px;
   }
+  .image-gallery-slides {
+    line-height: 0 !important;
+    overflow: hidden !important;
+    position: relative !important;
+    white-space: nowrap !important;
+    text-align: center !important;
+}
+.image-gallery-slide.center {
+  position: relative;
+}
+.image-gallery-slide {
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
   #product-description .p-box.odd {
     margin: 20px;
   }

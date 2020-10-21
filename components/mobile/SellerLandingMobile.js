@@ -560,7 +560,7 @@ function SellerLandingMobile(props) {
     setRequestLoading(true);
     let data = { profileId: props.sellerId };
     fetch(
-      process.env.REACT_APP_API_PROFILE_URL + "/profiles/my/subscriptions",
+      process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/profiles/my/subscriptions",
       {
         method: "PUT",
         body: JSON.stringify(data),

@@ -250,8 +250,8 @@
   height: 100%;
 }
 .locked-product {
-  top: 20%;
-  margin: 0px 30px;
+  top: 20% !important;
+  margin: 0px 30px !important;
 }
 .locked-product .ant-popover-inner {
   border-radius: 0px;

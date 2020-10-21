@@ -36,7 +36,7 @@ export const getUserProfile = (token) => {
   // console.log(token);
   return (dispatch) => {
     dispatch(setUserProfileLoading(true));
-    return fetch(process.env.REACT_APP_API_PROFILE_URL + "/profiles/my", {
+    return fetch(process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/profiles/my", {
       method: "GET",
       headers: {
         Authorization: "Bearer " + token,
@@ -87,7 +87,7 @@ export const setSellerAgreement = (filename, token) => async (dispatch) => {
     agreementTitle: filename,
   };
 
-  fetch(process.env.REACT_APP_API_PROFILE_URL + "/profiles/my", {
+  fetch(process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/profiles/my", {
     method: "PATCH",
     body: JSON.stringify(body),
     headers: {
@@ -284,7 +284,7 @@ export const setMyAddresse = (data) => {
 
 export const getBrandNameByCode = (codes, token, quoteData) => async dispatch => {
   fetch(
-    process.env.REACT_APP_API_PROFILE_URL + "/seller-home/internal-views/multi?ids=" + codes,
+    process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/seller-home/internal-views/multi?ids=" + codes,
     {
       method: "GET",
       headers: {
@@ -312,7 +312,7 @@ export const getBrandNameByCode = (codes, token, quoteData) => async dispatch =>
 export const getQuoteByStatus = (token, status, currentTab, buyerId) => async (dispatch) => {
   // dispatch(setScheduleRequests(scheduleRequests))
   fetch(
-    process.env.REACT_APP_API_FORM_URL + "/quotes/custom?status=" + status + "&buyer_id=" + buyerId,
+    process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/quotes/custom?status=" + status + "&buyer_id=" + buyerId,
     {
       method: "GET",
       headers: {
@@ -382,7 +382,7 @@ export const setQuoteBYStatus = (data) => {
 
 export const getOrderByOrderId = (token, orderId) => async (dispatch) => {
   // dispatch(setScheduleRequests(scheduleRequests))
-  fetch(process.env.REACT_APP_ORDER_ORC_URL + "/orders/composite/" + orderId, {
+  fetch(process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL + "/orders/composite/" + orderId, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -423,7 +423,7 @@ export const setOrderByOrderId = (data) => {
 
 export const getOrders = (token) => async (dispatch) => {
   // dispatch(setScheduleRequests(scheduleRequests))
-  let url = process.env.REACT_APP_ORDER_ORC_URL + "/orders"
+  let url = process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL + "/orders"
   fetch(url, {
     method: "GET",
     headers: {
@@ -472,7 +472,7 @@ export const setMyOrders = (data) => {
 export const getRfqByStatus = (status, token, buyerId) => async (dispatch) => {
   // dispatch(setScheduleRequests(scheduleRequests))
   fetch(
-    process.env.REACT_APP_API_FORM_URL + "/forms/queries/status?buyer_id=" + buyerId + "&status=OPEN,ASSIGNED,LINKED",
+    process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/queries/status?buyer_id=" + buyerId + "&status=OPEN,ASSIGNED,LINKED",
     {
       method: "GET",
       headers: {

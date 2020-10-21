@@ -170,7 +170,7 @@ export const getListingPage = (token, queryResult, prevStateData = false) => {
   return (dispatch) => {
     dispatch(setListingPageLoading(true));
     return fetch(
-      process.env.REACT_APP_API_PROFILE_URL + "/seller-home/?" + queryResult,
+      process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/seller-home/?" + queryResult,
       {
         method: "GET",
         headers: {
@@ -281,7 +281,7 @@ export const getProductSellerDetails = (token, sellerId) => {
 export const getProductDetails = (token, articleId = "") => {
   return (dispatch) => {
     let url =
-      process.env.REACT_APP_API_PRODUCT_DESCRIPTION_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_API_PRODUCT_DESCRIPTION_URL +
       "/products/" +
       articleId;
 

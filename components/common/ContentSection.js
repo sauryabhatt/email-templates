@@ -11,7 +11,7 @@ function ContentSection(props) {
   let {
     content=[],
     count = 0,
-    pageId = "",
+    pageId,
     isMobile = false,
     loadMoreData,
     sellerId = "",
@@ -39,6 +39,7 @@ function ContentSection(props) {
   }, [open]);
 
   const selectProduct = (productId) => {
+    console.log("productId--->", productId);
     setSelProductId(productId);
     setOpen(!open);
   };

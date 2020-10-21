@@ -1,22 +1,26 @@
-import { Fragment} from "react";
+import { useState, Fragment, useEffect} from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import {useKeycloak  } from '@react-keycloak/ssr';
 import UserHeader from "../UserHeader/UserHeader";
 import AppHeader from "../AppHeader/AppHeader";
+import _ from "lodash";
+
+const isServer = () => typeof window == undefined;
+
 export const Layout = ({
   children,
-  navigationItem,
   meta = {},
 }) => {
   const { keycloak } = useKeycloak()
   const router = useRouter();
+  const [navigationItems, setNavigationItems] = useState({});
   const pathname = router?.pathname ?? "/";
   const title = meta?.title || "";
   const description = meta?.description || "";
   const keywords = meta?.keywords || "";
-  // const Header = keycloak.authenticated ? <UserHeader response={navigationItem}/> : <AppHeader response={navigationItem}/>;
-  
+  const Header = keycloak.authenticated ? <UserHeader nav={navigationItems}/> : <AppHeader nav={navigationItems}/>;
+
   return (
     <Fragment>
       <Head>
@@ -41,6 +45,7 @@ export const Layout = ({
           content={keywords}
         />
       </Head>
+      {Header}
       <main className="main-layout-next">{children}</main>
     </Fragment>
   ) 

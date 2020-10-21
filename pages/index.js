@@ -1,7 +1,6 @@
 import {Layout} from "../components/common/Layout" 
 import HomePage from "../components/HomePage/Home"
-import {fetchHeader} from "../utils/headerApiHandler"
-export default function Home({response}) {
+export default function Home() {
   const meta = {
     title:"Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods from India | Qalara",
     description:"Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods - Décor, Rugs and Carpets, Kitchen, Home Furnishings – from India. Digitally. Reliably. Affordably. Responsibly.",
@@ -9,11 +8,10 @@ export default function Home({response}) {
   }
   
   return (
-    <Layout meta={meta} navigationItem={response}>
+    <Layout meta={meta} >
       <HomePage/>
     </Layout>  
   )
 
 }
 
-//  

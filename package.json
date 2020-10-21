@@ -26,6 +26,7 @@
     "query-string": "^6.13.5",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-image-gallery": "^1.0.8",
     "react-infinite-scroll-component": "^5.1.0",
     "react-modal-video": "^1.2.6",
     "react-pdf": "^5.0.0",

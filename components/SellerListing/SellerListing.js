@@ -10,10 +10,9 @@ import queryString from "query-string";
 import {useRouter} from "next/router";
 const querystring = require("querystring");
 const isServer = () => typeof window == undefined;
+
 const SellerListing = (props) => {
   const router = useRouter();
-  console.log("RQ", router);
-
   let { slp_content = [], isLoading = true } = !isServer()?props.listingPage:props.data;
   const [mobile, setMobile] = useState(false);
   const [offset, setOffset] = useState(0);

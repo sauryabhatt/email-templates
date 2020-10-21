@@ -151,7 +151,7 @@ const SendQueryForm = (props) => {
         let { ip = "", country = "" } = result;
         data.fromIP = ip;
         data.ipCountry = country;
-        fetch(process.env.REACT_APP_API_FORM_URL + "/forms/queries", {
+        fetch(process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/queries", {
           method: "POST",
           body: JSON.stringify(data),
           headers: {

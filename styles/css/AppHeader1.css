@@ -2,7 +2,7 @@
   .app-header {
     height: 132px;
     padding: 0 80px 0 90px;
-    background: #191919;
+    background: #191919 !important;
     display: flex;
     line-height: 0;
     width: 100%;
@@ -32,7 +32,7 @@
   .app-header {
     height: 86px;
     padding: 0 20px 0 26px;
-    background: #191919;
+    background: #191919 !important;
     display: flex;
     line-height: 0;
     width: 100%;

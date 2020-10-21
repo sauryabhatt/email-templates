@@ -9,7 +9,7 @@ const QuotationcardMobile = (props) => {
     const [rfqIds, setRfqIds] = useState(null);
 
     const handleReview = (quoteNumber) => {
-        fetch(process.env.REACT_APP_API_FORM_URL + "/quotes/custom/" + quoteNumber + "/margin", {
+        fetch(process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/quotes/custom/" + quoteNumber + "/margin", {
             method: "PUT",
             headers: {
                 "Content-Length": 0,
@@ -52,7 +52,7 @@ const QuotationcardMobile = (props) => {
 
     }, []);
     const createOrderFromQuote = (quoteNumber) => {
-        fetch(process.env.REACT_APP_ORDER_ORC_URL + "/orders/custom/" + quoteNumber, {
+        fetch(process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL + "/orders/custom/" + quoteNumber, {
             method: "POST",
             headers: {
                 "Content-Length": 0,

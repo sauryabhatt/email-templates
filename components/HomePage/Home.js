@@ -157,7 +157,7 @@ function Home(props) {
   };
 
   const sendInviteData = (data) => {
-    fetch(process.env.REACT_APP_API_FORM_URL + "/forms/lead-gens", {
+    fetch(process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/lead-gens", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {

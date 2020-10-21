@@ -33,8 +33,8 @@ import { useKeycloak } from "@react-keycloak/ssr";
 import SendQueryForm from "../SendQueryForm/SendQueryForm";
 import CurrencyConverter from "../common/CurrencyConverter";
 
-import ndjsonStream from "can-ndjson-stream";
 import _ from "lodash";
+import _isEmpty from "lodash/isEmpty";
 import cartIcon from "../../public/filestore/headerCart";
 
 const { Header } = Layout;
@@ -42,10 +42,9 @@ const { SubMenu } = Menu;
 const { Option } = Select;
 
 function AppHeader(props) {
-  let { priceDetails = {}, navigationItems:nav } = props;
+  let { priceDetails = {} } = props;
   const {keycloak} = useKeycloak();
   const router= useRouter();
-
   let { convertToCurrency = "" } = priceDetails || {};
   // const mediaMatch = window.matchMedia("(min-width: 768px)");
   const mediaMatch={matches:true};
@@ -55,7 +54,7 @@ function AppHeader(props) {
   const [shopVisible, setShopVisible] = useState(false);
   const [drawer, setDrawer] = useState(false);
   const [successQueryVisible, setSuccessQueryVisible] = useState(false);
-  const [navigationItems, setNavigationItems] = useState(nav);
+  const [navigationItems, setNavigationItems] = useState({});
   const [columns, setColumns] = useState();
   const [shopColor, setShopColor] = useState(false);
   const [inviteAccess, setInviteAccess] = useState(false);
@@ -131,31 +130,31 @@ function AppHeader(props) {
     handleSearchChange(false);
   };
   
-  // async function fetchNdjson (response) {
-  //   let navigationDetails = [];
+  async function fetchNdjson (resonse) {
+    // let navigationDetails = [];
 
-  //   // const response = await fetch(
-  //   //   process.env.REACT_APP_API_PROFILE_URL + "/shop-options"
-  //   // );
-
-  //   const exampleReader = ndjsonStream(response.body).getReader();
+    const res = await fetch(
+      process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/shop-option-list"
+    );
+    const response = await res.json();
+    // // const exampleReader = ndjsonStream(response.body).getReader();
     
-  //   let result;
-  //   while (!result || !result.done) {
-  //     result = await exampleReader.read();
-  //     if (!result.done) navigationDetails.push(result.value);
-  //     // console.log(result.done, result.value); //result.value is one line of your NDJSON data
-  //   }
+    // let result;
+    // while (!result || !result.done) {
+    //   result = await exampleReader.read();
+    //   if (!result.done) navigationDetails.push(result.value);
+    //   // console.log(result.done, result.value); //result.value is one line of your NDJSON data
+    // }
     
-  //   let navigationItems = _.mapValues(
-  //     _.groupBy(navigationDetails, "column"),
-  //     (clist) => clist.map((navigationDetails) => navigationDetails)
-  //   );
-  //   setNavigationItems(navigationItems);
-  //   let columnLength = Object.keys(navigationItems).length;
-  //   setColumns(columnLength);
-  //   return navigationItems;
-  // };
+    let navigationItems = _.mapValues(
+      _.groupBy(response, "column"),
+      (clist) => clist.map((navigationDetails) => navigationDetails)
+    );
+    setNavigationItems(navigationItems);
+    let columnLength = Object.keys(navigationItems).length;
+    setColumns(columnLength);
+    return navigationItems;
+  };
   
   const handleInvite = (values) => {
     setLoading(true);
@@ -181,7 +180,7 @@ function AppHeader(props) {
   };
   
   const sendInviteData = (data) => {
-    fetch(process.env.REACT_APP_API_FORM_URL + "/forms/lead-gens", {
+    fetch(process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/lead-gens", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -290,7 +289,7 @@ function AppHeader(props) {
   const navMenu = (
     <Menu
       theme="dark"
-      style={{ marginTop: "28px", cursor: "default" }}
+      style={{ cursor: "default" }}
       onClick={(e) => {
         handleVisibleChange(true);
       }}
@@ -331,9 +330,9 @@ function AppHeader(props) {
                       key={key + id}
                     >
                       {details.action === "URL" ? (
-                        <Link href={details.values}>{details.displayTitle}</Link>
+                        <Link href={details.values}>{details.displayTitle || ""}</Link>
                       ) : link ? (
-                        <Link href={link}>{details.displayTitle}</Link>
+                        <Link href={link}>{details.displayTitle || ""}</Link>
                       ) : (
                         <span>{details.displayTitle}</span>
                       )}
@@ -349,13 +348,17 @@ function AppHeader(props) {
   );
 
   useEffect(() => {
-    searchForm.setFieldsValue({ searchBy: "product" });
-    fetchNdjson()
-      .then((data) => {
-        //console.log(data)
-      })
-      .catch((error) => console.log(error));
+    let mounted = true;
+
+    if(mounted) {
+      searchForm.setFieldsValue({ searchBy: "product" });
+      fetchNdjson();
+    }
+    return () => {
+      mounted = false;
+    } 
   }, []);
+  
 
   const userMenu = (
     <div style={{ padding: "10px 0px" }} className="header-popup">
@@ -413,10 +416,11 @@ function AppHeader(props) {
   };
 
   const handleSearchChangeMob = (flag) => {
-    console.log(searchVisibleMob, flag);
     setSearchVisibleMob(flag);
   };
-
+if(_isEmpty(navigationItems)){
+  return null;
+}else {
   return (
     <Row style={{ position: "absolute", zIndex: 1, width: "100%" }}>
       <Col xs={0} sm={0} md={0} lg={24} xl={24}>
@@ -433,6 +437,7 @@ function AppHeader(props) {
               
               <span>
                 <Link href="/" className="app-header-home-button">
+                  <a>
                   <Icon
                     component={homeIcon}
                     className="search-icon qa-cursor"
@@ -442,6 +447,7 @@ function AppHeader(props) {
                       marginTop: "-5px",
                     }}
                   />
+                  </a>
                 </Link>
               </span>
               <Dropdown
@@ -486,18 +492,20 @@ function AppHeader(props) {
             md={3}
             lg={3}
             xl={3}
-            style={{ textAlign: "center", margin: "auto" }}
+            style={{ textAlign: "center" }}
           >
             <Link
-              to="/"
+              href="/"
               style={{
                 textDecoration: "none",
               }}
             >
+              <a>
               <Icon
                 component={LogoWithText}
-                style={{ height: "36px", width: "135px" }}
+                style={{ height: "36px", width: "135px", verticalAlign:"middle" }}
               ></Icon>
+              </a>
             </Link>
           </Col>
           <Col
@@ -516,11 +524,12 @@ function AppHeader(props) {
 
               <CurrencyConverter mobile={false} />
               <Link
-                to="/cart"
+                href="/cart"
                 style={{
                   textDecoration: "none",
                 }}
               >
+                <a>
                 <Icon
                   component={cartIcon}
                   className="cart-icon"
@@ -531,6 +540,7 @@ function AppHeader(props) {
                     cursor: "pointer",
                   }}
                 />
+                </a>
               </Link>
               <Popover
                 placement="bottomRight"
@@ -572,21 +582,22 @@ function AppHeader(props) {
           </div>
           <div>
             <Link href="/" style={{ textDecoration: "none" }}>
+              <a>
               <Icon
                 component={LogoWithText}
                 style={{ width: "120px", height: "30px" }}
               ></Icon>
+              </a>
             </Link>
           </div>
           <div style={{ textAlign: "right", width: "100%", marginTop: "-4px" }}>
-           
-
             <Link
-              to="/cart"
+              href="/cart"
               style={{
                 textDecoration: "none",
               }}
             >
+              <a>
               <Icon
                 component={cartIcon}
                 className="cart-icon"
@@ -595,6 +606,7 @@ function AppHeader(props) {
                   cursor: "pointer",
                 }}
               />
+              </a>
             </Link>
 
             <Drawer
@@ -722,11 +734,11 @@ function AppHeader(props) {
                                   >
                                     {details.action === "URL" ? (
                                       <Link href={details.values}>
-                                        {details.displayTitle}
+                                        {details.displayTitle || ""}
                                       </Link>
                                     ) : link ? (
                                       <Link href={"/"}>
-                                        {details.displayTitle}
+                                        {details.displayTitle || ""}
                                       </Link>
                                     ) : (
                                       <span>{details.displayTitle}</span>
@@ -770,11 +782,11 @@ function AppHeader(props) {
                                 >
                                   {details.action === "URL" ? (
                                     <Link href={details.values}>
-                                      {details.displayTitle}
+                                      {details.displayTitle ||""}
                                     </Link>
                                   ) : link ? (
                                   <Link href={link}>
-                                      {details.displayTitle}
+                                      {details.displayTitle ||""}
                                     </Link>
                                   ) : (
                                     <span>{details.displayTitle}</span>
@@ -851,9 +863,11 @@ function AppHeader(props) {
             </p>
           </div>
           <Link href="/">
+            <a>
             <Button className="send-query-success-modal-button">
               Back to home page
             </Button>
+            </a>
           </Link>
         </div>
       </Modal>
@@ -1065,6 +1079,8 @@ function AppHeader(props) {
       {shopColor && <div id="overlay"></div>}
     </Row>
   );
+}
+  
 }
 
 const mapStateToProps = (state) => {

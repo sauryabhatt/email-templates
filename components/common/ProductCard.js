@@ -28,7 +28,7 @@ function ProductCard(props) {
     isMobile = false,
     userProfile = {},
     selectedProductId = "",
-    selectProduct = "",
+    selectProduct,
     currencyDetails = {},
     sellerId = "",
   } = props;
@@ -113,15 +113,16 @@ function ProductCard(props) {
       <Link
         href={linkTo}
         className="product-card"
-        onClick={(e) => {
+        
+      >
+        <div onClick={(e) => {
+          
           if (accessLocked) {
             selectProduct(id);
             e.stopPropagation();
             e.preventDefault();
           }
-        }}
-      >
-        <a>
+        }}>
         <DynamicCarousel
           items={1}
           id={pageId}
@@ -307,12 +308,12 @@ function ProductCard(props) {
             </div>
           )}
           {pageId === "product-listing" && (
-            <Link href={sellerLink} style={{ color: "#874439" }}>
-              <a>Explore more by this seller</a>
+            <Link href={sellerLink} className="explore-more-sellers">
+              Explore more by this seller
             </Link>
           )}
         </div>
-        </a>    
+        </div>    
       </Link>
     );
   } else {
@@ -324,7 +325,7 @@ function ProductCard(props) {
     }
     return (
       <Link href={linkTo} className="product-card">
-      <a>
+      <>
         {pageId === "seller-listing" && (
           <SellerBanner
             orgName={brandName || orgName}
@@ -378,7 +379,7 @@ function ProductCard(props) {
             })}
           </div>
         </div>
-          </a>    
+          </>    
      </Link>
     );
   }

@@ -3,7 +3,7 @@
 import * as actionTypes from "./../types";
 
 export const getCart = (token, callback = "") => async (dispatch) => {
-  let url = `${process.env.REACT_APP_ORDER_ORC_URL}/orders/my/cart`;
+  let url = `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/my/cart`;
   return await fetch(url, {
     method: "GET",
     headers: {
@@ -76,7 +76,7 @@ export const setSFL = (data) => {
 };
 
 export const checkCart = (token, callback = "") => async (dispatch) => {
-  let url = process.env.REACT_APP_ORDER_URL + "/v1/orders/my";
+  let url = process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL + "/v1/orders/my";
   return await fetch(url, {
     method: "GET",
     headers: {
@@ -136,7 +136,7 @@ export const updateCart = (
   callback = ""
 ) => async (dispatch) => {
   let url =
-    process.env.REACT_APP_ORDER_URL +
+    process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL +
     `/v1/orders/my/cart?cart_action=${action}`;
   return await fetch(url, {
     method: "PUT",
@@ -159,7 +159,7 @@ export const updateCart = (
 };
 
 export const getOrder = (orderId, token) => async (dispatch) => {
-  let url = `${process.env.REACT_APP_ORDER_ORC_URL}/orders/composite/${orderId}`;
+  let url = `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/composite/${orderId}`;
   return await fetch(url, {
     method: "GET",
     headers: {
@@ -185,7 +185,7 @@ export const getOrder = (orderId, token) => async (dispatch) => {
 };
 
 export const checkCartAPI = (token, callback = "") => async (dispatch) => {
-  let url = process.env.REACT_APP_ORDER_URL + "/v1/orders/my";
+  let url = process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL + "/v1/orders/my";
   return await fetch(url, {
     method: "GET",
     headers: {

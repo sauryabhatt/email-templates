@@ -31,7 +31,7 @@ const SellerLanding = (props) => {
   const [aboutCompany, setAboutCompany] = useState("");
   const [productPopupDetails, setProductPopupDetails] = useState("");
   // const [identityId, setIdentityId] = useState(null)
-
+  
   useEffect(() => {
     let width = window.screen ? window.screen.width : window.innerWidth;
     if (width <= 768) {
@@ -48,7 +48,7 @@ const SellerLanding = (props) => {
 
       if (profileType === "BUYER" && verificationStatus === "IN_PROGRESS") {
         fetch(
-          process.env.REACT_APP_API_PROFILE_URL + "/profiles/my/subscriptions",
+          process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/profiles/my/subscriptions",
           {
             method: "GET",
             headers: {

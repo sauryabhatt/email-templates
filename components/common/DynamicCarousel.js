@@ -246,7 +246,7 @@ function DynamicCarousel(props) {
                 style={{ width: "20px", height: "25px" }}
               />
             </span>
-            {productId === selectedProductId && (
+            {productId == selectedProductId && (
               <div className="ant-popover locked-product ant-popover-placement-bottomRight">
                 <div className="ant-popover-content">
                   <div className="ant-popover-arrow"></div>

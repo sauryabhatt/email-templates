@@ -18,7 +18,6 @@ import {useRouter} from 'next/router';
 
 let timeSkew = 10;
 const generateToken=async ()=>{
-
   const result = {isSuccess:undefined, token:undefined};
   const details = {
     grant_type: "client_credentials",
@@ -56,6 +55,7 @@ const generateToken=async ()=>{
     } catch (error) {
       result["isSuccess"] = false;
       result["token"] = undefined;
+
       return result
     }
   

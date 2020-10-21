@@ -1,7 +1,6 @@
 /** @format */
 
-import React, { useState } from "react";
-// import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
 import { useKeycloak } from "@react-keycloak/ssr";
 import {
   Alert,
@@ -14,7 +13,6 @@ import {
   message,
   Upload,
   Checkbox,
-  InputNumber,
   DatePicker,
   Avatar,
 } from "antd";
@@ -23,26 +21,41 @@ import moment from "moment";
 import { getCountries } from "react-phone-number-input/input";
 import en from "react-phone-number-input/locale/en.json";
 import { loginToApp } from "../AuthWithKeycloak";
-// import './index.css';
-import {useRouter} from "next/router";
-
 import certifiedIcon from "../../public/filestore/certifiedIcon";
-import Link  from "next/link";
-
+import  Link  from "next/link";
+import {useRouter} from "next/router";
 const { Option } = Select;
 
-const SellerContact = (props) => {
+const ProductContact = (props) => {
   const router = useRouter();
-  const mediaMatch = window.matchMedia("(min-width: 768px)");
+  let mediaMatch;
   const [form] = Form.useForm();
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(false);
   const [fileList, setFileList] = useState([]);
 
-  // const currentUser = useSelector(state => state.auth.currentUser);
   const { keycloak } = useKeycloak();
-  // console.log(keycloak.subject);
 
+  let { productDetails = {}, selectedColor = "", selectedSize = "" } = props;
+  let {
+    articleId = "",
+    productName = "",
+    variants = [],
+    skus = [],
+    exfactoryListPrice = "",
+    priceMin = "",
+    heroImageUrl = "",
+  } = productDetails || {};
+
+  let galleryImages = [];
+  let url = process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL;
+  if (variants.length) {
+    for (let list of variants) {
+      if (list["mediaUrls"].length) {
+        galleryImages.push(url + list["mediaUrls"][0]);
+      }
+    }
+  }
   const acceptedFileTypes = [
     "application/pdf",
     "application/msword",
@@ -51,26 +64,9 @@ const SellerContact = (props) => {
     "image/jpeg",
     "image/png",
   ];
-
-  // const normFile = e => {
-  //     // console.log('Upload event:', e);
-
-  //     if (Array.isArray(e)) {
-  //         return e;
-  //     }
-
-  //     return e;
-  // };
-
-  // const getBase64 = (file) => {
-  //     return new Promise((resolve, reject) => {
-  //         const reader = new FileReader();
-  //         reader.readAsDataURL(file);
-  //         reader.onload = () => resolve(reader.result);
-  //         reader.onerror = error => reject(error);
-  //     });
-  // }
-
+useEffect(() => {
+  mediaMatch = window.matchMedia("(min-width: 768px)");
+}, [])
   const beforeUpload = (file) => {
     const isJpgOrPng = acceptedFileTypes.includes(file.type);
     if (!isJpgOrPng) {
@@ -86,15 +82,7 @@ const SellerContact = (props) => {
     return isJpgOrPng && isLt2M;
   };
 
-  // const handlePreview = async file => {
-  //     if (!file.url && !file.preview) {
-  //         file.preview = await getBase64(file.originFileObj);
-  //     }
-  //     return file.url;
-  // };
-
   const handleChange = (info) => {
-    // console.log(info.file.status);
     if (
       info.file.status === "uploading" ||
       info.file.status === "done" ||
@@ -106,53 +94,73 @@ const SellerContact = (props) => {
   };
 
   const onFinish = (values) => {
-    // console.log('Received values of form: ', values);
     let isAnonymousUser = true;
     if (props.initialValues && props.initialValues.profileId) {
       isAnonymousUser = false;
     }
 
-    let { sellerDetails = {} } = props;
-    let { vanityId = "" } = sellerDetails || {};
+    let variantId = variants.length > 0 ? variants[0].sequenceId : "";
+    let skuId = skus.length > 0 ? skus[0].id : "";
+    for (let variant of variants) {
+      if (variant.color === selectedColor) {
+        variantId = variant["sequenceId"];
+      }
+    }
+
+    for (let sku of skus) {
+      if (sku.variantId === variantId) {
+        if (selectedSize) {
+          if (
+            sku["variantInfo"] &&
+            sku["variantInfo"]["size"] &&
+            sku["variantInfo"]["size"] === selectedSize
+          ) {
+            skuId = sku["id"];
+          }
+        } else {
+          skuId = sku["id"];
+        }
+      }
+    }
 
     let data = {
       profileId:
         (props.initialValues && props.initialValues.profileId) || "anonymous",
       profileType: props.initialValues && props.initialValues.profileType,
       isAnonymousUser: isAnonymousUser,
-      queryCategory: values.category,
-      questions: values.requirementDetails,
+      queryCategory: values.category || "Others",
+      questions: values.requirementDetails || "Product RFQ",
       quantityRequired: values.quantity,
       targetUnitPrice: values.pricePerItem,
       targetDeliveryDate: values.deliveryDate,
       requesterName: values.requesterName,
       companyName: values.companyName,
       emailId: values.emailId,
-      country: values.destinationCountry,
-      city: values.destinationCity,
+      country: values.country || values.destinationCountry,
+      city: values.city,
       mobileNo: values.mobileNo,
       destinationCity: values.destinationCity,
       destinationCountry: values.destinationCountry,
-      scpURL: "/seller/" + vanityId,
-      vanityId: vanityId,
-      rfqType: "SELLER",
+      rfqType: "PRODUCT",
+      articleId: articleId,
+      variantId: variantId,
+      pdpURL: "/product/" + articleId,
+      skuId: skuId,
       sellerId: props.sellerDetails.id.split("::")[2],
       buyerId: props.userId && props.userId.split("::")[1],
-      sellerBrandName: props.sellerDetails.brandName
+      productName: props.productDetails.productName
     };
 
     if (keycloak.authenticated) {
       data.profileId = keycloak.subject;
       data.isAnonymousUser = false;
     }
-    // console.log('Received values of form: ', values);
     if (values.upload && values.upload.fileList) {
       data.attachments = values.upload.fileList.map((fileobj) => {
         return fileobj.response;
       });
     }
 
-    // console.log(data);
     setLoading(true);
 
     fetch("https://ipapi.co/json/", {
@@ -172,9 +180,7 @@ const SellerContact = (props) => {
           },
         })
           .then((res) => {
-            // console.log(res);
             if (res.ok) {
-              // message.success('Your query has been sent successfully.', 5);
               props.sendQueryCancel("success");
             } else {
               message.error(res.statusText, 5);
@@ -205,17 +211,9 @@ const SellerContact = (props) => {
     return current && current < moment().endOf("day");
   };
 
-  // const children = [];
-  // for (let i = 0; i < 5; i++) {
-  //     children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
-  // }
-
-  // const displayErrors = errors => errors.map((err, i) => <Alert key={i} type="error" message={err.atStage} description={err.message} closable />)
-
   const country = (
     <Select placeholder="Select country" showSearch>
       {getCountries().map((country) => {
-        // console.log(country);
         if (country === "US") {
           return (
             <Option key={country} value={en[country] + "(USA)"}>
@@ -241,16 +239,80 @@ const SellerContact = (props) => {
       "/assets?sourceService=forms&userId=" +
       props.initialValues.profileId;
   }
+  let imageUrl1;
+  let imageUrl2;
+
+  if (heroImageUrl) {
+    imageUrl1 = process.env.REACT_APP_ASSETS_FILE_URL + heroImageUrl;
+    imageUrl2 = galleryImages[0];
+  } else {
+    imageUrl1 = galleryImages[0];
+    imageUrl2 = galleryImages[1];
+  }
 
   return (
     <Row id="seller-contact-form">
       <Col className="left-details" span={mediaMatch.matches ? 8 : 0}>
         <Row>
-          <Col span={props.sellerDetails ? 24 : 0}>
+          <Col span={props.productDetails ? 24 : 0}>
             <div
               className="left-verified-seller"
               style={{ marginTop: "140px" }}
             >
+              <div className="heading qa-tc-f" style={{ marginBottom: "20px" }}>
+                {productName}
+              </div>
+
+              <div className="qa-tc-f">
+                <span
+                  style={{
+                    fontSize: "20px",
+                    fontFamily: "Butler",
+                    color: "#f9f7f2",
+                    verticalAlign: "middle",
+                  }}
+                >
+                  ${priceMin || exfactoryListPrice}
+                </span>
+                {priceMin && (
+                  <span className="qa-tc-f qa-fs-17 qa-font-butler qa-va-m">
+                    {" "}
+                    - ${exfactoryListPrice}
+                  </span>
+                )}
+
+                {/* <div className="qa-font-san  qa-dark-body">
+                  Suggested retail price : <b>${suggestedRetailPrice}</b>
+                </div> */}
+              </div>
+              <div className="qa-fs-12 qa-mar-btm-2 qa-font-san qa-dark-body qa-lh">
+                Base price per unit excl. margin and other charges
+              </div>
+              <div>
+                <div
+                  style={{
+                    display: "inline-block",
+                    width: "50%",
+                    padding: "5px",
+                  }}
+                >
+                  <img src={imageUrl1} alt="Hero" width="100%" />
+                </div>
+                {/* <div
+                  style={{
+                    display: "inline-block",
+                    width: "50%",
+                    padding: "5px",
+                  }}
+                >
+                  <img src={imageUrl2} alt="Variant" width="100%" />
+                </div> */}
+              </div>
+            </div>
+          </Col>
+
+          <Col span={props.sellerDetails ? 24 : 0}>
+            <div className="left-verified-seller">
               <p className="heading">Seller details</p>
               <div className="para">
                 {/* <Avatar
@@ -267,11 +329,6 @@ const SellerContact = (props) => {
                 <span className="text-avatar">
                   {props.sellerDetails && props.sellerDetails.orgName}
                 </span>
-                {/* {props.sellerDetails &&
-                  props.sellerDetails.verificationStatus &&
-                  (props.sellerDetails.verificationStatus === "VERIFIED" ||
-                    props.sellerDetails.verificationStatus ===
-                      "REGISTERED") && ( */}
                 <span
                   style={{
                     color: "#d9bb7f",
@@ -280,14 +337,7 @@ const SellerContact = (props) => {
                 >
                   <Icon component={certifiedIcon} className="certified-icon" />
                 </span>
-                {/* )} */}
               </div>
-              {/* <p className="para">
-                <span className="label">Organisation type</span>
-                <span className="text">
-                  {props.sellerDetails && props.sellerDetails.orgType}
-                </span>
-              </p> */}
 
               <Row className="para">
                 <Col span={24}>
@@ -310,19 +360,6 @@ const SellerContact = (props) => {
                   </span>
                 </Col>
               </Row>
-
-              {/* <p className="para">
-                <span className="label">City</span>
-                <span className="text">
-                  {props.sellerDetails && props.sellerDetails.city}
-                </span>
-              </p>
-              <p className="para">
-                <span className="label">Country</span>
-                <span className="text">
-                  {props.sellerDetails && props.sellerDetails.country}
-                </span>
-              </p> */}
             </div>
           </Col>
           <Col
@@ -348,14 +385,6 @@ const SellerContact = (props) => {
                 4. One stop sourcing platform from discovery to delivery
               </p>
               <p className="para">5. Secure digital commerce</p>
-              {/* <Button
-                className="button"
-                onClick={() => {
-                  history.push("/signup");
-                }}
-              >
-                Apply to buy/sell
-              </Button> */}
             </div>
           </Col>
           {/* <Col
@@ -457,20 +486,15 @@ const SellerContact = (props) => {
                 }
               />
             )}
-            <p className="heading">Send order query</p>
+            <p className="heading">Get custom quote</p>
+
             <p className="paragraph">
-              You may share any sourcing requirement relating to this seller's
-              portfolio, or even share your own designs for the seller to
-              produce. We will contact the seller and respond with product
-              images and quotation within 2 business days.
+              Please share your order requirement or any customization request
+              for this product. We will respond with images and quotation within
+              2 business days.
             </p>
           </Col>
         </Row>
-        {/* {errors.length > 0 && (
-                    <div style={{ textAlign: 'left' }}>
-                        {displayErrors(errors)}
-                    </div>
-                )} */}
         <Form
           form={form}
           name="seller_contact_form"
@@ -480,15 +504,10 @@ const SellerContact = (props) => {
         >
           <Row justify="center">
             <Col span={20}>
-              {/* <span className="label-heading">
-                What would you like help sourcing from India?
-              </span>
-              <br /> */}
-              <span className="label-paragraph">What are you looking for?</span>
-              <Form.Item
+              {/* <span className="label-paragraph">What are you looking for?</span> */}
+              {/* <Form.Item
                 name="category"
                 style={{ marginBottom: "1em" }}
-                // label='I am looking for'
                 rules={[
                   { required: true, message: "Please select a category." },
                 ]}
@@ -510,31 +529,10 @@ const SellerContact = (props) => {
                     Others
                   </Option>
                 </Select>
-              </Form.Item>
-              {/* <Form.Item
-                        name="greeting"
-                        rules={[
-                            {
-                                type: 'string',
-                                message: 'The input is not valid message!',
-                            },
-                            {
-                                required: true,
-                                message: 'Please input your message!',
-                            },
-                            { min: 30, max: 150, message: 'Message length should be 30-150 characters!' }
-                        ]}
-                    >
-                        <Input.TextArea
-                            value={"value"}
-                            // onChange={onChange}
-                            placeholder="Greeting"
-                            autoSize={{ minRows: 1, maxRows: 5 }} />
-                    </Form.Item> */}
+              </Form.Item> */}
+
               <span className="label-paragraph">
-                Please share product details (include product code with any
-                customization requirements, if available). The more details the
-                better.
+                Please share any customization requirement (color, size, etc.)
               </span>
               <Form.Item
                 name="requirementDetails"
@@ -557,29 +555,10 @@ const SellerContact = (props) => {
               >
                 <Input.TextArea
                   value={"value"}
-                  // onChange={onChange}
-                  // placeholder="Please input the details here"
                   autoSize={{ minRows: 2, maxRows: 4 }}
                 />
               </Form.Item>
-              {/* <Form.Item
-                        name="requirement"
-                        rules={[{ required: true, message: 'Please input requirements!' },
-                        { min: 3, max: 30, message: 'Length should be 3-30 characters!' }]}
-                    >
-                        <Input
-                            // prefix={<ShopOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
-                            placeholder="What do you need from the seller?"
-                        />
-                    </Form.Item> */}
-              {/* <Form.Item
-                        name="requirement"
-                        rules={[{ required: true, message: 'Please select the item.' }]}
-                    >
-                        <Select style={{ flex: '0' }} showSearch placeholder="What do you need from the seller?">
-                            {children}
-                        </Select>
-                    </Form.Item> */}
+
               <span className="label-paragraph">
                 Please attach reference photos of designs you like.{" "}
                 <b>Highly recommended</b>
@@ -588,14 +567,11 @@ const SellerContact = (props) => {
               <Form.Item
                 name="upload"
                 style={{ marginBottom: "1em" }}
-                // rules={[{ required: true, message: 'Please upload atleast one item.' }]}
-                // getValueFromEvent={normFile}
                 extra={
                   <span className="label-paragraph">
                     Max Size per attachment: 2Mb
                   </span>
                 }
-                style={{ marginBottom: "0.2em" }}
               >
                 <Upload
                   name="files"
@@ -605,9 +581,7 @@ const SellerContact = (props) => {
                   headers={{
                     Authorization: "Bearer " + props.token,
                   }}
-                  // className="avatar-uploader"
                   beforeUpload={beforeUpload}
-                  // onPreview={handlePreview}
                   onChange={handleChange}
                   multiple
                 >
@@ -625,10 +599,6 @@ const SellerContact = (props) => {
                     type: "string",
                     message: "The input is not valid!",
                   },
-                  // {
-                  //     required: true,
-                  //     message: 'Please enter the quantity.',
-                  // },
                   {
                     min: 1,
                     max: 50,
@@ -636,16 +606,9 @@ const SellerContact = (props) => {
                   },
                 ]}
               >
-                <Input
-                // style={{
-                //     width: '100%',
-                // }}
-                // min={1}
-                // max={1000}
-                // placeholder="Quantity"
-                />
+                <Input />
               </Form.Item>
-              <span className="label-paragraph">
+              {/* <span className="label-paragraph">
                 What is your target cost (USD)?
               </span>
               <Form.Item
@@ -663,15 +626,8 @@ const SellerContact = (props) => {
                   },
                 ]}
               >
-                <Input
-                // style={{
-                //     width: '100%',
-                // }}
-                // min={1}
-                // max={1000000}
-                // placeholder="Target price per piece (In USD)"
-                />
-              </Form.Item>
+                <Input />
+              </Form.Item> */}
               <span className="label-paragraph">
                 What is your required delivery date?
               </span>
@@ -683,7 +639,6 @@ const SellerContact = (props) => {
                 <DatePicker
                   disabledDate={disabledDate}
                   style={{ width: "100%" }}
-                  // placeholderplaceholder="Target delivery date"
                 />
               </Form.Item>
               <span className="label-paragraph">Destination Country*</span>
@@ -701,7 +656,6 @@ const SellerContact = (props) => {
                 name="destinationCity"
                 style={{ marginBottom: "1em" }}
                 rules={[
-                  // { required: true, message: 'Please input State & City name!' },
                   {
                     min: 3,
                     max: 50,
@@ -709,14 +663,13 @@ const SellerContact = (props) => {
                   },
                 ]}
               >
-                <Input
-                // placeholder="State, City"
-                />
+                <Input />
               </Form.Item>
               <br />
-              <div className="label-heading qa-lh">
+              <span className="label-heading">
                 Please share your details so we can respond:
-              </div>
+              </span>
+              <br />
               <span
                 className="label-paragraph"
                 style={{ marginBottom: "0.5em", marginTop: "0.5em" }}
@@ -724,7 +677,6 @@ const SellerContact = (props) => {
                 Your information is safe with us.
               </span>
               <br />
-              {/* <p style={{ fontWeight: 'bold', fontSize: '15px', marginBottom: '0.5em' }}>From,</p> */}
               <span className="label-paragraph">Your name*</span>
               <Form.Item
                 name="requesterName"
@@ -738,9 +690,7 @@ const SellerContact = (props) => {
                   },
                 ]}
               >
-                <Input
-                // placeholder="Your Name"
-                />
+                <Input />
               </Form.Item>
               <span className="label-paragraph">Company name*</span>
               <Form.Item
@@ -758,9 +708,7 @@ const SellerContact = (props) => {
                   },
                 ]}
               >
-                <Input
-                // placeholder="Company Name"
-                />
+                <Input />
               </Form.Item>
               <span className="label-paragraph">Email address*</span>
               <Form.Item
@@ -777,9 +725,7 @@ const SellerContact = (props) => {
                   },
                 ]}
               >
-                <Input
-                // placeholder="E-mail ID"
-                />
+                <Input />
               </Form.Item>
               {/* <span className="label-paragraph">Country*</span>
               <Form.Item
@@ -796,7 +742,6 @@ const SellerContact = (props) => {
                 name="city"
                 style={{ marginBottom: "1em" }}
                 rules={[
-                  // { required: true, message: 'Please input State & City name!' },
                   {
                     min: 3,
                     max: 50,
@@ -804,38 +749,23 @@ const SellerContact = (props) => {
                   },
                 ]}
               >
-                <Input
-                // placeholder="State, City"
-                />
+                <Input />
               </Form.Item> */}
               <span className="label-paragraph">Phone number</span>
               <Form.Item
                 name="mobileNo"
+                placeholder="Enter country code and number"
                 style={{ marginBottom: "1em" }}
                 rules={[
-                  // {
-                  //     required: true,
-                  //     message: 'Please input contact number!',
-                  // },
                   {
                     pattern: new RegExp("^[0-9]{6,15}$"),
                     message: "Wrong format!",
                   },
                 ]}
               >
-                <Input
-                // placeholder="Phone Number"
-                />
+                <Input />
               </Form.Item>
-              {/* <Form.Item
-                        name="liveDemoInterest"
-                        valuePropName="checked"
-                        style={{ marginBottom: '0.2em' }}
-                    >
-                        <Checkbox>
-                            I am interested in live demo with seller.
-                        </Checkbox>
-                    </Form.Item> */}
+
               <Form.Item
                 name="agreement"
                 style={{ marginBottom: "1em" }}
@@ -851,7 +781,7 @@ const SellerContact = (props) => {
               >
                 <Checkbox className="check-box-tnc">
                   Standard{" "}
-                  <Link className="link-text" to="/TermsOfUse" target="_blank">
+                  <Link className="link-text" href="/TermsOfUse" target="_blank">
                     T&C
                   </Link>{" "}
                   apply.
@@ -872,8 +802,184 @@ const SellerContact = (props) => {
           </Form.Item>
         </Form>
       </Col>
+      <Col className="left-details" span={mediaMatch.matches ? 0 : 24}>
+        <Row>
+          <Col span={props.productDetails ? 24 : 0}>
+            <div className="left-verified-seller">
+              <div className="heading qa-tc-f" style={{ marginBottom: "20px" }}>
+                {productName}
+              </div>
+
+              <div className="qa-tc-f">
+                <span
+                  style={{
+                    fontSize: "20px",
+                    fontFamily: "Butler",
+                    color: "#f9f7f2",
+                    verticalAlign: "middle",
+                  }}
+                >
+                  ${priceMin || exfactoryListPrice}
+                </span>
+                {priceMin && (
+                  <span className="qa-tc-f qa-fs-17 qa-font-butler qa-va-m">
+                    {" "}
+                    - ${exfactoryListPrice}
+                  </span>
+                )}
+
+                {/* <div className="qa-font-san  qa-dark-body">
+                  Suggested retail price : <b>${suggestedRetailPrice}</b>
+                </div> */}
+              </div>
+              <div className="qa-mar-btm-1 qa-font-san qa-dark-body qa-fs-12 qa-lh">
+                Base price per unit excl. margin and other charges
+              </div>
+              <div>
+                <div
+                  style={{
+                    display: "inline-block",
+                    width: "50%",
+                  }}
+                >
+                  <img src={imageUrl1} alt="Hero" width="100%" />
+                </div>
+                {/* <div
+                  style={{
+                    display: "inline-block",
+                    width: "50%",
+                    padding: "5px",
+                  }}
+                >
+                  <img src={imageUrl2} alt="Variant" width="100%" />
+                </div> */}
+              </div>
+            </div>
+          </Col>
+
+          <Col span={props.sellerDetails ? 24 : 0}>
+            <div className="left-verified-seller">
+              <p className="heading">Seller details</p>
+              <div className="para">
+                {/* <Avatar
+                  size={40}
+                  src={
+                    props.sellerDetails &&
+                    props.sellerDetails.brandLogo &&
+                    props.sellerDetails.brandLogo.media &&
+                    props.sellerDetails.brandLogo.media.mediaUrl &&
+                    process.env.REACT_APP_ASSETS_FILE_URL +
+                      props.sellerDetails.brandLogo.media.mediaUrl
+                  }
+                ></Avatar> */}
+                <span className="text-avatar">
+                  {props.sellerDetails && props.sellerDetails.orgName}
+                </span>
+
+                <span
+                  style={{
+                    color: "#d9bb7f",
+                    verticalAlign: "middle",
+                  }}
+                >
+                  <Icon component={certifiedIcon} className="certified-icon" />
+                </span>
+              </div>
+              <Row className="para">
+                <Col span={24}>
+                  <span className="label">City</span>
+                  {/* </Col> */}
+                  {/* <Col span={24} className="qa-txt-alg-lft"> */}
+                  <span className="text">
+                    {props.sellerDetails && props.sellerDetails.city}
+                  </span>
+                </Col>
+              </Row>
+
+              <Row className="para">
+                <Col span={24}>
+                  <span className="label">Country</span>
+                  {/* </Col> */}
+                  {/* <Col span={24} className="qa-txt-alg-lft"> */}
+                  <span className="text">
+                    {props.sellerDetails && props.sellerDetails.country}
+                  </span>
+                </Col>
+              </Row>
+            </div>
+          </Col>
+          {/* <Col
+            span={
+              props.initialValues && props.initialValues.profileType ? 24 : 0
+            }
+          >
+            <div className="left-verified-seller">
+              <p className="heading">
+                {props.initialValues &&
+                props.initialValues.profileType &&
+                props.initialValues.profileType === "SELLER"
+                  ? "Seller"
+                  : "Buyer"}{" "}
+                details
+              </p>
+
+              <Row className="para">
+                <Col span={12}>
+                  <span className="label">First name</span>
+                </Col>
+                <Col span={12} className="qa-txt-alg-rgt">
+                  <span className="text">
+                    {props.initialValues && props.initialValues.firstName}
+                  </span>
+                  {props.initialValues &&
+                    props.initialValues.verificationStatus &&
+                    (props.initialValues.verificationStatus === "VERIFIED" ||
+                      props.initialValues.verificationStatus ===
+                        "REGISTERED") && (
+                      <span
+                        style={{
+                          color: "#d9bb7f",
+                          verticalAlign: "middle",
+                          marginLeft: "3px",
+                        }}
+                      >
+                        <Icon
+                          component={certifiedIcon}
+                          className="certified-icon"
+                        />
+                      </span>
+                    )}
+                </Col>
+              </Row>
+
+              <Row className="para">
+                <Col span={12}>
+                  <span className="label">Organisation type</span>
+                </Col>
+                <Col span={12} className="qa-txt-alg-rgt">
+                  <span className="text">
+                    {props.initialValues && props.initialValues.orgType}
+                  </span>
+                </Col>
+              </Row>
+
+              <Row className="para">
+                <Col span={12}>
+                  <span className="label">Country</span>
+                </Col>
+                <Col span={12} className="qa-txt-alg-rgt">
+                  <span className="text">
+                    {props.initialValues && props.initialValues.country}
+                  </span>
+                </Col>
+              </Row>
+            </div>
+          </Col>
+        */}
+        </Row>
+      </Col>
     </Row>
   );
 };
 
-export default SellerContact;
+export default ProductContact;

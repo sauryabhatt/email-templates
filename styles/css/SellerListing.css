@@ -17,7 +17,7 @@
 
 .seller-listing-container {
   color: #191919;
-  margin: 70px auto 0;
+  margin: 0px auto 0;
   font-family: senregular;
 }
 .seller-listing-container .listing-sidebar {
@@ -439,4 +439,10 @@
 .image-carousel .slick-dots {
   position:absolute;
   bottom: 20px !important;
+}
+.product-list-details a {
+  color: #874439 !important;
+}
+.image-carousel {
+  position: relative;
 }

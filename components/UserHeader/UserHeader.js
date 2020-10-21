@@ -32,7 +32,7 @@ import closeButton from "../../public/filestore/closeButton";
 import searchIcon from "../../public/filestore/searchIcon";
 
 import SendQueryForm from "../SendQueryForm/SendQueryForm";
-import ndjsonStream from "can-ndjson-stream";
+// import ndjsonStream from "can-ndjson-stream";
 import _ from "lodash";
 import CurrencyConverter from "../common/CurrencyConverter";
 import cartIcon from "../../public/filestore/headerCart";
@@ -42,7 +42,7 @@ const { SubMenu } = Menu;
 const { Option } = Select;
 
 function UserHeader(props) {
-  let { priceDetails = {}, navigationItems:nav } = props;
+  let { priceDetails = {}, nav } = props;
 
   const router= useRouter();
   let { convertToCurrency = "" } = priceDetails || {};
@@ -73,31 +73,31 @@ function UserHeader(props) {
       props.userProfile.userProfile.profileImage &&
       props.userProfile.userProfile.profileImage.media &&
       props.userProfile.userProfile.profileImage.media.mediaUrl &&
-      process.env.REACT_APP_ASSETS_FILE_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
         props.userProfile.userProfile.profileImage.media.mediaUrl
   );
 
-  // async function fetchNdjson (response) {
-  //   let navigationDetails = [];
-  //   // const response = await fetch(
-  //   //   process.env.REACT_APP_API_PROFILE_URL + "/shop-options"
-  //   // );
-  //   const exampleReader = ndjsonStream(response).getReader();
+  async function fetchNdjson (response) {
+    let navigationDetails = [];
+    // const response = await fetch(
+    //   process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/shop-options"
+    // );
+    const exampleReader = ndjsonStream(response).getReader();
     
-  //   let result;
-  //   while (!result || !result.done) {
-  //     result = await exampleReader.read();
-  //     if (!result.done) navigationDetails.push(result.value);
-  //     // console.log(result.done, result.value); //result.value is one line of your NDJSON data
-  //   }
-  //   let navigationItems = _.mapValues(
-  //     _.groupBy(navigationDetails, "column"),
-  //     (clist) => clist.map((navigationDetails) => navigationDetails)
-  //   );
-  //   setNavigationItems(navigationItems);
-  //   let columnLength = Object.keys(navigationItems).length;
-  //   setColumns(columnLength);
-  // };
+    let result;
+    while (!result || !result.done) {
+      result = await exampleReader.read();
+      if (!result.done) navigationDetails.push(result.value);
+      // console.log(result.done, result.value); //result.value is one line of your NDJSON data
+    }
+    let navigationItems = _.mapValues(
+      _.groupBy(navigationDetails, "column"),
+      (clist) => clist.map((navigationDetails) => navigationDetails)
+    );
+    setNavigationItems(navigationItems);
+    let columnLength = Object.keys(navigationItems).length;
+    setColumns(columnLength);
+  };
 
   const handleVisibleChange = (flag) => {
     setSearchVisible(false);
@@ -292,7 +292,7 @@ function UserHeader(props) {
         props.userProfile.userProfile.profileImage &&
         props.userProfile.userProfile.profileImage.media &&
         props.userProfile.userProfile.profileImage.media.mediaUrl &&
-        process.env.REACT_APP_ASSETS_FILE_URL +
+        process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
           props.userProfile.userProfile.profileImage.media.mediaUrl
     );
   }, [props.userProfile.userProfile]);
