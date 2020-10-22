@@ -4,12 +4,73 @@ import Spinner from "../../components/Spinner/Spinner"
 import {useRouter} from "next/router";
 export default function ProductListingPage({data}) {
    const router = useRouter();
+   const {categoryId=""} = data ||{};
+   let meta; 
+      switch (categoryId) {
+        case "home-furnishing":
+          meta={
+            title:"Home furnishings & linens",
+            description: "Wholesale cushions, throws, quilts, bedding, bath linen, rugs & carpets"
+          }
+          break;
+  
+        case "furniture-and-storage":
+          meta={
+            title:"Furniture & storage",
+            description:"Shop bookcases, benches, chairs, desks, wine cabinets, trunks, beds & poufs in bulk"
+          }
+          break;
+  
+        case "home-decor-and-accessories":
+          meta={
+            title:"Home decor",
+            description:"Wholesale home decor, lighting, ornaments, wall art, candlesticks and garden accessories"
+          }
+          break;
+  
+        case "kitchen-and-dining":
+          meta={
+            title:"Kitchen & dining",
+            description:"Shop tableware, dinnerware, cookware, utensils, cutlery, linens & bar accessories in bulk"
+          }
+          break;
+  
+        case "fashion":
+          meta={
+            title:"Fashion, accessories & textiles",
+            description: "Wholesale textiles, apparel, scarves, stoles, bags, shawls, belts & footwear"
+          }
+          break;
+  
+        case "pets-essentials":
+          meta={
+            title:"Pet accessories",
+            description:"Shop dog beds, feeders, cat towers, collars & leashes in bulk"
+          }
+          break;
+  
+        case "baby-and-kids":
+          meta={
+            title:"Baby & kids products",
+            description:"Shop in bulk for organic cotton crib sets, eco-friendly toys, learning tools and & kids furniture"
+          }
+          break;
+  
+        case "jewelry":
+          meta={
+            title:"Jewelry",
+            description: "Wholesale earrings, necklaces, bracelets, rings, nose pins and cuff links"
+          }
+          break;
+  
+        default:
+          meta={
+            title:"All categories",
+            description: "Shop handcrafted and artisanal products, produced ethically at wholesale prices"
+          }
+      }
+      
 
-    const meta = {
-     title:"Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods from India | Qalara",
-     description:"How to source from India? How to source handmade goods? How to find verified suppliers from India? How to find genuine suppliers? How to source genuine fair trade products from India?",
-     keywords:"handmade, fair trade, wholesale buying, global sourcing, Indian crafts, Exporters from India, Verified manufacturers and suppliers, B2B platform"
-   }
     if(router.isFallback) {
       return <Spinner/>
     }

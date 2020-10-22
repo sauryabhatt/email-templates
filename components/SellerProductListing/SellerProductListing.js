@@ -173,7 +173,7 @@ const SellerProductListing = (props) => {
           category={category}
           setCategoryName={setCategoryName}
           sellerId={sellerId}
-          sellerDetails={sellerDetails}
+          sellerDetails={isServer()?props.data.sellerDetails:sellerDetails}
           userProfile={userProfile}
           // token={keycloak.token || token}
           // sellerIdentity={(sellerDetails && sellerDetails.kcIdentityId) || null}
