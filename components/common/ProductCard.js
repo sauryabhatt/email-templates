@@ -324,8 +324,7 @@ function ProductCard(props) {
       linkTo = `/seller/${id}/${categoryName}`;
     }
     return (
-      <Link href={linkTo} className="product-card">
-      <>
+      <div onClick={()=>router.push(linkTo)} className="product-card">
         {pageId === "seller-listing" && (
           <SellerBanner
             orgName={brandName || orgName}
@@ -379,8 +378,8 @@ function ProductCard(props) {
             })}
           </div>
         </div>
-          </>    
-     </Link>
+          
+     </div>
     );
   }
 }
