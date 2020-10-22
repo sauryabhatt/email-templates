@@ -38,6 +38,7 @@ export const Layout = ({
         <meta name="twitter:creator" content="" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
+        {/*remove the below two lines in production*/}
         <meta name="robots" content="noindex" />
         <meta name="googlebot" content="noindex" />
         <meta
