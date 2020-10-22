@@ -102,7 +102,6 @@ export const getStaticProps=async ({ params: { categoryId = "" } = {} })=>{
         method: "GET",
       });
       const res1 = await response.json(); 
-      console.log("zzz" ,res1.fixedAggregates );
   return {
     props: {
       data: {

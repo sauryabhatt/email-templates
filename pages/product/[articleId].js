@@ -6,8 +6,8 @@ export default function ProductDescriptionPage({data}) {
    const router = useRouter();
 
     const meta = {
-    title:data.productName,
-    description:data.productionDescription 
+    title:data.productName || "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods from India | Qalara",
+    description:data.productionDescription || "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods - Décor, Rugs and Carpets, Kitchen, Home Furnishings – from India. Digitally. Reliably. Affordably. Responsibly." 
     }
     
     if(router.isFallback) {

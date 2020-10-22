@@ -45,8 +45,7 @@ const {categoryId, sellerId} = params||{};
         ]);
       const res1 = await res.json(); 
       const sellerDetails = await sellerRes.json();
-      console.log("this is res1-->",res1)
-      console.log("this is sellerDetails--->",sellerDetails);
+      
   return {
     props: {
       data: {
