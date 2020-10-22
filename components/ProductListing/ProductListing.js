@@ -58,7 +58,7 @@ const ProductListing = (props) => {
       query = defaultQuery;
     }
     
-    if (categoryId.toLowerCase() !== "all categories") {
+    if (categoryId.toLowerCase() !== "all-categories") {
       query = query + "&f_categories=" + categoryId;
     }
     let jsonQuery = queryString.parse(query);
@@ -121,56 +121,56 @@ const ProductListing = (props) => {
 
   const setCategoryName = (categoryName) => {
     switch (categoryName) {
-      case "Home Furnishing":
+      case "home-furnishing":
         setCategoryTitle("Home furnishings & linens");
         setSubCategoryTitle(
           "Wholesale cushions, throws, quilts, bedding, bath linen, rugs & carpets"
         );
         break;
 
-      case "Furniture & Storage":
+      case "furniture-and-storage":
         setCategoryTitle("Furniture & storage");
         setSubCategoryTitle(
           "Shop bookcases, benches, chairs, desks, wine cabinets, trunks, beds & poufs in bulk"
         );
         break;
 
-      case "Home Décor & Accessories":
+      case "home-decor-and-accessories":
         setCategoryTitle("Home decor");
         setSubCategoryTitle(
           "Wholesale home decor, lighting, ornaments, wall art, candlesticks and garden accessories"
         );
         break;
 
-      case "Kitchen & Dining":
+      case "kitchen-and-dining":
         setCategoryTitle("Kitchen & dining");
         setSubCategoryTitle(
           "Shop tableware, dinnerware, cookware, utensils, cutlery, linens & bar accessories in bulk"
         );
         break;
 
-      case "Fashion":
+      case "fashion":
         setCategoryTitle("Fashion, accessories & textiles");
         setSubCategoryTitle(
           "Wholesale textiles, apparel, scarves, stoles, bags, shawls, belts & footwear"
         );
         break;
 
-      case "Pets Essentials":
+      case "pets-essentials":
         setCategoryTitle("Pet accessories");
         setSubCategoryTitle(
           "Shop dog beds, feeders, cat towers, collars & leashes in bulk"
         );
         break;
 
-      case "Baby & Kids":
+      case "baby-and-kids":
         setCategoryTitle("Baby & kids products");
         setSubCategoryTitle(
           "Shop in bulk for organic cotton crib sets, eco-friendly toys, learning tools and & kids furniture"
         );
         break;
 
-      case "Jewelry":
+      case "jewelry":
         setCategoryTitle("Jewelry");
         setSubCategoryTitle(
           "Wholesale earrings, necklaces, bracelets, rings, nose pins and cuff links"

@@ -46,7 +46,6 @@ const SellerProductListing = (props) => {
 
     if(Object.keys(rq).length) {
       for (const prop in router.query) {
-        console.log("prop--->", prop);
         if(prop !== "categoryId" && prop !== "sellerId"){
           queryObj[prop] = rq[prop]
         }
@@ -63,7 +62,6 @@ const SellerProductListing = (props) => {
     const { f_categories, sellerId: sellerIdKey,f_key_methods, f_values, f_product_types, ...rest } = queryParams;
     let defaultQuery = querystring.stringify(rest);
     let query = getQueryParamString();
-    console.log("--->query", query);
     let { categoryId = "", sellerId = "" } = router.query;
 
     if (query) {
@@ -72,7 +70,7 @@ const SellerProductListing = (props) => {
       query = defaultQuery;
     }
 
-    if (categoryId.toLowerCase() !== "all categories") {
+    if (categoryId.toLowerCase() !== "all-categories") {
       query = query + "&f_categories=" + categoryId;
     }
     query = query + "&sellerId=" + sellerId;

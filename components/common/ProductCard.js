@@ -320,7 +320,7 @@ function ProductCard(props) {
     let linkTo = `/seller/${vanityId}`;
     if (showSPLP === "true" || showSPLP === true) {
       id = id.replace("HOME::SELLER::", "");
-      let categoryName = encodeURIComponent("All Categories");
+      let categoryName = "all-categories";
       linkTo = `/seller/${id}/${categoryName}`;
     }
     return (
@@ -377,8 +377,7 @@ function ProductCard(props) {
               );
             })}
           </div>
-        </div>
-          
+        </div>          
      </div>
     );
   }

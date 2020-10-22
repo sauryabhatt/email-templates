@@ -28,15 +28,15 @@ export async function getStaticPaths() {
     };
 }
 const getURL = (categoryId, sellerId) =>{
-  if(categoryId==="All Categories") {      
+  if(categoryId==="all-categories") {      
     return process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL + `/splp?from=0&size=30&sort_by=visibleTo&sort_order=ASC&sellerId=${sellerId}`
 }else {
-    return process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL + `/splp?from=0&size=30&sort_by=visibleTo&sort_order=ASC&sellerId=${sellerId}&f_categories=${encodeURIComponent(categoryId)}`
+    return process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL + `/splp?from=0&size=30&sort_by=visibleTo&sort_order=ASC&sellerId=${sellerId}&f_categories=${categoryId}`
 }
 }
 export const getStaticProps=async ({ params })=>{
 const {categoryId, sellerId} = params||{};
-      const response = await fetch(process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL + `/splp?from=0&size=30&sort_by=visibleTo&sort_order=ASC&sellerId=${sellerId}`,
+      const response = await fetch(getURL(categoryId, sellerId),
       {
         method: "GET",
       });

@@ -128,19 +128,19 @@ class ProductFacets extends Component {
     if (categoryId === "all") {
       delete queryParams.category;
       if (pageId === "product-listing") {
-        Router.push("/products/" + encodeURIComponent("All Categories"));
+        Router.push("/products/all-categories");
       } else {
         Router.push(
-          "/seller/" + sellerId + "/" + encodeURIComponent("All Categories")
+          "/seller/" + sellerId + "/" + "all-categories"
         );
       }
     } else {
       queryParams = { ...queryParams, category: categoryId };
       if (pageId === "product-listing") {
-        Router.push("/products/" + encodeURIComponent(categoryId));
+        Router.push("/products/" + categoryId);
       } else {
         Router.push(
-          "/seller/" + sellerId + "/" + encodeURIComponent(categoryId)
+          "/seller/" + sellerId + "/" + categoryId
         );
       }
     }
@@ -388,10 +388,8 @@ class ProductFacets extends Component {
               </Menu.Item>
               {pageId === "product-listing"
                 ? _.map(aggregateList, (list, i) => {
-                    let value = list;
-                    let name =
-                      value.toLowerCase().charAt(0).toUpperCase() +
-                      value.slice(1);
+                    let value = list.value;
+                    let name =list.key
                     return (
                       <Menu.Item
                         key={value}

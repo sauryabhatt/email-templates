@@ -122,11 +122,10 @@ export default class SellerFacets extends Component {
     let queryParams = this.props.queryParams;
     if (categoryId === "all") {
       delete queryParams.category;
-      Router.push("/sellers/" + encodeURIComponent("All Categories"));
+      Router.push("/sellers/all-categories");
     } else {
       queryParams = { ...queryParams, category: categoryId };
-      // console.log(encodeURIComponent(categoryId));
-      Router.push("/sellers/" + encodeURIComponent(categoryId));
+      Router.push("/sellers/" + categoryId);
     }
   };
 
@@ -265,9 +264,9 @@ export default class SellerFacets extends Component {
                 All Categories
               </Menu.Item>
               {_.map(aggregateList, (list, i) => {
-                let value = list;
-                let name =
-                  value.toLowerCase().charAt(0).toUpperCase() + value.slice(1);
+                let value = list.value;
+                let name = list.key;
+                  // value.toLowerCase().charAt(0).toUpperCase() + value.slice(1);
                 return (
                   <Menu.Item
                     key={value}

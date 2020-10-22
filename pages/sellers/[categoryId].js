@@ -28,10 +28,10 @@ export async function getStaticPaths() {
     };
 }
 const getURL = (category) =>{
-  if(category==="All Categories") {      
+  if(category==="all-categories") {      
     return process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL + "/seller-home?from=0&size=30&sort_by=publishedTimeStamp&sort_order=DESC"
 }else {
-    return process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL + `/seller-home?from=0&size=30&sort_by=publishedTimeStamp&sort_order=DESC&f_categories=${encodeURIComponent(category)}`
+    return process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL + `/seller-home?from=0&size=30&sort_by=publishedTimeStamp&sort_order=DESC&f_categories=${category}`
 }
 }
 export const getStaticProps=async ({ params: { categoryId = "" } = {} })=>{
@@ -42,6 +42,7 @@ export const getStaticProps=async ({ params: { categoryId = "" } = {} })=>{
         method: "GET",
       });
       const res1 = await response.json(); 
+      console.log("zzz" ,res1.fixedAggregates );
   return {
     props: {
       data: {
