@@ -420,7 +420,7 @@ if(_isEmpty(navigationItems)){
   return null;
 }else {
   return (
-    <Row style={{ position: "absolute", zIndex: 1, width: "100%" }}>
+    <Row style={{  zIndex: 1, width: "100%" }}>
       <Col xs={0} sm={0} md={0} lg={24} xl={24}>
         <Header className="app-header">
           <Col

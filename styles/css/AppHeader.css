@@ -121,7 +121,7 @@
   padding-left: 15px;
 }
 .mobile-slider-menu.ant-drawer-left .ant-menu-submenu-arrow {
-  right: 0px;
+  right: 0px !important;
 }
 .header-navigation-menu.ant-dropdown.ant-dropdown-placement-bottomLeft {
   width: 100%;

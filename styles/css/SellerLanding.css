@@ -229,7 +229,7 @@
   .seller-landing-container .banner {
     height: 140px;
     max-height: 140px;
-    margin-top: 60px;
+    /* margin-top: 60px; */
   }
   .seller-landing-container .banner-text {
     top: 25%;

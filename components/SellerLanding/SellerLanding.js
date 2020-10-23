@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import SellerLandingDesktop from "./SellerLandingDesktop";
-// import SellerLandingMobile from "../mobile/SellerLandingMobile";
+import SellerLandingMobile from "../mobile/SellerLandingMobile";
 import { getSellerDetails } from "../../store/actions";
 import { useKeycloak } from "@react-keycloak/ssr";
 import { useSelector } from "react-redux";
@@ -139,7 +139,7 @@ const SellerLanding = (props) => {
 
   return (
     <div>
-      {/* {mobile ? (
+      {mobile ? (
         <SellerLandingMobile
           data={data}
           isLoading={isLoading}
@@ -153,7 +153,7 @@ const SellerLanding = (props) => {
             (props.sellerDetails && props.sellerDetails.kcIdentityId) || null
           }
         />
-      ) : ( */}
+      ) : ( 
         <SellerLandingDesktop
           data={data}
           isLoading={isLoading}
@@ -167,7 +167,7 @@ const SellerLanding = (props) => {
             (props.sellerDetails && props.sellerDetails.kcIdentityId) || null
           }
         />
-      {/* )} */}
+       )} 
     </div>
   );
 };

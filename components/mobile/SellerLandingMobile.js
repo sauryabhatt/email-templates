@@ -19,30 +19,31 @@ import Certifications from "../common/Certifications";
 import SellerBanner from "../common/SellerBanner";
 import Slider from "react-slick";
 import SellerContact from "../SellerContact/SellerContact";
-import { loginToApp } from "../../AuthWithKeycloak/AuthWithKeycloak";
-import closeButton from "./../../filestore/closeButton";
-import playButton from "./../../filestore/playButton";
-import pdfOutline from "./../../filestore/pdfOutline";
-import lockOutline from "./../../filestore/lockOutline";
-import ScheduleMeetingMobile from "../mobile/ScheduleMeetingMobile";
-import SCPLoaderMobile from "./../../filestore/SCPLoaderMobile";
+import { loginToApp } from "..//AuthWithKeycloak";
+import closeButton from "../../public/filestore/closeButton";
+import playButton from "../../public/filestore/playButton";
+import pdfOutline from "../../public/filestore/pdfOutline";
+import lockOutline from "../../public/filestore/lockOutline";
+import ScheduleMeetingMobile from "./ScheduleMeetingMobile";
+import SCPLoaderMobile from "../../public/filestore/SCPLoaderMobile";
 import { useSelector, connect } from "react-redux";
-import { getUserProfile } from "./../../store/actions";
-import { useKeycloak } from "@react-keycloak/web";
+import { getUserProfile } from "../../store/actions";
+import { useKeycloak } from "@react-keycloak/ssr";
 import moment from "moment";
 import _ from "lodash";
 import PDFDocument from "../common/PDFDocument";
-import { history } from "../../store";
-import sellerProfileIcon from "./../../filestore/sellerProfileIcon";
-import productListingIcon from "./../../filestore/productListingIcon";
-import locationIcon from "./../../filestore/locationIcon";
-import { Link } from "react-router-dom";
+
+import sellerProfileIcon from "../../public/filestore/sellerProfileIcon";
+import productListingIcon from "../../public/filestore/productListingIcon";
+import locationIcon from "../../public/filestore/locationIcon";
+import {useRouter} from "next/router";
 const { Column, ColumnGroup } = Table;
 const { Content } = Layout;
 
 const Panel = Collapse.Panel;
 
 function SellerLandingMobile(props) {
+  const router = useRouter();
   const [requestLoading, setRequestLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [columns, setColumns] = useState([]);
@@ -55,7 +56,7 @@ function SellerLandingMobile(props) {
   const [schedulingSuccess, setShowSchedulingSuccess] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const isAuthenticated = useSelector((state) => state.auth.authenticated);
-  const [keycloak] = useKeycloak();
+  const {keycloak} = useKeycloak();
   const [smallBatchAvailable, setSmallBatchAvailable] = useState(false);
   const [videoName, setVideoName] = useState("");
   const [productionKMM, setProductionKMM] = useState([]);
@@ -119,7 +120,7 @@ function SellerLandingMobile(props) {
   };
 
   const signIn = () => {
-    loginToApp({ currentPath: encodeURI(history.location.pathname) });
+    loginToApp({ currentPath: encodeURI(router.asPath.split("?")[0]) });
   };
 
   const sendQueryCancel = (status) => {
@@ -290,7 +291,7 @@ function SellerLandingMobile(props) {
     let { sellerId = "" } = props;
     sellerId = sellerId.replace("SELLER::", "");
     if (e.key !== "seller-home") {
-      history.push(
+      router.push(
         "/seller/" + sellerId + "/" + encodeURIComponent("All Categories")
       );
     }
@@ -905,7 +906,7 @@ function SellerLandingMobile(props) {
                   <Button
                     className="qa-button go-to-cart"
                     onClick={() => {
-                      history.push("/cart");
+                      router.push("/cart");
                     }}
                   >
                     Go to cart
@@ -1743,16 +1744,15 @@ function SellerLandingMobile(props) {
               48 to 72 hours.
             </p>
           </div>
-          <Link to="/">
             <Button
               className="send-query-success-modal-button"
               onClick={() => {
+                router.push("/")
                 successQueryCancel();
               }}
             >
               Back to home page
             </Button>
-          </Link>
         </div>
       </Modal>
       <Modal
