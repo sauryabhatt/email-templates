@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import ProductListingDesktop from "./ProductListingDesktop";
-// import ProductListingMobile from "../mobile/ProductListingMobile";
+import ProductListingMobile from "../mobile/ProductListingMobile";
 import { getPLPDetails } from "../../store/actions";
 import queryString from "query-string";
 const querystring = require("querystring");
@@ -189,10 +189,10 @@ const ProductListing = (props) => {
   return (
     <div>
       
-      {/* {mobile ? ( */}
-        {/* <ProductListingMobile
-          data={data}
-          isLoading={isLoading}
+       {mobile ? ( 
+         <ProductListingMobile
+         data={!isServer()?props.listingPage:props.data}
+         isLoading={!isServer()?props.listingPage.isLoading:false}
           getFilterData={getFilterData}
           queryParams={queryParams}
           loadMoreData={loadMoreData}
@@ -200,8 +200,8 @@ const ProductListing = (props) => {
           categoryTitle={categoryTitle}
           subCategoryTitle={subCategoryTitle}
           category={category}
-        /> */}
-      {/* ) : ( */}
+        /> 
+       ) : ( 
         <ProductListingDesktop
           data={!isServer()?props.listingPage:props.data}
           isLoading={!isServer()?props.listingPage.isLoading:false}
@@ -213,7 +213,7 @@ const ProductListing = (props) => {
           subCategoryTitle={subCategoryTitle}
           category={category}
         />
-      {/* )} */}
+      )}
     </div>
   );
 };

@@ -373,12 +373,12 @@
     margin-bottom: 10px;
   }
   .app-header {
-    height: 62px;
-    padding: 15px 20px 0 20px;
+    height: 62px !important; 
+    padding: 15px 20px 0 20px !important;
     background: #191919 !important;
     /* background: transparent; */
     display: flex;
-    line-height: 0;
+    line-height: 0 !important;
   }
 
   .send-query-button {

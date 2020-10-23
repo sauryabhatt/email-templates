@@ -339,7 +339,6 @@ class ProductFacets extends Component {
 
     let { aggregateName = "", aggregateList = [] } = dynamicCategories || {};
     let orderedFacets = _.sortBy(facets, "priority");
-
     return (
       <Sider
         width={this.props.width || 250}
@@ -389,7 +388,7 @@ class ProductFacets extends Component {
               {pageId === "product-listing"
                 ? _.map(aggregateList, (list, i) => {
                     let value = list.value;
-                    let name =list.key
+                    let name =list.key;
                     return (
                       <Menu.Item
                         key={value}
@@ -400,11 +399,8 @@ class ProductFacets extends Component {
                     );
                   })
                 : _.map(aggregateList, (list, i) => {
-                    let value = list["value"] || "";
-                    let name = value
-                      ? value.toLowerCase().charAt(0).toUpperCase() +
-                        value.slice(1)
-                      : "";
+                  let value = list.value;
+                  let name =list.key;
                     return (
                       <Menu.Item
                         key={value}

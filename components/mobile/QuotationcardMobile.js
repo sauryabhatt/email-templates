@@ -45,7 +45,7 @@ const QuotationcardMobile = (props) => {
             let ids = '';
             props.data && props.data.linkedQueriesId && Object.keys(props.data.linkedQueriesId).map(key => {
                 ids = `${ids} , ${props.data.linkedQueriesId[key]}`
-                console.log(ids);
+                // console.log(ids);
             })
             setRfqIds(ids.substring(2));
         }
@@ -67,7 +67,7 @@ const QuotationcardMobile = (props) => {
                 }
             })
             .then((res) => {
-                console.log(res.orderId);
+                // console.log(res.orderId);
                 let url = '/order-review/' + res.orderId
                 history.push(url);
             })

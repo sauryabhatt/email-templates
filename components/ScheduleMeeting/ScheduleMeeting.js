@@ -76,7 +76,7 @@ const ScheduleMeeting = (props) => {
 
     const getDisableSlotsBySeller = (dateString) => {
         let profileId = props.sellerProfile.id.replace('HOME::', '');
-        fetch(process.env.REACT_APP_API_MEETING_URL + "/events/meeting/slots?date=" + dateString + "&profile_id=" + profileId, {
+        fetch(process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL + "/events/meeting/slots?date=" + dateString + "&profile_id=" + profileId, {
             method: "GET",
             headers: {
                 Authorization: "Bearer " + keycloak.token,
@@ -104,8 +104,8 @@ const ScheduleMeeting = (props) => {
                             for (let j = parseInt(end_time); j > parseInt(start_time); j--) {
                                 endTimeArr.push(j);
                             }
-                            console.log(endTimeArr);
-                            console.log(startTimeArr);
+                            // console.log(endTimeArr);
+                            // console.log(startTimeArr);
                         } else {
                             startTimeArr.push(parseInt(start_time));
                             endTimeArr.push(parseInt(end_time));

@@ -237,7 +237,7 @@ function UserHeader(props) {
                   } else if (details.action === "L2" && details.values) {
                     link = "/sellers/" + encodeURIComponent(details.values);
                   }
-                  console.log("details", details);
+                  // console.log("details", details);
                   return (
                     <div
                       className={
@@ -276,7 +276,7 @@ function UserHeader(props) {
   };
 
   const handleSearchChangeMob = (flag) => {
-    console.log(searchVisibleMob, flag);
+    // console.log(searchVisibleMob, flag);
     setSearchVisibleMob(flag);
   };
 

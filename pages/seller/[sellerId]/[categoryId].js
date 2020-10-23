@@ -13,8 +13,7 @@ export default function SellerProductListingPage({data}) {
       return <Spinner/>
     }
     return (
-      <Layout meta={meta}>
-        
+      <Layout meta={meta}>       
         <SellerProductListing data={data}/>
       </Layout>  
     )
@@ -45,7 +44,6 @@ const {categoryId, sellerId} = params||{};
         ]);
       const res1 = await res.json(); 
       const sellerDetails = await sellerRes.json();
-      
   return {
     props: {
       data: {

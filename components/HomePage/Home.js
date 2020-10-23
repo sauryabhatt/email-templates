@@ -17,7 +17,6 @@ import {useRouter} from 'next/router';
 import Link from "next/link";
 
 function Home(props) {
-  console.log(props);
   const router = useRouter();  
   const isAuthenticated = useSelector((state) => state.auth.authenticated);
   const [visible, setVisible] = useState(false);
