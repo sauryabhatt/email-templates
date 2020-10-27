@@ -16,7 +16,7 @@ import store  from '../store';
 import { setTokenSuccess, setTokenFail } from '../store/actions';
 import {useRouter} from 'next/router';
 import { Amplify } from 'aws-amplify';
-import awsExports from '../src/aws-exports';
+import awsExports from '../aws-exports';
 
 Amplify.configure({
   ...awsExports,
