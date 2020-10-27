@@ -79,6 +79,9 @@
     padding-right: 0;
     padding-bottom: 0;
   }
+  #app-footer a {
+    color: #ffffff !important;
+  }
   #app-footer .app-footer-text {
     font-family: senregular;
     font-weight: bold;

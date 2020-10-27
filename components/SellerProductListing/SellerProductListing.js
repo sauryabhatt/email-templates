@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import SellerProductListingDesktop from "./SellerProductListingDesktop";
-// import SellerProductListingMobile from "../mobile/SellerProductListingMobile";
+import SellerProductListingMobile from "../mobile/SellerProductListingMobile";
 import { getSPLPDetails, getProductSellerDetails } from "../../store/actions";
 import { useKeycloak } from "@react-keycloak/ssr";
 import { useSelector } from "react-redux";
@@ -145,25 +145,24 @@ const SellerProductListing = (props) => {
   const setCategoryName = (categoryName) => {
     setCategory(categoryName);
   };
-
   return (
     <div>
-      {/* {mobile ? (
+       {mobile ? (
         <SellerProductListingMobile
-          data={data}
-          isLoading={isLoading}
+        data={!isServer()?props.listingPage:props.data}
+        isLoading={!isServer()?props.listingPage.isLoading:false}
           getFilterData={getFilterData}
           queryParams={queryParams}
           loadMoreData={loadMoreData}
           category={category}
           setCategoryName={setCategoryName}
           sellerId={sellerId}
-          sellerDetails={sellerDetails}
-          token={keycloak.token || token}
+          sellerDetails={isServer()?props.data.sellerDetails:sellerDetails}
+          // token={keycloak.token || token}
           userProfile={userProfile}
-          sellerIdentity={(sellerDetails && sellerDetails.kcIdentityId) || null}
+          // sellerIdentity={(sellerDetails && sellerDetails.kcIdentityId) || null}
         />
-      ) : ( */}
+      ) : ( 
         <SellerProductListingDesktop
           data={!isServer()?props.listingPage:props.data}
           isLoading={!isServer()?props.listingPage.isLoading:false}
@@ -178,7 +177,7 @@ const SellerProductListing = (props) => {
           // token={keycloak.token || token}
           // sellerIdentity={(sellerDetails && sellerDetails.kcIdentityId) || null}
         />
-      {/* )} */}
+      )}
     </div>
   );
 };

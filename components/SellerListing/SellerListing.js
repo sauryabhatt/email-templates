@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import SellerListingDesktop from "./SellerListingDesktop";
-// import SellerListingMobile from "../mobile/SellerListingMobile";
+import SellerListingMobile from "../mobile/SellerListingMobile";
 import { getSLPDetails } from "../../store/actions";
 // import { Helmet } from "react-helmet";
 import queryString from "query-string";
@@ -189,10 +189,10 @@ const SellerListing = (props) => {
   return (
     <div>
      
-      {/* {mobile ? (
+       {mobile ? (
         <SellerListingMobile
-          data={data}
-          isLoading={isLoading}
+          data={props.listingPage}
+          isLoading={props.listingPage.isLoading}
           getFilterData={getFilterData}
           queryParams={queryParams}
           loadMoreData={loadMoreData}
@@ -201,7 +201,7 @@ const SellerListing = (props) => {
           subCategoryTitle={subCategoryTitle}
           category={category}
         />
-      ) : ( */}
+      ) : ( 
         <SellerListingDesktop
           data={!isServer()?props.listingPage:props.data}
           isLoading={!isServer()?props.listingPage.isLoading:false}
@@ -213,7 +213,7 @@ const SellerListing = (props) => {
           subCategoryTitle={subCategoryTitle}
           category={category}
         />
-      {/* )} */}
+      )}
     </div>
   );
 };

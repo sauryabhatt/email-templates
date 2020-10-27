@@ -127,7 +127,7 @@ export const getOpenRequest = (token, profileId, status) => async (
 ) => {
   // dispatch(setScheduleRequests(scheduleRequests))
   let url =
-    process.env.REACT_APP_API_MEETING_URL +
+    process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL +
     "/events/meeting/my?profile_id=" +
     profileId +
     "&status=" +
@@ -177,7 +177,7 @@ export const setScheduleRequests = (result) => {
 export const getRequestByStatus = (token, profileId, status) => {
   return (dispatch) => {
     let url =
-      process.env.REACT_APP_API_MEETING_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL +
       "/events/meeting/my?profile_id=" +
       profileId +
       "&status=" +
@@ -209,7 +209,7 @@ export const getRequestByStatus = (token, profileId, status) => {
 export const getMeetingCount = (profileId, token) => {
   return (dispatch) => {
     let url =
-      process.env.REACT_APP_API_MEETING_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL +
       "/events/meeting/count?profile_id=" +
       profileId;
     fetch(url, {

@@ -21,29 +21,28 @@ import _ from "lodash";
 import Icon from "@ant-design/icons";
 import { useSelector, connect } from "react-redux";
 import ScheduleMeetingMobile from "../mobile/ScheduleMeetingMobile";
-import { useKeycloak } from "@react-keycloak/web";
+import { useKeycloak } from "@react-keycloak/ssr";
 import SellerContact from "../SellerContact/SellerContact";
-import { loginToApp } from "../../AuthWithKeycloak/AuthWithKeycloak";
-import closeButton from "./../../filestore/closeButton";
-import { getUserProfile } from "./../../store/actions";
+import { loginToApp } from "../AuthWithKeycloak";
+import closeButton from "../../public/filestore/closeButton";
+import { getUserProfile } from "../../store/actions";
 import moment from "moment";
-import { history } from "../../store";
-import SPLPLoaderMobile from "./../../filestore/SPLPLoaderMobile";
-import sellerProfileIcon from "./../../filestore/sellerProfileIcon";
-import productListingIcon from "./../../filestore/productListingIcon";
-import locationIcon from "./../../filestore/locationIcon";
-import { Link } from "react-router-dom";
+import SPLPLoaderMobile from "../../public/filestore/SPLPLoaderMobile";
+import sellerProfileIcon from "../../public/filestore/sellerProfileIcon";
+import productListingIcon from "../../public/filestore/productListingIcon";
+import locationIcon from "../../public/filestore/locationIcon";
+import {useRouter} from "next/router";
 const { Content } = Layout;
 
 function SellerProductListingMobile(props) {
   let productList = props.data;
-
+  const router = useRouter();
   const [drawer, setDrawer] = useState(false);
   const [sellerModal, setSellerModal] = useState(false);
   const [ScheduleBenefits, setShowScheduleBenefits] = useState(false);
   const [scheduling, setShowScheduling] = useState(false);
   const isAuthenticated = useSelector((state) => state.auth.authenticated);
-  const [keycloak] = useKeycloak();
+  const {keycloak} = useKeycloak();
   const [successQueryVisible, setSuccessQueryVisible] = useState(false);
   const [schedulingSuccess, setShowSchedulingSuccess] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState(null);
@@ -56,7 +55,7 @@ function SellerProductListingMobile(props) {
     setCategoryName,
     category,
     sellerId = "",
-    sellerDetails = {},
+    sellerDetails,
     userProfile = {},
     isLoading = true,
   } = props;
@@ -149,7 +148,7 @@ function SellerProductListingMobile(props) {
   const handleClick = (e) => {
     setSelectedKey(e.key);
     if (e.key !== "catalog") {
-      history.push("/seller/" + vanityId);
+      router.push("/seller/" + vanityId);
     }
   };
 
@@ -173,7 +172,7 @@ function SellerProductListingMobile(props) {
       setShowScheduleBenefits(false);
       setShowScheduling(true);
     } else {
-      loginToApp({ currentPath: window.location.pathname });
+      loginToApp({ currentPath: router.asPath.split("?")[0] });
     }
   };
 
@@ -225,7 +224,7 @@ function SellerProductListingMobile(props) {
       ),
       slotDate: selectedDate,
     };
-    fetch(process.env.REACT_APP_API_MEETING_URL + "/events/meeting ", {
+    fetch(process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL + "/events/meeting ", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -335,7 +334,7 @@ function SellerProductListingMobile(props) {
                     <Button
                       className="qa-button go-to-cart"
                       onClick={() => {
-                        history.push("/cart");
+                        router.push("/cart");
                       }}
                     >
                       Go to cart
@@ -445,6 +444,7 @@ function SellerProductListingMobile(props) {
                 facets={slp_facets}
                 categories={slp_categories}
                 sellerId={sellerId}
+                pageId="seller-product-listing"
               />
             </Drawer>
           </div>
@@ -513,16 +513,15 @@ function SellerProductListingMobile(props) {
                 next 48 to 72 hours.
               </p>
             </div>
-            <Link to="/">
               <Button
                 className="send-query-success-modal-button"
                 onClick={() => {
+                  router.push("/")
                   successQueryCancel();
                 }}
               >
                 Back to home page
               </Button>
-            </Link>
           </div>
         </Modal>
         <Modal

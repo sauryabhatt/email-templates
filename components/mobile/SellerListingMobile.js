@@ -6,7 +6,7 @@ import SellerFacets from "../common/SellerFacets";
 import BreadCrumb from "../common/BreadCrumb";
 import ContentSection from "../common/ContentSection";
 import SEOFooter from "../common/SEOFooter";
-import SLPLoaderMobile from "./../../filestore/SLPLoaderMobile";
+import SLPLoaderMobile from "../../public/filestore/SLPLoaderMobile";
 import Icon from "@ant-design/icons";
 
 function SellerListingMobile(props) {
