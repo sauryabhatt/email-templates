@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import SellerListingDesktop from "./SellerListingDesktop";
-// import SellerListingMobile from "../mobile/SellerListingMobile";
+import SellerListingMobile from "../mobile/SellerListingMobile";
 import { getSLPDetails } from "../../store/actions";
 // import { Helmet } from "react-helmet";
 import queryString from "query-string";
@@ -61,7 +61,7 @@ const SellerListing = (props) => {
       query = defaultQuery;
     }
 
-    if (categoryId.toLowerCase() !== "all categories") {
+    if (categoryId.toLowerCase() !== "all-categories") {
       query = query + "&f_categories=" + categoryId;
     }
     let jsonQuery = queryString.parse(query);
@@ -122,56 +122,56 @@ const SellerListing = (props) => {
   };
   function setCategoryName (categoryName) {
     switch (categoryName) {
-      case "Home Furnishing":
+      case "home-furnishing":
         setCategoryTitle("Home furnishing suppliers");
         setSubCategoryTitle(
           "Wholesale home furnishing brands who cater to all your needs for sheets, quilts, blankets, cushions, throws, rugs, table mats, runners and more, handcrafted in a wide variety of techniques like applique, kantha, macrame, tufting and hand weaving."
         );
         break;
 
-      case "Furniture & Storage":
+      case "furniture-and-storage":
         setCategoryTitle("Furniture suppliers");
         setSubCategoryTitle(
           "Discover bulk furniture suppliers for chairs, benches, coffee tables, dressers and more, made in artisinal techniques like hand carving, hand weaving & hand painting. Choose from sustainable materials across wood, metal, wicker, rope & marble."
         );
         break;
 
-      case "Home Décor & Accessories":
+      case "home-decor-and-accessories":
         setCategoryTitle("Home decor suppliers");
         setSubCategoryTitle(
           "Handpicked wholesale home decor suppliers who specialize in artisanal techniques of hand carved wood, marble inlay, metal sand casting, cane weaving to create beautiful home accents; lamps, baskets, vases, mirrors, clocks."
         );
         break;
 
-      case "Kitchen & Dining":
+      case "kitchen-and-dining":
         setCategoryTitle("Kitchenware suppliers");
         setSubCategoryTitle(
           "Curated wholesale brands for platters, cutlery, mugs, wine glasses & kitchen storage. Hand carved & hand painted kitchenware turns everyday utilities into objects of art. Choose from sustainable materials like wood, iron, ceramic & glass."
         );
         break;
 
-      case "Fashion":
+      case "fashion":
         setCategoryTitle("Fashion accessories and textiles suppliers");
         setSubCategoryTitle(
           "The best wholesale textile and fashion accessories suppliers across silk, cashmere, cotton and other fabrics specializing in shibori, tie-dye, hand weaving, embroidery, patchwork and many more intricate techniques."
         );
         break;
 
-      case "Pets Essentials":
+      case "pets-essentials":
         setCategoryTitle("Pets accessories suppliers");
         setSubCategoryTitle(
           "Pet accessories wholesale suppliers who cater to all pet needs like food bowls, beds, mats and toys. Crafted in specialized techniques of knitting, patchwork, embroidery in sustainable materials like wood, leather, cotton and more."
         );
         break;
 
-      case "Baby & Kids":
+      case "baby-and-kids":
         setCategoryTitle("Baby & Kids accessories suppliers");
         setSubCategoryTitle(
           "The best wholesale suppliers specialising in baby and kids products. Choose from a wide range of available designs in crib sets, sheets, quilts, diaper bags and even customize designs to your specifications. These exquisite handcrafted eco-friendly wooden and cotton toys will become a part of your kid’s treasures."
         );
         break;
 
-      case "Jewelry":
+      case "jewelry":
         setCategoryTitle("Jewelry suppliers");
         setSubCategoryTitle(
           "Wholesale suppliers for all kinds of Jewelry and accessories. Our sellers specialise in techniques like hammering, inlay, gem craft, wire braiding and more to create stunning earrings, anklets, necklaces, bracelets, nose pins and other accessories."
@@ -189,10 +189,10 @@ const SellerListing = (props) => {
   return (
     <div>
      
-      {/* {mobile ? (
+       {mobile ? (
         <SellerListingMobile
-          data={data}
-          isLoading={isLoading}
+          data={props.listingPage}
+          isLoading={props.listingPage.isLoading}
           getFilterData={getFilterData}
           queryParams={queryParams}
           loadMoreData={loadMoreData}
@@ -201,7 +201,7 @@ const SellerListing = (props) => {
           subCategoryTitle={subCategoryTitle}
           category={category}
         />
-      ) : ( */}
+      ) : ( 
         <SellerListingDesktop
           data={!isServer()?props.listingPage:props.data}
           isLoading={!isServer()?props.listingPage.isLoading:false}
@@ -213,7 +213,7 @@ const SellerListing = (props) => {
           subCategoryTitle={subCategoryTitle}
           category={category}
         />
-      {/* )} */}
+      )}
     </div>
   );
 };

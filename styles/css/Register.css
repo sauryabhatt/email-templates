@@ -786,3 +786,11 @@ p.verification-text {
   margin: 5px 0px;
   line-height: 110%;
 }
+.signup_radio{
+    cursor: pointer;
+    height: 48px;
+    width: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

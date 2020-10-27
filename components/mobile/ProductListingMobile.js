@@ -6,7 +6,7 @@ import ProductFacets from "../common/ProductFacets";
 import BreadCrumb from "../common/BreadCrumb";
 import ContentSection from "../common/ContentSection";
 import PLPFooter from "../common/PLPFooter";
-import SLPLoaderMobile from "./../../filestore/SLPLoaderMobile";
+import SLPLoaderMobile from "../../public/filestore/SLPLoaderMobile";
 import Icon from "@ant-design/icons";
 
 function SellerListingMobile(props) {
@@ -62,7 +62,7 @@ function SellerListingMobile(props) {
   return (
     <div>
       <Layout className="seller-listing-container" id="product-listing-page">
-        <Layout style={{ background: "#f9f7f2", display: "block" }}>
+        <Layout style={{ background: "#f9f7f2", display: "block"}}>
           <BreadCrumb pageId="product-listing" categoryName={category} />
 
           <div className="qa-pad-0-30">

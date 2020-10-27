@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, connect } from "react-redux";
 import  Link  from "next/link";
 import { useRouter } from "next/router";
-
+import responseJSON from "../../public/data/appHeader.json"
 import {
   Layout,
   Button,
@@ -109,7 +109,7 @@ function AppHeader(props) {
   };
 
   const handleLogin = () => {
-    loginToApp(keycloak, { currentPath: encodeURI(router.pathname) });
+    loginToApp(keycloak, { currentPath: encodeURI(router.asPath) });
   };
 
   const handleSignUp = () => {
@@ -133,10 +133,8 @@ function AppHeader(props) {
   async function fetchNdjson (resonse) {
     // let navigationDetails = [];
 
-    const res = await fetch(
-      process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/shop-option-list"
-    );
-    const response = await res.json();
+    // const res = await fetch("/data/appHeader");
+    // const response = await res.json();
     // // const exampleReader = ndjsonStream(response.body).getReader();
     
     // let result;
@@ -147,7 +145,7 @@ function AppHeader(props) {
     // }
     
     let navigationItems = _.mapValues(
-      _.groupBy(response, "column"),
+      _.groupBy(responseJSON, "column"),
       (clist) => clist.map((navigationDetails) => navigationDetails)
     );
     setNavigationItems(navigationItems);
@@ -312,13 +310,13 @@ function AppHeader(props) {
                   if (details.filterType) {
                     link =
                       "/sellers/" +
-                      encodeURIComponent("All Categories") +
+                      "all-categories" +
                       "?" +
                       details.filterType.toLowerCase() +
                       "=" +
-                      encodeURIComponent(details.values);
+                      details.values;
                   } else if (details.action === "L2" && details.values) {
-                    link = "/sellers/" + encodeURIComponent(details.values);
+                    link = "/sellers/" + details.values;
                   }
                   return (
                     <div
@@ -422,7 +420,7 @@ if(_isEmpty(navigationItems)){
   return null;
 }else {
   return (
-    <Row style={{ position: "absolute", zIndex: 1, width: "100%" }}>
+    <Row style={{  zIndex: 1, width: "100%" }}>
       <Col xs={0} sm={0} md={0} lg={24} xl={24}>
         <Header className="app-header">
           <Col
@@ -520,8 +518,6 @@ if(_isEmpty(navigationItems)){
             }}
           >
             <div>
-             
-
               <CurrencyConverter mobile={false} />
               <Link
                 href="/cart"
@@ -709,18 +705,18 @@ if(_isEmpty(navigationItems)){
                             if (details.filterType) {
                               link =
                                 "/sellers/" +
-                                encodeURIComponent("All Categories") +
+                                "all-categories" +
                                 "?" +
                                 details.filterType.toLowerCase() +
                                 "=" +
-                                encodeURIComponent(details.values);
+                                details.values;
                             } else if (
                               details.action === "L2" &&
                               details.values
                             ) {
                               link =
                                 "/sellers/" +
-                                encodeURIComponent(details.values);
+                                details.values;
                             }
                             return (
                               details.font !== "H1" && (
@@ -758,18 +754,18 @@ if(_isEmpty(navigationItems)){
                             if (details.filterType) {
                               link =
                                 "/sellers/" +
-                                encodeURIComponent("All Categories") +
+                                "all-categories" +
                                 "?" +
                                 details.filterType.toLowerCase() +
                                 "=" +
-                                encodeURIComponent(details.values);
+                                details.values;
                             } else if (
                               details.action === "L2" &&
                               details.values
                             ) {
                               link =
                                 "/sellers/" +
-                                encodeURIComponent(details.values);
+                                details.values;
                             }
                             return (
                               <Menu.Item key={key + id}>

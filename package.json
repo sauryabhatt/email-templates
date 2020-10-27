@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export",
+    "build": "next build",
     "start": "next start"
   },
   "dependencies": {
@@ -30,6 +30,7 @@
     "react-infinite-scroll-component": "^5.1.0",
     "react-modal-video": "^1.2.6",
     "react-pdf": "^5.0.0",
+    "react-phone-input-2": "^2.13.8",
     "react-phone-number-input": "^3.1.0",
     "react-redux": "^7.2.1",
     "react-slick": "^0.27.11",

@@ -121,7 +121,7 @@
   padding-left: 15px;
 }
 .mobile-slider-menu.ant-drawer-left .ant-menu-submenu-arrow {
-  right: 0px;
+  right: 0px !important;
 }
 .header-navigation-menu.ant-dropdown.ant-dropdown-placement-bottomLeft {
   width: 100%;
@@ -373,12 +373,12 @@
     margin-bottom: 10px;
   }
   .app-header {
-    height: 62px;
-    padding: 15px 20px 0 20px;
+    height: 62px !important; 
+    padding: 15px 20px 0 20px !important;
     background: #191919 !important;
     /* background: transparent; */
     display: flex;
-    line-height: 0;
+    line-height: 0 !important;
   }
 
   .send-query-button {
