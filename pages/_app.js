@@ -15,14 +15,7 @@ import Cookies from 'js-cookie'
 import store  from '../store';
 import { setTokenSuccess, setTokenFail } from '../store/actions';
 import {useRouter} from 'next/router';
-import { Amplify } from 'aws-amplify';
-import awsExports from '../aws-exports';
 
-Amplify.configure({
-  ...awsExports,
-  ssr: true
-}
-)
 
 let timeSkew = 10;
 const generateToken=async ()=>{
