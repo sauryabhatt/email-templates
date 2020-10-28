@@ -34,6 +34,7 @@ export const getServerSideProps=async ({req, params: { articleId = "" } = {} })=
   return {
     props: {
       data: res1
-    }
+    },
+    fallback: false
   }
 }
