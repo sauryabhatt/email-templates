@@ -84,7 +84,7 @@ export default function SellerListingPage({data}) {
 export async function getStaticPaths() {
     return {
       paths: [],
-      fallback: true,
+      fallback: false,
     };
 }
 const getURL = (category) =>{
