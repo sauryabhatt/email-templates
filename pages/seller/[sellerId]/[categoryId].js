@@ -28,12 +28,12 @@ export default function SellerProductListingPage({ data }) {
 const getURL = (categoryId, sellerId) => {
   if (categoryId === "all-categories") {
     return (
-      process.env.REACT_APP_API_FACET_PRODUCT_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL +
       `/splp?from=0&size=30&sort_by=visibleTo&sort_order=ASC&sellerId=${sellerId}`
     );
   } else {
     return (
-      process.env.REACT_APP_API_FACET_PRODUCT_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL +
       `/splp?from=0&size=30&sort_by=visibleTo&sort_order=ASC&sellerId=${sellerId}&f_categories=${categoryId}`
     );
   }

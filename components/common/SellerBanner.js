@@ -11,7 +11,8 @@ function SellerBanner(props) {
     props.bannerImage &&
       props.bannerImage.media &&
       props.bannerImage.media.mediaUrl &&
-      process.env.REACT_APP_ASSETS_FILE_URL + props.bannerImage.media.mediaUrl
+      process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
+        props.bannerImage.media.mediaUrl
   );
 
   useEffect(() => {
@@ -19,7 +20,8 @@ function SellerBanner(props) {
       props.bannerImage &&
         props.bannerImage.media &&
         props.bannerImage.media.mediaUrl &&
-        process.env.REACT_APP_ASSETS_FILE_URL + props.bannerImage.media.mediaUrl
+        process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
+          props.bannerImage.media.mediaUrl
     );
   }, [props]);
 

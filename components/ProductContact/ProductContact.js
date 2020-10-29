@@ -48,7 +48,7 @@ const ProductContact = (props) => {
   } = productDetails || {};
 
   let galleryImages = [];
-  let url = process.env.REACT_APP_ASSETS_FILE_URL;
+  let url = process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL;
   if (variants.length) {
     for (let list of variants) {
       if (list["mediaUrls"].length) {
@@ -243,7 +243,8 @@ const ProductContact = (props) => {
   let imageUrl2;
 
   if (heroImageUrl) {
-    imageUrl1 = process.env.REACT_APP_ASSETS_FILE_URL + heroImageUrl;
+    imageUrl1 =
+      process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL + heroImageUrl;
     imageUrl2 = galleryImages[0];
   } else {
     imageUrl1 = galleryImages[0];
@@ -322,7 +323,7 @@ const ProductContact = (props) => {
                     props.sellerDetails.brandLogo &&
                     props.sellerDetails.brandLogo.media &&
                     props.sellerDetails.brandLogo.media.mediaUrl &&
-                    process.env.REACT_APP_ASSETS_FILE_URL +
+                    process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
                       props.sellerDetails.brandLogo.media.mediaUrl
                   }
                 ></Avatar> */}
@@ -872,7 +873,7 @@ const ProductContact = (props) => {
                     props.sellerDetails.brandLogo &&
                     props.sellerDetails.brandLogo.media &&
                     props.sellerDetails.brandLogo.media.mediaUrl &&
-                    process.env.REACT_APP_ASSETS_FILE_URL +
+                    process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
                       props.sellerDetails.brandLogo.media.mediaUrl
                   }
                 ></Avatar> */}

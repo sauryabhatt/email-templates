@@ -213,7 +213,7 @@ const ProductDetails = (props) => {
   const [inStock, setInStock] = useState(0);
   const [errorMsg, setErrorMsg] = useState("");
   // let mediaMatch;
-  const url = process.env.REACT_APP_ASSETS_FILE_URL;
+  const url = process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL;
 
   const node = useRef();
 

@@ -105,7 +105,8 @@ function Accordion(props) {
     });
   let customColors = Object.keys(colorCustomizations).map(function (key, i) {
     let imageUrl =
-      process.env.REACT_APP_ASSETS_FILE_URL + colorCustomizations[key];
+      process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
+      colorCustomizations[key];
     let colorName =
       key.toLowerCase().charAt(0).toUpperCase() + key.toLowerCase().slice(1);
     let styleName = "odd";
@@ -126,7 +127,8 @@ function Accordion(props) {
     i
   ) {
     let imageUrl =
-      process.env.REACT_APP_ASSETS_FILE_URL + packagingCustomizations[key];
+      process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
+      packagingCustomizations[key];
     let colorName =
       key.toLowerCase().charAt(0).toUpperCase() + key.toLowerCase().slice(1);
     let styleName = "odd";

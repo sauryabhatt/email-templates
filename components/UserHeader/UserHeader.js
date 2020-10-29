@@ -73,7 +73,7 @@ function UserHeader(props) {
       props.userProfile.userProfile.profileImage &&
       props.userProfile.userProfile.profileImage.media &&
       props.userProfile.userProfile.profileImage.media.mediaUrl &&
-      process.env.REACT_APP_ASSETS_FILE_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
         props.userProfile.userProfile.profileImage.media.mediaUrl
   );
 
@@ -294,7 +294,7 @@ function UserHeader(props) {
         props.userProfile.userProfile.profileImage &&
         props.userProfile.userProfile.profileImage.media &&
         props.userProfile.userProfile.profileImage.media.mediaUrl &&
-        process.env.REACT_APP_ASSETS_FILE_URL +
+        process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
           props.userProfile.userProfile.profileImage.media.mediaUrl
     );
   }, [props.userProfile.userProfile]);
