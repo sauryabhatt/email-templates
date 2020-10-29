@@ -24,13 +24,13 @@ import { getCountries } from "react-phone-number-input/input";
 import en from "react-phone-number-input/locale/en.json";
 import { loginToApp } from "../AuthWithKeycloak";
 // import './index.css';
-import  Link  from "next/link";
+import Link from "next/link";
 
 const { Option } = Select;
 
 const SendQueryForm = (props) => {
   const [form] = Form.useForm();
-  const router= useRouter();
+  const router = useRouter();
 
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -151,7 +151,7 @@ const SendQueryForm = (props) => {
         let { ip = "", country = "" } = result;
         data.fromIP = ip;
         data.ipCountry = country;
-        fetch(process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/queries", {
+        fetch(process.env.REACT_APP_API_FORM_URL + "/forms/queries", {
           method: "POST",
           body: JSON.stringify(data),
           headers: {
@@ -643,7 +643,11 @@ const SendQueryForm = (props) => {
               >
                 <Checkbox className="check-box-tnc">
                   Standard{" "}
-                  <Link className="link-text" href="/TermsOfUse" target="_blank">
+                  <Link
+                    className="link-text"
+                    href="/TermsOfUse"
+                    target="_blank"
+                  >
                     T&C
                   </Link>{" "}
                   apply.

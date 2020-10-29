@@ -13,11 +13,11 @@ import CraftCarousel from "./../CraftCarousel/CraftCarousel";
 import SellerCarousel from "./../SellerCarousel/SellerCarousel";
 import closeButton from "../../public/filestore/closeButton";
 import { connect } from "react-redux";
-import {useRouter} from 'next/router';
+import { useRouter } from "next/router";
 import Link from "next/link";
 
 function Home(props) {
-  const router = useRouter();  
+  const router = useRouter();
   const isAuthenticated = useSelector((state) => state.auth.authenticated);
   const [visible, setVisible] = useState(false);
   const [successQueryVisible, setSuccessQueryVisible] = useState(false);
@@ -156,7 +156,7 @@ function Home(props) {
   };
 
   const sendInviteData = (data) => {
-    fetch(process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/lead-gens", {
+    fetch(process.env.REACT_APP_API_FORM_URL + "/forms/lead-gens", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {

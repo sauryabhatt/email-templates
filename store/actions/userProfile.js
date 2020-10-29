@@ -1,7 +1,7 @@
 /** @format */
 
 import * as actionTypes from "./../types";
-import Router from 'next/router'
+import Router from "next/router";
 import queryString from "query-string";
 import { message } from "antd";
 
@@ -36,7 +36,7 @@ export const getUserProfile = (token) => {
   // console.log(token);
   return (dispatch) => {
     dispatch(setUserProfileLoading(true));
-    return fetch(process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/profiles/my", {
+    return fetch(process.env.REACT_APP_API_PROFILE_URL + "/profiles/my", {
       method: "GET",
       headers: {
         Authorization: "Bearer " + token,
@@ -60,16 +60,16 @@ export const getUserProfile = (token) => {
         if (values.redirectURI) {
           Router.push(
             "/error?message=" +
-            (error.message || error) +
-            "&redirectURI=" +
-            values.redirectURI
+              (error.message || error) +
+              "&redirectURI=" +
+              values.redirectURI
           );
         } else {
           Router.push(
             "/error?message=" +
-            (error.message || error) +
-            "&redirectURI=" +
-            Router.location.pathname
+              (error.message || error) +
+              "&redirectURI=" +
+              Router.location.pathname
           );
         }
         dispatch(setUserProfileLoading(false));
@@ -87,7 +87,7 @@ export const setSellerAgreement = (filename, token) => async (dispatch) => {
     agreementTitle: filename,
   };
 
-  fetch(process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/profiles/my", {
+  fetch(process.env.REACT_APP_API_PROFILE_URL + "/profiles/my", {
     method: "PATCH",
     body: JSON.stringify(body),
     headers: {
@@ -127,7 +127,7 @@ export const getOpenRequest = (token, profileId, status) => async (
 ) => {
   // dispatch(setScheduleRequests(scheduleRequests))
   let url =
-    process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL +
+    process.env.REACT_APP_API_MEETING_URL +
     "/events/meeting/my?profile_id=" +
     profileId +
     "&status=" +
@@ -177,7 +177,7 @@ export const setScheduleRequests = (result) => {
 export const getRequestByStatus = (token, profileId, status) => {
   return (dispatch) => {
     let url =
-      process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL +
+      process.env.REACT_APP_API_MEETING_URL +
       "/events/meeting/my?profile_id=" +
       profileId +
       "&status=" +
@@ -209,7 +209,7 @@ export const getRequestByStatus = (token, profileId, status) => {
 export const getMeetingCount = (profileId, token) => {
   return (dispatch) => {
     let url =
-      process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL +
+      process.env.REACT_APP_API_MEETING_URL +
       "/events/meeting/count?profile_id=" +
       profileId;
     fetch(url, {
@@ -282,9 +282,13 @@ export const setMyAddresse = (data) => {
   };
 };
 
-export const getBrandNameByCode = (codes, token, quoteData) => async dispatch => {
+export const getBrandNameByCode = (codes, token, quoteData) => async (
+  dispatch
+) => {
   fetch(
-    process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/seller-home/internal-views/multi?ids=" + codes,
+    process.env.REACT_APP_API_PROFILE_URL +
+      "/seller-home/internal-views/multi?ids=" +
+      codes,
     {
       method: "GET",
       headers: {
@@ -307,12 +311,18 @@ export const getBrandNameByCode = (codes, token, quoteData) => async dispatch =>
     .catch((err) => {
       // message.error(err.message || err, 5);
     });
-}
+};
 
-export const getQuoteByStatus = (token, status, currentTab, buyerId) => async (dispatch) => {
+export const getQuoteByStatus = (token, status, currentTab, buyerId) => async (
+  dispatch
+) => {
   // dispatch(setScheduleRequests(scheduleRequests))
   fetch(
-    process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/quotes/custom?status=" + status + "&buyer_id=" + buyerId,
+    process.env.REACT_APP_API_FORM_URL +
+      "/quotes/custom?status=" +
+      status +
+      "&buyer_id=" +
+      buyerId,
     {
       method: "GET",
       headers: {
@@ -330,28 +340,28 @@ export const getQuoteByStatus = (token, status, currentTab, buyerId) => async (d
     })
     .then((res) => {
       let sellerCodeList = [];
-      if (currentTab != 'requested') {
-        res.map(e => {
+      if (currentTab != "requested") {
+        res.map((e) => {
           if (e.subOrders) {
-            e.subOrders.map(sub => {
+            e.subOrders.map((sub) => {
               if (!sellerCodeList.includes(sub.sellerCode)) {
-                sellerCodeList.push(sub.sellerCode)
+                sellerCodeList.push(sub.sellerCode);
               }
-            })
+            });
           } else {
             if (!sellerCodeList.includes(e.sellerCode)) {
               sellerCodeList.push(e.sellerCode);
             }
           }
-        })
+        });
         let codes = sellerCodeList.join();
         dispatch(getBrandNameByCode(codes, token, res));
       } else {
-        res.map(e => {
+        res.map((e) => {
           if (!sellerCodeList.includes(e.sellerCode)) {
             sellerCodeList.push(e.sellerCode);
           }
-        })
+        });
         let codes = sellerCodeList.join();
         dispatch(getBrandNameByCode(codes, token, res));
       }
@@ -382,7 +392,7 @@ export const setQuoteBYStatus = (data) => {
 
 export const getOrderByOrderId = (token, orderId) => async (dispatch) => {
   // dispatch(setScheduleRequests(scheduleRequests))
-  fetch(process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL + "/orders/composite/" + orderId, {
+  fetch(process.env.REACT_APP_ORDER_ORC_URL + "/orders/composite/" + orderId, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -398,11 +408,11 @@ export const getOrderByOrderId = (token, orderId) => async (dispatch) => {
     })
     .then((res) => {
       let sellerCodeList = [];
-      res.subOrders.map(subOrder => {
+      res.subOrders.map((subOrder) => {
         if (!sellerCodeList.includes(subOrder.sellerCode)) {
-          sellerCodeList.push(subOrder.sellerCode)
+          sellerCodeList.push(subOrder.sellerCode);
         }
-      })
+      });
       let codes = sellerCodeList.join();
       dispatch(getBrandNameByCode(codes, token, res));
       return dispatch(setOrderByOrderId(res));
@@ -423,7 +433,7 @@ export const setOrderByOrderId = (data) => {
 
 export const getOrders = (token) => async (dispatch) => {
   // dispatch(setScheduleRequests(scheduleRequests))
-  let url = process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL + "/orders"
+  let url = process.env.REACT_APP_ORDER_ORC_URL + "/orders";
   fetch(url, {
     method: "GET",
     headers: {
@@ -440,15 +450,15 @@ export const getOrders = (token) => async (dispatch) => {
     })
     .then((res) => {
       let sellerCodeList = [];
-      res.map(e => {
+      res.map((e) => {
         if (e.subOrders) {
-          e.subOrders.map(sub => {
+          e.subOrders.map((sub) => {
             if (!sellerCodeList.includes(sub.sellerCode)) {
-              sellerCodeList.push(sub.sellerCode)
+              sellerCodeList.push(sub.sellerCode);
             }
-          })
+          });
         }
-      })
+      });
       let codes = sellerCodeList.join();
       dispatch(getBrandNameByCode(codes, token, res));
       return dispatch(setMyOrders(res));
@@ -472,7 +482,10 @@ export const setMyOrders = (data) => {
 export const getRfqByStatus = (status, token, buyerId) => async (dispatch) => {
   // dispatch(setScheduleRequests(scheduleRequests))
   fetch(
-    process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/queries/status?buyer_id=" + buyerId + "&status=OPEN,ASSIGNED,LINKED",
+    process.env.REACT_APP_API_FORM_URL +
+      "/forms/queries/status?buyer_id=" +
+      buyerId +
+      "&status=OPEN,ASSIGNED,LINKED",
     {
       method: "GET",
       headers: {
@@ -490,11 +503,11 @@ export const getRfqByStatus = (status, token, buyerId) => async (dispatch) => {
     })
     .then((res) => {
       let sellerCodeList = [];
-      res.map(e => {
+      res.map((e) => {
         if (!sellerCodeList.includes(e.sellerId)) {
-          sellerCodeList.push(e.sellerId)
+          sellerCodeList.push(e.sellerId);
         }
-      })
+      });
       let codes = sellerCodeList.join();
       dispatch(getBrandNameByCode(codes, token, res));
       return dispatch(setQuoteBYStatus(res));

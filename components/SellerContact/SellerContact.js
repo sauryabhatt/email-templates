@@ -24,10 +24,10 @@ import { getCountries } from "react-phone-number-input/input";
 import en from "react-phone-number-input/locale/en.json";
 import { loginToApp } from "../AuthWithKeycloak";
 // import './index.css';
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 
 import certifiedIcon from "../../public/filestore/certifiedIcon";
-import Link  from "next/link";
+import Link from "next/link";
 
 const { Option } = Select;
 
@@ -138,7 +138,7 @@ const SellerContact = (props) => {
       rfqType: "SELLER",
       sellerId: props.sellerDetails.id.split("::")[2],
       buyerId: props.userId && props.userId.split("::")[1],
-      sellerBrandName: props.sellerDetails.brandName
+      sellerBrandName: props.sellerDetails.brandName,
     };
 
     if (keycloak.authenticated) {
@@ -163,7 +163,7 @@ const SellerContact = (props) => {
         let { ip = "", country = "" } = result;
         data.fromIP = ip;
         data.ipCountry = country;
-        fetch(process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/queries", {
+        fetch(process.env.REACT_APP_API_FORM_URL + "/forms/queries", {
           method: "POST",
           body: JSON.stringify(data),
           headers: {

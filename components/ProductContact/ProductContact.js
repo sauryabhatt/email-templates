@@ -22,8 +22,8 @@ import { getCountries } from "react-phone-number-input/input";
 import en from "react-phone-number-input/locale/en.json";
 import { loginToApp } from "../AuthWithKeycloak";
 import certifiedIcon from "../../public/filestore/certifiedIcon";
-import  Link  from "next/link";
-import {useRouter} from "next/router";
+import Link from "next/link";
+import { useRouter } from "next/router";
 const { Option } = Select;
 
 const ProductContact = (props) => {
@@ -48,7 +48,7 @@ const ProductContact = (props) => {
   } = productDetails || {};
 
   let galleryImages = [];
-  let url = process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL;
+  let url = process.env.REACT_APP_ASSETS_FILE_URL;
   if (variants.length) {
     for (let list of variants) {
       if (list["mediaUrls"].length) {
@@ -64,9 +64,9 @@ const ProductContact = (props) => {
     "image/jpeg",
     "image/png",
   ];
-useEffect(() => {
-  mediaMatch = window.matchMedia("(min-width: 768px)");
-}, [])
+  useEffect(() => {
+    mediaMatch = window.matchMedia("(min-width: 768px)");
+  }, []);
   const beforeUpload = (file) => {
     const isJpgOrPng = acceptedFileTypes.includes(file.type);
     if (!isJpgOrPng) {
@@ -148,7 +148,7 @@ useEffect(() => {
       skuId: skuId,
       sellerId: props.sellerDetails.id.split("::")[2],
       buyerId: props.userId && props.userId.split("::")[1],
-      productName: props.productDetails.productName
+      productName: props.productDetails.productName,
     };
 
     if (keycloak.authenticated) {
@@ -171,7 +171,7 @@ useEffect(() => {
         let { ip = "", country = "" } = result;
         data.fromIP = ip;
         data.ipCountry = country;
-        fetch(process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/queries", {
+        fetch(process.env.REACT_APP_API_FORM_URL + "/forms/queries", {
           method: "POST",
           body: JSON.stringify(data),
           headers: {
@@ -781,7 +781,11 @@ useEffect(() => {
               >
                 <Checkbox className="check-box-tnc">
                   Standard{" "}
-                  <Link className="link-text" href="/TermsOfUse" target="_blank">
+                  <Link
+                    className="link-text"
+                    href="/TermsOfUse"
+                    target="_blank"
+                  >
                     T&C
                   </Link>{" "}
                   apply.

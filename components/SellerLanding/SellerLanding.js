@@ -7,14 +7,13 @@ import SellerLandingMobile from "../mobile/SellerLandingMobile";
 import { getSellerDetails } from "../../store/actions";
 import { useKeycloak } from "@react-keycloak/ssr";
 import { useSelector } from "react-redux";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 const isServer = () => typeof window == undefined;
 
 const SellerLanding = (props) => {
-  let data = !isServer()?props.sellerDetails:props.data.sellerDetails;
+  let data = !isServer() ? props.sellerDetails : props.data.sellerDetails;
   const router = useRouter();
-  let { sellerId:sellerIdParam } = router.query;
-
+  let { sellerId: sellerIdParam } = router.query;
 
   let { userProfile = {}, isLoading = true } = props;
 
@@ -24,14 +23,14 @@ const SellerLanding = (props) => {
     (state) => state.appToken.token && state.appToken.token.access_token
   );
 
-  const {keycloak} = useKeycloak();
+  const { keycloak } = useKeycloak();
   const [mobile, setMobile] = useState(false);
   const [sellerId, setSellerId] = useState("");
   const [sellerSubscriptions, setSellerSubscriptions] = useState([]);
   const [aboutCompany, setAboutCompany] = useState("");
   const [productPopupDetails, setProductPopupDetails] = useState("");
   // const [identityId, setIdentityId] = useState(null)
-  
+
   useEffect(() => {
     let width = window.screen ? window.screen.width : window.innerWidth;
     if (width <= 768) {
@@ -44,11 +43,15 @@ const SellerLanding = (props) => {
 
     if (keycloak.token && props.userProfile) {
       let { verificationStatus = "", profileType = "" } = props.userProfile;
-      props.getSellerDetails(keycloak.token, sellerIdParam?.toLowerCase(), verificationStatus);
+      props.getSellerDetails(
+        keycloak.token,
+        sellerIdParam?.toLowerCase(),
+        verificationStatus
+      );
 
       if (profileType === "BUYER" && verificationStatus === "IN_PROGRESS") {
         fetch(
-          process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/profiles/my/subscriptions",
+          process.env.REACT_APP_API_PROFILE_URL + "/profiles/my/subscriptions",
           {
             method: "GET",
             headers: {
@@ -82,7 +85,7 @@ const SellerLanding = (props) => {
       id = id.replace("HOME::", "");
       setSellerId(id);
       fetch(
-        process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
+        process.env.REACT_APP_API_PROFILE_URL +
           "/seller-home/ABOUT::" +
           id +
           "/about",
@@ -110,7 +113,7 @@ const SellerLanding = (props) => {
         });
 
       fetch(
-        process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
+        process.env.REACT_APP_API_PROFILE_URL +
           "/seller-home/" +
           id +
           "/category-product-range",
@@ -153,7 +156,7 @@ const SellerLanding = (props) => {
             (props.sellerDetails && props.sellerDetails.kcIdentityId) || null
           }
         />
-      ) : ( 
+      ) : (
         <SellerLandingDesktop
           data={data}
           isLoading={isLoading}
@@ -167,7 +170,7 @@ const SellerLanding = (props) => {
             (props.sellerDetails && props.sellerDetails.kcIdentityId) || null
           }
         />
-       )} 
+      )}
     </div>
   );
 };
