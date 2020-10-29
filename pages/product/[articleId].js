@@ -31,7 +31,7 @@ export const getServerSideProps = async ({
   params: { articleId = "" } = {},
 }) => {
   const response = await fetch(
-    process.env.REACT_APP_API_PRODUCT_DESCRIPTION_URL +
+    process.env.NEXT_PUBLIC_REACT_APP_API_PRODUCT_DESCRIPTION_URL +
       `/products/${articleId}`,
     {
       method: "GET",
