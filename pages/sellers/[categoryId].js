@@ -100,12 +100,12 @@ export async function getStaticPaths() {
 const getURL = (category) => {
   if (category === "all-categories") {
     return (
-      process.env.REACT_APP_API_FACET_PRODUCT_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL +
       "/seller-home?from=0&size=30&sort_by=publishedTimeStamp&sort_order=DESC"
     );
   } else {
     return (
-      process.env.REACT_APP_API_FACET_PRODUCT_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL +
       `/seller-home?from=0&size=30&sort_by=publishedTimeStamp&sort_order=DESC&f_categories=${category}`
     );
   }

@@ -212,7 +212,7 @@ const SellerLandingDesktop = (props) => {
       props.data.showRoom.catalogMedia &&
       props.data.showRoom.catalogMedia.media &&
       props.data.showRoom.catalogMedia.media.mediaUrl &&
-      process.env.REACT_APP_ASSETS_FILE_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
         props.data.showRoom.catalogMedia.media.mediaUrl
   );
 
@@ -221,7 +221,7 @@ const SellerLandingDesktop = (props) => {
       props.data.showcaseMedia &&
       props.data.showcaseMedia.media &&
       props.data.showcaseMedia.media.mediaUrl &&
-      process.env.REACT_APP_ASSETS_FILE_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
         props.data.showcaseMedia.media.mediaUrl
   );
 
@@ -231,7 +231,7 @@ const SellerLandingDesktop = (props) => {
         props.data.brandLogo &&
         props.data.brandLogo.media &&
         props.data.brandLogo.media.mediaUrl &&
-        process.env.REACT_APP_ASSETS_FILE_URL +
+        process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
           props.data.brandLogo.media.mediaUrl
     );
     setShowroomMediaUrl(
@@ -240,7 +240,7 @@ const SellerLandingDesktop = (props) => {
         props.data.showRoom.catalogMedia &&
         props.data.showRoom.catalogMedia.media &&
         props.data.showRoom.catalogMedia.media.mediaUrl &&
-        process.env.REACT_APP_ASSETS_FILE_URL +
+        process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
           props.data.showRoom.catalogMedia.media.mediaUrl
     );
     setShowcaseMediaUrl(
@@ -248,7 +248,7 @@ const SellerLandingDesktop = (props) => {
         props.data.showcaseMedia &&
         props.data.showcaseMedia.media &&
         props.data.showcaseMedia.media.mediaUrl &&
-        process.env.REACT_APP_ASSETS_FILE_URL +
+        process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
           props.data.showcaseMedia.media.mediaUrl
     );
     for (let orderDetails of orderMinimums) {
@@ -608,7 +608,8 @@ const SellerLandingDesktop = (props) => {
       displayMedia &&
       displayMedia.media &&
       displayMedia.media.mediaUrl &&
-      process.env.REACT_APP_ASSETS_FILE_URL + displayMedia.media.mediaUrl;
+      process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
+        displayMedia.media.mediaUrl;
 
     let pdfFile = false;
     let { altName = "", seoTitle = "", media = {} } = catalogMedia;
@@ -1699,7 +1700,7 @@ const SellerLandingDesktop = (props) => {
                   offerings[pdfValue].catalogMedia &&
                   offerings[pdfValue].catalogMedia.media &&
                   offerings[pdfValue].catalogMedia.media.mediaUrl &&
-                  process.env.REACT_APP_ASSETS_FILE_URL +
+                  process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
                     offerings[pdfValue].catalogMedia.media.mediaUrl ? (
                     <DynamicPDFDocument
                       url={
@@ -1709,7 +1710,7 @@ const SellerLandingDesktop = (props) => {
                         offerings[pdfValue].catalogMedia &&
                         offerings[pdfValue].catalogMedia.media &&
                         offerings[pdfValue].catalogMedia.media.mediaUrl &&
-                        process.env.REACT_APP_ASSETS_FILE_URL +
+                        process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
                           offerings[pdfValue].catalogMedia.media.mediaUrl
                       }
                     />

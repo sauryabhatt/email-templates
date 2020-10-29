@@ -42,7 +42,7 @@ function SellerProductListingDesktop(props) {
       props.sellerDetails.brandLogo &&
       props.sellerDetails.brandLogo.media &&
       props.sellerDetails.brandLogo.media.mediaUrl &&
-      process.env.REACT_APP_ASSETS_FILE_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
         props.sellerDetails.brandLogo.media.mediaUrl
   );
 
@@ -58,7 +58,7 @@ function SellerProductListingDesktop(props) {
         props.sellerDetails.brandLogo &&
         props.sellerDetails.brandLogo.media &&
         props.sellerDetails.brandLogo.media.mediaUrl &&
-        process.env.REACT_APP_ASSETS_FILE_URL +
+        process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
           props.sellerDetails.brandLogo.media.mediaUrl
     );
   }, [props]);

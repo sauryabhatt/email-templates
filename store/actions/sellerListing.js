@@ -73,7 +73,7 @@ export const getSLPDetails = (
   return (dispatch) => {
     if (loader) dispatch(setListingPageLoading(true));
     return fetch(
-      process.env.REACT_APP_API_FACET_PRODUCT_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL +
         "/seller-home?" +
         queryResult,
       {
@@ -125,7 +125,9 @@ export const getSPLPDetails = (queryResult, prevStateData = false) => {
   return (dispatch) => {
     // dispatch(setListingPageLoading(true));
     return fetch(
-      process.env.REACT_APP_API_FACET_PRODUCT_URL + "/splp?" + queryResult,
+      process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL +
+        "/splp?" +
+        queryResult,
       {
         method: "GET",
       }
@@ -320,7 +322,9 @@ export const getPLPDetails = (
   return (dispatch) => {
     if (loader) dispatch(setListingPageLoading(true));
     return fetch(
-      process.env.REACT_APP_API_FACET_PRODUCT_URL + "/plp?" + queryResult,
+      process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL +
+        "/plp?" +
+        queryResult,
       {
         method: "GET",
       }

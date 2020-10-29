@@ -75,7 +75,7 @@ function SellerLandingMobile(props) {
         props.data.showRoom.catalogMedia &&
         props.data.showRoom.catalogMedia.media &&
         props.data.showRoom.catalogMedia.media.mediaUrl &&
-        process.env.REACT_APP_ASSETS_FILE_URL +
+        process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
           props.data.showRoom.catalogMedia.media.mediaUrl
     );
     setShowcaseMediaUrl(
@@ -83,7 +83,7 @@ function SellerLandingMobile(props) {
         props.data.showcaseMedia &&
         props.data.showcaseMedia.media &&
         props.data.showcaseMedia.media.mediaUrl &&
-        process.env.REACT_APP_ASSETS_FILE_URL +
+        process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
           props.data.showcaseMedia.media.mediaUrl
     );
     for (let orderDetails of orderMinimums) {
@@ -150,7 +150,7 @@ function SellerLandingMobile(props) {
       props.data.showcaseMedia &&
       props.data.showcaseMedia.media &&
       props.data.showcaseMedia.media.mediaUrl &&
-      process.env.REACT_APP_ASSETS_FILE_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
         props.data.showcaseMedia.media.mediaUrl
   );
 
@@ -160,7 +160,7 @@ function SellerLandingMobile(props) {
       props.data.showRoom.catalogMedia &&
       props.data.showRoom.catalogMedia.media &&
       props.data.showRoom.catalogMedia.media.mediaUrl &&
-      process.env.REACT_APP_ASSETS_FILE_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
         props.data.showRoom.catalogMedia.media.mediaUrl
   );
 
@@ -692,7 +692,8 @@ function SellerLandingMobile(props) {
       displayMedia &&
       displayMedia.media &&
       displayMedia.media.mediaUrl &&
-      process.env.REACT_APP_ASSETS_FILE_URL + displayMedia.media.mediaUrl;
+      process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
+        displayMedia.media.mediaUrl;
 
     let pdfFile = false;
     let { altName = "", seoTitle = "", media = {} } = catalogMedia;
@@ -1670,7 +1671,7 @@ function SellerLandingMobile(props) {
                 offerings[pdfValue].catalogMedia &&
                 offerings[pdfValue].catalogMedia.media &&
                 offerings[pdfValue].catalogMedia.media.mediaUrl &&
-                process.env.REACT_APP_ASSETS_FILE_URL +
+                process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
                   offerings[pdfValue].catalogMedia.media.mediaUrl ? (
                   <PDFDocument
                     isMobile={true}
@@ -1681,7 +1682,7 @@ function SellerLandingMobile(props) {
                       offerings[pdfValue].catalogMedia &&
                       offerings[pdfValue].catalogMedia.media &&
                       offerings[pdfValue].catalogMedia.media.mediaUrl &&
-                      process.env.REACT_APP_ASSETS_FILE_URL +
+                      process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
                         offerings[pdfValue].catalogMedia.media.mediaUrl
                     }
                   />
