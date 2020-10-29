@@ -1,10 +1,10 @@
 /** @format */
-/* @import "~react-image-gallery/styles/css/image-gallery.css"; */
+@import "~react-image-gallery/styles/css/image-gallery.css";
 
 #product-description {
   background-color: #f9f7f2;
   display: block;
-  padding-top: 90px;
+  padding-top: 20px;
 }
 #product-description .product-org-section {
   background: #e6e4df;
@@ -642,16 +642,16 @@
     position: relative !important;
     white-space: nowrap !important;
     text-align: center !important;
-}
-.image-gallery-slide.center {
-  position: relative;
-}
-.image-gallery-slide {
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 100%;
-}
+  }
+  .image-gallery-slide.center {
+    position: relative;
+  }
+  .image-gallery-slide {
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
   #product-description .p-box.odd {
     margin: 20px;
   }
@@ -735,7 +735,7 @@
   background: transparent;
   margin-left: 20px;
   height: 40px;
-  font-weight:bold;
+  font-weight: bold;
 }
 #product-description .qa-error-atc {
   color: #191919;
