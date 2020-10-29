@@ -144,10 +144,10 @@ function DynamicCarousel(props) {
       let imageUrl =
         displayMedia.media &&
         displayMedia.media.mediaUrl &&
-        process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL + displayMedia.media.mediaUrl;
+        process.env.REACT_APP_ASSETS_FILE_URL + displayMedia.media.mediaUrl;
 
       if (id === "seller-product-listing" || id === "product-listing") {
-        imageUrl = process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL + item;
+        imageUrl = process.env.REACT_APP_ASSETS_FILE_URL + item;
       }
       return (
         <div key={i} className="slider-slide">

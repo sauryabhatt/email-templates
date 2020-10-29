@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { useState, useRef, useEffect } from "react";
-import  Link  from "next/link";
+import Link from "next/link";
 import {
   Button,
   Row,
@@ -213,7 +213,7 @@ const ProductDetails = (props) => {
   const [inStock, setInStock] = useState(0);
   const [errorMsg, setErrorMsg] = useState("");
   // let mediaMatch;
-  const url = process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL;
+  const url = process.env.REACT_APP_ASSETS_FILE_URL;
 
   const node = useRef();
 
@@ -532,7 +532,8 @@ const ProductDetails = (props) => {
               sku.push(skuId);
               props.checkInventory(token, sku, (result) => {
                 if (result[skuId] >= quantity) {
-                  fetch(`${process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL}/v1/orders/my/${orderId}/product`,
+                  fetch(
+                    `${process.env.REACT_APP_ORDER_URL}/v1/orders/my/${orderId}/product`,
                     {
                       method: "POST",
                       body: JSON.stringify(p_data),
@@ -570,7 +571,7 @@ const ProductDetails = (props) => {
               props.checkInventory(token, sku, (result) => {
                 if (result[skuId] >= quantity) {
                   fetch(
-                    `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/rts/` +
+                    `${process.env.REACT_APP_ORDER_ORC_URL}/orders/rts/` +
                       profileId,
                     {
                       method: "POST",
@@ -591,7 +592,7 @@ const ProductDetails = (props) => {
                       let { orderId = "" } = res;
 
                       fetch(
-                        `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL}/v1/orders/my/${orderId}/product`,
+                        `${process.env.REACT_APP_ORDER_URL}/v1/orders/my/${orderId}/product`,
                         {
                           method: "POST",
                           body: JSON.stringify(p_data),
@@ -679,7 +680,7 @@ const ProductDetails = (props) => {
 
     let s_data = { ...a_data, mode: "SEA" };
 
-    fetch(`${process.env.NEXT_PUBLIC_REACT_APP_DUTY_COST_URL}/dutycost`, {
+    fetch(`${process.env.REACT_APP_DUTY_COST_URL}/dutycost`, {
       method: "POST",
       body: JSON.stringify(a_data),
       headers: {
@@ -701,7 +702,7 @@ const ProductDetails = (props) => {
         console.log(err);
       });
 
-    fetch(`${process.env.NEXT_PUBLIC_REACT_APP_DUTY_COST_URL}/dutycost`, {
+    fetch(`${process.env.REACT_APP_DUTY_COST_URL}/dutycost`, {
       method: "POST",
       body: JSON.stringify(s_data),
       headers: {
@@ -1811,31 +1812,31 @@ const ProductDetails = (props) => {
             <Col xs={24} sm={24} md={24} lg={24} xl={24}>
               <Link href={`/seller/${vanityId}`} target="_blank">
                 <>
-                <div
-                  style={{
-                    display: "inline-block",
-                    verticalAlign: "middle",
-                    width: "95%",
-                  }}
-                >
-                  <div className="qa-tc-white qa-fs-12">Explore seller:</div>
+                  <div
+                    style={{
+                      display: "inline-block",
+                      verticalAlign: "middle",
+                      width: "95%",
+                    }}
+                  >
+                    <div className="qa-tc-white qa-fs-12">Explore seller:</div>
 
-                  <span className="qa-text-2line qa-p-title qa-cursor">
-                    {brandNameSC}
-                  </span>
-                </div>
-                <div
-                  style={{
-                    display: "inline-block",
-                    verticalAlign: "middle",
-                    width: "5%",
-                  }}
-                >
-                  <span style={{ float: "right" }}>
-                    <RightOutlined style={{ color: "#191919" }} />
-                  </span>
-                </div>
-                </>  
+                    <span className="qa-text-2line qa-p-title qa-cursor">
+                      {brandNameSC}
+                    </span>
+                  </div>
+                  <div
+                    style={{
+                      display: "inline-block",
+                      verticalAlign: "middle",
+                      width: "5%",
+                    }}
+                  >
+                    <span style={{ float: "right" }}>
+                      <RightOutlined style={{ color: "#191919" }} />
+                    </span>
+                  </div>
+                </>
               </Link>
             </Col>
           </Row>

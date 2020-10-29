@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import { useSelector, connect } from "react-redux";
-import  Link  from "next/link";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import responseJSON from "../../public/data/appHeader.json"
+import responseJSON from "../../public/data/appHeader.json";
 import {
   Layout,
   Button,
@@ -43,11 +43,11 @@ const { Option } = Select;
 
 function AppHeader(props) {
   let { priceDetails = {} } = props;
-  const {keycloak} = useKeycloak();
-  const router= useRouter();
+  const { keycloak } = useKeycloak();
+  const router = useRouter();
   let { convertToCurrency = "" } = priceDetails || {};
   // const mediaMatch = window.matchMedia("(min-width: 768px)");
-  const mediaMatch={matches:true};
+  const mediaMatch = { matches: true };
   const [form] = Form.useForm();
   const [searchForm] = Form.useForm();
   const [visible, setVisible] = useState(false);
@@ -129,21 +129,21 @@ function AppHeader(props) {
     handleSearchChangeMob(false);
     handleSearchChange(false);
   };
-  
-  async function fetchNdjson (resonse) {
+
+  async function fetchNdjson(resonse) {
     // let navigationDetails = [];
 
     // const res = await fetch("/data/appHeader");
     // const response = await res.json();
     // // const exampleReader = ndjsonStream(response.body).getReader();
-    
+
     // let result;
     // while (!result || !result.done) {
     //   result = await exampleReader.read();
     //   if (!result.done) navigationDetails.push(result.value);
     //   // console.log(result.done, result.value); //result.value is one line of your NDJSON data
     // }
-    
+
     let navigationItems = _.mapValues(
       _.groupBy(responseJSON, "column"),
       (clist) => clist.map((navigationDetails) => navigationDetails)
@@ -152,8 +152,8 @@ function AppHeader(props) {
     let columnLength = Object.keys(navigationItems).length;
     setColumns(columnLength);
     return navigationItems;
-  };
-  
+  }
+
   const handleInvite = (values) => {
     setLoading(true);
     // let ip = await getIP();
@@ -176,9 +176,9 @@ function AppHeader(props) {
         // console.log("Error ", err);
       });
   };
-  
+
   const sendInviteData = (data) => {
-    fetch(process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/lead-gens", {
+    fetch(process.env.REACT_APP_API_FORM_URL + "/forms/lead-gens", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -204,7 +204,7 @@ function AppHeader(props) {
         setLoading(false);
       });
   };
-  
+
   const searchMenu = (
     <Menu theme="dark" style={{ marginTop: "10px", cursor: "default" }}>
       <Menu.Item key="1" className="search-dropdown">
@@ -236,7 +236,7 @@ function AppHeader(props) {
       </Menu.Item>
     </Menu>
   );
-  
+
   const searchMenuMob = (
     <Menu theme="dark">
       <Menu.Item key="1" className="search-dropdown">
@@ -328,7 +328,9 @@ function AppHeader(props) {
                       key={key + id}
                     >
                       {details.action === "URL" ? (
-                        <Link href={details.values}>{details.displayTitle || ""}</Link>
+                        <Link href={details.values}>
+                          {details.displayTitle || ""}
+                        </Link>
                       ) : link ? (
                         <Link href={link}>{details.displayTitle || ""}</Link>
                       ) : (
@@ -348,15 +350,14 @@ function AppHeader(props) {
   useEffect(() => {
     let mounted = true;
 
-    if(mounted) {
+    if (mounted) {
       searchForm.setFieldsValue({ searchBy: "product" });
       fetchNdjson();
     }
     return () => {
       mounted = false;
-    } 
+    };
   }, []);
-  
 
   const userMenu = (
     <div style={{ padding: "10px 0px" }} className="header-popup">
@@ -416,109 +417,182 @@ function AppHeader(props) {
   const handleSearchChangeMob = (flag) => {
     setSearchVisibleMob(flag);
   };
-if(_isEmpty(navigationItems)){
-  return null;
-}else {
-  return (
-    <Row style={{  zIndex: 1, width: "100%" }}>
-      <Col xs={0} sm={0} md={0} lg={24} xl={24}>
-        <Header className="app-header">
-          <Col
-            xs={0}
-            sm={0}
-            md={10}
-            lg={10}
-            xl={10}
-            style={{ textAlign: "left", margin: "auto" }}
-          >
-            <div>
-              
-              <span>
-                <Link href="/" className="app-header-home-button">
-                  <a>
-                  <Icon
-                    component={homeIcon}
-                    className="search-icon qa-cursor"
+  if (_isEmpty(navigationItems)) {
+    return null;
+  } else {
+    return (
+      <Row style={{ zIndex: 1, width: "100%" }}>
+        <Col xs={0} sm={0} md={0} lg={24} xl={24}>
+          <Header className="app-header">
+            <Col
+              xs={0}
+              sm={0}
+              md={10}
+              lg={10}
+              xl={10}
+              style={{ textAlign: "left", margin: "auto" }}
+            >
+              <div>
+                <span>
+                  <Link href="/" className="app-header-home-button">
+                    <a>
+                      <Icon
+                        component={homeIcon}
+                        className="search-icon qa-cursor"
+                        style={{
+                          verticalAlign: "middle",
+                          width: "32px",
+                          marginTop: "-5px",
+                        }}
+                      />
+                    </a>
+                  </Link>
+                </span>
+                <Dropdown
+                  overlayClassName="shop-navigation"
+                  overlay={navMenu}
+                  trigger={["hover"]}
+                  onVisibleChange={handleVisibleChange}
+                  visible={shopVisible}
+                  overlayStyle={{ width: "100%", cursor: "pointer" }}
+                >
+                  <div
+                    className={
+                      shopColor
+                        ? "shop my-account-header qa-cursor qa-hover"
+                        : "shop my-account-header qa-cursor"
+                    }
                     style={{
                       verticalAlign: "middle",
-                      width: "32px",
-                      marginTop: "-5px",
+                      marginLeft: "20px",
+                      marginRight: "20px",
                     }}
-                  />
-                  </a>
-                </Link>
-              </span>
-              <Dropdown
-                overlayClassName="shop-navigation"
-                overlay={navMenu}
-                trigger={["hover"]}
-                onVisibleChange={handleVisibleChange}
-                visible={shopVisible}
-                overlayStyle={{ width: "100%", cursor: "pointer" }}
-              >
-                <div
-                  className={
-                    shopColor
-                      ? "shop my-account-header qa-cursor qa-hover"
-                      : "shop my-account-header qa-cursor"
-                  }
-                  style={{
-                    verticalAlign: "middle",
-                    marginLeft: "20px",
-                    marginRight: "20px",
+                  >
+                    SHOP
+                  </div>
+                </Dropdown>
+
+                <Button
+                  className="send-query-button"
+                  onClick={() => {
+                    setVisible(true);
                   }}
                 >
-                  SHOP
-                </div>
-              </Dropdown>
-
-              <Button
-                className="send-query-button"
-                onClick={() => {
-                  setVisible(true);
+                  <div className="send-query-button-text qa-rfq-button">
+                    Request for Quote
+                  </div>
+                </Button>
+              </div>
+            </Col>
+            <Col
+              xs={0}
+              sm={0}
+              md={3}
+              lg={3}
+              xl={3}
+              style={{ textAlign: "center" }}
+            >
+              <Link
+                href="/"
+                style={{
+                  textDecoration: "none",
                 }}
               >
-                <div className="send-query-button-text qa-rfq-button">
-                  Request for Quote
-                </div>
-              </Button>
-            </div>
-          </Col>
-          <Col
-            xs={0}
-            sm={0}
-            md={3}
-            lg={3}
-            xl={3}
-            style={{ textAlign: "center" }}
-          >
-            <Link
-              href="/"
+                <a>
+                  <Icon
+                    component={LogoWithText}
+                    style={{
+                      height: "36px",
+                      width: "135px",
+                      verticalAlign: "middle",
+                    }}
+                  ></Icon>
+                </a>
+              </Link>
+            </Col>
+            <Col
+              xs={0}
+              sm={0}
+              md={11}
+              lg={11}
+              xl={11}
               style={{
-                textDecoration: "none",
+                textAlign: "right",
+                margin: "auto",
               }}
             >
-              <a>
+              <div>
+                <CurrencyConverter mobile={false} />
+                <Link
+                  href="/cart"
+                  style={{
+                    textDecoration: "none",
+                  }}
+                >
+                  <a>
+                    <Icon
+                      component={cartIcon}
+                      className="cart-icon"
+                      style={{
+                        width: "32px",
+                        verticalAlign: "middle",
+                        marginRight: "20px",
+                        cursor: "pointer",
+                      }}
+                    />
+                  </a>
+                </Link>
+                <Popover
+                  placement="bottomRight"
+                  content={userMenu}
+                  trigger="click"
+                  overlayClassName="header-popup"
+                >
+                  <div className="my-account-header qa-cursor">My Account</div>
+                  <span>
+                    <Icon
+                      component={userProfileIcon}
+                      className="user-profile-icon qa-cursor"
+                      style={{
+                        marginLeft: "5px",
+                        verticalAlign: "middle",
+                        width: "32px",
+                      }}
+                    />
+                  </span>
+                </Popover>
+              </div>
+            </Col>
+          </Header>
+        </Col>
+        <Col xs={24} sm={24} md={24} lg={0} xl={0}>
+          <Header className="app-header">
+            <div
+              style={{
+                textAlign: "left",
+                marginTop: "-4px",
+                marginRight: "10px",
+              }}
+            >
               <Icon
-                component={LogoWithText}
-                style={{ height: "36px", width: "135px", verticalAlign:"middle" }}
-              ></Icon>
-              </a>
-            </Link>
-          </Col>
-          <Col
-            xs={0}
-            sm={0}
-            md={11}
-            lg={11}
-            xl={11}
-            style={{
-              textAlign: "right",
-              margin: "auto",
-            }}
-          >
+                component={menuIcon}
+                className="menu-icon"
+                onClick={showDrawer}
+              />
+            </div>
             <div>
-              <CurrencyConverter mobile={false} />
+              <Link href="/" style={{ textDecoration: "none" }}>
+                <a>
+                  <Icon
+                    component={LogoWithText}
+                    style={{ width: "120px", height: "30px" }}
+                  ></Icon>
+                </a>
+              </Link>
+            </div>
+            <div
+              style={{ textAlign: "right", width: "100%", marginTop: "-4px" }}
+            >
               <Link
                 href="/cart"
                 style={{
@@ -526,201 +600,175 @@ if(_isEmpty(navigationItems)){
                 }}
               >
                 <a>
-                <Icon
-                  component={cartIcon}
-                  className="cart-icon"
-                  style={{
-                    width: "32px",
-                    verticalAlign: "middle",
-                    marginRight: "20px",
-                    cursor: "pointer",
-                  }}
-                />
-                </a>
-              </Link>
-              <Popover
-                placement="bottomRight"
-                content={userMenu}
-                trigger="click"
-                overlayClassName="header-popup"
-              >
-                <div className="my-account-header qa-cursor">My Account</div>
-                <span>
                   <Icon
-                    component={userProfileIcon}
-                    className="user-profile-icon qa-cursor"
+                    component={cartIcon}
+                    className="cart-icon"
                     style={{
-                      marginLeft: "5px",
-                      verticalAlign: "middle",
-                      width: "32px",
+                      width: "40px",
+                      cursor: "pointer",
                     }}
                   />
-                </span>
-              </Popover>
-            </div>
-          </Col>
-        </Header>
-      </Col>
-      <Col xs={24} sm={24} md={24} lg={0} xl={0}>
-        <Header className="app-header">
-          <div
-            style={{
-              textAlign: "left",
-              marginTop: "-4px",
-              marginRight: "10px",
-            }}
-          >
-            <Icon
-              component={menuIcon}
-              className="menu-icon"
-              onClick={showDrawer}
-            />
-          </div>
-          <div>
-            <Link href="/" style={{ textDecoration: "none" }}>
-              <a>
-              <Icon
-                component={LogoWithText}
-                style={{ width: "120px", height: "30px" }}
-              ></Icon>
-              </a>
-            </Link>
-          </div>
-          <div style={{ textAlign: "right", width: "100%", marginTop: "-4px" }}>
-            <Link
-              href="/cart"
-              style={{
-                textDecoration: "none",
-              }}
-            >
-              <a>
-              <Icon
-                component={cartIcon}
-                className="cart-icon"
-                style={{
-                  width: "40px",
-                  cursor: "pointer",
-                }}
-              />
-              </a>
-            </Link>
+                </a>
+              </Link>
 
-            <Drawer
-              placement="left"
-              closable={false}
-              onClose={onClose}
-              visible={drawer}
-              className="mobile-slider-menu"
-            >
-              <Menu
-                defaultOpenKeys={[
-                  "my-account",
-                  "shop",
-                  "sub0",
-                  "sub1",
-                  "sub2",
-                  "sub3",
-                  "sub4",
-                  "sub5",
-                ]}
-                mode="inline"
-                theme="dark"
+              <Drawer
+                placement="left"
+                closable={false}
+                onClose={onClose}
+                visible={drawer}
+                className="mobile-slider-menu"
               >
-                <Menu.Item key="rfq">
-                  {" "}
-                  <Button
-                    className="send-query-button"
-                    onClick={() => {
-                      setVisible(true);
-                    }}
-                  >
-                    <div className="send-query-button-text qa-rfq-button">
-                      Request for Quote
-                    </div>
-                  </Button>
-                </Menu.Item>
-
-              
-
-                <Menu.Divider style={{ height: "0.5px" }} />
-                <SubMenu key="my-account" title="MY ACCOUNT">
-                  <Menu.Item key="5" style={{ marginLeft: "-15px" }}>
-                    <div
-                      style={{
-                        verticalAlign: "middle",
-                        marginRight: "10px",
-                        display: "inline-block",
-                        height: "42px",
+                <Menu
+                  defaultOpenKeys={[
+                    "my-account",
+                    "shop",
+                    "sub0",
+                    "sub1",
+                    "sub2",
+                    "sub3",
+                    "sub4",
+                    "sub5",
+                  ]}
+                  mode="inline"
+                  theme="dark"
+                >
+                  <Menu.Item key="rfq">
+                    {" "}
+                    <Button
+                      className="send-query-button"
+                      onClick={() => {
+                        setVisible(true);
                       }}
                     >
-                      <Icon
-                        component={userProfileIcon}
-                        className="user-profile-icon"
-                      />
-                    </div>
-                    Hi there!
+                      <div className="send-query-button-text qa-rfq-button">
+                        Request for Quote
+                      </div>
+                    </Button>
                   </Menu.Item>
-                  <Menu.Divider style={{ height: "0px" }} />
-                  <Menu.Item key="6" onClick={handleSignUp}>
-                    Sign up
-                  </Menu.Item>
+
                   <Menu.Divider style={{ height: "0.5px" }} />
-                  <Menu.Item key="7" onClick={handleLogin}>
-                    Sign in
-                  </Menu.Item>
-                </SubMenu>
+                  <SubMenu key="my-account" title="MY ACCOUNT">
+                    <Menu.Item key="5" style={{ marginLeft: "-15px" }}>
+                      <div
+                        style={{
+                          verticalAlign: "middle",
+                          marginRight: "10px",
+                          display: "inline-block",
+                          height: "42px",
+                        }}
+                      >
+                        <Icon
+                          component={userProfileIcon}
+                          className="user-profile-icon"
+                        />
+                      </div>
+                      Hi there!
+                    </Menu.Item>
+                    <Menu.Divider style={{ height: "0px" }} />
+                    <Menu.Item key="6" onClick={handleSignUp}>
+                      Sign up
+                    </Menu.Item>
+                    <Menu.Divider style={{ height: "0.5px" }} />
+                    <Menu.Item key="7" onClick={handleLogin}>
+                      Sign in
+                    </Menu.Item>
+                  </SubMenu>
 
-                <Menu.Divider style={{ height: "0.5px" }} />
-
-                <SubMenu
-                  key="price-converter"
-                  title={`CURRENCY (${convertToCurrency})`}
-                >
-                  <Menu.Item key="8">
-                    <CurrencyConverter mobile={true} />
-                  </Menu.Item>
-                </SubMenu>
-
-                <Menu.Divider style={{ height: "0.5px" }} />
-                {/* <Menu.Item key="blog">BLOG</Menu.Item> */}
-                <SubMenu
-                  key="shop"
-                  title="SHOP"
-                  className="shop-menu-navigation"
-                  style={{ paddingBottom: "120px" }}
-                >
                   <Menu.Divider style={{ height: "0.5px" }} />
-                  {_.map(navigationItems, function (value, key) {
-                    let hasSubNav = _.find(value, { font: "H2" });
-                    let header = _.find(value, { font: "H1" });
-                    if (hasSubNav) {
-                      return (
-                        <SubMenu
-                          key={`sub${key}`}
-                          title={header.displayTitle}
-                          className="shop-submenu"
-                        >
-                          {_.map(value, function (details, id) {
-                            let link = "";
-                            if (details.filterType) {
-                              link =
-                                "/sellers/" +
-                                "all-categories" +
-                                "?" +
-                                details.filterType.toLowerCase() +
-                                "=" +
-                                details.values;
-                            } else if (
-                              details.action === "L2" &&
-                              details.values
-                            ) {
-                              link =
-                                "/sellers/" +
-                                details.values;
-                            }
-                            return (
-                              details.font !== "H1" && (
-                                <Menu.Item key={`key-${id}`}>
+
+                  <SubMenu
+                    key="price-converter"
+                    title={`CURRENCY (${convertToCurrency})`}
+                  >
+                    <Menu.Item key="8">
+                      <CurrencyConverter mobile={true} />
+                    </Menu.Item>
+                  </SubMenu>
+
+                  <Menu.Divider style={{ height: "0.5px" }} />
+                  {/* <Menu.Item key="blog">BLOG</Menu.Item> */}
+                  <SubMenu
+                    key="shop"
+                    title="SHOP"
+                    className="shop-menu-navigation"
+                    style={{ paddingBottom: "120px" }}
+                  >
+                    <Menu.Divider style={{ height: "0.5px" }} />
+                    {_.map(navigationItems, function (value, key) {
+                      let hasSubNav = _.find(value, { font: "H2" });
+                      let header = _.find(value, { font: "H1" });
+                      if (hasSubNav) {
+                        return (
+                          <SubMenu
+                            key={`sub${key}`}
+                            title={header.displayTitle}
+                            className="shop-submenu"
+                          >
+                            {_.map(value, function (details, id) {
+                              let link = "";
+                              if (details.filterType) {
+                                link =
+                                  "/sellers/" +
+                                  "all-categories" +
+                                  "?" +
+                                  details.filterType.toLowerCase() +
+                                  "=" +
+                                  details.values;
+                              } else if (
+                                details.action === "L2" &&
+                                details.values
+                              ) {
+                                link = "/sellers/" + details.values;
+                              }
+                              return (
+                                details.font !== "H1" && (
+                                  <Menu.Item key={`key-${id}`}>
+                                    <div
+                                      className={
+                                        details.font === "H1"
+                                          ? "navigation-item navigation-title"
+                                          : "navigation-item "
+                                      }
+                                    >
+                                      {details.action === "URL" ? (
+                                        <Link href={details.values}>
+                                          {details.displayTitle || ""}
+                                        </Link>
+                                      ) : link ? (
+                                        <Link href={"/"}>
+                                          {details.displayTitle || ""}
+                                        </Link>
+                                      ) : (
+                                        <span>{details.displayTitle}</span>
+                                      )}
+                                    </div>
+                                  </Menu.Item>
+                                )
+                              );
+                            })}
+                          </SubMenu>
+                        );
+                      } else {
+                        return (
+                          <div className="qa-border-bottom" key={key}>
+                            {_.map(value, function (details, id) {
+                              let link = "";
+                              if (details.filterType) {
+                                link =
+                                  "/sellers/" +
+                                  "all-categories" +
+                                  "?" +
+                                  details.filterType.toLowerCase() +
+                                  "=" +
+                                  details.values;
+                              } else if (
+                                details.action === "L2" &&
+                                details.values
+                              ) {
+                                link = "/sellers/" + details.values;
+                              }
+                              return (
+                                <Menu.Item key={key + id}>
                                   <div
                                     className={
                                       details.font === "H1"
@@ -733,7 +781,7 @@ if(_isEmpty(navigationItems)){
                                         {details.displayTitle || ""}
                                       </Link>
                                     ) : link ? (
-                                      <Link href={"/"}>
+                                      <Link href={link}>
                                         {details.displayTitle || ""}
                                       </Link>
                                     ) : (
@@ -741,342 +789,295 @@ if(_isEmpty(navigationItems)){
                                     )}
                                   </div>
                                 </Menu.Item>
-                              )
-                            );
-                          })}
-                        </SubMenu>
-                      );
-                    } else {
-                      return (
-                        <div className="qa-border-bottom" key={key}>
-                          {_.map(value, function (details, id) {
-                            let link = "";
-                            if (details.filterType) {
-                              link =
-                                "/sellers/" +
-                                "all-categories" +
-                                "?" +
-                                details.filterType.toLowerCase() +
-                                "=" +
-                                details.values;
-                            } else if (
-                              details.action === "L2" &&
-                              details.values
-                            ) {
-                              link =
-                                "/sellers/" +
-                                details.values;
-                            }
-                            return (
-                              <Menu.Item key={key + id}>
-                                <div
-                                  className={
-                                    details.font === "H1"
-                                      ? "navigation-item navigation-title"
-                                      : "navigation-item "
-                                  }
-                                >
-                                  {details.action === "URL" ? (
-                                    <Link href={details.values}>
-                                      {details.displayTitle ||""}
-                                    </Link>
-                                  ) : link ? (
-                                  <Link href={link}>
-                                      {details.displayTitle ||""}
-                                    </Link>
-                                  ) : (
-                                    <span>{details.displayTitle}</span>
-                                  )}
-                                </div>
-                              </Menu.Item>
-                            );
-                          })}
-                        </div>
-                      );
-                    }
-                  })}
-                </SubMenu>
-              </Menu>
-            </Drawer>
-          </div>
-        </Header>
-      </Col>
-      <Modal
-        visible={visible}
-        footer={null}
-        closable={false}
-        onCancel={sendQueryCancel}
-        style={{ top: 5 }}
-        bodyStyle={{ padding: "0" }}
-        width={props.buyerDetails || props.sellerDetails ? 775 : 550}
-        className="rfq-submit-modal"
-      >
-        <div>
-          <div
-            onClick={sendQueryCancel}
-            style={{
-              position: "absolute",
-              right: "20px",
-              top: "15px",
-              cursor: "pointer",
-              zIndex: "1",
-            }}
-          >
-            <Icon
-              component={closeButton}
-              style={{ width: "30px", height: "30px" }}
-            />
-          </div>
-
-          <SendQueryForm
-            sendQueryCancel={sendQueryCancel}
-            token={token}
-            initialValues={values}
-            userId={
-              props.userProfile &&
-              props.userProfile.userProfile &&
-              props.userProfile.userProfile.profileId
-            }
-          />
-        </div>
-      </Modal>
-      <Modal
-        visible={successQueryVisible}
-        footer={null}
-        closable={true}
-        onCancel={successQueryCancel}
-        centered
-        bodyStyle={{ padding: "0" }}
-        width={400}
-        className="rfq-submission-modal"
-      >
-        <div id="send-query-success-modal">
-          <div className="send-query-success-modal-content">
-            <p className="send-query-success-modal-para1">Thank you!</p>
-            <p className="send-query-success-modal-para2">
-              We have received your request for quote and will revert within the
-              next 48 to 72 hours.
-            </p>
-          </div>
-          <Link href="/">
-            <a>
-            <Button className="send-query-success-modal-button">
-              Back to home page
-            </Button>
-            </a>
-          </Link>
-        </div>
-      </Modal>
-      <Modal
-        visible={inviteAccess}
-        footer={null}
-        closable={false}
-        onCancel={successQueryCancel}
-        centered
-        bodyStyle={{ padding: "0" }}
-        width={600}
-        className="invite-access-modal"
-      >
-        <div id="send-query-success-modal">
-          <div
-            onClick={successQueryCancel}
-            style={{
-              position: "absolute",
-              right: "15px",
-              top: "15px",
-              cursor: "pointer",
-              zIndex: "1",
-            }}
-          >
-            <Icon
-              component={closeButton}
-              style={{ width: "30px", height: "30px" }}
-            />
-          </div>
-          <div className="send-query-success-modal-content">
-            <p className="send-query-success-modal-para1">Invite only access</p>
-            <p className="send-query-success-modal-para2">
-              Welcome to the invite-only preview of Qalara.
-            </p>
-            <p
-              className="send-query-success-modal-para2 qa-font-san qa-fs-14"
+                              );
+                            })}
+                          </div>
+                        );
+                      }
+                    })}
+                  </SubMenu>
+                </Menu>
+              </Drawer>
+            </div>
+          </Header>
+        </Col>
+        <Modal
+          visible={visible}
+          footer={null}
+          closable={false}
+          onCancel={sendQueryCancel}
+          style={{ top: 5 }}
+          bodyStyle={{ padding: "0" }}
+          width={props.buyerDetails || props.sellerDetails ? 775 : 550}
+          className="rfq-submit-modal"
+        >
+          <div>
+            <div
+              onClick={sendQueryCancel}
               style={{
-                lineHeight: "20px",
-                letterSpacing: "0.14px",
-                color: "rgba(51, 47, 47, 0.8)",
+                position: "absolute",
+                right: "20px",
+                top: "15px",
+                cursor: "pointer",
+                zIndex: "1",
               }}
             >
-              We have a growing portfolio of sellers across Home & Lifestyle
-              categories. Only Invitees have access to the complete range of
-              Seller’s product catalogs and the new video demo feature.{" "}
-            </p>
+              <Icon
+                component={closeButton}
+                style={{ width: "30px", height: "30px" }}
+              />
+            </div>
+
+            <SendQueryForm
+              sendQueryCancel={sendQueryCancel}
+              token={token}
+              initialValues={values}
+              userId={
+                props.userProfile &&
+                props.userProfile.userProfile &&
+                props.userProfile.userProfile.profileId
+              }
+            />
+          </div>
+        </Modal>
+        <Modal
+          visible={successQueryVisible}
+          footer={null}
+          closable={true}
+          onCancel={successQueryCancel}
+          centered
+          bodyStyle={{ padding: "0" }}
+          width={400}
+          className="rfq-submission-modal"
+        >
+          <div id="send-query-success-modal">
+            <div className="send-query-success-modal-content">
+              <p className="send-query-success-modal-para1">Thank you!</p>
+              <p className="send-query-success-modal-para2">
+                We have received your request for quote and will revert within
+                the next 48 to 72 hours.
+              </p>
+            </div>
+            <Link href="/">
+              <a>
+                <Button className="send-query-success-modal-button">
+                  Back to home page
+                </Button>
+              </a>
+            </Link>
+          </div>
+        </Modal>
+        <Modal
+          visible={inviteAccess}
+          footer={null}
+          closable={false}
+          onCancel={successQueryCancel}
+          centered
+          bodyStyle={{ padding: "0" }}
+          width={600}
+          className="invite-access-modal"
+        >
+          <div id="send-query-success-modal">
+            <div
+              onClick={successQueryCancel}
+              style={{
+                position: "absolute",
+                right: "15px",
+                top: "15px",
+                cursor: "pointer",
+                zIndex: "1",
+              }}
+            >
+              <Icon
+                component={closeButton}
+                style={{ width: "30px", height: "30px" }}
+              />
+            </div>
+            <div className="send-query-success-modal-content">
+              <p className="send-query-success-modal-para1">
+                Invite only access
+              </p>
+              <p className="send-query-success-modal-para2">
+                Welcome to the invite-only preview of Qalara.
+              </p>
+              <p
+                className="send-query-success-modal-para2 qa-font-san qa-fs-14"
+                style={{
+                  lineHeight: "20px",
+                  letterSpacing: "0.14px",
+                  color: "rgba(51, 47, 47, 0.8)",
+                }}
+              >
+                We have a growing portfolio of sellers across Home & Lifestyle
+                categories. Only Invitees have access to the complete range of
+                Seller’s product catalogs and the new video demo feature.{" "}
+              </p>
+              <p
+                className="send-query-success-modal-para2"
+                style={{ marginBottom: "2px", fontSize: "12px" }}
+              >
+                <span
+                  className="qa-font-san qa-fw-b qa-fs-14"
+                  style={{ letterSpacing: "0.12px" }}
+                >
+                  If you already have an Invite Code,
+                </span>
+              </p>
+              <p
+                className="send-query-success-modal-para2"
+                style={{ marginBottom: "0px", fontSize: "12px" }}
+              >
+                Please click the button below and enter your Invite-only
+                Username and Code for unrestricted access to Qalara.
+              </p>
+            </div>
+            <Button
+              className="send-query-success-modal-button"
+              onClick={handleLogin}
+            >
+              SIGN IN TO UNLOCK ACCESS
+            </Button>
             <p
               className="send-query-success-modal-para2"
-              style={{ marginBottom: "2px", fontSize: "12px" }}
+              style={{ padding: "12px 35px 0px 35px", marginBottom: "0px" }}
             >
               <span
                 className="qa-font-san qa-fw-b qa-fs-14"
                 style={{ letterSpacing: "0.12px" }}
               >
-                If you already have an Invite Code,
+                If you are a buyer and don’t have the Invite Code,
               </span>
             </p>
             <p
               className="send-query-success-modal-para2"
-              style={{ marginBottom: "0px", fontSize: "12px" }}
+              style={{
+                padding: "0px 40px 0px 40px",
+                fontSize: "12px",
+                paddingBottom: "5px",
+              }}
             >
-              Please click the button below and enter your Invite-only Username
-              and Code for unrestricted access to Qalara.
+              <span
+                className="qa-font-san qa-fs-12"
+                style={{ letterSpacing: "0.12px" }}
+              >
+                please share your details below and we’ll get back to you within
+                a few hours.
+              </span>
             </p>
+            <Form
+              name="invite-form"
+              form={form}
+              onFinish={handleInvite}
+              scrollToFirstError
+            >
+              <Form.Item
+                name="email"
+                rules={[
+                  {
+                    type: "email",
+                    message: "Please enter a correct email address.",
+                  },
+                  {
+                    required: true,
+                    message: "Field is required.",
+                  },
+                  {
+                    min: 1,
+                    max: 70,
+                    message: "Length should be 1-70 characters!",
+                  },
+                ]}
+              >
+                <Input
+                  className={
+                    mediaMatch.matches
+                      ? "send-query-input"
+                      : "send-query-input send-query-input-width"
+                  }
+                  placeholder="Email address"
+                />
+              </Form.Item>
+              <Form.Item
+                name="name"
+                rules={[
+                  {
+                    required: true,
+                    message: "Field is required.",
+                  },
+                ]}
+              >
+                <Input
+                  className={
+                    mediaMatch.matches
+                      ? "send-query-input"
+                      : "send-query-input send-query-input-width"
+                  }
+                  placeholder="Your name"
+                />
+              </Form.Item>
+              <Form.Item
+                name="orgName"
+                rules={[
+                  {
+                    required: true,
+                    message: "Field is required.",
+                  },
+                ]}
+              >
+                <Input
+                  className={
+                    mediaMatch.matches
+                      ? "send-query-input"
+                      : "send-query-input send-query-input-width"
+                  }
+                  placeholder="Company name"
+                />
+              </Form.Item>
+
+              <Form.Item>
+                {submitted ? (
+                  <Button
+                    className={
+                      mediaMatch.matches
+                        ? "query-submit-button"
+                        : "query-submit-button query-submit-button-width"
+                    }
+                    style={{ border: "1px solid #874439" }}
+                  >
+                    <span
+                      className="qa-font-san qa-fw-b qa-fs-12"
+                      style={{ color: "#191919", letterSpacing: "0.72px" }}
+                    >
+                      THANK YOU
+                    </span>
+                  </Button>
+                ) : (
+                  <Button
+                    className={
+                      mediaMatch.matches
+                        ? "query-button"
+                        : "query-button query-button-width"
+                    }
+                    htmlType="submit"
+                    loading={loading}
+                  >
+                    <span
+                      className="qa-font-san qa-fw-b qa-fs-12"
+                      style={{ color: "#f9f7f2", letterSpacing: "0.72px" }}
+                    >
+                      SEND ME AN INVITE CODE
+                    </span>
+                  </Button>
+                )}
+              </Form.Item>
+            </Form>
           </div>
-          <Button
-            className="send-query-success-modal-button"
-            onClick={handleLogin}
-          >
-            SIGN IN TO UNLOCK ACCESS
-          </Button>
-          <p
-            className="send-query-success-modal-para2"
-            style={{ padding: "12px 35px 0px 35px", marginBottom: "0px" }}
-          >
-            <span
-              className="qa-font-san qa-fw-b qa-fs-14"
-              style={{ letterSpacing: "0.12px" }}
-            >
-              If you are a buyer and don’t have the Invite Code,
-            </span>
-          </p>
-          <p
-            className="send-query-success-modal-para2"
-            style={{
-              padding: "0px 40px 0px 40px",
-              fontSize: "12px",
-              paddingBottom: "5px",
-            }}
-          >
-            <span
-              className="qa-font-san qa-fs-12"
-              style={{ letterSpacing: "0.12px" }}
-            >
-              please share your details below and we’ll get back to you within a
-              few hours.
-            </span>
-          </p>
-          <Form
-            name="invite-form"
-            form={form}
-            onFinish={handleInvite}
-            scrollToFirstError
-          >
-            <Form.Item
-              name="email"
-              rules={[
-                {
-                  type: "email",
-                  message: "Please enter a correct email address.",
-                },
-                {
-                  required: true,
-                  message: "Field is required.",
-                },
-                {
-                  min: 1,
-                  max: 70,
-                  message: "Length should be 1-70 characters!",
-                },
-              ]}
-            >
-              <Input
-                className={
-                  mediaMatch.matches
-                    ? "send-query-input"
-                    : "send-query-input send-query-input-width"
-                }
-                placeholder="Email address"
-              />
-            </Form.Item>
-            <Form.Item
-              name="name"
-              rules={[
-                {
-                  required: true,
-                  message: "Field is required.",
-                },
-              ]}
-            >
-              <Input
-                className={
-                  mediaMatch.matches
-                    ? "send-query-input"
-                    : "send-query-input send-query-input-width"
-                }
-                placeholder="Your name"
-              />
-            </Form.Item>
-            <Form.Item
-              name="orgName"
-              rules={[
-                {
-                  required: true,
-                  message: "Field is required.",
-                },
-              ]}
-            >
-              <Input
-                className={
-                  mediaMatch.matches
-                    ? "send-query-input"
-                    : "send-query-input send-query-input-width"
-                }
-                placeholder="Company name"
-              />
-            </Form.Item>
+        </Modal>
 
-            <Form.Item>
-              {submitted ? (
-                <Button
-                  className={
-                    mediaMatch.matches
-                      ? "query-submit-button"
-                      : "query-submit-button query-submit-button-width"
-                  }
-                  style={{ border: "1px solid #874439" }}
-                >
-                  <span
-                    className="qa-font-san qa-fw-b qa-fs-12"
-                    style={{ color: "#191919", letterSpacing: "0.72px" }}
-                  >
-                    THANK YOU
-                  </span>
-                </Button>
-              ) : (
-                <Button
-                  className={
-                    mediaMatch.matches
-                      ? "query-button"
-                      : "query-button query-button-width"
-                  }
-                  htmlType="submit"
-                  loading={loading}
-                >
-                  <span
-                    className="qa-font-san qa-fw-b qa-fs-12"
-                    style={{ color: "#f9f7f2", letterSpacing: "0.72px" }}
-                  >
-                    SEND ME AN INVITE CODE
-                  </span>
-                </Button>
-              )}
-            </Form.Item>
-          </Form>
-        </div>
-      </Modal>
-
-      {shopColor && <div id="overlay"></div>}
-    </Row>
-  );
-}
-  
+        {shopColor && <div id="overlay"></div>}
+      </Row>
+    );
+  }
 }
 
 const mapStateToProps = (state) => {

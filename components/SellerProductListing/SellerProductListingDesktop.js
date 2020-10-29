@@ -32,7 +32,7 @@ function SellerProductListingDesktop(props) {
   const [ScheduleBenefits, setShowScheduleBenefits] = useState(false);
   const [scheduling, setShowScheduling] = useState(false);
   const isAuthenticated = useSelector((state) => state.auth.authenticated);
-  const {keycloak} = useKeycloak();
+  const { keycloak } = useKeycloak();
   const [successQueryVisible, setSuccessQueryVisible] = useState(false);
   const [visible, setVisible] = useState(false);
   const [schedulingSuccess, setShowSchedulingSuccess] = useState(false);
@@ -42,7 +42,7 @@ function SellerProductListingDesktop(props) {
       props.sellerDetails.brandLogo &&
       props.sellerDetails.brandLogo.media &&
       props.sellerDetails.brandLogo.media.mediaUrl &&
-      process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
+      process.env.REACT_APP_ASSETS_FILE_URL +
         props.sellerDetails.brandLogo.media.mediaUrl
   );
 
@@ -58,7 +58,7 @@ function SellerProductListingDesktop(props) {
         props.sellerDetails.brandLogo &&
         props.sellerDetails.brandLogo.media &&
         props.sellerDetails.brandLogo.media.mediaUrl &&
-        process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
+        process.env.REACT_APP_ASSETS_FILE_URL +
           props.sellerDetails.brandLogo.media.mediaUrl
     );
   }, [props]);
@@ -208,7 +208,7 @@ function SellerProductListingDesktop(props) {
       ),
       slotDate: selectedDate,
     };
-    fetch(process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL + "/events/meeting ", {
+    fetch(process.env.REACT_APP_API_MEETING_URL + "/events/meeting ", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
