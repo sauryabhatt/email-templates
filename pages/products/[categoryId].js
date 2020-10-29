@@ -69,7 +69,6 @@ export default function ProductListingPage({data}) {
             description: "Shop handcrafted and artisanal products, produced ethically at wholesale prices"
           }
       }
-      
 
     if(router.isFallback) {
       return <Spinner/>
@@ -90,9 +89,9 @@ export async function getStaticPaths() {
 }
 const getURL = (category) =>{
   if(category==="all-categories") {      
-    return process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL + "/plp?from=0&size=30&sort_by=minimumOrderQuantity&sort_order=ASC"
+    return process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL + "/plpv2?from=0&size=30&sort_by=minimumOrderQuantity&sort_order=ASC"
 }else {
-    return process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL + `/plp?from=0&size=30&sort_by=minimumOrderQuantity&sort_order=ASC&f_categories=${category}`
+    return process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL + `/plpv2?from=0&size=30&sort_by=minimumOrderQuantity&sort_order=ASC&f_categories=${category}`
 }
 }
 export const getStaticProps=async ({ params: { categoryId = "" } = {} })=>{

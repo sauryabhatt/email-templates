@@ -313,7 +313,6 @@ class ProductFacets extends Component {
       }
     }
   };
-
   render = () => {
     let {
       facets = [],
@@ -321,6 +320,7 @@ class ProductFacets extends Component {
       currencyDetails = {},
       pageId = "",
     } = this.props;
+
     let { convertToCurrency = "" } = currencyDetails;
 
     let dynamicCategories = [];
@@ -337,7 +337,8 @@ class ProductFacets extends Component {
       }
     }
 
-    let { aggregateName = "", aggregateList = [] } = dynamicCategories || {};
+    let { aggregateName = "", aggregateLists = [], aggregateList=[] } = dynamicCategories || {};
+    
     let orderedFacets = _.sortBy(facets, "priority");
     return (
       <Sider
@@ -386,7 +387,7 @@ class ProductFacets extends Component {
                 All Categories
               </Menu.Item>
               {pageId === "product-listing"
-                ? _.map(aggregateList, (list, i) => {
+                ? _.map(aggregateLists, (list, i) => {
                     let value = list.value;
                     let name =list.key;
                     return (
@@ -399,14 +400,14 @@ class ProductFacets extends Component {
                     );
                   })
                 : _.map(aggregateList, (list, i) => {
-                  let value = list.value;
-                  let name =list.key;
+                  // let value = list.value;
+                  // let name =list.key;
                     return (
                       <Menu.Item
-                        key={value}
-                        onClick={() => this.selectCategory(value)}
+                        key={list.value}
+                        onClick={() => this.selectCategory(list.value)}
                       >
-                        {name}
+                        {list.value}
                       </Menu.Item>
                     );
                   })}

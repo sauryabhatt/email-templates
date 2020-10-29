@@ -215,7 +215,7 @@ export default class SellerFacets extends Component {
 
   render = () => {
     let { facets = [], categories = {} } = this.props;
-    let { aggregateName = "", aggregateList = [] } = categories || {};
+    let { aggregateName = "", aggregateLists = [] } = categories || {};
     let orderedFacets = _.sortBy(facets, "priority");
 
     return (
@@ -263,7 +263,7 @@ export default class SellerFacets extends Component {
               <Menu.Item key="all" onClick={() => this.selectCategory("all")}>
                 All Categories
               </Menu.Item>
-              {_.map(aggregateList, (list, i) => {
+              {_.map(aggregateLists, (list, i) => {
                 let value = list.value;
                 let name = list.key;
                   // value.toLowerCase().charAt(0).toUpperCase() + value.slice(1);

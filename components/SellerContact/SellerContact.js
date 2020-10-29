@@ -445,8 +445,8 @@ const SellerContact = (props) => {
                       className="alert-button"
                       type="link"
                       onClick={() => {
-                        loginToApp({
-                          currentPath: encodeURI(router.asPath.split("?")[0]),
+                        loginToApp(keycloak,{
+                          currentPath: router.asPath.split("?")[0],
                         });
                       }}
                     >

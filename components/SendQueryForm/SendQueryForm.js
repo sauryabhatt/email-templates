@@ -254,7 +254,7 @@ const SendQueryForm = (props) => {
                       type="link"
                       onClick={() => {
                         loginToApp(keycloak, {
-                          currentPath: encodeURI(router.pathname),
+                          currentPath: router.pathname,
                         });
                       }}
                     >

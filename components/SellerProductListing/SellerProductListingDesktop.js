@@ -158,7 +158,7 @@ function SellerProductListingDesktop(props) {
       setShowScheduleBenefits(false);
       setShowScheduling(true);
     } else {
-      // loginToApp({ currentPath: window.location.pathname });
+       loginToApp(keycloak, { currentPath: router.pathname });
     }
   };
 

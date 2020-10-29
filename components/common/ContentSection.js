@@ -39,7 +39,7 @@ function ContentSection(props) {
   }, [open]);
 
   const selectProduct = (productId) => {
-    console.log("productId--->", productId);
+    
     setSelProductId(productId);
     setOpen(!open);
   };

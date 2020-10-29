@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Button, Col, Row, Modal, Input, Form, message } from "antd";
+import { useKeycloak } from "@react-keycloak/ssr";
 import Icon from "@ant-design/icons";
 // import { loginToApp } from "./../../AuthWithKeycloak/AuthWithKeycloak";
 import HomeBanner from "./../HomeBanner/HomeBanner";
@@ -17,7 +18,8 @@ import {useRouter} from 'next/router';
 import Link from "next/link";
 
 function Home(props) {
-  const router = useRouter();  
+  const router = useRouter(); 
+  const {keycloak} = useKeycloak();
   const isAuthenticated = useSelector((state) => state.auth.authenticated);
   const [visible, setVisible] = useState(false);
   const [successQueryVisible, setSuccessQueryVisible] = useState(false);
@@ -125,7 +127,7 @@ function Home(props) {
   };
 
   const signIn = () => {
-    loginToApp();
+    loginToApp(keycloak, undefined);
   };
 
   const handleCancel = () => {

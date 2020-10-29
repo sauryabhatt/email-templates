@@ -25,8 +25,7 @@ import {
   getCountryCallingCode,
 } from "react-phone-number-input/input";
 import en from "react-phone-number-input/locale/en.json";
-import { history } from "./../../store";
-import AppFooter from "./../AppFooter/AppFooter";
+import { useKeycloak } from "@react-keycloak/ssr";
 import LogoWithText from "../../public/filestore/logo_with_text.js";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
@@ -57,11 +56,13 @@ import {useRouter} from 'next/router';
 // import pictureSm from "./../../filestore/Vector-1(2).png";
 
 const { Option } = Select;
-const { Header } = Layout;
+// const { Header } = Layout;
 
 const Register = (props) => {
-  const history = useRouter();  
-  const mediaMatch = ""; 
+  const router = useRouter();  
+  const mediaMatch = "";
+  const {keycloak} = useKeycloak();
+
   // console.log(mediaMatch.matches);
   const token = useSelector(
     (state) => state.appToken.token && state.appToken.token.access_token
@@ -110,11 +111,11 @@ const Register = (props) => {
 
   const handleCancel = (status) => {
     setVisible(false);
-    history.push("/");
+    router.push("/");
   };
 
   const signIn = () => {
-    loginToApp();
+    loginToApp(keycloak, undefined);
   };
 
   const sellerOrgType = sellerOrgTypeConfig.map((v, i) => {
@@ -354,7 +355,7 @@ const Register = (props) => {
     // console.log(data);
 
     setLoading(true);
-    fetch(process.env.REACT_APP_API_PROFILE_URL + "/profiles", {
+    fetch(process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/profiles", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -396,7 +397,7 @@ const Register = (props) => {
   const validateCode = () => {
     if (promoCode) {
       fetch(
-        process.env.REACT_APP_API_PROFILE_URL +
+        process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
           "/profiles/promotions/" +
           promoCode +
           "/validate",
@@ -458,31 +459,7 @@ const Register = (props) => {
   };
   return (
     <div className="user-registration">
-      {/*<Helmet>
-        <title>
-          Sign up to connect with buyers and sellers of unique, sustainable,
-          recycled, organic products | Qalara
-        </title>
-        <meta
-          name="keywords"
-          content="Indian exporters, Indian manufacturers, products from India, buy and sell wholesale, sell in USA, Sell in Europe"
-        />
-        <meta
-          name="description"
-          content="Join the community of buyers and sellers on Qalara, the best way to trade Indian products, home and kitchen items, handmade products, carpets and textiles."
-        />
-        <link rel="canonical" href="https://www.qalara.com/signup" />
-        {/* <meta name="og:type" content="website" />
-          <meta name="og:title"
-            content="Sign up to connect with buyers and sellers of unique, sustainable, recycled, organic products | Qalara" />
-          <meta name="og:site_name" content="Qalara.com" />
-          <meta name="og:description"
-            content="Join the community of buyers and sellers on Qalara, the best way to trade Indian products, home and kitchen items, handmade products, carpets and textiles." />
-          <meta name="og:url" content={process.env.REACT_APP_REDIRECT_APP_DOMAIN + '/signup'} />
-          <meta name="og:image" href={process.env.REACT_APP_REDIRECT_APP_DOMAIN + "/title_logo192.png"} />
-          <link rel="apple-touch-icon" href={process.env.REACT_APP_REDIRECT_APP_DOMAIN + "/title_logo192.png"} /> 
-    </Helmet>*/}
-      <Row
+      {/* <Row
       //   style={{
       //     position: "absolute",
       //     zIndex: 1,
@@ -516,8 +493,8 @@ const Register = (props) => {
             access. Alternately, you can sign-up and once we have verified your
             details we will unlock the same access.
           </div>
-        </Col> */}
-      </Row>
+        </Col> 
+      </Row> */}
       <div id="user-register-form" className="user-registration-container">
         <Button
           className="button-back"
@@ -562,11 +539,11 @@ const Register = (props) => {
                   xl={22}
                   className="qa-mar-btm-3"
                 >
-                  <p className="signup-heading">Sign up</p>
+                  <p className="signup-heading" style={{textAlign:"center"}}>Sign up</p>
                   <Row>
                     <Col xs={24} sm={24} md={24} lg={24}>
                       <div className="create-account">
-                        <div onClick={signIn} className="link-style register">
+                        <div onClick={signIn} className="link-style register" style={{textAlign:"center"}}>
                           Already have an account? Sign in here
                         </div>
                       </div>
@@ -673,7 +650,7 @@ const Register = (props) => {
                     </Col>
                   </Row>
                 </Col>
-                {process.env.REACT_APP_REFERRAL_REQUIRED == "true" ? (
+                {process.env.NEXT_PUBLIC_REACT_APP_REFERRAL_REQUIRED == "true" ? (
                   <Col
                     xs={24}
                     sm={24}
@@ -960,7 +937,7 @@ const Register = (props) => {
                           className="check-box-tnc"
                           disabled={btnDisabled}
                           onChange={handleAgreeToEmail}
-                          value={agreeToEmail}
+                          checked={agreeToEmail}
                         >
                           <span>You agree to receive promotional emails</span>
                         </Checkbox>
@@ -1024,11 +1001,11 @@ const Register = (props) => {
               >
                 <Row justify="space-around">
                   <Col xs={24} sm={24} md={22} lg={22} xl={22}>
-                    <p className="signup-heading">Sign up</p>
+                    <p className="signup-heading" style={{textAlign:"center"}}>Sign up</p>
                     <Row>
                       <Col xs={24} sm={24} md={24} lg={24}>
                         <div className="create-account">
-                          <div onClick={signIn} className="link-style register">
+                          <div onClick={signIn} className="link-style register" style={{textAlign:"center"}}>
                             Already have an account? Sign in here
                           </div>
                         </div>
@@ -1290,7 +1267,7 @@ const Register = (props) => {
                         className="check-box-tnc"
                         disabled={btnDisabled}
                         onChange={handleAgreeToEmail}
-                        value={agreeToEmail}
+                        checked={agreeToEmail}
                       >
                         <span>You agree to receive promotional emails</span>
                       </Checkbox>
@@ -1337,7 +1314,7 @@ const Register = (props) => {
               <Button
                 className="congratulation-button"
                 onClick={() => {
-                  history.push("/");
+                  router.push("/");
                 }}
               >
                 Back to home page
@@ -1399,13 +1376,12 @@ const Register = (props) => {
         <Button
           className="congratulation-button"
           onClick={() => {
-            history.push("/");
+            router.push("/");
           }}
         >
           Back to home page
         </Button>
       </Modal>
-      {/* <AppFooter /> */}
     </div>
   );
 };
