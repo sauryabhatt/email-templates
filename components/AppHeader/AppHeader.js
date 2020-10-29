@@ -502,7 +502,7 @@ function AppHeader(props) {
                   <Icon
                     component={LogoWithText}
                     style={{
-                      height: "36px",
+                      height: "100%",
                       width: "135px",
                       verticalAlign: "middle",
                     }}

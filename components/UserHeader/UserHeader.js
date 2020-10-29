@@ -560,7 +560,11 @@ function UserHeader(props) {
             >
               <Icon
                 component={LogoWithText}
-                style={{ height: "36px", width: "135px" }}
+                style={{
+                  height: "100%",
+                  width: "135px",
+                  verticalAlign: "middle",
+                }}
               ></Icon>
             </Link>
           </Col>
