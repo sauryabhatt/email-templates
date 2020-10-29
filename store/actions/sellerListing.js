@@ -283,7 +283,7 @@ export const getProductSellerDetails = (token, sellerId) => {
 export const getProductDetails = (token, articleId = "") => {
   return (dispatch) => {
     let url =
-      process.env.REACT_APP_API_PRODUCT_DESCRIPTION_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_API_PRODUCT_DESCRIPTION_URL +
       "/products/" +
       articleId;
 
