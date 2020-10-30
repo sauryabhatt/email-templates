@@ -51,7 +51,8 @@ const SellerLanding = (props) => {
 
       if (profileType === "BUYER" && verificationStatus === "IN_PROGRESS") {
         fetch(
-          process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/profiles/my/subscriptions",
+          process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
+            "/profiles/my/subscriptions",
           {
             method: "GET",
             headers: {
@@ -85,7 +86,7 @@ const SellerLanding = (props) => {
       id = id.replace("HOME::", "");
       setSellerId(id);
       fetch(
-        process.env.REACT_APP_API_PROFILE_URL +
+        process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
           "/seller-home/ABOUT::" +
           id +
           "/about",
@@ -113,7 +114,7 @@ const SellerLanding = (props) => {
         });
 
       fetch(
-        process.env.REACT_APP_API_PROFILE_URL +
+        process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
           "/seller-home/" +
           id +
           "/category-product-range",
