@@ -5,7 +5,7 @@ import { useSelector, connect } from "react-redux";
 import { useKeycloak } from "@react-keycloak/ssr";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import responseJSON from "../../public/data/appHeader.json"
+import responseJSON from "../../public/data/appHeader.json";
 import {
   Layout,
   Button,
@@ -78,35 +78,19 @@ function UserHeader(props) {
         props.userProfile.userProfile.profileImage.media.mediaUrl
   );
 
-<<<<<<< HEAD
-  async function fetchNdjson (response) {
+  async function fetchNdjson(response) {
     // let navigationDetails = [];
     // // const response = await fetch(
     // //   process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/shop-options"
     // // );
     // const exampleReader = ndjsonStream(response).getReader();
-    
+
     // let result;
     // while (!result || !result.done) {
     //   result = await exampleReader.read();
     //   if (!result.done) navigationDetails.push(result.value);
     //   // console.log(result.done, result.value); //result.value is one line of your NDJSON data
     // }
-=======
-  async function fetchNdjson(response) {
-    let navigationDetails = [];
-    // const response = await fetch(
-    //   process.env.REACT_APP_API_PROFILE_URL + "/shop-options"
-    // );
-    const exampleReader = ndjsonStream(response).getReader();
-
-    let result;
-    while (!result || !result.done) {
-      result = await exampleReader.read();
-      if (!result.done) navigationDetails.push(result.value);
-      // console.log(result.done, result.value); //result.value is one line of your NDJSON data
-    }
->>>>>>> development
     let navigationItems = _.mapValues(
       _.groupBy(responseJSON, "column"),
       (clist) => clist.map((navigationDetails) => navigationDetails)
