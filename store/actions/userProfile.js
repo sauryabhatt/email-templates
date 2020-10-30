@@ -36,7 +36,7 @@ export const getUserProfile = (token) => {
   // console.log(token);
   return (dispatch) => {
     dispatch(setUserProfileLoading(true));
-    return fetch(process.env.REACT_APP_API_PROFILE_URL + "/profiles/my", {
+    return fetch(process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/profiles/my", {
       method: "GET",
       headers: {
         Authorization: "Bearer " + token,
@@ -87,7 +87,7 @@ export const setSellerAgreement = (filename, token) => async (dispatch) => {
     agreementTitle: filename,
   };
 
-  fetch(process.env.REACT_APP_API_PROFILE_URL + "/profiles/my", {
+  fetch(process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/profiles/my", {
     method: "PATCH",
     body: JSON.stringify(body),
     headers: {
@@ -286,7 +286,7 @@ export const getBrandNameByCode = (codes, token, quoteData) => async (
   dispatch
 ) => {
   fetch(
-    process.env.REACT_APP_API_PROFILE_URL +
+    process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
       "/seller-home/internal-views/multi?ids=" +
       codes,
     {
