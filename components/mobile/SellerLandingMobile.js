@@ -36,7 +36,7 @@ import PDFDocument from "../common/PDFDocument";
 import sellerProfileIcon from "../../public/filestore/sellerProfileIcon";
 import productListingIcon from "../../public/filestore/productListingIcon";
 import locationIcon from "../../public/filestore/locationIcon";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 const { Column, ColumnGroup } = Table;
 const { Content } = Layout;
 
@@ -56,7 +56,7 @@ function SellerLandingMobile(props) {
   const [schedulingSuccess, setShowSchedulingSuccess] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const isAuthenticated = useSelector((state) => state.auth.authenticated);
-  const {keycloak} = useKeycloak();
+  const { keycloak } = useKeycloak();
   const [smallBatchAvailable, setSmallBatchAvailable] = useState(false);
   const [videoName, setVideoName] = useState("");
   const [productionKMM, setProductionKMM] = useState([]);
@@ -75,7 +75,7 @@ function SellerLandingMobile(props) {
         props.data.showRoom.catalogMedia &&
         props.data.showRoom.catalogMedia.media &&
         props.data.showRoom.catalogMedia.media.mediaUrl &&
-        process.env.REACT_APP_ASSETS_FILE_URL +
+        process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
           props.data.showRoom.catalogMedia.media.mediaUrl
     );
     setShowcaseMediaUrl(
@@ -83,7 +83,7 @@ function SellerLandingMobile(props) {
         props.data.showcaseMedia &&
         props.data.showcaseMedia.media &&
         props.data.showcaseMedia.media.mediaUrl &&
-        process.env.REACT_APP_ASSETS_FILE_URL +
+        process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
           props.data.showcaseMedia.media.mediaUrl
     );
     for (let orderDetails of orderMinimums) {
@@ -150,7 +150,7 @@ function SellerLandingMobile(props) {
       props.data.showcaseMedia &&
       props.data.showcaseMedia.media &&
       props.data.showcaseMedia.media.mediaUrl &&
-      process.env.REACT_APP_ASSETS_FILE_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
         props.data.showcaseMedia.media.mediaUrl
   );
 
@@ -160,7 +160,7 @@ function SellerLandingMobile(props) {
       props.data.showRoom.catalogMedia &&
       props.data.showRoom.catalogMedia.media &&
       props.data.showRoom.catalogMedia.media.mediaUrl &&
-      process.env.REACT_APP_ASSETS_FILE_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
         props.data.showRoom.catalogMedia.media.mediaUrl
   );
 
@@ -561,7 +561,7 @@ function SellerLandingMobile(props) {
     setRequestLoading(true);
     let data = { profileId: props.sellerId };
     fetch(
-      process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/profiles/my/subscriptions",
+      process.env.REACT_APP_API_PROFILE_URL + "/profiles/my/subscriptions",
       {
         method: "PUT",
         body: JSON.stringify(data),
@@ -663,7 +663,7 @@ function SellerLandingMobile(props) {
       ),
       slotDate: selectedDate,
     };
-    fetch(process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL + "/events/meeting ", {
+    fetch(process.env.REACT_APP_API_MEETING_URL + "/events/meeting ", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -692,7 +692,8 @@ function SellerLandingMobile(props) {
       displayMedia &&
       displayMedia.media &&
       displayMedia.media.mediaUrl &&
-      process.env.REACT_APP_ASSETS_FILE_URL + displayMedia.media.mediaUrl;
+      process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
+        displayMedia.media.mediaUrl;
 
     let pdfFile = false;
     let { altName = "", seoTitle = "", media = {} } = catalogMedia;
@@ -1670,7 +1671,7 @@ function SellerLandingMobile(props) {
                 offerings[pdfValue].catalogMedia &&
                 offerings[pdfValue].catalogMedia.media &&
                 offerings[pdfValue].catalogMedia.media.mediaUrl &&
-                process.env.REACT_APP_ASSETS_FILE_URL +
+                process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
                   offerings[pdfValue].catalogMedia.media.mediaUrl ? (
                   <PDFDocument
                     isMobile={true}
@@ -1681,7 +1682,7 @@ function SellerLandingMobile(props) {
                       offerings[pdfValue].catalogMedia &&
                       offerings[pdfValue].catalogMedia.media &&
                       offerings[pdfValue].catalogMedia.media.mediaUrl &&
-                      process.env.REACT_APP_ASSETS_FILE_URL +
+                      process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
                         offerings[pdfValue].catalogMedia.media.mediaUrl
                     }
                   />
@@ -1744,15 +1745,15 @@ function SellerLandingMobile(props) {
               48 to 72 hours.
             </p>
           </div>
-            <Button
-              className="send-query-success-modal-button"
-              onClick={() => {
-                router.push("/")
-                successQueryCancel();
-              }}
-            >
-              Back to home page
-            </Button>
+          <Button
+            className="send-query-success-modal-button"
+            onClick={() => {
+              router.push("/");
+              successQueryCancel();
+            }}
+          >
+            Back to home page
+          </Button>
         </div>
       </Modal>
       <Modal

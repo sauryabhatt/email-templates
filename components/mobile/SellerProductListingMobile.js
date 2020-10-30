@@ -31,7 +31,7 @@ import SPLPLoaderMobile from "../../public/filestore/SPLPLoaderMobile";
 import sellerProfileIcon from "../../public/filestore/sellerProfileIcon";
 import productListingIcon from "../../public/filestore/productListingIcon";
 import locationIcon from "../../public/filestore/locationIcon";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 const { Content } = Layout;
 
 function SellerProductListingMobile(props) {
@@ -42,7 +42,7 @@ function SellerProductListingMobile(props) {
   const [ScheduleBenefits, setShowScheduleBenefits] = useState(false);
   const [scheduling, setShowScheduling] = useState(false);
   const isAuthenticated = useSelector((state) => state.auth.authenticated);
-  const {keycloak} = useKeycloak();
+  const { keycloak } = useKeycloak();
   const [successQueryVisible, setSuccessQueryVisible] = useState(false);
   const [schedulingSuccess, setShowSchedulingSuccess] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState(null);
@@ -224,7 +224,7 @@ function SellerProductListingMobile(props) {
       ),
       slotDate: selectedDate,
     };
-    fetch(process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL + "/events/meeting ", {
+    fetch(process.env.REACT_APP_API_MEETING_URL + "/events/meeting ", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -513,15 +513,15 @@ function SellerProductListingMobile(props) {
                 next 48 to 72 hours.
               </p>
             </div>
-              <Button
-                className="send-query-success-modal-button"
-                onClick={() => {
-                  router.push("/")
-                  successQueryCancel();
-                }}
-              >
-                Back to home page
-              </Button>
+            <Button
+              className="send-query-success-modal-button"
+              onClick={() => {
+                router.push("/");
+                successQueryCancel();
+              }}
+            >
+              Back to home page
+            </Button>
           </div>
         </Modal>
         <Modal

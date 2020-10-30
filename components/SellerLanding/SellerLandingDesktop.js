@@ -35,14 +35,14 @@ import lockOutline from "../../public/filestore/lockOutline";
 import SCPLoader from "../../public/filestore/SCPLoader";
 import moment from "moment";
 import _ from "lodash";
-import dynamic from 'next/dynamic'
+import dynamic from "next/dynamic";
 import sellerProfileIcon from "../../public/filestore/sellerProfileIcon";
 import productListingIcon from "../../public/filestore/productListingIcon";
 import locationIcon from "../../public/filestore/locationIcon";
-const DynamicPDFDocument = dynamic(() => import('../common/PDFDocument'), {
-  ssr: false
-})
-import Link  from "next/link";
+const DynamicPDFDocument = dynamic(() => import("../common/PDFDocument"), {
+  ssr: false,
+});
+import Link from "next/link";
 import { useRouter } from "next/router";
 const isServer = () => typeof window == undefined;
 
@@ -72,7 +72,7 @@ const SellerLandingDesktop = (props) => {
   const [schedulingSuccess, setShowSchedulingSuccess] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState(null);
   const isAuthenticated = useSelector((state) => state.auth.authenticated);
-  const {keycloak} = useKeycloak();
+  const { keycloak } = useKeycloak();
   const [smallBatchAvailable, setSmallBatchAvailable] = useState(false);
   const [productionKMM, setProductionKMM] = useState([]);
 
@@ -168,7 +168,7 @@ const SellerLandingDesktop = (props) => {
     publicOfferings = [],
     showRoom = {},
     showcaseMedia = {},
-    showSPLP = ""
+    showSPLP = "",
   } = sellerDetails || {};
 
   let { sellerSubscriptions = [] } = props;
@@ -471,7 +471,7 @@ const SellerLandingDesktop = (props) => {
     setRequestLoading(true);
     let data = { profileId: props.sellerId };
     fetch(
-      process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/profiles/my/subscriptions",
+      process.env.REACT_APP_API_PROFILE_URL + "/profiles/my/subscriptions",
       {
         method: "PUT",
         body: JSON.stringify(data),
@@ -579,7 +579,7 @@ const SellerLandingDesktop = (props) => {
       ),
       slotDate: selectedDate,
     };
-    fetch(process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL + "/events/meeting ", {
+    fetch(process.env.REACT_APP_API_MEETING_URL + "/events/meeting ", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -608,7 +608,8 @@ const SellerLandingDesktop = (props) => {
       displayMedia &&
       displayMedia.media &&
       displayMedia.media.mediaUrl &&
-      process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL + displayMedia.media.mediaUrl;
+      process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
+        displayMedia.media.mediaUrl;
 
     let pdfFile = false;
     let { altName = "", seoTitle = "", media = {} } = catalogMedia;
@@ -864,45 +865,45 @@ const SellerLandingDesktop = (props) => {
             </div>
           </Col>
         </Row>
-        {showSPLP==true? (
-            <Content>
-              <Menu
-                onClick={handleClick}
-                mode="horizontal"
-                selectedKeys={[selectedKey]}
-                className="qa-navigation-tab"
-              >
-                <Menu.Item key="seller-home" className="qa-fw-b">
-                  <div className="qa-txt-alg-cnt">
-                    <Icon
-                      className="menu-icons"
-                      component={sellerProfileIcon}
-                      style={{
-                        width: "22px",
-                        marginRight: "0px",
-                        fill: "#191919",
-                      }}
-                    />
-                    <div style={{ padding: "3px 0px" }}>Seller profile</div>
-                  </div>
-                </Menu.Item>
-                <Menu.Item key="catalog">
-                  <div className="qa-txt-alg-cnt">
-                    <Icon
-                      className="menu-icons"
-                      component={productListingIcon}
-                      style={{
-                        width: "16px",
-                        marginRight: "0px",
-                        fill: "#979797",
-                      }}
-                    />
-                    <div style={{ padding: "3px 0px" }}>Product listing</div>
-                  </div>
-                </Menu.Item>
-              </Menu>
-            </Content>
-          ):null}
+        {showSPLP == true ? (
+          <Content>
+            <Menu
+              onClick={handleClick}
+              mode="horizontal"
+              selectedKeys={[selectedKey]}
+              className="qa-navigation-tab"
+            >
+              <Menu.Item key="seller-home" className="qa-fw-b">
+                <div className="qa-txt-alg-cnt">
+                  <Icon
+                    className="menu-icons"
+                    component={sellerProfileIcon}
+                    style={{
+                      width: "22px",
+                      marginRight: "0px",
+                      fill: "#191919",
+                    }}
+                  />
+                  <div style={{ padding: "3px 0px" }}>Seller profile</div>
+                </div>
+              </Menu.Item>
+              <Menu.Item key="catalog">
+                <div className="qa-txt-alg-cnt">
+                  <Icon
+                    className="menu-icons"
+                    component={productListingIcon}
+                    style={{
+                      width: "16px",
+                      marginRight: "0px",
+                      fill: "#979797",
+                    }}
+                  />
+                  <div style={{ padding: "3px 0px" }}>Product listing</div>
+                </div>
+              </Menu.Item>
+            </Menu>
+          </Content>
+        ) : null}
       </div>
 
       <div className="seller-container qa-mar-auto-40">
@@ -1700,8 +1701,8 @@ const SellerLandingDesktop = (props) => {
                   offerings[pdfValue].catalogMedia.media &&
                   offerings[pdfValue].catalogMedia.media.mediaUrl &&
                   process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
-                    offerings[pdfValue].catalogMedia.media.mediaUrl ? 
-                   (<DynamicPDFDocument
+                    offerings[pdfValue].catalogMedia.media.mediaUrl ? (
+                    <DynamicPDFDocument
                       url={
                         offerings &&
                         offerings.length > 0 &&
@@ -1712,7 +1713,8 @@ const SellerLandingDesktop = (props) => {
                         process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
                           offerings[pdfValue].catalogMedia.media.mediaUrl
                       }
-                    />) : (
+                    />
+                  ) : (
                     <div
                       style={{
                         textAlign: "center",

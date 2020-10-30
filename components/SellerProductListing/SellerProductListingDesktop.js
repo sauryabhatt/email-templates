@@ -32,7 +32,7 @@ function SellerProductListingDesktop(props) {
   const [ScheduleBenefits, setShowScheduleBenefits] = useState(false);
   const [scheduling, setShowScheduling] = useState(false);
   const isAuthenticated = useSelector((state) => state.auth.authenticated);
-  const {keycloak} = useKeycloak();
+  const { keycloak } = useKeycloak();
   const [successQueryVisible, setSuccessQueryVisible] = useState(false);
   const [visible, setVisible] = useState(false);
   const [schedulingSuccess, setShowSchedulingSuccess] = useState(false);
@@ -208,7 +208,7 @@ function SellerProductListingDesktop(props) {
       ),
       slotDate: selectedDate,
     };
-    fetch(process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL + "/events/meeting ", {
+    fetch(process.env.REACT_APP_API_MEETING_URL + "/events/meeting ", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {

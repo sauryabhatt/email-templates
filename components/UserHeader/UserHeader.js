@@ -45,7 +45,7 @@ const { Option } = Select;
 function UserHeader(props) {
   let { priceDetails = {}, nav } = props;
 
-  const router= useRouter();
+  const router = useRouter();
   let { convertToCurrency = "" } = priceDetails || {};
   const [visible, setVisible] = useState(false);
   const [shopVisible, setShopVisible] = useState(false);
@@ -54,7 +54,7 @@ function UserHeader(props) {
   const appToken = useSelector(
     (state) => state.appToken.token && state.appToken.token.access_token
   );
-  const {keycloak} = useKeycloak();
+  const { keycloak } = useKeycloak();
   const [navigationItems, setNavigationItems] = useState(nav);
   const [columns, setColumns] = useState();
   const [shopColor, setShopColor] = useState(false);
@@ -78,6 +78,7 @@ function UserHeader(props) {
         props.userProfile.userProfile.profileImage.media.mediaUrl
   );
 
+<<<<<<< HEAD
   async function fetchNdjson (response) {
     // let navigationDetails = [];
     // // const response = await fetch(
@@ -91,6 +92,21 @@ function UserHeader(props) {
     //   if (!result.done) navigationDetails.push(result.value);
     //   // console.log(result.done, result.value); //result.value is one line of your NDJSON data
     // }
+=======
+  async function fetchNdjson(response) {
+    let navigationDetails = [];
+    // const response = await fetch(
+    //   process.env.REACT_APP_API_PROFILE_URL + "/shop-options"
+    // );
+    const exampleReader = ndjsonStream(response).getReader();
+
+    let result;
+    while (!result || !result.done) {
+      result = await exampleReader.read();
+      if (!result.done) navigationDetails.push(result.value);
+      // console.log(result.done, result.value); //result.value is one line of your NDJSON data
+    }
+>>>>>>> development
     let navigationItems = _.mapValues(
       _.groupBy(responseJSON, "column"),
       (clist) => clist.map((navigationDetails) => navigationDetails)
@@ -98,7 +114,7 @@ function UserHeader(props) {
     setNavigationItems(navigationItems);
     let columnLength = Object.keys(navigationItems).length;
     setColumns(columnLength);
-  };
+  }
 
   const handleVisibleChange = (flag) => {
     setSearchVisible(false);
@@ -247,10 +263,12 @@ function UserHeader(props) {
                       }
                       key={key + id}
                     >
-                      {details.action === "URL"? (
-                        <Link href={details.values}>{details.displayTitle}</Link>
+                      {details.action === "URL" ? (
+                        <Link href={details.values}>
+                          {details.displayTitle}
+                        </Link>
                       ) : link ? (
-                      <Link href={link}>{details.displayTitle}</Link>
+                        <Link href={link}>{details.displayTitle}</Link>
                       ) : (
                         <span>{details.displayTitle}</span>
                       )}
@@ -492,7 +510,6 @@ function UserHeader(props) {
             style={{ textAlign: "left", margin: "auto" }}
           >
             <div>
-              
               <span>
                 <Link href="/" className="app-header-home-button">
                   <Icon
@@ -506,7 +523,7 @@ function UserHeader(props) {
                   />
                 </Link>
               </span>
-           
+
               <Dropdown
                 overlayClassName="shop-navigation"
                 overlay={navMenu}
@@ -559,7 +576,11 @@ function UserHeader(props) {
             >
               <Icon
                 component={LogoWithText}
-                style={{ height: "36px", width: "135px" }}
+                style={{
+                  height: "100%",
+                  width: "135px",
+                  verticalAlign: "middle",
+                }}
               ></Icon>
             </Link>
           </Col>
@@ -888,7 +909,7 @@ function UserHeader(props) {
                                         : "navigation-item "
                                     }
                                   >
-                                    {details.action === "URL"? (
+                                    {details.action === "URL" ? (
                                       <Link href={details.values}>
                                         {details.displayTitle}
                                       </Link>

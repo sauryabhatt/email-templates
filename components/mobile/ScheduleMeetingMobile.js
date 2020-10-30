@@ -46,7 +46,7 @@ const ScheduleMeetingMobile = (props) => {
   const [disabledTime, setDisabledTime] = useState([]);
   const [correctValue, setCorrectValue] = useState(true);
   const [disabledStartTime, setDisabledStartTime] = useState([]);
-  const {keycloak} = useKeycloak();
+  const { keycloak } = useKeycloak();
   const [disabledHoursBydate, setDisabledHoursBydate] = useState([]);
   const [disabledEndTimePicker, setDisabledEndTimePicker] = useState(true);
   const [showSlotText, setShowSlotText] = useState(false);
@@ -107,7 +107,7 @@ const ScheduleMeetingMobile = (props) => {
   const getDisableSlotsBySeller = (dateString) => {
     let profileId = props.sellerProfile.id.replace("HOME::", "");
     fetch(
-      process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL +
+      process.env.REACT_APP_API_MEETING_URL +
         "/events/meeting/slots?date=" +
         dateString +
         "&profile_id=" +

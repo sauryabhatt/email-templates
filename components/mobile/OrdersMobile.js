@@ -113,7 +113,8 @@ const OrdersMobile = (props) => {
   const downloadInvoice = (data) => {
     if (data) {
       var a = document.createElement("a");
-      a.href = process.env.REACT_APP_ASSETS_FILE_URL + data["mediaUrl"];
+      a.href =
+        process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL + data["mediaUrl"];
       a.setAttribute("download", "Spec-sheet");
       a.setAttribute("target", "_blank");
       a.click();
@@ -678,7 +679,7 @@ const OrdersMobile = (props) => {
                                           className="images"
                                           src={
                                             process.env
-                                              .REACT_APP_ASSETS_FILE_URL +
+                                              .NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
                                             mediaUrl
                                           }
                                           alt="Order placeholder"
@@ -719,7 +720,7 @@ const OrdersMobile = (props) => {
                                         className="images"
                                         src={
                                           process.env
-                                            .REACT_APP_ASSETS_FILE_URL +
+                                            .NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
                                           mediaUrl
                                         }
                                         alt="Order placeholder"

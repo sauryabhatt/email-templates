@@ -22,8 +22,8 @@ import { getCountries } from "react-phone-number-input/input";
 import en from "react-phone-number-input/locale/en.json";
 import { loginToApp } from "../AuthWithKeycloak";
 import certifiedIcon from "../../public/filestore/certifiedIcon";
-import  Link  from "next/link";
-import {useRouter} from "next/router";
+import Link from "next/link";
+import { useRouter } from "next/router";
 const { Option } = Select;
 
 const ProductContact = (props) => {
@@ -64,9 +64,9 @@ const ProductContact = (props) => {
     "image/jpeg",
     "image/png",
   ];
-useEffect(() => {
-  mediaMatch = window.matchMedia("(min-width: 768px)");
-}, [])
+  useEffect(() => {
+    mediaMatch = window.matchMedia("(min-width: 768px)");
+  }, []);
   const beforeUpload = (file) => {
     const isJpgOrPng = acceptedFileTypes.includes(file.type);
     if (!isJpgOrPng) {
@@ -148,7 +148,7 @@ useEffect(() => {
       skuId: skuId,
       sellerId: props.sellerDetails.id.split("::")[2],
       buyerId: props.userId && props.userId.split("::")[1],
-      productName: props.productDetails.productName
+      productName: props.productDetails.productName,
     };
 
     if (keycloak.authenticated) {
@@ -171,7 +171,7 @@ useEffect(() => {
         let { ip = "", country = "" } = result;
         data.fromIP = ip;
         data.ipCountry = country;
-        fetch(process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/queries", {
+        fetch(process.env.REACT_APP_API_FORM_URL + "/forms/queries", {
           method: "POST",
           body: JSON.stringify(data),
           headers: {
@@ -243,7 +243,8 @@ useEffect(() => {
   let imageUrl2;
 
   if (heroImageUrl) {
-    imageUrl1 = process.env.REACT_APP_ASSETS_FILE_URL + heroImageUrl;
+    imageUrl1 =
+      process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL + heroImageUrl;
     imageUrl2 = galleryImages[0];
   } else {
     imageUrl1 = galleryImages[0];
@@ -322,7 +323,7 @@ useEffect(() => {
                     props.sellerDetails.brandLogo &&
                     props.sellerDetails.brandLogo.media &&
                     props.sellerDetails.brandLogo.media.mediaUrl &&
-                    process.env.REACT_APP_ASSETS_FILE_URL +
+                    process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
                       props.sellerDetails.brandLogo.media.mediaUrl
                   }
                 ></Avatar> */}
@@ -781,7 +782,11 @@ useEffect(() => {
               >
                 <Checkbox className="check-box-tnc">
                   Standard{" "}
-                  <Link className="link-text" href="/TermsOfUse" target="_blank">
+                  <Link
+                    className="link-text"
+                    href="/TermsOfUse"
+                    target="_blank"
+                  >
                     T&C
                   </Link>{" "}
                   apply.
@@ -868,7 +873,7 @@ useEffect(() => {
                     props.sellerDetails.brandLogo &&
                     props.sellerDetails.brandLogo.media &&
                     props.sellerDetails.brandLogo.media.mediaUrl &&
-                    process.env.REACT_APP_ASSETS_FILE_URL +
+                    process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
                       props.sellerDetails.brandLogo.media.mediaUrl
                   }
                 ></Avatar> */}

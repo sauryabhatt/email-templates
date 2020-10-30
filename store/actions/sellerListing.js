@@ -125,7 +125,13 @@ export const getSPLPDetails = (queryResult, prevStateData = false) => {
   return (dispatch) => {
     // dispatch(setListingPageLoading(true));
     return fetch(
+<<<<<<< HEAD
       process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL + "/splpv2?" + queryResult,
+=======
+      process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL +
+        "/splp?" +
+        queryResult,
+>>>>>>> development
       {
         method: "GET",
       }
@@ -171,7 +177,11 @@ export const getListingPage = (token, queryResult, prevStateData = false) => {
   return (dispatch) => {
     dispatch(setListingPageLoading(true));
     return fetch(
+<<<<<<< HEAD
       process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/seller-homev2/?" + queryResult,
+=======
+      process.env.REACT_APP_API_PROFILE_URL + "/seller-home/?" + queryResult,
+>>>>>>> development
       {
         method: "GET",
         headers: {
@@ -207,10 +217,10 @@ export const getListingPage = (token, queryResult, prevStateData = false) => {
 
 export const getSellerDetails = (token, sellerId, verificationStatus = "") => {
   return (dispatch) => {
-    let url = process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/" + sellerId;
+    let url = process.env.REACT_APP_API_PROFILE_URL + "/" + sellerId;
     if (verificationStatus) {
       url =
-        process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
+        process.env.REACT_APP_API_PROFILE_URL +
         "/" +
         sellerId +
         "?status=" +
@@ -247,7 +257,7 @@ export const getSellerDetails = (token, sellerId, verificationStatus = "") => {
 export const getProductSellerDetails = (token, sellerId) => {
   return (dispatch) => {
     let url =
-      process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
+      process.env.REACT_APP_API_PROFILE_URL +
       "/seller-home/internal-views?view=SPLP&id=" +
       sellerId;
 
@@ -321,7 +331,13 @@ export const getPLPDetails = (
   return (dispatch) => {
     if (loader) dispatch(setListingPageLoading(true));
     return fetch(
+<<<<<<< HEAD
       process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL + "/plpv2?" + queryResult,
+=======
+      process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL +
+        "/plp?" +
+        queryResult,
+>>>>>>> development
       {
         method: "GET",
       }

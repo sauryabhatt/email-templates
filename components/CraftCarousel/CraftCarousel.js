@@ -4,7 +4,8 @@ import React from "react";
 import Slider from "react-slick";
 import { Button, Row, Col } from "antd";
 import { LeftOutlined, RightOutlined, MinusOutlined } from "@ant-design/icons";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 function CraftCarousel(props) {
   const router = useRouter();
@@ -28,46 +29,41 @@ function CraftCarousel(props) {
     slider.slickPrev();
   };
 
-  const redirectPath = (path, value) => {
-    router.push(`/${path}/${value}`)
-  };
   const slides = props.items.map((item, i) => {
     return (
       <div key={i} className="slider-slide">
         <Row>
           <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-            <div className="slider-left">
-              <div
-                className="qa-rel-pos"
-                onClick={() => redirectPath(item.path, item.searchText)}
-                style={{ cursor: "pointer" }}
-              >
-                <img
-                  className="images"
-                  src={item.imageInner}
-                  width={"100%"}
-                  alt={item.imageHeading}
-                />
-                <div
-                  className="image-text"
-                  onClick={() => redirectPath(item.path, item.searchText)}
-                  style={item.path !== "" ? { cursor: "pointer" } : {}}
-                >
-                  {item.imageHeading}
+            <Link href={item.path}>
+              <div className="slider-left">
+                <div className="qa-rel-pos" style={{ cursor: "pointer" }}>
+                  <img
+                    className="images"
+                    src={item.imageInner}
+                    width={"100%"}
+                    alt={item.imageHeading}
+                  />
+                  <div
+                    className="image-text"
+                    style={item.path !== "" ? { cursor: "pointer" } : {}}
+                  >
+                    {item.imageHeading}
+                  </div>
                 </div>
               </div>
-            </div>
+            </Link>
           </Col>
           <Col xs={24} sm={24} md={12} lg={12} xl={12}>
             <div className="slider-right">
               <p className="slider-trend-heading">#TrendAlert</p>
-              <p
-                className="slider-right-heading"
-                onClick={() => redirectPath(item.path, item.searchText)}
-                style={{ cursor: "pointer" }}
-              >
-                {item.imageTitle}
-              </p>
+              <Link href={item.path}>
+                <p
+                  className="slider-right-heading"
+                  style={{ cursor: "pointer" }}
+                >
+                  {item.imageTitle}
+                </p>
+              </Link>
               <p
                 className="slider-right-para"
                 style={{ whiteSpace: "pre-wrap" }}
