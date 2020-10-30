@@ -101,15 +101,16 @@ const getURL = (category) => {
   if (category === "all-categories") {
     return (
       process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL +
-      "/plp?from=0&size=30&sort_by=minimumOrderQuantity&sort_order=ASC"
+      "/plpv2?from=0&size=30&sort_by=minimumOrderQuantity&sort_order=ASC"
     );
   } else {
     return (
       process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL +
-      `/plp?from=0&size=30&sort_by=minimumOrderQuantity&sort_order=ASC&f_categories=${category}`
+      `/plpv2?from=0&size=30&sort_by=minimumOrderQuantity&sort_order=ASC&f_categories=${category}`
     );
   }
 };
+
 export const getStaticProps = async ({ params: { categoryId = "" } = {} }) => {
   const response = await fetch(getURL(categoryId), {
     method: "GET",

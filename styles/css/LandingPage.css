@@ -1,0 +1,543 @@
+.landing-container{
+  background-color: #333030;
+  margin-top: 70px;
+  color: #F9F7F2;
+}
+.landing {
+  background-image: url("../../public/filestore/Landing-page/Small_bird_vector.svg");
+  background-repeat: no-repeat;
+  background-size: 100% 96%;
+  background-position: -540px 20px;
+  padding-bottom: 20px;
+  margin-top: 70px;
+}
+.right-align-container{
+  display: flex;
+  justify-content: flex-end;
+  background-color: #333030;
+  color: #f9f7f2;
+}
+.curated-fold {
+  display: flex;
+  flex-direction: row;
+  width: calc(100% - 165px);
+  justify-content: space-between;
+  margin-top: 80px;
+}
+
+.fold-heading {
+  display: flex;
+  flex-direction: column;
+  width: 280px;
+}
+
+.fold-content {
+  display: flex;
+  flex-direction: column;
+  width: 62%;
+}
+
+.fold-image-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-right: 42px;
+}
+
+.image-wrp {
+  display: flex;
+}
+
+.bar-heading {
+  font-family: Butler;
+  font-size: 28px;
+  font-weight: 400;
+  border-top: 2px solid #d9bb7f;
+  display: flex;
+  width: max-content;
+  line-height: 34px;
+  letter-spacing: 0.02em;
+  padding-right: 70px;
+  padding-top: 20px;
+}
+.big-text-bottom-line{
+  font-size: 17px;
+  line-height: 22.5px;
+  letter-spacing: 0.02em;
+  font-family: senregular;
+  margin-top: 5px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: inherit;
+}
+.main-header {
+  font-family: Butler;
+  font-size: 60px;
+  line-height: 65px;
+  font-weight: 400;
+  margin-top: 95px;
+}
+.discription-text {
+  font-size: 16px;
+  line-height: 150%;
+  font-family: senregular;
+}
+.tagline-small-text {
+  font-size: 12px;
+  font-family: senregular;
+  text-align: center;
+}
+.button {
+  display: flex;
+  justify-content: center;
+  background: #d9bb7f;
+  font-size: 14px;
+  line-height: 60px;
+  color: #000 !important;
+  text-transform: uppercase;
+  text-align: center;
+  font-weight: bold;
+  letter-spacing: 2px;
+  font-family: senregular;
+  margin: 60px 0 8px;
+}
+
+.image-wrp {
+  display: block;
+  position: relative;
+}
+.image-wrp::after {
+    content: "";
+    display: block;
+    padding-bottom: 132%;
+}
+.landing-first-fold .image-wrp{
+  margin-bottom: 40px;
+  width: 27%;
+}
+.image-wrp img {
+  width: 100%;
+  position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    right: 0;
+    bottom: 0;
+}
+
+.image-wrp h3 {
+  position: absolute;
+  bottom: 20px;
+  left: 30px;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: senregular;
+}
+.big-heading{
+  font-size: 32px;
+  font-family: Butler;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  margin-bottom: 60px;
+  flex-direction: column;
+  display: flex;
+  align-self: flex-end;
+  width: 63%;
+  line-height: 120%;
+  padding-right: 60px;
+}
+.landing-second-fold{
+  margin-top: 10px;
+  flex-direction: column;
+}
+.side-heading{
+  margin-top: 0;
+}
+.aligne-column{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+}
+.hroizontal-img-container {
+  overflow-x: hidden;
+}
+
+.curated-fold a{
+  color: inherit;
+}
+.scroll-container{
+  transition: all 0.5s ease-in-out;
+  width: 150%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+.scroll-container .image-wrp{
+  margin-bottom: 0;
+  margin-right: 40px;
+  min-width: 215px;
+}
+.scroller-container {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 92%;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 0.02em;
+  margin-top: 30px;
+  font-family: senregular;
+}
+.next-btn, .previous-btn{
+  position: relative;
+  cursor: pointer;
+}
+.previous-btn::after{
+  content: "";
+  position: absolute;
+  width: 40px;
+  border-top: 1px solid #fff;
+  top: 50%;
+  right: calc(-100% - 20px);
+}
+.next-btn::before{
+  content: "";
+  position: absolute;
+  width: 40px;
+  border-top: 1px solid #fff;
+  top: 50%;
+  left: calc(-100% - 20px);
+}
+.landing-third-fold{
+  background-image: url("../../public/filestore/Landing-page/Small_bird_vector.svg");
+  background-repeat: no-repeat;
+  background-position: 145px 95px;
+  background-size: 64%;
+}
+.landing-third-fold .discription-text{
+  width: 56%;
+  margin-bottom: 60px;
+  line-height: 28px;
+}
+.landing-third-fold .fold-heading{
+  width: 30%;
+  align-items: stretch;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  position: relative;
+}
+.landing-third-fold .fold-content{
+  width: calc(62% - 52px);
+
+}
+.landing-third-fold .fold-heading img{
+  width: 100%;
+}
+.landing-third-fold .curated-fold{
+  width: calc(100% - 80px);
+  margin-top: 145px;
+}
+.landing-third-fold .scroll-container .image-wrp {
+  margin-right: 90px;
+  min-width: 230px;
+}
+.landing-third-fold .dialog-box {
+  background-color: #4E4848;
+  height: 170px;
+  width: 160px;
+  position: absolute;
+  bottom: 184px;
+  right: -25px;
+  padding: 21px 16px;
+}
+.landing-third-fold .dialog-box .dialog-big-text{
+  margin-bottom: 22px;
+  font-size: 22px;
+  line-height: 26px;
+  display: block;
+  font-family: Butler;
+  letter-spacing: 0.01em;
+}
+.landing-third-fold .dialog-box .dialog-small-text{
+  font-size: 16px;
+  font-weight: bold;
+  font-family: senregular;
+}
+
+.big-margin-top{
+  margin-top: 100px;
+}
+
+.landing-fourth-fold{
+  flex-direction: column;
+}
+
+.landing-fifth-fold.curated-fold{
+  margin-bottom: 60px;
+  margin-top: 150px;
+}
+.landing-fifth-fold .bar-heading{
+  width: 250px;
+  line-height: inherit;
+  padding-top: 20px;
+  padding-right: 0;
+}
+.landing-fifth-fold .image-wrp {
+  height: 108px;
+  width: 146px;
+  background: #D9BB7F;
+  margin-right: 20px;
+  min-width: initial;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-transform: uppercase;
+  padding: 4px;
+}
+.landing-fifth-fold .image-wrp .svg-text{
+  font-size: 14px;
+  font-family: senregular;
+  color: #000;
+  margin-top: 14px;
+}
+.landing-fifth-fold .image-wrp::after{
+  padding: 0;
+}
+.image-wrp:nth-child(2) {
+  background-color: #F9F7F2;
+}
+.fold-content .category-slider{
+  margin-top: 0;
+}
+@media only screen and (max-width: 1020px){
+  .fold-content, .big-heading{
+    width: 55%;
+  }
+  .landing-third-fold .fold-content {
+    width: calc(54% - 52px);
+  }
+}
+
+
+@media only screen and (max-width: 940px){
+  .landing{
+    margin-top: -8px;
+  }
+  .fold-content{
+    width: 100%;
+  }
+  .big-heading{
+    width: 90%;
+    align-self: flex-start;
+    margin-bottom: 40px;
+  }
+  .aligne-column, .landing-fifth-fold.curated-fold{
+    flex-direction: column;
+  }
+  .curated-fold{
+    width: 100%;
+    padding-left: 30px;
+  }
+  .landing-fifth-fold .bar-heading{
+    width: 310px;
+    margin-bottom: 50px;
+  }
+  .landing-first-fold{
+    flex-direction: column;
+    margin-top: 0;
+    position: relative;
+    padding-bottom: 100px;
+  }
+  .fold-image-container{
+    justify-content: space-around;
+    margin-right: 0;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .fold-image-container a {
+    width: calc(33% - 70px);
+    margin-right: 23px;
+    min-width: 119px
+  }
+  .button-wrp {
+    position: absolute;
+    bottom: -11px;
+    z-index: 99;
+    width: calc(100% - 60px);
+  }
+  .landing-third-fold .dialog-box{
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .landing-third-fold .fold-heading{
+    width: 70%;
+    height: 500px;
+    align-self: center;
+  }
+  .landing-third-fold .curated-fold {
+    width: 100%;
+    margin-top: 50px;
+    padding-top: 250px;
+    flex-direction: column;
+    position: relative;
+  }
+  .landing-third-fold .fold-content{
+    width: 100%;
+    margin-top: 150px;
+  }
+  .craft-text-wrap {
+    position: absolute;
+    top: 55px;
+  }
+  .main-header{
+    margin-top:45px;
+  }
+  .landing-third-fold .discription-text{
+    width: 100%;
+  }
+  .landing-third-fold{
+    background-position: 45px 95px;
+    background-size: 80%;
+  }
+}
+@media only screen and (max-width: 768px){
+  .landing-fourth-fold.curated-fold a{
+    width: 135px;
+  }
+  .landing-fourth-fold.curated-fold .image-wrp, .landing-second-fold.curated-fold .image-wrp  {
+    min-width: 116px;
+  }
+  .landing{
+    padding-bottom: 0;
+    background-size: 100% 100%;
+    background-position: -168px -225px;
+  }
+  .landing-third-fold {
+    background-position: -222px -200px;
+    background-size: 100% 100%;
+  }
+  .fold-content {
+    margin-top: 30px;
+  }
+  .main-header {
+    font-size: 26px;
+    margin-top: 50px;
+    line-height: 120%;
+    margin-bottom: 20px;
+    width: 91px;
+  }
+  .landing-third-fold .discription-text{
+    font-size: 14px;
+    line-height: 18px;
+  }
+  .fold-image-container {
+    width: 130%;
+  }
+  .fold-image, .hroizontal-img-container {
+    width: 100%;
+    overflow-x: scroll;
+  }
+  .bar-heading{
+    font-size: 20px;
+    line-height: 26px;
+    padding-top: 16px;
+    margin-bottom: 10px;
+  }
+  .landing .bar-heading{
+    margin-bottom: 20px;
+  }
+  .scroll-container .image-wrp {
+    margin-right: 20px !important;
+  }
+  .image-wrp h3{
+    font-size: 14px;
+    bottom: 13px;
+    left: 13px;
+    line-height: 14px;
+    height: 28px;
+    text-align: left;
+  }
+  .big-heading{
+    font-size: 18px;
+    line-height: 127%;
+    padding-top: 0;
+    padding-right: 30px;
+    width: 100%;
+  }
+  .big-text-bottom-line{
+    font-size:12px;
+    line-height: 14px;
+  }
+  .landing-third-fold .fold-content{
+    margin-top: 50px;
+  }
+  .discription-text {
+    font-size: 14px;
+    line-height: 18px;
+  }
+  .landing-third-fold .curated-fold {
+    margin-top: 0;
+    position: relative;
+  }
+  .curated-fold {
+    margin-top: 50px !important;
+  }
+  .landing-first-fold.curated-fold{
+    margin-top: 0 !important;
+  }
+  .landing-fifth-fold .bar-heading{
+    margin-bottom: 10px;
+    width: 220px;
+    padding-top: 16px;
+  }
+  .landing-third-fold .dialog-box .dialog-big-text{
+    font-size: 16px;
+    margin-bottom: 12px;
+    line-height: 120%;
+  }
+  .landing-third-fold .dialog-box .dialog-small-text{
+    font-size: 14px;
+    line-height: 16px;
+  }
+  .landing-third-fold .dialog-box{
+    width: 120px;
+    height: 150px;
+  }
+  .landing-third-fold .fold-heading {
+    height: 300px;
+    margin-left: -15px;
+  }
+  .landing-fourth-fold .image-wrp h3, .landing-first-fold  .image-wrp h3{
+    height: auto;
+  }
+  .hroizontal-img-container svg {
+    width: 43px;
+  }
+  .landing-fifth-fold .image-wrp .svg-text{
+    font-size: 13px;
+    text-transform: uppercase;
+  }
+  .scroll-container{
+    width: 140%
+  }
+  .landing-third-fold .slick-slide .image-wrp{
+  }
+}
+@media only screen and (max-width: 360px){
+  .fold-image-container {
+    width: 180%;
+  }
+}
+

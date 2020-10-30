@@ -19,8 +19,8 @@ export const Layout = ({
   const title = meta?.title || "";
   const description = meta?.description || "";
   const keywords = meta?.keywords || "";
-  const Header = keycloak.authenticated ? <UserHeader nav={navigationItems}/> : <AppHeader nav={navigationItems}/>;
-
+  const Header = keycloak.authenticated ? <UserHeader /> : <AppHeader/>;
+  
   return (
     <Fragment>
       <Head>

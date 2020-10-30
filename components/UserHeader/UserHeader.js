@@ -5,6 +5,7 @@ import { useSelector, connect } from "react-redux";
 import { useKeycloak } from "@react-keycloak/ssr";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import responseJSON from "../../public/data/appHeader.json";
 import {
   Layout,
   Button,
@@ -78,20 +79,20 @@ function UserHeader(props) {
   );
 
   async function fetchNdjson(response) {
-    let navigationDetails = [];
-    // const response = await fetch(
-    //   process.env.REACT_APP_API_PROFILE_URL + "/shop-options"
-    // );
-    const exampleReader = ndjsonStream(response).getReader();
+    // let navigationDetails = [];
+    // // const response = await fetch(
+    // //   process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/shop-options"
+    // // );
+    // const exampleReader = ndjsonStream(response).getReader();
 
-    let result;
-    while (!result || !result.done) {
-      result = await exampleReader.read();
-      if (!result.done) navigationDetails.push(result.value);
-      // console.log(result.done, result.value); //result.value is one line of your NDJSON data
-    }
+    // let result;
+    // while (!result || !result.done) {
+    //   result = await exampleReader.read();
+    //   if (!result.done) navigationDetails.push(result.value);
+    //   // console.log(result.done, result.value); //result.value is one line of your NDJSON data
+    // }
     let navigationItems = _.mapValues(
-      _.groupBy(navigationDetails, "column"),
+      _.groupBy(responseJSON, "column"),
       (clist) => clist.map((navigationDetails) => navigationDetails)
     );
     setNavigationItems(navigationItems);
@@ -228,8 +229,7 @@ function UserHeader(props) {
                   let link = "";
                   if (details.filterType) {
                     link =
-                      "/sellers/" +
-                      encodeURIComponent("All Categories") +
+                      "/sellers/all-categories" +
                       "?" +
                       details.filterType.toLowerCase() +
                       "=" +
