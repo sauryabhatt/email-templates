@@ -177,7 +177,7 @@ const ProductDetails = (props) => {
 
   let { orderId = "" } = cart;
   const router = useRouter();
-  const {keycloak} = useKeycloak();
+  const { keycloak } = useKeycloak();
   const ImgGalleryM = useRef(null);
   const ImgGalleryD = useRef(null);
   const [form] = Form.useForm();
@@ -391,8 +391,7 @@ const ProductDetails = (props) => {
     sizes = info["size"];
   }
 
-  let splpLink =
-    "/seller/" + sellerCode + "/" + encodeURIComponent("All Categories");
+  let splpLink = "/seller/" + sellerCode + "/all-categories";
   let displayPrice = priceMin || exfactoryListPrice;
 
   let initialValues;

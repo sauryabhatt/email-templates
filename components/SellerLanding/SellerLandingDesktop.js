@@ -746,9 +746,7 @@ const SellerLandingDesktop = (props) => {
     let { sellerId = "" } = props;
     sellerId = sellerId.replace("SELLER::", "");
     if (e.key !== "seller-home") {
-      router.push(
-        "/seller/" + sellerId + "/" + encodeURIComponent("All Categories")
-      );
+      router.push("/seller/" + sellerId + "/all-categories");
     }
   };
 

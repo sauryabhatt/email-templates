@@ -291,9 +291,7 @@ function SellerLandingMobile(props) {
     let { sellerId = "" } = props;
     sellerId = sellerId.replace("SELLER::", "");
     if (e.key !== "seller-home") {
-      router.push(
-        "/seller/" + sellerId + "/" + encodeURIComponent("All Categories")
-      );
+      router.push("/seller/" + sellerId + "/all-categories");
     }
   };
 
@@ -561,7 +559,8 @@ function SellerLandingMobile(props) {
     setRequestLoading(true);
     let data = { profileId: props.sellerId };
     fetch(
-      process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/profiles/my/subscriptions",
+      process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
+        "/profiles/my/subscriptions",
       {
         method: "PUT",
         body: JSON.stringify(data),
@@ -613,7 +612,7 @@ function SellerLandingMobile(props) {
       setShowScheduleBenefits(false);
       setShowScheduling(true);
     } else {
-      loginToApp(keycloak,{ currentPath: router.pathname});
+      loginToApp(keycloak, { currentPath: router.pathname });
     }
   };
 

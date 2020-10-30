@@ -287,7 +287,7 @@ function Home(props) {
   ];
 
   let sellerUrl = `/categoryedit/KitchenDining`;
-  let plpUrl = `/products/${encodeURIComponent("All Categories")}`;
+  let plpUrl = `/products/all-categories`;
   let productUrl = "/explore/curatedbyus";
   let rtsUrl = `/products/all-categories?f_product_types=${encodeURIComponent(
     "Ready to ship"
