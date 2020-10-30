@@ -125,13 +125,9 @@ export const getSPLPDetails = (queryResult, prevStateData = false) => {
   return (dispatch) => {
     // dispatch(setListingPageLoading(true));
     return fetch(
-<<<<<<< HEAD
-      process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL + "/splpv2?" + queryResult,
-=======
       process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL +
-        "/splp?" +
+        "/splpv2?" +
         queryResult,
->>>>>>> development
       {
         method: "GET",
       }
@@ -146,7 +142,6 @@ export const getSPLPDetails = (queryResult, prevStateData = false) => {
         }
       })
       .then((result) => {
-        
         let {
           totalHits = 0,
           products = [],
@@ -177,11 +172,9 @@ export const getListingPage = (token, queryResult, prevStateData = false) => {
   return (dispatch) => {
     dispatch(setListingPageLoading(true));
     return fetch(
-<<<<<<< HEAD
-      process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/seller-homev2/?" + queryResult,
-=======
-      process.env.REACT_APP_API_PROFILE_URL + "/seller-home/?" + queryResult,
->>>>>>> development
+      process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
+        "/seller-homev2/?" +
+        queryResult,
       {
         method: "GET",
         headers: {
@@ -331,13 +324,9 @@ export const getPLPDetails = (
   return (dispatch) => {
     if (loader) dispatch(setListingPageLoading(true));
     return fetch(
-<<<<<<< HEAD
-      process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL + "/plpv2?" + queryResult,
-=======
       process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL +
-        "/plp?" +
+        "/plpv2?" +
         queryResult,
->>>>>>> development
       {
         method: "GET",
       }

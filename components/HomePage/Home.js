@@ -18,12 +18,8 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 
 function Home(props) {
-<<<<<<< HEAD
-  const router = useRouter(); 
-  const {keycloak} = useKeycloak();
-=======
   const router = useRouter();
->>>>>>> development
+  const { keycloak } = useKeycloak();
   const isAuthenticated = useSelector((state) => state.auth.authenticated);
   const [visible, setVisible] = useState(false);
   const [successQueryVisible, setSuccessQueryVisible] = useState(false);
@@ -293,9 +289,15 @@ function Home(props) {
   let sellerUrl = `/categoryedit/KitchenDining`;
   let plpUrl = `/products/${encodeURIComponent("All Categories")}`;
   let productUrl = "/explore/curatedbyus";
-  let rtsUrl = `/products/all-categories?f_product_types=${encodeURIComponent("Ready to ship")}&sort_by=visibleTo`;
-  let customUrl = `/products/all-categories?f_product_types=${encodeURIComponent("Make to order")}&sort_by=visibleTo`;
-  let ertmUrl = `/products/all-categories?f_product_types=${encodeURIComponent("Express custom")}&sort_by=visibleTo`;
+  let rtsUrl = `/products/all-categories?f_product_types=${encodeURIComponent(
+    "Ready to ship"
+  )}&sort_by=visibleTo`;
+  let customUrl = `/products/all-categories?f_product_types=${encodeURIComponent(
+    "Make to order"
+  )}&sort_by=visibleTo`;
+  let ertmUrl = `/products/all-categories?f_product_types=${encodeURIComponent(
+    "Express custom"
+  )}&sort_by=visibleTo`;
   return (
     <>
       <HomeBanner>
@@ -441,7 +443,7 @@ function Home(props) {
           </div>
         )}
       </HomeBanner>
-                  
+
       <Row id="q-source-banner">
         <div className="q-source-title">
           <div className="banner-text">
@@ -559,7 +561,7 @@ function Home(props) {
             costs and ensure safe door delivery.
           </div>
         </Col>
-      </Row>         
+      </Row>
       {/*<Row id="q-source-banner">
         <div className="q-source-title">
           <div className="banner-text">
@@ -751,7 +753,7 @@ function Home(props) {
         </div>
         <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>
       </Row>*/}
-      
+
       {/*<CategoryBanner />*/}
       <CategoryBannerCarousel />
       <PaymentBanner />
