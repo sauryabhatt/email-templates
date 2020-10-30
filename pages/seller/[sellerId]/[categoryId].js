@@ -38,7 +38,7 @@ export const getServerSideProps = async ({ req, params }) => {
     method: "GET",
   });
   const sellerResponse = fetch(
-    process.env.REACT_APP_API_PROFILE_URL +
+    process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
       "/seller-home/internal-views?view=SPLP&id=" +
       sellerId,
     {

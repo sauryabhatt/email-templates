@@ -35,7 +35,7 @@ export async function getStaticPaths() {
 export const getStaticProps = async ({ params }) => {
   const { sellerId } = params || {};
   const response = await fetch(
-    process.env.REACT_APP_API_PROFILE_URL + `/${sellerId}`,
+    process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + `/${sellerId}`,
     {
       method: "GET",
     }

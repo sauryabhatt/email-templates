@@ -172,9 +172,13 @@ export const getListingPage = (token, queryResult, prevStateData = false) => {
   return (dispatch) => {
     dispatch(setListingPageLoading(true));
     return fetch(
+<<<<<<< HEAD
+      process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/seller-homev2/?" + queryResult,
+=======
       process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
         "/seller-homev2/?" +
         queryResult,
+>>>>>>> development
       {
         method: "GET",
         headers: {
@@ -210,10 +214,10 @@ export const getListingPage = (token, queryResult, prevStateData = false) => {
 
 export const getSellerDetails = (token, sellerId, verificationStatus = "") => {
   return (dispatch) => {
-    let url = process.env.REACT_APP_API_PROFILE_URL + "/" + sellerId;
+    let url = process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/" + sellerId;
     if (verificationStatus) {
       url =
-        process.env.REACT_APP_API_PROFILE_URL +
+        process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
         "/" +
         sellerId +
         "?status=" +
@@ -250,7 +254,7 @@ export const getSellerDetails = (token, sellerId, verificationStatus = "") => {
 export const getProductSellerDetails = (token, sellerId) => {
   return (dispatch) => {
     let url =
-      process.env.REACT_APP_API_PROFILE_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
       "/seller-home/internal-views?view=SPLP&id=" +
       sellerId;
 
