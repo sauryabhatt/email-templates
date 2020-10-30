@@ -869,9 +869,7 @@ function UserHeader(props) {
                             let link = "";
                             if (details.filterType) {
                               link =
-                                "/sellers/" +
-                                encodeURIComponent("All Categories") +
-                                "?" +
+                                "/sellers/all-categories?" +
                                 details.filterType.toLowerCase() +
                                 "=" +
                                 encodeURIComponent(details.values);
@@ -918,9 +916,7 @@ function UserHeader(props) {
                             let link = "";
                             if (details.filterType) {
                               link =
-                                "/sellers/" +
-                                encodeURIComponent("All Categories") +
-                                "?" +
+                                "/sellers/all-categories?" +
                                 details.filterType.toLowerCase() +
                                 "=" +
                                 encodeURIComponent(details.values);
