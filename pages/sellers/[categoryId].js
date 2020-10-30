@@ -92,10 +92,24 @@ export default function SellerListingPage({ data }) {
 }
 
 export async function getStaticPaths() {
+<<<<<<< HEAD
+    return {
+      paths: [],
+      fallback: true,
+    };
+}
+const getURL = (category) =>{
+  if(category==="all-categories") {      
+    return process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL + "/seller-homev2?from=0&size=30&sort_by=publishedTimeStamp&sort_order=DESC"
+}else {
+    return process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL + `/seller-homev2?from=0&size=30&sort_by=publishedTimeStamp&sort_order=DESC&f_categories=${category}`
+}
+=======
   return {
     paths: [],
     fallback: true,
   };
+>>>>>>> development
 }
 const getURL = (category) => {
   if (category === "all-categories") {

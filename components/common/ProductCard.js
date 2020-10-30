@@ -7,19 +7,21 @@ import  Link  from "next/link"
 import { Row, Col } from "antd";
 import { useSelector, connect } from "react-redux";
 import getSymbolFromCurrency from "currency-symbol-map";
-// import { loginToApp } from "../AuthWithKeycloak";
+import { loginToApp } from "../AuthWithKeycloak";
 import {useRouter} from "next/router";
+import { useKeycloak } from "@react-keycloak/ssr";
 
 function ProductCard(props) {
   const isAuthenticated = useSelector((state) => state.auth.authenticated);
   const router = useRouter();
+  const {keycloak} = useKeycloak();
   const getConvertedCurrency = (baseAmount) => {
     let { convertToCurrency = "", rates = [] } = props.currencyDetails;
     return Number.parseFloat(baseAmount * rates[convertToCurrency]).toFixed(2);
   };
 
   const signIn = () => {
-    // loginToApp({ currentPath: encodeURI(history.location.pathname) });
+     loginToApp(keycloak, { currentPath: router.pathname });
   };
 
   let productDetails = props.data;

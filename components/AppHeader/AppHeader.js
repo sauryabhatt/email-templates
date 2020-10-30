@@ -4,7 +4,8 @@ import React, { useState, useEffect } from "react";
 import { useSelector, connect } from "react-redux";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import responseJSON from "../../public/data/appHeader.json";
+import responseJSONProd from "../../public/data/appHeader.json"
+import responseJSONDev from "../../public/data/appHeaderDev.json"
 import {
   Layout,
   Button,
@@ -143,9 +144,14 @@ function AppHeader(props) {
     //   if (!result.done) navigationDetails.push(result.value);
     //   // console.log(result.done, result.value); //result.value is one line of your NDJSON data
     // }
-
+    let responseJSON;
+    if(process.env.NODE_ENV === 'production') {
+      responseJSON = responseJSONProd;
+    } else {
+      responseJSON = responseJSONDev;
+    }
     let navigationItems = _.mapValues(
-      _.groupBy(responseJSON, "column"),
+      _.groupBy(responseJSONDev, "column"),
       (clist) => clist.map((navigationDetails) => navigationDetails)
     );
     setNavigationItems(navigationItems);

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Button, Col, Row, Modal, Input, Form, message } from "antd";
+import { useKeycloak } from "@react-keycloak/ssr";
 import Icon from "@ant-design/icons";
 // import { loginToApp } from "./../../AuthWithKeycloak/AuthWithKeycloak";
 import HomeBanner from "./../HomeBanner/HomeBanner";
@@ -17,7 +18,12 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 
 function Home(props) {
+<<<<<<< HEAD
+  const router = useRouter(); 
+  const {keycloak} = useKeycloak();
+=======
   const router = useRouter();
+>>>>>>> development
   const isAuthenticated = useSelector((state) => state.auth.authenticated);
   const [visible, setVisible] = useState(false);
   const [successQueryVisible, setSuccessQueryVisible] = useState(false);
@@ -125,7 +131,7 @@ function Home(props) {
   };
 
   const signIn = () => {
-    loginToApp();
+    loginToApp(keycloak, undefined);
   };
 
   const handleCancel = () => {
@@ -286,7 +292,10 @@ function Home(props) {
 
   let sellerUrl = `/categoryedit/KitchenDining`;
   let plpUrl = `/products/${encodeURIComponent("All Categories")}`;
-  let productUrl = "/trends/earthinspired";
+  let productUrl = "/explore/curatedbyus";
+  let rtsUrl = `/products/all-categories?f_product_types=${encodeURIComponent("Ready to ship")}&sort_by=visibleTo`;
+  let customUrl = `/products/all-categories?f_product_types=${encodeURIComponent("Make to order")}&sort_by=visibleTo`;
+  let ertmUrl = `/products/all-categories?f_product_types=${encodeURIComponent("Express custom")}&sort_by=visibleTo`;
   return (
     <>
       <HomeBanner>
@@ -313,8 +322,8 @@ function Home(props) {
         <Button className="banner-button-circle" shape="circle">
           <Link href={productUrl}>
             <div className="banner-button-circle-text qa-cursor">
-              Explore<br></br>Trends
-              <div className="banner-sub-text">Limited access</div>
+              EXPLORE<br></br>NEW TRENDS<br></br>& EDITS
+              {/*<div className="banner-sub-text">Limited access</div>*/}
               <div>
                 <svg
                   width="18"
@@ -432,16 +441,133 @@ function Home(props) {
           </div>
         )}
       </HomeBanner>
-
+                  
       <Row id="q-source-banner">
         <div className="q-source-title">
           <div className="banner-text">
-            {/* If you don’t find what you’re looking for, you can complete a custom
-            order in three steps */}
+            We serve all types of wholesale buying & sourcing needs
+          </div>
+        </div>
+        <Col
+          xs={12}
+          sm={12}
+          md={8}
+          lg={8}
+          xl={8}
+          className="source-steps qa-mr-1"
+        >
+          <Link href={rtsUrl}>
+            <div className="steps-container">
+              <span className="qa-next-line" style={{ color: "#191919" }}>
+                READY TO SHIP
+              </span>
+
+              <span style={{ color: "#4e4848" }}>
+                Browse our growing range of ready stock products that can be
+                dispatched within 7-10 days. Add to bag and checkout instantly,
+                subject to reasonable order minimums.
+              </span>
+              <div className="qa-fixed-btns">
+                <div className="q-button-link">Shop now</div>
+                <svg
+                  width="18"
+                  height="8"
+                  viewBox="0 0 18 8"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M17.4964 4.35355C17.6917 4.15829 17.6917 3.84171 17.4964 3.64645L14.3144 0.464467C14.1192 0.269205 13.8026 0.269205 13.6073 0.464467C13.4121 0.659729 13.4121 0.976312 13.6073 1.17157L16.4357 4L13.6073 6.82843C13.4121 7.02369 13.4121 7.34027 13.6073 7.53554C13.8026 7.7308 14.1192 7.7308 14.3144 7.53554L17.4964 4.35355ZM-4.37114e-08 4.5L17.1429 4.5L17.1429 3.5L4.37114e-08 3.5L-4.37114e-08 4.5Z"
+                    fill="#874439"
+                  />
+                </svg>
+              </div>
+            </div>
+          </Link>
+        </Col>
+        <Col
+          xs={12}
+          sm={12}
+          md={8}
+          lg={8}
+          xl={8}
+          className="source-steps qa-ml-1"
+        >
+          <Link href={ertmUrl}>
+            <div className="steps-container">
+              <span className="qa-next-line" style={{ color: "#191919" }}>
+                EXPRESS CUSTOM
+              </span>
+
+              <span style={{ color: "#4e4848" }}>
+                Browse, add to bag and instantly checkout 'Express Custom' range
+                of products that can be manufactured in small quantities and
+                dispatched within 3-5 weeks.
+              </span>
+              <div className="qa-fixed-btns">
+                <div className="q-button-link">Shop now</div>
+                <svg
+                  width="18"
+                  height="8"
+                  viewBox="0 0 18 8"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M17.4964 4.35355C17.6917 4.15829 17.6917 3.84171 17.4964 3.64645L14.3144 0.464467C14.1192 0.269205 13.8026 0.269205 13.6073 0.464467C13.4121 0.659729 13.4121 0.976312 13.6073 1.17157L16.4357 4L13.6073 6.82843C13.4121 7.02369 13.4121 7.34027 13.6073 7.53554C13.8026 7.7308 14.1192 7.7308 14.3144 7.53554L17.4964 4.35355ZM-4.37114e-08 4.5L17.1429 4.5L17.1429 3.5L4.37114e-08 3.5L-4.37114e-08 4.5Z"
+                    fill="#874439"
+                  />
+                </svg>
+              </div>
+            </div>
+          </Link>
+        </Col>
+        <Col xs={24} sm={24} md={8} lg={8} xl={8} className="source-steps">
+          <Link href={customUrl}>
+            <div className="steps-container">
+              <span className="qa-next-line" style={{ color: "#191919" }}>
+                CUSTOM QUOTE
+              </span>
+
+              <span style={{ color: "#4e4848" }}>
+                Browse products tagged 'Custom Order', share custom requirements
+                or your own designs and product ideas with a Request for Quote.
+                Receive quotations and confirm orders digitally.
+              </span>
+              <div className="qa-fixed-btns">
+                <div className="q-button-link">Browse now</div>
+                <svg
+                  width="18"
+                  height="8"
+                  viewBox="0 0 18 8"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M17.4964 4.35355C17.6917 4.15829 17.6917 3.84171 17.4964 3.64645L14.3144 0.464467C14.1192 0.269205 13.8026 0.269205 13.6073 0.464467C13.4121 0.659729 13.4121 0.976312 13.6073 1.17157L16.4357 4L13.6073 6.82843C13.4121 7.02369 13.4121 7.34027 13.6073 7.53554C13.8026 7.7308 14.1192 7.7308 14.3144 7.53554L17.4964 4.35355ZM-4.37114e-08 4.5L17.1429 4.5L17.1429 3.5L4.37114e-08 3.5L-4.37114e-08 4.5Z"
+                    fill="#874439"
+                  />
+                </svg>
+              </div>
+            </div>
+          </Link>
+        </Col>
+        <Col span={24}>
+          <div className="q-source-details">
+            We quality inspect all orders, manage production monitoring for
+            custom orders, facilitate secure payments, offer the best freight
+            costs and ensure safe door delivery.
+          </div>
+        </Col>
+      </Row>         
+      {/*<Row id="q-source-banner">
+        <div className="q-source-title">
+          <div className="banner-text">
+            
             Complete a custom order in three steps
           </div>
         </div>
-        {/*<Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>*/}
+       
         <Col
           xs={24}
           sm={24}
@@ -486,7 +612,7 @@ function Home(props) {
           <div
             className="steps-container"
             style={{
-              //marginBottom: "20px",
+             
               lineHeight: "140%",
             }}
           >
@@ -549,7 +675,6 @@ function Home(props) {
           <div
             className="steps-container"
             style={{
-              //marginBottom: "10px",
               lineHeight: "140%",
             }}
           >
@@ -625,7 +750,8 @@ function Home(props) {
           </Button>
         </div>
         <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>
-      </Row>
+      </Row>*/}
+      
       {/*<CategoryBanner />*/}
       <CategoryBannerCarousel />
       <PaymentBanner />

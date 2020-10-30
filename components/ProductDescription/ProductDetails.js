@@ -48,6 +48,7 @@ import Air from "../../public/filestore/air";
 import Sea from "../../public/filestore/sea";
 import alertIcon from "../../public/filestore/alertIcon";
 import { useRouter } from "next/router";
+import { useKeycloak } from "@react-keycloak/ssr";
 import { checkInventory } from "../../store/actions";
 import playButton from "./../../public/filestore/playButton";
 
@@ -176,6 +177,7 @@ const ProductDetails = (props) => {
 
   let { orderId = "" } = cart;
   const router = useRouter();
+  const {keycloak} = useKeycloak();
   const ImgGalleryM = useRef(null);
   const ImgGalleryD = useRef(null);
   const [form] = Form.useForm();
@@ -494,7 +496,7 @@ const ProductDetails = (props) => {
   };
 
   const signIn = () => {
-    loginToApp({ currentPath: encodeURI(router.asPath.split("?")[0]) });
+    loginToApp(keycloak, { currentPath: router.asPath.split("?")[0] });
     localStorage.setItem("productUrl", router.asPath.split("?")[0]);
   };
 

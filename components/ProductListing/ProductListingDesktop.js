@@ -57,7 +57,6 @@ function ProductListingDesktop(props) {
       />
     );
   }
-
   return (
     <div>
       <Layout className="seller-listing-container" id="product-listing-page">
