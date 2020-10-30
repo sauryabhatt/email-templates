@@ -51,7 +51,7 @@ const SellerLanding = (props) => {
 
       if (profileType === "BUYER" && verificationStatus === "IN_PROGRESS") {
         fetch(
-          process.env.REACT_APP_API_PROFILE_URL + "/profiles/my/subscriptions",
+          process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/profiles/my/subscriptions",
           {
             method: "GET",
             headers: {
