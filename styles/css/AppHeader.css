@@ -59,6 +59,13 @@
 .header-popup .ant-popover-inner {
   border-radius: 8px;
 }
+.header-popup .ant-popover-inner {
+  border-radius: 8px;
+  background: #191919;
+  border: 1px solid #332f2f;
+  box-shadow: 0 12px 25px rgba(0,0,0,.15);
+  color: #f9f7f2;
+}
 .header-popup div.header-text {
   font-family: senregular;
   font-size: 14px;
@@ -70,11 +77,23 @@
   text-align: left;
   padding-top: 10px;
   font-weight: bold;
-  color: #332f2f;
+  /* color: #332f2f; */
 }
 .header-popup .ant-menu-item:active,
 .ant-menu-submenu-title:active {
   background-color: transparent;
+}
+
+.header-popup .ant-popover-inner-content {
+  padding: 12px 25px;
+}
+.header-popup .ant-menu, .header-popup .ant-popover-inner-content {
+  color: #f9f7f2;
+  background: #191919;
+  border-radius: 8px;
+}
+.header-popup .header-text {
+  color: #f9f7f2;
 }
 
 .header-popup .ant-menu-item:hover,
@@ -132,6 +151,7 @@
   background-color: #191919;
   color: #f9f7f2;
 }
+
 .header-navigation-menu .ant-dropdown-menu-item,
 .ant-dropdown-menu-submenu-title {
   color: #f9f7f2;
@@ -348,6 +368,16 @@
 }
 .search-dropdown .ant-select-arrow {
   color: #d9bb7f;
+}
+.header-popup.ant-popover-placement-bottomRight>.ant-popover-content>.ant-popover-arrow {
+  border-left-color: #332f2f;
+  border-top-color: #332f2f;
+  background: #191919;
+}
+.header-popup .ant-popover-arrow {
+  border: 1px solid #d9bb7f;
+  text-decoration: none;
+  border-radius: 2px;
 }
 .search-dropdown .ant-input-affix-wrapper > input.ant-input {
   background-color: #303030;

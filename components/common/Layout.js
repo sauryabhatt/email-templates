@@ -4,14 +4,15 @@ import { useRouter } from "next/router";
 import {useKeycloak  } from '@react-keycloak/ssr';
 import UserHeader from "../UserHeader/UserHeader";
 import AppHeader from "../AppHeader/AppHeader";
+import {setAuth, getUserProfile} from '../../store/actions';
+import store from '../../store';
 import _ from "lodash";
-
-const isServer = () => typeof window == undefined;
 
 export const Layout = ({
   children,
   meta = {},
 }) => {
+
   const { keycloak } = useKeycloak()
   const router = useRouter();
   const [navigationItems, setNavigationItems] = useState({});
@@ -20,6 +21,22 @@ export const Layout = ({
   const description = meta?.description || "";
   const keywords = meta?.keywords || "";
   const Header = keycloak.authenticated ? <UserHeader /> : <AppHeader/>;
+  
+  useEffect(() => {
+    // console.log("keycloak in useeffect", keycloak)
+    if(keycloak?.token){
+      console.log("i am in if", keycloak)
+      document.cookie = `appToken=${keycloak.token}`
+      console.group("cookie stted");
+      keycloak.loadUserProfile().then((profile) => {
+        store.dispatch(setAuth(keycloak.authenticated, profile));
+        }).catch((error) => {
+            store.dispatch(setAuth(keycloak.authenticated, null));
+            // router.push('/error?message="Somthing went wrong on loading user profile."&redirectURI='+router.pathname);
+        });
+        store.dispatch(getUserProfile(keycloak.token));
+    }
+  }, [keycloak.token])
   
   return (
     <Fragment>

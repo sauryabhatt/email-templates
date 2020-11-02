@@ -1,9 +1,9 @@
 import React from 'react'
 
 import { SSRKeycloakProvider, SSRCookies,useKeycloak  } from '@react-keycloak/ssr';
-import store from '../../store';
-import {setAuth, getUserProfile} from '../../store/actions';
-import Spinner from '../Spinner/Spinner';
+// import store from '../../store';
+// import {setAuth, getUserProfile} from '../../store/actions';
+// import Spinner from '../Spinner/Spinner';
 
 const keycloakProviderInitConfig = {
     onLoad: 'check-sso',
@@ -40,34 +40,33 @@ function AuthWithKeycloak(props) {
     const keycloakCfg = {
         realm: "GoldenBirdDev",
         url: "https://api-dev.qalara.com:8443/auth/",
-        clientId: "reactUI"
+        clientId: "next"
     }
 
-    const onKeycloakEvent = (event, error) => {
-        if (event === 'onReady') {
-        } else if (event === 'onAuthSuccess') {
-            keycloak.loadUserProfile().then((profile) => {
-                store.dispatch(setAuth(keycloak.authenticated, profile));
-            }).catch((error) => {
-                store.dispatch(setAuth(keycloak.authenticated, null));
-                history.push('/error?message="Somthing went wrong on loading user profile."&redirectURI='+history.location.pathname);
-            });
-            store.dispatch(getUserProfile(keycloak.token));
-        }
-        
-    }
-
-    const onKeycloakTokens = tokens => {
-        // console.log('onKeycloakTokens', tokens)
-    }
+    // const onKeycloakEvent = (event, error) => {
+    //     if (event === 'onReady') {
+    //     } else if (event === 'onAuthSuccess') {
+    //         keycloak.loadUserProfile().then((profile) => {
+    //             store.dispatch(setAuth(keycloak.authenticated, profile));
+    //         }).catch((error) => {
+    //             store.dispatch(setAuth(keycloak.authenticated, null));
+    //             history.push('/error?message="Somthing went wrong on loading user profile."&redirectURI='+history.location.pathname);
+    //         });
+    //         store.dispatch(getUserProfile(keycloak.token));
+    //     }
+    //    
+    // }
+    // const onKeycloakTokens = tokens => {
+    //     // console.log('onKeycloakTokens', tokens)
+    // }
     return (
             <SSRKeycloakProvider
                 keycloakConfig={keycloakCfg}
                 persistor={SSRCookies(cookies)}
                 keycloak={keycloak}
                 initConfig={keycloakProviderInitConfig}
-                onEvent={onKeycloakEvent}
-                onTokens={onKeycloakTokens}
+                // onEvent={onKeycloakEvent}
+                // onTokens={onKeycloakTokens}
                 // LoadingComponent={<Spinner/>}
             >
             {props.children}
