@@ -2,8 +2,12 @@
     background: #F9F7F2;
 }
 
+.quote-menu .ant-menu-item {
+    padding: 0 20px !important;
+}
+
 .quote-menu .ant-menu-item-selected {
-    border-bottom: 2.5px solid #874439;
+    border-bottom: 2.5px solid #874439 !important;
 }
 
 .quote-menu .ant-menu-item:hover {

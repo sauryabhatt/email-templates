@@ -6,7 +6,7 @@
 export const fetchHeader = async () => {
   // let navigationDetails = [];
   const response = await fetch(
-    process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/shop-option-list"
+    process.env.NEXT_PUBLIC_NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/shop-option-list"
   );
   // const exampleReader = ndjsonStream(response.body).getReader();
   // let result;

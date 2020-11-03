@@ -138,7 +138,7 @@ const SavedForLater = (props) => {
             });
           } else {
             fetch(
-              `${process.env.REACT_APP_ORDER_ORC_URL}/orders/rts/` + profileId,
+              `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/rts/` + profileId,
               {
                 method: "POST",
                 headers: {
@@ -174,7 +174,7 @@ const SavedForLater = (props) => {
   };
 
   const deleteFromSFL = (productId) => {
-    fetch(`${process.env.REACT_APP_WISHLIST_URL}/v1/my/wish-list`, {
+    fetch(`${process.env.NEXT_PUBLIC_REACT_APP_WISHLIST_URL}/v1/my/wish-list`, {
       method: "PUT",
       body: JSON.stringify(productId),
       headers: {

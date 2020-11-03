@@ -90,7 +90,7 @@ const CartDetails = (props) => {
     userProfile = {},
     isGuest = false,
   } = props;
-  const {router} = useRouter();
+  const router = useRouter();
   const [addressFunc, setAddressFunc] = useState("");
   const [modal, showModal] = useState(false);
   const [addressModal, setAddressModal] = useState(false);
@@ -338,7 +338,7 @@ const CartDetails = (props) => {
     country = selCountry
   ) => {
     fetch(
-      `${process.env.REACT_APP_ORDER_ORC_URL}/orders/my/${orderId}/?addr_Id=${selectedShippingId}&postal_code=${zipcode}&country=${country}`,
+      `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/my/${orderId}/?addr_Id=${selectedShippingId}&postal_code=${zipcode}&country=${country}`,
       {
         method: "PUT",
         // body: JSON.stringify(data),
@@ -409,7 +409,7 @@ const CartDetails = (props) => {
       };
       data.push(obj);
     }
-    fetch(`${process.env.REACT_APP_WISHLIST_URL}/v1/my/wish-list`, {
+    fetch(`${process.env.NEXT_PUBLIC_REACT_APP_WISHLIST_URL}/v1/my/wish-list`, {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -451,7 +451,7 @@ const CartDetails = (props) => {
       countryCode: selCountryCode,
       dialCode: dialCode,
     };
-    fetch(process.env.REACT_APP_CONTACTS_URL + "/contacts", {
+    fetch(process.env.NEXT_PUBLIC_REACT_APP_CONTACTS_URL + "/contacts", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -497,7 +497,7 @@ const CartDetails = (props) => {
       countryCode: selCountryCode,
       dialCode: dialCode,
     };
-    fetch(process.env.REACT_APP_CONTACTS_URL + "/contacts/" + contactId, {
+    fetch(process.env.NEXT_PUBLIC_REACT_APP_CONTACTS_URL + "/contacts/" + contactId, {
       method: "PATCH",
       body: JSON.stringify(data),
       headers: {
@@ -811,7 +811,7 @@ const CartDetails = (props) => {
       }
 
       fetch(
-        `${process.env.REACT_APP_ORDER_URL}/v1/orders/my/${orderId}/product`,
+        `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL}/v1/orders/my/${orderId}/product`,
         {
           method: "POST",
           body: JSON.stringify(p_data),

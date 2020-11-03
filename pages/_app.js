@@ -72,8 +72,8 @@ const generateToken=async ()=>{
   const result = {isSuccess:undefined, token:undefined};
   const details = {
     grant_type: "client_credentials",
-    client_id: process.env.REACT_APP_KEYCLOAK_CLIENT_ID,
-    client_secret: process.env.REACT_APP_KEYCLOAK_CLIENT_SECRET
+    client_id: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_CLIENT_ID,
+    client_secret: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_CLIENT_SECRET
   };   
 
   let formBody = [];   
@@ -86,7 +86,7 @@ const generateToken=async ()=>{
   
   formBody = formBody.join("&");
     try {
-      const response =  await fetch((process.env.REACT_APP_KEYCLOAK_URL + "realms/" + process.env.REACT_APP_KEYCLOAK_REALM + "/protocol/openid-connect/token"), {
+      const response =  await fetch((process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_URL + "realms/" + process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_REALM + "/protocol/openid-connect/token"), {
         method: "POST",
         body: formBody,
         credentials:"include",

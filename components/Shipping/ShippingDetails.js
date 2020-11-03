@@ -27,7 +27,7 @@ import { getBrandNameByCode } from "../../store/actions";
 const { Step } = Steps;
 
 const ShippingDetails = (props) => {
-  const {router} = useRouter();
+  const router = useRouter();
   const LANDING_LIMITER = 3;
   let {
     cart = {},

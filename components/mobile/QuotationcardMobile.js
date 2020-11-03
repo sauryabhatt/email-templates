@@ -2,17 +2,18 @@
 
 import React, { useEffect, useState } from "react";
 import { Row, Col, Menu, Button } from "antd";
-import { history } from "./../../store";
-import { useKeycloak } from "@react-keycloak/web";
+import {useRouter} from "next/router";
+import { useKeycloak } from "@react-keycloak/ssr";
 import moment from "moment";
 
 const QuotationcardMobile = (props) => {
-  const [keycloak] = useKeycloak();
+  const {keycloak} = useKeycloak();
+  const router = useRouter();
   const [rfqIds, setRfqIds] = useState(null);
 
   const handleReview = (quoteNumber) => {
     fetch(
-      process.env.REACT_APP_API_FORM_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL +
         "/quotes/custom/" +
         quoteNumber +
         "/margin",
@@ -34,7 +35,7 @@ const QuotationcardMobile = (props) => {
       .then((res) => {
         if (props.data.orderId) {
           let url = "/order-review/" + props.data.orderId;
-          history.push(url);
+          router.push(url);
         } else {
           createOrderFromQuote(quoteNumber);
         }
@@ -44,7 +45,7 @@ const QuotationcardMobile = (props) => {
       });
 
     // let url = '/order-review/' + rfqId
-    // history.push(url);
+    // router.push(url);
   };
 
   useEffect(() => {
@@ -61,7 +62,7 @@ const QuotationcardMobile = (props) => {
   }, []);
   const createOrderFromQuote = (quoteNumber) => {
     fetch(
-      process.env.REACT_APP_ORDER_ORC_URL + "/orders/custom/" + quoteNumber,
+      process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL + "/orders/custom/" + quoteNumber,
       {
         method: "POST",
         headers: {
@@ -80,7 +81,7 @@ const QuotationcardMobile = (props) => {
       .then((res) => {
         // console.log(res.orderId);
         let url = "/order-review/" + res.orderId;
-        history.push(url);
+        router.push(url);
       })
       .catch((err) => {
         // message.error(err.message || err, 5);
@@ -100,7 +101,7 @@ const QuotationcardMobile = (props) => {
 
   const redirectToSellerCompany = (vanityId) => {
     let url = `${/seller/}${vanityId}`;
-    history.push(url);
+    router.push(url);
   };
 
   const getBrandName =

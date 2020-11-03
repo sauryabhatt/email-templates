@@ -3,23 +3,24 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, Menu, Button, Breadcrumb, Modal } from "antd";
 import OrderDetails from "../Orders/OrderDetails";
-import { history } from "./../../store";
 import { getOrders, getOrderByOrderId } from "./../../store/actions";
-import { useKeycloak } from "@react-keycloak/web";
+import { useKeycloak } from "@react-keycloak/ssr";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import Link  from "next/router";
+import {useRouter} from "next/router";
 import getSymbolFromCurrency from "currency-symbol-map";
-import closeButton from "./../../filestore/closeButton";
+import closeButton from "../../public/filestore/closeButton";
 import SendQueryForm from "./../SendQueryForm/SendQueryForm";
 import Icon from "@ant-design/icons";
-import ParentOrderStatuses from "./../../filestore/ParentOrderStatuses.json";
-import SellerOrderStatuses from "./../../filestore/SellerOrderStatuses.json";
+import ParentOrderStatuses from "../../public/filestore/ParentOrderStatuses.json";
+import SellerOrderStatuses from "../../public/filestore/SellerOrderStatuses.json";
 import moment from "moment";
 
 const OrdersMobile = (props) => {
   let { orders = [] } = props;
+  const router = useRouter();
   const mediaMatch = window.matchMedia("(min-width: 768px)");
-  const [keycloak] = useKeycloak();
+  const {keycloak} = useKeycloak();
   const [orderDetails, setOrderDetails] = useState("");
   const [subOrders, setSubOrders] = useState("");
 
@@ -81,30 +82,27 @@ const OrdersMobile = (props) => {
   }, []);
 
   const redirect = () => {
-    history.push({
-      pathname: "/account/orders",
-      tab: "orders",
-    });
+    router.push("/account/orders");
   };
 
   const redirectToFaq = () => {
-    history.push("/FAQforwholesalebuyers");
+    router.push("/FAQforwholesalebuyers");
   };
 
   const retryPayment = (orderId, type) => {
     if (type == "CUSTOM") {
       let url = "/order-review/" + orderId;
-      history.push(url);
+      router.push(url);
     } else {
       props.getOrderByOrderId(keycloak.token, orderId);
       let url = "/RTS/order-review/" + orderId;
-      history.push(url);
+      router.push(url);
     }
   };
 
   const downloadBuyerAgreement = () => {
     var a = document.createElement("a");
-    a.href = process.env.REACT_APP_BUYER_AGREEMENT_URL;
+    a.href = process.env.NEXT_PUBLIC_REACT_APP_BUYER_AGREEMENT_URL;
     a.setAttribute("download", "Buyer-agreement");
     a.setAttribute("target", "_blank");
     a.click();
@@ -161,12 +159,10 @@ const OrdersMobile = (props) => {
             <div style={{ textAlign: "right" }}>
               <div style={{ textAlign: "right" }}>
                 <Link
-                  to="/FAQforwholesalebuyers"
-                  className="qa-font-san qa-fw-b qa-fs-14 qa-sm-color"
-                  style={{ lineHeight: "17px", cursor: "pointer" }}
+                  href="/FAQforwholesalebuyers"                                    
                   target="_blank"
                 >
-                  BUYERS’ FAQs{" "}
+                  <span style={{ lineHeight: "17px", cursor: "pointer" }} className="qa-font-san qa-fw-b qa-fs-14 qa-sm-color">BUYERS’ FAQs</span> 
                 </Link>
                 <span
                   className="qa-font-san qa-fw-b qa-fs-14 qa-sm-color"

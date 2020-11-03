@@ -23,7 +23,7 @@ export const Layout = ({
   const Header = keycloak.authenticated ? <UserHeader /> : <AppHeader/>;
   
   useEffect(() => {
-    // console.log("keycloak in useeffect", keycloak)
+    console.log("keycloak in useeffect", keycloak)
     if(keycloak?.token){
       console.log("i am in if", keycloak)
       document.cookie = `appToken=${keycloak.token}`
@@ -62,6 +62,7 @@ export const Layout = ({
           name="keywords"
           content={keywords}
         />
+        <script src="https://www.paypal.com/sdk/js?client-id=AUf6Jh8viomIa90m8KMFndz2iIwKkIcpzZHTUmKY1f8M9J7uDeQ1zO7d-lTb85AU4oiBHBlb2mBZ9g9_&currency=USD&intent=order" id="paypal-script" type="text/javaScript"></script>
       </Head>
       {Header}
       <main className="main-layout-next">{children}</main>

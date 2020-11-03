@@ -49,7 +49,7 @@ import Sea from "../../public/filestore/sea";
 import alertIcon from "../../public/filestore/alertIcon";
 import { useRouter } from "next/router";
 import { useKeycloak } from "@react-keycloak/ssr";
-import { checkInventory } from "../../store/actions";
+import { checkInventory, getCollections } from "../../store/actions";
 import playButton from "./../../public/filestore/playButton";
 
 const { Option } = Select;
@@ -300,6 +300,10 @@ const ProductDetails = (props) => {
         "In order to activate your account and place an order please "
       );
     }
+    if (profileType === "BUYER") {
+      profileId = profileId.replace("BUYER::", "");
+      props.getCollections(token, profileId);
+    }
 
     if (skus.length > 0) {
       let skuId = skus[0]["id"];
@@ -534,7 +538,7 @@ const ProductDetails = (props) => {
               props.checkInventory(token, sku, (result) => {
                 if (result[skuId] >= quantity) {
                   fetch(
-                    `${process.env.REACT_APP_ORDER_URL}/v1/orders/my/${orderId}/product`,
+                    `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL}/v1/orders/my/${orderId}/product`,
                     {
                       method: "POST",
                       body: JSON.stringify(p_data),
@@ -572,7 +576,7 @@ const ProductDetails = (props) => {
               props.checkInventory(token, sku, (result) => {
                 if (result[skuId] >= quantity) {
                   fetch(
-                    `${process.env.REACT_APP_ORDER_ORC_URL}/orders/rts/` +
+                    `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/rts/` +
                       profileId,
                     {
                       method: "POST",
@@ -593,7 +597,7 @@ const ProductDetails = (props) => {
                       let { orderId = "" } = res;
 
                       fetch(
-                        `${process.env.REACT_APP_ORDER_URL}/v1/orders/my/${orderId}/product`,
+                        `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL}/v1/orders/my/${orderId}/product`,
                         {
                           method: "POST",
                           body: JSON.stringify(p_data),
@@ -681,7 +685,7 @@ const ProductDetails = (props) => {
 
     let s_data = { ...a_data, mode: "SEA" };
 
-    fetch(`${process.env.REACT_APP_DUTY_COST_URL}/dutycost`, {
+    fetch(`${process.env.NEXT_PUBLIC_REACT_APP_DUTY_COST_URL}/dutycost`, {
       method: "POST",
       body: JSON.stringify(a_data),
       headers: {
@@ -703,7 +707,7 @@ const ProductDetails = (props) => {
         console.log(err);
       });
 
-    fetch(`${process.env.REACT_APP_DUTY_COST_URL}/dutycost`, {
+    fetch(`${process.env.NEXT_PUBLIC_REACT_APP_DUTY_COST_URL}/dutycost`, {
       method: "POST",
       body: JSON.stringify(s_data),
       headers: {
@@ -3427,4 +3431,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { checkInventory })(ProductDetails);
+export default connect(mapStateToProps, { checkInventory, getCollections})(ProductDetails);

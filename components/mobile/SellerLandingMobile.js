@@ -384,7 +384,7 @@ function SellerLandingMobile(props) {
     setDataSourceOLTS(dataOLT);
     setShowMoreModal(true);
     // if (!dataSourceOLT.length) {
-    //   fetch(process.env.REACT_APP_API_MASTER_URL + "order-types", {
+    //   fetch(process.env.NEXT_PUBLIC_REACT_APP_API_MASTER_URL + "order-types", {
     //     method: "GET",
     //     headers: {
     //       Authorization: "Bearer " + props.token,
@@ -484,7 +484,7 @@ function SellerLandingMobile(props) {
 
     // if (!dataSource.length) {
     //   fetch(
-    //     process.env.REACT_APP_API_PROFILE_URL +
+    //     process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
     //       "/seller-home/" +
     //       props.sellerId +
     //       "/category-product-range",
@@ -662,7 +662,7 @@ function SellerLandingMobile(props) {
       ),
       slotDate: selectedDate,
     };
-    fetch(process.env.REACT_APP_API_MEETING_URL + "/events/meeting ", {
+    fetch(process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL + "/events/meeting ", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {

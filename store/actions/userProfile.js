@@ -69,7 +69,7 @@ export const getUserProfile = (token) => {
             "/error?message=" +
               (error.message || error) +
               "&redirectURI=" +
-              Router.location.pathname
+              Router.query.pathname
           );
         }
         dispatch(setUserProfileLoading(false));
@@ -127,7 +127,7 @@ export const getOpenRequest = (token, profileId, status) => async (
 ) => {
   // dispatch(setScheduleRequests(scheduleRequests))
   let url =
-    process.env.REACT_APP_API_MEETING_URL +
+    process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL +
     "/events/meeting/my?profile_id=" +
     profileId +
     "&status=" +
@@ -177,7 +177,7 @@ export const setScheduleRequests = (result) => {
 export const getRequestByStatus = (token, profileId, status) => {
   return (dispatch) => {
     let url =
-      process.env.REACT_APP_API_MEETING_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL +
       "/events/meeting/my?profile_id=" +
       profileId +
       "&status=" +
@@ -318,7 +318,7 @@ export const getQuoteByStatus = (token, status, currentTab, buyerId) => async (
 ) => {
   // dispatch(setScheduleRequests(scheduleRequests))
   fetch(
-    process.env.REACT_APP_API_FORM_URL +
+    process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL +
       "/quotes/custom?status=" +
       status +
       "&buyer_id=" +
@@ -392,7 +392,7 @@ export const setQuoteBYStatus = (data) => {
 
 export const getOrderByOrderId = (token, orderId) => async (dispatch) => {
   // dispatch(setScheduleRequests(scheduleRequests))
-  fetch(process.env.REACT_APP_ORDER_ORC_URL + "/orders/composite/" + orderId, {
+  fetch(process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL + "/orders/composite/" + orderId, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -433,7 +433,7 @@ export const setOrderByOrderId = (data) => {
 
 export const getOrders = (token) => async (dispatch) => {
   // dispatch(setScheduleRequests(scheduleRequests))
-  let url = process.env.REACT_APP_ORDER_ORC_URL + "/orders";
+  let url = process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL + "/orders";
   fetch(url, {
     method: "GET",
     headers: {
@@ -482,7 +482,7 @@ export const setMyOrders = (data) => {
 export const getRfqByStatus = (status, token, buyerId) => async (dispatch) => {
   // dispatch(setScheduleRequests(scheduleRequests))
   fetch(
-    process.env.REACT_APP_API_FORM_URL +
+    process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL +
       "/forms/queries/status?buyer_id=" +
       buyerId +
       "&status=OPEN,ASSIGNED,LINKED",
@@ -515,4 +515,43 @@ export const getRfqByStatus = (status, token, buyerId) => async (dispatch) => {
     .catch((err) => {
       // message.error(err.message || err, 5);
     });
+};
+
+// Get Collections
+export const getCollections = (token, buyerId) => async (dispatch) => {
+  let url =
+    process.env.NEXT_PUBLIC_REACT_APP_COLLECTION_URL +
+    "/collections/buyer?buyer_id=" +
+    buyerId;
+  fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + token,
+      Accept: "*/*",
+    },
+  })
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw res.statusText || "Error while saving user deatils.";
+      }
+    })
+    .then((res) => {
+      return dispatch(setMyCollections(res));
+    })
+    .catch((err) => {
+      // console.log(err.message);
+      // message.error((err.message || err), 5);
+      // setErrors(errors.concat(err));
+    });
+};
+
+export const setMyCollections = (data) => {
+  return {
+    type: actionTypes.SET_MY_COLLECTION,
+    payload: {
+      collections: data,
+    },
+  };
 };

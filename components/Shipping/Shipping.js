@@ -20,7 +20,6 @@ const Shipping = (props) => {
       let { user = {} } = props || {};
       let { profileType = "" } = user || {};
       if (profileType === "BUYER") {
-        console.log("get cart ran", keycloak.token)
         props.getCart(keycloak.token);
       }
     }

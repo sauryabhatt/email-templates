@@ -24,13 +24,14 @@ const PaypalButton = (props) => {
     script.src = url;
     script.onload = () => {
       setSdkReady(true);
+      console.log("loaded")
     };
     script.onerror = () => {
       throw new Error("Paypal SDK could not be loaded.");
     };
     document.body.appendChild(script);
   };
-
+// console.log(window);
   useEffect(() => {
     if (window !== undefined) {
       updatePaypalSdk();

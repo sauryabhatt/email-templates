@@ -14,7 +14,7 @@ import _ from "lodash";
 
 const CartSummary = (props) => {
   const {keycloak} = useKeycloak();
-  const {router} = useRouter();
+  const   router = useRouter();
   const [popover, setPopover] = useState("");
   const [popoverData, setPopoverData] = useState({
     total: 0,
@@ -122,7 +122,7 @@ const CartSummary = (props) => {
 
   const checkCommitStatus = () => {
     fetch(
-      `${process.env.REACT_APP_ORDER_ORC_URL}/orders/my/${orderId}/checkout/?mode=${shippingMode}`,
+      `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/my/${orderId}/checkout/?mode=${shippingMode}`,
       {
         method: "PUT",
         headers: {
@@ -140,6 +140,7 @@ const CartSummary = (props) => {
       })
       .then((result) => {
         let { status = "" } = result;
+        console.log("status--->", status);
         if (status === "COMMITTED") {
           let url = "/payment";
           router.push(url);
@@ -161,7 +162,7 @@ const CartSummary = (props) => {
       orderId: orderId,
       quoteId: priceQuoteRef,
     };
-    fetch(process.env.REACT_APP_ORDER_URL + "/v1/orders/assist", {
+    fetch(process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL + "/v1/orders/assist", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -197,7 +198,7 @@ const CartSummary = (props) => {
 
   const updateOrder = (data, status) => {
     fetch(
-      process.env.REACT_APP_ORDER_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL +
         "/v1/orders/my/payments-reference?order_updated_Status=" +
         status,
       {
@@ -237,7 +238,7 @@ const CartSummary = (props) => {
     };
 
     fetch(
-      process.env.REACT_APP_PAYMENTS_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_PAYMENTS_URL +
         "/payments/paypal/" +
         props.cart.orderId +
         "/authorizations/" +
@@ -282,7 +283,7 @@ const CartSummary = (props) => {
   const saveOrder = (orderId, actions) => {
     setIsProcessing(true);
     fetch(
-      process.env.REACT_APP_PAYMENTS_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_PAYMENTS_URL +
         "/payments/paypal/checkout/orders/" +
         orderId +
         "/save",
@@ -314,7 +315,7 @@ const CartSummary = (props) => {
 
   const voidPPOrder = (orderId) => {
     fetch(
-      process.env.REACT_APP_PAYMENTS_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_PAYMENTS_URL +
         "/payments/paypal/checkout/orders/" +
         orderId +
         "/void",
@@ -356,7 +357,7 @@ const CartSummary = (props) => {
       },
     };
     fetch(
-      process.env.REACT_APP_PAYMENTS_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_PAYMENTS_URL +
         "/payments/paypal/" +
         cart.orderId +
         "/authorizations",

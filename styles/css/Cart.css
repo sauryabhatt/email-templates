@@ -345,9 +345,11 @@
   height: 40px;
 }
 .cart-address-modal .ant-radio-inner,
-.cart-section .ant-radio-inner {
+.cart-section .ant-radio-inner, 
+.cart-section .ant-radio-checked {
   background-color: transparent;
-  border: 1px solid #cecbc2;
+  border: 0.5px solid #cecbc2 !important;
+  border-radius: 50%;
 }
 .cart-address-modal .ant-radio-inner::after,
 .cart-section .ant-radio-inner::after {
