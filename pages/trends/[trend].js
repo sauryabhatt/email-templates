@@ -10,12 +10,13 @@ const meta = {
 };
 
 export default function TrendDetails({ res }) {
+  let { body = "" } = res || {};
   return (
     <Layout meta={meta}>
       <div
         // style={{ paddingTop: "3%" }}
         dangerouslySetInnerHTML={{
-          __html: res.body,
+          __html: body,
         }}
       ></div>
     </Layout>
