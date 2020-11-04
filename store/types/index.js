@@ -26,3 +26,4 @@ export const SET_CART = "SET_CART";
 export const GET_MY_ORDERS = "GET_MY_ORDERS";
 export const SET_SFL = "SET_SFL";
 export const SET_BRAND_NAME = 'SET_BRAND_NAME';
+export const SET_MY_COLLECTION = "SET_MY_COLLECTION";

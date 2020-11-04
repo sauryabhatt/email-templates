@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Menu, Button, Modal } from "antd";
 import QuotationcardMobile from './QuotationcardMobile';
-import { useKeycloak } from "@react-keycloak/web";
+import { useKeycloak } from "@react-keycloak/ssr";
 import {
     getQuoteByStatus, getRfqByStatus
-} from "./../../store/actions";
+} from "../../store/actions";
 import { connect } from "react-redux";
 import moment from "moment";
-import { history } from "./../../store";
+import {useRouter} from "next/router";
 import Icon, { LoadingOutlined } from '@ant-design/icons';
-import closeButton from "./../../filestore/closeButton";
-import SendQueryForm from './../SendQueryForm/SendQueryForm';
+import closeButton from "../../public/filestore/closeButton";
+import SendQueryForm from '../SendQueryForm/SendQueryForm';
 
 const QuotationMobile = (props) => {
     const [current, setCurrent] = useState('received');
-    const [keycloak] = useKeycloak();
+    const {keycloak} = useKeycloak();
+    const router = useRouter();
     const [showLoader, setShowLoader] = useState(false);
     const [successQueryVisible, setSuccessQueryVisible] = useState(false);
     const [visible, setVisible] = useState(false);
@@ -127,7 +128,7 @@ const QuotationMobile = (props) => {
     })
 
     const redirectToFaq = () => {
-        history.push('/FAQforwholesalebuyers');
+        router.push('/FAQforwholesalebuyers');
     }
     return (
         <React.Fragment>

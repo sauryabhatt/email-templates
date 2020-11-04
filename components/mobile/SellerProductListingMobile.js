@@ -224,7 +224,7 @@ function SellerProductListingMobile(props) {
       ),
       slotDate: selectedDate,
     };
-    fetch(process.env.REACT_APP_API_MEETING_URL + "/events/meeting ", {
+    fetch(process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL + "/events/meeting ", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {

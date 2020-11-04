@@ -247,6 +247,14 @@
   cursor: pointer;
   font-weight: normal;
 }
+.cart-section .proceed-to-ship:hover,
+.cart-section .proceed-to-payment:hover,
+.cart-section .proceed-to-checkout:hover {
+  background: #c4c4c4;
+  color: rgba(25,25,25,.4) !important;
+  border: none !important;
+}
+
 .cart-section .proceed-to-ship,
 .cart-section .proceed-to-payment,
 .cart-section .proceed-to-checkout {
@@ -277,7 +285,9 @@
 .cart-section .ant-checkbox.ant-checkbox-checked .ant-checkbox-inner {
   background: #d9bb7f;
 }
-
+.cart-section .ant-steps-item-title a {
+  color: rgba(0,0,0,.85) !important;
+}
 .cart-section .ant-steps-item.ant-steps-item-finish .ant-steps-icon-dot,
 .cart-section
   .ant-steps-item-finish
@@ -335,9 +345,11 @@
   height: 40px;
 }
 .cart-address-modal .ant-radio-inner,
-.cart-section .ant-radio-inner {
+.cart-section .ant-radio-inner, 
+.cart-section .ant-radio-checked {
   background-color: transparent;
-  border: 1px solid #cecbc2;
+  border: 0.5px solid #cecbc2 !important;
+  border-radius: 50%;
 }
 .cart-address-modal .ant-radio-inner::after,
 .cart-section .ant-radio-inner::after {

@@ -1014,7 +1014,7 @@ input:-webkit-autofill:active  {
   display: none !important;
 }
 
-.account-container .ant-tabs-tab {
+.account-container .ant-tabs-tab  {
   font-family: Sen;
   font-size: 16px;
   font-weight: bold;
@@ -1022,11 +1022,13 @@ input:-webkit-autofill:active  {
   font-style: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: #d9bb7f;
+  color: #d9bb7f !important;
 }
 
-.account-container .ant-tabs-tab-active {
-  color: #191919;
+.account-container .ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #191919 !important;
+  font-weight: bold !important;
+
 }
 
 .account-container .ant-tabs-nav .ant-tabs-tab:hover {
@@ -1200,6 +1202,14 @@ input:-webkit-autofill:active  {
   font-size: 17px;
   font-family: senregular;
   font-weight: bold;
+}
+
+.videoRequest .ant-tabs-tab-btn {
+  cursor: default;
+  font-size: 17px !important;
+  font-family: senregular !important;
+  font-weight: bold !important;
+  color:#191919 !important;
 }
 
 .carousal-btn .ant-btn:hover {
