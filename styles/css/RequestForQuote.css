@@ -1,7 +1,7 @@
 /** @format */
 
 .rfq-container {
-  margin-top: 70px;
+  /* margin-top: 70px; */
 }
 .rfq-container .rfq-signIn-header {
   max-height: 40px;
@@ -83,6 +83,9 @@
     text-decoration: underline;
   }
 
+  .rfq-body-header {
+    margin-top: 70px !important; 
+  }
   .rfq-body-header h1 {
     font-size: 31px;
     font-weight: 400;
