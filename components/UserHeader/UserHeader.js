@@ -5,7 +5,8 @@ import { useSelector, connect } from "react-redux";
 import { useKeycloak } from "@react-keycloak/ssr";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import responseJSON from "../../public/data/appHeader.json";
+import responseJSONProd from "../../public/data/appHeader.json";
+import responseJSONDev from "../../public/data/appHeaderDev.json";
 import {
   Layout,
   Button,
@@ -91,6 +92,12 @@ function UserHeader(props) {
     //   if (!result.done) navigationDetails.push(result.value);
     //   // console.log(result.done, result.value); //result.value is one line of your NDJSON data
     // }
+    let responseJSON;
+    if(process.env.NODE_ENV === 'production') {
+      responseJSON = responseJSONProd;
+    } else {
+      responseJSON = responseJSONDev;
+    }
     let navigationItems = _.mapValues(
       _.groupBy(responseJSON, "column"),
       (clist) => clist.map((navigationDetails) => navigationDetails)
@@ -285,7 +292,7 @@ function UserHeader(props) {
   useEffect(() => {
     // props.getNavigation(token);
     searchForm.setFieldsValue({ searchBy: "product" });
-    // fetchNdjson();
+    fetchNdjson();
   }, []);
 
   useEffect(() => {
@@ -456,7 +463,7 @@ function UserHeader(props) {
       >
         <span className="qa-fs-14 qa-font-san">Addresses</span>
       </Menu.Item>
-      <Menu.Divider style={{ height: "1px" }} />
+      <Menu.Divider style={{ height: "0.5px", background: "rgb(217, 187, 127)", opacity: "0.2", margin: "15px 0" }} /> 
       {verificationStatus === "CREATED" && profileType === "SELLER" && (
         <Menu.Item key="4" style={{ height: "auto" }}>
           <Button
@@ -583,7 +590,7 @@ function UserHeader(props) {
             <div>
               <CurrencyConverter />
               <Link
-                to="/cart"
+                href="/cart"
                 style={{
                   textDecoration: "none",
                 }}
@@ -660,7 +667,7 @@ function UserHeader(props) {
 
           <div style={{ textAlign: "right", width: "100%", marginTop: "-4px" }}>
             <Link
-              to="/cart"
+              href="/cart"
               style={{
                 textDecoration: "none",
               }}

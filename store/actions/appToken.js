@@ -39,7 +39,7 @@ export const getToken = () => {
           formBody.push(encodedKey + "=" + encodedValue);
         }
         formBody = formBody.join("&");
-        return fetch((process.env.REACT_APP_KEYCLOAK_URL + "realms/GoldenBird/protocol/openid-connect/token"), {
+        return fetch((process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_URL + "realms/GoldenBird/protocol/openid-connect/token"), {
             method: "POST",
             body: formBody,
             headers: {

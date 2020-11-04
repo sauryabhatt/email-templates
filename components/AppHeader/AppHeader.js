@@ -4,8 +4,8 @@ import React, { useState, useEffect } from "react";
 import { useSelector, connect } from "react-redux";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import responseJSONProd from "../../public/data/appHeader.json"
-import responseJSONDev from "../../public/data/appHeaderDev.json"
+import responseJSONProd from "../../public/data/appHeader.json";
+import responseJSONDev from "../../public/data/appHeaderDev.json";
 import {
   Layout,
   Button,
@@ -151,7 +151,7 @@ function AppHeader(props) {
       responseJSON = responseJSONDev;
     }
     let navigationItems = _.mapValues(
-      _.groupBy(responseJSONDev, "column"),
+      _.groupBy(responseJSON, "column"),
       (clist) => clist.map((navigationDetails) => navigationDetails)
     );
     setNavigationItems(navigationItems);
@@ -184,7 +184,7 @@ function AppHeader(props) {
   };
 
   const sendInviteData = (data) => {
-    fetch(process.env.REACT_APP_API_FORM_URL + "/forms/lead-gens", {
+    fetch(process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/lead-gens", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {

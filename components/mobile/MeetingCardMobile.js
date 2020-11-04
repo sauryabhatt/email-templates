@@ -1,6 +1,5 @@
 import React from 'react';
 import { Row, Col, Button } from 'antd';
-import { Link } from "react-router-dom";
 
 const MeetingCardMobile = (props) => {
     return (

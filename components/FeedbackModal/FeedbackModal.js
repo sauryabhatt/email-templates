@@ -37,7 +37,7 @@ function FeedbackModal(props) {
     "email" : (userProfile && userProfile.email) ? userProfile.email : null,
     "feedbackOnUrl" : window.location.href
     }
-    fetch(process.env.REACT_APP_FEEDBACK_MODAL_URL + "/app-feedback", {
+    fetch(process.env.NEXT_PUBLIC_REACT_APP_FEEDBACK_MODAL_URL + "/app-feedback", {
       method: 'POST',
       body: JSON.stringify(data),
       headers: {

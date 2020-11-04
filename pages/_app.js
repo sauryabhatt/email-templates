@@ -16,14 +16,64 @@ import store  from '../store';
 import { setTokenSuccess, setTokenFail } from '../store/actions';
 import {useRouter} from 'next/router';
 
+function MyApp(props) {
+  const router = useRouter();  
+  
+  const { Component, pageProps, cookies} = props;
 
-let timeSkew = 10;
+  // useEffect(() => {
+  //   if(isTokenGenerationFailed) {
+  //     store.dispatch(setTokenFail("Somthing went wrong on loading application token."));
+  //   } else {
+  //     store.dispatch(setTokenSuccess(token));
+  //   }
+    
+  // }, [])
+
+    return (
+      <AuthWithKeycloak cookies = {cookies}>
+        <Provider store={store}>
+          <React.Fragment>
+            <Component {...pageProps} />
+            <AppFooter/>
+          </React.Fragment>
+        </Provider>
+      </AuthWithKeycloak>
+      );
+}
+function parseCookies(req) {
+  if (!req || !req.headers) {
+    return {}
+  }
+  return cookie.parse(req.headers.cookie || '')
+}
+
+MyApp.getInitialProps = async ({ctx}) => {
+  const {req, res} = ctx || {};
+  
+  return {
+    cookies: parseCookies(req),
+  }
+  
+}
+
+export default MyApp
+
+
+
+
+
+
+
+
+
+/*let timeSkew = 10;
 const generateToken=async ()=>{
   const result = {isSuccess:undefined, token:undefined};
   const details = {
     grant_type: "client_credentials",
-    client_id: process.env.REACT_APP_KEYCLOAK_CLIENT_ID,
-    client_secret: process.env.REACT_APP_KEYCLOAK_CLIENT_SECRET
+    client_id: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_CLIENT_ID,
+    client_secret: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_CLIENT_SECRET
   };   
 
   let formBody = [];   
@@ -36,7 +86,7 @@ const generateToken=async ()=>{
   
   formBody = formBody.join("&");
     try {
-      const response =  await fetch((process.env.REACT_APP_KEYCLOAK_URL + "realms/" + process.env.REACT_APP_KEYCLOAK_REALM + "/protocol/openid-connect/token"), {
+      const response =  await fetch((process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_URL + "realms/" + process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_REALM + "/protocol/openid-connect/token"), {
         method: "POST",
         body: formBody,
         credentials:"include",
@@ -61,40 +111,11 @@ const generateToken=async ()=>{
     }
   
   
-}
-function MyApp(props) {
-  const router = useRouter();  
-  
-  const { Component, pageProps, cookies, token, isTokenGenerationFailed,req } = props;
+} */
 
-  useEffect(() => {
-    if(isTokenGenerationFailed) {
-      store.dispatch(setTokenFail("Somthing went wrong on loading application token."));
-    } else {
-      store.dispatch(setTokenSuccess(token));
-    }
-    
-  }, [])
 
-    return (
-      <AuthWithKeycloak cookies = {cookies}>
-        <Provider store={store}>
-          <React.Fragment>
-            <Component {...pageProps} />
-            <AppFooter/>
-          </React.Fragment>
-        </Provider>
-      </AuthWithKeycloak>
-      );
-}
-function parseCookies(req) {
-  if (!req || !req.headers) {
-    return {}
-  }
-  return cookie.parse(req.headers.cookie || '')
-}
 
-MyApp.getInitialProps = async ({ctx}) => {
+/*MyApp.getInitialProps = async ({ctx}) => {
   // Extract token from AppContext
   const {req, res} = ctx || {};
   // const headers = req.headers; 
@@ -142,8 +163,4 @@ let token, isTokenGenerationFailed;
   }
   
   
-}
-
-export default MyApp
-
-
+} */
