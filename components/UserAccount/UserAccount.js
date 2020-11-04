@@ -951,8 +951,7 @@ const UserAccount = (props) => {
   }
 
   // const addNewAddress = (values, countryCode) => {
-  //   // setLoading(true)conso
-  //   console.log(values);
+  //   setLoading(true);
   //   let data = {
   //     "profileId": props.userProfile.userProfile.profileId,
   //     "fullName": values.fullName,
