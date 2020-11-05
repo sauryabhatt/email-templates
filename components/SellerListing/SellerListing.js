@@ -26,7 +26,7 @@ const SellerListing = (props) => {
   );
 
   const [queryParams, setQueryParams] = useState({
-    sort_by: "publishedTimeStamp",
+    sort_by: "popularity",
     sort_order: "DESC",
     size: limit,
     from: offset,

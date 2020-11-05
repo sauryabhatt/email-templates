@@ -12,6 +12,7 @@ import {
   Modal,
   Tooltip,
   InputNumber,
+  Drawer,
   message,
 } from "antd";
 import Icon, {
@@ -44,6 +45,7 @@ import getSymbolFromCurrency from "currency-symbol-map";
 import PDPLoader from "../../public/filestore/PDPLoader";
 import PDPLoaderMobile from "../../public/filestore/PDPLoaderMobile";
 import PDPZoom from "../../public/filestore/PDPZoom";
+import addToCollectionIcon from "../../public/filestore/addToCollection";
 import Air from "../../public/filestore/air";
 import Sea from "../../public/filestore/sea";
 import alertIcon from "../../public/filestore/alertIcon";
@@ -51,6 +53,7 @@ import { useRouter } from "next/router";
 import { useKeycloak } from "@react-keycloak/ssr";
 import { checkInventory, getCollections } from "../../store/actions";
 import playButton from "./../../public/filestore/playButton";
+import AddToCollection from "../common/AddToCollection";
 
 const { Option } = Select;
 
@@ -158,6 +161,7 @@ const ProductDetails = (props) => {
   let {
     data = {},
     userProfile = "",
+    collections = "",
     sellerDetails = "",
     token = "",
     authenticated = false,
@@ -194,7 +198,6 @@ const ProductDetails = (props) => {
   const [successQueryVisible, setSuccessQueryVisible] = useState(false);
   const [thumbnail, setThumbnail] = useState(false);
   const [uCountry, setUCountry] = useState("");
-  // const [uZipcode, setUZipcode] = useState("");
   const [nonServiceable, setNonServiceable] = useState(false);
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
@@ -214,7 +217,11 @@ const ProductDetails = (props) => {
   const [showCart, setCart] = useState(false);
   const [inStock, setInStock] = useState(0);
   const [errorMsg, setErrorMsg] = useState("");
-  // let mediaMatch;
+  const [qtyError, setQtyError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [showCollection, setCollection] = useState(false);
+  const [selectedCollection, setSelectedCollection] = useState("");
+
   const url = process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL;
 
   const node = useRef();
@@ -244,16 +251,19 @@ const ProductDetails = (props) => {
   };
 
   useEffect(() => {
-    // mediaMatch= typeof window && window.matchMedia('(min-width: 1024px)');
-    let width = window.innerWidth;
+    const width = window.screen ? window.screen.width : window.innerWidth;
     if (width <= 768) {
       setMobile(true);
     }
   }, []);
 
   useEffect(() => {
+    setSelectedCollection("");
+    rtsform.resetFields();
+    setCart(false);
     let { data = {}, userProfile = {} } = props;
-    let { country = "", verificationStatus = "" } = userProfile || {};
+    let { country = "", verificationStatus = "", profileId = "" } =
+      userProfile || {};
     let destinationCountry = sessionStorage.getItem("destinationCountry");
 
     let { variants = [], skus = [], deliveryExclusions = [] } = data || {};
@@ -285,9 +295,8 @@ const ProductDetails = (props) => {
       verificationStatus === "VERIFIED" &&
       isGuest === "true"
     ) {
-      setErrorMsg(
-        "In order to activate your account and place an order please "
-      );
+      setErrorMsg("To place an order, please ");
+      setQtyError("To place an order, please signup as a buyer");
     } else if (
       (profileType === "BUYER" && verificationStatus === "ON_HOLD") ||
       (profileType === "BUYER" && verificationStatus === "REJECTED")
@@ -295,16 +304,18 @@ const ProductDetails = (props) => {
       setErrorMsg(
         "You will be able to checkout once your Buyer account is verified. "
       );
-    } else if (profileType === "SELLER" || !authenticated) {
-      setErrorMsg(
-        "In order to activate your account and place an order please "
+      setQtyError(
+        "You will be able to checkout once your Buyer account is verified. "
       );
+    } else if (profileType === "SELLER" || !authenticated) {
+      setErrorMsg("To place an order, please ");
+      setQtyError("To place an order, please signup as a buyer");
     }
+
     if (profileType === "BUYER") {
       profileId = profileId.replace("BUYER::", "");
       props.getCollections(token, profileId);
     }
-
     if (skus.length > 0) {
       let skuId = skus[0]["id"];
 
@@ -339,6 +350,21 @@ const ProductDetails = (props) => {
     setSelectedColor(color);
     setVariantId(variantId);
   }, [props.data]);
+
+  useEffect(() => {
+    let { collections = "" } = props;
+    if (collections && collections.length) {
+      for (let list of collections) {
+        let { products = [], name = "" } = list;
+        for (let product of products) {
+          let { articleId: pArticleId = "" } = product;
+          if (pArticleId === articleId) {
+            setSelectedCollection(name);
+          }
+        }
+      }
+    }
+  }, [props.collections]);
 
   let {
     articleId = "",
@@ -376,9 +402,26 @@ const ProductDetails = (props) => {
     casePackLBHUnit = "",
     casePackWeightUnit = "",
     visibleTo = "",
+    length = "",
+    breadth = "",
+    height = "",
+    lbhUnit = "",
   } = data || {};
 
   let sizes = [];
+  let standardSize = "Standard (l*b*h)";
+  let lbh = [];
+
+  if (length && length != "0") {
+    lbh.push(length);
+  }
+  if (breadth && breadth != "0") {
+    lbh.push(breadth);
+  }
+  if (height && height != "0") {
+    lbh.push(height);
+  }
+  standardSize = lbh.join("*");
   let productNameSC =
     productName.toLowerCase().charAt(0).toUpperCase() +
     productName.toLowerCase().slice(1);
@@ -508,6 +551,7 @@ const ProductDetails = (props) => {
   };
 
   const onCheck = () => {
+    setLoading(true);
     let image = galleryImages.length ? galleryImages[0]["thumbnail"] : "";
     if (authenticated) {
       rtsform
@@ -550,11 +594,12 @@ const ProductDetails = (props) => {
                   )
                     .then((res) => {
                       if (res.ok) {
-                        // message.success(
-                        //   "Product has been successfully added to cart!",
-                        //   5
-                        // );
                         setCart(true);
+                        rtsform.setFieldsValue({ quantity: "" });
+                        setTimeout(() => {
+                          setCart(false);
+                        }, 5000);
+                        setLoading(false);
                       } else {
                         throw res.statusText || "Error while signing up.";
                       }
@@ -563,6 +608,8 @@ const ProductDetails = (props) => {
                       console.log(err.message);
                     });
                 } else {
+                  setLoading(false);
+                  setCart(false);
                   rtsform.setFieldsValue({ quantity: result[skuId] });
                   message.success(
                     `Sorry, we currently have ${result[skuId]} units available for instant checkout. If you need more units please raise a custom quote request`,
@@ -609,11 +656,12 @@ const ProductDetails = (props) => {
                       )
                         .then((res) => {
                           if (res.ok) {
-                            // message.success(
-                            //   "Product has been successfully added to cart!",
-                            //   5
-                            // );
                             setCart(true);
+                            rtsform.setFieldsValue({ quantity: "" });
+                            setTimeout(() => {
+                              setCart(false);
+                            }, 5000);
+                            setLoading(false);
                           } else {
                             throw res.statusText || "Error while signing up.";
                           }
@@ -626,6 +674,8 @@ const ProductDetails = (props) => {
                       console.log(err);
                     });
                 } else {
+                  setLoading(false);
+                  setCart(false);
                   rtsform.setFieldsValue({ quantity: result[skuId] });
                   message.success(
                     `Sorry, we currently have ${result[skuId]} units available for instant checkout. If you need more units please raise a custom quote request`,
@@ -651,6 +701,7 @@ const ProductDetails = (props) => {
           } else {
             setSizeErr(false);
           }
+          setLoading(false);
         });
     } else {
       setLoginModal(true);
@@ -742,7 +793,6 @@ const ProductDetails = (props) => {
     } else {
       setNonServiceable(false);
       setNonServiceableCountry(false);
-      // setUZipcode(postalCode);
       setUCountry(country);
       setPincodeSuccess(true);
       sessionStorage.setItem("destinationCountry", country);
@@ -1026,6 +1076,59 @@ const ProductDetails = (props) => {
               brandName={brandNameSC}
             />
           </div>
+          {showPrice ? (
+            <Row>
+              <Col
+                xs={24}
+                sm={24}
+                md={10}
+                lg={10}
+                xl={10}
+                style={{ paddingRight: "30px" }}
+              >
+                <div
+                  className="atc-section"
+                  onClick={() => {
+                    setCollection(true);
+                  }}
+                >
+                  <span className="save-collection">
+                    {selectedCollection ? "SAVED" : "SAVE TO COLLECTION"}
+                  </span>
+                  {selectedCollection ? (
+                    <Icon
+                      component={savedToCollectionIcon}
+                      className="atc-icon"
+                      style={{
+                        width: "15px",
+                        verticalAlign: "middle",
+                      }}
+                    />
+                  ) : (
+                    <Icon
+                      component={addToCollectionIcon}
+                      className="atc-icon"
+                      style={{
+                        width: "15px",
+                        verticalAlign: "middle",
+                      }}
+                    />
+                  )}
+                </div>
+              </Col>
+            </Row>
+          ) : (
+            <Row>
+              <Col
+                xs={24}
+                sm={24}
+                md={24}
+                lg={24}
+                xl={24}
+                className="qa-mar-top-2"
+              ></Col>
+            </Row>
+          )}
           <Row className="qa-mar-auto-4 qa-mar-btm-4 image-gallery img-section">
             {galleryImages.length > 0 && (
               <Col
@@ -1039,14 +1142,13 @@ const ProductDetails = (props) => {
               >
                 <div className="product-list-details">
                   <span className="product-order-type">
-                    {productType === "RTS"
+                    {productType === "RTS" && skuId
                       ? "Ready to ship"
-                      : productType === "ERTM"
+                      : productType === "ERTM" && skuId
                       ? "Express custom"
                       : "Custom order"}
                   </span>
                 </div>
-
                 <ImageGallery
                   ref={ImgGalleryD}
                   items={galleryImages}
@@ -1114,13 +1216,13 @@ const ProductDetails = (props) => {
                         Base price per unit excl. margin, freight and other
                         charges
                       </div>
-                      <div className="qa-tc-white qa-font-san qa-fs-12">
+                      {/* <div className="qa-tc-white qa-font-san qa-fs-12">
                         Suggested retail price:{" "}
                         <b>
                           {getSymbolFromCurrency(convertToCurrency)}
                           {getConvertedCurrency(suggestedRetailPrice)}
                         </b>
-                      </div>
+                      </div> */}
                     </div>
                   ) : (
                     <div className="qa-mar-btm-1">
@@ -1216,7 +1318,7 @@ const ProductDetails = (props) => {
                   <div>
                     <Row>
                       <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                        <div style={{ width: "42%" }}>
+                        <div style={{ width: "46%" }}>
                           <div className="label-paragraph qa-fs-12">
                             Quantity{" "}
                             {qtyErr && (
@@ -1265,14 +1367,28 @@ const ProductDetails = (props) => {
                               },
                             ]}
                           >
-                            <InputNumber type="number" className="p-text-box" />
+                            {showPrice ? (
+                              <InputNumber
+                                type="number"
+                                className="p-text-box"
+                              />
+                            ) : (
+                              <Tooltip
+                                trigger={["focus"]}
+                                title={qtyError}
+                                placement="top"
+                                overlayClassName="qa-tooltip qty-tooltip"
+                              >
+                                <Input value="" className="p-text-box" />
+                              </Tooltip>
+                            )}
                           </Form.Item>
                         </div>
                       </Col>
                     </Row>
                     <Row>
                       {colors.length > 0 && (
-                        <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                        <Col xs={24} sm={24} md={11} lg={11} xl={11}>
                           <div className="label-paragraph qa-fs-12">Color</div>
                           <Form.Item
                             name="color"
@@ -1301,9 +1417,8 @@ const ProductDetails = (props) => {
                         </Col>
                       )}
                       <Col xs={24} sm={24} md={2} lg={2} xl={2}></Col>
-
                       {sizes.length > 0 && (
-                        <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                        <Col xs={24} sm={24} md={11} lg={11} xl={11}>
                           <div className="label-paragraph qa-fs-12">
                             Size{" "}
                             {sizeErr && (
@@ -1338,6 +1453,15 @@ const ProductDetails = (props) => {
                               ))}
                             </Select>
                           </Form.Item>
+                        </Col>
+                      )}
+                      {sizes.length === 0 && lbh.length > 0 && (
+                        <Col xs={24} sm={24} md={11} lg={11} xl={11}>
+                          <div className="label-paragraph qa-fs-12">
+                            Size ({lbhUnit})
+                          </div>
+
+                          <Input disabled={true} value={standardSize} />
                         </Col>
                       )}
                     </Row>
@@ -1375,77 +1499,91 @@ const ProductDetails = (props) => {
                         </Tooltip>
                       </div>
                     )}
-                    {colors.length > 0 && (
-                      <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-                        <div className="label-paragraph qa-fs-12">Color</div>
-                        <Form.Item
-                          name="color"
-                          className="form-item color-form-item"
-                          rules={[
-                            { required: true, message: "Field is required." },
-                          ]}
-                        >
-                          <Select
-                            dropdownClassName="qa-light-menu-theme"
-                            placeholder="Select"
-                            onSelect={(value, event) =>
-                              onSelectItem(value, event)
-                            }
+                    <Row>
+                      {colors.length > 0 && (
+                        <Col xs={24} sm={24} md={11} lg={11} xl={11}>
+                          <div className="label-paragraph qa-fs-12">Color</div>
+                          <Form.Item
+                            name="color"
+                            className="form-item color-form-item"
+                            rules={[
+                              { required: true, message: "Field is required." },
+                            ]}
                           >
-                            {colors.map((color, i) => (
-                              <Option value={color} key={i}>
-                                {color}
-                              </Option>
-                            ))}
-                          </Select>
-                        </Form.Item>
-                      </Col>
-                    )}
+                            <Select
+                              dropdownClassName="qa-light-menu-theme"
+                              placeholder="Select"
+                              onSelect={(value, event) =>
+                                onSelectItem(value, event)
+                              }
+                            >
+                              {colors.map((color, i) => (
+                                <Option value={color} key={i}>
+                                  {color}
+                                </Option>
+                              ))}
+                            </Select>
+                          </Form.Item>
+                        </Col>
+                      )}
+                      <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>
+                      {sizes.length === 0 && lbh.length > 0 && (
+                        <Col xs={24} sm={24} md={11} lg={11} xl={11}>
+                          <div className="label-paragraph qa-fs-12">
+                            Size ({lbhUnit})
+                          </div>
 
+                          <Input disabled={true} value={standardSize} />
+                        </Col>
+                      )}
+                    </Row>
                     {colorCustomizationAvailable && (
                       <div className="p-custom-size-stitle">
                         Customization options
                       </div>
                     )}
                     {colorCustomizationAvailable && (
-                      <div
-                        className="p-custom qa-pad-top-1 qa-cursor"
-                        onClick={() => setAccordion("color")}
-                      >
-                        Colors/Prints
+                      <div className="qa-pad-top-1">
+                        <span
+                          className="p-custom"
+                          onClick={() => setAccordion("color")}
+                        >
+                          Colors/Prints
+                        </span>
                       </div>
                     )}
                     {sizeCustomizationAvailable && (
-                      <div
-                        className="p-custom qa-pad-top-1 qa-cursor"
-                        onClick={() => {
-                          setAccordion("size");
-                        }}
-                      >
-                        Sizes
+                      <div className="qa-pad-top-1">
+                        <span
+                          className="p-custom"
+                          onClick={() => setAccordion("size")}
+                        >
+                          Sizes
+                        </span>
                       </div>
                     )}
-
                     {packagingCustomizationAvailable && (
-                      <div
-                        className="p-custom qa-pad-top-1 qa-cursor last"
-                        onClick={() => {
-                          setAccordion("packaging");
-                        }}
-                      >
-                        Packaging
+                      <div className="qa-pad-top-1">
+                        <span
+                          className="p-custom"
+                          onClick={() => setAccordion("packaging")}
+                        >
+                          Packaging
+                        </span>
                       </div>
                     )}
                   </div>
                 )}
                 {(productType === "RTS" || productType === "ERTM") && (
-                  <div
-                    className="p-custom qa-cursor"
-                    onClick={() => {
-                      setAccordion("custom");
-                    }}
-                  >
-                    More customization available
+                  <div>
+                    <span
+                      className="p-custom qa-cursor"
+                      onClick={() => {
+                        setAccordion("custom");
+                      }}
+                    >
+                      More customization available
+                    </span>
                   </div>
                 )}
                 <div
@@ -1568,7 +1706,6 @@ const ProductDetails = (props) => {
                         ? "rfq-button"
                         : "rfq-button rfq-active"
                     }`}
-                    // disabled={!authenticated}
                     onClick={() => {
                       setRfqModal(true);
                       setRfqType("Product RFQ");
@@ -1584,13 +1721,42 @@ const ProductDetails = (props) => {
                       (profileType === "BUYER" &&
                         verificationStatus === "IN_PROGRESS" &&
                         skuId) ? (
-                        <Button
-                          className="add-to-bag-button"
-                          htmlType="submit"
-                          onClick={onCheck}
-                        >
-                          <div>Add to cart</div>
-                        </Button>
+                        <span>
+                          {showCart ? (
+                            <Button
+                              htmlType="submit"
+                              onClick={() => {
+                                router.push("/cart");
+                              }}
+                              className="go-to-cart-button"
+                            >
+                              Go to cart{" "}
+                              <span style={{ marginLeft: "10px" }}>
+                                <svg
+                                  width="18"
+                                  height="8"
+                                  viewBox="0 0 18 8"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M17.4964 4.35355C17.6917 4.15829 17.6917 3.84171 17.4964 3.64645L14.3144 0.464467C14.1192 0.269205 13.8026 0.269205 13.6073 0.464467C13.4121 0.659729 13.4121 0.976312 13.6073 1.17157L16.4357 4L13.6073 6.82843C13.4121 7.02369 13.4121 7.34027 13.6073 7.53554C13.8026 7.7308 14.1192 7.7308 14.3144 7.53554L17.4964 4.35355ZM-4.37114e-08 4.5L17.1429 4.5L17.1429 3.5L4.37114e-08 3.5L-4.37114e-08 4.5Z"
+                                    fill="black"
+                                  />
+                                </svg>
+                              </span>
+                            </Button>
+                          ) : (
+                            <Button
+                              htmlType="submit"
+                              onClick={onCheck}
+                              className="add-to-bag-button"
+                              loading={loading}
+                            >
+                              Add to cart
+                            </Button>
+                          )}
+                        </span>
                       ) : (
                         <Button className="add-to-bag-button atc-diable">
                           <div>Add to cart</div>
@@ -1600,27 +1766,34 @@ const ProductDetails = (props) => {
                   )}
                 </div>
 
-                {errorMsg && skuId && (
-                  <div className="qa-error-atc qa-mar-top-05">
-                    {errorMsg}{" "}
-                    {isGuest === "true" ||
-                    profileType === "SELLER" ||
-                    !authenticated ? (
-                      <span onClick={signUp} className="p-custom">
-                        signup as a buyer
-                      </span>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                )}
+                {errorMsg &&
+                  (productType === "RTS" || productType === "ERTM") &&
+                  skuId && (
+                    <div className="qa-error-atc qa-mar-top-05">
+                      {errorMsg}{" "}
+                      {isGuest === "true" ||
+                      profileType === "SELLER" ||
+                      !authenticated ? (
+                        <span onClick={signUp} className="p-custom">
+                          signup as a buyer
+                        </span>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                  )}
                 {showCart && (
-                  <div className="qa-font-san qa-mar-top-05 qa-txt-alg-cnt qa-lh qa-tc-white">
-                    Product has been successfully added! <br></br>Please{" "}
-                    <Link href="/cart" className="p-custom">
-                      Click here
-                    </Link>{" "}
-                    to 'Go to Cart'
+                  <div className="add-to-cart-success">
+                    Product added successfully!
+                    <span
+                      onClick={() => setCart(false)}
+                      className="pdp-cart-close"
+                    >
+                      <Icon
+                        component={closeButton}
+                        style={{ width: "30px", height: "30px" }}
+                      />
+                    </span>
                   </div>
                 )}
               </Form>
@@ -1636,26 +1809,25 @@ const ProductDetails = (props) => {
                 borderLeft: "0.5px solid rgba(25, 25, 25, 0.6)",
               }}
             >
-              {(productType === "RTS" || productType === "ERTM") && (
-                <div className="p-minimum-order">
-                  Minimum order value with this seller:{" "}
-                  <span
-                    style={{
-                      fontWeight: "bold",
-                      fontFamily: "Butler",
-                    }}
-                  >
-                    {getSymbolFromCurrency(convertToCurrency)}
-                    {getConvertedCurrency(minOrderValue)}
-                  </span>
-                  <div className="qa-font-san qa-tc-white qa-fs-12 qa-mar-top-05">
-                    You need to purchase single or multiple products from this
-                    Seller adding up to this total order value for instant
-                    checkout. If your requirement is lower, please write to us
-                    or raise a custom quote.
-                  </div>
+              <div className="p-minimum-order">
+                Minimum order value with this seller:{" "}
+                <span
+                  style={{
+                    fontWeight: "bold",
+                    fontFamily: "Butler",
+                  }}
+                >
+                  {getSymbolFromCurrency(convertToCurrency)}
+                  {getConvertedCurrency(minOrderValue)}
+                </span>
+                <div className="qa-font-san qa-tc-white qa-fs-12 qa-mar-top-05">
+                  You need to purchase single or multiple products from this
+                  Seller adding up to this total order value for instant
+                  checkout. If your requirement is lower, please write to us or
+                  raise a custom quote.
                 </div>
-              )}
+              </div>
+
               {offers && (
                 <div className="p-minimum-order qa-pad-top-2">
                   <div className="qa-mar-btm-1">Offers from Qalara</div>
@@ -1665,14 +1837,16 @@ const ProductDetails = (props) => {
                 </div>
               )}
               {sampleDelivery === "Y" && (
-                <div
-                  className="p-custom qa-pad-top-2 product-sample-text qa-cursor"
-                  onClick={() => {
-                    setModalType("sample-delivery");
-                    setPincodeModal(true);
-                  }}
-                >
-                  Sample available
+                <div className="qa-pad-top-2 product-sample-text">
+                  <span
+                    className="p-custom qa-cursor"
+                    onClick={() => {
+                      setModalType("sample-delivery");
+                      setPincodeModal(true);
+                    }}
+                  >
+                    Check sample availability
+                  </span>
                 </div>
               )}
               {
@@ -1804,7 +1978,6 @@ const ProductDetails = (props) => {
                     style={{
                       width: "29px",
                       verticalAlign: "middle",
-                      // marginRight: "8px",
                     }}
                   />
                 </div>
@@ -1815,46 +1988,82 @@ const ProductDetails = (props) => {
         <Col xs={24} sm={24} md={24} lg={0} xl={0}>
           <Row className="product-org-section">
             <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-              <Link href={`/seller/${vanityId}`} target="_blank">
-                <>
-                  <div
-                    style={{
-                      display: "inline-block",
-                      verticalAlign: "middle",
-                      width: "95%",
-                    }}
-                  >
-                    <div className="qa-tc-white qa-fs-12">Explore seller:</div>
-
+              <div
+                className={`${
+                  showPrice ? "pdp-explore-sec" : "pdp-explore-sec pdp-fw"
+                }`}
+              >
+                <Link href={`/seller/${vanityId}`} target="_blank">
+                  <div>
+                    <div className="qa-tc-white qa-fs-14">Explore seller:</div>
                     <span className="qa-text-2line qa-p-title qa-cursor">
                       {brandNameSC}
                     </span>
                   </div>
-                  <div
-                    style={{
-                      display: "inline-block",
-                      verticalAlign: "middle",
-                      width: "5%",
-                    }}
-                  >
-                    <span style={{ float: "right" }}>
-                      <RightOutlined style={{ color: "#191919" }} />
-                    </span>
+                </Link>
+              </div>
+              {!showPrice && (
+                <div
+                  style={{
+                    display: "inline-block",
+                    verticalAlign: "middle",
+                    width: "10%",
+                    background: "#e6e4df",
+                    height: "100%",
+                    paddingRight: "10px",
+                    paddingTop: "12px",
+                  }}
+                >
+                  <span style={{ float: "right" }}>
+                    <RightOutlined
+                      style={{
+                        fontSize: "15px",
+                        verticalAlign: "middle",
+                      }}
+                    />
+                  </span>
+                </div>
+              )}
+              {showPrice && (
+                <div
+                  className="pdp-collection-sec"
+                  onClick={() => {
+                    setCollection(true);
+                  }}
+                >
+                  <div className="pdp-stc">
+                    <div className="pdp-stc-btn">
+                      {selectedCollection ? "Saved" : "Save to collection"}
+                    </div>
                   </div>
-                </>
-              </Link>
+                  <div className="pdp-stc-icon">
+                    {selectedCollection ? (
+                      <Icon
+                        component={savedToCollectionIcon}
+                        className="stc-icon"
+                        style={{
+                          width: "15px",
+                          verticalAlign: "middle",
+                        }}
+                      />
+                    ) : (
+                      <Icon
+                        component={addToCollectionIcon}
+                        className="atc-icon"
+                        style={{
+                          width: "15px",
+                          verticalAlign: "middle",
+                        }}
+                      />
+                    )}
+                  </div>
+                </div>
+              )}
             </Col>
           </Row>
           <Row className="qa-mar-btm-4">
             {galleryImages.length > 0 && (
-              <Col
-                className="pdp-zoom-image"
-                xs={24}
-                sm={24}
-                md={24}
-                lg={24}
-                xl={24}
-              >
+              <Col className="pdp-zoom-image" span={24}>
                 <ImageGallery
                   ref={ImgGalleryM}
                   items={galleryImages}
@@ -1870,9 +2079,9 @@ const ProductDetails = (props) => {
                 />
                 <div className="product-list-details">
                   <span className="product-order-type">
-                    {productType === "RTS"
+                    {productType === "RTS" && skuId
                       ? "Ready to ship"
-                      : productType === "ERTM"
+                      : productType === "ERTM" && skuId
                       ? "Express custom"
                       : "Custom order"}
                   </span>
@@ -1930,13 +2139,13 @@ const ProductDetails = (props) => {
                         Base price per unit excl. margin, freight and other
                         charges
                       </div>
-                      <div className="qa-tc-white qa-font-san qa-fs-12">
+                      {/* <div className="qa-tc-white qa-font-san qa-fs-12">
                         Suggested retail price:{" "}
                         <b>
                           {getSymbolFromCurrency(convertToCurrency)}
                           {getConvertedCurrency(suggestedRetailPrice)}
                         </b>
-                      </div>
+                      </div> */}
                     </div>
                   ) : (
                     <div className="qa-mar-btm-1">
@@ -2037,7 +2246,7 @@ const ProductDetails = (props) => {
                 {productType === "RTS" || productType === "ERTM" ? (
                   <div>
                     <Row>
-                      <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                      <Col xs={24} sm={24} md={11} lg={11} xl={11}>
                         <div className="label-paragraph qa-fs-12">
                           Quantity{" "}
                           {qtyErr && (
@@ -2086,13 +2295,24 @@ const ProductDetails = (props) => {
                             },
                           ]}
                         >
-                          <InputNumber type="number" className="p-text-box" />
+                          {showPrice ? (
+                            <InputNumber type="number" className="p-text-box" />
+                          ) : (
+                            <Tooltip
+                              trigger={["focus"]}
+                              title={qtyError}
+                              placement="top"
+                              overlayClassName="qa-tooltip qty-tooltip"
+                            >
+                              <Input value="" className="p-text-box" />
+                            </Tooltip>
+                          )}
                         </Form.Item>
                       </Col>
                     </Row>
                     <Row>
                       {colors.length > 0 && (
-                        <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                        <Col xs={24} sm={24} md={11} lg={11} xl={11}>
                           <div className="label-paragraph qa-fs-12">Color</div>
                           <Form.Item
                             name="color"
@@ -2122,7 +2342,7 @@ const ProductDetails = (props) => {
                       )}
                       <Col xs={24} sm={24} md={2} lg={2} xl={2}></Col>
                       {sizes.length > 0 && (
-                        <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                        <Col xs={24} sm={24} md={11} lg={11} xl={11}>
                           <div className="label-paragraph qa-fs-12">
                             Size{" "}
                             {sizeErr && (
@@ -2157,6 +2377,15 @@ const ProductDetails = (props) => {
                               ))}
                             </Select>
                           </Form.Item>
+                        </Col>
+                      )}
+                      {sizes.length === 0 && lbh.length > 0 && (
+                        <Col xs={24} sm={24} md={11} lg={11} xl={11}>
+                          <div className="label-paragraph qa-fs-12">
+                            Size ({lbhUnit})
+                          </div>
+
+                          <Input disabled={true} value={standardSize} />
                         </Col>
                       )}
                     </Row>
@@ -2195,7 +2424,7 @@ const ProductDetails = (props) => {
                       </div>
                     )}
                     {colors.length > 0 && (
-                      <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                      <Col xs={24} sm={24} md={11} lg={11} xl={11}>
                         <div className="label-paragraph qa-fs-12">Color</div>
                         <Form.Item
                           name="color"
@@ -2220,46 +2449,57 @@ const ProductDetails = (props) => {
                         </Form.Item>
                       </Col>
                     )}
+                    {sizes.length === 0 && lbh.length > 0 && (
+                      <Col xs={24} sm={24} md={11} lg={11} xl={11}>
+                        <div className="label-paragraph qa-fs-12">
+                          Size ({lbhUnit})
+                        </div>
 
+                        <Input disabled={true} value={standardSize} />
+                      </Col>
+                    )}
                     {colorCustomizationAvailable && (
                       <div className="p-custom-size-stitle">
                         Customization options
                       </div>
                     )}
                     {colorCustomizationAvailable && (
-                      <div
-                        className="p-custom qa-pad-top-1 qa-cursor"
-                        onClick={() => setAccordion("color")}
-                      >
-                        Colors/Prints
+                      <div className="qa-pad-top-1">
+                        <span
+                          className="p-custom"
+                          onClick={() => setAccordion("color")}
+                        >
+                          Colors/Prints
+                        </span>
                       </div>
                     )}
                     {sizeCustomizationAvailable && (
-                      <div
-                        className="p-custom qa-pad-top-1 qa-cursor"
-                        onClick={() => setAccordion("size")}
-                      >
-                        Sizes
+                      <div className="qa-pad-top-1">
+                        <span
+                          className="p-custom"
+                          onClick={() => setAccordion("size")}
+                        >
+                          Sizes
+                        </span>
                       </div>
                     )}
                     {packagingCustomizationAvailable && (
-                      <div
-                        className="p-custom qa-pad-top-1 qa-cursor last"
-                        onClick={() => {
-                          setAccordion("packaging");
-                        }}
-                      >
-                        Packaging
+                      <div className="qa-pad-top-1">
+                        <span
+                          className="p-custom"
+                          onClick={() => setAccordion("packaging")}
+                        >
+                          Packaging
+                        </span>
                       </div>
                     )}
                   </div>
                 )}
                 {(productType === "RTS" || productType === "ERTM") && (
-                  <div
-                    className="p-custom"
-                    onClick={() => setAccordion("custom")}
-                  >
-                    More customization available
+                  <div className="p-custom">
+                    <span onClick={() => setAccordion("custom")}>
+                      More customization available
+                    </span>
                   </div>
                 )}
                 <div className="qa-font-san qa-fs-14 qa-tc-white qa-mar-top-2 qa-mar-btm-05">
@@ -2354,7 +2594,6 @@ const ProductDetails = (props) => {
                         ? "rfq-button"
                         : "rfq-button rfq-active"
                     }`}
-                    // disabled={!authenticated}
                     onClick={() => {
                       setRfqModal(true);
                       setRfqType("Product RFQ");
@@ -2370,13 +2609,42 @@ const ProductDetails = (props) => {
                       (profileType === "BUYER" &&
                         verificationStatus === "IN_PROGRESS" &&
                         skuId) ? (
-                        <Button
-                          htmlType="submit"
-                          onClick={onCheck}
-                          className="add-to-bag-button"
-                        >
-                          <div>Add to cart</div>
-                        </Button>
+                        <span>
+                          {showCart ? (
+                            <Button
+                              htmlType="submit"
+                              onClick={() => {
+                                router.push("/cart");
+                              }}
+                              className="go-to-cart-button"
+                            >
+                              Go to cart{" "}
+                              <span style={{ marginLeft: "10px" }}>
+                                <svg
+                                  width="18"
+                                  height="8"
+                                  viewBox="0 0 18 8"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M17.4964 4.35355C17.6917 4.15829 17.6917 3.84171 17.4964 3.64645L14.3144 0.464467C14.1192 0.269205 13.8026 0.269205 13.6073 0.464467C13.4121 0.659729 13.4121 0.976312 13.6073 1.17157L16.4357 4L13.6073 6.82843C13.4121 7.02369 13.4121 7.34027 13.6073 7.53554C13.8026 7.7308 14.1192 7.7308 14.3144 7.53554L17.4964 4.35355ZM-4.37114e-08 4.5L17.1429 4.5L17.1429 3.5L4.37114e-08 3.5L-4.37114e-08 4.5Z"
+                                    fill="black"
+                                  />
+                                </svg>
+                              </span>
+                            </Button>
+                          ) : (
+                            <Button
+                              htmlType="submit"
+                              onClick={onCheck}
+                              className="add-to-bag-button"
+                              loading={loading}
+                            >
+                              Add to cart
+                            </Button>
+                          )}
+                        </span>
                       ) : (
                         <Button className="add-to-bag-button atc-diable">
                           <div>Add to cart</div>
@@ -2385,28 +2653,37 @@ const ProductDetails = (props) => {
                     </span>
                   )}
 
-                  {errorMsg && skuId && (
-                    <div className="qa-error-atc qa-mar-top-25 qa-mar-btm-3">
-                      {errorMsg}{" "}
-                      {isGuest === "true" ||
-                      profileType === "SELLER" ||
-                      !authenticated ? (
-                        <span onClick={signUp} className="p-custom">
-                          signup as a buyer
-                        </span>
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                  )}
+                  {errorMsg &&
+                    (productType === "RTS" || productType === "ERTM") &&
+                    skuId && (
+                      <div className="qa-error-atc qa-mar-top-25 qa-mar-btm-3">
+                        {errorMsg}{" "}
+                        {isGuest === "true" ||
+                        profileType === "SELLER" ||
+                        !authenticated ? (
+                          <span onClick={signUp} className="p-custom">
+                            signup as a buyer
+                          </span>
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                    )}
 
                   {showCart && (
-                    <div className="qa-font-san qa-mar-top-25 qa-txt-alg-cnt qa-lh qa-mar-btm-3 qa-tc-white">
-                      Product has been successfully added! <br></br>Please{" "}
-                      <Link href="/cart" className="p-custom">
-                        Click here
-                      </Link>{" "}
-                      to 'Go to Cart'
+                    <div className="add-to-cart-success">
+                      <span className="m-cart-success">
+                        Product added successfully!
+                      </span>
+                      <span
+                        onClick={() => setCart(false)}
+                        className="pdp-cart-close"
+                      >
+                        <Icon
+                          component={closeButton}
+                          style={{ width: "30px", height: "30px" }}
+                        />
+                      </span>
                     </div>
                   )}
                 </div>
@@ -2422,26 +2699,25 @@ const ProductDetails = (props) => {
               lg={24}
               xl={24}
             >
-              {(productType === "RTS" || productType === "ERTM") && (
-                <div className="p-minimum-order">
-                  Minimum order value with this seller:{" "}
-                  <span
-                    style={{
-                      fontWeight: "bold",
-                      fontFamily: "Butler",
-                    }}
-                  >
-                    {getSymbolFromCurrency(convertToCurrency)}
-                    {getConvertedCurrency(minOrderValue)}
-                  </span>
-                  <div className="qa-font-san qa-tc-white qa-fs-12 qa-mar-top-05">
-                    You need to purchase single or multiple products from this
-                    Seller adding up to this total order value for instant
-                    checkout. If your requirement is lower, please write to us
-                    or raise a custom quote.
-                  </div>
+              <div className="p-minimum-order">
+                Minimum order value with this seller:{" "}
+                <span
+                  style={{
+                    fontWeight: "bold",
+                    fontFamily: "Butler",
+                  }}
+                >
+                  {getSymbolFromCurrency(convertToCurrency)}
+                  {getConvertedCurrency(minOrderValue)}
+                </span>
+                <div className="qa-font-san qa-tc-white qa-fs-12 qa-mar-top-05">
+                  You need to purchase single or multiple products from this
+                  Seller adding up to this total order value for instant
+                  checkout. If your requirement is lower, please write to us or
+                  raise a custom quote.
                 </div>
-              )}
+              </div>
+
               {offers && (
                 <div className="p-minimum-order qa-pad-top-2">
                   <div className="qa-mar-btm-1">Offers from Qalara</div>
@@ -2451,14 +2727,16 @@ const ProductDetails = (props) => {
                 </div>
               )}
               {sampleDelivery === "Y" && (
-                <div
-                  className="p-custom qa-pad-top-2 product-sample-text qa-cursor"
-                  onClick={() => {
-                    setModalType("sample-delivery");
-                    setPincodeModal(true);
-                  }}
-                >
-                  Sample available
+                <div className="qa-pad-top-2 product-sample-text">
+                  <span
+                    className="p-custom qa-cursor"
+                    onClick={() => {
+                      setModalType("sample-delivery");
+                      setPincodeModal(true);
+                    }}
+                  >
+                    Check sample availability
+                  </span>
                 </div>
               )}
               {
@@ -2590,7 +2868,6 @@ const ProductDetails = (props) => {
                     style={{
                       width: "36px",
                       verticalAlign: "middle",
-                      // marginRight: "8px",
                     }}
                   />
                 </div>
@@ -2844,20 +3121,31 @@ const ProductDetails = (props) => {
           </div>
           <div className="heading qa-mar-btm-2">
             {modalType === "sample-delivery"
-              ? "Sample delivery"
+              ? "Sample availability"
               : "Check serviceability"}
           </div>
           {modalType === "sample-delivery" ? (
             <div>
               <div className="p-title">
-                Sample delivery is available for this product.
+                Sample delivery may be available for this product, but is
+                subject to supplier's confirmation.
               </div>
               <div className="p-s-title">
-                Estimated sample delivery cost:{" "}
-                <span className="p-price">{sampleCostSC}</span>
+                Estimated sample cost:{" "}
+                {/* <span className="p-price">{sampleCostSC}</span> */}
+                <span className="p-price">
+                  The supplier may charge a premium on the sample if not readily
+                  available. Delivery costs will be at actuals.
+                </span>
               </div>
               <div className="p-note">
-                To request for a sample, please write to us at buyers@qalara.com
+                To request for a sample, please write to us at{" "}
+                <a
+                  className="qa-tc-white qa-hover"
+                  href="mailto:buyers@qalara.com"
+                >
+                  buyers@qalara.com
+                </a>{" "}
                 and mention the product id or the webpage address. We will take
                 care of the rest.
               </div>
@@ -2976,7 +3264,7 @@ const ProductDetails = (props) => {
         onCancel={hideCalculationModal}
         centered
         bodyStyle={{ padding: "30px 10px", backgroundColor: "#f9f7f2" }}
-        width={900}
+        width={!mobile ? 900 : "98%"}
         style={{ top: 5 }}
       >
         <div>
@@ -3044,7 +3332,18 @@ const ProductDetails = (props) => {
                       },
                     ]}
                   >
-                    <InputNumber type="number" className="p-text-box" />
+                    {showPrice ? (
+                      <InputNumber type="number" className="p-text-box" />
+                    ) : (
+                      <Tooltip
+                        trigger={["focus"]}
+                        title={qtyError}
+                        placement="top"
+                        overlayClassName="qa-tooltip qty-tooltip"
+                      >
+                        <Input value="" className="p-text-box" />
+                      </Tooltip>
+                    )}
                   </Form.Item>
                 </div>
                 <div className="qa-font-san">Select Country</div>
@@ -3336,6 +3635,8 @@ const ProductDetails = (props) => {
               productDetails={data}
               selectedColor={selectedColor}
               selectedSize={selectedSize}
+              showPrice={showPrice}
+              currencyDetails={currencyDetails}
             />
           )}
         </div>
@@ -3413,6 +3714,26 @@ const ProductDetails = (props) => {
           </div>
         </div>
       </Modal>
+
+      <Drawer
+        placement={mobile ? "bottom" : "right"}
+        closable={false}
+        width={mobile ? "100%" : "330px"}
+        bodyStyle={{ padding: "20px" }}
+        onClose={() => setCollection(false)}
+        visible={showCollection}
+      >
+        <AddToCollection
+          onClose={() => setCollection(false)}
+          savedProductToCollection={(name) => setSelectedCollection(name)}
+          userCollections={collections}
+          userProfile={userProfile}
+          articleId={articleId}
+          sellerCode={sellerCode}
+          selectedCollection={selectedCollection}
+          token={token}
+        />
+      </Drawer>
     </div>
   );
 };
@@ -3422,6 +3743,7 @@ const mapStateToProps = (state) => {
     cart: state.checkout.cart,
     currencyDetails: state.currencyConverter,
     userProfile: state.userProfile.userProfile,
+    collections: state.userProfile.collections,
     isGuest:
       state.auth &&
       state.auth.userAuth &&
@@ -3431,4 +3753,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { checkInventory, getCollections})(ProductDetails);
+export default connect(mapStateToProps, { checkInventory, getCollections })(
+  ProductDetails
+);
