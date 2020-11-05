@@ -21,7 +21,7 @@ function ProductCard(props) {
   };
 
   const signIn = () => {
-    loginToApp(keycloak, { currentPath: router.pathname });
+    loginToApp(keycloak, { currentPath: router.asPath.split("?")[0] });
   };
 
   let productDetails = props.data;

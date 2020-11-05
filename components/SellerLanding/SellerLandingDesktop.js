@@ -98,7 +98,7 @@ const SellerLandingDesktop = (props) => {
   };
 
   const signIn = () => {
-    loginToApp(keycloak, { currentPath: router.pathname });
+    loginToApp(keycloak, { currentPath: router.asPath.split("?")[0] });
   };
 
   const sendQueryCancel = (status) => {
@@ -580,14 +580,17 @@ const SellerLandingDesktop = (props) => {
       ),
       slotDate: selectedDate,
     };
-    fetch(process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL + "/events/meeting ", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + keycloak.token,
-      },
-    })
+    fetch(
+      process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL + "/events/meeting ",
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + keycloak.token,
+        },
+      }
+    )
       .then((res) => {
         if (res.ok) {
           setSelectedSlot(selectedSlot);
