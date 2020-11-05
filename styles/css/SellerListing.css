@@ -41,6 +41,7 @@
   margin-bottom: -15px;
   padding: 50px;
   font-family: senregular;
+  color: rgba(0, 0, 0, 0.65);
 }
 .seller-listing-container .banner {
   background-size: cover;
@@ -135,6 +136,7 @@
   .ant-menu-submenu.ant-menu-submenu-inline.ant-menu-submenu-open.ant-menu-submenu-selected
   .ant-menu-submenu-title {
   margin-top: 0px;
+  margin-bottom: 10px;
 }
 .listing-sidebar .ant-menu-submenu-title {
   font-family: senregular;
@@ -154,9 +156,7 @@
   padding: 0px !important;
 }
 .listing-sidebar .ant-menu-submenu-title:hover {
- 
   color: #191919;
- 
 }
 
 .seller-listing-container .seller-sort-list .ant-select-arrow {
@@ -256,6 +256,7 @@
     margin-top: 30px;
     padding: 50px 40px;
     font-family: senregular;
+    color: rgba(0, 0, 0, 0.65);
   }
   .seller-listing-container {
     /* margin-top: 60px; */
@@ -437,7 +438,7 @@
   border: none !important;
 }
 .image-carousel .slick-dots {
-  position:absolute;
+  position: absolute;
   bottom: 20px !important;
 }
 .product-list-details a {
@@ -445,4 +446,5 @@
 }
 .image-carousel {
   position: relative;
+  cursor: pointer;
 }

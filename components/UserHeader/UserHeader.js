@@ -93,7 +93,7 @@ function UserHeader(props) {
     //   // console.log(result.done, result.value); //result.value is one line of your NDJSON data
     // }
     let responseJSON;
-    if(process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV === "production") {
       responseJSON = responseJSONProd;
     } else {
       responseJSON = responseJSONDev;
@@ -214,7 +214,7 @@ function UserHeader(props) {
   const navMenu = (
     <Menu
       theme="dark"
-      style={{ marginTop: "28px", cursor: "default" }}
+      style={{ cursor: "default" }}
       onClick={(e) => {
         handleVisibleChange(true);
       }}
@@ -463,7 +463,14 @@ function UserHeader(props) {
       >
         <span className="qa-fs-14 qa-font-san">Addresses</span>
       </Menu.Item>
-      <Menu.Divider style={{ height: "0.5px", background: "rgb(217, 187, 127)", opacity: "0.2", margin: "15px 0" }} /> 
+      <Menu.Divider
+        style={{
+          height: "0.5px",
+          background: "rgb(217, 187, 127)",
+          opacity: "0.2",
+          margin: "15px 0",
+        }}
+      />
       {verificationStatus === "CREATED" && profileType === "SELLER" && (
         <Menu.Item key="4" style={{ height: "auto" }}>
           <Button
