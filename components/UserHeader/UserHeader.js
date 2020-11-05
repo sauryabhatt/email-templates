@@ -382,6 +382,10 @@ function UserHeader(props) {
     router.push("/account/orders");
   };
 
+  const handleMyCollections = () => {
+    router.push("/account/collections");
+  };
+
   const handleAddress = () => {
     router.push("/account/addresses");
   };
@@ -439,7 +443,18 @@ function UserHeader(props) {
             : {}
         }
       >
-        <span className="qa-font-san qa-fs-14">Quotations</span>
+        <span className="qa-font-san qa-fs-14">My Quotation</span>
+      </Menu.Item>
+      <Menu.Item
+        key="collections"
+        onClick={handleMyCollections}
+        style={
+          props.profileType === "SELLER" || props.isGuest == "true"
+            ? { display: "none" }
+            : {}
+        }
+      >
+        <span className="qa-font-san qa-fs-14">My Collections</span>
       </Menu.Item>
       <Menu.Item
         key="orders"
@@ -805,7 +820,18 @@ function UserHeader(props) {
                         : {}
                     }
                   >
-                    <span className="qa-fs-14 qa-font-san">Quotations</span>
+                    <span className="qa-fs-14 qa-font-san">My Quotation</span>
+                  </Menu.Item>
+                  <Menu.Item
+                    key="collections"
+                    onClick={handleMyCollections}
+                    style={
+                      props.profileType === "SELLER" || props.isGuest == "true"
+                        ? { display: "none" }
+                        : {}
+                    }
+                  >
+                    <span className="qa-fs-14 qa-font-san">My Collections</span>
                   </Menu.Item>
                   <Menu.Item
                     key="9"
