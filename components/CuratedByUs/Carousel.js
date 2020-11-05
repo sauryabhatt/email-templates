@@ -105,9 +105,9 @@ export default function Carousel(props){
           <div className = "scroll-container">
             {carouselContent.map((e, index) => {
               return( 
-                <Link href={e.url}>
+                <Link key ={`carousel-img-mobile-${index}`} href={e.url}>
                   <div className = "image-wrp">
-                    <img src = {require("../../public/filestore/")} alt = {e.alt}/>
+                    <img src = {e.img} alt = {e.alt}/>
                     <h3>{e.text}</h3>
                   </div>
                 </Link>
@@ -123,7 +123,7 @@ export default function Carousel(props){
         >
           {carouselContent.map((e, index) => {
             return( 
-              <Link href={e.url}>
+              <Link  key ={`carousel-img-${index}`}href={e.url}>
                 <div className = "image-wrp">
                   <img src = {e.img} alt = {e.alt}/>
                   <h3>{e.text}</h3>

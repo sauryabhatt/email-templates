@@ -39,7 +39,7 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params: { trend = "" } = {} }) {
   const response = await fetch(
     process.env.NEXT_PUBLIC_REACT_APP_CONTENT_URL +
-      `/content/${trendsObj[trend]}`,
+      `/content/${trendsObj[trend.toLowerCase()]}`,
     {
       method: "GET",
       headers: {
