@@ -35,6 +35,7 @@ export default class SellerFacets extends Component {
 
   componentDidMount() {
     let queries = this.props.queryParams;
+    console.log("queryparmas", this.props.queryParams);
     if (this.count === 0) {
       for (let list in queries) {
         if (
@@ -49,6 +50,7 @@ export default class SellerFacets extends Component {
           } else {
             value = decodeURIComponent(queries[list]);
           }
+          console.log("value", value);
           value = value.split(",");
           this.setState({ [list]: [...value] });
           this.setState({ query: this.props.queryParams });

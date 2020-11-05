@@ -32,6 +32,7 @@ function SellerListingDesktop(props) {
   } = productList || {};
 
   const handleSortFilter = (value) => {
+    console.log("valuesort", value);
     let queryParam = queryParams;
     if (value === "asc") {
       queryParam = { ...queryParam, sort_order: "ASC", sort_by: "brandName" };

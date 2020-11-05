@@ -121,19 +121,37 @@ function UserHeader(props) {
   const onSearch = () => {
     let formValues = searchForm.getFieldValue();
     let { searchBy = "", search = "" } = formValues;
-    let searchLink =
-      "/search" +
-      "?searchBy=" +
-      encodeURIComponent(searchBy) +
-      "&search=" +
-      encodeURIComponent(search);
-    router.push(searchLink);
-    handleSearchChangeMob(false);
-    handleSearchChange(false);
+    if (!searchBy) {
+      searchBy = "product";
+    }
+    if (search && search.trim().length > 0) {
+      search = search.replace("%", "");
+      handleSearchChangeMob(false);
+      handleSearchChange(false);
+      let searchLink = "";
+      if (
+        search.includes("order") ||
+        search.includes("return") ||
+        search.includes("cancel") ||
+        search.includes("track")
+      ) {
+        searchLink = "/FAQforwholesalebuyers";
+      } else {
+        searchLink =
+          "/search" +
+          "/" +
+          encodeURIComponent(searchBy) +
+          "/" +
+          encodeURIComponent(search);
+      }
+      router.push(searchLink);
+    }
+
+    searchForm.setFieldsValue({ search: "" });
   };
 
   const searchMenu = (
-    <Menu theme="dark" style={{ marginTop: "10px", cursor: "default" }}>
+    <Menu theme="dark" style={{ marginTop: "-7px", cursor: "default" }}>
       <Menu.Item key="1" className="search-dropdown">
         <Form name="search-form" form={searchForm} onFinish={onSearch}>
           <Input.Group compact>
@@ -214,7 +232,7 @@ function UserHeader(props) {
   const navMenu = (
     <Menu
       theme="dark"
-      style={{ marginTop: "28px", cursor: "default" }}
+      style={{ cursor: "default" }}
       onClick={(e) => {
         handleVisibleChange(true);
       }}
@@ -501,7 +519,38 @@ function UserHeader(props) {
             style={{ textAlign: "left", margin: "auto" }}
           >
             <div>
-              <span>
+            <Dropdown
+                overlayClassName="search-section"
+                overlay={searchMenu}
+                trigger={["click"]}
+                onVisibleChange={handleSearchChange}
+                visible={searchVisible}
+                overlayStyle={{ width: "100%", cursor: "pointer" }}
+              >
+                <div
+                  className={
+                    shopColor
+                      ? "shop my-account-header qa-cursor qa-hover"
+                      : "shop my-account-header qa-cursor"
+                  }
+                  style={{
+                    verticalAlign: "middle",
+                  }}
+                >
+                  {!close ? (
+                    <Icon
+                      component={searchIcon}
+                      style={{ height: "36px", width: "32px", verticalAlign:"middle" }}
+                    ></Icon>
+                  ) : (
+                      <Icon
+                        component={closeButton}
+                        style={{ height: "32px", width: "32px", verticalAlign:"middle" }}
+                      ></Icon>
+                    )}
+                </div>
+              </Dropdown>
+              {/*<span>
                 <Link href="/" className="app-header-home-button">
                   <Icon
                     component={homeIcon}
@@ -513,7 +562,7 @@ function UserHeader(props) {
                     }}
                   />
                 </Link>
-              </span>
+              </span>*/}
 
               <Dropdown
                 overlayClassName="shop-navigation"
