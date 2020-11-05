@@ -4,7 +4,7 @@ import CategoryEditWrapper from "../../components/CategoryEditWrapper"
 export default function ArtisanDetails({ data }) {
   let { res, artisan } = data || {};
   let meta;
-  
+
   switch (artisan) {
     case "textileweaves":
       meta={
@@ -40,7 +40,7 @@ export default function ArtisanDetails({ data }) {
 
   return (
     <Layout meta={meta}>
-      <CategoryEditWrapper body={res.body}/>
+      <CategoryEditWrapper body={res?.body || "<p>No Data Available</p>"}/>
     </Layout>
   );
 }

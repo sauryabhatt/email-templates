@@ -50,7 +50,7 @@ export default function CategoryEditDetails({ data }) {
 
   return (
     <Layout meta={meta}>
-      <CategoryEditWrapper body={res.body}/>
+      <CategoryEditWrapper body={res?.body || "<p>No Data Available</p>"}/>
     </Layout>
   );
 }
@@ -75,7 +75,6 @@ export async function getStaticProps({ params: { category = "" } = {} }) {
     }
   );
   const res = await response.json();
-
   return {
     props: {
       data :{
