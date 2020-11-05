@@ -240,6 +240,7 @@ export default class SellerFacets extends Component {
             <SortByFilter
               width="100%"
               handleSortFilter={this.handleSortFilter}
+              queryParams={this.props.queryParams}
             />
             {/* <div style={{ marginTop: "30px" }}>
               <span className="qa-pad-rgt-1">Video demo only:</span>

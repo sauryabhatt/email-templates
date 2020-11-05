@@ -137,7 +137,7 @@ function SearchListingDesktop(props) {
                 </div>
               </Col> */}
               <Col span={6} className="qa-txt-alg-rgt qa-mar-top-1">
-                <SortByFilter handleSortFilter={handleSortFilter} id="PLP" />
+                <SortByFilter handleSortFilter={handleSortFilter} id="PLP" queryParams={queryParams}/>
               </Col>
             </Row>
 
