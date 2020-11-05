@@ -149,8 +149,8 @@
   background-position: 50%;
   min-width: 100%;
   max-width: 100%;
-  height: 36vh;
-  max-height: 36vh;
+  height: 24vh;
+  max-height: 24vh;
   padding-top: 0%;
 }
 #seller-product-listing-page .banner-text-small {
@@ -265,4 +265,7 @@
 }
 .locked-product .ant-popover-inner-content {
   color: #fff;
+}
+.listing-sidebar .ant-menu-inline .ant-menu-submenu-title {
+  margin-bottom: 10px;
 }

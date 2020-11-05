@@ -11,8 +11,8 @@
   background-position: center;
   min-width: 100%;
   max-width: 100%;
-  height: 36vh;
-  max-height: 36vh;
+  height: 24vh;
+  max-height: 24vh;
 }
 
 .seller-landing-container .seller-text-details {
@@ -842,9 +842,8 @@
   padding-top: 10px;
 }
 
-
 .qa-button.book-video-btn:disabled {
-  background-color: #E6E4DF;
+  background-color: #e6e4df;
   color: rgba(25, 25, 25, 0.6);
   border: none;
 }

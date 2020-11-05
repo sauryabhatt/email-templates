@@ -7,13 +7,15 @@ import ProductListingMobile from "../mobile/ProductListingMobile";
 import { getPLPDetails } from "../../store/actions";
 import queryString from "query-string";
 const querystring = require("querystring");
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 const isServer = () => typeof window == undefined;
 
 const ProductListing = (props) => {
   const router = useRouter();
-  
-  let { slp_content = [], isLoading = true } = !isServer()?props.listingPage:props.data;
+
+  let { slp_content = [], isLoading = true } = !isServer()
+    ? props.listingPage
+    : props.data;
   const [mobile, setMobile] = useState(false);
   const [offset, setOffset] = useState(0);
   const [limit, setLimit] = useState(30);
@@ -29,26 +31,32 @@ const ProductListing = (props) => {
     size: limit,
     from: offset,
   });
-  const getQueryParamString=()=>{
-    let queryObj={};
-    const rq = router.query
+  const getQueryParamString = () => {
+    let queryObj = {};
+    const rq = router.query;
 
-    if(Object.keys(rq).length) {
+    if (Object.keys(rq).length) {
       for (const prop in router.query) {
-        if(prop !== "categoryId"){
-          queryObj[prop] = rq[prop]
+        if (prop !== "categoryId") {
+          queryObj[prop] = rq[prop];
         }
       }
       return querystring.stringify(queryObj);
-    } else return ""
-  }
+    } else return "";
+  };
   useEffect(() => {
     setCategoryName(props.data.categoryId);
     let width = window.screen ? window.screen.width : window.innerWidth;
     if (width <= 768) {
       setMobile(true);
     }
-    const {f_categories,f_key_methods, f_values, f_product_types, ...rest} = queryParams;
+    const {
+      f_categories,
+      f_key_methods,
+      f_values,
+      f_product_types,
+      ...rest
+    } = queryParams;
     let defaultQuery = querystring.stringify(rest);
     let query = getQueryParamString();
     let { categoryId = "" } = router.query;
@@ -57,7 +65,7 @@ const ProductListing = (props) => {
     } else {
       query = defaultQuery;
     }
-    
+
     if (categoryId.toLowerCase() !== "all-categories") {
       query = query + "&f_categories=" + categoryId;
     }
@@ -77,38 +85,46 @@ const ProductListing = (props) => {
     }
     setQueryParams(queryParams);
     const tempObj = {};
-    
+
     for (const key in queryParams) {
       //f_key_methods, f_values, f_product_types
-      if (key=="f_values"|| key=="f_key_methods" || key=="f_product_types") {
+      if (
+        key == "f_values" ||
+        key == "f_key_methods" ||
+        key == "f_product_types"
+      ) {
         tempObj[key] = queryParams[key];
       }
     }
-    router.push({
-      pathname: router.asPath.split('?')[0],
-      query: tempObj,    
-  }, undefined, {shallow: true });
-  //   let queryResult = querystring.stringify(queryParams);
-  //   let tempQuery="";
-  //   const arr=[];
-  //   queryResult.split('&').forEach(element => {
-  //     if(!element.search('f_values')||!element.search('f_key_methods')||!element.search('f_product_types')){
-  //       arr.push(element);
-  //     }
-  // });
-  
-  // if(arr.length>0){
-  // tempQuery = arr.length>2?(`?${arr[0]}&${arr[1]}&${arr[2]}`):(arr.length>1?`?${arr[0]}&${arr[1]}`:`?${arr[0]}`);
-  // } 
-  // let newurl =
-  //       window.location.protocol +
-  //       "//" +
-  //       window.location.host +
-  //       window.location.pathname +
-  //       tempQuery;
-  //     window.history.pushState({ path: newurl }, "", newurl);
-  //     tempQuery="";
-  //   props.getPLPDetails(queryResult, false);
+    router.push(
+      {
+        pathname: router.asPath.split("?")[0],
+        query: tempObj,
+      },
+      undefined,
+      { shallow: true }
+    );
+    //   let queryResult = querystring.stringify(queryParams);
+    //   let tempQuery="";
+    //   const arr=[];
+    //   queryResult.split('&').forEach(element => {
+    //     if(!element.search('f_values')||!element.search('f_key_methods')||!element.search('f_product_types')){
+    //       arr.push(element);
+    //     }
+    // });
+
+    // if(arr.length>0){
+    // tempQuery = arr.length>2?(`?${arr[0]}&${arr[1]}&${arr[2]}`):(arr.length>1?`?${arr[0]}&${arr[1]}`:`?${arr[0]}`);
+    // }
+    // let newurl =
+    //       window.location.protocol +
+    //       "//" +
+    //       window.location.host +
+    //       window.location.pathname +
+    //       tempQuery;
+    //     window.history.pushState({ path: newurl }, "", newurl);
+    //     tempQuery="";
+    //   props.getPLPDetails(queryResult, false);
   };
 
   const loadMoreData = () => {
@@ -122,7 +138,7 @@ const ProductListing = (props) => {
   const setCategoryName = (categoryName) => {
     switch (categoryName) {
       case "home-furnishing":
-        setCategoryTitle("Home furnishings & linens");
+        setCategoryTitle("Home linen & furnishings");
         setSubCategoryTitle(
           "Wholesale cushions, throws, quilts, bedding, bath linen, rugs & carpets"
         );
@@ -136,14 +152,14 @@ const ProductListing = (props) => {
         break;
 
       case "home-decor-and-accessories":
-        setCategoryTitle("Home decor");
+        setCategoryTitle("Home accents & decor");
         setSubCategoryTitle(
           "Wholesale home decor, lighting, ornaments, wall art, candlesticks and garden accessories"
         );
         break;
 
       case "kitchen-and-dining":
-        setCategoryTitle("Kitchen & dining");
+        setCategoryTitle("Kitchenware suppliers");
         setSubCategoryTitle(
           "Shop tableware, dinnerware, cookware, utensils, cutlery, linens & bar accessories in bulk"
         );
@@ -173,7 +189,14 @@ const ProductListing = (props) => {
       case "jewelry":
         setCategoryTitle("Jewelry");
         setSubCategoryTitle(
-          "Wholesale earrings, necklaces, bracelets, rings, nose pins and cuff links"
+          "Wholesale earrings, necklaces, bracelets, rings, nose pins and cufflinks"
+        );
+        break;
+
+      case "stationery-and-novelty":
+        setCategoryTitle("Stationery & novelty");
+        setSubCategoryTitle(
+          "Wholesale journals, planners, table organisers, pen stands, games, bookmarks and novelty products"
         );
         break;
 
@@ -188,11 +211,10 @@ const ProductListing = (props) => {
 
   return (
     <div>
-      
-       {mobile ? ( 
-         <ProductListingMobile
-         data={!isServer()?props.listingPage:props.data}
-         isLoading={!isServer()?props.listingPage.isLoading:false}
+      {mobile ? (
+        <ProductListingMobile
+          data={!isServer() ? props.listingPage : props.data}
+          isLoading={!isServer() ? props.listingPage.isLoading : false}
           getFilterData={getFilterData}
           queryParams={queryParams}
           loadMoreData={loadMoreData}
@@ -200,11 +222,11 @@ const ProductListing = (props) => {
           categoryTitle={categoryTitle}
           subCategoryTitle={subCategoryTitle}
           category={category}
-        /> 
-       ) : ( 
+        />
+      ) : (
         <ProductListingDesktop
-          data={!isServer()?props.listingPage:props.data}
-          isLoading={!isServer()?props.listingPage.isLoading:false}
+          data={!isServer() ? props.listingPage : props.data}
+          isLoading={!isServer() ? props.listingPage.isLoading : false}
           getFilterData={getFilterData}
           queryParams={queryParams}
           loadMoreData={loadMoreData}

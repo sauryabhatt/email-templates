@@ -2,6 +2,7 @@
 
 import React, { useRef } from "react";
 import { Collapse } from "antd";
+import { UpOutlined, DownOutlined } from "@ant-design/icons";
 
 const Panel = Collapse.Panel;
 
@@ -94,7 +95,7 @@ function Accordion(props) {
           splitKey.toLowerCase().charAt(0).toUpperCase() +
           splitKey.toLowerCase().slice(1);
         return (
-          <div key={key}>
+          <div key={key} className="qa-flex">
             <div className="ps-left-blk qa-text-ellipsis">{keyName}</div>
             <div className="ps-right-blk qa-text-ellipsis">{value}</div>
           </div>
@@ -151,14 +152,19 @@ function Accordion(props) {
         activeKey={keys}
         expandIconPosition="right"
         onChange={callback}
+        expandIcon={({ isActive }) => (
+          <span>{isActive ? <UpOutlined /> : <DownOutlined />}</span>
+        )}
       >
-        <Panel header="How it's made" key="1">
-          <div className="qa-pad-0-20">{productionDescription}</div>
-        </Panel>
+        {productionDescription && (
+          <Panel header="How it's made" key="1">
+            <div className="qa-pad-0-20">{productionDescription}</div>
+          </Panel>
+        )}
         <Panel header="Product specifications" key="2">
           <div className="qa-pad-0-20">
             {materialDescription && (
-              <div>
+              <div className="qa-flex">
                 <div className="ps-left-blk qa-text-ellipsis">
                   Material description
                 </div>
@@ -168,7 +174,7 @@ function Accordion(props) {
               </div>
             )}
             {careDescription && (
-              <div>
+              <div className="qa-flex">
                 <div className="ps-left-blk qa-text-ellipsis">
                   Care description
                 </div>
@@ -177,21 +183,31 @@ function Accordion(props) {
                 </div>
               </div>
             )}
+            {sizeDescription && (
+              <div className="qa-flex">
+                <div className="ps-left-blk qa-text-ellipsis">
+                  Size description
+                </div>
+                <div className="ps-right-blk qa-text-ellipsis">
+                  {sizeDescription}
+                </div>
+              </div>
+            )}
             {specifications}
             {feature1 && (
-              <div>
+              <div className="qa-flex">
                 <div className="ps-left-blk qa-text-ellipsis">Feature 1</div>
                 <div className="ps-right-blk qa-text-ellipsis">{feature1}</div>
               </div>
             )}
             {feature2 && (
-              <div>
+              <div className="qa-flex">
                 <div className="ps-left-blk qa-text-ellipsis">Feature 2</div>
                 <div className="ps-right-blk qa-text-ellipsis">{feature2}</div>
               </div>
             )}
             {hiddenDetail && (
-              <div>
+              <div className="qa-flex">
                 <div className="ps-left-blk qa-text-ellipsis">
                   Hidden detail
                 </div>
@@ -200,32 +216,32 @@ function Accordion(props) {
                 </div>
               </div>
             )}
-            {length && (
-              <div>
+            {length > 0 && (
+              <div className="qa-flex">
                 <div className="ps-left-blk qa-text-ellipsis">Length</div>
                 <div className="ps-right-blk qa-text-ellipsis">
                   {length} {lbhUnit}
                 </div>
               </div>
             )}
-            {breadth && (
-              <div>
+            {breadth > 0 && (
+              <div className="qa-flex">
                 <div className="ps-left-blk qa-text-ellipsis">Breadth</div>
                 <div className="ps-right-blk qa-text-ellipsis">
                   {breadth} {lbhUnit}
                 </div>
               </div>
             )}
-            {height && (
-              <div>
+            {height > 0 && (
+              <div className="qa-flex">
                 <div className="ps-left-blk qa-text-ellipsis">Height</div>
                 <div className="ps-right-blk qa-text-ellipsis">
                   {height} {lbhUnit}
                 </div>
               </div>
             )}
-            {weight && (
-              <div>
+            {weight > 0 && (
+              <div className="qa-flex">
                 <div className="ps-left-blk qa-text-ellipsis">Weight</div>
                 <div className="ps-right-blk qa-text-ellipsis">
                   {weight} {weightUnit}
@@ -233,7 +249,7 @@ function Accordion(props) {
               </div>
             )}
             {disclaimer && (
-              <div>
+              <div className="qa-flex">
                 <div className="ps-left-blk qa-text-ellipsis">Disclaimer</div>
                 <div className="ps-right-blk qa-text-ellipsis">
                   {disclaimer}
@@ -241,7 +257,7 @@ function Accordion(props) {
               </div>
             )}
             {values && (
-              <div>
+              <div className="qa-flex">
                 <div className="ps-left-blk qa-text-ellipsis">Values</div>
                 <div className="ps-right-blk qa-text-ellipsis">
                   {values.join(", ")}
@@ -249,13 +265,13 @@ function Accordion(props) {
               </div>
             )}
             {packType && (
-              <div>
+              <div className="qa-flex">
                 <div className="ps-left-blk qa-text-ellipsis">Pack type</div>
                 <div className="ps-right-blk qa-text-ellipsis">{packType}</div>
               </div>
             )}
             {contents && (
-              <div>
+              <div className="qa-flex">
                 <div className="ps-left-blk qa-text-ellipsis">
                   Pack contents
                 </div>
@@ -264,7 +280,7 @@ function Accordion(props) {
             )}
 
             {articleId && (
-              <div>
+              <div className="qa-flex">
                 <div className="ps-left-blk qa-text-ellipsis">Item id</div>
                 <div className="ps-right-blk qa-text-ellipsis">{articleId}</div>
               </div>
@@ -272,69 +288,70 @@ function Accordion(props) {
           </div>
           <div ref={custom}></div>
         </Panel>
-        <Panel header="Customization Available" key="3">
-          <div className="qa-pad-0-20">{customizationHeader}</div>
-          <div>
-            {colorCustomizationAvailable && (
-              <div ref={color}>
-                <div className="acc-sub-title">
-                  Color/Print/Pattern/Material
+        {(colorCustomizationAvailable ||
+          sizeCustomizationAvailable ||
+          packagingCustomizationAvailable) && (
+          <Panel header="Customization Available" key="3">
+            <div className="qa-pad-0-20">{customizationHeader}</div>
+            <div>
+              {colorCustomizationAvailable && (
+                <div ref={color}>
+                  <div className="acc-sub-title">
+                    Color/Print/Pattern/Material
+                  </div>
+                  <div className="qa-pad-0-20 qa-stitle">
+                    {colorCustomizationHeader}
+                  </div>
+                  {customizationsColors.toString().trim().length > 0 && (
+                    <ul className="qa-pad-0-20 qa-stitle qa-mar-lft15">
+                      {customizationsColors.map((item, i) => {
+                        return <li key={i}>{item}</li>;
+                      })}
+                    </ul>
+                  )}
+                  {customColors}
                 </div>
-                <div className="qa-pad-0-20 qa-stitle">
-                  {colorCustomizationHeader}
+              )}
+              {colorCustomizationAvailable && (
+                <div className="p-section-divider"></div>
+              )}
+              {sizeCustomizationAvailable && (
+                <div ref={size}>
+                  <div className="acc-sub-title">Size/Shape/Form</div>
+                  <div className="qa-pad-0-20 qa-stitle">
+                    {sizeCustomizationHeader}
+                  </div>
+                  {customizationsSizes.toString().trim().length > 0 && (
+                    <ul className="qa-pad-0-20 qa-stitle qa-mar-lft15">
+                      {customizationsSizes.map((item, i) => {
+                        return <li key={i}>{item}</li>;
+                      })}
+                    </ul>
+                  )}
                 </div>
-                {customizationsColors.toString().trim().length > 0 && (
-                  <ul className="qa-pad-0-20 qa-stitle qa-mar-lft15">
-                    {customizationsColors.map((item, i) => {
-                      return <li key={i}>{item}</li>;
-                    })}
-                  </ul>
-                )}
-                {customColors}
-              </div>
-            )}
-            {colorCustomizationAvailable && (
-              <div className="p-section-divider"></div>
-            )}
-            {sizeCustomizationAvailable && (
-              <div ref={size}>
-                <div className="acc-sub-title">Size/Shape/Form</div>
-                <div className="qa-pad-0-20 qa-stitle">
-                  {sizeCustomizationHeader}
+              )}
+              {sizeCustomizationAvailable && (
+                <div className="p-section-divider"></div>
+              )}
+              {packagingCustomizationAvailable && (
+                <div ref={packaging}>
+                  <div className="acc-sub-title">Packaging</div>
+                  <div className="qa-pad-0-20 qa-stitle">
+                    {packagingCustomizationHeader}
+                  </div>
+                  {customizationsPackaging.toString().trim().length > 0 && (
+                    <ul className="qa-pad-0-20 qa-stitle qa-mar-lft15">
+                      {customizationsPackaging.map((item, i) => {
+                        return <li key={i}>{item}</li>;
+                      })}
+                    </ul>
+                  )}
+                  {customPackaging}
                 </div>
-                {sizeDescription && (
-                  <div className="qa-pad-0-20 qa-stitle">{sizeDescription}</div>
-                )}
-                {customizationsSizes.toString().trim().length > 0 && (
-                  <ul className="qa-pad-0-20 qa-stitle qa-mar-lft15">
-                    {customizationsSizes.map((item, i) => {
-                      return <li key={i}>{item}</li>;
-                    })}
-                  </ul>
-                )}
-              </div>
-            )}
-            {sizeCustomizationAvailable && (
-              <div className="p-section-divider"></div>
-            )}
-            {packagingCustomizationAvailable && (
-              <div ref={packaging}>
-                <div className="acc-sub-title">Packaging</div>
-                <div className="qa-pad-0-20 qa-stitle">
-                  {packagingCustomizationHeader}
-                </div>
-                {customizationsPackaging.toString().trim().length > 0 && (
-                  <ul className="qa-pad-0-20 qa-stitle qa-mar-lft15">
-                    {customizationsPackaging.map((item, i) => {
-                      return <li key={i}>{item}</li>;
-                    })}
-                  </ul>
-                )}
-                {customPackaging}
-              </div>
-            )}
-          </div>
-        </Panel>
+              )}
+            </div>
+          </Panel>
+        )}
       </Collapse>
     </div>
   );

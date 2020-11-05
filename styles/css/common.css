@@ -619,3 +619,6 @@
 .main-layout-next {
   background-color: #f9f7f2 !important;
 }
+.qa-flex {
+  display: flex;
+}

@@ -101,12 +101,12 @@ const getURL = (category) => {
   if (category === "all-categories") {
     return (
       process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL +
-      "/seller-homev2?from=0&size=30&sort_by=publishedTimeStamp&sort_order=DESC"
+      "/seller-homev2?from=0&size=30&sort_by=popularity&sort_order=DESC"
     );
   } else {
     return (
       process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL +
-      `/seller-homev2?from=0&size=30&sort_by=publishedTimeStamp&sort_order=DESC&f_categories=${category}`
+      `/seller-homev2?from=0&size=30&sort_by=popularity&sort_order=DESC&f_categories=${category}`
     );
   }
 };

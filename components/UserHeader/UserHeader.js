@@ -93,7 +93,7 @@ function UserHeader(props) {
     //   // console.log(result.done, result.value); //result.value is one line of your NDJSON data
     // }
     let responseJSON;
-    if(process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV === "production") {
       responseJSON = responseJSONProd;
     } else {
       responseJSON = responseJSONDev;
@@ -400,6 +400,10 @@ function UserHeader(props) {
     router.push("/account/orders");
   };
 
+  const handleMyCollections = () => {
+    router.push("/account/collections");
+  };
+
   const handleAddress = () => {
     router.push("/account/addresses");
   };
@@ -457,7 +461,18 @@ function UserHeader(props) {
             : {}
         }
       >
-        <span className="qa-font-san qa-fs-14">Quotations</span>
+        <span className="qa-font-san qa-fs-14">My Quotation</span>
+      </Menu.Item>
+      <Menu.Item
+        key="collections"
+        onClick={handleMyCollections}
+        style={
+          props.profileType === "SELLER" || props.isGuest == "true"
+            ? { display: "none" }
+            : {}
+        }
+      >
+        <span className="qa-font-san qa-fs-14">My Collections</span>
       </Menu.Item>
       <Menu.Item
         key="orders"
@@ -481,7 +496,14 @@ function UserHeader(props) {
       >
         <span className="qa-fs-14 qa-font-san">Addresses</span>
       </Menu.Item>
-      <Menu.Divider style={{ height: "0.5px", background: "rgb(217, 187, 127)", opacity: "0.2", margin: "15px 0" }} /> 
+      <Menu.Divider
+        style={{
+          height: "0.5px",
+          background: "rgb(217, 187, 127)",
+          opacity: "0.2",
+          margin: "15px 0",
+        }}
+      />
       {verificationStatus === "CREATED" && profileType === "SELLER" && (
         <Menu.Item key="4" style={{ height: "auto" }}>
           <Button
@@ -847,7 +869,18 @@ function UserHeader(props) {
                         : {}
                     }
                   >
-                    <span className="qa-fs-14 qa-font-san">Quotations</span>
+                    <span className="qa-fs-14 qa-font-san">My Quotation</span>
+                  </Menu.Item>
+                  <Menu.Item
+                    key="collections"
+                    onClick={handleMyCollections}
+                    style={
+                      props.profileType === "SELLER" || props.isGuest == "true"
+                        ? { display: "none" }
+                        : {}
+                    }
+                  >
+                    <span className="qa-fs-14 qa-font-san">My Collections</span>
                   </Menu.Item>
                   <Menu.Item
                     key="9"

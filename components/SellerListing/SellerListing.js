@@ -7,13 +7,15 @@ import SellerListingMobile from "../mobile/SellerListingMobile";
 import { getSLPDetails } from "../../store/actions";
 // import { Helmet } from "react-helmet";
 import queryString from "query-string";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 const querystring = require("querystring");
 const isServer = () => typeof window == undefined;
 
 const SellerListing = (props) => {
   const router = useRouter();
-  let { slp_content = [], isLoading = true } = !isServer()?props.listingPage:props.data;
+  let { slp_content = [], isLoading = true } = !isServer()
+    ? props.listingPage
+    : props.data;
   const [mobile, setMobile] = useState(false);
   const [offset, setOffset] = useState(0);
   const [limit, setLimit] = useState(30);
@@ -24,33 +26,32 @@ const SellerListing = (props) => {
   );
 
   const [queryParams, setQueryParams] = useState({
-    sort_by: "publishedTimeStamp",
+    sort_by: "popularity",
     sort_order: "DESC",
     size: limit,
     from: offset,
   });
-  const getQueryParamString=()=>{
-    let queryObj={};
-    const rq = router.query
+  const getQueryParamString = () => {
+    let queryObj = {};
+    const rq = router.query;
 
-    if(Object.keys(rq).length) {
+    if (Object.keys(rq).length) {
       for (const prop in router.query) {
-        if(prop !== "categoryId"){
-          queryObj[prop] = rq[prop]
+        if (prop !== "categoryId") {
+          queryObj[prop] = rq[prop];
         }
       }
       return querystring.stringify(queryObj);
-    } else return ""
-  }
+    } else return "";
+  };
   useEffect(() => {
-  setCategoryName(props.data.categoryId);
-  
+    setCategoryName(props.data.categoryId);
 
     let width = window.screen ? window.screen.width : window.innerWidth;
     if (width <= 768) {
       setMobile(true);
     }
-    const { f_categories,f_key_methods, f_values, ...rest } = queryParams;
+    const { f_categories, f_key_methods, f_values, ...rest } = queryParams;
     let defaultQuery = querystring.stringify(rest);
 
     let query = getQueryParamString();
@@ -80,9 +81,9 @@ const SellerListing = (props) => {
     }
     setQueryParams(queryParams);
     const tempObj = {};
-    
+
     for (const key in queryParams) {
-      if (key=="f_values"|| key=="f_key_methods") {
+      if (key == "f_values" || key == "f_key_methods") {
         tempObj[key] = queryParams[key];
       }
     }
@@ -104,10 +105,14 @@ const SellerListing = (props) => {
     //   window.location.pathname +
     //   tempQuery;
     // window.history.pushState({ path: newurl }, "", newurl);
-    router.push({
-      pathname: router.asPath.split('?')[0],
-      query: tempObj,    
-  }, undefined, {shallow: true });
+    router.push(
+      {
+        pathname: router.asPath.split("?")[0],
+        query: tempObj,
+      },
+      undefined,
+      { shallow: true }
+    );
     // router.push(router.asPath + tempObj);
     // tempQuery = "";
     // props.getSLPDetails(queryResult, false);
@@ -120,7 +125,7 @@ const SellerListing = (props) => {
     let queryResult = querystring.stringify(queryObj);
     props.getSLPDetails(queryResult, false, slp_content);
   };
-  function setCategoryName (categoryName) {
+  const setCategoryName = (categoryName) => {
     switch (categoryName) {
       case "home-furnishing":
         setCategoryTitle("Home furnishing suppliers");
@@ -178,6 +183,13 @@ const SellerListing = (props) => {
         );
         break;
 
+      case "stationery-and-novelty":
+        setCategoryTitle("Stationery, games & novelty suppliers");
+        setSubCategoryTitle(
+          "Curated wholesale suppliers offering a wide range of products including handbound journals, fabric diaries, brass bookmarks, lacquer game sets, wooden desk organisers, handcrafted compass and magnifying glasses and novelty keepsakes."
+        );
+        break;
+
       default:
         setCategoryTitle("All curated suppliers");
         setSubCategoryTitle(
@@ -186,10 +198,10 @@ const SellerListing = (props) => {
     }
     setCategory(categoryName);
   };
+
   return (
     <div>
-     
-       {mobile ? (
+      {mobile ? (
         <SellerListingMobile
           data={props.listingPage}
           isLoading={props.listingPage.isLoading}
@@ -201,10 +213,10 @@ const SellerListing = (props) => {
           subCategoryTitle={subCategoryTitle}
           category={category}
         />
-      ) : ( 
+      ) : (
         <SellerListingDesktop
-          data={!isServer()?props.listingPage:props.data}
-          isLoading={!isServer()?props.listingPage.isLoading:false}
+          data={!isServer() ? props.listingPage : props.data}
+          isLoading={!isServer() ? props.listingPage.isLoading : false}
           getFilterData={getFilterData}
           queryParams={queryParams}
           loadMoreData={loadMoreData}

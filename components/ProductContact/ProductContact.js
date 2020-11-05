@@ -28,11 +28,11 @@ const { Option } = Select;
 
 const ProductContact = (props) => {
   const router = useRouter();
-  let mediaMatch;
   const [form] = Form.useForm();
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(false);
   const [fileList, setFileList] = useState([]);
+  const mediaMatch = window.matchMedia("(min-width: 768px)");
 
   const { keycloak } = useKeycloak();
 
@@ -64,9 +64,7 @@ const ProductContact = (props) => {
     "image/jpeg",
     "image/png",
   ];
-  useEffect(() => {
-    mediaMatch = window.matchMedia("(min-width: 768px)");
-  }, []);
+
   const beforeUpload = (file) => {
     const isJpgOrPng = acceptedFileTypes.includes(file.type);
     if (!isJpgOrPng) {
@@ -171,14 +169,17 @@ const ProductContact = (props) => {
         let { ip = "", country = "" } = result;
         data.fromIP = ip;
         data.ipCountry = country;
-        fetch(process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/queries", {
-          method: "POST",
-          body: JSON.stringify(data),
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + props.token,
-          },
-        })
+        fetch(
+          process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/queries",
+          {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + props.token,
+            },
+          }
+        )
           .then((res) => {
             if (res.ok) {
               props.sendQueryCancel("success");
@@ -231,7 +232,8 @@ const ProductContact = (props) => {
   );
 
   let assetUrl =
-    process.env.NEXT_PUBLIC_REACT_APP_API_ASSETS_URL + "/assets?sourceService=forms";
+    process.env.NEXT_PUBLIC_REACT_APP_API_ASSETS_URL +
+    "/assets?sourceService=forms";
 
   if (props.initialValues && props.initialValues.profileId) {
     assetUrl =
