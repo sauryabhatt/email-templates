@@ -1,7 +1,7 @@
 /** @format */
 
 .cart-section {
-  padding-top: 120px;
+  padding-top: 50px;
   padding-bottom: 60px;
 }
 .breakup-popup {
@@ -251,7 +251,7 @@
 .cart-section .proceed-to-payment:hover,
 .cart-section .proceed-to-checkout:hover {
   background: #c4c4c4;
-  color: rgba(25,25,25,.4) !important;
+  color: rgba(25, 25, 25, 0.4) !important;
   border: none !important;
 }
 
@@ -286,7 +286,7 @@
   background: #d9bb7f;
 }
 .cart-section .ant-steps-item-title a {
-  color: rgba(0,0,0,.85) !important;
+  color: rgba(0, 0, 0, 0.85) !important;
 }
 .cart-section .ant-steps-item.ant-steps-item-finish .ant-steps-icon-dot,
 .cart-section
@@ -345,7 +345,7 @@
   height: 40px;
 }
 .cart-address-modal .ant-radio-inner,
-.cart-section .ant-radio-inner, 
+.cart-section .ant-radio-inner,
 .cart-section .ant-radio-checked {
   background-color: transparent;
   border: 0.5px solid #cecbc2 !important;
