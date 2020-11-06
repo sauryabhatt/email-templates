@@ -130,18 +130,14 @@ class ProductFacets extends Component {
       if (pageId === "product-listing") {
         Router.push("/products/all-categories");
       } else {
-        Router.push(
-          "/seller/" + sellerId + "/" + "all-categories"
-        );
+        Router.push("/seller/" + sellerId + "/" + "all-categories");
       }
     } else {
       queryParams = { ...queryParams, category: categoryId };
       if (pageId === "product-listing") {
         Router.push("/products/" + categoryId);
       } else {
-        Router.push(
-          "/seller/" + sellerId + "/" + categoryId
-        );
+        Router.push("/seller/" + sellerId + "/" + categoryId);
       }
     }
   };
@@ -337,9 +333,11 @@ class ProductFacets extends Component {
       }
     }
 
-    let { aggregateName = "", aggregateLists = [], aggregateList=[] } = dynamicCategories || {};
-    
+    let { aggregateName = "", aggregateLists = [], aggregateList = [] } =
+      dynamicCategories || {};
+    aggregateLists = _.orderBy(aggregateLists, ["key"], ["asc"]);
     let orderedFacets = _.sortBy(facets, "priority");
+
     return (
       <Sider
         width={this.props.width || 250}
@@ -362,6 +360,7 @@ class ProductFacets extends Component {
               width="100%"
               handleSortFilter={this.handleSortFilter}
               id="PLP"
+              queryParams={this.props.queryParams}
             />
             {/* <div style={{ marginTop: "30px" }}>
               <span className="qa-pad-rgt-1">Video demo only:</span>
@@ -389,7 +388,7 @@ class ProductFacets extends Component {
               {pageId === "product-listing"
                 ? _.map(aggregateLists, (list, i) => {
                     let value = list.value;
-                    let name =list.key;
+                    let name = list.key;
                     return (
                       <Menu.Item
                         key={value}
@@ -400,8 +399,8 @@ class ProductFacets extends Component {
                     );
                   })
                 : _.map(aggregateList, (list, i) => {
-                  // let value = list.value;
-                  // let name =list.key;
+                    // let value = list.value;
+                    // let name =list.key;
                     return (
                       <Menu.Item
                         key={list.value}

@@ -419,7 +419,7 @@ function SellerProductListingDesktop(props) {
               />
             </Col>
             <Col span={6} className="qa-txt-alg-rgt qa-mar-top-3">
-              <SortByFilter handleSortFilter={handleSortFilter} id="SPLP" />
+              <SortByFilter handleSortFilter={handleSortFilter} id="SPLP" queryParams={queryParams}/>
             </Col>
           </Row>
         </Content>

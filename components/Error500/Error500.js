@@ -4,12 +4,12 @@ import queryString from 'query-string';
 
 import Link from 'next/link'
 import { Button } from 'antd';
-import Router from 'next/router'
+import {useRouter} from 'next/router'
 
 
 export default function Error500(props) {
     const router = useRouter()
-    const values = queryString.parse(Router.asPath);
+    const values = router.query;
     const handleReload = () => {
         window.location.reload();
     }

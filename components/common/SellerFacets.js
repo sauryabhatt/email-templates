@@ -4,7 +4,7 @@ import CheckboxGroup from "./CheckboxGroup";
 import SortByFilter from "./SortByFilter";
 import { Layout, Menu, Button, Switch } from "antd";
 import _ from "lodash";
-import Router from 'next/router'
+import Router from "next/router";
 const { SubMenu } = Menu;
 const { Sider } = Layout;
 
@@ -216,6 +216,7 @@ export default class SellerFacets extends Component {
   render = () => {
     let { facets = [], categories = {} } = this.props;
     let { aggregateName = "", aggregateLists = [] } = categories || {};
+    aggregateLists = _.orderBy(aggregateLists, ["key"], ["asc"]);
     let orderedFacets = _.sortBy(facets, "priority");
 
     return (
@@ -239,6 +240,7 @@ export default class SellerFacets extends Component {
             <SortByFilter
               width="100%"
               handleSortFilter={this.handleSortFilter}
+              queryParams={this.props.queryParams}
             />
             {/* <div style={{ marginTop: "30px" }}>
               <span className="qa-pad-rgt-1">Video demo only:</span>
@@ -266,7 +268,7 @@ export default class SellerFacets extends Component {
               {_.map(aggregateLists, (list, i) => {
                 let value = list.value;
                 let name = list.key;
-                  // value.toLowerCase().charAt(0).toUpperCase() + value.slice(1);
+                // value.toLowerCase().charAt(0).toUpperCase() + value.slice(1);
                 return (
                   <Menu.Item
                     key={value}

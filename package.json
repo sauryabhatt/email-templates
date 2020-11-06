@@ -26,6 +26,7 @@
     "query-string": "^6.13.5",
     "react": "16.13.1",
     "react-add-to-calendar": "^0.1.5",
+    "react-cookie": "^4.0.3",
     "react-dom": "16.13.1",
     "react-image-gallery": "^1.0.8",
     "react-infinite-scroll-component": "^5.1.0",

@@ -34,7 +34,7 @@ const SellerProductListing = (props) => {
   const [sellerId, setSellerId] = useState(router.query.sellerId);
 
   const [queryParams, setQueryParams] = useState({
-    sort_by: "visibleTo",
+    sort_by: "minimumOrderQuantity",
     sort_order: "ASC",
     size: limit,
     from: offset,

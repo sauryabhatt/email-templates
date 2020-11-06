@@ -1,6 +1,6 @@
 .landing-container{
   background-color: #333030;
-  margin-top: 70px;
+  /* margin-top: 70px; */
   color: #F9F7F2;
 }
 .landing {
@@ -9,7 +9,7 @@
   background-size: 100% 96%;
   background-position: -540px 20px;
   padding-bottom: 20px;
-  margin-top: 70px;
+  /* margin-top: 70px; */
 }
 .right-align-container{
   display: flex;
@@ -59,6 +59,7 @@
   letter-spacing: 0.02em;
   padding-right: 70px;
   padding-top: 20px;
+  color: #fff !important;
 }
 .big-text-bottom-line{
   font-size: 17px;
@@ -81,6 +82,7 @@ h6 {
   line-height: 65px;
   font-weight: 400;
   margin-top: 95px;
+  color: #fff !important;
 }
 .discription-text {
   font-size: 16px;
@@ -250,6 +252,7 @@ h6 {
   margin-right: 90px;
   min-width: 230px;
 }
+
 .landing-third-fold .dialog-box {
   background-color: #4E4848;
   height: 170px;
@@ -454,6 +457,7 @@ h6 {
     line-height: 26px;
     padding-top: 16px;
     margin-bottom: 10px;
+    color: #fff !important;
   }
   .landing .bar-heading{
     margin-bottom: 20px;

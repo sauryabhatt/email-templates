@@ -163,14 +163,17 @@ const SellerContact = (props) => {
         let { ip = "", country = "" } = result;
         data.fromIP = ip;
         data.ipCountry = country;
-        fetch(process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/queries", {
-          method: "POST",
-          body: JSON.stringify(data),
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + props.token,
-          },
-        })
+        fetch(
+          process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/queries",
+          {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + props.token,
+            },
+          }
+        )
           .then((res) => {
             // console.log(res);
             if (res.ok) {
@@ -233,7 +236,8 @@ const SellerContact = (props) => {
   );
 
   let assetUrl =
-    process.env.NEXT_PUBLIC_REACT_APP_API_ASSETS_URL + "/assets?sourceService=forms";
+    process.env.NEXT_PUBLIC_REACT_APP_API_ASSETS_URL +
+    "/assets?sourceService=forms";
 
   if (props.initialValues && props.initialValues.profileId) {
     assetUrl =
@@ -445,7 +449,7 @@ const SellerContact = (props) => {
                       className="alert-button"
                       type="link"
                       onClick={() => {
-                        loginToApp(keycloak,{
+                        loginToApp(keycloak, {
                           currentPath: router.asPath.split("?")[0],
                         });
                       }}
@@ -851,7 +855,11 @@ const SellerContact = (props) => {
               >
                 <Checkbox className="check-box-tnc">
                   Standard{" "}
-                  <Link className="link-text" to="/TermsOfUse" target="_blank">
+                  <Link
+                    className="link-text"
+                    href="/TermsOfUse"
+                    target="_blank"
+                  >
                     T&C
                   </Link>{" "}
                   apply.

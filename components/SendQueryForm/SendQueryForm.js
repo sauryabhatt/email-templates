@@ -644,11 +644,10 @@ const SendQueryForm = (props) => {
                 <Checkbox className="check-box-tnc">
                   Standard{" "}
                   <Link
-                    className="link-text"
                     href="/TermsOfUse"
                     target="_blank"
                   >
-                    T&C
+                   <a className="link-text"> T&C </a>
                   </Link>{" "}
                   apply.
                 </Checkbox>

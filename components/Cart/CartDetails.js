@@ -434,6 +434,7 @@ const CartDetails = (props) => {
   };
 
   const saveAddress = (values) => {
+    console.log("saved address runs");
     setSelCountry(values.country);
     setSelPincode(values.zipCode);
     countryCheck(values.country);
