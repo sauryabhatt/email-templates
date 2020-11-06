@@ -1,8 +1,8 @@
 /** @format */
 
 import React, { useState, useEffect } from "react";
-import Link  from "next/link";
-import {useRouter} from "next/router";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { Button, Row, Col, Modal, Checkbox } from "antd";
 import Icon, {
   UpOutlined,
@@ -34,6 +34,7 @@ const ShippingDetails = (props) => {
     app_token = "",
     brandNames = "",
     currencyDetails = {},
+    userProfile = {},
   } = props;
   let {
     subOrders = [],
@@ -105,10 +106,9 @@ const ShippingDetails = (props) => {
     }
 
     if (shippingAddressDetails) {
-      let { country } = shippingAddressDetails || {};
+      let { country = "" } = shippingAddressDetails || {};
       if (deliveredCountryList.includes(country)) {
         setDeliver(true);
-        
       }
     }
     if (priceQuoteRef) {
@@ -198,7 +198,6 @@ const ShippingDetails = (props) => {
         Object.keys(seaData).length === 0
       ) {
         setPayment(true);
-        
       } else {
         setPayment(false);
       }
@@ -238,6 +237,7 @@ const ShippingDetails = (props) => {
           let url = "/payment";
           router.push(url);
         } else {
+          console.log("Not shippable");
           // setNonShippable(true);
         }
       })
@@ -1111,6 +1111,7 @@ const ShippingDetails = (props) => {
                 brandNames={brandNames}
                 showCartError={showError}
                 currencyDetails={currencyDetails}
+                user={userProfile}
                 shippingMode={mode}
                 deliver={deliver}
                 disablePayment={disablePayment}
@@ -1637,6 +1638,7 @@ const ShippingDetails = (props) => {
                   currencyDetails={currencyDetails}
                   shippingMode={mode}
                   deliver={deliver}
+                  user={userProfile}
                   disablePayment={disablePayment}
                 />
               </Col>
@@ -1902,6 +1904,7 @@ const mapStateToProps = (state) => {
   return {
     currencyDetails: state.currencyConverter,
     brandNames: state.userProfile.brandNameList,
+    userProfile: state.userProfile.userProfile,
   };
 };
 
