@@ -37,6 +37,8 @@ function SellerListingDesktop(props) {
       queryParam = { ...queryParam, sort_order: "ASC", sort_by: "brandName" };
     } else if (value === "desc") {
       queryParam = { ...queryParam, sort_order: "DESC", sort_by: "brandName" };
+    } else if (value === "popularity") {
+      queryParam = { ...queryParam, sort_order: "DESC", sort_by: value };
     } else {
       queryParam = { ...queryParam, sort_order: "DESC", sort_by: value };
     }
@@ -80,7 +82,7 @@ function SellerListingDesktop(props) {
               </Col>
 
               <Col span={6} className="qa-txt-alg-rgt qa-mar-top-1">
-                <SortByFilter handleSortFilter={handleSortFilter} />
+                <SortByFilter handleSortFilter={handleSortFilter}  queryParams={queryParams}/>
               </Col>
             </Row>
 

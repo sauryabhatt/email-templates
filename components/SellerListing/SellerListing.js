@@ -34,13 +34,13 @@ const SellerListing = (props) => {
   const getQueryParamString = () => {
     let queryObj = {};
     const rq = router.query;
-
     if (Object.keys(rq).length) {
       for (const prop in router.query) {
         if (prop !== "categoryId") {
           queryObj[prop] = rq[prop];
         }
       }
+
       return querystring.stringify(queryObj);
     } else return "";
   };
@@ -81,7 +81,6 @@ const SellerListing = (props) => {
     }
     setQueryParams(queryParams);
     const tempObj = {};
-
     for (const key in queryParams) {
       if (key == "f_values" || key == "f_key_methods") {
         tempObj[key] = queryParams[key];

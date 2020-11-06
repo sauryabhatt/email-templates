@@ -54,7 +54,7 @@ const ProductDescription = (props) => {
     if (productDetails) {
       let { sellerCode = "" } = productDetails;
       let query = {
-        sort_by: "visibleTo",
+        sort_by: "minimumOrderQuantity",
         sort_order: "ASC",
         size: 6,
         from: 0,

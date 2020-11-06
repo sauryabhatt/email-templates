@@ -360,6 +360,7 @@ class ProductFacets extends Component {
               width="100%"
               handleSortFilter={this.handleSortFilter}
               id="PLP"
+              queryParams={this.props.queryParams}
             />
             {/* <div style={{ marginTop: "30px" }}>
               <span className="qa-pad-rgt-1">Video demo only:</span>
