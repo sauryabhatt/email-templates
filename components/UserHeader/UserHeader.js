@@ -745,6 +745,25 @@ function UserHeader(props) {
           </div>
 
           <div style={{ textAlign: "right", width: "100%", marginTop: "-4px" }}>
+            <Dropdown
+              overlayClassName="search-section"
+              overlay={searchMenuMob}
+              trigger={["click"]}
+              onVisibleChange={handleSearchChangeMob}
+              visible={searchVisibleMob}
+              overlayStyle={{ width: "100%", cursor: "pointer" }}
+            >
+              <Icon
+                component={searchIcon}
+                className="search-icon"
+                style={{
+                  width: "40px",
+                  marginRight: "15px",
+                  cursor: "pointer",
+                }}
+              />
+            </Dropdown>
+
             <Link
               href="/cart"
               style={{
