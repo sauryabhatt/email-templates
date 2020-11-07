@@ -1,14 +1,14 @@
 /** @format */
 
 import React, { useState, useEffect } from "react";
-import Link  from "next/link";
+import Link from "next/link";
 import { Row, Col, Menu, Button, Modal } from "antd";
 import QuotationCard from "./QuotationCard";
 import { useKeycloak } from "@react-keycloak/ssr";
 import { getQuoteByStatus, getRfqByStatus } from "../../store/actions";
 import { connect } from "react-redux";
 import moment from "moment";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 import { LoadingOutlined } from "@ant-design/icons";
 import closeButton from "../../public/filestore/closeButton";
 import SendQueryForm from "../SendQueryForm/SendQueryForm";
@@ -18,7 +18,7 @@ const Quotations = (props) => {
   const router = useRouter();
   const mediaMatch = window.matchMedia("(min-width: 768px)");
   const [current, setCurrent] = useState("received");
-  const {keycloak} = useKeycloak();
+  const { keycloak } = useKeycloak();
   const [showLoader, setShowLoader] = useState(false);
   const [successQueryVisible, setSuccessQueryVisible] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -62,12 +62,9 @@ const Quotations = (props) => {
   const handleClick = (e) => {
     setShowLoader(true);
     setCurrent(e.key);
-    if (e.key == "requested") {
-      props.getRfqByStatus(
-        e.key,
-        keycloak.token,
-        props.userProfile.profileId.split("::")[1]
-      );
+    let { profileId = "" } = props.userProfile || {};
+    if (e.key == "requested" && profileId) {
+      props.getRfqByStatus(e.key, keycloak.token, profileId.split("::")[1]);
     } else {
       getQuotationByStatus(e.key);
     }
@@ -168,11 +165,13 @@ const Quotations = (props) => {
           </Col>
           <Col xs={22} sm={22} md={11} lg={11}>
             <div style={{ textAlign: "right" }}>
-              <Link
-                href="/FAQforwholesalebuyers"                
-                target="_blank"
-              >
-                <span style={{ lineHeight: "17px", cursor: "pointer" }} className="qa-font-san qa-fw-b qa-fs-14 qa-sm-color">BUYERS’ FAQs</span>
+              <Link href="/FAQforwholesalebuyers" target="_blank">
+                <span
+                  style={{ lineHeight: "17px", cursor: "pointer" }}
+                  className="qa-font-san qa-fw-b qa-fs-14 qa-sm-color"
+                >
+                  BUYERS’ FAQs
+                </span>
               </Link>
               <span
                 className="qa-font-san qa-fw-b qa-fs-14 qa-sm-color"

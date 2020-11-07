@@ -769,7 +769,7 @@ const CartSummary = (props) => {
           <div className="c-left-blk">
             Part of these charges are refundable.{" "}
             <Link href="/FAQforwholesalebuyers" target="_blank">
-              <p className="qa-sm-color">Know more</p>
+              <span className="qa-sm-color qa-cursor">Know more</span>
             </Link>
           </div>
         </div>

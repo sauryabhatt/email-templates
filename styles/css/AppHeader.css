@@ -63,7 +63,7 @@
   border-radius: 8px;
   background: #191919;
   border: 1px solid #332f2f;
-  box-shadow: 0 12px 25px rgba(0,0,0,.15);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
   color: #f9f7f2;
 }
 .header-popup div.header-text {
@@ -87,7 +87,8 @@
 .header-popup .ant-popover-inner-content {
   padding: 12px 25px;
 }
-.header-popup .ant-menu, .header-popup .ant-popover-inner-content {
+.header-popup .ant-menu,
+.header-popup .ant-popover-inner-content {
   color: #f9f7f2;
   background: #191919;
   border-radius: 8px;
@@ -200,7 +201,7 @@
 }
 
 .shop-navigation {
-  top:60px !important;
+  top: 60px !important;
 }
 
 .shop-navigation .ant-dropdown-menu-item-divider {
@@ -344,19 +345,19 @@
 .search-dropdown input#search-form_text {
   background: #303030;
   color: #f9f7f2;
-  border: 1px solid transparent;
+  border: 1px solid #303030;
   box-sizing: border-box;
   border-radius: 0px 7px 7px 0px;
 }
 .search-dropdown .ant-input-affix-wrapper:hover,
 .search-dropdown .ant-input-affix-wrapper {
-  border: 1px solid transparent;
-  border-right-width: 1px !important;
+  border: 1px solid #303030;
   outline: none;
 }
 
-.search-dropdown .ant-input-affix-wrapper:focus, .ant-input-affix-wrapper-focused {
-  box-shadow: 0 0 0 0.7px #d9bb7f !important;
+.search-dropdown .ant-input-affix-wrapper:focus,
+.ant-input-affix-wrapper-focused {
+  box-shadow: none !important;
   /* opacity: 0.8; */
 }
 
@@ -369,7 +370,9 @@
 .search-dropdown .ant-select-arrow {
   color: #d9bb7f;
 }
-.header-popup.ant-popover-placement-bottomRight>.ant-popover-content>.ant-popover-arrow {
+.header-popup.ant-popover-placement-bottomRight
+  > .ant-popover-content
+  > .ant-popover-arrow {
   border-left-color: #332f2f;
   border-top-color: #332f2f;
   background: #191919;
@@ -407,7 +410,7 @@
     margin-bottom: 10px;
   }
   .app-header {
-    height: 62px !important; 
+    height: 62px !important;
     padding: 15px 20px 0 20px !important;
     background: #191919 !important;
     /* background: transparent; */
@@ -473,4 +476,7 @@
 .search-dropdown .ant-input-affix-wrapper:focus,
 .ant-input-affix-wrapper-focused {
   box-shadow: none;
+}
+#search-form .ant-input-search-icon::before {
+  display: none;
 }

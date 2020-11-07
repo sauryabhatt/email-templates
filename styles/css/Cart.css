@@ -391,7 +391,7 @@
 
 @media only screen and (max-width: 768px) {
   .cart-section {
-    padding-top: 70px;
+    padding-top: 10px;
   }
   .cart-section .ant-steps-item-title {
     font-size: 10px;

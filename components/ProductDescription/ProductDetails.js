@@ -46,6 +46,7 @@ import PDPLoader from "../../public/filestore/PDPLoader";
 import PDPLoaderMobile from "../../public/filestore/PDPLoaderMobile";
 import PDPZoom from "../../public/filestore/PDPZoom";
 import addToCollectionIcon from "../../public/filestore/addToCollection";
+import savedToCollectionIcon from "../../public/filestore/savedToCollection";
 import Air from "../../public/filestore/air";
 import Sea from "../../public/filestore/sea";
 import alertIcon from "../../public/filestore/alertIcon";

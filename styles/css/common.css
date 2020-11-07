@@ -516,6 +516,7 @@
 .qa-col-end {
   display: flex;
   justify-content: flex-end;
+  text-align: right;
 }
 
 .qa-col-start {

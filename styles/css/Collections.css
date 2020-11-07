@@ -113,6 +113,7 @@
 #user-account .collections textarea {
   background-color: #fff;
   color: #191919;
+  font-family: senregular;
 }
 #user-account .collections .c-qty-box {
   border: transparent;
@@ -139,7 +140,7 @@
   line-height: 110%;
   width: 50%;
   display: inline-block;
-  margin-top: 3px;
+  vertical-align: middle;
 }
 .collections .c-total-product {
   font-family: senregular;
@@ -181,7 +182,6 @@
 }
 .collections .ant-form-item-extra {
   text-align: center;
-  margin-top: -15px;
 }
 .collections #upload-reference-form {
   border-bottom: 0.5px solid rgba(25, 25, 25, 0.8);
@@ -283,6 +283,9 @@
 }
 .collection-rfq #send-query-success-modal .send-query-success-modal-content {
   padding: 40px 20px;
+}
+#collection_rfq_form_requirementDetails {
+  font-family: senregular;
 }
 @media only screen and (max-width: 768px) {
   .ant-drawer.ant-drawer-bottom.ant-drawer-open .ant-drawer-content-wrapper {

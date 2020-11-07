@@ -1,69 +1,73 @@
+/** @format */
+
 .download-invoice-btn {
-    background: #D9BB7F;
-    border-radius: 10px;
-    /* height: 6vh; */
-    min-width: 35%;
-    font-size: 14px;
-    font-family: senregular;
-    font-weight: bold;
-    color: #191919;
-    text-transform: uppercase;
-    border: none;
+  background: #d9bb7f;
+  border-radius: 10px;
+  /* height: 6vh; */
+  min-width: 35%;
+  font-size: 14px;
+  font-family: senregular;
+  font-weight: bold;
+  color: #191919;
+  text-transform: uppercase;
+  border: none;
 }
 
 .download-invoice-btn:hover,
 .download-invoice-btn:active,
 .download-invoice-btn:focus {
-    background: #d9bb7f !important;
-    color: #191919;
+  background: #d9bb7f !important;
+  color: #191919;
 }
 
 .download-invoice-btn:disabled {
-    background: #c4c4c4 !important;
-    color: #191919;
-    opacity: 0.4;
+  background: #c4c4c4 !important;
+  color: #191919;
+  opacity: 0.4;
 }
 
 .download-invoice-btn-mob:disabled {
-    background: #d9bb7f !important;
-    color: #191919;
+  background: #d9bb7f !important;
+  color: #191919;
 }
 
 .download-section {
-    display: flex;
-    justify-content: flex-end;
+  display: flex;
+  justify-content: flex-end;
+  text-align: right;
+  padding: 10px 20px;
 }
 
 .first-row {
-    margin-bottom: 25px;
+  margin-bottom: 25px;
 }
 
 .seller-name {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .download-invoice-btn-mob {
-    background: #D9BB7F;
-    border-radius: 10px;
-    /* height: 6vh; */
-    /* min-width: 35%; */
-    font-size: 12px;
-    font-family: senregular;
-    font-weight: bold;
-    color: #191919;
-    text-transform: uppercase;
-    border: none;
+  background: #d9bb7f;
+  border-radius: 10px;
+  /* height: 6vh; */
+  /* min-width: 35%; */
+  font-size: 12px;
+  font-family: senregular;
+  font-weight: bold;
+  color: #191919;
+  text-transform: uppercase;
+  border: none;
 }
 
 .download-invoice-btn-mob:hover,
 .download-invoice-btn-mob:active,
 .download-invoice-btn-mob:focus {
-    background: #d9bb7f !important;
+  background: #d9bb7f !important;
 }
 
 .orders-breadcumb .breadcrumb-text {
-    font-family: senregular;
+  font-family: senregular;
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
@@ -74,52 +78,56 @@
 }
 
 .retry-payment-btn {
-    background: #874439;
-    border-radius: 10px;
-    /* height: 6vh; */
-    min-width: 35%;
-    font-size: 14px;
-    font-family: senregular;
-    font-weight: bold;
-    color: #191919;
-    text-transform: uppercase;
-    border: none;
+  background: #874439;
+  border-radius: 10px;
+  /* height: 6vh; */
+  min-width: 35%;
+  font-size: 14px;
+  font-family: senregular;
+  font-weight: bold;
+  color: #191919;
+  text-transform: uppercase;
+  border: none;
 }
 
 .retry-payment-btn:hover {
-    background: #874439 !important;
-    color: #F9F7F2;
+  background: #874439 !important;
+  color: #f9f7f2;
 }
 
 .retry-payment-btn-mob {
-    background: #874439;
-    border-radius: 10px;
-    /* height: 6vh; */
-    min-width: 35%;
-    font-size: 14px;
-    font-family: senregular;
-    font-weight: bold;
-    color: #191919;
-    text-transform: uppercase;
-    border: none;
+  background: #874439;
+  border-radius: 10px;
+  /* height: 6vh; */
+  min-width: 35%;
+  font-size: 14px;
+  font-family: senregular;
+  font-weight: bold;
+  color: #191919;
+  text-transform: uppercase;
+  border: none;
 }
 
 .retry-payment-btn-mob:hover {
-    background: #874439 !important;
-    color: #F9F7F2;
+  background: #874439 !important;
+  color: #f9f7f2;
 }
 
 .show-more-circle {
-    background: #191919;
-    opacity: 0.7;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
+  background: #191919;
+  opacity: 0.7;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
 }
 
 .circle-position {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.qa-order-first {
+  padding: 10px 20px;
+  background-color: #f2f0eb;
 }

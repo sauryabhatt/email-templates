@@ -151,7 +151,7 @@ function UserHeader(props) {
   };
 
   const searchMenu = (
-    <Menu theme="dark" style={{ marginTop: "-7px", cursor: "default" }}>
+    <Menu theme="dark" style={{ cursor: "default" }}>
       <Menu.Item key="1" className="search-dropdown">
         <Form name="search-form" form={searchForm} onFinish={onSearch}>
           <Input.Group compact>
@@ -541,7 +541,7 @@ function UserHeader(props) {
             style={{ textAlign: "left", margin: "auto" }}
           >
             <div>
-            <Dropdown
+              <Dropdown
                 overlayClassName="search-section"
                 overlay={searchMenu}
                 trigger={["click"]}
@@ -562,14 +562,22 @@ function UserHeader(props) {
                   {!close ? (
                     <Icon
                       component={searchIcon}
-                      style={{ height: "36px", width: "32px", verticalAlign:"middle" }}
+                      style={{
+                        height: "36px",
+                        width: "32px",
+                        verticalAlign: "middle",
+                      }}
                     ></Icon>
                   ) : (
-                      <Icon
-                        component={closeButton}
-                        style={{ height: "32px", width: "32px", verticalAlign:"middle" }}
-                      ></Icon>
-                    )}
+                    <Icon
+                      component={closeButton}
+                      style={{
+                        height: "32px",
+                        width: "32px",
+                        verticalAlign: "middle",
+                      }}
+                    ></Icon>
+                  )}
                 </div>
               </Dropdown>
               {/*<span>

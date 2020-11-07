@@ -118,7 +118,7 @@ function AppHeader(props) {
   };
 
   const onSearch = () => {
-    console.log("search page runs")
+    console.log("search page runs");
     let formValues = searchForm.getFieldValue();
     let { searchBy = "", search = "" } = formValues;
     if (!searchBy) {
@@ -151,9 +151,8 @@ function AppHeader(props) {
   };
 
   async function fetchNdjson(resonse) {
-
     let responseJSON;
-    if(process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV === "production") {
       responseJSON = responseJSONProd;
     } else {
       responseJSON = responseJSONDev;
@@ -220,7 +219,7 @@ function AppHeader(props) {
   };
 
   const searchMenu = (
-    <Menu theme="dark" style={{ marginTop: "-7px", cursor: "default" }}>
+    <Menu theme="dark" style={{ cursor: "default" }}>
       <Menu.Item key="1" className="search-dropdown">
         <Form name="search-form" form={searchForm} onFinish={onSearch}>
           <Input.Group compact>
@@ -447,37 +446,45 @@ function AppHeader(props) {
               style={{ textAlign: "left", margin: "auto" }}
             >
               <div>
-              <Dropdown
-                overlayClassName="search-section"
-                overlay={searchMenu}
-                trigger={["click"]}
-                onVisibleChange={handleSearchChange}
-                visible={searchVisible}
-                overlayStyle={{ width: "100%", cursor: "pointer" }}
-              >
-                <div
-                  className={
-                    shopColor
-                      ? "shop my-account-header qa-cursor qa-hover"
-                      : "shop my-account-header qa-cursor"
-                  }
-                  style={{
-                    verticalAlign: "middle",
-                  }}
+                <Dropdown
+                  overlayClassName="search-section"
+                  overlay={searchMenu}
+                  trigger={["click"]}
+                  onVisibleChange={handleSearchChange}
+                  visible={searchVisible}
+                  overlayStyle={{ width: "100%", cursor: "pointer" }}
                 >
-                  {!close ? (
-                    <Icon
-                      component={searchIcon}
-                      style={{ height: "36px", width: "32px", verticalAlign:"middle" }}
-                    ></Icon>
-                  ) : (
+                  <div
+                    className={
+                      shopColor
+                        ? "shop my-account-header qa-cursor qa-hover"
+                        : "shop my-account-header qa-cursor"
+                    }
+                    style={{
+                      verticalAlign: "middle",
+                    }}
+                  >
+                    {!close ? (
+                      <Icon
+                        component={searchIcon}
+                        style={{
+                          height: "36px",
+                          width: "32px",
+                          verticalAlign: "middle",
+                        }}
+                      ></Icon>
+                    ) : (
                       <Icon
                         component={closeButton}
-                        style={{ height: "32px", width: "32px", verticalAlign:"middle" }}
+                        style={{
+                          height: "32px",
+                          width: "32px",
+                          verticalAlign: "middle",
+                        }}
                       ></Icon>
                     )}
-                </div>
-              </Dropdown>
+                  </div>
+                </Dropdown>
                 {/*<span>
                   <Link href="/" className="app-header-home-button">
                     <a>
@@ -639,23 +646,23 @@ function AppHeader(props) {
               style={{ textAlign: "right", width: "100%", marginTop: "-4px" }}
             >
               <Dropdown
-              overlayClassName="search-section"
-              overlay={searchMenuMob}
-              trigger={["click"]}
-              onVisibleChange={handleSearchChangeMob}
-              visible={searchVisibleMob}
-              overlayStyle={{ width: "100%", cursor: "pointer" }}
-            >
-              <Icon
-                component={searchIcon}
-                className="search-icon"
-                style={{
-                  width: "40px",
-                  marginRight: "15px",
-                  cursor: "pointer",
-                }}
-              />
-            </Dropdown>
+                overlayClassName="search-section"
+                overlay={searchMenuMob}
+                trigger={["click"]}
+                onVisibleChange={handleSearchChangeMob}
+                visible={searchVisibleMob}
+                overlayStyle={{ width: "100%", cursor: "pointer" }}
+              >
+                <Icon
+                  component={searchIcon}
+                  className="search-icon"
+                  style={{
+                    width: "40px",
+                    marginRight: "15px",
+                    cursor: "pointer",
+                  }}
+                />
+              </Dropdown>
 
               <Link
                 href="/cart"

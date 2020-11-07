@@ -191,7 +191,7 @@ function AddToCollection(props) {
                         placeholder="Enter name here"
                       />
                       {error && (
-                        <div className="qa-error">
+                        <div className="qa-error qa-fs-12 qa-mar-top-05">
                           Collection name should be 3-50 characters!
                         </div>
                       )}
@@ -213,11 +213,11 @@ function AddToCollection(props) {
         >
           Save
         </Button>
-        {/* <Link href="/account/collections">
+        <Link href="/account/collections">
           <Button className="go-to-collection-button">
             Go to my collection
           </Button>
-        </Link> */}
+        </Link>
       </div>
       <div className="atc-info">
         You can find your saved collections in My Account/My Collections
