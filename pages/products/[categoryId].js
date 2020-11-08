@@ -4,6 +4,8 @@ import { Layout } from "../../components/common/Layout";
 import ProductListing from "../../components/ProductListing/ProductListing";
 import Spinner from "../../components/Spinner/Spinner"
 import {useRouter} from "next/router";
+import NotFound from "../../components/NotFound/NotFound";
+
 export default function ProductListingPage({data}) {
    const router = useRouter();
    const {categoryId=""} = data ||{};
@@ -72,7 +74,9 @@ export default function ProductListingPage({data}) {
           }
       }
 
-    
+  if(data?.error?.status) {
+    return <><NotFound /></>;
+  } 
 
   if (router.isFallback) {
     return <Spinner />;
@@ -99,18 +103,25 @@ const getURL = (category) =>{
 }
 
 export const getStaticProps = async ({ params: { categoryId = "" } = {} }) => {
+  let res; 
+  const error={status:false};
+  try {
   const response = await fetch(getURL(categoryId), {
     method: "GET",
   });
-  const res1 = await response.json();
+  res = await response.json();
+  } catch (error) {
+    error["status"]=true;
+  }
   return {
     props: {
       data: {
-        slp_count: res1.totalHits,
-        slp_content: res1.products,
-        slp_facets: res1.aggregates,
-        slp_categories: res1.fixedAggregates,
+        slp_count: res.totalHits,
+        slp_content: res.products,
+        slp_facets: res.aggregates,
+        slp_categories: res.fixedAggregates,
         categoryId: categoryId,
+        error:error
       },
     },
   };

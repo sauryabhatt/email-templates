@@ -3,6 +3,8 @@
 import { Layout } from "../../components/common/Layout";
 import SellerListing from "../../components/SellerListing/SellerListing";
 import Spinner from "../../components/Spinner/Spinner";
+import NotFound from "../../components/NotFound/NotFound";
+
 import { useRouter } from "next/router";
 export default function SellerListingPage({ data }) {
   const router = useRouter();
@@ -81,6 +83,9 @@ export default function SellerListingPage({ data }) {
           "Wholesale suppliers for all kinds of Jewelry and accessories. Our sellers specialise in techniques like hammering, inlay, gem craft, wire braiding and more to create stunning earrings, anklets, necklaces, bracelets, nose pins and other accessories.",
       };
   }
+  if(data?.error?.status) {
+    return <><NotFound /></>;
+  }
   if (router.isFallback) {
     return <Spinner />;
   }
@@ -112,18 +117,26 @@ const getURL = (category) => {
 };
 
 export const getStaticProps = async ({ params: { categoryId = "" } = {} }) => {
+  
+  let res; 
+  const error={status:false};
+  try {
   const response = await fetch(getURL(categoryId), {
     method: "GET",
   });
-  const res1 = await response.json();
+  res = await response.json();
+  } catch (error) {
+    error["status"]=true;
+  }
   return {
     props: {
       data: {
-        slp_count: res1.totalHits,
-        slp_content: res1.sellerHomeLiteViews,
-        slp_facets: res1.aggregates,
-        slp_categories: res1.fixedAggregates,
+        slp_count: res.totalHits,
+        slp_content: res.sellerHomeLiteViews,
+        slp_facets: res.aggregates,
+        slp_categories: res.fixedAggregates,
         categoryId: categoryId,
+        error:error
       },
     },
   };
