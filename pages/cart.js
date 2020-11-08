@@ -19,7 +19,7 @@ function Cart() {
   
   return (
       <Layout meta={meta}>
-        <Auth><><DynamicCartWrapper/></></Auth>
+        <Auth path="/cart"><><DynamicCartWrapper/></></Auth>
       </Layout>
   )
 

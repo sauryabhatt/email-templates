@@ -1,31 +1,46 @@
-import React, {useState,useEffect} from 'react'
+import React, {useState,useEffect, useRef} from 'react'
 import {useKeycloak} from '@react-keycloak/ssr';
 import {loginToApp} from "../AuthWithKeycloak";
 import Spinner from "../Spinner/Spinner";
-import Cookies from 'js-cookie'
 
-function Auth ({children}){
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+    }
+    }
+    return "";
+}
+
+function Auth ({children, path}){
     const { keycloak } = useKeycloak();
-    console.log("its server keycloak", keycloak);
+    const didMountRef = useRef(false);
     const [status, setStatus] = useState(undefined);
     useEffect(() => {
-        if(!keycloak.authenticated) {
-            setStatus("loggedout");
-        } else {
-        console.log("i am in if", keycloak)
-        setStatus("loggedin");
-        }
-    }, []);
+        if(didMountRef.current) {
+            if(getCookie("appToken")) {
+                setStatus("loggedin");
+            } else {
+                setStatus("loggedout");
+            }
+        } else didMountRef.current = true;
+
+        
+    }, [keycloak.authenticated, keycloak.token]);
 
     if(status === undefined) {
-        console.log("this is server")
-        return <p>Loading...</p>
+        return <Spinner/>;
     } else if (status === "loggedout") {
-        console.log("this is logout")
-        loginToApp(keycloak, {currentPath:"/cart"});
+        loginToApp(keycloak, {currentPath:path});
         return <Spinner/>;
     } else if (status === "loggedin") {
-        console.log("this is login")
         return children;
     } else {
         return undefined;

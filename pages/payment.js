@@ -1,6 +1,8 @@
 import dynamic from 'next/dynamic';
 import {Layout} from "../components/common/Layout"; 
 import Spinner from "../components/Spinner/Spinner"
+import Auth from "../components/common/Auth"; 
+
 const DynamicPaymentWrapper = dynamic(
     () => import('../components/Payment/Payment'),
     { 
@@ -18,7 +20,7 @@ export default function Payment() {
   
   return (
     <Layout meta={meta} privateRoute>
-      <DynamicPaymentWrapper/>
+      <Auth path="/payment"><><DynamicPaymentWrapper/></></Auth>
     </Layout>  
   )
 
