@@ -17,7 +17,7 @@ export default function SellerAgreement() {
 }
   
   return (
-    <Layout meta={meta}>
+    <Layout meta={meta} privateRoute>
       <DynamicSellerAgreementWrapper/>
     </Layout>  
   )

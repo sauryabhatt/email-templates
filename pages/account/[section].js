@@ -17,7 +17,7 @@ export default function UserAccount() {
 }
   
   return (
-    <Layout meta={meta}>
+    <Layout meta={meta} privateRoute>
       <DynamicUserAccountWrapper/>
     </Layout>  
   )

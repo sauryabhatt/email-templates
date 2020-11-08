@@ -22,7 +22,7 @@
 
   .send-query-button {
     background: #ffffff;
-    border-radius: 8px !important;
+    border-radius: 8px;
     border-color: #ffffff !important;
     margin-right: 15px;
   }
@@ -58,6 +58,9 @@
 }
 .header-popup .ant-popover-inner {
   border-radius: 8px;
+}
+.header-popup .ant-menu-item:hover {
+  color: #d9bb7f;
 }
 .header-popup .ant-popover-inner {
   border-radius: 8px;
@@ -105,7 +108,7 @@
   background-color: transparent;
 }
 .header-popup .ant-menu-item:first-child:hover {
-  color: #332f2f;
+  /* color: #332f2f; */
 }
 .mobile-slider-menu.ant-drawer-left .ant-drawer-content-wrapper {
   /* top: 72px; */

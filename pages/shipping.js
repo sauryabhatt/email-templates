@@ -17,7 +17,7 @@ export default function Shipping() {
 }
   
   return (
-    <Layout meta={meta}>
+    <Layout meta={meta} privateRoute>
       <DynamicShippingWrapper/>
     </Layout>  
   )

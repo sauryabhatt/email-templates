@@ -79,7 +79,7 @@ export class TermsAndConditions extends Component {
     return (
       <>
       <div>
-        <div id="banner-container-tandc">
+        <div id="banner-container-tandc" style={{marginTop:"-70px"}}>
           <span className="banner-text">
             Terms of use
             <p className="banner-text-small">The fine print.</p>

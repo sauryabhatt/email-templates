@@ -89,6 +89,12 @@ function SellerCarousel(props) {
             {slides}
           </Slider>
           {/* </div> */}
+          <Button type="link" className="button-show-less" onClick={previous}>
+            Prev&nbsp;&nbsp;
+            <MinusOutlined />
+            <MinusOutlined />
+            <MinusOutlined />
+          </Button>
           <Button type="link" className="button-show-more" onClick={next}>
             <MinusOutlined />
             <MinusOutlined />

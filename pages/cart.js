@@ -1,5 +1,6 @@
 import dynamic from 'next/dynamic';
 import {Layout} from "../components/common/Layout"; 
+import Auth from "../components/common/Auth"; 
 import Spinner from "../components/Spinner/Spinner"
 const DynamicCartWrapper = dynamic(
     () => import('../components/Cart/Cart'),
@@ -9,7 +10,7 @@ const DynamicCartWrapper = dynamic(
     }
   )
 
-export default function Cart() {
+function Cart() {
   
   const meta = {
     title:"Buy online from India for wholesale exports. Source from verified exporters | Qalara",
@@ -17,9 +18,10 @@ export default function Cart() {
 }
   
   return (
-    <Layout meta={meta}>
-      <DynamicCartWrapper/>
-    </Layout>  
+      <Layout meta={meta}>
+        <Auth><><DynamicCartWrapper/></></Auth>
+      </Layout>
   )
 
 }
+export default Cart;
