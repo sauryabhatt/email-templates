@@ -1,9 +1,6 @@
 /** @format */
 
 import React, { useState, useEffect } from "react";
-//import { useCookies } from "react-cookie";
-//import { Helmet } from "react-helmet";
-import { useSelector } from "react-redux";
 import Link from "next/link";
 import {
   Row,
@@ -15,7 +12,6 @@ import {
   Radio,
   Select,
   message,
-  Layout,
   Tooltip,
   Modal,
 } from "antd";
@@ -26,12 +22,9 @@ import {
 } from "react-phone-number-input/input";
 import en from "react-phone-number-input/locale/en.json";
 import { useKeycloak } from "@react-keycloak/ssr";
-import LogoWithText from "../../public/filestore/logo_with_text.js";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import BackButton from "../../public/filestore/backButton";
-import IconBuy from "../../public/filestore/iconBuy";
-import IconSell from "../../public/filestore/iconSell";
 import sellerOrgTypeConfig from "../../public/filestore/sellerOrgType.json";
 import buyerOrgTypeConfig from "../../public/filestore/buyerOrgType.json";
 import roleInOrganizationConfig from "../../public/filestore/roleInOrganization.json";
@@ -47,7 +40,7 @@ import { loginToApp } from "../AuthWithKeycloak";
 //import { loginToApp } from "../../AuthWithKeycloak/AuthWithKeycloak";
 //import { findAllByLabelText } from "@testing-library/react";
 
-import {useRouter} from 'next/router';
+import { useRouter } from "next/router";
 // import ellipse from "./../../filestore/Ellipse 160.png";
 // import bird from "./../../filestore/Vector.png";
 // import picture from "./../../filestore/Vector-1.png";
@@ -59,14 +52,12 @@ const { Option } = Select;
 // const { Header } = Layout;
 
 const Register = (props) => {
-  const router = useRouter();  
+  const router = useRouter();
   const mediaMatch = "";
-  const {keycloak} = useKeycloak();
+  const { keycloak } = useKeycloak();
 
   // console.log(mediaMatch.matches);
-  const token = useSelector(
-    (state) => state.appToken.token && state.appToken.token.access_token
-  );
+  let { token } = keycloak || {};
   const [form] = Form.useForm();
   // const [errors, setErrors] = useState([]);
   const [profileType, setProfileType] = useState("BUYER");
@@ -86,7 +77,7 @@ const Register = (props) => {
   const [validPromo, setValidPromo] = useState(true);
 
   useEffect(() => {
-  const mediaMatch = window.matchMedia("(min-width: 768px)");
+    const mediaMatch = window.matchMedia("(min-width: 768px)");
     // Update the document title using the browser API
     if (count === 0) {
       fetch("https://ipapi.co/json/", {
@@ -231,13 +222,11 @@ const Register = (props) => {
   const handleRadioSelect = (e) => {
     let id = e.target.parentElement.id;
     if (id == "BUYER") {
-      
       document.getElementById("seller-text").classList.remove("qa-fw-b");
       document.getElementById("buyer-text").classList.add("qa-fw-b");
       document.getElementById("seller-want-text").classList.remove("qa-fw-b");
       document.getElementById("buyer-want-text").classList.add("qa-fw-b");
     } else {
-      
       document.getElementById("buyer-text").classList.remove("qa-fw-b");
       document.getElementById("seller-text").classList.add("qa-fw-b");
       document.getElementById("seller-want-text").classList.add("qa-fw-b");
@@ -539,11 +528,17 @@ const Register = (props) => {
                   xl={22}
                   className="qa-mar-btm-3"
                 >
-                  <p className="signup-heading" style={{textAlign:"center"}}>Sign up</p>
+                  <p className="signup-heading" style={{ textAlign: "center" }}>
+                    Sign up
+                  </p>
                   <Row>
                     <Col xs={24} sm={24} md={24} lg={24}>
                       <div className="create-account">
-                        <div onClick={signIn} className="link-style register" style={{textAlign:"center"}}>
+                        <div
+                          onClick={signIn}
+                          className="link-style register"
+                          style={{ textAlign: "center" }}
+                        >
                           Already have an account? Sign in here
                         </div>
                       </div>
@@ -553,14 +548,7 @@ const Register = (props) => {
                     Please select one to proceed:
                   </div>
                   <Row>
-                    <Col
-                      xs={24}
-                      sm={24}
-                      md={11}
-                      lg={11}
-                      xl={11}
-                      className={mediaMatch.matches ? "" : "qa-mar-btm-3"}
-                    >
+                    <Col xs={24} sm={24} md={11} lg={11} xl={11}>
                       <Row>
                         <Col
                           xs={6}
@@ -574,7 +562,16 @@ const Register = (props) => {
                               : "qa-col-center"
                           }
                         >
-                        <span className="signup_radio" id="BUYER" style={{ cursor: "pointer" }} onClick={(e) => handleRadioSelect(e)}>{profileType === "BUYER" ? radio_select() : radio_nonSelect()}</span>
+                          <span
+                            className="signup_radio"
+                            id="BUYER"
+                            style={{ cursor: "pointer" }}
+                            onClick={(e) => handleRadioSelect(e)}
+                          >
+                            {profileType === "BUYER"
+                              ? radio_select()
+                              : radio_nonSelect()}
+                          </span>
                         </Col>
                         <Col xs={17} sm={17} md={17} lg={17} xl={17}>
                           <Row>
@@ -618,7 +615,16 @@ const Register = (props) => {
                               : "qa-col-center"
                           }
                         >
-                          <span className="signup_radio" id="SELLER" style={{ cursor: "pointer" }} onClick={(e) => handleRadioSelect(e)}>{profileType === "SELLER" ? radio_select() : radio_nonSelect()}</span>
+                          <span
+                            className="signup_radio"
+                            id="SELLER"
+                            style={{ cursor: "pointer" }}
+                            onClick={(e) => handleRadioSelect(e)}
+                          >
+                            {profileType === "SELLER"
+                              ? radio_select()
+                              : radio_nonSelect()}
+                          </span>
                         </Col>
                         <Col xs={17} sm={17} md={17} lg={17} xl={17}>
                           <Row>
@@ -627,7 +633,6 @@ const Register = (props) => {
                                 id="seller-want-text"
                                 className="qa-font-san qa-fs-14 "
                                 style={{ color: "#f9f7f2" }}
-
                               >
                                 I want to
                               </span>
@@ -650,7 +655,8 @@ const Register = (props) => {
                     </Col>
                   </Row>
                 </Col>
-                {process.env.NEXT_PUBLIC_REACT_APP_REFERRAL_REQUIRED == "true" ? (
+                {process.env.NEXT_PUBLIC_REACT_APP_REFERRAL_REQUIRED ==
+                "true" ? (
                   <Col
                     xs={24}
                     sm={24}
@@ -920,12 +926,10 @@ const Register = (props) => {
                           disabled={btnDisabled}
                         >
                           Standard{" "}
-                          <Link
-                            className="link-text"
-                            href="/TermsOfUse"
-                            target="_blank"
-                          >
-                            T&C
+                          <Link className="link-text" href="/TermsOfUse">
+                            <a target="_blank" className="link-text">
+                              T&C
+                            </a>
                           </Link>{" "}
                           apply.
                         </Checkbox>
@@ -1001,11 +1005,20 @@ const Register = (props) => {
               >
                 <Row justify="space-around">
                   <Col xs={24} sm={24} md={22} lg={22} xl={22}>
-                    <p className="signup-heading" style={{textAlign:"center"}}>Sign up</p>
+                    <p
+                      className="signup-heading"
+                      style={{ textAlign: "center" }}
+                    >
+                      Sign up
+                    </p>
                     <Row>
                       <Col xs={24} sm={24} md={24} lg={24}>
                         <div className="create-account">
-                          <div onClick={signIn} className="link-style register" style={{textAlign:"center"}}>
+                          <div
+                            onClick={signIn}
+                            className="link-style register"
+                            style={{ textAlign: "center" }}
+                          >
                             Already have an account? Sign in here
                           </div>
                         </div>
@@ -1042,10 +1055,10 @@ const Register = (props) => {
                   </Col>
                   <Col xs={24} sm={24} md={22} lg={22} xl={22}>
                     <div className="label-paragraph">
-                      DUNS number
+                      ABN / VAT / EORI / UEN / Tax Registration Number
                       <Tooltip
                         overlayClassName="qa-tooltip"
-                        title="DUNS number will help us verify your account quickly. Your data is private and safe - we are GDPR compliant."
+                        title="These details are usually required for the smooth customs clearance process of your shipment in the destination country. If not available please mention 'Not Available'"
                       >
                         <span className="text-right">Why?</span>
                       </Tooltip>
@@ -1250,12 +1263,10 @@ const Register = (props) => {
                         disabled={btnDisabled}
                       >
                         Standard{" "}
-                        <Link
-                          className="link-text"
-                          href="/TermsOfUse"
-                          target="_blank"
-                        >
-                          T&C
+                        <Link className="link-text" href="/TermsOfUse">
+                          <a target="_blank" className="link-text">
+                            T&C
+                          </a>
                         </Link>{" "}
                         apply.
                       </Checkbox>

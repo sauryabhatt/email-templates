@@ -151,11 +151,10 @@ const OrderDetails = (props) => {
         </div>
         <div className="cart-info-text">
           Note: Qalara margin may vary by total cart value{" "}
-          <Link
-            href="/FAQforwholesalebuyers"
-            target="_blank"            
-          >
-            <span className="qa-sm-color">Refer FAQs here</span>
+          <Link href="/FAQforwholesalebuyers">
+            <a target="_blank">
+              <span className="qa-sm-color">Refer FAQs here</span>
+            </a>
           </Link>
         </div>
       </div>
@@ -507,7 +506,8 @@ const OrderDetails = (props) => {
                                 <img
                                   className="images"
                                   src={
-                                    process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
+                                    process.env
+                                      .NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
                                     mediaUrl
                                   }
                                   alt="Order placeholder"

@@ -1,69 +1,74 @@
-.download-invoice-btn {
-    background: #D9BB7F;
-    border-radius: 10px;
-    /* height: 6vh; */
-    min-width: 35%;
-    font-size: 14px;
-    font-family: senregular;
-    font-weight: bold;
-    color: #191919;
-    text-transform: uppercase;
-    border: none;
+/** @format */
+
+#user-account .download-invoice-btn {
+  background: #d9bb7f;
+  border-radius: 0px;
+  /* height: 6vh; */
+  min-width: 35%;
+  font-size: 14px;
+  font-family: senregular;
+  font-weight: bold;
+  color: #191919;
+  text-transform: uppercase;
+  border: none;
 }
 
-.download-invoice-btn:hover,
-.download-invoice-btn:active,
-.download-invoice-btn:focus {
-    background: #d9bb7f !important;
-    color: #191919;
+#user-account .download-invoice-btn:hover,
+#user-account .download-invoice-btn:active,
+#user-account .download-invoice-btn:focus {
+  background: #d9bb7f !important;
+  color: #191919;
 }
 
-.download-invoice-btn:disabled {
-    background: #c4c4c4 !important;
-    color: #191919;
-    opacity: 0.4;
+#user-account .download-invoice-btn:disabled {
+  background: #c4c4c4 !important;
+  color: rgba(25, 25, 25, 0.65);
+  border: 1px solid transparent;
+  border-color: #c4c4c4 !important;
 }
 
-.download-invoice-btn-mob:disabled {
-    background: #d9bb7f !important;
-    color: #191919;
+#user-account .download-invoice-btn-mob:disabled {
+  background: #d9bb7f !important;
+  color: #191919;
 }
 
-.download-section {
-    display: flex;
-    justify-content: flex-end;
+#user-account .download-section {
+  display: flex;
+  justify-content: flex-end;
+  text-align: right;
+  padding: 10px 20px;
 }
 
-.first-row {
-    margin-bottom: 25px;
+#user-account .first-row {
+  margin-bottom: 25px;
 }
 
-.seller-name {
-    display: flex;
-    align-items: center;
+#user-account .seller-name {
+  display: flex;
+  align-items: center;
 }
 
-.download-invoice-btn-mob {
-    background: #D9BB7F;
-    border-radius: 10px;
-    /* height: 6vh; */
-    /* min-width: 35%; */
-    font-size: 12px;
-    font-family: senregular;
-    font-weight: bold;
-    color: #191919;
-    text-transform: uppercase;
-    border: none;
+#user-account .download-invoice-btn-mob {
+  background: #d9bb7f;
+  border-radius: 0px;
+  /* height: 6vh; */
+  /* min-width: 35%; */
+  font-size: 12px;
+  font-family: senregular;
+  font-weight: bold;
+  color: #191919;
+  text-transform: uppercase;
+  border: none;
 }
 
-.download-invoice-btn-mob:hover,
-.download-invoice-btn-mob:active,
-.download-invoice-btn-mob:focus {
-    background: #d9bb7f !important;
+#user-account .download-invoice-btn-mob:hover,
+#user-account .download-invoice-btn-mob:active,
+#user-account .download-invoice-btn-mob:focus {
+  background: #d9bb7f !important;
 }
 
-.orders-breadcumb .breadcrumb-text {
-    font-family: senregular;
+#user-account .orders-breadcumb .breadcrumb-text {
+  font-family: senregular;
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
@@ -73,53 +78,57 @@
   color: #d9bb7f;
 }
 
-.retry-payment-btn {
-    background: #874439;
-    border-radius: 10px;
-    /* height: 6vh; */
-    min-width: 35%;
-    font-size: 14px;
-    font-family: senregular;
-    font-weight: bold;
-    color: #191919;
-    text-transform: uppercase;
-    border: none;
+#user-account .retry-payment-btn {
+  background: #874439;
+  border-radius: 0px;
+  /* height: 6vh; */
+  min-width: 35%;
+  font-size: 14px;
+  font-family: senregular;
+  font-weight: bold;
+  color: #fff;
+  text-transform: uppercase;
+  border: none;
 }
 
-.retry-payment-btn:hover {
-    background: #874439 !important;
-    color: #F9F7F2;
+#user-account .retry-payment-btn:hover {
+  background: #874439 !important;
+  color: #f9f7f2;
 }
 
-.retry-payment-btn-mob {
-    background: #874439;
-    border-radius: 10px;
-    /* height: 6vh; */
-    min-width: 35%;
-    font-size: 14px;
-    font-family: senregular;
-    font-weight: bold;
-    color: #191919;
-    text-transform: uppercase;
-    border: none;
+#user-account .retry-payment-btn-mob {
+  background: #874439;
+  border-radius: 0px;
+  /* height: 6vh; */
+  min-width: 35%;
+  font-size: 14px;
+  font-family: senregular;
+  font-weight: bold;
+  color: #191919;
+  text-transform: uppercase;
+  border: none;
 }
 
-.retry-payment-btn-mob:hover {
-    background: #874439 !important;
-    color: #F9F7F2;
+#user-account .retry-payment-btn-mob:hover {
+  background: #874439 !important;
+  color: #f9f7f2;
 }
 
-.show-more-circle {
-    background: #191919;
-    opacity: 0.7;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
+#user-account .show-more-circle {
+  background: #191919;
+  opacity: 0.7;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
 }
 
-.circle-position {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+#user-account .circle-position {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+#user-account .qa-order-first {
+  padding: 10px 20px;
+  background-color: #f2f0eb;
 }

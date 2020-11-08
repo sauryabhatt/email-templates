@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Row,
   Col,
@@ -15,13 +15,16 @@ import {
   Select,
 } from "antd";
 import moment from "moment";
-import {useRouter} from "next/router";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import deleteIcon from "../../public/filestore/deleteIcon";
 import Icon from "@ant-design/icons";
 import { getCountries } from "react-phone-number-input/input";
 import en from "react-phone-number-input/locale/en.json";
 import closeButton from "../../public/filestore/closeButton";
 import getSymbolFromCurrency from "currency-symbol-map";
+import { connect } from "react-redux";
+import { getCollections } from "../../store/actions";
 
 const { Option } = Select;
 
@@ -29,6 +32,7 @@ const CollectionDetails = (props) => {
   let {
     collections = {},
     setCollectionDetails = "",
+    setCollectionName = "",
     currencyDetails = {},
     token = "",
     userProfile = {},
@@ -36,16 +40,44 @@ const CollectionDetails = (props) => {
     buyerId = "",
   } = props;
 
-  const [loading, setLoading] = useState(false);
-  const router  = useRouter();
+  const router = useRouter();
+
+  useEffect(() => {
+    // window.scrollTo(0, 0);
+    if (props && props.collections) {
+      let { products = [], rfqCreated = false } = props.collections || {};
+      setProducts(products);
+      setRfqSubmitted(rfqCreated);
+    }
+  }, [props.collections]);
+
+  const [rfqSubmitted, setRfqSubmitted] = useState(false);
+  const [products, setProducts] = useState([]);
   const [fileList, setFileList] = useState([]);
   const [RFQ, setRFQ] = useState(false);
   const [successQueryVisible, setSuccessQueryVisible] = useState(false);
   const [formVal, setFormval] = useState();
 
   const mediaMatch = window.matchMedia("(min-width: 768px)");
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
 
-  let { products = [], name = "", createdTime = "" } = collections;
+  let { createdTime = "" } = collections;
+  let date = new Date(createdTime);
+  let month = monthNames[date.getMonth()];
+  let year = date.getFullYear();
 
   const [form] = Form.useForm();
   const [rfqform] = Form.useForm();
@@ -58,7 +90,8 @@ const CollectionDetails = (props) => {
     "image/png",
   ];
   let assetUrl =
-    process.env.NEXT_PUBLIC_REACT_APP_API_ASSETS_URL + "/assets?sourceService=forms";
+    process.env.NEXT_PUBLIC_REACT_APP_API_ASSETS_URL +
+    "/assets?sourceService=forms";
 
   let { convertToCurrency = "" } = currencyDetails || {};
 
@@ -67,15 +100,12 @@ const CollectionDetails = (props) => {
     return Number.parseFloat(baseAmount * rates[convertToCurrency]).toFixed(2);
   };
 
-  const onFinish = (values) => {
-    setRFQ(true);
-    setFormval(values);
-  };
-
   const onFinishRFQ = (values) => {
     let {
       destinationCountry = "",
       deliveryDate = "",
+      destinationCity = "",
+      zipcode = "",
       requirementDetails = "",
     } = values || {};
     let { upload = [] } = formVal;
@@ -96,10 +126,12 @@ const CollectionDetails = (props) => {
       emailId: email,
       mobileNo: orgPhone,
       destinationCountry: destinationCountry,
-      zipcode: "61704",
+      destinationCity: destinationCity || "",
+      zipcode: zipcode,
       rfqType: "COLLECTION",
       buyerId: buyerId,
       remarks: requirementDetails,
+      collectionName: collectionName,
     };
     if (upload && upload.fileList) {
       data.attachments = upload.fileList.map((fileobj) => {
@@ -129,14 +161,17 @@ const CollectionDetails = (props) => {
         let { ip = "", country = "" } = result;
         data.fromIP = ip;
         data.ipCountry = country;
-        fetch(process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/queries", {
-          method: "POST",
-          body: JSON.stringify(data),
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-        })
+        fetch(
+          process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/queries",
+          {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token,
+            },
+          }
+        )
           .then((res) => {
             if (res.ok) {
               return res.json();
@@ -145,8 +180,8 @@ const CollectionDetails = (props) => {
             }
           })
           .then((res) => {
-            console.log(res);
             setRFQ(false);
+            setRfqSubmitted(true);
             setSuccessQueryVisible(true);
             setFileList([]);
             form.resetFields();
@@ -175,7 +210,7 @@ const CollectionDetails = (props) => {
       "&collection=" +
       collectionName;
     fetch(url, {
-      method: "POST",
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
@@ -183,7 +218,15 @@ const CollectionDetails = (props) => {
     })
       .then((res) => {
         if (res.ok) {
-          console.log(res);
+          props.getCollections(token, buyerId, (res) => {
+            message.success("Product has been removed from collection!", 5);
+            for (let list of res) {
+              let { products = [], name = "" } = list;
+              if (name === collectionName) {
+                setProducts(products);
+              }
+            }
+          });
           // return res.json();
         } else {
           throw res.statusText || "Error in create order";
@@ -269,23 +312,32 @@ const CollectionDetails = (props) => {
     return current && current < moment().endOf("day");
   };
 
+  const onCheck = () => {
+    form
+      .validateFields()
+      .then((values) => {
+        setRFQ(true);
+        setFormval(values);
+      })
+      .catch((err) => {
+        message.error("Please select quantity", 5);
+      });
+  };
+
   return (
     <React.Fragment>
       <Col xs={24} sm={24} md={22} lg={22}>
-        <Form
-          form={form}
-          name="upload_reference_form"
-          onFinish={onFinish}
-          scrollToFirstError
-        >
+        <Form form={form} name="upload_reference_form" scrollToFirstError>
           <Row className="qa-mar-btm-2">
             <Col xs={24} sm={24} md={24} lg={24}>
               <Row style={{ backgroundColor: "#E6E4DF" }}>
                 <React.Fragment>
                   <Col xs={10} sm={10} md={10} lg={10} className="qa-pad-015">
-                    <div className="collection-name qa-mar-left-20">{name}</div>
+                    <div className="collection-name qa-mar-left-20">
+                      {collectionName}
+                    </div>
                     <div className="collection-stitle qa-mar-left-20">
-                      Created {createdTime}
+                      Created {month} {year}
                     </div>
                   </Col>
                 </React.Fragment>
@@ -296,23 +348,36 @@ const CollectionDetails = (props) => {
                   md={14}
                   lg={14}
                   className="qa-pad-01 qa-txt-alg-rgt"
-                  style={{ display: mediaMatch.matches ? "flex" : "block" }}
                 >
                   {mediaMatch.matches && (
-                    <span className="rfq-text">
-                      This collection gets automatically appended to your RFQ
+                    <span>
+                      {rfqSubmitted ? (
+                        <div className="rfq-text mt-10">
+                          Request for quote submitted!
+                        </div>
+                      ) : (
+                        <div className="rfq-text">
+                          This collection gets automatically appended to your
+                          RFQ
+                        </div>
+                      )}
                     </span>
                   )}
 
                   <Button
+                    disabled={rfqSubmitted || products.length === 0}
                     htmlType="submit"
+                    onClick={onCheck}
                     className="c-request-for-quote-button"
                   >
                     REQUEST FOR QUOTE
                   </Button>
+
                   {!mediaMatch.matches && (
                     <div className="rfq-text-mob">
-                      This collection gets automatically appended to your RFQ
+                      {rfqSubmitted
+                        ? "Request for quote submitted"
+                        : "This collection gets automatically added to your RFQ"}
                     </div>
                   )}
                 </Col>
@@ -372,6 +437,7 @@ const CollectionDetails = (props) => {
                     exFactoryPrice = "",
                     minQty = "",
                     articleId = "",
+                    moqUnit = "",
                   } = product;
 
                   return (
@@ -384,11 +450,17 @@ const CollectionDetails = (props) => {
                       className="qa-mar-btm-1 qa-font-san qa-fs-12"
                     >
                       <div className="aspect-ratio-box">
-                        <img
-                          className="images"
-                          src={process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL + imageUrl}
-                          alt="Collection placeholder"
-                        ></img>
+                        <Link href={`/product/${articleId}`}>
+                          <img
+                            className="images"
+                            src={
+                              process.env
+                                .NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
+                              imageUrl
+                            }
+                            alt="Collection placeholder"
+                          ></img>
+                        </Link>
                       </div>
                       <Row className="qa-tc-white qa-mar-top-05">
                         <Col span={20}>
@@ -418,7 +490,7 @@ const CollectionDetails = (props) => {
                       <Row>
                         <Col span={24}>
                           <div className="qa-tc-white">
-                            Ex factory price{" "}
+                            Base price{" "}
                             <span className="qa-fw-b">
                               {getSymbolFromCurrency(convertToCurrency)}
                               {getConvertedCurrency(exFactoryPrice)}
@@ -429,7 +501,9 @@ const CollectionDetails = (props) => {
                             style={{ marginTop: "-3px" }}
                           >
                             Min order qty{" "}
-                            <span className="qa-fw-b">{minQty}</span>
+                            <span className="qa-fw-b">
+                              {minQty} {moqUnit}
+                            </span>
                           </div>
                         </Col>
                       </Row>
@@ -485,7 +559,8 @@ const CollectionDetails = (props) => {
                     justifyContent: "flex-end",
                   }}
                   onClick={() => {
-                    setCollectionDetails(true);
+                    setCollectionDetails(false);
+                    setCollectionName("");
                   }}
                 >
                   View less
@@ -503,9 +578,9 @@ const CollectionDetails = (props) => {
         onCancel={() => setRFQ(false)}
         centered
         bodyStyle={{ padding: "0px", backgroundColor: "#f9f7f2" }}
-        width={600}
+        width={550}
       >
-        <div>
+        <div className="qa-font-san">
           <div
             onClick={() => setRFQ(false)}
             style={{
@@ -547,18 +622,36 @@ const CollectionDetails = (props) => {
                 >
                   {country}
                 </Form.Item>
-                <span className="label-paragraph">
+                {/* <span className="label-paragraph">
                   Destination City, State*
                 </span>
                 <Form.Item
                   name="destinationCity"
                   style={{ marginBottom: "1em" }}
                   rules={[
-                    { required: true, message: "Please select your country." },
+                    {
+                      required: true,
+                      message: "Please select your country.",
+                      whitespace: true,
+                    },
                     {
                       min: 3,
                       max: 50,
                       message: "Length should be 3-50 characters!",
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item> */}
+                <span className="label-paragraph">Destination Pin Code*</span>
+                <Form.Item
+                  name="zipcode"
+                  style={{ marginBottom: "1em" }}
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please enter your zipcode.",
+                      whitespace: true,
                     },
                   ]}
                 >
@@ -621,19 +714,20 @@ const CollectionDetails = (props) => {
               hours.
             </p>
           </div>
+          <Link href="/">
             <Button
               className="send-query-success-modal-button"
               onClick={() => {
                 successQueryCancel();
-                router.push("/");
               }}
             >
               Back to home page
             </Button>
+          </Link>
         </div>
       </Modal>
     </React.Fragment>
   );
 };
 
-export default CollectionDetails;
+export default connect(null, { getCollections })(CollectionDetails);

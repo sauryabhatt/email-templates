@@ -6,8 +6,8 @@ import OrderDetails from "../Orders/OrderDetails";
 import { getOrders, getOrderByOrderId } from "./../../store/actions";
 import { useKeycloak } from "@react-keycloak/ssr";
 import { connect } from "react-redux";
-import Link  from "next/router";
-import {useRouter} from "next/router";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import getSymbolFromCurrency from "currency-symbol-map";
 import closeButton from "../../public/filestore/closeButton";
 import SendQueryForm from "./../SendQueryForm/SendQueryForm";
@@ -20,7 +20,7 @@ const OrdersMobile = (props) => {
   let { orders = [] } = props;
   const router = useRouter();
   const mediaMatch = window.matchMedia("(min-width: 768px)");
-  const {keycloak} = useKeycloak();
+  const { keycloak } = useKeycloak();
   const [orderDetails, setOrderDetails] = useState("");
   const [subOrders, setSubOrders] = useState("");
 
@@ -68,7 +68,7 @@ const OrdersMobile = (props) => {
     setSuccessQueryVisible(false);
   };
   const handleClick = (orders, subOrders) => {
-    props.handleShowOrder();
+    props.handleShowOrder(true);
     setOrderDetails(orders);
     setSubOrders(subOrders);
   };
@@ -82,7 +82,7 @@ const OrdersMobile = (props) => {
   }, []);
 
   const redirect = () => {
-    router.push("/account/orders");
+    props.handleShowOrder(false);
   };
 
   const redirectToFaq = () => {
@@ -159,10 +159,15 @@ const OrdersMobile = (props) => {
             <div style={{ textAlign: "right" }}>
               <div style={{ textAlign: "right" }}>
                 <Link
-                  href="/FAQforwholesalebuyers"                                    
-                  target="_blank"
+                  href="/FAQforwholesalebuyers"
+                  style={{ lineHeight: "17px", cursor: "pointer" }}
                 >
-                  <span style={{ lineHeight: "17px", cursor: "pointer" }} className="qa-font-san qa-fw-b qa-fs-14 qa-sm-color">BUYERS’ FAQs</span> 
+                  <a
+                    target="_blank"
+                    className="qa-font-san qa-fw-b qa-fs-14 qa-sm-color"
+                  >
+                    BUYERS’ FAQs{" "}
+                  </a>
                 </Link>
                 <span
                   className="qa-font-san qa-fw-b qa-fs-14 qa-sm-color"
@@ -277,14 +282,18 @@ const OrdersMobile = (props) => {
               >
                 <Row>
                   <Col xs={24} sm={24} md={24} lg={24}>
-                    <Row style={{ backgroundColor: "#E6E4DF", height: "75px" }}>
+                    <Row
+                      style={{
+                        backgroundColor: "#E6E4DF",
+                        padding: "15px 20px",
+                      }}
+                    >
                       {order.payment_status !== "FAILED" ? (
                         <Col
                           xs={12}
                           sm={12}
                           md={12}
                           lg={12}
-                          style={{ marginTop: "5px" }}
                           className="qa-vertical-center"
                         >
                           <span
@@ -293,7 +302,6 @@ const OrdersMobile = (props) => {
                               color: "#332f2f",
                               display: "flex",
                               textAlign: "left",
-                              marginLeft: "20px",
                             }}
                           >
                             Order number #{order.orderId}
@@ -308,39 +316,25 @@ const OrdersMobile = (props) => {
                           className="qa-vertical-center"
                         >
                           <Row>
-                            <Col
-                              xs={24}
-                              sm={24}
-                              md={24}
-                              lg={24}
-                              style={{ marginTop: "5px" }}
-                            >
+                            <Col xs={24} sm={24} md={24} lg={24}>
                               <span
                                 className="qa-fs-10 qa-font-san qa-fw-b"
                                 style={{
                                   color: "#EE0D1A",
                                   display: "flex",
                                   textAlign: "left",
-                                  marginLeft: "20px",
                                 }}
                               >
                                 PAYMENT UNSUCCESSFUL
                               </span>
                             </Col>
-                            <Col
-                              xs={24}
-                              sm={24}
-                              md={24}
-                              lg={24}
-                              style={{ marginTop: "5px" }}
-                            >
+                            <Col xs={24} sm={24} md={24} lg={24}>
                               <span
                                 className="qa-fs-10 qa-font-san"
                                 style={{
                                   color: "#332f2f",
                                   display: "flex",
                                   textAlign: "left",
-                                  marginLeft: "20px",
                                 }}
                               >
                                 Order number #{order.orderId}
@@ -355,11 +349,7 @@ const OrdersMobile = (props) => {
                         sm={12}
                         md={12}
                         lg={12}
-                        style={{
-                          marginTop: "5px",
-                          paddingRight: "20px",
-                          justifyContent: "flex-end",
-                        }}
+                        style={{ padding: "10px 20px", textAlign: "right" }}
                         className="qa-vertical-center"
                       >
                         {order.payment_status !== "FAILED" ? (
@@ -468,7 +458,11 @@ const OrdersMobile = (props) => {
                         sm={24}
                         md={24}
                         lg={24}
-                        style={{ padding: "20px", backgroundColor: "#F2F0EB" }}
+                        style={{
+                          padding: "20px",
+                          backgroundColor: "#F2F0EB",
+                        }}
+                        className={j === 0 ? "qa-order-first" : "qa-order-list"}
                         key={j}
                       >
                         <Col xs={24} sm={24} md={24} lg={24}>
@@ -489,37 +483,30 @@ const OrdersMobile = (props) => {
                               </span>
                             </Col>
                             <Col xs={12} sm={12} md={24} lg={24}>
-                              <span
+                              <div
                                 className="qa-fs-10 qa-font-san"
                                 style={{
                                   color: "#332f2f",
-                                  lineHeight: "25px",
                                   display: "flex",
                                   justifyContent: "flex-end",
                                 }}
                               >
                                 Seller order id:
-                              </span>
+                              </div>
+                              <div
+                                className="qa-fs-10 qa-font-san"
+                                style={{
+                                  color: "#191919",
+                                  display: "flex",
+                                  justifyContent: "flex-end",
+                                }}
+                              >
+                                {id}
+                              </div>
                             </Col>
                           </Row>
                         </Col>
-                        <Col xs={24} sm={24} md={24} lg={24}>
-                          {/* <Row>
-                            <Col xs={24} sm={24} md={24} lg={24}> */}
-                          <span
-                            className="qa-fs-10 qa-font-san"
-                            style={{
-                              color: "#191919",
-                              lineHeight: "12px",
-                              display: "flex",
-                              justifyContent: "flex-end",
-                            }}
-                          >
-                            {id}
-                          </span>
-                          {/* </Col>
-                          </Row> */}
-                        </Col>
+
                         <Col
                           xs={24}
                           sm={24}
@@ -535,6 +522,7 @@ const OrdersMobile = (props) => {
                                   color: "#332f2f",
                                   opacity: "0.8",
                                   lineHeight: "17px",
+                                  display: "flex",
                                 }}
                               >
                                 Total order value
@@ -552,7 +540,7 @@ const OrdersMobile = (props) => {
                               >
                                 {getSymbolFromCurrency(
                                   order && order.currency
-                                ) || "$"}{" "}
+                                ) || "$"}
                                 {(
                                   parseFloat(
                                     parseFloat(
@@ -570,7 +558,7 @@ const OrdersMobile = (props) => {
                             </Col>
                           </Row>
                           {order.payment_status !== "FAILED" ? (
-                            <Row style={{ marginTop: "12px" }}>
+                            <Row style={{ marginTop: "5px" }}>
                               <Col xs={14} sm={14} md={24} lg={24}>
                                 <span
                                   className="qa-font-san qa-fs-12"
@@ -578,6 +566,7 @@ const OrdersMobile = (props) => {
                                     color: "#332f2f",
                                     opacity: "0.8",
                                     lineHeight: "17px",
+                                    display: "flex",
                                   }}
                                 >
                                   Expected delivery date
@@ -605,13 +594,14 @@ const OrdersMobile = (props) => {
                             ""
                           )}
                           {order.payment_status !== "FAILED" ? (
-                            <Row style={{ marginTop: "12px" }}>
+                            <Row style={{ marginTop: "5px" }}>
                               <Col xs={14} sm={14} md={24} lg={24}>
                                 <span
                                   className="qa-font-san qa-fs-12"
                                   style={{
                                     color: "#332f2f",
                                     opacity: "0.8",
+                                    display: "flex",
                                     lineHeight: "17px",
                                   }}
                                 >
@@ -723,10 +713,8 @@ const OrdersMobile = (props) => {
                                       ></img>}
                                   </div> */}
                                   {k < 2 ? (
-                                    <div style={{ lineHeight: "14px" }}>
-                                      <span className="qa-font-san qa-fs-10 qa-fw-b">
-                                        {productNameSC}
-                                      </span>
+                                    <div className="qa-text-2line qa-font-san qa-fs-10 qa-fw-b qa-lh qa-mar-top-05">
+                                      {productNameSC}
                                     </div>
                                   ) : (
                                     ""
@@ -741,7 +729,7 @@ const OrdersMobile = (props) => {
                           sm={24}
                           md={24}
                           lg={24}
-                          style={{ marginTop: "25px" }}
+                          style={{ marginTop: "15px" }}
                         >
                           <Row>
                             <Col xs={24} sm={24} md={24} lg={24}>
@@ -749,7 +737,6 @@ const OrdersMobile = (props) => {
                                 className="qa-font-san qa-fs-14 qa-fw-b"
                                 style={{
                                   color: "#874439",
-                                  textDecoration: "underline",
                                   lineHeight: "17px",
                                   display: "flex",
                                   justifyContent: "center",
@@ -1023,6 +1010,7 @@ const OrdersMobile = (props) => {
                       paddingRight: "20px",
                       paddingLeft: "20px",
                       paddingBottom: "20px",
+                      paddingTop: "5px",
                     }}
                   >
                     <Row>

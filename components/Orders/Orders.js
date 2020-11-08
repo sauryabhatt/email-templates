@@ -7,7 +7,7 @@ import { Row, Col, Button, Modal } from "antd";
 import OrderDetails from "./OrderDetails";
 import { getOrders, getOrderByOrderId } from "../../store/actions";
 import { useKeycloak } from "@react-keycloak/ssr";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 import getSymbolFromCurrency from "currency-symbol-map";
 import Spinner from "../Spinner/Spinner";
 import { LoadingOutlined } from "@ant-design/icons";
@@ -22,7 +22,7 @@ const Orders = (props) => {
   const router = useRouter();
   let { orders = [] } = props;
   const mediaMatch = window.matchMedia("(min-width: 768px)");
-  const {keycloak} = useKeycloak();
+  const { keycloak } = useKeycloak();
   const [orderDetails, setOrderDetails] = useState("");
   const [subOrders, setSubOrders] = useState("");
   const [showLoader, setShowLoader] = useState(true);
@@ -69,7 +69,8 @@ const Orders = (props) => {
   const downloadInvoice = (data) => {
     if (data) {
       var a = document.createElement("a");
-      a.href = process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL + data["mediaUrl"];
+      a.href =
+        process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL + data["mediaUrl"];
       a.setAttribute("download", "Spec-sheet");
       a.setAttribute("target", "_blank");
       a.click();
@@ -148,11 +149,15 @@ const Orders = (props) => {
           </Col>
           <Col xs={22} sm={22} md={12} lg={12}>
             <div style={{ textAlign: "right" }}>
-              <Link
-                href="/FAQforwholesalebuyers"                
-                target="_blank"
-              >
-                <span style={{ lineHeight: "17px", cursor: "pointer" }} className="qa-font-san qa-fw-b qa-fs-14 qa-sm-color" >BUYERS’ FAQs{" "}</span>
+              <Link href="/FAQforwholesalebuyers">
+                <a target="_blank">
+                  <span
+                    style={{ lineHeight: "17px", cursor: "pointer" }}
+                    className="qa-font-san qa-fw-b qa-fs-14 qa-sm-color"
+                  >
+                    BUYERS’ FAQs{" "}
+                  </span>
+                </a>
               </Link>
               <span
                 className="qa-font-san qa-fw-b qa-fs-14 qa-sm-color"
@@ -259,7 +264,7 @@ const Orders = (props) => {
                         sm={11}
                         md={17}
                         lg={17}
-                        style={{ marginTop: "5px" }}
+                        style={{ padding: "20px 0px" }}
                         className="qa-vertical-center"
                       >
                         <span
@@ -281,8 +286,7 @@ const Orders = (props) => {
                           sm={11}
                           md={7}
                           lg={7}
-                          style={{ marginTop: "5px" }}
-                          className="qa-vertical-center"
+                          style={{ padding: "10px 0px" }}
                         >
                           <span
                             className="qa-fs-14 qa-font-san"
@@ -301,13 +305,14 @@ const Orders = (props) => {
                           sm={11}
                           md={10}
                           lg={10}
-                          style={{ justifyContent: "center" }}
+                          style={{ padding: "20px 0px", textAlign: "center" }}
                           className="qa-vertical-center"
                         >
                           <span
                             className="qa-fs-14 qa-font-san qa-fw-b"
                             style={{
                               color: "#EE0D1A",
+                              marginLeft: "20px",
                             }}
                           >
                             PAYMENT UNSUCCESSFUL
@@ -367,10 +372,7 @@ const Orders = (props) => {
                             retryPayment(order.orderId, order.orderType)
                           }
                         >
-                          <span
-                            className="qa-font-san qa-fs-12"
-                            style={{ color: "#F9F7F2" }}
-                          >
+                          <span className="qa-font-san qa-fs-12">
                             RETRY PAYMENT
                           </span>
                         </Button>
@@ -711,11 +713,11 @@ const Orders = (props) => {
                                       justifyContent: "flex-end",
                                     }}
                                   >
-                                    {
-                                      SellerOrderStatuses.find(
-                                        (x) => x.id === subOrder.status
-                                      ).name
-                                    }
+                                    {SellerOrderStatuses.find(
+                                      (x) => x.id === subOrder.status
+                                    )
+                                      ? ((x) => x.id === subOrder.status).name
+                                      : ""}
                                   </span>
                                 </Col>
                               </Row>
