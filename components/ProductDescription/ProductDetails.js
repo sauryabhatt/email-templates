@@ -1012,10 +1012,12 @@ const ProductDetails = (props) => {
                   Explore seller:
                 </div>
 
-                <Link href={`/seller/${vanityId}`} target="_blank">
-                  <span className="qa-text-2line qa-p-title qa-cursor qa-fs-12">
-                    {brandNameSC}
-                  </span>
+                <Link href={`/seller/${vanityId}`}>
+                  <a target="_blank">
+                    <span className="qa-text-2line qa-p-title qa-cursor qa-fs-12">
+                      {brandNameSC}
+                    </span>
+                  </a>
                 </Link>
               </div>
             </Col>
@@ -1994,13 +1996,13 @@ const ProductDetails = (props) => {
                   showPrice ? "pdp-explore-sec" : "pdp-explore-sec pdp-fw"
                 }`}
               >
-                <Link href={`/seller/${vanityId}`} target="_blank">
-                  <div>
+                <Link href={`/seller/${vanityId}`}>
+                  <a target="_blank">
                     <div className="qa-tc-white qa-fs-14">Explore seller:</div>
                     <span className="qa-text-2line qa-p-title qa-cursor">
                       {brandNameSC}
                     </span>
-                  </div>
+                  </a>
                 </Link>
               </div>
               {!showPrice && (

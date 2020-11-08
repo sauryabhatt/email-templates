@@ -1,8 +1,8 @@
 /** @format */
 
 import React, { useState, useEffect } from "react";
-import Link  from "next/link";
-import {useRouter} from "next/router";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import {
   Button,
   Row,
@@ -498,14 +498,17 @@ const CartDetails = (props) => {
       countryCode: selCountryCode,
       dialCode: dialCode,
     };
-    fetch(process.env.NEXT_PUBLIC_REACT_APP_CONTACTS_URL + "/contacts/" + contactId, {
-      method: "PATCH",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + app_token,
-      },
-    })
+    fetch(
+      process.env.NEXT_PUBLIC_REACT_APP_CONTACTS_URL + "/contacts/" + contactId,
+      {
+        method: "PATCH",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + app_token,
+        },
+      }
+    )
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -893,22 +896,22 @@ const CartDetails = (props) => {
         </Link>
         <Link href="/FAQforwholesalebuyers">
           <div className="qa-txt-alg-cnt e-link qa-mar-btm-2">See FAQ</div>
-        </Link>       
-          <div className="qa-txt-alg-cnt qa-mar-btm-4">
-            <Button
-              className="qa-button qa-fs-12 qa-shop-btn"
-              onClick={(e) => {
-                if (buttonName === "Sign up as a buyer") {
-                  router.push("/signup");
-                } else {
-                  router.push("/");
-                }
-                e.preventDefault();
-              }}
-            >
-              {buttonName}
-            </Button>
-          </div>
+        </Link>
+        <div className="qa-txt-alg-cnt qa-mar-btm-4">
+          <Button
+            className="qa-button qa-fs-12 qa-shop-btn"
+            onClick={(e) => {
+              if (buttonName === "Sign up as a buyer") {
+                router.push("/signup");
+              } else {
+                router.push("/");
+              }
+              e.preventDefault();
+            }}
+          >
+            {buttonName}
+          </Button>
+        </div>
       </div>
     );
   }
@@ -1364,8 +1367,10 @@ const CartDetails = (props) => {
                   }}
                 >
                   I agree to{" "}
-                  <Link className="c-breakup" href="/TermsOfUse" target="_blank">
-                    <span className="c-breakup">terms and conditions</span>
+                  <Link className="c-breakup" href="/TermsOfUse">
+                    <a target="_blank">
+                      <span className="c-breakup">terms and conditions</span>
+                    </a>
                   </Link>
                 </Checkbox>
               </div>
@@ -1458,8 +1463,10 @@ const CartDetails = (props) => {
                   }}
                 >
                   I agree to{" "}
-                  <Link className="c-breakup" href="/TermsOfUse" target="_blank">
-                    <span className="c-breakup">terms and conditions</span>
+                  <Link className="c-breakup" href="/TermsOfUse">
+                    <a target="_blank">
+                      <span className="c-breakup">terms and conditions</span>
+                    </a>
                   </Link>
                 </Checkbox>
               </div>

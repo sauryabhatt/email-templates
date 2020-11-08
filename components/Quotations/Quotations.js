@@ -165,13 +165,15 @@ const Quotations = (props) => {
           </Col>
           <Col xs={22} sm={22} md={11} lg={11}>
             <div style={{ textAlign: "right" }}>
-              <Link href="/FAQforwholesalebuyers" target="_blank">
-                <span
-                  style={{ lineHeight: "17px", cursor: "pointer" }}
-                  className="qa-font-san qa-fw-b qa-fs-14 qa-sm-color"
-                >
-                  BUYERS’ FAQs
-                </span>
+              <Link href="/FAQforwholesalebuyers">
+                <a target="_blank">
+                  <span
+                    style={{ lineHeight: "17px", cursor: "pointer" }}
+                    className="qa-font-san qa-fw-b qa-fs-14 qa-sm-color"
+                  >
+                    BUYERS’ FAQs
+                  </span>
+                </a>
               </Link>
               <span
                 className="qa-font-san qa-fw-b qa-fs-14 qa-sm-color"

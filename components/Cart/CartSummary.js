@@ -545,9 +545,13 @@ const CartSummary = (props) => {
       </div>
       <div className="qa-tc-white qa-fs-12 qa-lh qa-txt-alg-cnt">
         Note: Qalara margin may vary by total cart value{" "}
-        <Link href="/FAQforwholesalebuyers" target="_blank">
-          <p className="qa-sm-color">Refer FAQs here</p>
-        </Link>
+        <span>
+          <Link href="/FAQforwholesalebuyers">
+            <a target="_blank" className="qa-sm-color">
+              Refer FAQs here
+            </a>
+          </Link>
+        </span>
       </div>
     </div>
   );
@@ -768,8 +772,10 @@ const CartSummary = (props) => {
           </div>
           <div className="c-left-blk">
             Part of these charges are refundable.{" "}
-            <Link href="/FAQforwholesalebuyers" target="_blank">
-              <span className="qa-sm-color qa-cursor">Know more</span>
+            <Link href="/FAQforwholesalebuyers">
+              <a target="_blank">
+                <span className="qa-sm-color qa-cursor">Know more</span>
+              </a>
             </Link>
           </div>
         </div>

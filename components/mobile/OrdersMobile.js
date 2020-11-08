@@ -68,7 +68,7 @@ const OrdersMobile = (props) => {
     setSuccessQueryVisible(false);
   };
   const handleClick = (orders, subOrders) => {
-    props.handleShowOrder();
+    props.handleShowOrder(true);
     setOrderDetails(orders);
     setSubOrders(subOrders);
   };
@@ -82,7 +82,7 @@ const OrdersMobile = (props) => {
   }, []);
 
   const redirect = () => {
-    router.push("/account/orders");
+    props.handleShowOrder(false);
   };
 
   const redirectToFaq = () => {
@@ -120,8 +120,8 @@ const OrdersMobile = (props) => {
   };
 
   return (
-    <div>
-      {props.showOrderDetails && (
+    <React.Fragment>
+      {props.showOrderDetails ? (
         <Col xs={24} sm={24} md={24} lg={0} style={{ paddingBottom: "35px" }}>
           <Row>
             <Col xs={24} sm={24} md={24} lg={0} className="orders-breadcumb">
@@ -150,31 +150,41 @@ const OrdersMobile = (props) => {
             </Col>
           </Row>
         </Col>
+      ) : (
+        ""
       )}
       <Col xs={24} sm={24} md={24} lg={0}>
         <Row>
           <Col xs={24} sm={24} md={24} lg={0}>
             <div style={{ textAlign: "right" }}>
-              <Link href="/FAQforwholesalebuyers" target="_blank">
-                <span className="qa-font-san qa-fw-b qa-fs-14 qa-sm-color qa-cursor">
-                  BUYERS’ FAQs
+              <div style={{ textAlign: "right" }}>
+                <Link
+                  href="/FAQforwholesalebuyers"
+                  style={{ lineHeight: "17px", cursor: "pointer" }}
+                >
+                  <a
+                    target="_blank"
+                    className="qa-font-san qa-fw-b qa-fs-14 qa-sm-color"
+                  >
+                    BUYERS’ FAQs{" "}
+                  </a>
+                </Link>
+                <span
+                  className="qa-font-san qa-fw-b qa-fs-14 qa-sm-color"
+                  style={{ lineHeight: "17px" }}
+                >
+                  {" "}
+                  |{" "}
                 </span>
-              </Link>
-              <span
-                className="qa-font-san qa-fw-b qa-fs-14 qa-sm-color"
-                style={{ lineHeight: "17px" }}
-              >
-                {" "}
-                |{" "}
-              </span>
-              <span
-                className="qa-font-san qa-fw-b qa-fs-14 qa-sm-color"
-                style={{ lineHeight: "17px", cursor: "pointer" }}
-                onClick={downloadBuyerAgreement}
-              >
-                {" "}
-                ORDER T&C{" "}
-              </span>
+                <span
+                  className="qa-font-san qa-fw-b qa-fs-14 qa-sm-color"
+                  style={{ lineHeight: "17px", cursor: "pointer" }}
+                  onClick={downloadBuyerAgreement}
+                >
+                  {" "}
+                  ORDER T&C{" "}
+                </span>
+              </div>
             </div>
           </Col>
         </Row>
@@ -193,210 +203,206 @@ const OrdersMobile = (props) => {
           </Col>
         </Row>
       </Col>
-      <div>
-        {!props.showOrderDetails ? (
-          <Col xs={24} sm={24} md={24} lg={0}>
-            {props.isOrderAvailable && orders.length == 0 ? (
-              <Col
-                xs={24}
-                sm={24}
-                md={24}
-                lg={24}
-                style={{ backgroundColor: "#F2F0EB" }}
+      {!props.showOrderDetails ? (
+        <Col xs={24} sm={24} md={24} lg={0}>
+          {props.isOrderAvailable && orders.length == 0 ? (
+            <Col
+              xs={24}
+              sm={24}
+              md={24}
+              lg={24}
+              style={{ backgroundColor: "#F2F0EB" }}
+            >
+              <Row
+                style={{
+                  paddingLeft: "20px",
+                  paddingRight: "20px",
+                  paddingTop: "20px",
+                  paddingBottom: "15px",
+                }}
               >
-                <Row
-                  style={{
-                    paddingLeft: "20px",
-                    paddingRight: "20px",
-                    paddingTop: "20px",
-                    paddingBottom: "15px",
-                  }}
-                >
-                  <Col xs={24} sm={24} md={24} lg={24}>
-                    <span
-                      className="qa-font-butler qa-fs-24"
-                      style={{ color: "#191919" }}
-                    >
-                      No orders to display!
-                    </span>
-                  </Col>
-                  <Col xs={24} sm={24} md={24} lg={24} className="qa-mar-top-1">
-                    <span className="qa-font-san qa-fs-14 qa-tc-white">
-                      You currently do not have any active or past orders to
-                      display. You can get started by sharing a Request for
-                      quote by clicking below.
-                    </span>
-                  </Col>
-                  <Col
-                    xs={24}
-                    sm={24}
-                    md={24}
-                    lg={24}
-                    style={{ marginTop: "40px", marginBottom: "40px" }}
-                    className="quote-rfq"
+                <Col xs={24} sm={24} md={24} lg={24}>
+                  <span
+                    className="qa-font-butler qa-fs-24"
+                    style={{ color: "#191919" }}
                   >
-                    <Button
-                      className="qa-button quote-contact-seller-mob"
-                      onClick={() => {
-                        setVisible(true);
-                      }}
-                    >
-                      <span className="qa-font-san qa-fw-b qa-fs-14">
-                        REQUEST FOR QUOTE
-                      </span>
-                    </Button>
-                  </Col>
-                </Row>
-              </Col>
-            ) : (
-              ""
-            )}
-            {orders.map((order, i) => {
-              let { orderedDate = "", subOrders = [] } = order; // anything
-              let date = new Date(orderedDate);
-              let month = "" + (date.getMonth() + 1);
-              let day = date.getDate();
-              let year = date.getFullYear();
-              day = day <= 9 ? "0" + day : day;
-              month = month <= 9 ? "0" + month : month;
-              let orderDate = day + "-" + month + "-" + year;
-
-              return (
+                    No orders to display!
+                  </span>
+                </Col>
+                <Col xs={24} sm={24} md={24} lg={24} className="qa-mar-top-1">
+                  <span className="qa-font-san qa-fs-14 qa-tc-white">
+                    You currently do not have any active or past orders to
+                    display. You can get started by sharing a Request for quote
+                    by clicking below.
+                  </span>
+                </Col>
                 <Col
                   xs={24}
                   sm={24}
                   md={24}
-                  lg={0}
-                  className="qa-mar-btm-2"
-                  style={{ backgroundColor: "rgb(242, 240, 235)" }}
-                  key={i}
+                  lg={24}
+                  style={{ marginTop: "40px", marginBottom: "40px" }}
+                  className="quote-rfq"
                 >
-                  <Row>
-                    <Col xs={24} sm={24} md={24} lg={24}>
-                      <Row style={{ backgroundColor: "#E6E4DF" }}>
-                        {order.payment_status !== "FAILED" ? (
-                          <Col
-                            xs={10}
-                            sm={10}
-                            md={12}
-                            lg={12}
-                            style={{ padding: "10px 20px" }}
-                            className="qa-vertical-center"
-                          >
-                            <span
-                              className="qa-fs-10 qa-font-san"
-                              style={{
-                                color: "#332f2f",
-                                display: "flex",
-                                textAlign: "left",
-                              }}
-                            >
-                              Order number #{order.orderId}
-                            </span>
-                          </Col>
-                        ) : (
-                          <Col
-                            xs={14}
-                            sm={14}
-                            md={12}
-                            lg={12}
-                            style={{ padding: "10px 20px" }}
-                            className="qa-vertical-center"
-                          >
-                            <Row>
-                              <Col xs={24} sm={24} md={24} lg={24}>
-                                <span
-                                  className="qa-fs-10 qa-font-san qa-fw-b"
-                                  style={{
-                                    color: "#EE0D1A",
-                                    display: "flex",
-                                    textAlign: "left",
-                                  }}
-                                >
-                                  PAYMENT UNSUCCESSFUL
-                                </span>
-                              </Col>
-                              <Col
-                                xs={24}
-                                sm={24}
-                                md={24}
-                                lg={24}
-                                style={{ padding: "10px 20px" }}
-                              >
-                                <span
-                                  className="qa-fs-10 qa-font-san"
-                                  style={{
-                                    color: "#332f2f",
-                                    display: "flex",
-                                    textAlign: "left",
-                                  }}
-                                >
-                                  Order number #{order.orderId}
-                                </span>
-                              </Col>
-                            </Row>
-                          </Col>
-                        )}
+                  <Button
+                    className="qa-button quote-contact-seller-mob"
+                    onClick={() => {
+                      setVisible(true);
+                    }}
+                  >
+                    <span className="qa-font-san qa-fw-b qa-fs-14">
+                      REQUEST FOR QUOTE
+                    </span>
+                  </Button>
+                </Col>
+              </Row>
+            </Col>
+          ) : (
+            ""
+          )}
+          {orders.map((order, i) => {
+            let { orderedDate = "", subOrders = [] } = order; // anything
+            let date = new Date(orderedDate);
+            let month = "" + (date.getMonth() + 1);
+            let day = date.getDate();
+            let year = date.getFullYear();
+            day = day <= 9 ? "0" + day : day;
+            month = month <= 9 ? "0" + month : month;
+            let orderDate = day + "-" + month + "-" + year;
 
+            return (
+              <Col
+                xs={24}
+                sm={24}
+                md={24}
+                lg={0}
+                className="qa-mar-btm-2"
+                style={{ backgroundColor: "rgb(242, 240, 235)" }}
+                key={i}
+              >
+                <Row>
+                  <Col xs={24} sm={24} md={24} lg={24}>
+                    <Row
+                      style={{
+                        backgroundColor: "#E6E4DF",
+                        padding: "15px 20px",
+                      }}
+                    >
+                      {order.payment_status !== "FAILED" ? (
                         <Col
                           xs={12}
                           sm={12}
                           md={12}
                           lg={12}
-                          style={{ padding: "10px 20px", textAlign: "right" }}
                           className="qa-vertical-center"
                         >
-                          {order.payment_status !== "FAILED" ? (
-                            <Button
-                              className={
-                                mediaMatch.matches
-                                  ? "download-invoice-btn qa-vertical-center"
-                                  : "download-invoice-btn-mob qa-vertical-center"
-                              }
-                              size={mediaMatch.matches ? "large" : "small"}
-                              style={{ justifyContent: "center" }}
-                              disabled={
-                                (order && order.orderInvoice == undefined) ||
-                                (order &&
-                                  order.orderInvoice &&
-                                  order.orderInvoice.media == null)
-                              }
-                              onClick={(e) =>
-                                downloadInvoice(
-                                  order &&
-                                    order.orderInvoice &&
-                                    order.orderInvoice.media
-                                )
-                              }
-                            >
-                              <span
-                                className="qa-font-san qa-fs-12"
-                                style={{ color: "#000000" }}
-                              >
-                                Download invoice
-                              </span>
-                            </Button>
-                          ) : (
-                            <Button
-                              className={
-                                mediaMatch.matches
-                                  ? "retry-payment-btn qa-vertical-center"
-                                  : "retry-payment-btn-mob qa-vertical-center"
-                              }
-                              size={mediaMatch.matches ? "large" : "small"}
-                              style={{ justifyContent: "center" }}
-                              onClick={() => retryPayment(order.orderId)}
-                            >
-                              <span
-                                className="qa-font-san qa-fs-12"
-                                style={{ color: "#F9F7F2" }}
-                              >
-                                RETRY PAYMENT
-                              </span>
-                            </Button>
-                          )}
+                          <span
+                            className="qa-fs-10 qa-font-san"
+                            style={{
+                              color: "#332f2f",
+                              display: "flex",
+                              textAlign: "left",
+                            }}
+                          >
+                            Order number #{order.orderId}
+                          </span>
                         </Col>
-                        {/* <Col
+                      ) : (
+                        <Col
+                          xs={12}
+                          sm={12}
+                          md={12}
+                          lg={12}
+                          className="qa-vertical-center"
+                        >
+                          <Row>
+                            <Col xs={24} sm={24} md={24} lg={24}>
+                              <span
+                                className="qa-fs-10 qa-font-san qa-fw-b"
+                                style={{
+                                  color: "#EE0D1A",
+                                  display: "flex",
+                                  textAlign: "left",
+                                }}
+                              >
+                                PAYMENT UNSUCCESSFUL
+                              </span>
+                            </Col>
+                            <Col xs={24} sm={24} md={24} lg={24}>
+                              <span
+                                className="qa-fs-10 qa-font-san"
+                                style={{
+                                  color: "#332f2f",
+                                  display: "flex",
+                                  textAlign: "left",
+                                }}
+                              >
+                                Order number #{order.orderId}
+                              </span>
+                            </Col>
+                          </Row>
+                        </Col>
+                      )}
+
+                      <Col
+                        xs={12}
+                        sm={12}
+                        md={12}
+                        lg={12}
+                        style={{ padding: "10px 20px", textAlign: "right" }}
+                        className="qa-vertical-center"
+                      >
+                        {order.payment_status !== "FAILED" ? (
+                          <Button
+                            className={
+                              mediaMatch.matches
+                                ? "download-invoice-btn qa-vertical-center"
+                                : "download-invoice-btn-mob qa-vertical-center"
+                            }
+                            size={mediaMatch.matches ? "large" : "small"}
+                            style={{ justifyContent: "center" }}
+                            disabled={
+                              (order && order.orderInvoice == undefined) ||
+                              (order &&
+                                order.orderInvoice &&
+                                order.orderInvoice.media == null)
+                            }
+                            onClick={(e) =>
+                              downloadInvoice(
+                                order &&
+                                  order.orderInvoice &&
+                                  order.orderInvoice.media
+                              )
+                            }
+                          >
+                            <span
+                              className="qa-font-san qa-fs-12"
+                              style={{ color: "#000000" }}
+                            >
+                              Download invoice
+                            </span>
+                          </Button>
+                        ) : (
+                          <Button
+                            className={
+                              mediaMatch.matches
+                                ? "retry-payment-btn qa-vertical-center"
+                                : "retry-payment-btn-mob qa-vertical-center"
+                            }
+                            size={mediaMatch.matches ? "large" : "small"}
+                            style={{ justifyContent: "center" }}
+                            onClick={() => retryPayment(order.orderId)}
+                          >
+                            <span
+                              className="qa-font-san qa-fs-12"
+                              style={{ color: "#F9F7F2" }}
+                            >
+                              RETRY PAYMENT
+                            </span>
+                          </Button>
+                        )}
+                      </Col>
+                      {/* <Col
                         xs={12}
                         sm={12}
                         md={12}
@@ -433,88 +439,126 @@ const OrdersMobile = (props) => {
                           {orderDate}
                         </span>
                       </Col> */}
-                      </Row>
-                    </Col>
-                  </Row>
-                  <Row>
-                    {subOrders.map((subOrder, j) => {
-                      let {
-                        id = "",
-                        sellerOrgName = "",
-                        total = "",
-                        status = "",
-                        sellerCode = "",
-                        products = [],
-                      } = subOrder;
-                      return (
+                    </Row>
+                  </Col>
+                </Row>
+                <Row>
+                  {subOrders.map((subOrder, j) => {
+                    let {
+                      id = "",
+                      sellerOrgName = "",
+                      total = "",
+                      status = "",
+                      sellerCode = "",
+                      products = [],
+                    } = subOrder;
+                    return (
+                      <Col
+                        xs={24}
+                        sm={24}
+                        md={24}
+                        lg={24}
+                        style={{
+                          padding: "20px",
+                          backgroundColor: "#F2F0EB",
+                        }}
+                        className={j === 0 ? "qa-order-first" : "qa-order-list"}
+                        key={j}
+                      >
+                        <Col xs={24} sm={24} md={24} lg={24}>
+                          <Row>
+                            <Col xs={12} sm={12} md={24} lg={24}>
+                              <span
+                                className="qa-fs-14 qa-fw-b qa-font-san"
+                                style={{
+                                  color: "#874439",
+                                  textDecoration: "underline",
+                                  lineHeight: "20px",
+                                }}
+                              >
+                                {props.brandNameList &&
+                                  props.brandNameList[subOrder.sellerCode] &&
+                                  props.brandNameList[subOrder.sellerCode]
+                                    .brandName}
+                              </span>
+                            </Col>
+                            <Col xs={12} sm={12} md={24} lg={24}>
+                              <div
+                                className="qa-fs-10 qa-font-san"
+                                style={{
+                                  color: "#332f2f",
+                                  display: "flex",
+                                  justifyContent: "flex-end",
+                                }}
+                              >
+                                Seller order id:
+                              </div>
+                              <div
+                                className="qa-fs-10 qa-font-san"
+                                style={{
+                                  color: "#191919",
+                                  display: "flex",
+                                  justifyContent: "flex-end",
+                                }}
+                              >
+                                {id}
+                              </div>
+                            </Col>
+                          </Row>
+                        </Col>
+
                         <Col
                           xs={24}
                           sm={24}
                           md={24}
                           lg={24}
-                          style={{
-                            padding: "20px",
-                            backgroundColor: "#F2F0EB",
-                          }}
-                          key={j}
+                          style={{ marginTop: "25px" }}
                         >
-                          <Col xs={24} sm={24} md={24} lg={24}>
-                            <Row>
-                              <Col xs={12} sm={12} md={24} lg={24}>
-                                <span
-                                  className="qa-fs-14 qa-fw-b qa-font-san"
-                                  style={{
-                                    color: "#874439",
-                                    textDecoration: "underline",
-                                    lineHeight: "20px",
-                                  }}
-                                >
-                                  {props.brandNameList &&
-                                    props.brandNameList[subOrder.sellerCode] &&
-                                    props.brandNameList[subOrder.sellerCode]
-                                      .brandName}
-                                </span>
-                              </Col>
-                              <Col xs={12} sm={12} md={24} lg={24}>
-                                <span
-                                  className="qa-fs-10 qa-font-san"
-                                  style={{
-                                    color: "#332f2f",
-                                    lineHeight: "25px",
-                                    display: "flex",
-                                    justifyContent: "flex-end",
-                                  }}
-                                >
-                                  Seller order id:
-                                </span>
-                              </Col>
-                            </Row>
-                          </Col>
-                          <Col xs={24} sm={24} md={24} lg={24}>
-                            {/* <Row>
-                            <Col xs={24} sm={24} md={24} lg={24}> */}
-                            <span
-                              className="qa-fs-10 qa-font-san"
-                              style={{
-                                color: "#191919",
-                                lineHeight: "12px",
-                                display: "flex",
-                                justifyContent: "flex-end",
-                              }}
-                            >
-                              {id}
-                            </span>
-                            {/* </Col>
-                          </Row> */}
-                          </Col>
-                          <Col
-                            xs={24}
-                            sm={24}
-                            md={24}
-                            lg={24}
-                            style={{ marginTop: "25px" }}
-                          >
-                            <Row>
+                          <Row>
+                            <Col xs={14} sm={14} md={24} lg={24}>
+                              <span
+                                className="qa-font-san qa-fs-12"
+                                style={{
+                                  color: "#332f2f",
+                                  opacity: "0.8",
+                                  lineHeight: "17px",
+                                  display: "flex",
+                                }}
+                              >
+                                Total order value
+                              </span>
+                            </Col>
+                            <Col xs={10} sm={10} md={24} lg={24}>
+                              <span
+                                className="qa-fs-12 qa-font-san qa-fw-b"
+                                style={{
+                                  color: "#191919",
+                                  lineHeight: "17px",
+                                  display: "flex",
+                                  justifyContent: "flex-end",
+                                }}
+                              >
+                                {getSymbolFromCurrency(
+                                  order && order.currency
+                                ) || "$"}
+                                {(
+                                  parseFloat(
+                                    parseFloat(
+                                      subOrder.products.reduce(
+                                        (x, y) => x + y["total"],
+                                        0
+                                      )
+                                    ) * order.conversionFactor
+                                  ) +
+                                  (parseFloat(
+                                    parseFloat(subOrder.qalaraSellerMargin) * 0
+                                  ) || 0)
+                                ).toFixed(2)}
+                              </span>
+                            </Col>
+                          </Row>
+                          {order.payment_status !== "FAILED" ? (
+                            <Row style={{ marginTop: "5px" }}>
                               <Col xs={14} sm={14} md={24} lg={24}>
                                 <span
                                   className="qa-font-san qa-fs-12"
@@ -522,9 +566,10 @@ const OrdersMobile = (props) => {
                                     color: "#332f2f",
                                     opacity: "0.8",
                                     lineHeight: "17px",
+                                    display: "flex",
                                   }}
                                 >
-                                  Total order value
+                                  Expected delivery date
                                 </span>
                               </Col>
                               <Col xs={10} sm={10} md={24} lg={24}>
@@ -537,164 +582,119 @@ const OrdersMobile = (props) => {
                                     justifyContent: "flex-end",
                                   }}
                                 >
-                                  {getSymbolFromCurrency(
-                                    order && order.currency
-                                  ) || "$"}{" "}
-                                  {(
-                                    parseFloat(
-                                      parseFloat(
-                                        subOrder.products.reduce(
-                                          (x, y) => x + y["total"],
-                                          0
-                                        )
-                                      ) * order.conversionFactor
-                                    ) +
-                                    (parseFloat(
-                                      parseFloat(subOrder.qalaraSellerMargin) *
-                                        0
-                                    ) || 0)
-                                  ).toFixed(2)}
+                                  {subOrder.expectedDeliveryDate
+                                    ? moment(
+                                        subOrder.expectedDeliveryDate
+                                      ).format("DD/MM/YYYY")
+                                    : null}
                                 </span>
                               </Col>
                             </Row>
-                            {order.payment_status !== "FAILED" ? (
-                              <Row style={{ marginTop: "12px" }}>
-                                <Col xs={14} sm={14} md={24} lg={24}>
-                                  <span
-                                    className="qa-font-san qa-fs-12"
-                                    style={{
-                                      color: "#332f2f",
-                                      opacity: "0.8",
-                                      lineHeight: "17px",
-                                    }}
-                                  >
-                                    Expected delivery date
-                                  </span>
-                                </Col>
-                                <Col xs={10} sm={10} md={24} lg={24}>
-                                  <span
-                                    className="qa-fs-12 qa-font-san qa-fw-b"
-                                    style={{
-                                      color: "#191919",
-                                      lineHeight: "17px",
-                                      display: "flex",
-                                      justifyContent: "flex-end",
-                                    }}
-                                  >
-                                    {subOrder.expectedDeliveryDate
-                                      ? moment(
-                                          subOrder.expectedDeliveryDate
-                                        ).format("DD/MM/YYYY")
-                                      : null}
-                                  </span>
-                                </Col>
-                              </Row>
-                            ) : (
-                              ""
-                            )}
-                            {order.payment_status !== "FAILED" ? (
-                              <Row style={{ marginTop: "12px" }}>
-                                <Col xs={14} sm={14} md={24} lg={24}>
-                                  <span
-                                    className="qa-font-san qa-fs-12"
-                                    style={{
-                                      color: "#332f2f",
-                                      opacity: "0.8",
-                                      lineHeight: "17px",
-                                    }}
-                                  >
-                                    Delivery status
-                                  </span>
-                                </Col>
-                                <Col xs={10} sm={10} md={24} lg={24}>
-                                  <span
-                                    className="qa-fs-12 qa-font-san qa-fw-b"
-                                    style={{
-                                      color: "#191919",
-                                      lineHeight: "17px",
-                                      display: "flex",
-                                      justifyContent: "flex-end",
-                                    }}
-                                  >
-                                    {SellerOrderStatuses.find(
+                          ) : (
+                            ""
+                          )}
+                          {order.payment_status !== "FAILED" ? (
+                            <Row style={{ marginTop: "5px" }}>
+                              <Col xs={14} sm={14} md={24} lg={24}>
+                                <span
+                                  className="qa-font-san qa-fs-12"
+                                  style={{
+                                    color: "#332f2f",
+                                    opacity: "0.8",
+                                    display: "flex",
+                                    lineHeight: "17px",
+                                  }}
+                                >
+                                  Delivery status
+                                </span>
+                              </Col>
+                              <Col xs={10} sm={10} md={24} lg={24}>
+                                <span
+                                  className="qa-fs-12 qa-font-san qa-fw-b"
+                                  style={{
+                                    color: "#191919",
+                                    lineHeight: "17px",
+                                    display: "flex",
+                                    justifyContent: "flex-end",
+                                  }}
+                                >
+                                  {
+                                    SellerOrderStatuses.find(
                                       (x) => x.id === subOrder.status
-                                    )
-                                      ? SellerOrderStatuses.find(
-                                          (x) => x.id === subOrder.status
-                                        ).name
-                                      : ""}
-                                  </span>
-                                </Col>
-                              </Row>
-                            ) : (
-                              ""
-                            )}
-                          </Col>
-                          <Col
-                            xs={24}
-                            sm={24}
-                            md={24}
-                            lg={24}
-                            style={{ marginTop: "25px" }}
-                          >
-                            <Row gutter={[8, 0]}>
-                              {products.map((product, k) => {
-                                let {
-                                  thumbnailMedia = {},
-                                  productName = "",
-                                } = product;
-                                let productNameSC =
-                                  productName
-                                    .toLowerCase()
-                                    .charAt(0)
-                                    .toUpperCase() +
-                                  productName.toLowerCase().slice(1);
-                                let { mediaUrl = "" } = thumbnailMedia || {};
-                                return (
-                                  <Col xs={9} sm={9} md={5} lg={5} key={k}>
-                                    {k <= 1 ? (
-                                      <div className="aspect-ratio-box">
-                                        {order.orderType == "RTS" ? (
-                                          <img
-                                            className="images"
-                                            src={product.image}
-                                            alt="Order placeholder"
-                                          ></img>
-                                        ) : (
-                                          <img
-                                            className="images"
-                                            src={
-                                              process.env
-                                                .NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
-                                              mediaUrl
-                                            }
-                                            alt="Order placeholder"
-                                          ></img>
-                                        )}
-                                        {products.length > 2 && k == 1 ? (
-                                          <span class="show-more-circle circle-position">
-                                            <span
-                                              className="qa-font-san qa-fs-17"
-                                              style={{
-                                                color: "#F9F7F2",
-                                                position: "absolute",
-                                                top: "50%",
-                                                left: "50%",
-                                                transform:
-                                                  "translate(-50%, -50%)",
-                                              }}
-                                            >
-                                              +{products.length - k - 1}
-                                            </span>
+                                    ).name
+                                  }
+                                </span>
+                              </Col>
+                            </Row>
+                          ) : (
+                            ""
+                          )}
+                        </Col>
+                        <Col
+                          xs={24}
+                          sm={24}
+                          md={24}
+                          lg={24}
+                          style={{ marginTop: "25px" }}
+                        >
+                          <Row gutter={[8, 0]}>
+                            {products.map((product, k) => {
+                              let {
+                                thumbnailMedia = {},
+                                productName = "",
+                              } = product;
+                              let productNameSC =
+                                productName
+                                  .toLowerCase()
+                                  .charAt(0)
+                                  .toUpperCase() +
+                                productName.toLowerCase().slice(1);
+                              let { mediaUrl = "" } = thumbnailMedia || {};
+                              return (
+                                <Col xs={9} sm={9} md={5} lg={5} key={k}>
+                                  {k <= 1 ? (
+                                    <div className="aspect-ratio-box">
+                                      {order.orderType == "RTS" ? (
+                                        <img
+                                          className="images"
+                                          src={product.image}
+                                          alt="Order placeholder"
+                                        ></img>
+                                      ) : (
+                                        <img
+                                          className="images"
+                                          src={
+                                            process.env
+                                              .NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
+                                            mediaUrl
+                                          }
+                                          alt="Order placeholder"
+                                        ></img>
+                                      )}
+                                      {products.length > 2 && k == 1 ? (
+                                        <span class="show-more-circle circle-position">
+                                          <span
+                                            className="qa-font-san qa-fs-17"
+                                            style={{
+                                              color: "#F9F7F2",
+                                              position: "absolute",
+                                              top: "50%",
+                                              left: "50%",
+                                              transform:
+                                                "translate(-50%, -50%)",
+                                            }}
+                                          >
+                                            +{products.length - k - 1}
                                           </span>
-                                        ) : (
-                                          ""
-                                        )}
-                                      </div>
-                                    ) : (
-                                      ""
-                                    )}
-                                    {/* <div className="aspect-ratio-box">
+                                        </span>
+                                      ) : (
+                                        ""
+                                      )}
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+                                  {/* <div className="aspect-ratio-box">
                                     {order.orderType == 'RTS' ?
                                       <img
                                         className="images"
@@ -712,361 +712,357 @@ const OrdersMobile = (props) => {
                                         alt="Order placeholder"
                                       ></img>}
                                   </div> */}
-                                    {k < 2 ? (
-                                      <div style={{ lineHeight: "14px" }}>
-                                        <span className="qa-font-san qa-fs-10 qa-fw-b">
-                                          {productNameSC}
-                                        </span>
-                                      </div>
-                                    ) : (
-                                      ""
-                                    )}
-                                  </Col>
-                                );
-                              })}
-                            </Row>
-                          </Col>
+                                  {k < 2 ? (
+                                    <div className="qa-text-2line qa-font-san qa-fs-10 qa-fw-b qa-lh qa-mar-top-05">
+                                      {productNameSC}
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+                                </Col>
+                              );
+                            })}
+                          </Row>
+                        </Col>
+                        <Col
+                          xs={24}
+                          sm={24}
+                          md={24}
+                          lg={24}
+                          style={{ marginTop: "15px" }}
+                        >
+                          <Row>
+                            <Col xs={24} sm={24} md={24} lg={24}>
+                              <span
+                                className="qa-font-san qa-fs-14 qa-fw-b"
+                                style={{
+                                  color: "#874439",
+                                  lineHeight: "17px",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                }}
+                                onClick={() => handleClick(order, subOrder)}
+                              >
+                                View details
+                              </span>
+                            </Col>
+                          </Row>
+                        </Col>
+                        {subOrders.length > 1 && j !== subOrders.length - 1 ? (
                           <Col
                             xs={24}
                             sm={24}
                             md={24}
                             lg={24}
-                            style={{ marginTop: "25px" }}
+                            className="qa-mar-top-2"
                           >
-                            <Row>
-                              <Col xs={24} sm={24} md={24} lg={24}>
-                                <span
-                                  className="qa-font-san qa-fs-14 qa-fw-b"
-                                  style={{
-                                    color: "#874439",
-                                    textDecoration: "underline",
-                                    lineHeight: "17px",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                  }}
-                                  onClick={() => handleClick(order, subOrder)}
-                                >
-                                  View details
-                                </span>
-                              </Col>
-                            </Row>
+                            <hr style={{ color: "0.5px solid #332F2F" }} />
                           </Col>
-                          {subOrders.length > 1 &&
-                          j !== subOrders.length - 1 ? (
-                            <Col
-                              xs={24}
-                              sm={24}
-                              md={24}
-                              lg={24}
-                              className="qa-mar-top-2"
-                            >
-                              <hr style={{ color: "0.5px solid #332F2F" }} />
-                            </Col>
-                          ) : (
-                            ""
-                          )}
-                        </Col>
-                      );
-                    })}
-                    <Col
-                      xs={24}
-                      sm={24}
-                      md={24}
-                      lg={24}
-                      style={{ paddingRight: "20px", paddingLeft: "20px" }}
-                    >
-                      <Row>
-                        <Col xs={24} sm={24} md={24} lg={24}>
-                          <hr style={{ color: "0.5px solid #332F2F" }} />
-                        </Col>
-                      </Row>
-                    </Col>
-                    <Col
-                      xs={24}
-                      sm={24}
-                      md={24}
-                      lg={24}
-                      style={{
-                        paddingRight: "20px",
-                        paddingLeft: "20px",
-                        paddingTop: "10px",
-                        paddingBottom: "10px",
-                      }}
-                    >
-                      <Row>
-                        <Col
-                          xs={16}
-                          sm={16}
-                          md={16}
-                          lg={16}
-                          className="qa-col-start"
-                        >
-                          <span className="qa-fs-14 qa-fw-b qa-font-san qa-tc-white">
-                            Freight fee
-                          </span>
-                        </Col>
-                        <Col xs={8} sm={8} md={8} lg={8} className="qa-col-end">
-                          {order && order.orderType == "RTS" ? (
-                            <span className="qa-fs-16 qa-fw-b qa-font-san qa-tc-white">
-                              {getSymbolFromCurrency(order && order.currency) ||
-                                "$"}
-                              {order &&
-                                order.miscCharges &&
+                        ) : (
+                          ""
+                        )}
+                      </Col>
+                    );
+                  })}
+                  <Col
+                    xs={24}
+                    sm={24}
+                    md={24}
+                    lg={24}
+                    style={{ paddingRight: "20px", paddingLeft: "20px" }}
+                  >
+                    <Row>
+                      <Col xs={24} sm={24} md={24} lg={24}>
+                        <hr style={{ color: "0.5px solid #332F2F" }} />
+                      </Col>
+                    </Row>
+                  </Col>
+                  <Col
+                    xs={24}
+                    sm={24}
+                    md={24}
+                    lg={24}
+                    style={{
+                      paddingRight: "20px",
+                      paddingLeft: "20px",
+                      paddingTop: "10px",
+                      paddingBottom: "10px",
+                    }}
+                  >
+                    <Row>
+                      <Col
+                        xs={16}
+                        sm={16}
+                        md={16}
+                        lg={16}
+                        className="qa-col-start"
+                      >
+                        <span className="qa-fs-14 qa-fw-b qa-font-san qa-tc-white">
+                          Freight fee
+                        </span>
+                      </Col>
+                      <Col xs={8} sm={8} md={8} lg={8} className="qa-col-end">
+                        {order && order.orderType == "RTS" ? (
+                          <span className="qa-fs-16 qa-fw-b qa-font-san qa-tc-white">
+                            {getSymbolFromCurrency(order && order.currency) ||
+                              "$"}
+                            {order &&
+                              order.miscCharges &&
+                              order.miscCharges.find(
+                                (x) => x.chargeId === "FREIGHT_MAX"
+                              ) &&
+                              parseFloat(
                                 order.miscCharges.find(
                                   (x) => x.chargeId === "FREIGHT_MAX"
-                                ) &&
-                                parseFloat(
-                                  order.miscCharges.find(
-                                    (x) => x.chargeId === "FREIGHT_MAX"
-                                  ).amount * order.conversionFactor
-                                ).toFixed(2)}
-                            </span>
-                          ) : (
-                            <span className="qa-fs-16 qa-fw-b qa-font-san qa-tc-white">
-                              {getSymbolFromCurrency(order && order.currency)}
-                              {order &&
-                                order.miscCharges &&
-                                order.miscCharges.find(
-                                  (x) => x.chargeId === "FREIGHT_CHARGES"
-                                ) &&
-                                order.miscCharges.find(
-                                  (x) => x.chargeId === "FREIGHT_CHARGES"
-                                ).amount}
-                            </span>
-                          )}
-                        </Col>
-                        <Col
-                          xs={16}
-                          sm={16}
-                          md={16}
-                          lg={16}
-                          className="qa-col-start qa-mar-top-1"
-                        >
-                          <span className="qa-fs-14 qa-fw-b qa-font-san qa-tc-white">
-                            Custom, taxes & duties
+                                ).amount * order.conversionFactor
+                              ).toFixed(2)}
                           </span>
-                        </Col>
-                        <Col
-                          xs={8}
-                          sm={8}
-                          md={8}
-                          lg={8}
-                          className="qa-col-end qa-mar-top-1"
-                        >
-                          {order && order.orderType == "RTS" ? (
-                            <span className="qa-fs-16 qa-fw-b qa-font-san qa-tc-white">
-                              {getSymbolFromCurrency(order && order.currency) ||
-                                "$"}
-                              {order &&
-                                order.miscCharges &&
+                        ) : (
+                          <span className="qa-fs-16 qa-fw-b qa-font-san qa-tc-white">
+                            {getSymbolFromCurrency(order && order.currency)}
+                            {order &&
+                              order.miscCharges &&
+                              order.miscCharges.find(
+                                (x) => x.chargeId === "FREIGHT_CHARGES"
+                              ) &&
+                              order.miscCharges.find(
+                                (x) => x.chargeId === "FREIGHT_CHARGES"
+                              ).amount}
+                          </span>
+                        )}
+                      </Col>
+                      <Col
+                        xs={16}
+                        sm={16}
+                        md={16}
+                        lg={16}
+                        className="qa-col-start qa-mar-top-1"
+                      >
+                        <span className="qa-fs-14 qa-fw-b qa-font-san qa-tc-white">
+                          Custom, taxes & duties
+                        </span>
+                      </Col>
+                      <Col
+                        xs={8}
+                        sm={8}
+                        md={8}
+                        lg={8}
+                        className="qa-col-end qa-mar-top-1"
+                      >
+                        {order && order.orderType == "RTS" ? (
+                          <span className="qa-fs-16 qa-fw-b qa-font-san qa-tc-white">
+                            {getSymbolFromCurrency(order && order.currency) ||
+                              "$"}
+                            {order &&
+                              order.miscCharges &&
+                              order.miscCharges.find(
+                                (x) => x.chargeId === "DUTY_MAX"
+                              ) &&
+                              parseFloat(
                                 order.miscCharges.find(
                                   (x) => x.chargeId === "DUTY_MAX"
-                                ) &&
-                                parseFloat(
-                                  order.miscCharges.find(
-                                    (x) => x.chargeId === "DUTY_MAX"
-                                  ).amount * order.conversionFactor
-                                ).toFixed(2)}
-                            </span>
-                          ) : (
-                            <span className="qa-fs-16 qa-fw-b qa-font-san qa-tc-white">
-                              {getSymbolFromCurrency(order && order.currency)}
-                              {order &&
-                                order.miscCharges &&
-                                order.miscCharges.find(
-                                  (x) => x.chargeId === "FREIGHT_CHARGES"
-                                ) &&
-                                order.miscCharges.find(
-                                  (x) => x.chargeId === "FREIGHT_CHARGES"
-                                ).amount}
-                            </span>
-                          )}
-                        </Col>
-                        <Col
-                          xs={16}
-                          sm={16}
-                          md={16}
-                          lg={16}
-                          className="qa-col-start qa-mar-top-1"
-                        >
-                          <span className="qa-fs-14 qa-fw-b qa-font-san qa-tc-white">
-                            Coupon discount
+                                ).amount * order.conversionFactor
+                              ).toFixed(2)}
                           </span>
-                        </Col>
-                        <Col
-                          xs={8}
-                          sm={8}
-                          md={8}
-                          lg={8}
-                          className="qa-col-end qa-mar-top-1"
-                        >
-                          {order && order.orderType == "RTS" ? (
-                            <span
-                              className="qa-fs-16 qa-fw-b qa-font-san"
-                              style={{ color: "#0ABC1C" }}
-                            >
-                              -{" "}
-                              {getSymbolFromCurrency(order && order.currency) ||
-                                "$"}
-                              {(order &&
-                                order.miscCharges &&
+                        ) : (
+                          <span className="qa-fs-16 qa-fw-b qa-font-san qa-tc-white">
+                            {getSymbolFromCurrency(order && order.currency)}
+                            {order &&
+                              order.miscCharges &&
+                              order.miscCharges.find(
+                                (x) => x.chargeId === "FREIGHT_CHARGES"
+                              ) &&
+                              order.miscCharges.find(
+                                (x) => x.chargeId === "FREIGHT_CHARGES"
+                              ).amount}
+                          </span>
+                        )}
+                      </Col>
+                      <Col
+                        xs={16}
+                        sm={16}
+                        md={16}
+                        lg={16}
+                        className="qa-col-start qa-mar-top-1"
+                      >
+                        <span className="qa-fs-14 qa-fw-b qa-font-san qa-tc-white">
+                          Coupon discount
+                        </span>
+                      </Col>
+                      <Col
+                        xs={8}
+                        sm={8}
+                        md={8}
+                        lg={8}
+                        className="qa-col-end qa-mar-top-1"
+                      >
+                        {order && order.orderType == "RTS" ? (
+                          <span
+                            className="qa-fs-16 qa-fw-b qa-font-san"
+                            style={{ color: "#0ABC1C" }}
+                          >
+                            -{" "}
+                            {getSymbolFromCurrency(order && order.currency) ||
+                              "$"}
+                            {(order &&
+                              order.miscCharges &&
+                              order.miscCharges.find(
+                                (x) => x.chargeId === "DISCOUNT"
+                              ) &&
+                              parseFloat(
                                 order.miscCharges.find(
                                   (x) => x.chargeId === "DISCOUNT"
-                                ) &&
-                                parseFloat(
-                                  order.miscCharges.find(
-                                    (x) => x.chargeId === "DISCOUNT"
-                                  ).amount * order.conversionFactor
-                                ).toFixed(2)) ||
-                                0}
-                            </span>
-                          ) : (
-                            <span
-                              className="qa-fs-16 qa-fw-b qa-font-san"
-                              style={{ color: "#0ABC1C" }}
-                            >
-                              - {getSymbolFromCurrency(order && order.currency)}
-                              {(order &&
-                                order.miscCharges &&
-                                order.miscCharges.find(
-                                  (x) => x.chargeId === "DISCOUNT"
-                                ) &&
-                                order.miscCharges.find(
-                                  (x) => x.chargeId === "DISCOUNT"
-                                ).amount) ||
-                                0}
-                            </span>
-                          )}
-                        </Col>
-                        <Col
-                          xs={16}
-                          sm={16}
-                          md={16}
-                          lg={16}
-                          className="qa-col-start qa-mar-top-1"
-                        >
-                          <span className="qa-fs-14 qa-fw-b qa-font-san qa-tc-white">
-                            VAT / GST
+                                ).amount * order.conversionFactor
+                              ).toFixed(2)) ||
+                              0}
                           </span>
-                        </Col>
-                        <Col
-                          xs={8}
-                          sm={8}
-                          md={8}
-                          lg={8}
-                          className="qa-col-end qa-mar-top-1"
-                        >
-                          {order && order.orderType == "RTS" ? (
-                            <span className="qa-fs-16 qa-fw-b qa-font-san qa-tc-white">
-                              {getSymbolFromCurrency(order && order.currency) ||
-                                "$"}
-                              {(order &&
-                                order.miscCharges &&
-                                order.miscCharges.find(
-                                  (x) => x.chargeId === "VAT"
-                                ) &&
-                                parseFloat(
-                                  order.miscCharges.find(
-                                    (x) => x.chargeId === "VAT"
-                                  ).amount * order.conversionFactor
-                                ).toFixed(2)) ||
-                                0}
-                            </span>
-                          ) : (
-                            <span
-                              className="qa-fs-16 qa-fw-b qa-font-san"
-                              style={{ color: "#0ABC1C" }}
-                            >
-                              {getSymbolFromCurrency(order && order.currency)}
-                              {(order &&
-                                order.miscCharges &&
-                                order.miscCharges.find(
-                                  (x) => x.chargeId === "VAT"
-                                ) &&
-                                order.miscCharges.find(
-                                  (x) => x.chargeId === "VAT"
-                                ).amount) ||
-                                0}
-                            </span>
-                          )}
-                        </Col>
-                      </Row>
-                    </Col>
-                    <Col
-                      xs={24}
-                      sm={24}
-                      md={24}
-                      lg={24}
-                      style={{ paddingRight: "20px", paddingLeft: "20px" }}
-                    >
-                      <Row>
-                        <Col xs={24} sm={24} md={24} lg={24}>
-                          <hr style={{ color: "0.5px solid #332F2F" }} />
-                        </Col>
-                      </Row>
-                    </Col>
-                    <Col
-                      xs={24}
-                      sm={24}
-                      md={24}
-                      lg={24}
-                      style={{
-                        paddingRight: "20px",
-                        paddingLeft: "20px",
-                        paddingBottom: "20px",
-                      }}
-                    >
-                      <Row>
-                        <Col
-                          xs={16}
-                          sm={16}
-                          md={16}
-                          lg={16}
-                          className="qa-col-start"
-                        >
-                          <span className="qa-fs-14 qa-fw-b qa-font-san qa-tc-white">
-                            TOTAL CART VALUE
+                        ) : (
+                          <span
+                            className="qa-fs-16 qa-fw-b qa-font-san"
+                            style={{ color: "#0ABC1C" }}
+                          >
+                            - {getSymbolFromCurrency(order && order.currency)}
+                            {(order &&
+                              order.miscCharges &&
+                              order.miscCharges.find(
+                                (x) => x.chargeId === "DISCOUNT"
+                              ) &&
+                              order.miscCharges.find(
+                                (x) => x.chargeId === "DISCOUNT"
+                              ).amount) ||
+                              0}
                           </span>
-                        </Col>
-                        <Col xs={8} sm={8} md={8} lg={8} className="qa-col-end">
-                          {order && order.orderType == "RTS" ? (
-                            <span className="qa-fs-16 qa-fw-b qa-font-san qa-tc-white">
-                              {getSymbolFromCurrency(order && order.currency) ||
-                                "$"}
-                              {order &&
-                                parseFloat(
-                                  order.total * order.conversionFactor
-                                ).toFixed(2)}
-                            </span>
-                          ) : (
-                            <span className="qa-fs-16 qa-fw-b qa-font-san qa-tc-white">
-                              {getSymbolFromCurrency(order && order.currency)}
-                              {order &&
-                                order.miscCharges &&
+                        )}
+                      </Col>
+                      <Col
+                        xs={16}
+                        sm={16}
+                        md={16}
+                        lg={16}
+                        className="qa-col-start qa-mar-top-1"
+                      >
+                        <span className="qa-fs-14 qa-fw-b qa-font-san qa-tc-white">
+                          VAT / GST
+                        </span>
+                      </Col>
+                      <Col
+                        xs={8}
+                        sm={8}
+                        md={8}
+                        lg={8}
+                        className="qa-col-end qa-mar-top-1"
+                      >
+                        {order && order.orderType == "RTS" ? (
+                          <span className="qa-fs-16 qa-fw-b qa-font-san qa-tc-white">
+                            {getSymbolFromCurrency(order && order.currency) ||
+                              "$"}
+                            {(order &&
+                              order.miscCharges &&
+                              order.miscCharges.find(
+                                (x) => x.chargeId === "VAT"
+                              ) &&
+                              parseFloat(
                                 order.miscCharges.find(
-                                  (x) => x.chargeId === "TOTAL_AMOUNT"
-                                ) &&
-                                order.miscCharges.find(
-                                  (x) => x.chargeId === "TOTAL_AMOUNT"
-                                ).amount}
-                            </span>
-                          )}
-                        </Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                </Col>
-              );
-            })}
-          </Col>
-        ) : (
-          <OrderDetails
-            orders={orderDetails}
-            subOrders={subOrders}
-            brandNameList={props.brandNameList}
-          />
-        )}
-      </div>
+                                  (x) => x.chargeId === "VAT"
+                                ).amount * order.conversionFactor
+                              ).toFixed(2)) ||
+                              0}
+                          </span>
+                        ) : (
+                          <span
+                            className="qa-fs-16 qa-fw-b qa-font-san"
+                            style={{ color: "#0ABC1C" }}
+                          >
+                            {getSymbolFromCurrency(order && order.currency)}
+                            {(order &&
+                              order.miscCharges &&
+                              order.miscCharges.find(
+                                (x) => x.chargeId === "VAT"
+                              ) &&
+                              order.miscCharges.find(
+                                (x) => x.chargeId === "VAT"
+                              ).amount) ||
+                              0}
+                          </span>
+                        )}
+                      </Col>
+                    </Row>
+                  </Col>
+                  <Col
+                    xs={24}
+                    sm={24}
+                    md={24}
+                    lg={24}
+                    style={{ paddingRight: "20px", paddingLeft: "20px" }}
+                  >
+                    <Row>
+                      <Col xs={24} sm={24} md={24} lg={24}>
+                        <hr style={{ color: "0.5px solid #332F2F" }} />
+                      </Col>
+                    </Row>
+                  </Col>
+                  <Col
+                    xs={24}
+                    sm={24}
+                    md={24}
+                    lg={24}
+                    style={{
+                      paddingRight: "20px",
+                      paddingLeft: "20px",
+                      paddingBottom: "20px",
+                      paddingTop: "5px",
+                    }}
+                  >
+                    <Row>
+                      <Col
+                        xs={16}
+                        sm={16}
+                        md={16}
+                        lg={16}
+                        className="qa-col-start"
+                      >
+                        <span className="qa-fs-14 qa-fw-b qa-font-san qa-tc-white">
+                          TOTAL CART VALUE
+                        </span>
+                      </Col>
+                      <Col xs={8} sm={8} md={8} lg={8} className="qa-col-end">
+                        {order && order.orderType == "RTS" ? (
+                          <span className="qa-fs-16 qa-fw-b qa-font-san qa-tc-white">
+                            {getSymbolFromCurrency(order && order.currency) ||
+                              "$"}
+                            {order &&
+                              parseFloat(
+                                order.total * order.conversionFactor
+                              ).toFixed(2)}
+                          </span>
+                        ) : (
+                          <span className="qa-fs-16 qa-fw-b qa-font-san qa-tc-white">
+                            {getSymbolFromCurrency(order && order.currency)}
+                            {order &&
+                              order.miscCharges &&
+                              order.miscCharges.find(
+                                (x) => x.chargeId === "TOTAL_AMOUNT"
+                              ) &&
+                              order.miscCharges.find(
+                                (x) => x.chargeId === "TOTAL_AMOUNT"
+                              ).amount}
+                          </span>
+                        )}
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+              </Col>
+            );
+          })}
+        </Col>
+      ) : (
+        <OrderDetails
+          orders={orderDetails}
+          subOrders={subOrders}
+          brandNameList={props.brandNameList}
+        />
+      )}
       <Modal
         visible={visible}
         footer={null}
@@ -1129,7 +1125,7 @@ const OrdersMobile = (props) => {
           </Button>
         </div>
       </Modal>
-    </div>
+    </React.Fragment>
   );
 };
 

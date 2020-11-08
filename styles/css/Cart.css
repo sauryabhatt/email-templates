@@ -83,6 +83,7 @@
   text-align: right;
   width: 20%;
   vertical-align: top;
+  font-size: 14px;
 }
 .cart-section .qa-ship-addr {
   width: 100%;
@@ -254,7 +255,13 @@
   color: rgba(25, 25, 25, 0.4) !important;
   border: none !important;
 }
-
+.cart-section .proceed-to-ship.active:hover,
+.cart-section .proceed-to-payment.active:hover,
+.cart-section .proceed-to-checkout.active:hover {
+  background: #c4c4c4;
+  color: #191919;
+  border: none !important;
+}
 .cart-section .proceed-to-ship,
 .cart-section .proceed-to-payment,
 .cart-section .proceed-to-checkout {
@@ -302,11 +309,11 @@
 }
 
 .breakup-popup .c-left-blk {
-  width: 70%;
+  width: 60%;
   display: inline-block;
 }
 .breakup-popup .c-right-blk {
-  width: 30%;
+  width: 40%;
   display: inline-block;
 }
 .opt-service-modal .cart-opt-service {
@@ -348,7 +355,7 @@
 .cart-section .ant-radio-inner,
 .cart-section .ant-radio-checked {
   background-color: transparent;
-  border: 0.5px solid #cecbc2 !important;
+  border: 1px solid #cecbc2 !important;
   border-radius: 50%;
 }
 .cart-address-modal .ant-radio-inner::after,
@@ -366,6 +373,7 @@
   text-align: right;
   width: 10%;
   vertical-align: top;
+  font-size: 14px;
 }
 .cart-address-modal #select_address_form .qa-radio-home {
   padding-right: 5px;
@@ -525,10 +533,10 @@ a.qa-sm-color:hover {
   color: #874439;
 }
 .cart-section.empty-cart {
-  margin: 0 auto;
-  width: 40%;
-  padding-top: 150px;
-  margin-bottom: 100px;
+  width: 100%;
+  padding-top: 75px;
+  background: #f9f7f2;
+  padding-bottom: 150px;
 }
 .empty-cart .e-cart-title {
   font-family: Butler;
@@ -691,4 +699,26 @@ a.qa-sm-color:hover {
 }
 .cart-section .cart-coupon-sec {
   padding: 15px 10px;
+}
+/* Chrome, Safari, Edge, Opera */
+.cart-section input::-webkit-outer-spin-button,
+.cart-section input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.cart-section input[type="number"] {
+  -moz-appearance: textfield;
+}
+.cart-section .add-shipping-addr {
+  font-family: senregular;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 120%;
+  letter-spacing: 0.02em;
+  color: #d9bb7f;
+  margin-top: 10px;
+  cursor: pointer;
 }

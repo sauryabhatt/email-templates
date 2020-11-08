@@ -1,25 +1,27 @@
-import '../styles/globals.css'
-import { useEffect} from "react";
-import 'antd/dist/antd.css';
+/** @format */
+
+import { useEffect } from "react";
+import "antd/dist/antd.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import ErrorHandler from '../components/ErrorHandler';
-import AppFooter from '../components/AppFooter/AppFooter';
+import "../styles/globals.css";
+import ErrorHandler from "../components/ErrorHandler";
+import AppFooter from "../components/AppFooter/AppFooter";
 import ScrollToTop from "../components/ScrollToTop/ScrollToTop";
-import AuthWithKeycloak from '../components/AuthWithKeycloak';
-import {getToken} from '../components/taskBeforeLoad';
-import Spinner from '../components/Spinner/Spinner'; 
-import { Provider } from 'react-redux';
-import cookie from 'cookie'
-import Cookies from 'js-cookie'
-import store  from '../store';
-import { setTokenSuccess, setTokenFail } from '../store/actions';
-import {useRouter} from 'next/router';
+import AuthWithKeycloak from "../components/AuthWithKeycloak";
+import { getToken } from "../components/taskBeforeLoad";
+import Spinner from "../components/Spinner/Spinner";
+import { Provider } from "react-redux";
+import cookie from "cookie";
+import Cookies from "js-cookie";
+import store from "../store";
+import { setTokenSuccess, setTokenFail } from "../store/actions";
+import { useRouter } from "next/router";
 
 function MyApp(props) {
-  const router = useRouter();  
-  
-  const { Component, pageProps, cookies} = props;
+  const router = useRouter();
+
+  const { Component, pageProps, cookies } = props;
 
   // useEffect(() => {
   //   if(isTokenGenerationFailed) {
@@ -27,45 +29,36 @@ function MyApp(props) {
   //   } else {
   //     store.dispatch(setTokenSuccess(token));
   //   }
-    
+
   // }, [])
 
-    return (
-      <AuthWithKeycloak cookies = {cookies}>
-        <Provider store={store}>
-          <React.Fragment>
-            <Component {...pageProps} />
-            <AppFooter/>
-          </React.Fragment>
-        </Provider>
-      </AuthWithKeycloak>
-      );
+  return (
+    <AuthWithKeycloak cookies={cookies}>
+      <Provider store={store}>
+        <React.Fragment>
+          <Component {...pageProps} />
+          <AppFooter />
+        </React.Fragment>
+      </Provider>
+    </AuthWithKeycloak>
+  );
 }
 function parseCookies(req) {
   if (!req || !req.headers) {
-    return {}
+    return {};
   }
-  return cookie.parse(req.headers.cookie || '')
+  return cookie.parse(req.headers.cookie || "");
 }
 
-MyApp.getInitialProps = async ({ctx}) => {
-  const {req, res} = ctx || {};
-  
+MyApp.getInitialProps = async ({ ctx }) => {
+  const { req, res } = ctx || {};
+
   return {
     cookies: parseCookies(req),
-  }
-  
-}
+  };
+};
 
-export default MyApp
-
-
-
-
-
-
-
-
+export default MyApp;
 
 /*let timeSkew = 10;
 const generateToken=async ()=>{
@@ -112,8 +105,6 @@ const generateToken=async ()=>{
   
   
 } */
-
-
 
 /*MyApp.getInitialProps = async ({ctx}) => {
   // Extract token from AppContext

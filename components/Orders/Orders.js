@@ -149,13 +149,15 @@ const Orders = (props) => {
           </Col>
           <Col xs={22} sm={22} md={12} lg={12}>
             <div style={{ textAlign: "right" }}>
-              <Link href="/FAQforwholesalebuyers" target="_blank">
-                <span
-                  style={{ lineHeight: "17px", cursor: "pointer" }}
-                  className="qa-font-san qa-fw-b qa-fs-14 qa-sm-color"
-                >
-                  BUYERS’ FAQs{" "}
-                </span>
+              <Link href="/FAQforwholesalebuyers">
+                <a target="_blank">
+                  <span
+                    style={{ lineHeight: "17px", cursor: "pointer" }}
+                    className="qa-font-san qa-fw-b qa-fs-14 qa-sm-color"
+                  >
+                    BUYERS’ FAQs{" "}
+                  </span>
+                </a>
               </Link>
               <span
                 className="qa-font-san qa-fw-b qa-fs-14 qa-sm-color"
@@ -284,7 +286,7 @@ const Orders = (props) => {
                           sm={11}
                           md={7}
                           lg={7}
-                          className="qa-vertical-center"
+                          style={{ padding: "10px 0px" }}
                         >
                           <span
                             className="qa-fs-14 qa-font-san"
@@ -292,6 +294,7 @@ const Orders = (props) => {
                               color: "#332f2f",
                               display: "flex",
                               textAlign: "left",
+                              marginLeft: "20px",
                             }}
                           >
                             ORDER NUMBER #{order.orderId}
@@ -302,13 +305,14 @@ const Orders = (props) => {
                           sm={11}
                           md={10}
                           lg={10}
-                          style={{ justifyContent: "center" }}
+                          style={{ padding: "20px 0px", textAlign: "center" }}
                           className="qa-vertical-center"
                         >
                           <span
                             className="qa-fs-14 qa-font-san qa-fw-b"
                             style={{
                               color: "#EE0D1A",
+                              marginLeft: "20px",
                             }}
                           >
                             PAYMENT UNSUCCESSFUL
@@ -368,10 +372,7 @@ const Orders = (props) => {
                             retryPayment(order.orderId, order.orderType)
                           }
                         >
-                          <span
-                            className="qa-font-san qa-fs-12"
-                            style={{ color: "#F9F7F2" }}
-                          >
+                          <span className="qa-font-san qa-fs-12">
                             RETRY PAYMENT
                           </span>
                         </Button>
