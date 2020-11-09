@@ -1,4 +1,4 @@
-import React, {useState,useEffect, useRef} from 'react'
+import React, {useState,useEffect} from 'react'
 import {useKeycloak} from '@react-keycloak/ssr';
 import {loginToApp} from "../AuthWithKeycloak";
 import Spinner from "../Spinner/Spinner";
@@ -21,9 +21,7 @@ function getCookie(cname) {
 
 function Auth ({children, path}){
     const { keycloak } = useKeycloak();
-    const didMountRef = useRef(false);
     const [status, setStatus] = useState(undefined);
-    const [mounted, setmounted] = useState(false);
     
     useEffect(() => {
 
