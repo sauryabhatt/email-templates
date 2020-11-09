@@ -101,7 +101,7 @@ const RtsOrderReview = (props) => {
       }
 
       fetch(
-        `${process.env.REACT_APP_PRICE_QUOTATION_URL}/quotes/rts/${priceQuoteRef}?mode=${shippingMode}`,
+        `${process.env.NEXT_PUBLIC_REACT_APP_PRICE_QUOTATION_URL}/quotes/rts/${priceQuoteRef}?mode=${shippingMode}`,
         {
           method: "GET",
           headers: {
