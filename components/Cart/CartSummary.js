@@ -1,8 +1,8 @@
 /** @format */
 
 import React, { useState, useEffect } from "react";
-import Link  from "next/link";
-import {useRouter} from "next/router";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { Button, Popover, Row, Modal, Checkbox, message, Spin } from "antd";
 import Icon from "@ant-design/icons";
 import closeButton from "../../public/filestore/closeButton";
@@ -13,8 +13,8 @@ import getSymbolFromCurrency from "currency-symbol-map";
 import _ from "lodash";
 
 const CartSummary = (props) => {
-  const {keycloak} = useKeycloak();
-  const   router = useRouter();
+  const { keycloak } = useKeycloak();
+  const router = useRouter();
   const [popover, setPopover] = useState("");
   const [popoverData, setPopoverData] = useState({
     total: 0,
@@ -59,7 +59,7 @@ const CartSummary = (props) => {
     showCartError = false,
     currencyDetails = {},
     shippingMode = "",
-    disablePayment,
+    disablePayment = false,
     hideCreateOrder = false,
   } = props;
   let {
@@ -69,6 +69,7 @@ const CartSummary = (props) => {
     total = 0,
     priceQuoteRef = "",
     referralCode = "",
+    shippingAddressDetails = {},
   } = cart || {};
   let frieghtCharge = 0;
   let dutyCharge = 0;
@@ -96,7 +97,15 @@ const CartSummary = (props) => {
   }
 
   let { convertToCurrency = "" } = currencyDetails || {};
-  let { orgName = "", email = "" } = user || {};
+  let { orgName = "", email = "", firstName = "" } = user || {};
+  let {
+    addressLine1 = "",
+    addressLine2 = "",
+    city = "",
+    state = "",
+    zipCode = "",
+    country = "",
+  } = shippingAddressDetails || {};
 
   const getConvertedCurrency = (baseAmount) => {
     let { convertToCurrency = "", rates = [] } = currencyDetails;
@@ -140,12 +149,11 @@ const CartSummary = (props) => {
       })
       .then((result) => {
         let { status = "" } = result;
-        console.log("status--->", status);
         if (status === "COMMITTED") {
           let url = "/payment";
           router.push(url);
         } else {
-          
+          console.log("Not shippable");
           setNonShippable(true);
         }
       })
@@ -156,11 +164,43 @@ const CartSummary = (props) => {
   };
 
   const createOrder = () => {
+    let url = process.env.REACT_APP_REDIRECT_APP_DOMAIN + "/product/";
+    let productList = [];
+    let currencyFormat = getSymbolFromCurrency(convertToCurrency);
+    for (let orders of subOrders) {
+      let { products = [] } = orders;
+      for (let product of products) {
+        let {
+          productId = "",
+          productName = "",
+          quantity = "",
+          priceMin = "",
+          articleId = "",
+        } = product;
+        let obj = {
+          productId: productId,
+          productName: productName,
+          quantity: quantity,
+          priceMin: currencyFormat + priceMin,
+          linkOfProduct: url + articleId,
+        };
+        productList.push(obj);
+      }
+    }
+
     let data = {
+      buyerName: firstName,
       buyerEmailId: email,
       buyerOrgName: orgName,
       orderId: orderId,
       quoteId: priceQuoteRef,
+      addressLine1: addressLine1,
+      addressLine2: addressLine2,
+      city: city,
+      state: state,
+      country: country,
+      zipCode: zipCode,
+      products: productList,
     };
     fetch(process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL + "/v1/orders/assist", {
       method: "POST",
@@ -505,12 +545,13 @@ const CartSummary = (props) => {
       </div>
       <div className="qa-tc-white qa-fs-12 qa-lh qa-txt-alg-cnt">
         Note: Qalara margin may vary by total cart value{" "}
-        <Link
-          href="/FAQforwholesalebuyers"
-          target="_blank"
-        >
-          <p className="qa-sm-color">Refer FAQs here</p>
-        </Link>
+        <span>
+          <Link href="/FAQforwholesalebuyers">
+            <a target="_blank" className="qa-sm-color">
+              Refer FAQs here
+            </a>
+          </Link>
+        </span>
       </div>
     </div>
   );
@@ -731,11 +772,10 @@ const CartSummary = (props) => {
           </div>
           <div className="c-left-blk">
             Part of these charges are refundable.{" "}
-            <Link
-              href="/FAQforwholesalebuyers"
-              target="_blank"
-            >
-              <p className="qa-sm-color">Know more</p>
+            <Link href="/FAQforwholesalebuyers">
+              <a target="_blank">
+                <span className="qa-sm-color qa-cursor">Know more</span>
+              </a>
             </Link>
           </div>
         </div>

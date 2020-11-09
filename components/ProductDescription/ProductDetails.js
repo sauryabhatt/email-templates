@@ -46,6 +46,7 @@ import PDPLoader from "../../public/filestore/PDPLoader";
 import PDPLoaderMobile from "../../public/filestore/PDPLoaderMobile";
 import PDPZoom from "../../public/filestore/PDPZoom";
 import addToCollectionIcon from "../../public/filestore/addToCollection";
+import savedToCollectionIcon from "../../public/filestore/savedToCollection";
 import Air from "../../public/filestore/air";
 import Sea from "../../public/filestore/sea";
 import alertIcon from "../../public/filestore/alertIcon";
@@ -1011,10 +1012,12 @@ const ProductDetails = (props) => {
                   Explore seller:
                 </div>
 
-                <Link href={`/seller/${vanityId}`} target="_blank">
-                  <span className="qa-text-2line qa-p-title qa-cursor qa-fs-12">
-                    {brandNameSC}
-                  </span>
+                <Link href={`/seller/${vanityId}`}>
+                  <a target="_blank">
+                    <span className="qa-text-2line qa-p-title qa-cursor qa-fs-12">
+                      {brandNameSC}
+                    </span>
+                  </a>
                 </Link>
               </div>
             </Col>
@@ -1993,13 +1996,13 @@ const ProductDetails = (props) => {
                   showPrice ? "pdp-explore-sec" : "pdp-explore-sec pdp-fw"
                 }`}
               >
-                <Link href={`/seller/${vanityId}`} target="_blank">
-                  <div>
+                <Link href={`/seller/${vanityId}`}>
+                  <a target="_blank">
                     <div className="qa-tc-white qa-fs-14">Explore seller:</div>
                     <span className="qa-text-2line qa-p-title qa-cursor">
                       {brandNameSC}
                     </span>
-                  </div>
+                  </a>
                 </Link>
               </div>
               {!showPrice && (

@@ -2,8 +2,7 @@
 
 import { Layout } from "../../components/common/Layout";
 import CategoryEditWrapper from "../../components/CategoryEditWrapper"
-
-
+import NotFound from "../../components/NotFound/NotFound";
 
 export default function CategoryEditDetails({ data }) {
   let { res, category } = data || {};
@@ -47,7 +46,9 @@ export default function CategoryEditDetails({ data }) {
       }
       break;
   }
-
+  if(data?.error?.status || res?.body == null) {
+    return <><NotFound /></>;
+  }
   return (
     <Layout meta={meta}>
       <CategoryEditWrapper body={res?.body || "<p>No Data Available</p>"}/>
@@ -62,6 +63,10 @@ export async function getStaticPaths() {
   };
 }
 export async function getStaticProps({ params: { category = "" } = {} }) {
+
+  let res; 
+  const error={status:false};
+  try {
   const response = await fetch(
     process.env.NEXT_PUBLIC_REACT_APP_CONTENT_URL +
       `/content/${category.toLowerCase()}`,
@@ -74,12 +79,16 @@ export async function getStaticProps({ params: { category = "" } = {} }) {
       },
     }
   );
-  const res = await response.json();
+  res = await response.json();
+  } catch (error) {
+    error["status"]=true;
+  }
   return {
     props: {
       data :{
         res:res,
-        category:category.toLowerCase()
+        category:category.toLowerCase(),
+        error:error
       }
     },
   };

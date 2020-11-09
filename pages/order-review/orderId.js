@@ -1,17 +1,17 @@
 import dynamic from 'next/dynamic';
 import {Layout} from "../../components/common/Layout"; 
-import Spinner from "../../components/Spinner/Spinner";
 import Auth from "../../components/common/Auth"; 
+import Spinner from "../../components/Spinner/Spinner";
 import {useRouter} from "next/router";
-const DynamicUserAccountWrapper = dynamic(
-    () => import('../../components/UserAccount/UserAccount'),
+const DynamicOrderReviewWrapper = dynamic(
+    () => import('../../components/OrderReview/OrderReview'),
     { 
     ssr: false,
     loading: () => <Spinner/>
     }
   )
 
-export default function UserAccount() {
+function OrderReview() {
   const router = useRouter();
   const meta = {
     title:"Buy online from India for wholesale exports. Source from verified exporters | Qalara",
@@ -19,9 +19,10 @@ export default function UserAccount() {
 }
   
   return (
-    <Layout meta={meta} privateRoute>
-      <Auth path={`/account/${router.query.section}`}><><DynamicUserAccountWrapper/></></Auth>
-    </Layout>  
+      <Layout meta={meta}>
+        <Auth path={`/order-review/${router.query.orderId}`}><><DynamicOrderReviewWrapper/></></Auth>
+      </Layout>
   )
 
 }
+export default OrderReview;

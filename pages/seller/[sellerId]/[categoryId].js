@@ -4,6 +4,8 @@ import { Layout } from "../../../components/common/Layout";
 import SellerProductListing from "../../../components/SellerProductListing/SellerProductListing";
 import Spinner from "../../../components/Spinner/Spinner";
 import { useRouter } from "next/router";
+import NotFound from "../../../components/NotFound/NotFound";
+
 export default function SellerProductListingPage({ data }) {
   const router = useRouter();
 
@@ -15,6 +17,9 @@ export default function SellerProductListingPage({ data }) {
       data?.sellerDetails?.companyDescription ||
       "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods - Décor, Rugs and Carpets, Kitchen, Home Furnishings – from India. Digitally. Reliably. Affordably. Responsibly.",
   };
+  if(data?.error?.status) {
+    return <><NotFound /></>;
+  }
   if (router.isFallback) {
     return <Spinner />;
   }
@@ -41,6 +46,10 @@ const getURL = (categoryId, sellerId) =>{
 };
 export const getStaticProps = async ({ params }) => {
   const { categoryId, sellerId } = params || {};
+
+  let res1, sellerDetails; 
+  const error={status:false};
+  try {
   const response = fetch(getURL(categoryId, sellerId), {
     method: "GET",
   });
@@ -56,8 +65,11 @@ export const getStaticProps = async ({ params }) => {
     }
   );
   const [res, sellerRes] = await Promise.all([response, sellerResponse]);
-  const res1 = await res.json();
-  const sellerDetails = await sellerRes.json();
+   res1 = await res.json();
+   sellerDetails = await sellerRes.json();
+  } catch (error) {
+    error["status"]=true;
+  }
   return {
     props: {
       data: {
@@ -66,6 +78,7 @@ export const getStaticProps = async ({ params }) => {
         slp_facets: res1.aggregates,
         slp_categories: res1.fixedAggregates,
         sellerDetails: sellerDetails,
+        error:error
       },
     },
   };

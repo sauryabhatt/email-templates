@@ -29,7 +29,7 @@ import Icon, {
   LeftOutlined,
   LoadingOutlined,
 } from "@ant-design/icons";
-import { useRouter} from "next/router";
+import { useRouter } from "next/router";
 import { useKeycloak } from "@react-keycloak/ssr";
 import {
   getUserProfile,
@@ -90,7 +90,7 @@ const UserAccount = (props) => {
   const [edit, setEdit] = useState(true);
   const [loading, setLoading] = useState(false);
   const [passLoading, setPassLoading] = useState(false);
-  const {keycloak} = useKeycloak();
+  const { keycloak } = useKeycloak();
   const [mobile, setMobile] = useState(false);
   const [videoRequestCount, setVideoRequestCount] = useState(
     props.openRequest.length
@@ -114,6 +114,9 @@ const UserAccount = (props) => {
   const [meetingByStatusList, setMeetingByStatusList] = useState([]);
   const [loadCount, setLoadCount] = useState(1);
   const [showOrderDetails, setShowOrderDetails] = useState(false);
+  const [collectionName, setCollectionName] = useState("");
+  const [showCollectionDetails, setCollectionDetails] = useState(false);
+
   const settings = {
     infinite: false,
     speed: 500,
@@ -156,6 +159,7 @@ const UserAccount = (props) => {
   }, [router.query.section]);
   useEffect(() => {
     setShowOrderDetails(false);
+    setCollectionDetails(false);
     if (currentNav == "profile") {
       props.getUserProfile(keycloak.token);
     } else if (currentNav == "video") {
@@ -241,6 +245,10 @@ const UserAccount = (props) => {
   useEffect(() => {
     setShowLoader(false);
   }, [props.orders]);
+
+  useEffect(() => {
+    setShowLoader(false);
+  }, [props.collections]);
 
   useEffect(() => {
     if (props.meetingByStatus.length > 0) {
@@ -375,14 +383,17 @@ const UserAccount = (props) => {
           altName: requesterName,
         },
       };
-      fetch(process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/profiles/my", {
-        method: "PATCH",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + keycloak.token,
-        },
-      })
+      fetch(
+        process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/profiles/my",
+        {
+          method: "PATCH",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + keycloak.token,
+          },
+        }
+      )
         .then((res) => {
           if (res.ok) {
             return res.json();
@@ -405,13 +416,13 @@ const UserAccount = (props) => {
 
   const handleSignUpAsABuyer = () => {
     logoutFromApp({ currentPath: "/signup" });
-    // router.push('/signup');
   };
 
   const onSetPassword = () => {
     setPassLoading(true);
     fetch(
-      process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/profiles/my/verification-email",
+      process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
+        "/profiles/my/verification-email",
       {
         method: "PUT",
         // body: JSON.stringify(data),
@@ -545,7 +556,9 @@ const UserAccount = (props) => {
     };
 
     fetch(
-      process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL + "/events/meeting/my/" + meetingId,
+      process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL +
+        "/events/meeting/my/" +
+        meetingId,
       {
         method: "PATCH",
         body: JSON.stringify(data),
@@ -598,7 +611,9 @@ const UserAccount = (props) => {
     };
 
     fetch(
-      process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL + "/events/meeting/my/" + meetingId,
+      process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL +
+        "/events/meeting/my/" +
+        meetingId,
       {
         method: "PATCH",
         body: JSON.stringify(data),
@@ -647,7 +662,9 @@ const UserAccount = (props) => {
     };
 
     fetch(
-      process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL + "/events/meeting/my/" + meetingId,
+      process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL +
+        "/events/meeting/my/" +
+        meetingId,
       {
         method: "PATCH",
         body: JSON.stringify(data),
@@ -700,7 +717,9 @@ const UserAccount = (props) => {
     };
 
     fetch(
-      process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL + "/events/meeting/my/" + meetingId,
+      process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL +
+        "/events/meeting/my/" +
+        meetingId,
       {
         method: "PATCH",
         body: JSON.stringify(data),
@@ -862,7 +881,8 @@ const UserAccount = (props) => {
   });
 
   let assetUrl =
-    process.env.NEXT_PUBLIC_REACT_APP_API_ASSETS_URL + "/assets?sourceService=profile";
+    process.env.NEXT_PUBLIC_REACT_APP_API_ASSETS_URL +
+    "/assets?sourceService=profile";
 
   if (
     props.userProfile.userProfile &&
@@ -877,7 +897,7 @@ const UserAccount = (props) => {
   const handleNavClick = (value) => {
     router.push(`/account/${value}`);
     setShowOrderDetails(false);
-    // setShowOrderDetails(false);
+    setCollectionDetails(false);
     // let status = "OPEN";
     // let request_status = "SCHEDULED,ACCEPTED";
     // if (profileType == "BUYER") {
@@ -951,7 +971,8 @@ const UserAccount = (props) => {
   }
 
   // const addNewAddress = (values, countryCode) => {
-  //   setLoading(true);
+  //   // setLoading(true)conso
+  //   console.log(values);
   //   let data = {
   //     "profileId": props.userProfile.userProfile.profileId,
   //     "fullName": values.fullName,
@@ -1155,6 +1176,59 @@ const UserAccount = (props) => {
         ""
       )}
 
+      {showCollectionDetails && mediaMatch.matches ? (
+        <Row
+          justify="center"
+          style={{ paddingTop: "2%", background: "#f9f7f2" }}
+        >
+          <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>
+          <Col xs={0} sm={0} md={18} lg={18} xl={18}>
+            <Row justify="space-between">
+              <Col
+                xs={24}
+                sm={24}
+                md={24}
+                lg={24}
+                xl={24}
+                className="orders-breadcumb"
+              >
+                <Breadcrumb>
+                  <Breadcrumb.Item
+                    onClick={() => {
+                      setCollectionDetails(false);
+                      setCollectionName("");
+                    }}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <span
+                      className="qa-fs-16 qa-font-san"
+                      style={{
+                        lineHeight: "110%",
+                        letterSpacing: "0.01em",
+                        color: "#D9BB7F",
+                      }}
+                    >
+                      My Collections
+                    </span>
+                  </Breadcrumb.Item>
+                  <Breadcrumb.Item>
+                    <span
+                      className="qa-fs-16 qa-font-san"
+                      style={{ lineHeight: "110%", letterSpacing: "0.01em" }}
+                    >
+                      {collectionName}
+                    </span>
+                  </Breadcrumb.Item>
+                </Breadcrumb>
+              </Col>
+            </Row>
+          </Col>
+          <Col xs={0} sm={0} md={4} lg={4} xl={4}></Col>
+        </Row>
+      ) : (
+        ""
+      )}
+
       <Row justify="center" className="body-content">
         <Col
           style={mediaMatch.matches ? {} : { display: "none" }}
@@ -1280,7 +1354,6 @@ const UserAccount = (props) => {
                             style={{
                               backgroundColor: "#D9BB7F",
                               color: "#191919",
-                              border:"none"
                             }}
                           ></Badge>
                         </div>
@@ -1661,11 +1734,12 @@ const UserAccount = (props) => {
           )}
 
           {currentNav == "collections" ? (
-            mediaMatch.matches ? (
-              <Collections />
-            ) : (
-              <Collections />
-            )
+            <Collections
+              setCollectionDetails={setCollectionDetails}
+              collectionName={collectionName}
+              setCollectionName={setCollectionName}
+              showCollectionDetails={showCollectionDetails}
+            />
           ) : (
             ""
           )}

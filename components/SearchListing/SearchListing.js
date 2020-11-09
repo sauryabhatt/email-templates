@@ -8,16 +8,15 @@ import { getPLPDetails, getSLPDetails } from "../../store/actions";
 import queryString from "query-string";
 import {useRouter} from "next/router";
 const querystring = require("querystring");
-const isServer = () => typeof window == undefined;
 
 const SearchListing = (props) => {
   const router = useRouter();
-  let { slp_content = [], isLoading = true } = !isServer()?props.listingPage:props.data
+  let { slp_content = [], isLoading = true } = props.listingPage;
   const [mobile, setMobile] = useState(false);
   const [offset, setOffset] = useState(0);
   const [limit, setLimit] = useState(30);
   const [category, setCategory] = useState("All Categories");
-  const [categoryTitle, setCategoryTitle] = useState(props.categoryTitle);
+  const [categoryTitle, setCategoryTitle] = useState("All categories");
   const [subCategoryTitle, setSubCategoryTitle] = useState(
     "Shop handcrafted and artisanal products, produced ethically at wholesale prices."
   );
@@ -52,19 +51,19 @@ const SearchListing = (props) => {
       setMobile(true);
     }
     let { searchBy = "", search:searchFromQuery = "" } = router.query;
-    const { f_product_types, f_categories, f_key_methods, f_values,search,  ...rest } = queryParams;
+    const { f_product_types, f_categories, f_key_methods, f_values,search,sort_by:sort,  ...rest } = queryParams;
     let newObj = { ...rest };
     if (searchBy.toLowerCase() === "seller") {
       newObj = {
         ...rest,
-        sort_by: "publishedTimeStamp",
+        sort_by: sort,
         sort_order: "DESC",
         // search:searchFromQuery,
       };
     } else {
       newObj = {
         ...rest,
-        sort_by: "minimumOrderQuantity",
+        sort_by: sort,
         sort_order: "ASC",
         // search:searchFromQuery,
       };
@@ -108,16 +107,18 @@ const SearchListing = (props) => {
 
     const tempObj = {};
     
-    for (const key in queryParams) {
-      if (key=="f_values"|| key=="f_key_methods" || key=="f_product_types") {
-        tempObj[key] = queryParams[key];
+    
+      for (const key in queryParams) {
+        if (key=="f_values"|| key=="f_key_methods" || key=="f_product_types") {
+          tempObj[key] = queryParams[key];
+        }
       }
-    }
 
-    router.push({
-      pathname: router.asPath.split('?')[0],
-      query: tempObj,    
-  }, undefined, {shallow: true });
+      router.push({
+        pathname: router.asPath.split('?')[0],
+        query: tempObj,    
+      }, undefined, {shallow: true });
+    
     // let queryResult = querystring.stringify(queryParams);
     // let tempQuery = "";
     // const arr = [];
@@ -187,16 +188,16 @@ const SearchListing = (props) => {
         />
       ) : (
         <SearchListingDesktop
-          data={!isServer()?props.listingPage:props.data}
-          isLoading={false}
+          data={props.listingPage}
+          isLoading={isLoading}
           getFilterData={getFilterData}
           queryParams={queryParams}
           loadMoreData={loadMoreData}
           setCategoryName={setCategoryName}
           categoryTitle={categoryTitle}
           category={category}
-          searchBy={!isServer()?searchBy:props.searchBy}
-          searchText={!isServer()?searchText:props.search}
+          searchBy={searchBy}
+          searchText={searchText}
         />
       )}
     </>

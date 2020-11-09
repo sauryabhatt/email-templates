@@ -68,6 +68,7 @@ function UserHeader(props) {
   const [searchVisibleMob, setSearchVisibleMob] = useState(false);
   const [selectedType, setSelectedType] = useState("product");
   const [close, setClose] = useState(false);
+  const [accVisible, setAccVisible] = useState(false);
 
   const { userProfile } = props.userProfile;
   const [imageUrl, setImageUrl] = useState(
@@ -146,12 +147,11 @@ function UserHeader(props) {
       }
       router.push(searchLink);
     }
-
     searchForm.setFieldsValue({ search: "" });
   };
 
   const searchMenu = (
-    <Menu theme="dark" style={{ marginTop: "-7px", cursor: "default" }}>
+    <Menu theme="dark" style={{ cursor: "default" }}>
       <Menu.Item key="1" className="search-dropdown">
         <Form name="search-form" form={searchForm} onFinish={onSearch}>
           <Input.Group compact>
@@ -234,7 +234,7 @@ function UserHeader(props) {
       theme="dark"
       style={{ cursor: "default" }}
       onClick={(e) => {
-        handleVisibleChange(true);
+        handleVisibleChange(false);
       }}
     >
       <Menu.Divider style={{ height: "0.5px", color: "#ddd" }} />
@@ -262,7 +262,6 @@ function UserHeader(props) {
                   } else if (details.action === "L2" && details.values) {
                     link = "/sellers/" + encodeURIComponent(details.values);
                   }
-                  // console.log("details", details);
                   return (
                     <div
                       className={
@@ -295,6 +294,7 @@ function UserHeader(props) {
   const handleSearchChange = (flag) => {
     setSearchVisible(flag);
     setShopVisible(false);
+    setShopColor(false);
     if (flag) {
       setClose(true);
     } else {
@@ -303,12 +303,10 @@ function UserHeader(props) {
   };
 
   const handleSearchChangeMob = (flag) => {
-    // console.log(searchVisibleMob, flag);
     setSearchVisibleMob(flag);
   };
 
   useEffect(() => {
-    // props.getNavigation(token);
     searchForm.setFieldsValue({ searchBy: "product" });
     fetchNdjson();
   }, []);
@@ -378,9 +376,18 @@ function UserHeader(props) {
     }
   };
 
+  const handleUserMenu = (flag) => {
+    setAccVisible(flag);
+  };
+
   const successQueryCancel = () => {
     setSuccessQueryVisible(false);
     setInviteAccess(false);
+  };
+
+  const handleRedirect = () => {
+    setSuccessQueryVisible(false);
+    router.push("/");
   };
 
   const handleMyAccount = () => {
@@ -400,12 +407,12 @@ function UserHeader(props) {
     router.push("/account/orders");
   };
 
-  const handleMyCollections = () => {
-    router.push("/account/collections");
-  };
-
   const handleAddress = () => {
     router.push("/account/addresses");
+  };
+
+  const handleMyCollections = () => {
+    router.push("/account/collections");
   };
 
   const handleLogout = () => {
@@ -413,7 +420,12 @@ function UserHeader(props) {
   };
 
   const userMenu = (
-    <Menu style={{ width: "100%", border: "none" }}>
+    <Menu
+      style={{ width: "100%", border: "none" }}
+      onClick={(e) => {
+        handleUserMenu(false);
+      }}
+    >
       {props.isGuest == "false" || props.isGuest == undefined ? (
         <Menu.Item key="1" style={{ height: "auto" }}>
           <div className="header-text">
@@ -518,7 +530,11 @@ function UserHeader(props) {
         </Menu.Item>
       )}
       {verificationStatus === "CREATED" && profileType === "SELLER" && (
-        <Menu.Divider style={{ height: "1px" }} />
+        <Menu.Divider
+          style={{
+            height: "1px",
+          }}
+        />
       )}
       <Menu.Item key="5" onClick={handleLogout}>
         <span style={{ fontFamily: "senregular", fontSize: "14px" }}>
@@ -541,7 +557,7 @@ function UserHeader(props) {
             style={{ textAlign: "left", margin: "auto" }}
           >
             <div>
-            <Dropdown
+              <Dropdown
                 overlayClassName="search-section"
                 overlay={searchMenu}
                 trigger={["click"]}
@@ -562,17 +578,26 @@ function UserHeader(props) {
                   {!close ? (
                     <Icon
                       component={searchIcon}
-                      style={{ height: "36px", width: "32px", verticalAlign:"middle" }}
+                      style={{
+                        height: "36px",
+                        width: "32px",
+                        verticalAlign: "middle",
+                      }}
                     ></Icon>
                   ) : (
-                      <Icon
-                        component={closeButton}
-                        style={{ height: "32px", width: "32px", verticalAlign:"middle" }}
-                      ></Icon>
-                    )}
+                    <Icon
+                      component={closeButton}
+                      style={{
+                        height: "32px",
+                        width: "32px",
+                        verticalAlign: "middle",
+                      }}
+                    ></Icon>
+                  )}
                 </div>
               </Dropdown>
-              {/*<span>
+
+              {/* <span>
                 <Link href="/" className="app-header-home-button">
                   <Icon
                     component={homeIcon}
@@ -584,7 +609,7 @@ function UserHeader(props) {
                     }}
                   />
                 </Link>
-              </span>*/}
+              </span> */}
 
               <Dropdown
                 overlayClassName="shop-navigation"
@@ -681,6 +706,8 @@ function UserHeader(props) {
                 placement="bottomRight"
                 content={userMenu}
                 trigger="click"
+                onVisibleChange={handleUserMenu}
+                visible={accVisible}
                 overlayClassName="header-popup"
               >
                 <div className="my-account-header qa-cursor">My Account</div>
@@ -737,6 +764,25 @@ function UserHeader(props) {
           </div>
 
           <div style={{ textAlign: "right", width: "100%", marginTop: "-4px" }}>
+            <Dropdown
+              overlayClassName="search-section"
+              overlay={searchMenuMob}
+              trigger={["click"]}
+              onVisibleChange={handleSearchChangeMob}
+              visible={searchVisibleMob}
+              overlayStyle={{ width: "100%", cursor: "pointer" }}
+            >
+              <Icon
+                component={searchIcon}
+                className="search-icon"
+                style={{
+                  width: "40px",
+                  marginRight: "15px",
+                  cursor: "pointer",
+                }}
+              />
+            </Dropdown>
+
             <Link
               href="/cart"
               style={{
@@ -752,6 +798,7 @@ function UserHeader(props) {
                 }}
               />
             </Link>
+
             <Drawer
               placement="left"
               closable={false}
@@ -772,6 +819,9 @@ function UserHeader(props) {
                 ]}
                 mode="inline"
                 theme="dark"
+                onClick={(e) => {
+                  setDrawer(false);
+                }}
               >
                 <Menu.Item key="1">
                   <Button
@@ -785,6 +835,7 @@ function UserHeader(props) {
                     </div>
                   </Button>
                 </Menu.Item>
+
                 <Menu.Divider style={{ height: "0.5px" }} />
                 <SubMenu key="my-account" title="MY ACCOUNT">
                   {props.isGuest == "false" || props.isGuest == undefined ? (
@@ -927,7 +978,9 @@ function UserHeader(props) {
                     Sign out
                   </Menu.Item>
                 </SubMenu>
+
                 <Menu.Divider style={{ height: "0.5px" }} />
+
                 <SubMenu
                   key="price-converter"
                   title={`CURRENCY (${convertToCurrency})`}
@@ -936,7 +989,9 @@ function UserHeader(props) {
                     <CurrencyConverter mobile={true} />
                   </Menu.Item>
                 </SubMenu>
+
                 <Menu.Divider style={{ height: "0.5px" }} />
+                {/* <Menu.Item key="blog">BLOG</Menu.Item> */}
                 <SubMenu
                   key="shop"
                   title="SHOP"
@@ -1109,11 +1164,12 @@ function UserHeader(props) {
               next 48 to 72 hours.
             </p>
           </div>
-          <Link href="/">
-            <Button className="send-query-success-modal-button">
-              Back to home page
-            </Button>
-          </Link>
+          <Button
+            className="send-query-success-modal-button"
+            onClick={handleRedirect}
+          >
+            Back to home page
+          </Button>
         </div>
       </Modal>
       <Modal

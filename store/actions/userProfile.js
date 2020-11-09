@@ -36,12 +36,15 @@ export const getUserProfile = (token) => {
   // console.log(token);
   return (dispatch) => {
     dispatch(setUserProfileLoading(true));
-    return fetch(process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/profiles/my", {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
+    return fetch(
+      process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/profiles/my",
+      {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      }
+    )
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -392,13 +395,18 @@ export const setQuoteBYStatus = (data) => {
 
 export const getOrderByOrderId = (token, orderId) => async (dispatch) => {
   // dispatch(setScheduleRequests(scheduleRequests))
-  fetch(process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL + "/orders/composite/" + orderId, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
-    },
-  })
+  fetch(
+    process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL +
+      "/orders/composite/" +
+      orderId,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    }
+  )
     .then((res) => {
       if (res.ok) {
         return res.json();
@@ -518,7 +526,9 @@ export const getRfqByStatus = (status, token, buyerId) => async (dispatch) => {
 };
 
 // Get Collections
-export const getCollections = (token, buyerId) => async (dispatch) => {
+export const getCollections = (token, buyerId, callback = "") => async (
+  dispatch
+) => {
   let url =
     process.env.NEXT_PUBLIC_REACT_APP_COLLECTION_URL +
     "/collections/buyer?buyer_id=" +
@@ -538,6 +548,9 @@ export const getCollections = (token, buyerId) => async (dispatch) => {
       }
     })
     .then((res) => {
+      if (callback) {
+        callback(res);
+      }
       return dispatch(setMyCollections(res));
     })
     .catch((err) => {
