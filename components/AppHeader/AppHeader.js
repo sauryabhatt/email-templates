@@ -373,37 +373,48 @@ function AppHeader(props) {
   }, []);
 
   const userMenu = (
-    <div style={{ padding: "10px 0px" }} className="header-popup">
-      <span
-        onClick={handleSignUp}
+    <Menu
+      style={{ width: "100%", border: "none" }}
+      onClick={(e) => {
+        handleUserMenu(false);
+      }}
+    >
+      <Menu.Item key="1" style={{ height: "auto", padding: "0px" }}>
+        <span
+          onClick={handleSignUp}
+          style={{
+            fontFamily: "senregular",
+            fontSize: "14px",
+            padding: "10px 25px 10px 10px",
+            cursor: "pointer",
+          }}
+        >
+          Sign up
+        </span>
+      </Menu.Item>
+      <Menu.Divider
         style={{
-          fontFamily: "senregular",
-          fontSize: "14px",
-          padding: "10px",
-          cursor: "pointer",
+          height: "0.5px",
+          background: "#D9BB7F",
+          opacity: "0.2",
+          marginTop: "15px",
+          marginBottom: "15px",
         }}
-      >
-        Sign up
-      </span>
-      <span
-        style={{
-          borderRight: "1px solid #ccc",
-          marginLeft: "10px",
-          marginRight: "10px",
-        }}
-      ></span>
-      <span
-        onClick={handleLogin}
-        style={{
-          fontFamily: "senregular",
-          fontSize: "14px",
-          padding: "10px",
-          cursor: "pointer",
-        }}
-      >
-        Sign in
-      </span>
-    </div>
+      />
+      <Menu.Item key="2" style={{ height: "auto", padding: "0px" }}>
+        <span
+          onClick={handleLogin}
+          style={{
+            fontFamily: "senregular",
+            fontSize: "14px",
+            padding: "10px 25px 10px 10px",
+            cursor: "pointer",
+          }}
+        >
+          Sign in
+        </span>
+      </Menu.Item>
+    </Menu>
   );
 
   const handleVisibleChange = (flag) => {

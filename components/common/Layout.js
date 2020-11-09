@@ -15,7 +15,6 @@ export const Layout = ({
 
   const { keycloak } = useKeycloak()
   const router = useRouter();
-  const [navigationItems, setNavigationItems] = useState({});
   const pathname = router?.pathname ?? "/";
   const title = meta?.title || "";
   const description = meta?.description || "";
@@ -65,7 +64,7 @@ export const Layout = ({
         <script src="https://www.paypal.com/sdk/js?client-id=AUf6Jh8viomIa90m8KMFndz2iIwKkIcpzZHTUmKY1f8M9J7uDeQ1zO7d-lTb85AU4oiBHBlb2mBZ9g9_&currency=USD&intent=order" id="paypal-script" type="text/javaScript"></script>
       </Head>
       {Header}
-      <main className="main-layout-next">{children}</main>
+     {<main className="main-layout-next">{children}</main>}
     </Fragment>
   ) 
 };

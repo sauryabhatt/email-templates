@@ -1,6 +1,8 @@
 import dynamic from 'next/dynamic';
 import {Layout} from "../components/common/Layout"; 
 import Spinner from "../components/Spinner/Spinner"
+import Auth from "../components/common/Auth"; 
+
 const DynamicShippingWrapper = dynamic(
     () => import('../components/Shipping/Shipping'),
     { 
@@ -17,8 +19,8 @@ export default function Shipping() {
 }
   
   return (
-    <Layout meta={meta}>
-      <DynamicShippingWrapper/>
+    <Layout meta={meta} privateRoute>
+      <Auth path="/shipping"><><DynamicShippingWrapper/></></Auth>
     </Layout>  
   )
 

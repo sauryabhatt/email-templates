@@ -28,6 +28,7 @@
     letter-spacing: .7px;
     color: #191919;
     margin: 10px 80px 40px;
+    text-align: center;
 }
   .q-button-link {
     font-family: senregular;
@@ -218,7 +219,7 @@
 .q-source-title {
   width: 100%;
   text-align: center;
-  margin: 0px 24%;
+  margin: 0px auto;
   /*padding: 10px 0 0;*/
 }
 
@@ -468,7 +469,7 @@
 .payment-banner-home-page button.ant-btn {
   background-color: #7e473b;
   border-radius: 0;
-  border: none;
+  border-radius: 0;
   padding: 10px 60px;
   height: 48px !important;
 }

@@ -79,7 +79,7 @@ export class PrivacyPolicy extends Component {
 
     return (<>
       <div>
-        <div id="banner-container-privacy">
+        <div id="banner-container-privacy" style={{marginTop:"-70px"}}>
           <span className="banner-text">
             Privacy policy
             <p className="banner-text-small">The fine print.</p>

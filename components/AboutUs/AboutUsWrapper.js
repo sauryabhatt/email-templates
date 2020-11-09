@@ -4,7 +4,7 @@ import React from "react";
 function AboutUsWrapper() {
   return (
     <div id="aboutus">
-      <div id="aboutus-banner">
+      <div id="aboutus-banner" style={{marginTop:"-70px"}}>
         <span className="banner-text">
           About us
           <p className="banner-text-small">

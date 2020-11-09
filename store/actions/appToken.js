@@ -34,9 +34,9 @@ export const getToken = () => {
         
         var formBody = [];
         for (var property in details) {
-          var encodedKey = encodeURIComponent(property);
-          var encodedValue = encodeURIComponent(details[property]);
-          formBody.push(encodedKey + "=" + encodedValue);
+        var encodedKey = encodeURIComponent(property);
+        var encodedValue = encodeURIComponent(details[property]);
+        formBody.push(encodedKey + "=" + encodedValue);
         }
         formBody = formBody.join("&");
         return fetch((process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_URL + "realms/GoldenBird/protocol/openid-connect/token"), {

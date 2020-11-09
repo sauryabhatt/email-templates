@@ -4,7 +4,7 @@ function FAQ(props) {
   return (
     <div id="faq">
       
-      <div id="faq-banner">
+      <div id="faq-banner" style={{marginTop:"-70px"}}>
         <span className="banner-text">
           FAQ for Buyers
           <p className="banner-text-small">
@@ -12,7 +12,8 @@ function FAQ(props) {
           </p>
         </span>
       </div>
-      <div id="faq-body-parent">       
+      <div id="faq-body-parent">  
+        <p className="faq-body-question">ABOUT QALARA</p>     
         <p className="faq-body-question">
           How does Qalara help overseas wholesale buyers?
         </p>
