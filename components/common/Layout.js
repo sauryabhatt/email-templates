@@ -50,12 +50,8 @@ export const Layout = ({
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
         {/*remove the below two lines in production*/}
-        {process.env.NODE_ENV!=="production" && <meta name="robots" content="noindex" />}
-        {process.env.NODE_ENV!=="production" &&  <meta name="googlebot" content="noindex" />}
-        <meta
-          name="keywords"
-          content={keywords}
-        />
+        <meta name="robots" content="noindex" />
+        <meta name="googlebot" content="noindex" />
         <script src="https://www.paypal.com/sdk/js?client-id=AUf6Jh8viomIa90m8KMFndz2iIwKkIcpzZHTUmKY1f8M9J7uDeQ1zO7d-lTb85AU4oiBHBlb2mBZ9g9_&currency=USD&intent=order" id="paypal-script" type="text/javaScript"></script>
       </Head>
       {Header}
