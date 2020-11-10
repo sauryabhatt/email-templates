@@ -375,9 +375,9 @@ function AppHeader(props) {
   const userMenu = (
     <Menu
       style={{ width: "100%", border: "none" }}
-      onClick={(e) => {
-        handleUserMenu(false);
-      }}
+      // onClick={(e) => {
+      //   handleUserMenu(false);
+      // }}
     >
       <Menu.Item key="1" style={{ height: "auto", padding: "0px" }}>
         <span
@@ -912,7 +912,7 @@ function AppHeader(props) {
 
             <SendQueryForm
               sendQueryCancel={sendQueryCancel}
-              token={token}
+              token={token || process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN}
               initialValues={values}
               userId={
                 props.userProfile &&

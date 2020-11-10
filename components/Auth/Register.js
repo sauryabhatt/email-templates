@@ -349,7 +349,7 @@ const Register = (props) => {
       body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
+        Authorization: "Bearer " + process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN,
       },
     })
       .then((res) => {
@@ -393,7 +393,7 @@ const Register = (props) => {
         {
           method: "GET",
           headers: {
-            Authorization: "Bearer " + token,
+            Authorization: "Bearer " + process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN,
           },
         }
       )
