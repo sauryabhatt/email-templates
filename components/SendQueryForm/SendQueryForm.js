@@ -501,6 +501,37 @@ const SendQueryForm = (props) => {
                   // placeholderplaceholder="Target delivery date"
                 />
               </Form.Item>
+              <span className="label-paragraph">Destination Country*</span>
+              <Form.Item
+                name="country"
+                style={{ marginBottom: "1em" }}
+                rules={[
+                  { required: true, message: "Please select your country." },
+                ]}
+              >
+                {country}
+              </Form.Item>
+              <div className="city-state-phone">
+                <div className="city-state">
+                  <span className="label-paragraph"> Destination City, State</span>
+                  <Form.Item
+                    name="city"
+                    style={{ marginBottom: "1em" }}
+                    rules={[
+                      // { required: true, message: 'Please input State & City name!' },
+                      {
+                        min: 3,
+                        max: 50,
+                        message: "Length should be 3-50 characters!",
+                      },
+                    ]}
+                  >
+                    <Input
+                    // placeholder="State, City"
+                    />
+                  </Form.Item>
+                </div>
+              </div>
               <br />
               <span className="label-heading" id="user-details">
                 Please share your details so we can respond:
@@ -570,7 +601,7 @@ const SendQueryForm = (props) => {
                 // placeholder="E-mail ID"
                 />
               </Form.Item>
-              <span className="label-paragraph">Country*</span>
+              {/* <span className="label-paragraph">Destination Country*</span>
               <Form.Item
                 name="country"
                 style={{ marginBottom: "1em" }}
@@ -579,27 +610,8 @@ const SendQueryForm = (props) => {
                 ]}
               >
                 {country}
-              </Form.Item>
+              </Form.Item> */}
               <div className="city-state-phone">
-                <div className="city-state">
-                  <span className="label-paragraph">City, State</span>
-                  <Form.Item
-                    name="city"
-                    style={{ marginBottom: "1em" }}
-                    rules={[
-                      // { required: true, message: 'Please input State & City name!' },
-                      {
-                        min: 3,
-                        max: 50,
-                        message: "Length should be 3-50 characters!",
-                      },
-                    ]}
-                  >
-                    <Input
-                    // placeholder="State, City"
-                    />
-                  </Form.Item>
-                </div>
                 <div className="phone">
                   <span className="label-paragraph">Phone number</span>
                   <Form.Item
@@ -647,11 +659,9 @@ const SendQueryForm = (props) => {
               >
                 <Checkbox className="check-box-tnc">
                   Standard{" "}
-                  <Link href="/TermsOfUse">
-                    <a target="_blank" className="link-text">
+                  <span className="link-text" onClick={()=>window.open(window.location.protocol+"//" +window.location.host + "/TermsOfUse")}>
                       T&C
-                    </a>
-                  </Link>{" "}
+                  </span>{" "}
                   apply.
                 </Checkbox>
               </Form.Item>

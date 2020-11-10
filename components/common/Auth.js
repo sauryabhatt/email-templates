@@ -1,4 +1,4 @@
-import React, {useState,useEffect, useRef} from 'react'
+import React, {useState,useEffect} from 'react'
 import {useKeycloak} from '@react-keycloak/ssr';
 import {loginToApp} from "../AuthWithKeycloak";
 import Spinner from "../Spinner/Spinner";
@@ -21,29 +21,33 @@ function getCookie(cname) {
 
 function Auth ({children, path}){
     const { keycloak } = useKeycloak();
-    const didMountRef = useRef(false);
     const [status, setStatus] = useState(undefined);
+    
     useEffect(() => {
-        if(didMountRef.current) {
-            if(getCookie("appToken")) {
-                setStatus("loggedin");
-            } else {
-                setStatus("loggedout");
-            }
-        } else didMountRef.current = true;
 
-        
+    if(getCookie("appToken")) {
+        setStatus("loggedin"); 
+    } else {
+        setStatus("loggedout");
+    }
+
     }, [keycloak.authenticated, keycloak.token]);
 
     if(status === undefined) {
         return <Spinner/>;
     } else if (status === "loggedout") {
-        loginToApp(keycloak, {currentPath:path});
+        setTimeout(() => {
+            if(status==="loggedin") {
+                return children;
+            } else {
+            loginToApp(keycloak, {currentPath:path});
+            }
+        }, 200);
         return <Spinner/>;
     } else if (status === "loggedin") {
         return children;
     } else {
-        return undefined;
+        return <Spinner/>;
     }
 
 }
