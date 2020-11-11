@@ -205,7 +205,7 @@ const SendQueryForm = (props) => {
   // const displayErrors = errors => errors.map((err, i) => <Alert key={i} type="error" message={err.atStage} description={err.message} closable />)
 
   const country = (
-    <Select  className="country-selector" placeholder="Select country" showSearch>
+    <Select  value={undefined} className="country-selector" placeholder="Select country" showSearch>
       {getCountries().map((country) => {
         // console.log(country);
         if (country === "US") {
@@ -306,6 +306,7 @@ const SendQueryForm = (props) => {
                 ]}
               >
                 <Select
+                  className="country-selector"
                   showSearch
                   placeholder="Select category"
                   value={undefined}
