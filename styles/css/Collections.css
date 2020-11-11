@@ -44,6 +44,13 @@
   font-family: senregular;
   font-weight: bold;
 }
+
+.collection-btn-shop, 
+.collection-btn-shop:hover {
+    background-color: #d9bb7f;
+    border: 1px solid #d9bb7f;
+    color: #191919;
+}
 .add-to-collection .go-to-collection-button {
   background-color: transparent;
   border: 1px solid #191919;

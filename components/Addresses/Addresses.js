@@ -1262,7 +1262,7 @@ const Addresses = (props) => {
                 <img
                   className="qa-rel-pos image-container"
                   style={{ height: "50px" }}
-                  src={process.env.PUBLIC_URL + "/tick.png"}
+                  src={process.env.NEXT_PUBLIC_URL + "/tick.png"}
                 />
               </Col>
               <Col

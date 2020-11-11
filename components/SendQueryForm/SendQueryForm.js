@@ -166,6 +166,7 @@ const SendQueryForm = (props) => {
             // console.log(res);
             if (res.ok) {
               // message.success('Your query has been sent successfully.', 5);
+              form.resetFields();
               props.sendQueryCancel("success");
             } else {
               message.error(res.statusText, 5);
@@ -204,7 +205,7 @@ const SendQueryForm = (props) => {
   // const displayErrors = errors => errors.map((err, i) => <Alert key={i} type="error" message={err.atStage} description={err.message} closable />)
 
   const country = (
-    <Select placeholder="Select country" showSearch>
+    <Select  value={undefined} className="country-selector" placeholder="Select country" showSearch>
       {getCountries().map((country) => {
         // console.log(country);
         if (country === "US") {
@@ -305,6 +306,7 @@ const SendQueryForm = (props) => {
                 ]}
               >
                 <Select
+                  className="country-selector"
                   showSearch
                   placeholder="Select category"
                   value={undefined}

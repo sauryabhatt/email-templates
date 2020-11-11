@@ -585,7 +585,7 @@ const OrderDetails = (props) => {
                                       <img
                                         className="images"
                                         src={
-                                          process.env.PUBLIC_URL + "/tick.png"
+                                          process.env.NEXT_PUBLIC_URL + "/tick.png"
                                         }
                                         style={
                                           mediaMatch.matches
@@ -642,7 +642,7 @@ const OrderDetails = (props) => {
                                       <img
                                         className="images"
                                         src={
-                                          process.env.PUBLIC_URL + "/tick.png"
+                                          process.env.NEXT_PUBLIC_URL + "/tick.png"
                                         }
                                         style={
                                           mediaMatch.matches
