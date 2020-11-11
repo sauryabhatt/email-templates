@@ -274,6 +274,12 @@
   background: #d9bb7f;
   color: #191919;
 }
+
+.cart-section .create-order-btn, 
+.cart-section .create-order-btn:hover {
+  background: #d9bb7f !important;
+  color: #191919 !important;
+}
 .cart-section .cart-info-text,
 .breakup-popup .cart-info-text {
   font-family: senregular;
