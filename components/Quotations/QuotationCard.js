@@ -86,9 +86,9 @@ const QuotationCard = (props) => {
         router.push(url)
     }
 
-    const getBrandName = props.data && props.data.subOrders && props.data.subOrders.map(subOrder => {
+    const getBrandName = props.data && props.data.subOrders && props.data.subOrders.map((subOrder, index )=> {
         return (
-            <Col xs={24} sm={24} md={24} lg={24} style={{ display: 'flex', justifyContent: 'center' }}>
+            <Col key={`brand-name-${index}`} xs={24} sm={24} md={24} lg={24} style={{ display: 'flex', justifyContent: 'center' }}>
                 <span className="qa-font-san qa-fs-14 qa-fw-b qa-sm-color" style={{ lineHeight: '20px', textDecoration: 'underline', cursor: 'pointer' }} onClick={(e) => redirectToSellerCompany(props.brandNames[subOrder.sellerCode].vanityId)}>
                     {props.brandNames && props.brandNames[subOrder.sellerCode] && props.brandNames[subOrder.sellerCode].brandName}
                 </span>
@@ -96,9 +96,9 @@ const QuotationCard = (props) => {
         )
     })
 
-    const getAllRfqNumber = props.data && props.data.linkedQueriesId && Object.keys(props.data.linkedQueriesId).map(key => {
+    const getAllRfqNumber = props.data && props.data.linkedQueriesId && Object.keys(props.data.linkedQueriesId).map((key, index)=> {
         return (
-            <Col xs={24} sm={24} md={24} lg={24}>
+            <Col key={`RfqNumber-${index}`} xs={24} sm={24} md={24} lg={24}>
                 <span className="qa-font-san qa-fs-14" style={{ lineHeight: '20px', color: '#191919' }}>
                     {props.data.linkedQueriesId[key]}
                 </span>
@@ -171,7 +171,7 @@ const QuotationCard = (props) => {
                         {props.status == 'received' || props.status == 'closed' ? <Col xs={24} sm={24} md={7} lg={7} className="qa-vertical-center">
                             <Row>
                                 <Col xs={24} sm={24} md={24} lg={24} style={{ display: 'flex', justifyContent: 'center' }}>
-                                    <img className='images' src={process.env.PUBLIC_URL + "/pdf_download.png"} style={{ height: '50px' }} onClick={(e) => downloadMedia(props.data.quotationMedia)}></img>
+                                    <img className='images' src={process.env.NEXT_PUBLIC_URL + "/pdf_download.png"} style={{ height: '50px' }} onClick={(e) => downloadMedia(props.data.quotationMedia)}></img>
                                 </Col>
                                 <Col xs={24} sm={24} md={24} lg={24} style={{ display: 'flex', justifyContent: 'center' }}>
                                     <span className="qa-font-san qa-fs-10" style={{ color: '#332f2f', opacity: '80%' }}>Quote ID: {props.data.quoteNumber}</span>

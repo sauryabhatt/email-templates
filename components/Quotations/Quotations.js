@@ -118,7 +118,7 @@ const Quotations = (props) => {
         day={day}
         quoteCreatedDate={quoteCreatedDate}
         brandNames={props.brandNameList}
-        key={i}
+        key={`quotation-card-${i}`}
       />
     );
   });
