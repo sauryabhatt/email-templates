@@ -912,7 +912,7 @@ const CartSummary = (props) => {
       {(!deliver || disablePayment) && !showCartError && !hideCreateOrder && (
         <Button
           onClick={createOrder}
-          className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment active"
+          className="qa-button qa-fs-12 qa-mar-top-1 create-order-btn"
         >
           Create order
         </Button>
