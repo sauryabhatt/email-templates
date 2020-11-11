@@ -58,7 +58,7 @@ function AuthWithKeycloak(props) {
   const { keycloak } = useKeycloak();
   const { cookies } = props;
   const keycloakCfg = {
-    realm: "GoldenBird",
+    realm: "GoldenBirdDev",
     url: "https://api-dev.qalara.com:8443/auth/",
     clientId: "next",
   };
