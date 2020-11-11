@@ -176,9 +176,9 @@ export default function CuratedByUsWrapper(props) {
               Handpicked on-trend collections from hundreds of ethical
               suppliers, for contemporary living.
             </p>
-            <div className="button-wrp">
+            <div className="button-wrp" >
               <Link href="/request-for-quote">
-                <span className="button">request for quote</span>
+                <span className="button" style={{cursor:"pointer"}} >request for quote</span>
               </Link>
               <p className="tagline-small-text">
                 We can curate for your brand!
@@ -305,23 +305,26 @@ export default function CuratedByUsWrapper(props) {
               <div
                 onClick={()=>router.push("/products/all-categories?f_product_types=Ready%20to%20ship")}
                 className="image-wrp"
+                style={{cursor:"pointer"}} 
               >
                 {ship()}
-                <span className="svg-text">READY TO SHIP</span>
+                <span className="svg-text" >READY TO SHIP</span>
               </div>
               <div
                 onClick={()=>router.push("/products/all-categories?f_product_types=Express%20custom")}
                 className="image-wrp"
+                style={{cursor:"pointer"}} 
               >
                 {expres()}
-                <span className="svg-text">Express custom</span>
+                <span className="svg-text" >Express custom</span>
               </div>
               <div
                 onClick={()=>router.push("/products/all-categories?f_product_types=Make%20to%20order")}
                 className="image-wrp"
+                style={{cursor:"pointer"}} 
               >
                 {ordered()}
-                <span className="svg-text">Made to order</span>
+                <span className="svg-text" >Made to order</span>
               </div>
             </div>
           </div>

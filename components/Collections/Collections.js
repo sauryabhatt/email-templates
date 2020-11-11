@@ -198,7 +198,7 @@ function Collections(props) {
                       <Button
                         className="qa-button quote-contact-seller"
                         onClick={() => {
-                          history.push("/signup");
+                          router.push("/signup");
                         }}
                       >
                         <span className="qa-font-san qa-fw-b qa-fs-14">
@@ -207,9 +207,9 @@ function Collections(props) {
                       </Button>
                     ) : (
                       <Button
-                        className="qa-button quote-contact-seller"
+                        className="qa-button collection-btn-shop"
                         onClick={() => {
-                          history.push("/");
+                          router.push("/");
                         }}
                       >
                         <span className="qa-font-san qa-fw-b qa-fs-14">

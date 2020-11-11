@@ -297,7 +297,7 @@ const QuotationcardMobile = (props) => {
                     <Col xs={4} sm={4} md={4} lg={0}>
                       <img
                         className="images"
-                        src={process.env.PUBLIC_URL + "/pdf_download.png"}
+                        src={process.env.NEXT_PUBLIC_URL + "/pdf_download.png"}
                         onClick={(e) =>
                           downloadMedia(props.data.quotationMedia)
                         }

@@ -44,7 +44,7 @@ const OrderReview = (props) => {
   const [popover, setPopover] = useState("");
   useEffect(() => {
     props.getOrderByOrderId(keycloak.token, orderIdParam);
-  }, [keycloak.token]);
+  }, [keycloak.token, orderIdParam]);
 
   useEffect(() => {
     if (props.order) {
@@ -513,7 +513,7 @@ const OrderReview = (props) => {
                 <Col xs={2} sm={2} md={2} lg={0}>
                   <img
                     className="images"
-                    src={process.env.PUBLIC_URL + "/tick.png"}
+                    src={process.env.NEXT_PUBLIC_URL + "/tick.png"}
                     style={{ height: "20px" }}
                   ></img>
                 </Col>
@@ -990,7 +990,7 @@ const OrderReview = (props) => {
                           >
                             <img
                               className="images"
-                              src={process.env.PUBLIC_URL + "/payapl.png"}
+                              src={process.env.NEXT_PUBLIC_URL + "/payapl.png"}
                             ></img>
                           </Col>
                         </Row>
@@ -1121,12 +1121,12 @@ const OrderReview = (props) => {
                         {props.shippingMode == "AIR" ? (
                           <img
                             className="images"
-                            src={process.env.PUBLIC_URL + "/Air.png"}
+                            src={process.env.NEXT_PUBLIC_URL + "/Air.png"}
                           ></img>
                         ) : (
                             <img
                               className="images"
-                              src={process.env.PUBLIC_URL + "/Sea.png"}
+                              src={process.env.NEXT_PUBLIC_URL + "/Sea.png"}
                             ></img>
                           )}
                       </Col>
@@ -1435,7 +1435,7 @@ const OrderReview = (props) => {
                         <Col xs={4} sm={4} md={4} lg={4} className="qa-col-end">
                           <img
                             className="images"
-                            src={process.env.PUBLIC_URL + "/payapl.png"}
+                            src={process.env.NEXT_PUBLIC_URL + "/payapl.png"}
                           ></img>
                         </Col>
                       </Row>
@@ -1480,7 +1480,7 @@ const OrderReview = (props) => {
                       >
                         <img
                           className="images"
-                          src={process.env.PUBLIC_URL + "/pdf_download.png"}
+                          src={process.env.NEXT_PUBLIC_URL + "/pdf_download.png"}
                           style={{ height: "50px" }}
                           onClick={(e) =>
                             downloadMedia(props.order.quotationMedia)
@@ -1490,7 +1490,7 @@ const OrderReview = (props) => {
                       <Col xs={1} sm={1} md={1} lg={1} className="qa-col-center">
                         <img
                           className="images"
-                          src={process.env.PUBLIC_URL + "/Line.png"}
+                          src={process.env.NEXT_PUBLIC_URL + "/Line.png"}
                           style={{ height: "50px" }}
                         ></img>
                       </Col>
@@ -1504,7 +1504,7 @@ const OrderReview = (props) => {
                       >
                         <img
                           className="images"
-                          src={process.env.PUBLIC_URL + "/pdf_download.png"}
+                          src={process.env.NEXT_PUBLIC_URL + "/pdf_download.png"}
                           style={{ height: "50px" }}
                           onClick={(e) => downloadBuyerAgreement()}
                         ></img>
@@ -1532,7 +1532,7 @@ const OrderReview = (props) => {
                       </span>
                       </Col>
                       <Col xs={1} sm={1} md={1} lg={1} className="qa-col-center">
-                        {/* <img className='images' src={process.env.PUBLIC_URL + "/Line.png"} style={{ height: '50px' }}></img> */}
+                        {/* <img className='images' src={process.env.NEXT_PUBLIC_URL + "/Line.png"} style={{ height: '50px' }}></img> */}
                       </Col>
                       <Col
                         xs={8}
@@ -2104,7 +2104,7 @@ const OrderReview = (props) => {
                               <Col xs={0} sm={0} md={2} lg={2}>
                                 <img
                                   className="images"
-                                  src={process.env.PUBLIC_URL + "/tick.png"}
+                                  src={process.env.NEXT_PUBLIC_URL + "/tick.png"}
                                   style={{ height: "15px" }}
                                 ></img>
                               </Col>
@@ -2135,7 +2135,7 @@ const OrderReview = (props) => {
                         <Col xs={0} sm={0} md={2} lg={2} className="qa-col-first">
                           <img
                             className="images"
-                            src={process.env.PUBLIC_URL + "/Line.png"}
+                            src={process.env.NEXT_PUBLIC_URL + "/Line.png"}
                             style={{ height: "50px" }}
                           ></img>
                         </Col>
@@ -2151,7 +2151,7 @@ const OrderReview = (props) => {
                               <Col xs={0} sm={0} md={2} lg={2}>
                                 <img
                                   className="images"
-                                  src={process.env.PUBLIC_URL + "/tick.png"}
+                                  src={process.env.NEXT_PUBLIC_URL + "/tick.png"}
                                   style={{ height: "15px" }}
                                 ></img>
                               </Col>
@@ -2337,7 +2337,7 @@ const OrderReview = (props) => {
                         <Col xs={2} sm={2} md={2} lg={0} className="qa-mar-top-1">
                           <img
                             className="images"
-                            src={process.env.PUBLIC_URL + "/tick.png"}
+                            src={process.env.NEXT_PUBLIC_URL + "/tick.png"}
                             style={{ height: "20px" }}
                           ></img>
                         </Col>
@@ -2359,7 +2359,7 @@ const OrderReview = (props) => {
                         <Col xs={2} sm={2} md={2} lg={0} className="qa-mar-top-1">
                           <img
                             className="images"
-                            src={process.env.PUBLIC_URL + "/tick.png"}
+                            src={process.env.NEXT_PUBLIC_URL + "/tick.png"}
                             style={{ height: "20px" }}
                           ></img>
                         </Col>
