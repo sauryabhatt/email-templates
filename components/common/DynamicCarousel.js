@@ -106,7 +106,7 @@ function DynamicCarousel(props) {
   let slider;
 
   const addDefaultSrc = (ev) => {
-    ev.target.src = process.env.PUBLIC_URL + "/placeholder.png";
+    ev.target.src = process.env.NEXT_PUBLIC_URL + "/placeholder.png";
   };
 
   let productImages = {};
