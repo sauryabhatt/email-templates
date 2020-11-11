@@ -17,15 +17,17 @@ export default ({ options, ...props }) => {
         ) {
           checked = true;
         }
-
-        let name = label.value
-          ? label.value.toLowerCase()
-          : label.name.toLowerCase();
-        if (name.includes("_")) {
-          name = name.replace(/_/gi, " ");
+        let name = label?.value
+          ? label?.value?.toLowerCase()
+          : label?.name?.toLowerCase();
+        if (name?.includes("_")) {
+          name = name?.replace(/_/gi, " ");
         }
-        name = name.trim();
-        name = name.charAt(0).toUpperCase() + name.slice(1);
+        name = name?.trim();
+        name = name?.charAt(0)?.toUpperCase() + name?.slice(1);
+        if(!name) {
+          return null;
+        }
         return (
           <Checkbox
             key={`checkbox-${i}`}
