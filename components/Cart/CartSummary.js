@@ -814,6 +814,7 @@ const CartSummary = (props) => {
           <div className="c-left-blk">With refundable taxes</div>
         </div>
       </div>
+      {console.log("enable && deliver && !showCartError", enable, deliver,!showCartError)}
       {id === "cart" && (
         <div>
           {enable && deliver && !showCartError ? (

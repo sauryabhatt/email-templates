@@ -452,6 +452,7 @@ const Orders = (props) => {
                       lg={24}
                       className={j === 0 ? "qa-order-first" : "qa-order-list"}
                       key={j}
+                      style={{padding:"10px 20px"}}
                     >
                       <Col xs={24} sm={24} md={24} lg={24}>
                         <Row className="qa-mar-btm-15">

@@ -290,7 +290,6 @@ const ProductDetails = (props) => {
         setNonServiceableCountry(true);
       }
     }
-
     if (
       profileType === "BUYER" &&
       verificationStatus === "VERIFIED" &&
@@ -1773,13 +1772,16 @@ const ProductDetails = (props) => {
                   (productType === "RTS" || productType === "ERTM") &&
                   skuId && (
                     <div className="qa-error-atc qa-mar-top-05">
-                      {errorMsg}{" "}
+                      
                       {isGuest === "true" ||
                       profileType === "SELLER" ||
                       !authenticated ? (
+                        <>
+                        {errorMsg}{" "}
                         <span onClick={signUp} className="p-custom">
-                          signup as a buyer
+                           signup as a buyer
                         </span>
+                        </>
                       ) : (
                         ""
                       )}
