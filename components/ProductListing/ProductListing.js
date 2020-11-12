@@ -96,9 +96,11 @@ const ProductListing = (props) => {
         tempObj[key] = queryParams[key];
       }
     }
+    console.log("router", router);
+
     router.push(
       {
-        pathname: router.asPath.split("?")[0],
+        pathname: window.location.protocol+"//" +window.location.host + "/products/" +router.query.categoryId,
         query: tempObj,
       },
       undefined,

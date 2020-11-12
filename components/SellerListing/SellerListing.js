@@ -106,7 +106,7 @@ const SellerListing = (props) => {
     // window.history.pushState({ path: newurl }, "", newurl);
     router.push(
       {
-        pathname: router.asPath.split("?")[0],
+        pathname: window.location.protocol+"//" +window.location.host + "/sellers/" +router.query.categoryId,
         query: tempObj,
       },
       undefined,
