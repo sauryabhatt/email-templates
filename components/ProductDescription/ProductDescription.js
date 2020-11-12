@@ -31,10 +31,10 @@ const ProductDescription = (props) => {
 
   const {keycloak} = useKeycloak();
   let authenticated = keycloak.authenticated;
-  // const token = useSelector(
-  //   (state) => state.appToken.token && state.appToken.token.access_token
-  // );
-const token = process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN;
+  const token = useSelector(
+    (state) => state.appToken.token && state.appToken.token.access_token
+  );
+
 
   const [count, setCount] = useState(0);
 
