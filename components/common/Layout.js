@@ -22,11 +22,11 @@ export const Layout = ({
   const Header = keycloak.authenticated ? <UserHeader /> : <AppHeader/>;
   
   useEffect(() => {
-    console.log("keycloak in useeffect", keycloak)
+    
     if(keycloak?.token){
-      console.log("i am in if", keycloak)
+      
       document.cookie = `appToken=${keycloak.token}`
-      console.group("cookie stted");
+      
       keycloak.loadUserProfile().then((profile) => {
         store.dispatch(setAuth(keycloak.authenticated, profile));
         }).catch((error) => {
