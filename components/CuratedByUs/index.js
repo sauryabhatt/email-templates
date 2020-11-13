@@ -303,7 +303,7 @@ export default function CuratedByUsWrapper(props) {
               className="hroizontal-img-container"
             >
               <div
-                onClick={()=>router.push("/products/all-categories?f_product_types=Ready%20to%20ship&sort_by=minimumOrderQuantity")}
+                onClick={()=>router.push("/products/all-categories?f_product_types=Ready%20to%20ship")}
                 className="image-wrp"
                 style={{cursor:"pointer"}} 
               >
@@ -311,7 +311,7 @@ export default function CuratedByUsWrapper(props) {
                 <span className="svg-text" >READY TO SHIP</span>
               </div>
               <div
-                onClick={()=>router.push("/products/all-categories?f_product_types=Express%20custom&sort_by=minimumOrderQuantity")}
+                onClick={()=>router.push("/products/all-categories?f_product_types=Express%20custom")}
                 className="image-wrp"
                 style={{cursor:"pointer"}} 
               >
@@ -319,7 +319,7 @@ export default function CuratedByUsWrapper(props) {
                 <span className="svg-text" >Express custom</span>
               </div>
               <div
-                onClick={()=>router.push("/products/all-categories?f_product_types=Make%20to%20order&sort_by=minimumOrderQuantity")}
+                onClick={()=>router.push("/products/all-categories?f_product_types=Make%20to%20order")}
                 className="image-wrp"
                 style={{cursor:"pointer"}} 
               >
