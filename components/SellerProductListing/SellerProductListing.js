@@ -9,11 +9,11 @@ import { useKeycloak } from "@react-keycloak/ssr";
 import { useSelector } from "react-redux";
 import queryString from "query-string";
 import {useRouter} from "next/router";
-const isServer = () => typeof window == undefined;
 
 const querystring = require("querystring");
 
 //TODO: handle token
+const isServer = () => typeof window == "undefined";
 
 const SellerProductListing = (props) => {
   const router = useRouter();
@@ -26,7 +26,7 @@ const SellerProductListing = (props) => {
   let data = !isServer()?props.listingPage:props.data;
   let { sellerDetails = {}, userProfile = {} } = props || {};
   let { orgName = "", categoryDescs = [] } = sellerDetails || {};
-  let { slp_content = [], isLoading = true } = !isServer()?props.listingPage:props.data;
+  let { slp_content = [], isLoading = true } = props.data;
   const [mobile, setMobile] = useState(false);
   const [offset, setOffset] = useState(0);
   const [limit, setLimit] = useState(30);
@@ -150,8 +150,8 @@ const SellerProductListing = (props) => {
     <div>
        {mobile ? (
         <SellerProductListingMobile
-        data={!isServer()?props.listingPage:props.data}
-        isLoading={!isServer()?props.listingPage.isLoading:false}
+          data={!isServer()?props.listingPage:props.data}
+          isLoading={!isServer()?props.listingPage.isLoading:false}
           getFilterData={getFilterData}
           queryParams={queryParams}
           loadMoreData={loadMoreData}

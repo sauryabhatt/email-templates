@@ -9,7 +9,7 @@ import { getSLPDetails } from "../../store/actions";
 import queryString from "query-string";
 import { useRouter } from "next/router";
 const querystring = require("querystring");
-const isServer = () => typeof window == undefined;
+const isServer = () => typeof window == "undefined";
 
 const SellerListing = (props) => {
   const router = useRouter();
