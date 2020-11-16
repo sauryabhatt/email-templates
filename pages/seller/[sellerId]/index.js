@@ -41,23 +41,31 @@ export async function getStaticPaths() {
 export const getStaticProps = async ({ params }) => {
   const { sellerId } = params || {};
 
-  let res; 
+  let res={}; 
   const error={status:false};
   try {
-  const response = await fetch(
-    process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + `/${sellerId}`,
-    {
-      method: "GET",
-    }
-    );
-  res = await response.json();
+
+    const response_sellerDetails = await fetch(process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + `/${sellerId}`,{method: "GET"});
+    res["sellerDetails"] = await response_sellerDetails.json();
+
+    let id = await res?.sellerDetails?.id?.replace("HOME::", "");
+
+    const response_about =   await fetch(process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/seller-home/ABOUT::" + id +"/about",{method: "GET", headers: {Authorization: "Bearer " + process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN,},});
+    const res_about = await response_about.json();
+    res["about"] = res_about.length > 0 ? res_about[0]["htmlContent"] : "";
+
+    const response_category_product_range = await fetch(process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/seller-home/" + id + "/category-product-range",{method: "GET", headers: {Authorization: "Bearer " + process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN,},})
+    res["category_product_range"] = await response_category_product_range.json();
+
   } catch (error) {
     error["status"]=true;
   }
   return {
     props: {
       data: {
-        sellerDetails: res,
+        sellerDetails: res.sellerDetails,
+        about:res.about,
+        category_product_range:res.category_product_range,
         error:error
       },
     },

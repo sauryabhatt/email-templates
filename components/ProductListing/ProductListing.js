@@ -8,7 +8,7 @@ import { getPLPDetails } from "../../store/actions";
 import queryString from "query-string";
 const querystring = require("querystring");
 import { useRouter } from "next/router";
-const isServer = () => typeof window == undefined;
+const isServer = () => typeof window == "undefined";
 
 const ProductListing = (props) => {
   const router = useRouter();

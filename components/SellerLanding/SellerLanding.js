@@ -8,16 +8,16 @@ import { getSellerDetails } from "../../store/actions";
 import { useKeycloak } from "@react-keycloak/ssr";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
-const isServer = () => typeof window == undefined;
+import _ from "lodash";
+const isServer = () => typeof window == "undefined";
 
 const SellerLanding = (props) => {
-  let data = !isServer() ? props.sellerDetails : props.data.sellerDetails;
   const router = useRouter();
   let { sellerId: sellerIdParam } = router.query;
 
   let { userProfile = {}, isLoading = true } = props;
 
-  let { orgName = "", categoryDescs = [], productTypeDescs = [] } = data || {};
+  // let { orgName = "", categoryDescs = [], productTypeDescs = [] } = data || {};
 
   const token = useSelector(
     (state) => state.appToken.token && state.appToken.token.access_token
@@ -27,8 +27,8 @@ const SellerLanding = (props) => {
   const [mobile, setMobile] = useState(false);
   const [sellerId, setSellerId] = useState("");
   const [sellerSubscriptions, setSellerSubscriptions] = useState([]);
-  const [aboutCompany, setAboutCompany] = useState("");
-  const [productPopupDetails, setProductPopupDetails] = useState("");
+  const [aboutCompany, setAboutCompany] = useState(props.data.about);
+  const [productPopupDetails, setProductPopupDetails] = useState(props.data.category_product_range);
   // const [identityId, setIdentityId] = useState(null)
 
   useEffect(() => {
@@ -141,11 +141,32 @@ const SellerLanding = (props) => {
     }
   }, [props.sellerDetails]);
 
+const categoryRange =()=>{
+  let productTypes = _.groupBy(props.data.category_product_range, "l2Desc");
+
+    let values = [];
+    for (let list in productTypes) {
+      let obj = {};
+      obj["productType"] = list;
+      let pDetails = "";
+      let l1Desc = "";
+      for (let items of productTypes[list]) {
+        let { productTypeDesc = "" } = items;
+        l1Desc = items["l1Desc"];
+        pDetails = pDetails + productTypeDesc + ", ";
+      }
+      let pName = pDetails.trim().slice(0, -1);
+      obj["productName"] = pName;
+      obj["l1Desc"] = l1Desc;
+      values.push(obj);
+    }
+    return values;
+}
   return (
     <div>
       {mobile ? (
         <SellerLandingMobile
-          data={data}
+          data={props.sellerDetails}
           isLoading={isLoading}
           userProfile={userProfile}
           token={keycloak.token || token}
@@ -159,13 +180,13 @@ const SellerLanding = (props) => {
         />
       ) : (
         <SellerLandingDesktop
-          data={data}
-          isLoading={isLoading}
+          data={!isServer()? props.sellerDetails: props.data.sellerDetails}
+          isLoading={!isServer()?isLoading:false}
           userProfile={userProfile}
           token={keycloak.token || token}
           sellerId={sellerId}
           sellerSubscriptions={sellerSubscriptions}
-          productPopupDetails={productPopupDetails}
+          productPopupDetails={!isServer()?productPopupDetails:categoryRange()}
           aboutCompany={aboutCompany}
           sellerIdentity={
             (props.sellerDetails && props.sellerDetails.kcIdentityId) || null

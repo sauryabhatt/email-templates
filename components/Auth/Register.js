@@ -56,7 +56,7 @@ const Register = (props) => {
   const mediaMatch = "";
   const { keycloak } = useKeycloak();
 
-  // console.log(mediaMatch.matches);
+  
   let { token } = keycloak || {};
   const [form] = Form.useForm();
   // const [errors, setErrors] = useState([]);
