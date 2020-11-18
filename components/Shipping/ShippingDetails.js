@@ -1253,12 +1253,6 @@ const ShippingDetails = (props) => {
                           Enter your coupon code
                         </span>
                       )}
-
-                      {couponApplied && promoMessage && (
-                        <span className="qa-error qa-font-san qa-fs-12">
-                          {promoMessage}
-                        </span>
-                      )}
                     </Form.Item>
                   </Col>
                   <Col xs={8} sm={8} md={8} lg={8} xl={8}>
@@ -1278,6 +1272,18 @@ const ShippingDetails = (props) => {
                         </Button>
                       )}
                     </Form.Item>
+                  </Col>
+                  {couponApplied && promoMessage && (
+                    <Col span={24}>
+                      <div className="qa-error qa-font-san qa-lh qa-fs-12 qa-mar-top-05">
+                        {promoMessage}
+                      </div>
+                    </Col>
+                  )}
+                  <Col span={24}>
+                    <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-top-05 qa-txt-alg-cnt">
+                      <span>*Select shipping mode to apply coupons</span>
+                    </div>
                   </Col>
                 </Row>
               </div>
@@ -1345,11 +1351,16 @@ const ShippingDetails = (props) => {
                     </Col>
                     {couponApplied && promoMessage && (
                       <Col span={24}>
-                        <span className="qa-error qa-font-san qa-fs-12">
+                        <div className="qa-lh qa-error qa-font-san qa-fs-12 qa-mar-top-05">
                           {promoMessage}
-                        </span>
+                        </div>
                       </Col>
                     )}
+                    <Col span={24}>
+                      <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-top-05 qa-txt-alg-cnt">
+                        <span>*Select shipping mode to apply coupons</span>
+                      </div>
+                    </Col>
                   </Row>
                 </div>
 
