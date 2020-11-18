@@ -334,13 +334,13 @@ const ShippingDetails = (props) => {
       .then((result) => {
         let { promoMessage = "", promoDiscount = "" } = result || {};
         if (promoDiscount === 0) {
-          if (couponApplied === true) {
+          if (couponApplied === false) {
             message.error(promoMessage, 5);
           }
           setPromoMessage(promoMessage);
         } else {
           setPromoMessage("");
-          if (couponApplied === true) {
+          if (couponApplied === false) {
             message.success(promoMessage, 5);
           }
           setPromoDiscount(promoDiscount);
