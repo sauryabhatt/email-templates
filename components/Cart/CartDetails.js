@@ -43,6 +43,8 @@ import _ from "lodash";
 import states from "../../public/filestore/stateCodes_en.json";
 import Spinner from "../Spinner/Spinner";
 import deliveredCountryList from "../../public/filestore/deliveredCountries.json";
+import PromotionCarousel from "../PromotionCarousel/PromotionCarousel";
+
 const { Step } = Steps;
 const { Option } = Select;
 
@@ -259,8 +261,8 @@ const CartDetails = (props) => {
   const handlePhoneNumber = (value, country) => {
     let dialCode = "+" + country.dialCode;
     let { format = "", countryCode = "" } = country;
-    let length = format.split(".").length - 1;
-    console.log(value, length);
+    console.log(country, value);
+    let length = (format.match(/\./g) || []).length;
     setSelCountryCode(countryCode);
     setDialCode(dialCode);
     setSelCountryExpectedLength(length);
@@ -434,7 +436,6 @@ const CartDetails = (props) => {
   };
 
   const saveAddress = (values) => {
-    console.log("saved address runs");
     setSelCountry(values.country);
     setSelPincode(values.zipCode);
     countryCheck(values.country);
@@ -960,6 +961,7 @@ const CartDetails = (props) => {
             >
               Shopping cart
             </Col>
+            <PromotionCarousel />
             <Col xs={24} sm={24} md={15} lg={15} xl={15}>
               <div className="qa-dark-theme qa-pad-2 qa-mar-btm-2">
                 <div className="qa-disp-table-cell qa-ship-addr">
@@ -1344,6 +1346,11 @@ const CartDetails = (props) => {
                   </div>
                 </div>
               )}
+              <div className="cart-price-block permot-text">
+                <span className="sdf">
+                  Festive offer discount automatically applied on Shipping page.
+                </span>
+              </div>
               <CartSummary
                 id="cart"
                 enable={enable && isFulfillable && addressFlag}
@@ -1380,397 +1387,403 @@ const CartDetails = (props) => {
       )}
 
       <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>
-
       {!mediaMatch.matches && (
-        <Col span={24} className="qa-pad-0-20">
-          <Row>
-            <Col span={24} className="cart-title qa-mar-btm-2">
-              Shopping cart
-            </Col>
-            <Col
-              span={24}
-              className="qa-border-bottom qa-pad-btm-2 qa-mar-btm-2"
-            >
-              {!addressFlag && (
-                <div className="qa-pad-2 qa-mar-btm-2 cart-error-block cart-err display-flex">
-                  <div className="margin-right-2p">
-                    <Icon
-                      component={alertIcon}
-                      className="alert-icon"
-                      style={{
-                        width: "15px",
-                        verticalAlign: "top",
-                      }}
-                    />
+        <div style={{ width: "100%" }}>
+          <PromotionCarousel />
+          <Col span={24} className="qa-pad-0-20">
+            <div className="cart-price-block permot-text">
+              <span className="sdf">
+                Festive offer discount automatically applied on Shipping page.
+              </span>
+            </div>
+            <Row>
+              <Col span={24} className="cart-title qa-mar-btm-2">
+                Shopping cart
+              </Col>
+              <Col
+                span={24}
+                className="qa-border-bottom qa-pad-btm-2 qa-mar-btm-2"
+              >
+                {!addressFlag && (
+                  <div className="qa-pad-2 qa-mar-btm-2 cart-error-block cart-err display-flex">
+                    <div className="margin-right-2p">
+                      <Icon
+                        component={alertIcon}
+                        className="alert-icon"
+                        style={{
+                          width: "15px",
+                          verticalAlign: "top",
+                        }}
+                      />
+                    </div>
+                    Please enter your Shipping Address in order to proceed to
+                    the next page
                   </div>
-                  Please enter your Shipping Address in order to proceed to the
-                  next page
-                </div>
-              )}
-              {showError && (
-                <div className="qa-pad-2 qa-mar-btm-2 cart-error-block display-flex cart-err">
-                  <div className="margin-right-2p">
-                    <Icon
-                      component={alertIcon}
-                      className="alert-icon"
-                      style={{
-                        width: "15px",
-                        verticalAlign: "top",
-                      }}
-                    />
+                )}
+                {showError && (
+                  <div className="qa-pad-2 qa-mar-btm-2 cart-error-block display-flex cart-err">
+                    <div className="margin-right-2p">
+                      <Icon
+                        component={alertIcon}
+                        className="alert-icon"
+                        style={{
+                          width: "15px",
+                          verticalAlign: "top",
+                        }}
+                      />
+                    </div>
+                    Please move the seller cart with value less than{" "}
+                    {getSymbolFromCurrency(convertToCurrency)}
+                    {getConvertedCurrency(mov)} to 'Save for later' in order to
+                    proceed
                   </div>
-                  Please move the seller cart with value less than{" "}
-                  {getSymbolFromCurrency(convertToCurrency)}
-                  {getConvertedCurrency(mov)} to 'Save for later' in order to
-                  proceed
-                </div>
-              )}
-              {isFulfillable === false && (
-                <div className="qa-pad-2 qa-mar-btm-2 cart-error-block display-flex cart-err">
-                  <div className="margin-right-2p">
-                    <Icon
-                      component={alertIcon}
-                      className="alert-icon"
-                      style={{
-                        width: "15px",
-                        verticalAlign: "top",
-                      }}
-                    />
+                )}
+                {isFulfillable === false && (
+                  <div className="qa-pad-2 qa-mar-btm-2 cart-error-block display-flex cart-err">
+                    <div className="margin-right-2p">
+                      <Icon
+                        component={alertIcon}
+                        className="alert-icon"
+                        style={{
+                          width: "15px",
+                          verticalAlign: "top",
+                        }}
+                      />
+                    </div>
+                    Please move out of stock products in order to proceed
                   </div>
-                  Please move out of stock products in order to proceed
-                </div>
-              )}
-              <CartSummary
-                id="cart"
-                enable={enable && isFulfillable && addressFlag}
-                cart={cart}
-                brandNames={brandNames}
-                deliver={deliver}
-                showCartError={showError}
-                currencyDetails={currencyDetails}
-                user={userProfile}
-                hideCreateOrder={!addressFlag}
-                clearCart={() => {
-                  props.getCart(app_token);
-                }}
-              />
-              <div className="qa-mar-top-05">
-                <Checkbox
-                  className="check-box-tnc"
-                  onChange={(e) => {
-                    let { checked = "" } = e.target;
-                    setEnable(checked);
+                )}
+                <CartSummary
+                  id="cart"
+                  enable={enable && isFulfillable && addressFlag}
+                  cart={cart}
+                  brandNames={brandNames}
+                  deliver={deliver}
+                  showCartError={showError}
+                  currencyDetails={currencyDetails}
+                  user={userProfile}
+                  hideCreateOrder={!addressFlag}
+                  clearCart={() => {
+                    props.getCart(app_token);
                   }}
-                >
-                  I agree to{" "}
-                  <Link className="c-breakup" href="/TermsOfUse">
-                    <a target="_blank">
-                      <span className="c-breakup">terms and conditions</span>
-                    </a>
-                  </Link>
-                </Checkbox>
-              </div>
-            </Col>
-            {referralCode && (
-              <Col span={24}>
-                <div className="cart-coupon-sec qa-mar-btm-2 cart-price-block qa-lh">
-                  <div className="cart-price-title">Available coupons</div>
-                  <div className="margin-right-2p">
-                    <Icon
-                      component={couponIcon}
-                      className="coupon-icon"
-                      style={{
-                        width: "15px",
-                        verticalAlign: "top",
-                        marginRight: "5px",
-                      }}
-                    />
-                    Proceed to shipping page to apply coupons
-                  </div>
+                />
+                <div className="qa-mar-top-05">
+                  <Checkbox
+                    className="check-box-tnc"
+                    onChange={(e) => {
+                      let { checked = "" } = e.target;
+                      setEnable(checked);
+                    }}
+                  >
+                    I agree to{" "}
+                    <Link className="c-breakup" href="/TermsOfUse">
+                      <a target="_blank">
+                        <span className="c-breakup">terms and conditions</span>
+                      </a>
+                    </Link>
+                  </Checkbox>
                 </div>
               </Col>
-            )}
-
-            <Col span={24}>
-              <div className="qa-dark-theme qa-pad-2 qa-mar-btm-2">
-                <div className="qa-disp-table-cell qa-width-80">
-                  <div className="cart-ship-st qa-fw-b qa-mar-btm-05">
-                    Shipping to:
+              {referralCode && (
+                <Col span={24}>
+                  <div className="cart-coupon-sec qa-mar-btm-2 cart-price-block qa-lh">
+                    <div className="cart-price-title">Available coupons</div>
+                    <div className="margin-right-2p">
+                      <Icon
+                        component={couponIcon}
+                        className="coupon-icon"
+                        style={{
+                          width: "15px",
+                          verticalAlign: "top",
+                          marginRight: "5px",
+                        }}
+                      />
+                      Proceed to shipping page to apply coupons
+                    </div>
                   </div>
-                  {addressFlag ? (
-                    <div className="cart-ship-st">{shippingAddr}</div>
-                  ) : (
+                </Col>
+              )}
+
+              <Col span={24}>
+                <div className="qa-dark-theme qa-pad-2 qa-mar-btm-2">
+                  <div className="qa-disp-table-cell qa-width-80">
+                    <div className="cart-ship-st qa-fw-b qa-mar-btm-05">
+                      Shipping to:
+                    </div>
+                    {addressFlag ? (
+                      <div className="cart-ship-st">{shippingAddr}</div>
+                    ) : (
+                      <div
+                        className="add-shipping-addr"
+                        onClick={() => {
+                          setAddressModal(true);
+                          setAddressFunc("add");
+                        }}
+                      >
+                        +Add a new address
+                      </div>
+                    )}
+                  </div>
+                  {addressFlag && (
                     <div
-                      className="add-shipping-addr"
+                      className="qa-disp-table-cell c-edit-address"
                       onClick={() => {
+                        setContactId(id);
                         setAddressModal(true);
-                        setAddressFunc("add");
+                        setAddressFunc("edit");
+                        form.setFieldsValue({
+                          fullName,
+                          addressLine1,
+                          addressLine2,
+                          city,
+                          country,
+                          state,
+                          zipCode,
+                          phoneNumber,
+                          isDefault: "no",
+                        });
+                        if (isDefault) {
+                          form.setFieldsValue({ isDefault: "yes" });
+                        }
                       }}
                     >
-                      +Add a new address
+                      <EditOutlined />
                     </div>
                   )}
                 </div>
-                {addressFlag && (
-                  <div
-                    className="qa-disp-table-cell c-edit-address"
-                    onClick={() => {
-                      setContactId(id);
-                      setAddressModal(true);
-                      setAddressFunc("edit");
-                      form.setFieldsValue({
-                        fullName,
-                        addressLine1,
-                        addressLine2,
-                        city,
-                        country,
-                        state,
-                        zipCode,
-                        phoneNumber,
-                        isDefault: "no",
-                      });
-                      if (isDefault) {
-                        form.setFieldsValue({ isDefault: "yes" });
-                      }
-                    }}
-                  >
-                    <EditOutlined />
-                  </div>
-                )}
-              </div>
-              <div className="cart-prod-title qa-fw-b qa-pad-btm-1 qa-mar-btm-2 qa-border-bottom">
-                Shopping cart
-              </div>
-              <div className="qa-mar-btm-2">
-                {_.map(subOrders, (order, i) => {
-                  let { products = "", sellerCode = "", total = 0 } = order;
-                  let servicesTotal = 0;
-                  let servicesOpted = {};
-                  let mov = "";
-                  for (let product of products) {
-                    let { productType = "" } = product;
-                    mov = productType === "RTS" ? 250 : 500;
-                  }
-                  return (
-                    <div className="qa-bg-light-theme qa-mar-btm-2" key={i}>
-                      <div className="cart-ship-pt qa-fw-b qa-border-bottom">
-                        <Icon
-                          component={cartIcon}
-                          className="cart-icon qa-disp-tc"
-                          style={{
-                            width: "20px",
-                            verticalAlign: "top",
-                            marginRight: "8px",
-                            paddingTop: "0.35%",
-                          }}
-                        />
-
-                        <div className="qa-disp-tc" style={{ width: "80%" }}>
-                          {brandNames &&
-                            brandNames[sellerCode] &&
-                            brandNames[sellerCode].brandName}
-                          {total < mov && (
-                            <div className="cart-sub-text">
-                              Add {getSymbolFromCurrency(convertToCurrency)}
-                              {getConvertedCurrency(mov - total)} more to reach
-                              seller’s minimum order value
-                            </div>
-                          )}
-                        </div>
-                        <div className="qa-txt-alg-cnt qa-pad-top-05 qa-pad-btm-1">
-                          <span
-                            className="cart-delete qa-cursor"
-                            onClick={() => {
-                              setDeleteModal(true);
-                              setBulkdelete(true);
-                              setDeleteItem(sellerCode);
-                              setDeleteName(
-                                brandNames &&
-                                  brandNames[sellerCode] &&
-                                  brandNames[sellerCode].brandName
-                              );
+                <div className="cart-prod-title qa-fw-b qa-pad-btm-1 qa-mar-btm-2 qa-border-bottom">
+                  Shopping cart
+                </div>
+                <div className="qa-mar-btm-2">
+                  {_.map(subOrders, (order, i) => {
+                    let { products = "", sellerCode = "", total = 0 } = order;
+                    let servicesTotal = 0;
+                    let servicesOpted = {};
+                    let mov = "";
+                    for (let product of products) {
+                      let { productType = "" } = product;
+                      mov = productType === "RTS" ? 250 : 500;
+                    }
+                    return (
+                      <div className="qa-bg-light-theme qa-mar-btm-2" key={i}>
+                        <div className="cart-ship-pt qa-fw-b qa-border-bottom">
+                          <Icon
+                            component={cartIcon}
+                            className="cart-icon qa-disp-tc"
+                            style={{
+                              width: "20px",
+                              verticalAlign: "top",
+                              marginRight: "8px",
+                              paddingTop: "0.35%",
                             }}
-                          >
-                            Delete cart
-                          </span>
-                          <span
-                            className={`${
-                              update === sellerCode
-                                ? "cart-update qa-cursor active"
-                                : "cart-update qa-cursor"
-                            }`}
-                            onClick={() => {
-                              if (update) updateCart("UPDATE", sellerCode);
-                            }}
-                          >
-                            Update quantity
-                          </span>
-                        </div>
-                      </div>
+                          />
 
-                      {_.map(products, (product, j) => {
-                        let {
-                          articleId = "",
-                          color = "",
-                          image = "",
-                          isQualityTestingRequired = "",
-                          isSampleDeliveryRequired = "",
-                          minimumOrderQuantity = "",
-                          productId = "",
-                          productName = "",
-                          quantity = "",
-                          size = "",
-                          total = "",
-                          isFulfillable = false,
-                        } = product;
-                        minimumOrderQuantity = parseInt(minimumOrderQuantity);
-                        quantity = parseInt(quantity);
-                        if (
-                          inventoryQty &&
-                          inventoryQty[productId] &&
-                          inventoryQty[productId] <= minimumOrderQuantity
-                        ) {
-                          minimumOrderQuantity = inventoryQty[productId];
-                        }
-                        let services = [];
-                        if (isQualityTestingRequired) {
-                          servicesTotal = servicesTotal + 50;
-                          services.push(productId + "-test");
-                        }
-                        if (isSampleDeliveryRequired) {
-                          servicesTotal = servicesTotal + 50;
-                          services.push(productId + "-sample");
-                        }
-                        servicesOpted[productId] = services;
-                        return (
-                          <Row className="qa-pad-20-0" key={j}>
-                            <Col xs={9} sm={9} md={4} lg={9} xl={9}>
-                              <div className="aspect-ratio-box">
-                                <img
-                                  className="images"
-                                  src={image}
-                                  alt={productName}
-                                ></img>
+                          <div className="qa-disp-tc" style={{ width: "80%" }}>
+                            {brandNames &&
+                              brandNames[sellerCode] &&
+                              brandNames[sellerCode].brandName}
+                            {total < mov && (
+                              <div className="cart-sub-text">
+                                Add {getSymbolFromCurrency(convertToCurrency)}
+                                {getConvertedCurrency(mov - total)} more to
+                                reach seller's minimum order value
                               </div>
-                            </Col>
-                            <Col
-                              xs={15}
-                              sm={15}
-                              md={10}
-                              lg={15}
-                              xl={15}
-                              className="qa-pad-0-10"
+                            )}
+                          </div>
+                          <div className="qa-txt-alg-cnt qa-pad-top-05 qa-pad-btm-1">
+                            <span
+                              className="cart-delete qa-cursor"
+                              onClick={() => {
+                                setDeleteModal(true);
+                                setBulkdelete(true);
+                                setDeleteItem(sellerCode);
+                                setDeleteName(
+                                  brandNames &&
+                                    brandNames[sellerCode] &&
+                                    brandNames[sellerCode].brandName
+                                );
+                              }}
                             >
-                              <div className="cart-prod-title qa-fw-b">
-                                {productName}
-                              </div>
-                              <div className="cart-prod-title">
-                                Item ID - {articleId}
-                              </div>
-                              <div className="cart-subtitle">{color}</div>
-                              <div className="cart-subtitle">{size}</div>
-                              {isQualityTestingRequired && (
-                                <div className="cart-subtitle qa-mar-top-05">
-                                  <CheckCircleOutlined /> Quality testing
+                              Delete cart
+                            </span>
+                            <span
+                              className={`${
+                                update === sellerCode
+                                  ? "cart-update qa-cursor active"
+                                  : "cart-update qa-cursor"
+                              }`}
+                              onClick={() => {
+                                if (update) updateCart("UPDATE", sellerCode);
+                              }}
+                            >
+                              Update quantity
+                            </span>
+                          </div>
+                        </div>
+
+                        {_.map(products, (product, j) => {
+                          let {
+                            articleId = "",
+                            color = "",
+                            image = "",
+                            isQualityTestingRequired = "",
+                            isSampleDeliveryRequired = "",
+                            minimumOrderQuantity = "",
+                            productId = "",
+                            productName = "",
+                            quantity = "",
+                            size = "",
+                            total = "",
+                            isFulfillable = false,
+                          } = product;
+                          minimumOrderQuantity = parseInt(minimumOrderQuantity);
+                          quantity = parseInt(quantity);
+                          if (
+                            inventoryQty &&
+                            inventoryQty[productId] &&
+                            inventoryQty[productId] <= minimumOrderQuantity
+                          ) {
+                            minimumOrderQuantity = inventoryQty[productId];
+                          }
+                          let services = [];
+                          if (isQualityTestingRequired) {
+                            servicesTotal = servicesTotal + 50;
+                            services.push(productId + "-test");
+                          }
+                          if (isSampleDeliveryRequired) {
+                            servicesTotal = servicesTotal + 50;
+                            services.push(productId + "-sample");
+                          }
+                          servicesOpted[productId] = services;
+                          return (
+                            <Row className="qa-pad-20-0" key={j}>
+                              <Col xs={9} sm={9} md={4} lg={9} xl={9}>
+                                <div className="aspect-ratio-box">
+                                  <img
+                                    className="images"
+                                    src={image}
+                                    alt={productName}
+                                  ></img>
                                 </div>
-                              )}
-                              {isSampleDeliveryRequired && (
-                                <div className="cart-subtitle">
-                                  <CheckCircleOutlined /> Sample required
+                              </Col>
+                              <Col
+                                xs={15}
+                                sm={15}
+                                md={10}
+                                lg={15}
+                                xl={15}
+                                className="qa-pad-0-10"
+                              >
+                                <div className="cart-prod-title qa-fw-b">
+                                  {productName}
                                 </div>
-                              )}
-                            </Col>
-                            <Col xs={24} sm={24} md={10} lg={24} xl={24}>
-                              <div className="cart-prod-title qa-fw-b qa-mar-top-05">
-                                {getSymbolFromCurrency(convertToCurrency)}
-                                {total ? getConvertedCurrency(total) : ""}
-                              </div>
-                              <div className="cart-price-text qa-mar-btm-1">
-                                Base price per unit excl. margin and other
-                                charges
-                              </div>
-                              <div>
-                                <div
-                                  className="qa-disp-tc"
-                                  style={{ width: "50%" }}
-                                >
-                                  <QuantityInput
-                                    quantity={quantity}
-                                    sellerCode={sellerCode}
-                                    minQty={minimumOrderQuantity}
-                                    maxQty={error[productId]}
-                                    name={`quantity_${i}${j}`}
-                                    enableUpdateQty={enableUpdateQty}
-                                  />
-                                  <div className="qa-error">
-                                    {error[productId] ? (
-                                      <span>
-                                        We have {error[productId]} units of
-                                        inventory available.
-                                      </span>
-                                    ) : (
-                                      ""
+                                <div className="cart-prod-title">
+                                  Item ID - {articleId}
+                                </div>
+                                <div className="cart-subtitle">{color}</div>
+                                <div className="cart-subtitle">{size}</div>
+                                {isQualityTestingRequired && (
+                                  <div className="cart-subtitle qa-mar-top-05">
+                                    <CheckCircleOutlined /> Quality testing
+                                  </div>
+                                )}
+                                {isSampleDeliveryRequired && (
+                                  <div className="cart-subtitle">
+                                    <CheckCircleOutlined /> Sample required
+                                  </div>
+                                )}
+                              </Col>
+                              <Col xs={24} sm={24} md={10} lg={24} xl={24}>
+                                <div className="cart-prod-title qa-fw-b qa-mar-top-05">
+                                  {getSymbolFromCurrency(convertToCurrency)}
+                                  {total ? getConvertedCurrency(total) : ""}
+                                </div>
+                                <div className="cart-price-text qa-mar-btm-1">
+                                  Base price per unit excl. margin and other
+                                  charges
+                                </div>
+                                <div>
+                                  <div
+                                    className="qa-disp-tc"
+                                    style={{ width: "50%" }}
+                                  >
+                                    <QuantityInput
+                                      quantity={quantity}
+                                      sellerCode={sellerCode}
+                                      minQty={minimumOrderQuantity}
+                                      maxQty={error[productId]}
+                                      name={`quantity_${i}${j}`}
+                                      enableUpdateQty={enableUpdateQty}
+                                    />
+                                    <div className="qa-error">
+                                      {error[productId] ? (
+                                        <span>
+                                          We have {error[productId]} units of
+                                          inventory available.
+                                        </span>
+                                      ) : (
+                                        ""
+                                      )}
+                                    </div>
+                                  </div>
+                                  <div
+                                    className="qa-disp-tc"
+                                    style={{ width: "40%" }}
+                                  >
+                                    {isFulfillable === false && (
+                                      <div className="cart-sub-text p-out-of-stock qa-pad-0-20">
+                                        This product is currently out of stock
+                                      </div>
                                     )}
                                   </div>
-                                </div>
-                                <div
-                                  className="qa-disp-tc"
-                                  style={{ width: "40%" }}
-                                >
-                                  {isFulfillable === false && (
-                                    <div className="cart-sub-text p-out-of-stock qa-pad-0-20">
-                                      This product is currently out of stock
-                                    </div>
-                                  )}
-                                </div>
-                                <div
-                                  className="qa-txt-alg-rgt qa-disp-tc"
-                                  style={{ width: "10%" }}
-                                  onClick={() => {
-                                    setDeleteProduct(productId);
-                                    setDeleteItem(sellerCode);
-                                    setDeleteModal(true);
-                                    setDeleteName(productName);
-                                  }}
-                                >
-                                  <Icon
-                                    component={deleteIcon}
-                                    className="delete-icon"
-                                    style={{
-                                      width: "15px",
+                                  <div
+                                    className="qa-txt-alg-rgt qa-disp-tc"
+                                    style={{ width: "10%" }}
+                                    onClick={() => {
+                                      setDeleteProduct(productId);
+                                      setDeleteItem(sellerCode);
+                                      setDeleteModal(true);
+                                      setDeleteName(productName);
                                     }}
-                                  />
+                                  >
+                                    <Icon
+                                      component={deleteIcon}
+                                      className="delete-icon"
+                                      style={{
+                                        width: "15px",
+                                      }}
+                                    />
+                                  </div>
                                 </div>
-                              </div>
-                            </Col>
-                          </Row>
-                        );
-                      })}
-                      <Row className="qa-pad-top-2 qa-pad-btm-2">
-                        <Col
-                          xs={16}
-                          sm={16}
-                          md={16}
-                          lg={16}
-                          xl={16}
-                          className="cart-prod-title qa-fw-b"
-                        >
-                          SELLER CART VALUE
-                        </Col>
-                        <Col
-                          xs={8}
-                          sm={8}
-                          md={8}
-                          lg={8}
-                          xl={8}
-                          className="qa-txt-alg-rgt cart-prod-title qa-fw-b"
-                        >
-                          {getSymbolFromCurrency(convertToCurrency)}
-                          {total ? getConvertedCurrency(total) : ""}
-                        </Col>
-                      </Row>
+                              </Col>
+                            </Row>
+                          );
+                        })}
+                        <Row className="qa-pad-top-2 qa-pad-btm-2">
+                          <Col
+                            xs={16}
+                            sm={16}
+                            md={16}
+                            lg={16}
+                            xl={16}
+                            className="cart-prod-title qa-fw-b"
+                          >
+                            SELLER CART VALUE
+                          </Col>
+                          <Col
+                            xs={8}
+                            sm={8}
+                            md={8}
+                            lg={8}
+                            xl={8}
+                            className="qa-txt-alg-rgt cart-prod-title qa-fw-b"
+                          >
+                            {getSymbolFromCurrency(convertToCurrency)}
+                            {total ? getConvertedCurrency(total) : ""}
+                          </Col>
+                        </Row>
 
-                      {/* <Button
+                        {/* <Button
                         className="qa-button qa-fs-12 cart-opt-service qa-mar-top-2 qa-vs-hide"
                         onClick={() => {
                           setOptService(order);
@@ -1781,21 +1794,22 @@ const CartDetails = (props) => {
                       >
                         Opt for services
                       </Button> */}
-                      <Button
-                        className="qa-button qa-fs-12 cart-save-later qa-mar-top-2"
-                        onClick={() => addSFL(order)}
-                      >
-                        Save for later
-                      </Button>
-                    </div>
-                  );
-                })}
-              </div>
-            </Col>
-            <Col xs={24} sm={24} md={1} lg={1} xl={1}></Col>
-          </Row>
-          <SavedForLater brandNames={brandNames} />
-        </Col>
+                        <Button
+                          className="qa-button qa-fs-12 cart-save-later qa-mar-top-2"
+                          onClick={() => addSFL(order)}
+                        >
+                          Save for later
+                        </Button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </Col>
+              <Col xs={24} sm={24} md={1} lg={1} xl={1}></Col>
+            </Row>
+            <SavedForLater brandNames={brandNames} />
+          </Col>
+        </div>
       )}
 
       <Modal

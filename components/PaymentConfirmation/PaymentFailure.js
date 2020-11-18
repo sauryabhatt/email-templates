@@ -1,17 +1,15 @@
 /** @format */
 
 import React, { useEffect } from "react";
-import { Row, Col, Steps, Button, Checkbox } from "antd";
+import { Row, Col, Button } from "antd";
 import { getOrderByOrderId } from "../../store/actions";
 import { connect } from "react-redux";
 import getSymbolFromCurrency from "currency-symbol-map";
 import { useKeycloak } from "@react-keycloak/ssr";
-import {useRouter} from "next/router";
-
-
+import { useRouter } from "next/router";
 const PaymentFailure = (props) => {
-  const {keycloak} = useKeycloak();
-  const router  = useRouter();
+  const { keycloak } = useKeycloak();
+  const router = useRouter();
   let { orderId: orderIdParam } = router.query;
   const mediaMatch = window.matchMedia("(min-width: 768px)");
 
@@ -53,7 +51,9 @@ const PaymentFailure = (props) => {
             <Col xs={6} sm={6} md={6} lg={6}>
               {props.order && props.order.orderType == "RTS" ? (
                 <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
-                  {getSymbolFromCurrency(props.order && props.order.currency)}
+                  {getSymbolFromCurrency(
+                    (props.order && props.order.currency) || "USD"
+                  )}
                   {parseFloat(
                     subOrder.products.reduce((x, y) => x + y["total"], 0) *
                       props.order.conversionFactor
@@ -61,8 +61,12 @@ const PaymentFailure = (props) => {
                 </span>
               ) : (
                 <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
-                  {getSymbolFromCurrency(props.order && props.order.currency)}
-                  {subOrder.products.reduce((x, y) => x + y["total"], 0)}
+                  {getSymbolFromCurrency(
+                    (props.order && props.order.currency) || "USD"
+                  )}
+                  {parseFloat(
+                    subOrder.products.reduce((x, y) => x + y["total"], 0)
+                  ).toFixed(2)}
                 </span>
               )}
             </Col>
@@ -80,12 +84,7 @@ const PaymentFailure = (props) => {
   };
 
   return (
-    // <div className='bird-vector'>
-    <div
-      style={
-        mediaMatch.matches ? {} : { marginTop: "20%", marginBottom: "20%" }
-      }
-    >
+    <div>
       <div className="bird-vector" />
       <Row
         justify="center"
@@ -166,7 +165,6 @@ const PaymentFailure = (props) => {
               sm={22}
               md={10}
               lg={10}
-              className="order-details"
               className={
                 mediaMatch.matches
                   ? "order-details"
@@ -188,7 +186,7 @@ const PaymentFailure = (props) => {
                       lg={6}
                       style={{ lineHeight: "100%" }}
                     >
-                      <span className="qa-col-end qa-font-san qa-fs-14 qa-tc-white">
+                      <span className="qa-col-end qa-font-san qa-fs-14 qa-tc-white qa-fw-b">
                         Order ID
                       </span>
                     </Col>
@@ -218,37 +216,41 @@ const PaymentFailure = (props) => {
               <Row className="qa-mar-top-2">
                 <Col xs={18} sm={18} md={18} lg={18}>
                   <span className="qa-font-san qa-tc-white qa-fs-14">
-                    Estimated freight charges
+                    Estimated freight fees
                   </span>
                 </Col>
                 <Col xs={6} sm={6} md={6} lg={6}>
                   {props.order && props.order.orderType == "RTS" ? (
                     <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
                       {getSymbolFromCurrency(
-                        props.order && props.order.currency
+                        (props.order && props.order.currency) || "USD"
                       )}
                       {props.order &&
                         props.order.miscCharges &&
                         props.order.miscCharges.find(
                           (x) => x.chargeId === "FREIGHT_MAX"
                         ) &&
-                        props.order.miscCharges.find(
-                          (x) => x.chargeId === "FREIGHT_MAX"
-                        ).amount * props.order.conversionFactor}
+                        parseFloat(
+                          props.order.miscCharges.find(
+                            (x) => x.chargeId === "FREIGHT_MAX"
+                          ).amount * props.order.conversionFactor
+                        ).toFixed(2)}
                     </span>
                   ) : (
                     <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
                       {getSymbolFromCurrency(
-                        props.order && props.order.currency
+                        (props.order && props.order.currency) || "USD"
                       )}
                       {props.order &&
                         props.order.miscCharges &&
                         props.order.miscCharges.find(
                           (x) => x.chargeId === "FREIGHT_CHARGES"
                         ) &&
-                        props.order.miscCharges.find(
-                          (x) => x.chargeId === "FREIGHT_CHARGES"
-                        ).amount}
+                        parseFloat(
+                          props.order.miscCharges.find(
+                            (x) => x.chargeId === "FREIGHT_CHARGES"
+                          ).amount
+                        ).toFixed(2)}
                     </span>
                   )}
                 </Col>
@@ -263,30 +265,34 @@ const PaymentFailure = (props) => {
                   {props.order && props.order.orderType == "RTS" ? (
                     <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
                       {getSymbolFromCurrency(
-                        props.order && props.order.currency
+                        (props.order && props.order.currency) || "USD"
                       )}
                       {props.order &&
                         props.order.miscCharges &&
                         props.order.miscCharges.find(
                           (x) => x.chargeId === "DUTY_MAX"
                         ) &&
-                        props.order.miscCharges.find(
-                          (x) => x.chargeId === "DUTY_MAX"
-                        ).amount * props.order.conversionFactor}
+                        parseFloat(
+                          props.order.miscCharges.find(
+                            (x) => x.chargeId === "DUTY_MAX"
+                          ).amount * props.order.conversionFactor
+                        ).toFixed(2)}
                     </span>
                   ) : (
                     <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
                       {getSymbolFromCurrency(
-                        props.order && props.order.currency
+                        (props.order && props.order.currency) || "USD"
                       )}
                       {props.order &&
                         props.order.miscCharges &&
                         props.order.miscCharges.find(
                           (x) => x.chargeId === "CUSTOM_CHARGES"
                         ) &&
-                        props.order.miscCharges.find(
-                          (x) => x.chargeId === "CUSTOM_CHARGES"
-                        ).amount}
+                        parseFloat(
+                          props.order.miscCharges.find(
+                            (x) => x.chargeId === "CUSTOM_CHARGES"
+                          ).amount
+                        ).toFixed(2)}
                     </span>
                   )}
                 </Col>
@@ -305,7 +311,7 @@ const PaymentFailure = (props) => {
                     >
                       -{" "}
                       {getSymbolFromCurrency(
-                        props.order && props.order.currency
+                        (props.order && props.order.currency) || "USD"
                       )}
                       {props.order &&
                         props.order.miscCharges &&
@@ -325,21 +331,52 @@ const PaymentFailure = (props) => {
                     >
                       -{" "}
                       {getSymbolFromCurrency(
-                        props.order && props.order.currency
+                        (props.order && props.order.currency) || "USD"
                       )}
-                      {(props.order &&
-                        props.order.miscCharges &&
-                        props.order.miscCharges.find(
-                          (x) => x.chargeId === "DISCOUNT"
-                        ) &&
-                        props.order.miscCharges.find(
-                          (x) => x.chargeId === "DISCOUNT"
-                        ).amount) ||
-                        0}
+                      {(
+                        (props.order &&
+                          props.order.miscCharges &&
+                          props.order.miscCharges.find(
+                            (x) => x.chargeId === "DISCOUNT"
+                          ) &&
+                          parseFloat(
+                            props.order.miscCharges.find(
+                              (x) => x.chargeId === "DISCOUNT"
+                            ).amount
+                          )) ||
+                        0
+                      ).toFixed(2)}
                     </span>
                   )}
                 </Col>
               </Row>
+              {props.order.promoDiscount && props.order.promoDiscount > 0 && (
+                <Row className="qa-mar-top-1">
+                  <Col xs={18} sm={18} md={18} lg={18}>
+                    <div
+                      className="cart-prod-name"
+                      style={{ color: "#27AE60" }}
+                    >
+                      {props.order.promoCode}
+                    </div>
+                    <div
+                      className="cart-prod-name"
+                      style={{ color: "#27AE60" }}
+                    >
+                      coupon discount applied
+                    </div>
+                  </Col>
+                  <Col xs={6} sm={6} md={6} lg={6}>
+                    <span style={{ color: "#27AE60" }}>
+                      -
+                      {getSymbolFromCurrency(
+                        props.order && props.order.currency
+                      )}
+                      {parseFloat(props.order.promoDiscount).toFixed(2)}
+                    </span>
+                  </Col>
+                </Row>
+              )}
               <Row className="qa-mar-top-1">
                 <Col xs={24} sm={24} md={24} lg={24}>
                   <hr style={{ border: "-1px solid rgba(25, 25, 25, 0.6)" }} />
@@ -355,7 +392,7 @@ const PaymentFailure = (props) => {
                   {props.order && props.order.orderType == "RTS" ? (
                     <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
                       {getSymbolFromCurrency(
-                        props.order && props.order.currency
+                        (props.order && props.order.currency) || "USD"
                       )}
                       {props.order &&
                         parseFloat(
@@ -365,16 +402,18 @@ const PaymentFailure = (props) => {
                   ) : (
                     <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
                       {getSymbolFromCurrency(
-                        props.order && props.order.currency
+                        (props.order && props.order.currency) || "USD"
                       )}
                       {props.order &&
                         props.order.miscCharges &&
                         props.order.miscCharges.find(
                           (x) => x.chargeId === "TOTAL_AMOUNT"
                         ) &&
-                        props.order.miscCharges.find(
-                          (x) => x.chargeId === "TOTAL_AMOUNT"
-                        ).amount}
+                        parseFloat(
+                          props.order.miscCharges.find(
+                            (x) => x.chargeId === "TOTAL_AMOUNT"
+                          ).amount
+                        ).toFixed(2)}
                     </span>
                   )}
                 </Col>
@@ -384,7 +423,6 @@ const PaymentFailure = (props) => {
         </Col>
       </Row>
     </div>
-    // </div >
   );
 };
 

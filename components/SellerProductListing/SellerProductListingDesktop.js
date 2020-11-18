@@ -134,14 +134,11 @@ function SellerProductListingDesktop(props) {
         sort_by: "minimumOrderQuantity",
       };
     } else {
-      queryParam = { ...queryParam, sort_order: "ASC", sort_by: value };
+      queryParam = { ...queryParam, sort_order: "DESC", sort_by: value };
     }
     getFilterData(queryParam, "sort");
   };
 
-  const showScheduleBenefits = () => {
-    setShowScheduleBenefits(true);
-  };
   const showSellerModal = () => {
     setSellerModal(true);
   };
@@ -158,7 +155,7 @@ function SellerProductListingDesktop(props) {
       setShowScheduleBenefits(false);
       setShowScheduling(true);
     } else {
-       loginToApp(keycloak, { currentPath: router.pathname });
+      loginToApp(keycloak, { currentPath: router.pathname });
     }
   };
 
@@ -208,14 +205,17 @@ function SellerProductListingDesktop(props) {
       ),
       slotDate: selectedDate,
     };
-    fetch(process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL + "/events/meeting ", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + keycloak.token,
-      },
-    })
+    fetch(
+      process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL + "/events/meeting ",
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + keycloak.token,
+        },
+      }
+    )
       .then((res) => {
         if (res.ok) {
           setSelectedSlot(selectedSlot);
@@ -419,7 +419,11 @@ function SellerProductListingDesktop(props) {
               />
             </Col>
             <Col span={6} className="qa-txt-alg-rgt qa-mar-top-3">
-              <SortByFilter handleSortFilter={handleSortFilter} id="SPLP" queryParams={queryParams}/>
+              <SortByFilter
+                handleSortFilter={handleSortFilter}
+                id="SPLP"
+                queryParams={queryParams}
+              />
             </Col>
           </Row>
         </Content>

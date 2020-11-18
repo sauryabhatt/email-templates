@@ -11,8 +11,14 @@ import moment from "moment";
 
 const OrderDetails = (props) => {
   let { orders = {}, subOrders = {} } = props;
-  let { orderedDate = "", orderId = "", miscCharges = [] } = orders || {}; // anything
-  let date = new Date(orderedDate);
+  let {
+    orderedDate = "",
+    orderId = "",
+    miscCharges = [],
+    orderConfirmedDate = "",
+  } = orders || {};
+  let date = new Date(orderConfirmedDate || orderedDate);
+
   let month = "" + (date.getMonth() + 1);
   let day = date.getDate();
   let year = date.getFullYear();
@@ -213,7 +219,7 @@ const OrderDetails = (props) => {
                     justifyContent: "flex-end",
                   }}
                 >
-                  Order date
+                  Order confirmed date
                 </span>
               </Col>
               <Col
@@ -585,7 +591,8 @@ const OrderDetails = (props) => {
                                       <img
                                         className="images"
                                         src={
-                                          process.env.NEXT_PUBLIC_URL + "/tick.png"
+                                          process.env.NEXT_PUBLIC_URL +
+                                          "/tick.png"
                                         }
                                         style={
                                           mediaMatch.matches
@@ -642,7 +649,8 @@ const OrderDetails = (props) => {
                                       <img
                                         className="images"
                                         src={
-                                          process.env.NEXT_PUBLIC_URL + "/tick.png"
+                                          process.env.NEXT_PUBLIC_URL +
+                                          "/tick.png"
                                         }
                                         style={
                                           mediaMatch.matches

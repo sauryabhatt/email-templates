@@ -261,8 +261,12 @@ const OrdersMobile = (props) => {
             ""
           )}
           {orders.map((order, i) => {
-            let { orderedDate = "", subOrders = [] } = order; // anything
-            let date = new Date(orderedDate);
+            let {
+              orderedDate = "",
+              subOrders = [],
+              orderConfirmedDate = "",
+            } = order; // anything
+            let date = new Date(orderConfirmedDate || orderedDate);
             let month = "" + (date.getMonth() + 1);
             let day = date.getDate();
             let year = date.getFullYear();

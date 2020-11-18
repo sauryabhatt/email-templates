@@ -6,17 +6,17 @@ import { getOrderByOrderId } from "../../store/actions";
 import { connect } from "react-redux";
 import getSymbolFromCurrency from "currency-symbol-map";
 import { useKeycloak } from "@react-keycloak/ssr";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 
 const PaymentSuccess = (props) => {
-  const {keycloak} = useKeycloak();
-  const router  = useRouter();
+  const { keycloak } = useKeycloak();
+  const router = useRouter();
   let { orderId: orderIdParam } = router.query;
   const mediaMatch = window.matchMedia("(min-width: 768px)");
 
   useEffect(() => {
     props.getOrderByOrderId(keycloak.token, orderIdParam);
-  }, [keycloak.token, router.query.orderId ]);
+  }, [keycloak.token, router.query.orderId]);
 
   const getOrders =
     props.order &&
@@ -61,7 +61,9 @@ const PaymentSuccess = (props) => {
               ) : (
                 <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
                   {getSymbolFromCurrency(props.order && props.order.currency)}
-                  {subOrder.products.reduce((x, y) => x + y["total"], 0)}
+                  {parseFloat(
+                    subOrder.products.reduce((x, y) => x + y["total"], 0)
+                  ).toFixed(2)}
                 </span>
               )}
             </Col>
@@ -82,13 +84,30 @@ const PaymentSuccess = (props) => {
     router.push("/FAQforwholesalebuyers");
   };
 
+  let { order = {} } = props || {};
+  let {
+    balance = 0,
+    total = 0,
+    paymentTerms = [],
+    conversionFactor = 0,
+    promoDiscount = 0,
+    promoCode = "",
+  } = order || {};
+  if (conversionFactor) {
+    total = total * conversionFactor;
+  }
+  let advance = total - balance || 0;
+
+  if (!balance) {
+    if (paymentTerms.find((x) => x.chargeId === "ADVANCE")) {
+      advance = paymentTerms.find((x) => x.chargeId === "ADVANCE").amount;
+      balance = total - advance;
+    }
+  }
+
   return (
     // <div className='bird-vector'>
-    <div
-      style={
-        mediaMatch.matches ? {} : { marginTop: "20%", marginBottom: "20%" }
-      }
-    >
+    <div>
       <div className="bird-vector" />
       <Row
         justify="center"
@@ -191,226 +210,318 @@ const PaymentSuccess = (props) => {
               </Row>
             </Col>
             <Col xs={0} sm={0} md={2} lg={2}></Col>
-            <Col
-              xs={22}
-              sm={22}
-              md={10}
-              lg={10}
-              className="order-details"
-              className={
-                mediaMatch.matches
-                  ? "order-details"
-                  : "order-details qa-mar-top-3"
-              }
-            >
-              <Row>
-                <Col xs={24} sm={24} md={24} lg={24}>
+            <Col xs={22} sm={22} md={10} lg={10}>
+              <Row
+                className={
+                  mediaMatch.matches
+                    ? "order-details qa-mar-btm-3"
+                    : "order-details qa-mar-top-3 qa-mar-btm-3"
+                }
+              >
+                <Col span={24}>
                   <Row>
+                    <Col xs={24} sm={24} md={24} lg={24}>
+                      <Row>
+                        <Col xs={17} sm={17} md={17} lg={17}>
+                          <span className="qa-font-butler qa-fs-20 qa-tc-white">
+                            Cart summary
+                          </span>
+                        </Col>
+                        <Col xs={7} sm={7} md={7} lg={7}>
+                          <span className="qa-col-end qa-font-san qa-fs-14 qa-tc-white qa-fw-b">
+                            Order ID
+                          </span>
+                        </Col>
+                        <Col
+                          xs={24}
+                          sm={24}
+                          md={24}
+                          lg={24}
+                          style={{ lineHeight: "100%" }}
+                        >
+                          <span
+                            className="qa-col-end qa-font-san qa-fs-12"
+                            style={{ color: "#332f2f", opacity: "80%" }}
+                          >
+                            {props.order && props.order.orderId}
+                          </span>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                  <Row className="qa-mar-top-1">
+                    <Col xs={24} sm={24} md={24} lg={24}>
+                      <hr
+                        style={{ border: "-1px solid rgba(25, 25, 25, 0.6)" }}
+                      />
+                    </Col>
+                  </Row>
+                  {getOrders}
+                  <Row className="qa-mar-top-2">
                     <Col xs={18} sm={18} md={18} lg={18}>
-                      <span className="qa-font-butler qa-fs-20 qa-tc-white">
-                        Cart summary
+                      <span className="qa-font-san qa-tc-white qa-fs-14">
+                        Estimated freight fees
                       </span>
                     </Col>
-                    <Col
-                      xs={6}
-                      sm={6}
-                      md={6}
-                      lg={6}
-                      style={{ lineHeight: "100%" }}
-                    >
-                      <span className="qa-col-end qa-font-san qa-fs-14 qa-tc-white">
-                        Order ID
+                    <Col xs={6} sm={6} md={6} lg={6}>
+                      {props.order && props.order.orderType == "RTS" ? (
+                        <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
+                          {getSymbolFromCurrency(
+                            props.order && props.order.currency
+                          )}
+                          {props.order &&
+                            props.order.miscCharges &&
+                            props.order.miscCharges.find(
+                              (x) => x.chargeId === "FREIGHT_MAX"
+                            ) &&
+                            parseFloat(
+                              props.order.miscCharges.find(
+                                (x) => x.chargeId === "FREIGHT_MAX"
+                              ).amount * props.order.conversionFactor
+                            ).toFixed(2)}
+                        </span>
+                      ) : (
+                        <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
+                          {getSymbolFromCurrency(
+                            props.order && props.order.currency
+                          )}
+                          {parseFloat(
+                            props.order &&
+                              props.order.miscCharges &&
+                              props.order.miscCharges.find(
+                                (x) => x.chargeId === "FREIGHT_CHARGES"
+                              ) &&
+                              props.order.miscCharges.find(
+                                (x) => x.chargeId === "FREIGHT_CHARGES"
+                              ).amount
+                          ).toFixed(2)}
+                        </span>
+                      )}
+                    </Col>
+                  </Row>
+                  <Row className="qa-mar-top-2">
+                    <Col xs={18} sm={18} md={18} lg={18}>
+                      <span className="qa-font-san qa-tc-white qa-fs-14">
+                        Estimated custom, duties & taxes
                       </span>
                     </Col>
-                    <Col
-                      xs={24}
-                      sm={24}
-                      md={24}
-                      lg={24}
-                      style={{ lineHeight: "100%" }}
-                    >
-                      <span
-                        className="qa-col-end qa-font-san qa-fs-12"
-                        style={{ color: "#332f2f", opacity: "80%" }}
-                      >
-                        {props.order && props.order.orderId}
+                    <Col xs={6} sm={6} md={6} lg={6}>
+                      {props.order && props.order.orderType == "RTS" ? (
+                        <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
+                          {getSymbolFromCurrency(
+                            props.order && props.order.currency
+                          )}
+                          {props.order &&
+                            props.order.miscCharges &&
+                            props.order.miscCharges.find(
+                              (x) => x.chargeId === "DUTY_MAX"
+                            ) &&
+                            parseFloat(
+                              props.order.miscCharges.find(
+                                (x) => x.chargeId === "DUTY_MAX"
+                              ).amount * props.order.conversionFactor
+                            ).toFixed(2)}
+                        </span>
+                      ) : (
+                        <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
+                          {getSymbolFromCurrency(
+                            props.order && props.order.currency
+                          )}
+                          {parseFloat(
+                            props.order &&
+                              props.order.miscCharges &&
+                              props.order.miscCharges.find(
+                                (x) => x.chargeId === "CUSTOM_CHARGES"
+                              ) &&
+                              props.order.miscCharges.find(
+                                (x) => x.chargeId === "CUSTOM_CHARGES"
+                              ).amount
+                          ).toFixed(2)}
+                        </span>
+                      )}
+                    </Col>
+                  </Row>
+                  <Row className="qa-mar-top-2">
+                    <Col xs={18} sm={18} md={18} lg={18}>
+                      <span className="qa-font-san qa-tc-white qa-fs-14">
+                        Coupon discount
                       </span>
+                    </Col>
+                    <Col xs={6} sm={6} md={6} lg={6}>
+                      {props.order && props.order.orderType == "RTS" ? (
+                        <span
+                          className="qa-font-san qa-fw-b qa-fs-14 qa-col-end"
+                          style={{ color: "#0ABC1C" }}
+                        >
+                          -{" "}
+                          {getSymbolFromCurrency(
+                            props.order && props.order.currency
+                          )}
+                          {props.order &&
+                            props.order.miscCharges &&
+                            props.order.miscCharges.find(
+                              (x) => x.chargeId === "DISCOUNT"
+                            ) &&
+                            parseFloat(
+                              (props.order.miscCharges.find(
+                                (x) => x.chargeId === "DISCOUNT"
+                              ).amount || 0) * props.order.conversionFactor
+                            ).toFixed(2)}
+                        </span>
+                      ) : (
+                        <span
+                          className="qa-font-san qa-fw-b qa-fs-14 qa-col-end"
+                          style={{ color: "#0ABC1C" }}
+                        >
+                          -{" "}
+                          {getSymbolFromCurrency(
+                            props.order && props.order.currency
+                          )}
+                          {parseFloat(
+                            (props.order &&
+                              props.order.miscCharges &&
+                              props.order.miscCharges.find(
+                                (x) => x.chargeId === "DISCOUNT"
+                              ) &&
+                              props.order.miscCharges.find(
+                                (x) => x.chargeId === "DISCOUNT"
+                              ).amount) ||
+                              0
+                          ).toFixed(2)}
+                        </span>
+                      )}
+                    </Col>
+                  </Row>
+                  {promoDiscount > 0 && (
+                    <Row className="qa-mar-top-1">
+                      <Col xs={18} sm={18} md={18} lg={18}>
+                        <div
+                          className="cart-prod-name"
+                          style={{ color: "#27AE60" }}
+                        >
+                          {promoCode}
+                        </div>
+                        <div
+                          className="cart-prod-name"
+                          style={{ color: "#27AE60" }}
+                        >
+                          coupon discount applied
+                        </div>
+                      </Col>
+                      <Col xs={6} sm={6} md={6} lg={6}>
+                        <span style={{ color: "#27AE60" }}>
+                          -
+                          {getSymbolFromCurrency(
+                            props.order && props.order.currency
+                          )}
+                          {parseFloat(promoDiscount).toFixed(2)}
+                        </span>
+                      </Col>
+                    </Row>
+                  )}
+                  <Row className="qa-mar-top-1">
+                    <Col xs={24} sm={24} md={24} lg={24}>
+                      <hr
+                        style={{ border: "-1px solid rgba(25, 25, 25, 0.6)" }}
+                      />
+                    </Col>
+                  </Row>
+                  <Row className="qa-mar-top-1">
+                    <Col xs={18} sm={18} md={18} lg={18}>
+                      <span className="qa-font-san qa-tc-white qa-fs-17 qa-fw-b">
+                        TOTAL CART VALUE
+                      </span>
+                    </Col>
+                    <Col xs={6} sm={6} md={6} lg={6}>
+                      {props.order && props.order.orderType == "RTS" ? (
+                        <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
+                          {getSymbolFromCurrency(
+                            props.order && props.order.currency
+                          )}
+                          {props.order &&
+                            parseFloat(
+                              props.order.total * props.order.conversionFactor
+                            ).toFixed(2)}
+                        </span>
+                      ) : (
+                        <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
+                          {getSymbolFromCurrency(
+                            props.order && props.order.currency
+                          )}
+                          {parseFloat(
+                            props.order &&
+                              props.order.miscCharges &&
+                              props.order.miscCharges.find(
+                                (x) => x.chargeId === "TOTAL_AMOUNT"
+                              ) &&
+                              props.order.miscCharges.find(
+                                (x) => x.chargeId === "TOTAL_AMOUNT"
+                              ).amount
+                          ).toFixed(2)}
+                        </span>
+                      )}
                     </Col>
                   </Row>
                 </Col>
               </Row>
-              <Row className="qa-mar-top-1">
-                <Col xs={24} sm={24} md={24} lg={24}>
-                  <hr style={{ border: "-1px solid rgba(25, 25, 25, 0.6)" }} />
-                </Col>
-              </Row>
-              {getOrders}
-              <Row className="qa-mar-top-2">
-                <Col xs={18} sm={18} md={18} lg={18}>
-                  <span className="qa-font-san qa-tc-white qa-fs-14">
-                    Estimated freight charges
-                  </span>
-                </Col>
-                <Col xs={6} sm={6} md={6} lg={6}>
-                  {props.order && props.order.orderType == "RTS" ? (
-                    <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
-                      {getSymbolFromCurrency(
-                        props.order && props.order.currency
-                      )}
-                      {props.order &&
-                        props.order.miscCharges &&
-                        props.order.miscCharges.find(
-                          (x) => x.chargeId === "FREIGHT_MAX"
-                        ) &&
-                        parseFloat(
-                          props.order.miscCharges.find(
-                            (x) => x.chargeId === "FREIGHT_MAX"
-                          ).amount * props.order.conversionFactor
-                        ).toFixed(2)}
-                    </span>
-                  ) : (
-                    <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
-                      {getSymbolFromCurrency(
-                        props.order && props.order.currency
-                      )}
-                      {props.order &&
-                        props.order.miscCharges &&
-                        props.order.miscCharges.find(
-                          (x) => x.chargeId === "FREIGHT_CHARGES"
-                        ) &&
-                        props.order.miscCharges.find(
-                          (x) => x.chargeId === "FREIGHT_CHARGES"
-                        ).amount}
-                    </span>
-                  )}
-                </Col>
-              </Row>
-              <Row className="qa-mar-top-2">
-                <Col xs={18} sm={18} md={18} lg={18}>
-                  <span className="qa-font-san qa-tc-white qa-fs-14">
-                    Estimated custom, duties & taxes
-                  </span>
-                </Col>
-                <Col xs={6} sm={6} md={6} lg={6}>
-                  {props.order && props.order.orderType == "RTS" ? (
-                    <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
-                      {getSymbolFromCurrency(
-                        props.order && props.order.currency
-                      )}
-                      {props.order &&
-                        props.order.miscCharges &&
-                        props.order.miscCharges.find(
-                          (x) => x.chargeId === "DUTY_MAX"
-                        ) &&
-                        parseFloat(
-                          props.order.miscCharges.find(
-                            (x) => x.chargeId === "DUTY_MAX"
-                          ).amount * props.order.conversionFactor
-                        ).toFixed(2)}
-                    </span>
-                  ) : (
-                    <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
-                      {getSymbolFromCurrency(
-                        props.order && props.order.currency
-                      )}
-                      {props.order &&
-                        props.order.miscCharges &&
-                        props.order.miscCharges.find(
-                          (x) => x.chargeId === "CUSTOM_CHARGES"
-                        ) &&
-                        props.order.miscCharges.find(
-                          (x) => x.chargeId === "CUSTOM_CHARGES"
-                        ).amount}
-                    </span>
-                  )}
-                </Col>
-              </Row>
-              <Row className="qa-mar-top-2">
-                <Col xs={18} sm={18} md={18} lg={18}>
-                  <span className="qa-font-san qa-tc-white qa-fs-14">
-                    Coupon discount
-                  </span>
-                </Col>
-                <Col xs={6} sm={6} md={6} lg={6}>
-                  {props.order && props.order.orderType == "RTS" ? (
-                    <span
-                      className="qa-font-san qa-fw-b qa-fs-14 qa-col-end"
-                      style={{ color: "#0ABC1C" }}
-                    >
-                      -{" "}
-                      {getSymbolFromCurrency(
-                        props.order && props.order.currency
-                      )}
-                      {props.order &&
-                        props.order.miscCharges &&
-                        props.order.miscCharges.find(
-                          (x) => x.chargeId === "DISCOUNT"
-                        ) &&
-                        parseFloat(
-                          (props.order.miscCharges.find(
-                            (x) => x.chargeId === "DISCOUNT"
-                          ).amount || 0) * props.order.conversionFactor
-                        ).toFixed(2)}
-                    </span>
-                  ) : (
-                    <span
-                      className="qa-font-san qa-fw-b qa-fs-14 qa-col-end"
-                      style={{ color: "#0ABC1C" }}
-                    >
-                      -{" "}
-                      {getSymbolFromCurrency(
-                        props.order && props.order.currency
-                      )}
-                      {(props.order &&
-                        props.order.miscCharges &&
-                        props.order.miscCharges.find(
-                          (x) => x.chargeId === "DISCOUNT"
-                        ) &&
-                        props.order.miscCharges.find(
-                          (x) => x.chargeId === "DISCOUNT"
-                        ).amount) ||
-                        0}
-                    </span>
-                  )}
-                </Col>
-              </Row>
-              <Row className="qa-mar-top-1">
-                <Col xs={24} sm={24} md={24} lg={24}>
-                  <hr style={{ border: "-1px solid rgba(25, 25, 25, 0.6)" }} />
-                </Col>
-              </Row>
-              <Row className="qa-mar-top-1">
-                <Col xs={18} sm={18} md={18} lg={18}>
-                  <span className="qa-font-san qa-tc-white qa-fs-17 qa-fw-b">
-                    TOTAL CART VALUE
-                  </span>
-                </Col>
-                <Col xs={6} sm={6} md={6} lg={6}>
-                  {props.order && props.order.orderType == "RTS" ? (
-                    <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
-                      {getSymbolFromCurrency(
-                        props.order && props.order.currency
-                      )}
-                      {props.order &&
-                        parseFloat(
-                          props.order.total * props.order.conversionFactor
-                        ).toFixed(2)}
-                    </span>
-                  ) : (
-                    <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
-                      {getSymbolFromCurrency(
-                        props.order && props.order.currency
-                      )}
-                      {props.order &&
-                        props.order.miscCharges &&
-                        props.order.miscCharges.find(
-                          (x) => x.chargeId === "TOTAL_AMOUNT"
-                        ) &&
-                        props.order.miscCharges.find(
-                          (x) => x.chargeId === "TOTAL_AMOUNT"
-                        ).amount}
-                    </span>
-                  )}
+              <Row
+                className={
+                  mediaMatch.matches
+                    ? "order-details qa-mar-btm-3"
+                    : "order-details qa-mar-top-3 qa-mar-btm-3"
+                }
+              >
+                <Col span={24}>
+                  <Row>
+                    <Col xs={24} sm={24} md={24} lg={24}>
+                      <Row>
+                        <Col xs={24} sm={24} md={24} lg={24}>
+                          <span className="qa-font-butler qa-fs-20 qa-tc-white">
+                            Payment terms
+                          </span>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                  <Row className="qa-mar-top-1">
+                    <Col xs={24} sm={24} md={24} lg={24}>
+                      <hr
+                        style={{ border: "-1px solid rgba(25, 25, 25, 0.6)" }}
+                      />
+                    </Col>
+                  </Row>
+                  <Row className="qa-mar-top-2">
+                    <Col xs={18} sm={18} md={18} lg={18}>
+                      <span className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b">
+                        Advance collected
+                      </span>
+                    </Col>
+                    <Col xs={6} sm={6} md={6} lg={6}>
+                      <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
+                        {getSymbolFromCurrency(
+                          props.order && props.order.currency
+                        )}
+                        {parseFloat(advance).toFixed(2)}
+                      </span>
+                    </Col>
+                  </Row>
+                  <Row className="qa-mar-top-2">
+                    <Col xs={18} sm={18} md={18} lg={18}>
+                      <span className="qa-font-san qa-tc-white qa-fs-14">
+                        Amount to be collected once the shipment has reached the
+                        destination country
+                      </span>
+                    </Col>
+                    <Col xs={6} sm={6} md={6} lg={6}>
+                      <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
+                        {getSymbolFromCurrency(
+                          props.order && props.order.currency
+                        )}
+
+                        {parseFloat(balance).toFixed(2)}
+                      </span>
+                    </Col>
+                  </Row>
                 </Col>
               </Row>
             </Col>

@@ -1,3 +1,5 @@
+/** @format */
+
 // import React from 'react';
 // import Keycloak from 'keycloak-js';
 // import { KeycloakProvider } from '@react-keycloak/web';
@@ -6,9 +8,9 @@
 // import Spinner from '../Spinner/Spinner';
 
 // const keycloak = new Keycloak({
-//     realm: process.env.REACT_APP_KEYCLOAK_REALM,
-//     url: process.env.REACT_APP_KEYCLOAK_URL,
-//     clientId: process.env.REACT_APP_KEYCLOAK_CLIENT_ID
+//     realm: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_REALM,
+//     url: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_URL,
+//     clientId: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_CLIENT_ID
 // });
 
 // const keycloakProviderInitConfig = {
@@ -23,21 +25,21 @@
 // export const loginToApp = (options) => {
 //     if (options && options.currentPath) {
 //         if(redirectUriForApp[options.currentPath]){
-//             keycloak.login({ redirectUri: (process.env.REACT_APP_REDIRECT_APP_DOMAIN + redirectUriForApp[options.currentPath]) });
+//             keycloak.login({ redirectUri: (process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN + redirectUriForApp[options.currentPath]) });
 //         } else {
-//             keycloak.login({ redirectUri: (process.env.REACT_APP_REDIRECT_APP_DOMAIN + options.currentPath) });
+//             keycloak.login({ redirectUri: (process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN + options.currentPath) });
 //         }
 //     } else {
-//         keycloak.login({ redirectUri: process.env.REACT_APP_REDIRECT_APP_DOMAIN });
+//         keycloak.login({ redirectUri: process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN });
 //     }
 
 // }
 
 // export const logoutFromApp = (options) => {
 //     if (options && options.currentPath) {
-//         keycloak.logout({ redirectUri: process.env.REACT_APP_REDIRECT_APP_DOMAIN + options.currentPath });
+//         keycloak.logout({ redirectUri: process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN + options.currentPath });
 //     } else {
-//         keycloak.logout({ redirectUri: process.env.REACT_APP_REDIRECT_APP_DOMAIN });
+//         keycloak.logout({ redirectUri: process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN });
 //     }
 // }
 
@@ -54,7 +56,7 @@
 //             });
 //             store.dispatch(getUserProfile(keycloak.token));
 //         }
-        
+
 //     }
 
 //     onKeycloakTokens = tokens => {
@@ -62,7 +64,7 @@
 //     }
 
 //     render() {
-        
+
 //         return (
 //             <KeycloakProvider
 //                 keycloak={keycloak}
@@ -76,7 +78,5 @@
 //         )
 //     }
 // }
-
-
 
 // export default AuthWithKeycloak;

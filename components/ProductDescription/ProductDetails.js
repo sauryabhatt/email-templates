@@ -388,7 +388,7 @@ const ProductDetails = (props) => {
     sellerCode = "",
     priceMin = "",
     offers = "",
-    minOrderValue = "",
+    sellerMOV = "",
     deliveryExclusions = [],
     info = {},
     skus = [],
@@ -445,8 +445,8 @@ const ProductDetails = (props) => {
   let slider;
   let mslider;
 
-  if (!minOrderValue) {
-    minOrderValue =
+  if (!sellerMOV) {
+    sellerMOV =
       productType === "RTS" ? 250 : productType === "ERTM" ? 500 : 1000;
   }
 
@@ -1772,15 +1772,14 @@ const ProductDetails = (props) => {
                   (productType === "RTS" || productType === "ERTM") &&
                   skuId && (
                     <div className="qa-error-atc qa-mar-top-05">
-                      
                       {isGuest === "true" ||
                       profileType === "SELLER" ||
                       !authenticated ? (
                         <>
-                        {errorMsg}{" "}
-                        <span onClick={signUp} className="p-custom">
-                           signup as a buyer
-                        </span>
+                          {errorMsg}{" "}
+                          <span onClick={signUp} className="p-custom">
+                            signup as a buyer
+                          </span>
                         </>
                       ) : (
                         ""
@@ -1823,7 +1822,7 @@ const ProductDetails = (props) => {
                   }}
                 >
                   {getSymbolFromCurrency(convertToCurrency)}
-                  {getConvertedCurrency(minOrderValue)}
+                  {getConvertedCurrency(sellerMOV)}
                 </span>
                 <div className="qa-font-san qa-tc-white qa-fs-12 qa-mar-top-05">
                   You need to purchase single or multiple products from this
@@ -2713,7 +2712,7 @@ const ProductDetails = (props) => {
                   }}
                 >
                   {getSymbolFromCurrency(convertToCurrency)}
-                  {getConvertedCurrency(minOrderValue)}
+                  {getConvertedCurrency(sellerMOV)}
                 </span>
                 <div className="qa-font-san qa-tc-white qa-fs-12 qa-mar-top-05">
                   You need to purchase single or multiple products from this
@@ -3397,7 +3396,7 @@ const ProductDetails = (props) => {
                   <span className="p-shipBy">Air</span>
                 </div>
                 <div className="qa-pad-015 qa-dashed-border">
-                  <div className="c-left-blk">Estimated freight charges</div>
+                  <div className="c-left-blk">Estimated freight fees</div>
                   <div className="c-right-blk qa-fw-b qa-txt-alg-rgt">
                     {airData ? (
                       <span>
@@ -3416,7 +3415,7 @@ const ProductDetails = (props) => {
                   </div>
                 </div>
                 <div className="qa-pad-015 qa-dashed-border">
-                  <div className="c-left-blk">Estimated duty charges</div>
+                  <div className="c-left-blk">Estimated custom duties</div>
                   <div className="c-right-blk qa-fw-b qa-txt-alg-rgt">
                     {airData ? (
                       <span>
@@ -3494,7 +3493,7 @@ const ProductDetails = (props) => {
                   <span className="p-shipBy">Sea</span>
                 </div>
                 <div className="qa-pad-015 qa-dashed-border">
-                  <div className="c-left-blk">Estimated freight charges</div>
+                  <div className="c-left-blk">Estimated freight fees</div>
                   <div className="c-right-blk qa-fw-b qa-txt-alg-rgt">
                     {seaData ? (
                       <span>
@@ -3513,7 +3512,7 @@ const ProductDetails = (props) => {
                   </div>
                 </div>
                 <div className="qa-pad-015 qa-dashed-border">
-                  <div className="c-left-blk">Estimated duty charges</div>
+                  <div className="c-left-blk">Estimated custom duties</div>
                   <div className="c-right-blk qa-fw-b qa-txt-alg-rgt">
                     {seaData ? (
                       <span>
@@ -3573,10 +3572,10 @@ const ProductDetails = (props) => {
             <Col span={24} className="cart-fr-detail">
               Estimated time to prepare and ship your order is{" "}
               {productType === "RTS"
-                ? "4-5 days"
+                ? "7-10 days"
                 : productType === "ERTM"
-                ? "20-30 days"
-                : "20-30 days"}
+                ? "25-35 days"
+                : "25-35 days"}
             </Col>
             <Col span={24} className="qa-pad-2 qa-mar-top-1">
               <div className="qa-tc-white qa-fs-20">Disclaimer</div>

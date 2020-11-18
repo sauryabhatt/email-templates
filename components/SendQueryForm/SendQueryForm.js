@@ -205,7 +205,12 @@ const SendQueryForm = (props) => {
   // const displayErrors = errors => errors.map((err, i) => <Alert key={i} type="error" message={err.atStage} description={err.message} closable />)
 
   const country = (
-    <Select  value={undefined} className="country-selector" placeholder="Select country" showSearch>
+    <Select
+      value={undefined}
+      className="country-selector"
+      placeholder="Select country"
+      showSearch
+    >
       {getCountries().map((country) => {
         // console.log(country);
         if (country === "US") {
@@ -432,7 +437,7 @@ const SendQueryForm = (props) => {
                 </Upload>
               </Form.Item>
               <span className="label-paragraph order-quantity">
-                What is the quantity that you're looking to order?
+                What is the quantity that you're looking to order?*
               </span>
               <Form.Item
                 name="quantity"
@@ -442,10 +447,10 @@ const SendQueryForm = (props) => {
                     type: "string",
                     message: "The input is not valid!",
                   },
-                  // {
-                  //     required: true,
-                  //     message: 'Please enter the quantity.',
-                  // },
+                  {
+                    required: true,
+                    message: "Please enter the quantity.",
+                  },
                   {
                     min: 1,
                     max: 50,
@@ -515,12 +520,17 @@ const SendQueryForm = (props) => {
               </Form.Item>
               <div className="city-state-phone">
                 <div className="city-state">
-                  <span className="label-paragraph"> Destination City, State</span>
+                  <span className="label-paragraph">
+                    Destination City, State*
+                  </span>
                   <Form.Item
                     name="city"
                     style={{ marginBottom: "1em" }}
                     rules={[
-                      // { required: true, message: 'Please input State & City name!' },
+                      {
+                        required: true,
+                        message: "Please input State & City name!",
+                      },
                       {
                         min: 3,
                         max: 50,
@@ -661,8 +671,18 @@ const SendQueryForm = (props) => {
               >
                 <Checkbox className="check-box-tnc">
                   Standard{" "}
-                  <span className="link-text" onClick={()=>window.open(window.location.protocol+"//" +window.location.host + "/TermsOfUse")}>
-                      T&C
+                  <span
+                    className="link-text"
+                    onClick={() =>
+                      window.open(
+                        window.location.protocol +
+                          "//" +
+                          window.location.host +
+                          "/TermsOfUse"
+                      )
+                    }
+                  >
+                    T&C
                   </span>{" "}
                   apply.
                 </Checkbox>

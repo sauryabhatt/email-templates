@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { useState, useEffect } from "react";
-import Link  from "next/link";
+import Link from "next/link";
 import { Row, Col, Radio, Modal } from "antd";
 import Icon, {
   UpOutlined,
@@ -262,7 +262,7 @@ const PaymentDetails = (props) => {
                       <div className="qa-pad-015 qa-dashed-border">
                         <div className="c-left-blk qa-txt-alg-lft">
                           <div className="cart-info-text">
-                            Estimated freight charges
+                            Estimated freight fees
                           </div>
                         </div>
                         <div className="c-right-blk qa-txt-alg-lft">
@@ -289,7 +289,7 @@ const PaymentDetails = (props) => {
                       <div className="qa-pad-015 qa-dashed-border">
                         <div className="c-left-blk qa-txt-alg-lft">
                           <div className="cart-info-text">
-                            Estimated duty charges
+                            Estimated custom duties
                           </div>
                         </div>
                         <div className="c-right-blk">
@@ -597,9 +597,9 @@ const PaymentDetails = (props) => {
                           </span>
                         </Radio>
                         <div className="cart-subtitle payment-subtitle qa-mar-btm-2">
-                          20% advance will be deducted now. The remaining 80%
-                          will be charged once the customs clearance is done at
-                          the destination country, a few days before delivery
+                          20% advance will be charged now. Balance 80% will be
+                          charged once customs clearance is done at destination,
+                          a few days before delivery.
                         </div>
                         {/* <Radio value="net30Terms" className="qa-disp-ib">
                         <span className="cart-prod-title qa-mar-btm-05">Net 30 terms</span>
@@ -750,9 +750,9 @@ const PaymentDetails = (props) => {
                       </span>
                     </Radio>
                     <div className="cart-subtitle payment-subtitle qa-mar-btm-2">
-                      20% advance will be deducted now. The remaining 80% will
-                      be charged once the customs clearance is done at the
-                      destination country, a few days before delivery
+                      20% advance will be charged now. Balance 80% will be
+                      charged once customs clearance is done at destination, a
+                      few days before delivery.
                     </div>
 
                     {/* <Radio value="net30Terms" className="qa-disp-ib">
@@ -923,7 +923,7 @@ const PaymentDetails = (props) => {
                       <div className="qa-pad-015 qa-dashed-border">
                         <div className="c-left-blk qa-txt-alg-lft">
                           <div className="cart-info-text">
-                            Estimated freight charges
+                            Estimated freight fees
                           </div>
                         </div>
                         <div className="c-right-blk qa-txt-alg-lft">
@@ -938,7 +938,7 @@ const PaymentDetails = (props) => {
                       <div className="qa-pad-015 qa-dashed-border">
                         <div className="c-left-blk qa-txt-alg-lft">
                           <div className="cart-info-text">
-                            Estimated duty charges
+                            Estimated custom duties
                           </div>
                         </div>
                         <div className="c-right-blk">

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Button, Row, Col, Modal, Checkbox } from "antd";
+import { Button, Row, Col, Modal, Checkbox, Form, Input, message } from "antd";
 import Icon, {
   UpOutlined,
   DownOutlined,
@@ -24,6 +24,7 @@ import infoIcon from "../../public/filestore/infoIcon";
 import deliveredCountryList from "../../public/filestore/deliveredCountries.json";
 import _ from "lodash";
 import { getBrandNameByCode } from "../../store/actions";
+import PromotionCarousel from "../PromotionCarousel/PromotionCarousel";
 const { Step } = Steps;
 
 const ShippingDetails = (props) => {
@@ -36,12 +37,8 @@ const ShippingDetails = (props) => {
     currencyDetails = {},
     userProfile = {},
   } = props;
-  let {
-    subOrders = [],
-    shippingAddressDetails = "",
-    orderId = "",
-    isFulfillable = false,
-  } = cart || {};
+  let { subOrders = [], shippingAddressDetails = "", orderId = "" } =
+    cart || {};
   let {
     fullName = "",
     addressLine1 = "",
@@ -84,6 +81,11 @@ const ShippingDetails = (props) => {
   const mediaMatch = window.matchMedia("(min-width: 1024px)");
   const [disablePayment, setPayment] = useState(false);
   const [mov, setMov] = useState("");
+  const [couponCode, setCouponCode] = useState("");
+  const [couponErr, setCouponErr] = useState(false);
+  const [couponApplied, setCouponApplied] = useState(false);
+  const [promoMessage, setPromoMessage] = useState("");
+  const [promoDiscount, setPromoDiscount] = useState("");
 
   useEffect(() => {
     let { cart = "", app_token = "" } = props;
@@ -214,16 +216,16 @@ const ShippingDetails = (props) => {
   }, [seaData, airData, props.cart, props.app_token]);
 
   const checkCommitStatus = () => {
-    fetch(
-      `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/my/${orderId}/checkout/?mode=${mode}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + app_token,
-        },
-      }
-    )
+    let cartId = orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
+    let url = `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/my/${cartId}/checkout/?mode=${mode}&promoCode=${couponCode}&promoDiscount=${promoDiscount}`;
+
+    fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + app_token,
+      },
+    })
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -239,6 +241,115 @@ const ShippingDetails = (props) => {
         } else {
           console.log("Not shippable");
           // setNonShippable(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        // setLoading(false);
+      });
+  };
+
+  const handleCouponCode = (e) => {
+    let value = e.target.value.trim();
+    if (value.length > 0) {
+      setCouponErr(false);
+    } else {
+      setCouponErr(true);
+    }
+    setCouponCode(value);
+  };
+
+  let { priceQuoteRef = "", country: s_country = "", postalCode = "" } =
+    cart || {};
+
+  let allOrders = [];
+  for (let orders of subOrders) {
+    let orderObj = {};
+    let { products = [], sellerCode = "", id = "", orderId = "", status = "" } =
+      orders || {};
+    orderObj["id"] = id;
+    orderObj["orderId"] = orderId;
+    orderObj["status"] = status;
+    orderObj["sellerCode"] = sellerCode;
+    let allProducts = [];
+    for (let product of products) {
+      let productObj = {};
+      let {
+        articleId = "",
+        quantity = "",
+        isSampleDeliveryRequired = "",
+        isQualityTestingRequired = "",
+      } = product || {};
+      productObj["articleId"] = articleId;
+      productObj["quantity"] = quantity;
+      productObj["isSampleDeliveryRequired"] = isSampleDeliveryRequired;
+      productObj["isQualityTestingRequired"] = isQualityTestingRequired;
+      allProducts.push(productObj);
+    }
+    orderObj["products"] = allProducts;
+    allOrders.push(orderObj);
+  }
+
+  const applyCoupon = () => {
+    let data = {
+      postalCode: postalCode,
+      country: s_country,
+      shippingMode: mode || "DEFAULT",
+      referralCode: "",
+      promoDiscount: 0,
+      promoCode: couponCode,
+      subOrders: allOrders,
+    };
+    if (couponApplied) {
+      data["promoCode"] = "";
+      setCouponCode("");
+    }
+    if (couponCode.length > 0 || couponApplied) {
+      applyCouponAPI(data, couponApplied);
+      setCouponErr(false);
+    } else {
+      setCouponErr(true);
+    }
+  };
+
+  const applyCouponAPI = (data, couponApplied = "") => {
+    fetch(
+      `${process.env.NEXT_PUBLIC_REACT_APP_PRICE_QUOTATION_URL}/quotes/rts/${priceQuoteRef}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + app_token,
+        },
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw res.statusText || "Error while updating info.";
+        }
+      })
+      .then((result) => {
+        let { promoMessage = "", promoDiscount = "" } = result || {};
+        if (promoDiscount === 0) {
+          if (couponApplied === true) {
+            message.error(promoMessage, 5);
+          }
+          setPromoMessage(promoMessage);
+        } else {
+          setPromoMessage("");
+          if (couponApplied === true) {
+            message.success(promoMessage, 5);
+          }
+          setPromoDiscount(promoDiscount);
+        }
+        setCartData(result);
+        if (couponApplied === true) {
+          setCouponApplied(false);
+        } else if (couponApplied === false) {
+          setCouponApplied(true);
         }
       })
       .catch((err) => {
@@ -318,29 +429,31 @@ const ShippingDetails = (props) => {
   };
 
   const selectShippingMode = (mode) => {
-    fetch(
-      `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/my/${orderId}/${mode}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + app_token,
-        },
-      }
-    )
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          throw res.statusText || "Error while sending e-mail.";
+    if (mode) {
+      fetch(
+        `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/my/${orderId}/${mode}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + app_token,
+          },
         }
-      })
-      .then((result) => {
-        setCartData(result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      )
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            throw res.statusText || "Error while sending e-mail.";
+          }
+        })
+        .then((result) => {
+          setCartData(result);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   const selectMode = (mode) => {
@@ -350,7 +463,17 @@ const ShippingDetails = (props) => {
     } else {
       setEnable(true);
     }
-    selectShippingMode(mode);
+    let data = {
+      postalCode: postalCode,
+      country: s_country,
+      shippingMode: mode,
+      referralCode: "",
+      promoDiscount: 0,
+      promoCode: couponCode,
+      subOrders: allOrders,
+    };
+    applyCouponAPI(data, "mode");
+    // selectShippingMode(mode);
   };
 
   if (isLoading) {
@@ -366,7 +489,11 @@ const ShippingDetails = (props) => {
             <Col xs={24} sm={24} md={16} lg={16} xl={16}>
               <Steps current={1} progressDot={customDot}>
                 <Step
-                  title={<Link href="/cart">Shopping cart</Link>}
+                  title={
+                    <Link href="/cart">
+                      <span>Shopping cart</span>
+                    </Link>
+                  }
                   className="qa-cursor"
                 />
                 <Step title="Shipping" />
@@ -383,7 +510,11 @@ const ShippingDetails = (props) => {
             <Col xs={24} sm={24} md={24} lg={24} xl={24}>
               <Steps current={1} progressDot={mcustomDot} size="small">
                 <Step
-                  title={<Link href="/cart">Shopping cart</Link>}
+                  title={
+                    <Link href="/cart">
+                      <span>Shopping cart</span>
+                    </Link>
+                  }
                   className="qa-cursor"
                 />
                 <Step title="Shipping" />
@@ -407,6 +538,7 @@ const ShippingDetails = (props) => {
             >
               Shipping
             </Col>
+            <PromotionCarousel />
             <Col
               xs={24}
               sm={24}
@@ -475,7 +607,7 @@ const ShippingDetails = (props) => {
                           <div className="qa-pad-015 qa-dashed-border">
                             <div className="c-left-blk qa-txt-alg-lft">
                               <div className="cart-info-text">
-                                Estimated freight charges
+                                Estimated freight fees
                               </div>
                             </div>
                             <div className="c-right-blk qa-txt-alg-lft">
@@ -506,7 +638,7 @@ const ShippingDetails = (props) => {
                           <div className="qa-pad-015 qa-dashed-border">
                             <div className="c-left-blk qa-txt-alg-lft">
                               <div className="cart-info-text">
-                                Estimated duty charges
+                                Estimated custom duties
                               </div>
                             </div>
                             <div className="c-right-blk">
@@ -627,7 +759,7 @@ const ShippingDetails = (props) => {
                           <div className="qa-pad-015 qa-dashed-border">
                             <div className="c-left-blk qa-txt-alg-lft">
                               <div className="cart-info-text">
-                                Estimated freight charges
+                                Estimated freight fees
                               </div>
                             </div>
                             <div className="c-right-blk qa-txt-alg-lft">
@@ -658,7 +790,7 @@ const ShippingDetails = (props) => {
                           <div className="qa-pad-015 qa-dashed-border">
                             <div className="c-left-blk qa-txt-alg-lft">
                               <div className="cart-info-text">
-                                Estimated duty charges
+                                Estimated custom duties
                               </div>
                             </div>
                             <div className="c-right-blk">
@@ -761,7 +893,7 @@ const ShippingDetails = (props) => {
                     <div className="qa-pad-015 qa-dashed-border">
                       <div className="c-left-blk qa-txt-alg-lft">
                         <div className="cart-info-text">
-                          Estimated freight charges
+                          Estimated freight fees
                         </div>
                       </div>
                       <div className="c-right-blk qa-txt-alg-lft">
@@ -773,7 +905,7 @@ const ShippingDetails = (props) => {
                     <div className="qa-pad-015 qa-dashed-border">
                       <div className="c-left-blk qa-txt-alg-lft">
                         <div className="cart-info-text">
-                          Estimated duty charges
+                          Estimated custom duties
                         </div>
                       </div>
                       <div className="c-right-blk">
@@ -813,9 +945,14 @@ const ShippingDetails = (props) => {
                   disableAir && !disablePayment ? "" : "qa-mar-btm-3"
                 }`}
               >
-                *Freight & Duties charges mentioned are estimates. Actuals
-                generally range between ±10% of the estimates, and will be
-                charged at time of dispatch.
+                *Above Freight & Duties are estimates and exact amounts are
+                determined only after Customs Clearance. Any differential amount
+                thereon is neither charged extra, nor refunded.{" "}
+                <Link href="/FAQforwholesalebuyers">
+                  <a target="_blank" className="qa-sm-color">
+                    Learn more
+                  </a>
+                </Link>
               </div>
 
               {disableAir && !disablePayment && (
@@ -838,7 +975,7 @@ const ShippingDetails = (props) => {
                   </div>
                   <div className="qa-tc-white qa-fs-14 qa-lh qa-mar-btm-3">
                     Estimated time to prepare and ship your order is{" "}
-                    {mov ? "25-30" : "4-7"} Days
+                    {mov ? "25-35" : "7-10"} Days
                   </div>
                 </div>
               )}
@@ -1104,6 +1241,53 @@ const ShippingDetails = (props) => {
                   generate a custom quote for your requirements.
                 </div>
               )} */}
+              <div className="qa-pad-0-20 qa-mar-btm-1 cart-price-block qa-font-san">
+                <div className="qa-mar-top-05 cart-price-title qa-mar-btm-1">
+                  Apply coupon
+                </div>
+                <Row className="qa-pad-btm-2">
+                  <Col xs={16} sm={16} md={16} lg={16} xl={16}>
+                    <Form.Item>
+                      <Input
+                        placeholder="Enter coupon code"
+                        className="coupon-box qa-font-san qa-fs-14"
+                        onChange={handleCouponCode}
+                        value={couponCode}
+                      />
+                      {couponErr && (
+                        <span className="qa-error qa-font-san qa-fs-12">
+                          Enter your coupon code
+                        </span>
+                      )}
+
+                      {couponApplied && promoMessage && (
+                        <span className="qa-error qa-font-san qa-fs-12">
+                          {promoMessage}
+                        </span>
+                      )}
+                    </Form.Item>
+                  </Col>
+                  <Col xs={8} sm={8} md={8} lg={8} xl={8}>
+                    <Form.Item>
+                      {mode ? (
+                        <Button
+                          className="qa-button coupon-btn"
+                          onClick={applyCoupon}
+                        >
+                          <span className="qa-font-san qa-fs-14">
+                            {couponApplied ? "REMOVE" : "APPLY"}
+                          </span>
+                        </Button>
+                      ) : (
+                        <Button className="qa-button coupon-btn-inactive">
+                          APPLY
+                        </Button>
+                      )}
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </div>
+
               <CartSummary
                 id="shipping"
                 enable={enable}
@@ -1122,336 +1306,386 @@ const ShippingDetails = (props) => {
       )}
       <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>
       {!mediaMatch.matches && (
-        <Col xs={24} sm={24} md={24} lg={24} xl={24} className="qa-pad-0-20">
-          <Row className="shipping-section">
-            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-              <div className="qa-tc-white qa-mar-btm-2 cart-ship-pt">
-                <div className="qa-fw-b qa-mar-btm-05">Shipping to:</div>
-                <div className="">{shippingAddr}</div>
-              </div>
-              <div className="cart-ship-pt qa-border-bottom qa-fw-b font-bold">
-                Select shipping mode:
-              </div>
-              {disablePayment ? (
-                <div className="qa-pad-2 qa-ship-section qa-mar-top-2">
-                  <div className="qa-no-ship">
-                    We will need to generate a custom freight quotation for
-                    this. Please click on <b>'Create Order'</b> and we will
-                    revert with the best freight rates from our delivery
-                    partners.
+        <div style={{ width: "100%" }}>
+          <PromotionCarousel />
+          <Col xs={24} sm={24} md={24} lg={24} xl={24} className="qa-pad-0-20">
+            <Row className="shipping-section">
+              <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                <div className="qa-pad-0-20 qa-mar-btm-2 cart-price-block qa-font-san">
+                  <div className="qa-mar-top-05 cart-price-title qa-mar-btm-1">
+                    Apply coupon
                   </div>
+                  <Row className="qa-pad-btm-2">
+                    <Col xs={16} sm={16} md={16} lg={16} xl={16}>
+                      <Form.Item>
+                        <Input
+                          placeholder="Enter coupon code"
+                          className="coupon-box qa-font-san qa-fs-14"
+                          onChange={handleCouponCode}
+                          value={couponCode}
+                        />
+                        {couponErr && (
+                          <span className="qa-error qa-font-san qa-fs-12">
+                            Enter your coupon code
+                          </span>
+                        )}
+                      </Form.Item>
+                    </Col>
+                    <Col xs={8} sm={8} md={8} lg={8} xl={8}>
+                      <Form.Item>
+                        {mode ? (
+                          <Button
+                            className="qa-button coupon-btn"
+                            onClick={applyCoupon}
+                          >
+                            <span className="qa-font-san qa-fs-14">
+                              {couponApplied ? "REMOVE" : "APPLY"}
+                            </span>
+                          </Button>
+                        ) : (
+                          <Button className="qa-button coupon-btn-inactive">
+                            APPLY
+                          </Button>
+                        )}
+                      </Form.Item>
+                    </Col>
+                    {couponApplied && promoMessage && (
+                      <Col span={24}>
+                        <span className="qa-error qa-font-san qa-fs-12">
+                          {promoMessage}
+                        </span>
+                      </Col>
+                    )}
+                  </Row>
                 </div>
-              ) : (
-                <div className="qa-pad-top-2 qa-pad-btm-2 qa-horizontal-scroll">
-                  {!disableAir && (
-                    <div
-                      style={{ display: "inline-block", marginRight: "20px" }}
-                    >
+
+                <div className="qa-tc-white qa-mar-btm-2 cart-ship-pt">
+                  <div className="qa-fw-b qa-mar-btm-05">Shipping to:</div>
+                  <div className="">{shippingAddr}</div>
+                </div>
+                <div className="cart-ship-pt qa-border-bottom qa-fw-b font-bold">
+                  Select shipping mode:
+                </div>
+                {disablePayment ? (
+                  <div className="qa-pad-2 qa-ship-section qa-mar-top-2">
+                    <div className="qa-no-ship">
+                      We will need to generate a custom freight quotation for
+                      this. Please click on <b>'Create Order'</b> and we will
+                      revert with the best freight rates from our delivery
+                      partners.
+                    </div>
+                  </div>
+                ) : (
+                  <div className="qa-pad-top-2 qa-pad-btm-2 qa-horizontal-scroll">
+                    {!disableAir && (
                       <div
-                        className={`${
-                          mode === "AIR" ? "selected" : ""
-                        } qa-bg-light-theme qa-pad-2 qa-box-shadow shipping-mode-section`}
+                        style={{ display: "inline-block", marginRight: "20px" }}
                       >
-                        <div className="qa-pad-btm-15 qa-border-bottom">
-                          <span>
-                            <Icon
-                              component={Air}
-                              style={{
-                                width: "28px",
-                                height: "28px",
-                                verticalAlign: "middle",
-                              }}
-                              className="air-icon"
-                            />
-                            <span className="qa-va-m qa-tc-white qa-font-san">
-                              Air
+                        <div
+                          className={`${
+                            mode === "AIR" ? "selected" : ""
+                          } qa-bg-light-theme qa-pad-2 qa-box-shadow shipping-mode-section`}
+                        >
+                          <div className="qa-pad-btm-15 qa-border-bottom">
+                            <span>
+                              <Icon
+                                component={Air}
+                                style={{
+                                  width: "28px",
+                                  height: "28px",
+                                  verticalAlign: "middle",
+                                }}
+                                className="air-icon"
+                              />
+                              <span className="qa-va-m qa-tc-white qa-font-san">
+                                Air
+                              </span>
                             </span>
-                          </span>
-                          <span style={{ float: "right" }}>
-                            <Checkbox
-                              className="check-box-tnc"
-                              checked={mode === "AIR"}
-                              onChange={() => {
-                                if (!mode) {
-                                  selectMode("AIR");
-                                } else {
-                                  selectMode("");
-                                }
-                              }}
-                            ></Checkbox>{" "}
-                          </span>
-                        </div>
-                        <div className="qa-pad-015 qa-dashed-border">
-                          <div className="c-left-blk qa-txt-alg-lft">
-                            <div className="cart-info-text">
-                              Estimated freight charges
+                            <span style={{ float: "right" }}>
+                              <Checkbox
+                                className="check-box-tnc"
+                                checked={mode === "AIR"}
+                                onChange={() => {
+                                  if (!mode) {
+                                    selectMode("AIR");
+                                  } else {
+                                    selectMode("");
+                                  }
+                                }}
+                              ></Checkbox>{" "}
+                            </span>
+                          </div>
+                          <div className="qa-pad-015 qa-dashed-border">
+                            <div className="c-left-blk qa-txt-alg-lft">
+                              <div className="cart-info-text">
+                                Estimated freight fees
+                              </div>
+                            </div>
+                            <div className="c-right-blk qa-txt-alg-lft">
+                              <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
+                                {airData ? (
+                                  <span>
+                                    {getSymbolFromCurrency(convertToCurrency)}
+                                    {airData["frightCostMin"]
+                                      ? getConvertedCurrency(
+                                          airData["frightCostMin"],
+                                          true
+                                        )
+                                      : "0"}
+                                    -{getSymbolFromCurrency(convertToCurrency)}
+                                    {airData["frightCostMax"]
+                                      ? getConvertedCurrency(
+                                          airData["frightCostMax"],
+                                          true
+                                        )
+                                      : "0"}
+                                  </span>
+                                ) : (
+                                  "-"
+                                )}
+                              </div>
                             </div>
                           </div>
-                          <div className="c-right-blk qa-txt-alg-lft">
-                            <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
-                              {airData ? (
-                                <span>
-                                  {getSymbolFromCurrency(convertToCurrency)}
-                                  {airData["frightCostMin"]
-                                    ? getConvertedCurrency(
-                                        airData["frightCostMin"],
-                                        true
-                                      )
-                                    : "0"}
-                                  -{getSymbolFromCurrency(convertToCurrency)}
-                                  {airData["frightCostMax"]
-                                    ? getConvertedCurrency(
-                                        airData["frightCostMax"],
-                                        true
-                                      )
-                                    : "0"}
-                                </span>
-                              ) : (
-                                "-"
-                              )}
+                          <div className="qa-pad-015 qa-dashed-border">
+                            <div className="c-left-blk qa-txt-alg-lft">
+                              <div className="cart-info-text">
+                                Estimated custom duties
+                              </div>
+                            </div>
+                            <div className="c-right-blk">
+                              <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
+                                {airData ? (
+                                  <span>
+                                    {getSymbolFromCurrency(convertToCurrency)}
+                                    {airData["dutyMin"]
+                                      ? getConvertedCurrency(
+                                          airData["dutyMin"],
+                                          true
+                                        )
+                                      : "0"}
+                                    -{getSymbolFromCurrency(convertToCurrency)}
+                                    {airData["dutyMax"]
+                                      ? getConvertedCurrency(
+                                          airData["dutyMax"],
+                                          true
+                                        )
+                                      : "0"}
+                                  </span>
+                                ) : (
+                                  "-"
+                                )}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div className="qa-pad-015 qa-dashed-border">
-                          <div className="c-left-blk qa-txt-alg-lft">
-                            <div className="cart-info-text">
-                              Estimated duty charges
+                          <div className="qa-pad-015 qa-dashed-border">
+                            <div className="c-left-blk qa-txt-alg-lft">
+                              <div className="cart-info-text">
+                                Shipping lead time
+                              </div>
+                            </div>
+                            <div className="c-right-blk">
+                              <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
+                                {airData ? (
+                                  <span>
+                                    {airData["tat"] ? airData["tat"] - 3 : "0"}-
+                                    {airData["tat"] ? airData["tat"] : "0"} Days
+                                  </span>
+                                ) : (
+                                  "-"
+                                )}
+                              </div>
                             </div>
                           </div>
-                          <div className="c-right-blk">
-                            <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
-                              {airData ? (
-                                <span>
-                                  {getSymbolFromCurrency(convertToCurrency)}
-                                  {airData["dutyMin"]
-                                    ? getConvertedCurrency(
+                          <div className="qa-pad-015">
+                            <div className="c-left-blk">
+                              <div className="qa-fw-b">
+                                Total estimated charges
+                              </div>
+                            </div>
+                            <div className="c-right-blk">
+                              <div className="cart-prod-name qa-txt-alg-rgt">
+                                {airData &&
+                                airData["frightCostMin"] !== undefined &&
+                                airData["dutyMin"] !== undefined ? (
+                                  <span>
+                                    {getSymbolFromCurrency(convertToCurrency)}
+                                    {getConvertedCurrency(
+                                      airData["frightCostMin"] +
                                         airData["dutyMin"],
-                                        true
-                                      )
-                                    : "0"}
-                                  -{getSymbolFromCurrency(convertToCurrency)}
-                                  {airData["dutyMax"]
-                                    ? getConvertedCurrency(
+                                      true
+                                    )}
+                                    -{getSymbolFromCurrency(convertToCurrency)}
+                                    {getConvertedCurrency(
+                                      airData["frightCostMax"] +
                                         airData["dutyMax"],
-                                        true
-                                      )
-                                    : "0"}
-                                </span>
-                              ) : (
-                                "-"
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                        <div className="qa-pad-015 qa-dashed-border">
-                          <div className="c-left-blk qa-txt-alg-lft">
-                            <div className="cart-info-text">
-                              Shipping lead time
-                            </div>
-                          </div>
-                          <div className="c-right-blk">
-                            <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
-                              {airData ? (
-                                <span>
-                                  {airData["tat"] ? airData["tat"] - 3 : "0"}-
-                                  {airData["tat"] ? airData["tat"] : "0"} Days
-                                </span>
-                              ) : (
-                                "-"
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                        <div className="qa-pad-015">
-                          <div className="c-left-blk">
-                            <div className="qa-fw-b">
-                              Total estimated charges
-                            </div>
-                          </div>
-                          <div className="c-right-blk">
-                            <div className="cart-prod-name qa-txt-alg-rgt">
-                              {airData &&
-                              airData["frightCostMin"] !== undefined &&
-                              airData["dutyMin"] !== undefined ? (
-                                <span>
-                                  {getSymbolFromCurrency(convertToCurrency)}
-                                  {getConvertedCurrency(
-                                    airData["frightCostMin"] +
-                                      airData["dutyMin"],
-                                    true
-                                  )}
-                                  -{getSymbolFromCurrency(convertToCurrency)}
-                                  {getConvertedCurrency(
-                                    airData["frightCostMax"] +
-                                      airData["dutyMax"],
-                                    true
-                                  )}
-                                </span>
-                              ) : (
-                                "0"
-                              )}
-                              *
+                                      true
+                                    )}
+                                  </span>
+                                ) : (
+                                  "0"
+                                )}
+                                *
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  )}
-                  {!disableSea && (
-                    <div
-                      style={{ display: "inline-block", marginRight: "20px" }}
-                    >
+                    )}
+                    {!disableSea && (
                       <div
-                        className={`${
-                          mode === "SEA" ? "selected" : ""
-                        } qa-bg-light-theme qa-pad-2 qa-box-shadow shipping-mode-section`}
+                        style={{ display: "inline-block", marginRight: "20px" }}
                       >
-                        <div className="qa-pad-btm-15 qa-border-bottom">
-                          <span>
-                            <Icon
-                              component={Sea}
-                              style={{
-                                width: "28px",
-                                height: "28px",
-                                verticalAlign: "middle",
-                              }}
-                              className="air-icon"
-                            />
-                            <span className="qa-va-m qa-tc-white qa-font-san">
-                              Sea
+                        <div
+                          className={`${
+                            mode === "SEA" ? "selected" : ""
+                          } qa-bg-light-theme qa-pad-2 qa-box-shadow shipping-mode-section`}
+                        >
+                          <div className="qa-pad-btm-15 qa-border-bottom">
+                            <span>
+                              <Icon
+                                component={Sea}
+                                style={{
+                                  width: "28px",
+                                  height: "28px",
+                                  verticalAlign: "middle",
+                                }}
+                                className="air-icon"
+                              />
+                              <span className="qa-va-m qa-tc-white qa-font-san">
+                                Sea
+                              </span>
                             </span>
-                          </span>
-                          <span style={{ float: "right" }}>
-                            <Checkbox
-                              className="check-box-tnc"
-                              checked={mode === "SEA"}
-                              onChange={() => {
-                                if (!mode) {
-                                  selectMode("SEA");
-                                } else {
-                                  selectMode("");
-                                }
-                              }}
-                            ></Checkbox>{" "}
-                          </span>
-                        </div>
-                        <div className="qa-pad-015 qa-dashed-border">
-                          <div className="c-left-blk qa-txt-alg-lft">
-                            <div className="cart-info-text">
-                              Estimated freight charges
+                            <span style={{ float: "right" }}>
+                              <Checkbox
+                                className="check-box-tnc"
+                                checked={mode === "SEA"}
+                                onChange={() => {
+                                  if (!mode) {
+                                    selectMode("SEA");
+                                  } else {
+                                    selectMode("");
+                                  }
+                                }}
+                              ></Checkbox>{" "}
+                            </span>
+                          </div>
+                          <div className="qa-pad-015 qa-dashed-border">
+                            <div className="c-left-blk qa-txt-alg-lft">
+                              <div className="cart-info-text">
+                                Estimated freight fees
+                              </div>
+                            </div>
+                            <div className="c-right-blk qa-txt-alg-lft">
+                              <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
+                                {seaData ? (
+                                  <span>
+                                    {getSymbolFromCurrency(convertToCurrency)}
+                                    {seaData["frightCostMin"]
+                                      ? getConvertedCurrency(
+                                          seaData["frightCostMin"],
+                                          true
+                                        )
+                                      : "0"}
+                                    -{getSymbolFromCurrency(convertToCurrency)}
+                                    {seaData["frightCostMax"]
+                                      ? getConvertedCurrency(
+                                          seaData["frightCostMax"],
+                                          true
+                                        )
+                                      : "0"}
+                                  </span>
+                                ) : (
+                                  "0"
+                                )}
+                              </div>
                             </div>
                           </div>
-                          <div className="c-right-blk qa-txt-alg-lft">
-                            <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
-                              {seaData ? (
-                                <span>
-                                  {getSymbolFromCurrency(convertToCurrency)}
-                                  {seaData["frightCostMin"]
-                                    ? getConvertedCurrency(
-                                        seaData["frightCostMin"],
-                                        true
-                                      )
-                                    : "0"}
-                                  -{getSymbolFromCurrency(convertToCurrency)}
-                                  {seaData["frightCostMax"]
-                                    ? getConvertedCurrency(
-                                        seaData["frightCostMax"],
-                                        true
-                                      )
-                                    : "0"}
-                                </span>
-                              ) : (
-                                "0"
-                              )}
+                          <div className="qa-pad-015 qa-dashed-border">
+                            <div className="c-left-blk qa-txt-alg-lft">
+                              <div className="cart-info-text">
+                                Estimated custom duties
+                              </div>
+                            </div>
+                            <div className="c-right-blk">
+                              <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
+                                {seaData ? (
+                                  <span>
+                                    {getSymbolFromCurrency(convertToCurrency)}
+                                    {seaData["dutyMin"]
+                                      ? getConvertedCurrency(
+                                          seaData["dutyMin"],
+                                          true
+                                        )
+                                      : "0"}
+                                    -{getSymbolFromCurrency(convertToCurrency)}
+                                    {seaData["dutyMax"]
+                                      ? getConvertedCurrency(
+                                          seaData["dutyMax"],
+                                          true
+                                        )
+                                      : "0"}
+                                  </span>
+                                ) : (
+                                  "0"
+                                )}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div className="qa-pad-015 qa-dashed-border">
-                          <div className="c-left-blk qa-txt-alg-lft">
-                            <div className="cart-info-text">
-                              Estimated duty charges
+                          <div className="qa-pad-015 qa-dashed-border">
+                            <div className="c-left-blk qa-txt-alg-lft">
+                              <div className="cart-info-text">
+                                Shipping lead time
+                              </div>
+                            </div>
+                            <div className="c-right-blk">
+                              <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
+                                {seaData ? (
+                                  <span>
+                                    {seaData["tat"] ? seaData["tat"] - 7 : "0"}-
+                                    {seaData["tat"] ? seaData["tat"] : "0"} Days
+                                  </span>
+                                ) : (
+                                  "-"
+                                )}
+                              </div>
                             </div>
                           </div>
-                          <div className="c-right-blk">
-                            <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
-                              {seaData ? (
-                                <span>
-                                  {getSymbolFromCurrency(convertToCurrency)}
-                                  {seaData["dutyMin"]
-                                    ? getConvertedCurrency(
+                          <div className="qa-pad-015">
+                            <div className="c-left-blk">
+                              <div className="qa-fw-b">
+                                Total estimated charges
+                              </div>
+                            </div>
+                            <div className="c-right-blk">
+                              <div className="cart-prod-name qa-txt-alg-rgt">
+                                {seaData &&
+                                seaData["frightCostMin"] !== undefined &&
+                                seaData["dutyMin"] !== undefined ? (
+                                  <span>
+                                    {getSymbolFromCurrency(convertToCurrency)}
+                                    {getConvertedCurrency(
+                                      seaData["frightCostMin"] +
                                         seaData["dutyMin"],
-                                        true
-                                      )
-                                    : "0"}
-                                  -{getSymbolFromCurrency(convertToCurrency)}
-                                  {seaData["dutyMax"]
-                                    ? getConvertedCurrency(
+                                      true
+                                    )}
+                                    -{getSymbolFromCurrency(convertToCurrency)}
+                                    {getConvertedCurrency(
+                                      seaData["frightCostMax"] +
                                         seaData["dutyMax"],
-                                        true
-                                      )
-                                    : "0"}
-                                </span>
-                              ) : (
-                                "0"
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                        <div className="qa-pad-015 qa-dashed-border">
-                          <div className="c-left-blk qa-txt-alg-lft">
-                            <div className="cart-info-text">
-                              Shipping lead time
-                            </div>
-                          </div>
-                          <div className="c-right-blk">
-                            <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
-                              {seaData ? (
-                                <span>
-                                  {seaData["tat"] ? seaData["tat"] - 7 : "0"}-
-                                  {seaData["tat"] ? seaData["tat"] : "0"} Days
-                                </span>
-                              ) : (
-                                "-"
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                        <div className="qa-pad-015">
-                          <div className="c-left-blk">
-                            <div className="qa-fw-b">
-                              Total estimated charges
-                            </div>
-                          </div>
-                          <div className="c-right-blk">
-                            <div className="cart-prod-name qa-txt-alg-rgt">
-                              {seaData &&
-                              seaData["frightCostMin"] !== undefined &&
-                              seaData["dutyMin"] !== undefined ? (
-                                <span>
-                                  {getSymbolFromCurrency(convertToCurrency)}
-                                  {getConvertedCurrency(
-                                    seaData["frightCostMin"] +
-                                      seaData["dutyMin"],
-                                    true
-                                  )}
-                                  -{getSymbolFromCurrency(convertToCurrency)}
-                                  {getConvertedCurrency(
-                                    seaData["frightCostMax"] +
-                                      seaData["dutyMax"],
-                                    true
-                                  )}
-                                </span>
-                              ) : (
-                                "0"
-                              )}
-                              *
+                                      true
+                                    )}
+                                  </span>
+                                ) : (
+                                  "0"
+                                )}
+                                *
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  )}
-                  {/* <div style={{ display: "inline-block", marginRight: "20px" }}>
+                    )}
+                    {/* <div style={{ display: "inline-block", marginRight: "20px" }}>
                 <div className="qa-bg-dark-theme qa-pad-2 qa-box-shadow shipping-mode-section">
                   <div className="qa-pad-btm-15 qa-border-bottom">
                     <span>
@@ -1478,7 +1712,7 @@ const ShippingDetails = (props) => {
                   <div className="qa-pad-015 qa-dashed-border">
                     <div className="c-left-blk qa-txt-alg-lft">
                       <div className="cart-info-text">
-                        Estimated freight charges
+                        Estimated freight fees
                       </div>
                     </div>
                     <div className="c-right-blk qa-txt-alg-lft">
@@ -1490,7 +1724,7 @@ const ShippingDetails = (props) => {
                   <div className="qa-pad-015 qa-dashed-border">
                     <div className="c-left-blk qa-txt-alg-lft">
                       <div className="cart-info-text">
-                        Estimated duty charges
+                        Estimated custom duties
                       </div>
                     </div>
                     <div className="c-right-blk">
@@ -1522,82 +1756,88 @@ const ShippingDetails = (props) => {
                 </div>
               </div>
             */}
-                </div>
-              )}
-              <div
-                className={`qa-tc-white qa-fs-12 qa-lh ${
-                  disableAir && !disablePayment ? "" : "qa-mar-btm-3"
-                }`}
-              >
-                *Freight & Duties charges mentioned are estimates. Actuals
-                generally range between ±10% of the estimates, and will be
-                charged at time of dispatch.
-              </div>
-
-              {disableAir && !disablePayment && (
-                <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-btm-3">
-                  *Air shipping appears to be very expensive for this order. If
-                  you want air shipping please write to us at buyers@qalara.com
-                </div>
-              )}
-              {!disablePayment && (
-                <div className="qa-tc-white qa-fs-14 qa-lh qa-mar-btm-3 display-flex">
-                  <div className="margin-right-1p">
-                    <Icon
-                      component={infoIcon}
-                      className="info-icon"
-                      style={{
-                        width: "15px",
-                        verticalAlign: "top",
-                      }}
-                    />
                   </div>
-                  Estimated time to prepare and ship your order is{" "}
-                  {mov ? "25-30" : "4-7"} Days
-                </div>
-              )}
-            </Col>
-            <div
-              className="qa-disp-ib cart-prod-title qa-fw-b qa-pad-btm-1 qa-mar-btm-2 qa-border-bottom"
-              onClick={() => setShowRow(!showRow)}
-            >
-              Order summary{" "}
-              <span style={{ float: "right" }}>
-                {showRow ? (
-                  <UpOutlined style={{ fontSize: "12px" }} />
-                ) : (
-                  <DownOutlined style={{ fontSize: "12px" }} />
                 )}
-              </span>
-            </div>
-            {showRow && (
-              <Col
-                xs={24}
-                sm={24}
-                md={24}
-                lg={24}
-                xl={24}
-                className="qa-mar-btm-2"
-              >
-                {showError && (
-                  <div className="qa-pad-2 qa-mar-btm-2 cart-error-block display-flex cart-err">
-                    <div className="margin-right-2p">
+                <div
+                  className={`qa-tc-white qa-fs-12 qa-lh ${
+                    disableAir && !disablePayment ? "" : "qa-mar-btm-3"
+                  }`}
+                >
+                  *Above Freight & Duties are estimates and exact amounts are
+                  determined only after Customs Clearance. Any differential
+                  amount thereon is neither charged extra, nor refunded.{" "}
+                  <Link href="/FAQforwholesalebuyers" className="qa-sm-color">
+                    <a target="_blank" className="qa-sm-color">
+                      Refer FAQs here
+                    </a>
+                  </Link>
+                </div>
+
+                {disableAir && !disablePayment && (
+                  <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-btm-3">
+                    *Air shipping appears to be very expensive for this order.
+                    If you want air shipping please write to us at
+                    buyers@qalara.com
+                  </div>
+                )}
+                {!disablePayment && (
+                  <div className="qa-tc-white qa-fs-14 qa-lh qa-mar-btm-3 display-flex">
+                    <div className="margin-right-1p">
                       <Icon
-                        component={alertIcon}
-                        className="alert-icon"
+                        component={infoIcon}
+                        className="info-icon"
                         style={{
                           width: "15px",
                           verticalAlign: "top",
                         }}
                       />
                     </div>
-                    Please move the seller cart with value less than{" "}
-                    {getSymbolFromCurrency(convertToCurrency)}
-                    {getConvertedCurrency(250)} to 'Save for later' in order to
-                    proceed
+                    Estimated time to prepare and ship your order is{" "}
+                    {mov ? "25-35" : "7-10"} Days
                   </div>
                 )}
-                {/* {isFulfillable === false && (
+              </Col>
+              <div
+                className="qa-disp-ib cart-prod-title qa-fw-b qa-pad-btm-1 qa-mar-btm-2 qa-border-bottom"
+                onClick={() => setShowRow(!showRow)}
+              >
+                Order summary{" "}
+                <span style={{ float: "right" }}>
+                  {showRow ? (
+                    <UpOutlined style={{ fontSize: "12px" }} />
+                  ) : (
+                    <DownOutlined style={{ fontSize: "12px" }} />
+                  )}
+                </span>
+              </div>
+              {showRow && (
+                <Col
+                  xs={24}
+                  sm={24}
+                  md={24}
+                  lg={24}
+                  xl={24}
+                  className="qa-mar-btm-2"
+                >
+                  {showError && (
+                    <div className="qa-pad-2 qa-mar-btm-2 cart-error-block display-flex cart-err">
+                      <div className="margin-right-2p">
+                        <Icon
+                          component={alertIcon}
+                          className="alert-icon"
+                          style={{
+                            width: "15px",
+                            verticalAlign: "top",
+                          }}
+                        />
+                      </div>
+                      Please move the seller cart with value less than{" "}
+                      {getSymbolFromCurrency(convertToCurrency)}
+                      {getConvertedCurrency(250)} to 'Save for later' in order
+                      to proceed
+                    </div>
+                  )}
+                  {/* {isFulfillable === false && (
                   <div className="qa-pad-2 qa-mar-btm-2 cart-error-block display-flex cart-err">
                     <div className="margin-right-2p">
                       <Icon
@@ -1612,7 +1852,7 @@ const ShippingDetails = (props) => {
                     Please move out of stock products in order to proceed
                   </div>
                 )} */}
-                {/* {disablePayment && (
+                  {/* {disablePayment && (
                   <div className="qa-pad-2 qa-mar-btm-2 cart-error-block display-flex cart-err">
                     <div className="margin-right-2p">
                       <Icon
@@ -1629,69 +1869,69 @@ const ShippingDetails = (props) => {
                     generate a custom quote for your requirements.
                   </div>
                 )} */}
-                <CartSummary
-                  id="shipping"
-                  enable={enable}
-                  cart={cartData}
-                  brandNames={brandNames}
-                  showCartError={showError}
-                  currencyDetails={currencyDetails}
-                  shippingMode={mode}
-                  deliver={deliver}
-                  user={userProfile}
-                  disablePayment={disablePayment}
-                />
-              </Col>
-            )}{" "}
-          </Row>
 
-          {showRow && (
-            <div className="cart-prod-title sen-font qa-fw-b qa-pad-btm-1 qa-mar-btm-2 qa-border-bottom">
-              Shopping cart
-            </div>
-          )}
+                  <CartSummary
+                    id="shipping"
+                    enable={enable}
+                    cart={cartData}
+                    brandNames={brandNames}
+                    showCartError={showError}
+                    currencyDetails={currencyDetails}
+                    shippingMode={mode}
+                    deliver={deliver}
+                    user={userProfile}
+                    disablePayment={disablePayment}
+                  />
+                </Col>
+              )}
+            </Row>
 
-          {showRow && (
-            <Row>
-              <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                <div className="qa-mar-btm-2">
-                  {_.map(subOrders, (order, i) => {
-                    let {
-                      sellerOrgName = "",
-                      products = "",
-                      sellerCode = "",
-                      total = 0,
-                      qalaraSellerMargin = 0,
-                      qualityTestingCharge = 0,
-                    } = order;
-                    let totalAmount =
-                      total + qalaraSellerMargin + qualityTestingCharge;
-                    return (
-                      <div className="qa-bg-light-theme qa-mar-btm-2" key={i}>
-                        <div className="cart-ship-pt qa-fw-b qa-border-bottom">
-                          <Icon
-                            component={cartIcon}
-                            className="cart-icon qa-disp-tc"
-                            style={{
-                              width: "20px",
-                              verticalAlign: "middle",
-                              marginRight: "8px",
-                            }}
-                          />
+            {showRow && (
+              <div className="cart-prod-title sen-font qa-fw-b qa-pad-btm-1 qa-mar-btm-2 qa-border-bottom">
+                Shopping cart
+              </div>
+            )}
 
-                          <div className="qa-disp-tc">
-                            {brandNames &&
-                              brandNames[sellerCode] &&
-                              brandNames[sellerCode].brandName}
-                            {total < 250 && (
-                              <div className="cart-sub-text">
-                                Add {getSymbolFromCurrency(convertToCurrency)}
-                                {getConvertedCurrency(250 - total)} more to
-                                reach seller’s minimum order value
-                              </div>
-                            )}
-                          </div>
-                          {/* <div className="qa-txt-alg-cnt qa-pad-top-05 qa-pad-btm-1">
+            {showRow && (
+              <Row>
+                <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                  <div className="qa-mar-btm-2">
+                    {_.map(subOrders, (order, i) => {
+                      let {
+                        products = "",
+                        sellerCode = "",
+                        total = 0,
+                        qalaraSellerMargin = 0,
+                        qualityTestingCharge = 0,
+                      } = order;
+                      let totalAmount =
+                        total + qalaraSellerMargin + qualityTestingCharge;
+                      return (
+                        <div className="qa-bg-light-theme qa-mar-btm-2" key={i}>
+                          <div className="cart-ship-pt qa-fw-b qa-border-bottom">
+                            <Icon
+                              component={cartIcon}
+                              className="cart-icon qa-disp-tc"
+                              style={{
+                                width: "20px",
+                                verticalAlign: "middle",
+                                marginRight: "8px",
+                              }}
+                            />
+
+                            <div className="qa-disp-tc">
+                              {brandNames &&
+                                brandNames[sellerCode] &&
+                                brandNames[sellerCode].brandName}
+                              {total < 250 && (
+                                <div className="cart-sub-text">
+                                  Add {getSymbolFromCurrency(convertToCurrency)}
+                                  {getConvertedCurrency(250 - total)} more to
+                                  reach seller’s minimum order value
+                                </div>
+                              )}
+                            </div>
+                            {/* <div className="qa-txt-alg-cnt qa-pad-top-05 qa-pad-btm-1">
                         <span
                           className="cart-delete qa-cursor"
                           onClick={() => {
@@ -1702,146 +1942,137 @@ const ShippingDetails = (props) => {
                           Delete cart
                         </span>
                       </div> */}
-                        </div>
+                          </div>
 
-                        {_.map(products, (product, j) => {
-                          let {
-                            articleId = "",
-                            color = "",
-                            image = "",
-                            isQualityTestingRequired = "",
-                            isSampleDeliveryRequired = "",
-                            productId = "",
-                            productName = "",
-                            quantity = "",
-                            size = "",
-                            total = "",
-                            isFulfillable = false,
-                            unitOfMeasure = "",
-                          } = product;
-                          quantity = parseInt(quantity);
-                          return (
-                            <Row className="qa-pad-20-0" key={j}>
-                              <Col xs={9} sm={9} md={9} lg={9} xl={9}>
-                                <div className="aspect-ratio-box">
-                                  <img
-                                    className="images"
-                                    src={image}
-                                    alt="Cart item"
-                                  ></img>
-                                </div>
-                              </Col>
-                              <Col
-                                xs={15}
-                                sm={15}
-                                md={15}
-                                lg={15}
-                                xl={15}
-                                className="qa-pad-0-10"
-                              >
-                                <div className="cart-prod-title qa-fw-b">
-                                  {productName}
-                                </div>
-                                <div className="cart-prod-title">
-                                  Item ID - {articleId}
-                                </div>
-                                <div className="cart-subtitle">{color}</div>
-                                <div className="cart-subtitle">{size}</div>
-                                {isQualityTestingRequired && (
-                                  <div className="cart-subtitle qa-mar-top-05">
-                                    <CheckCircleOutlined /> Quality testing
+                          {_.map(products, (product, j) => {
+                            let {
+                              articleId = "",
+                              color = "",
+                              image = "",
+                              isQualityTestingRequired = "",
+                              isSampleDeliveryRequired = "",
+                              productId = "",
+                              productName = "",
+                              quantity = "",
+                              size = "",
+                              total = "",
+                              isFulfillable = false,
+                              unitOfMeasure = "",
+                            } = product;
+                            quantity = parseInt(quantity);
+                            return (
+                              <Row className="qa-pad-20-0" key={j}>
+                                <Col xs={9} sm={9} md={9} lg={9} xl={9}>
+                                  <div className="aspect-ratio-box">
+                                    <img
+                                      className="images"
+                                      src={image}
+                                      alt="Cart item"
+                                    ></img>
                                   </div>
-                                )}
-                                {isSampleDeliveryRequired && (
-                                  <div className="cart-subtitle">
-                                    <CheckCircleOutlined /> Sample required
+                                </Col>
+                                <Col
+                                  xs={15}
+                                  sm={15}
+                                  md={15}
+                                  lg={15}
+                                  xl={15}
+                                  className="qa-pad-0-10"
+                                >
+                                  <div className="cart-prod-title qa-fw-b">
+                                    {productName}
                                   </div>
-                                )}
-                                <div className="cart-prod-title qa-mar-top-1">
-                                  Units: {quantity} {unitOfMeasure}
-                                </div>
-                                {isFulfillable === false && (
-                                  <div className="cart-sub-text p-out-of-stock qa-mar-top-05">
-                                    This product is currently out of stock
+                                  <div className="cart-prod-title">
+                                    Item ID - {articleId}
                                   </div>
-                                )}
-                              </Col>
-                              <Col
-                                xs={24}
-                                sm={24}
-                                md={24}
-                                lg={24}
-                                xl={24}
-                                className="qa-mar-top-1"
-                              >
-                                <div className="cart-prod-title qa-fw-b">
-                                  {getSymbolFromCurrency(convertToCurrency)}
-                                  {total ? getConvertedCurrency(total) : ""}
-                                </div>
-                                <div className="cart-price-text qa-mar-btm-1">
-                                  Base price per unit excl. margin and other
-                                  charges
-                                </div>
-                              </Col>
-                            </Row>
-                          );
-                        })}
-                        <Row className="qa-pad-top-2 qa-pad-btm-2">
-                          <Col
-                            xs={16}
-                            sm={16}
-                            md={16}
-                            lg={16}
-                            xl={16}
-                            className="cart-prod-title qa-fw-b"
-                          >
-                            SELLER CART VALUE
-                          </Col>
-                          <Col
-                            xs={8}
-                            sm={8}
-                            md={8}
-                            lg={8}
-                            xl={8}
-                            className="qa-txt-alg-rgt cart-prod-title qa-fw-b"
-                          >
-                            {getSymbolFromCurrency(convertToCurrency)}
-                            {total ? getConvertedCurrency(total) : ""}
-                          </Col>
-                        </Row>
-                        <div>
-                          {enable && deliver && !showError ? (
-                            <Button
-                              onClick={checkCommitStatus}
-                              disabled={disablePayment}
-                              className={`${
-                                enable && deliver && !showError
-                                  ? "qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment active"
-                                  : "qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment"
-                              }`}
+                                  <div className="cart-subtitle">{color}</div>
+                                  <div className="cart-subtitle">{size}</div>
+                                  {isQualityTestingRequired && (
+                                    <div className="cart-subtitle qa-mar-top-05">
+                                      <CheckCircleOutlined /> Quality testing
+                                    </div>
+                                  )}
+                                  {isSampleDeliveryRequired && (
+                                    <div className="cart-subtitle">
+                                      <CheckCircleOutlined /> Sample required
+                                    </div>
+                                  )}
+                                  <div className="cart-prod-title qa-mar-top-1">
+                                    Units: {quantity} {unitOfMeasure}
+                                  </div>
+                                  {isFulfillable === false && (
+                                    <div className="cart-sub-text p-out-of-stock qa-mar-top-05">
+                                      This product is currently out of stock
+                                    </div>
+                                  )}
+                                </Col>
+                                <Col
+                                  xs={24}
+                                  sm={24}
+                                  md={24}
+                                  lg={24}
+                                  xl={24}
+                                  className="qa-mar-top-1"
+                                >
+                                  <div className="cart-prod-title qa-fw-b">
+                                    {getSymbolFromCurrency(convertToCurrency)}
+                                    {total ? getConvertedCurrency(total) : ""}
+                                  </div>
+                                  <div className="cart-price-text">
+                                    Base price per unit excl. margin and other
+                                    charges
+                                  </div>
+                                </Col>
+                              </Row>
+                            );
+                          })}
+                          <Row className="qa-pad-top-2 qa-pad-btm-2">
+                            <Col
+                              xs={16}
+                              sm={16}
+                              md={16}
+                              lg={16}
+                              xl={16}
+                              className="cart-prod-title qa-fw-b"
                             >
-                              Proceed to payment
-                            </Button>
-                          ) : (
-                            <Button
-                              className={`${
-                                enable && deliver && !showError
-                                  ? "qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment active"
-                                  : "qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment"
-                              }`}
+                              SELLER CART VALUE
+                            </Col>
+                            <Col
+                              xs={8}
+                              sm={8}
+                              md={8}
+                              lg={8}
+                              xl={8}
+                              className="qa-txt-alg-rgt cart-prod-title qa-fw-b"
                             >
-                              Proceed to payment
-                            </Button>
-                          )}
+                              {getSymbolFromCurrency(convertToCurrency)}
+                              {total ? getConvertedCurrency(total) : ""}
+                            </Col>
+                          </Row>
                         </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </Col>
-            </Row>
-          )}
-        </Col>
+                      );
+                    })}
+                  </div>
+                  <div>
+                    {enable && deliver && !showError ? (
+                      <Button
+                        onClick={checkCommitStatus}
+                        disabled={disablePayment}
+                        className="qa-button qa-fs-12 proceed-to-payment active"
+                      >
+                        Proceed to payment
+                      </Button>
+                    ) : (
+                      <Button className="qa-button qa-fs-12 proceed-to-payment">
+                        Proceed to payment
+                      </Button>
+                    )}
+                  </div>
+                </Col>
+              </Row>
+            )}
+          </Col>
+        </div>
       )}
       <Modal
         visible={deleteModal}

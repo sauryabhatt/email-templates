@@ -174,39 +174,29 @@ class ProductFacets extends Component {
 
   handleSortFilter = (value) => {
     let queryParams = this.props.queryParams;
-    if (this.props.pageId === "product-listing") {
-      if (value === "createdTs") {
-        queryParams = {
-          ...queryParams,
-          sort_order: "DESC",
-          sort_by: "createdTs",
-          from: 0,
-        };
-      } else if (value === "minimumOrderQuantity") {
-        queryParams = {
-          ...queryParams,
-          sort_order: "ASC",
-          sort_by: "minimumOrderQuantity",
-          from: 0,
-        };
-      }
+    if (value === "createdTs") {
+      queryParams = {
+        ...queryParams,
+        sort_order: "DESC",
+        sort_by: "createdTs",
+        from: 0,
+      };
+    } else if (value === "minimumOrderQuantity") {
+      queryParams = {
+        ...queryParams,
+        sort_order: "ASC",
+        sort_by: "minimumOrderQuantity",
+        from: 0,
+      };
     } else {
-      if (value === "createdTs") {
-        queryParams = {
-          ...queryParams,
-          sort_order: "DESC",
-          sort_by: "createdTs",
-          from: 0,
-        };
-      } else if (value === "minimumOrderQuantity") {
-        queryParams = {
-          ...queryParams,
-          sort_order: "ASC",
-          sort_by: "minimumOrderQuantity",
-          from: 0,
-        };
-      }
+      queryParams = {
+        ...queryParams,
+        sort_order: "DESC",
+        sort_by: value,
+        from: 0,
+      };
     }
+
     this.setState({ query: queryParams });
   };
 

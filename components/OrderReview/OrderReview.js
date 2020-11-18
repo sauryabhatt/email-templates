@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { useState, useEffect } from "react";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 import {
   Row,
   Col,
@@ -27,7 +27,7 @@ const { Step } = Steps;
 
 const OrderReview = (props) => {
   const router = useRouter();
-  const {keycloak} = useKeycloak();
+  const { keycloak } = useKeycloak();
   let { orderId: orderIdParam } = router.query;
   const mediaMatch = window.matchMedia("(min-width: 1024px)");
   const [showRow, setShowRow] = useState(true);
@@ -76,8 +76,8 @@ const OrderReview = (props) => {
   const updateOrder = (data, status) => {
     fetch(
       process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL +
-      "/v1/orders/my/payments-reference?order_updated_Status=" +
-      status,
+        "/v1/orders/my/payments-reference?order_updated_Status=" +
+        status,
       {
         method: "PUT",
         body: JSON.stringify(data),
@@ -112,11 +112,11 @@ const OrderReview = (props) => {
 
     fetch(
       process.env.NEXT_PUBLIC_REACT_APP_PAYMENTS_URL +
-      "/payments/paypal/" +
-      props.order.orderId +
-      "/authorizations/" +
-      authId +
-      "/capture",
+        "/payments/paypal/" +
+        props.order.orderId +
+        "/authorizations/" +
+        authId +
+        "/capture",
       {
         method: "POST",
         body: JSON.stringify(data),
@@ -158,9 +158,9 @@ const OrderReview = (props) => {
   const voidPPOrder = (orderId) => {
     fetch(
       process.env.NEXT_PUBLIC_REACT_APP_PAYMENTS_URL +
-      "/payments/paypal/checkout/orders/" +
-      orderId +
-      "/void",
+        "/payments/paypal/checkout/orders/" +
+        orderId +
+        "/void",
       {
         method: "POST",
         headers: {
@@ -201,9 +201,9 @@ const OrderReview = (props) => {
     };
     fetch(
       process.env.NEXT_PUBLIC_REACT_APP_PAYMENTS_URL +
-      "/payments/paypal/" +
-      props.order.orderId +
-      "/authorizations",
+        "/payments/paypal/" +
+        props.order.orderId +
+        "/authorizations",
       {
         method: "POST",
         body: JSON.stringify(data),
@@ -240,9 +240,9 @@ const OrderReview = (props) => {
     setIsProcessing(true);
     fetch(
       process.env.NEXT_PUBLIC_REACT_APP_PAYMENTS_URL +
-      "/payments/paypal/checkout/orders/" +
-      orderId +
-      "/save",
+        "/payments/paypal/checkout/orders/" +
+        orderId +
+        "/save",
       {
         method: "POST",
         headers: {
@@ -293,8 +293,8 @@ const OrderReview = (props) => {
                 </span>
               </td>
             ) : (
-                ""
-              )}
+              ""
+            )}
 
             <td>
               <span className="qa-font-san qa-fw-b qa-fs-12">{index + 1}</span>
@@ -360,28 +360,37 @@ const OrderReview = (props) => {
           <div className="c-left-blk qa-mar-btm-05">Base price</div>
           <div className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05">
             {getSymbolFromCurrency(props.order && props.order.currency)}
-            {subOrder.products.reduce((x, y) => x + y["totalProductCost"], 0)}
+            {parseFloat(
+              subOrder.products.reduce((x, y) => x + y["totalProductCost"], 0)
+            ).toFixed(2)}
           </div>
           <div className="c-left-blk qa-mar-btm-05">Qalara margin</div>
           <div className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05">
             {getSymbolFromCurrency(props.order && props.order.currency)}
-            {subOrder.qalaraSellerMargin &&
-              subOrder.qalaraSellerMargin.toFixed(2)}
+            {parseFloat(
+              subOrder.qalaraSellerMargin && subOrder.qalaraSellerMargin
+            ).toFixed(2)}
           </div>
           <div className="c-left-blk qa-mar-btm-05">Quality testing</div>
           <div className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05">
             {getSymbolFromCurrency(props.order && props.order.currency)}
-            {subOrder.products.reduce(
-              (x, y) =>
-                x["qualityTestingCharge"] || 0 + y["qualityTestingCharge"] || 0,
-              0
-            )}
+            {parseFloat(
+              subOrder.products.reduce(
+                (x, y) =>
+                  x["qualityTestingCharge"] ||
+                  0 + y["qualityTestingCharge"] ||
+                  0,
+                0
+              )
+            ).toFixed(2)}
           </div>
         </div>
         <div className="cart-info-text">
           Note: Qalara margin may vary by total cart value{" "}
           <Link href="/FAQforwholesalebuyers">
-            <span className="qa-sm-color">Refer FAQs here</span>
+            <a target="_blank" className="qa-sm-color">
+              Refer FAQs here
+            </a>
           </Link>
         </div>
       </div>
@@ -433,7 +442,9 @@ const OrderReview = (props) => {
             >
               <span className="qa-font-san qa-tc-white qa-fw-b qa-fs-14">
                 {getSymbolFromCurrency(props.order && props.order.currency)}
-                {subOrder.products.reduce((x, y) => x + y["total"], 0)}
+                {parseFloat(
+                  subOrder.products.reduce((x, y) => x + y["total"], 0)
+                ).toFixed(2)}
               </span>
             </Col>
             <Col xs={24} sm={24} md={24} lg={24} className="qa-col-end">
@@ -464,20 +475,6 @@ const OrderReview = (props) => {
         </React.Fragment>
       );
     });
-
-  // const handleCollapsible = (index, isShow, parentIndex, class1, class2) => {
-  //     setIndexValue(index);
-  //     if(isShow){
-  //         document.getElementsByClassName("product_" + index)[parentIndex].style.display = 'none';
-  //         document.getElementsByClassName(class1)[parentIndex].style.display = 'none';
-  //         document.getElementsByClassName(class2)[parentIndex].style.display = 'block';
-  //     }else{
-  //         document.getElementsByClassName("product_" + index)[parentIndex].style.display = 'block';
-  //         document.getElementsByClassName(class1)[parentIndex].style.display = 'block';
-  //         document.getElementsByClassName(class2)[parentIndex].style.display = 'none';
-  //     }
-
-  // }
 
   const prepareProductsForMobile =
     props.order &&
@@ -531,8 +528,8 @@ const OrderReview = (props) => {
                 </Col>{" "}
               </React.Fragment>
             ) : (
-                ""
-              )}
+              ""
+            )}
             <Col xs={24} sm={24} md={24} lg={0} className="qa-mar-top-2">
               <hr />
             </Col>
@@ -671,7 +668,8 @@ const OrderReview = (props) => {
   const downloadMedia = (data) => {
     if (data) {
       var a = document.createElement("a");
-      a.href = process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL + data["mediaUrl"];
+      a.href =
+        process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL + data["mediaUrl"];
       a.setAttribute("download", "Spec-sheet");
       a.setAttribute("target", "_blank");
       a.click();
@@ -698,15 +696,15 @@ const OrderReview = (props) => {
         if (charges.chargeId == "FREIGHT_CHARGES") {
           sum =
             sum +
-            props.order.miscCharges.find(
-              (x) => x.chargeId === "FREIGHT_CHARGES"
-            ).amount || 0;
+              props.order.miscCharges.find(
+                (x) => x.chargeId === "FREIGHT_CHARGES"
+              ).amount || 0;
         } else if (charges.chargeId == "CUSTOM_CHARGES") {
           sum =
             sum +
-            props.order.miscCharges.find(
-              (x) => x.chargeId === "CUSTOM_CHARGES"
-            ).amount || 0;
+              props.order.miscCharges.find(
+                (x) => x.chargeId === "CUSTOM_CHARGES"
+              ).amount || 0;
         }
       });
     }
@@ -737,10 +735,12 @@ const OrderReview = (props) => {
     }
   };
 
-  if (props.order && (props.order.status !== 'COMMITTED' && props.order.payment_status !== 'FAILED')) {
-    return (
-      <Redirect to="/account/orders" />
-    )
+  if (
+    props.order &&
+    props.order.status !== "COMMITTED" &&
+    props.order.payment_status !== "FAILED"
+  ) {
+    return <Redirect href="/account/orders" />;
   }
 
   if (props.order == undefined) {
@@ -748,35 +748,12 @@ const OrderReview = (props) => {
       <div className="qa-loader-middle">
         <LoadingOutlined style={{ fontSize: 24 }} spin />
       </div>
-    )
-
+    );
   }
-
 
   if (props.order) {
     return (
       <React.Fragment>
-        {/* <Row justify="space-around">
-                <Col xs={24} sm={24} md={24} lg={24}>
-                    <div className={mediaMatch.matches ? "order-review" : 'order-review-mobile'}>
-                        <Row>
-                            <Col xs={24} sm={24} md={24} lg={24} className="steps-counter">
-                                <Row>
-                                    <Col xs={0} sm={0} md={8} lg={8}></Col>
-                                    <Col xs={24} sm={24} md={8} lg={8}>
-                                        <Steps size="default" labelPlacement="vertical">
-                                            <Step title="Order review" />
-                                            <Step title="Payment" />
-                                        </Steps>
-                                    </Col>
-                                    <Col xs={0} sm={0} md={8} lg={8}></Col>
-                                </Row>
-
-                            </Col>
-                        </Row>
-                    </div>
-                </Col>
-            </Row> */}
         <Row justify="space-around" className="order-body">
           <Col xs={22} sm={22} md={22} lg={18} xl={18}>
             <Row>
@@ -790,7 +767,7 @@ const OrderReview = (props) => {
                   style={{ letterSpacing: ".01em" }}
                 >
                   Review your order details
-              </span>
+                </span>
               </Col>
               <Col xs={24} sm={24} md={24} lg={24}>
                 <hr style={{ border: "-1px solid rgba(25, 25, 25, 0.6)" }} />
@@ -812,191 +789,204 @@ const OrderReview = (props) => {
                 {mediaMatch.matches ? (
                   ""
                 ) : (
-                    <Row style={{ paddingTop: "40px" }}>
-                      <Col xs={24} sm={24} md={24} lg={24}>
-                        <span
-                          className="qa-fs-17 qa-font-san qa-fw-b qa-tc-white"
-                          style={{ lineHeight: "110%", letterSpacing: ".01em" }}
+                  <Row style={{ paddingTop: "40px" }}>
+                    <Col xs={24} sm={24} md={24} lg={24}>
+                      <span
+                        className="qa-fs-17 qa-font-san qa-fw-b qa-tc-white"
+                        style={{ lineHeight: "110%", letterSpacing: ".01em" }}
+                      >
+                        Payment terms
+                      </span>
+                    </Col>
+                    <Col
+                      xs={24}
+                      sm={24}
+                      md={24}
+                      lg={24}
+                      className="payment-term"
+                    >
+                      <Row>
+                        <Col
+                          xs={24}
+                          sm={24}
+                          md={24}
+                          lg={24}
+                          style={{ lineHeight: "110%" }}
                         >
-                          Payment terms
-                    </span>
-                      </Col>
-                      <Col xs={24} sm={24} md={24} lg={24} className="payment-term">
-                        <Row>
-                          <Col
-                            xs={24}
-                            sm={24}
-                            md={24}
-                            lg={24}
-                            style={{ lineHeight: "110%" }}
-                          >
-                            <Row>
-                              <Col xs={12} sm={12} md={12} lg={12}>
-                                <span
-                                  className={
-                                    mediaMatch.matches
-                                      ? "qa-fs-14 qa-font-san qa-tc-white"
-                                      : "qa-fs-12 qa-font-san qa-tc-white"
-                                  }
-                                  style={{
-                                    lineHeight: "110%",
-                                    letterSpacing: ".01em",
-                                  }}
-                                >
-                                  Advance payment :
-                            </span>
-                              </Col>
-                              <Col xs={12} sm={12} md={12} lg={12}>
-                                <span
-                                  className={
-                                    mediaMatch.matches
-                                      ? "qa-fs-14 qa-font-san qa-tc-white"
-                                      : "qa-fs-12 qa-font-san qa-tc-white"
-                                  }
-                                  style={{
-                                    lineHeight: "110%",
-                                    letterSpacing: ".01em",
-                                  }}
-                                >
-                                  {getSymbolFromCurrency(
-                                    props.order && props.order.currency
-                                  )}
-                                  {props.order &&
+                          <Row>
+                            <Col xs={12} sm={12} md={12} lg={12}>
+                              <span
+                                className={
+                                  mediaMatch.matches
+                                    ? "qa-fs-14 qa-font-san qa-tc-white"
+                                    : "qa-fs-12 qa-font-san qa-tc-white"
+                                }
+                                style={{
+                                  lineHeight: "110%",
+                                  letterSpacing: ".01em",
+                                }}
+                              >
+                                Advance payment :
+                              </span>
+                            </Col>
+                            <Col xs={12} sm={12} md={12} lg={12}>
+                              <span
+                                className={
+                                  mediaMatch.matches
+                                    ? "qa-fs-14 qa-font-san qa-tc-white"
+                                    : "qa-fs-12 qa-font-san qa-tc-white"
+                                }
+                                style={{
+                                  lineHeight: "110%",
+                                  letterSpacing: ".01em",
+                                }}
+                              >
+                                {getSymbolFromCurrency(
+                                  props.order && props.order.currency
+                                )}
+                                {parseFloat(
+                                  props.order &&
                                     props.order.paymentTerms &&
                                     props.order.paymentTerms.find(
                                       (x) => x.chargeId === "ADVANCE"
-                                    ).amount}
-                                </span>
-                              </Col>
-                            </Row>
-                          </Col>
-                          <Col
-                            xs={24}
-                            sm={24}
-                            md={24}
-                            lg={24}
-                            style={{ lineHeight: "100%" }}
-                          >
-                            <Row>
-                              <Col xs={12} sm={12} md={12} lg={12}>
-                                <span
-                                  className={
-                                    mediaMatch.matches
-                                      ? "qa-fs-14 qa-font-san qa-tc-white"
-                                      : "qa-fs-12 qa-font-san qa-tc-white"
-                                  }
-                                  style={{
-                                    lineHeight: "110%",
-                                    letterSpacing: ".01em",
-                                  }}
-                                >
-                                  Pay on shipping :
-                            </span>
-                              </Col>
-                              <Col xs={12} sm={12} md={12} lg={12}>
-                                <span
-                                  className={
-                                    mediaMatch.matches
-                                      ? "qa-fs-14 qa-font-san qa-tc-white"
-                                      : "qa-fs-12 qa-font-san qa-tc-white"
-                                  }
-                                  style={{
-                                    lineHeight: "110%",
-                                    letterSpacing: ".01em",
-                                  }}
-                                >
-                                  {getSymbolFromCurrency(
-                                    props.order && props.order.currency
-                                  )}
-                                  {props.order &&
+                                    ).amount
+                                ).toFixed(2)}
+                              </span>
+                            </Col>
+                          </Row>
+                        </Col>
+                        <Col
+                          xs={24}
+                          sm={24}
+                          md={24}
+                          lg={24}
+                          style={{ lineHeight: "100%" }}
+                        >
+                          <Row>
+                            <Col xs={12} sm={12} md={12} lg={12}>
+                              <span
+                                className={
+                                  mediaMatch.matches
+                                    ? "qa-fs-14 qa-font-san qa-tc-white"
+                                    : "qa-fs-12 qa-font-san qa-tc-white"
+                                }
+                                style={{
+                                  lineHeight: "110%",
+                                  letterSpacing: ".01em",
+                                }}
+                              >
+                                Pay on shipping :
+                              </span>
+                            </Col>
+                            <Col xs={12} sm={12} md={12} lg={12}>
+                              <span
+                                className={
+                                  mediaMatch.matches
+                                    ? "qa-fs-14 qa-font-san qa-tc-white"
+                                    : "qa-fs-12 qa-font-san qa-tc-white"
+                                }
+                                style={{
+                                  lineHeight: "110%",
+                                  letterSpacing: ".01em",
+                                }}
+                              >
+                                {getSymbolFromCurrency(
+                                  props.order && props.order.currency
+                                )}
+                                {parseFloat(
+                                  props.order &&
                                     props.order.paymentTerms &&
                                     props.order.paymentTerms.find(
                                       (x) => x.chargeId === "ON_SHIPPED"
-                                    ).amount}
-                                </span>
-                              </Col>
-                            </Row>
-                          </Col>
-                          <Col xs={24} sm={24} md={24} lg={24}>
-                            <Row>
-                              <Col xs={12} sm={12} md={12} lg={12}>
-                                <span
-                                  className={
-                                    mediaMatch.matches
-                                      ? "qa-fs-14 qa-font-san qa-tc-white"
-                                      : "qa-fs-12 qa-font-san qa-tc-white"
-                                  }
-                                  style={{
-                                    lineHeight: "110%",
-                                    letterSpacing: ".01em",
-                                  }}
-                                >
-                                  Pay on delivery :
-                            </span>
-                              </Col>
-                              <Col xs={12} sm={12} md={12} lg={12}>
-                                <span
-                                  className={
-                                    mediaMatch.matches
-                                      ? "qa-fs-14 qa-font-san qa-tc-white"
-                                      : "qa-fs-12 qa-font-san qa-tc-white"
-                                  }
-                                  style={{
-                                    lineHeight: "110%",
-                                    letterSpacing: ".01em",
-                                  }}
-                                >
-                                  {getSymbolFromCurrency(
-                                    props.order && props.order.currency
-                                  )}
-                                  {props.order &&
+                                    ).amount
+                                ).toFixed(2)}
+                              </span>
+                            </Col>
+                          </Row>
+                        </Col>
+                        <Col xs={24} sm={24} md={24} lg={24}>
+                          <Row>
+                            <Col xs={12} sm={12} md={12} lg={12}>
+                              <span
+                                className={
+                                  mediaMatch.matches
+                                    ? "qa-fs-14 qa-font-san qa-tc-white"
+                                    : "qa-fs-12 qa-font-san qa-tc-white"
+                                }
+                                style={{
+                                  lineHeight: "110%",
+                                  letterSpacing: ".01em",
+                                }}
+                              >
+                                Pay on delivery :
+                              </span>
+                            </Col>
+                            <Col xs={12} sm={12} md={12} lg={12}>
+                              <span
+                                className={
+                                  mediaMatch.matches
+                                    ? "qa-fs-14 qa-font-san qa-tc-white"
+                                    : "qa-fs-12 qa-font-san qa-tc-white"
+                                }
+                                style={{
+                                  lineHeight: "110%",
+                                  letterSpacing: ".01em",
+                                }}
+                              >
+                                {getSymbolFromCurrency(
+                                  props.order && props.order.currency
+                                )}
+                                {parseFloat(
+                                  props.order &&
                                     props.order.paymentTerms &&
                                     props.order.paymentTerms.find(
                                       (x) => x.chargeId === "POST_DELIVERY"
-                                    ).amount}
-                                </span>
-                              </Col>
-                            </Row>
-                          </Col>
-                        </Row>
-                      </Col>
-                      <Col xs={24} sm={24} md={24} lg={24}>
-                        <Row>
-                          <Col
-                            xs={24}
-                            sm={24}
-                            md={24}
-                            lg={20}
-                            xl={20}
-                            style={{ lineHeight: "16px" }}
+                                    ).amount
+                                ).toFixed(2)}
+                              </span>
+                            </Col>
+                          </Row>
+                        </Col>
+                      </Row>
+                    </Col>
+                    <Col xs={24} sm={24} md={24} lg={24}>
+                      <Row>
+                        <Col
+                          xs={24}
+                          sm={24}
+                          md={24}
+                          lg={20}
+                          xl={20}
+                          style={{ lineHeight: "16px" }}
+                        >
+                          <span
+                            className={
+                              mediaMatch.matches
+                                ? "qa-font-san qa-tc-white qa-fs-12"
+                                : "qa-font-san qa-tc-white qa-fs-10"
+                            }
                           >
-                            <span
-                              className={
-                                mediaMatch.matches
-                                  ? "qa-font-san qa-tc-white qa-fs-12"
-                                  : "qa-font-san qa-tc-white qa-fs-10"
-                              }
-                            >
-                              secure payment by credit cards and other payment modes
-                        </span>
-                          </Col>
-                          <Col
-                            xs={24}
-                            sm={24}
-                            md={24}
-                            lg={4}
-                            xl={4}
-                            className={mediaMatch.matches ? "" : "qa-col-end"}
-                          >
-                            <img
-                              className="images"
-                              src={process.env.NEXT_PUBLIC_URL + "/payapl.png"}
-                            ></img>
-                          </Col>
-                        </Row>
-                      </Col>
-                    </Row>
-                  )}
+                            secure payment by credit cards and other payment
+                            modes
+                          </span>
+                        </Col>
+                        <Col
+                          xs={24}
+                          sm={24}
+                          md={24}
+                          lg={4}
+                          xl={4}
+                          className={mediaMatch.matches ? "" : "qa-col-end"}
+                        >
+                          <img
+                            className="images"
+                            src={process.env.NEXT_PUBLIC_URL + "/payapl.png"}
+                          ></img>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                )}
                 {/* {mediaMatch.matches ? {} : <Row style={{ paddingTop: '20px' }}><Col xs={24} sm={24} md={24} lg={24}>
                                 <hr style={{ border: '-1px solid rgba(25, 25, 25, 0.6)' }} />
                             </Col></Row>} */}
@@ -1007,7 +997,7 @@ const OrderReview = (props) => {
                       style={{ lineHeight: "100%", letterSpacing: "0.02em" }}
                     >
                       Buyer
-                  </span>
+                    </span>
                   </Col>
                   <Col xs={24} sm={24} md={24} lg={24}>
                     <span
@@ -1034,7 +1024,7 @@ const OrderReview = (props) => {
                       style={{ lineHeight: "100%", letterSpacing: "0.02em" }}
                     >
                       Shipping to:
-                  </span>
+                    </span>
                   </Col>
                   <Col xs={22} sm={22} md={22} lg={18} xl={18}>
                     <span
@@ -1048,16 +1038,16 @@ const OrderReview = (props) => {
                       {props.order &&
                         props.order.shippingAddressDetails &&
                         props.order.shippingAddressDetails["addressLine1"]}
-                    ,
-                    {props.order &&
+                      ,
+                      {props.order &&
                         props.order.shippingAddressDetails &&
                         props.order.shippingAddressDetails["addressLine2"]}
-                    ,
-                    {props.order &&
+                      ,
+                      {props.order &&
                         props.order.shippingAddressDetails &&
                         props.order.shippingAddressDetails["city"]}
-                    ,
-                    {props.order &&
+                      ,
+                      {props.order &&
                         props.order.shippingAddressDetails &&
                         props.order.shippingAddressDetails["country"]}{" "}
                       {props.order &&
@@ -1086,15 +1076,15 @@ const OrderReview = (props) => {
                       {props.order &&
                         props.order.shippingMode &&
                         props.order.shippingMode.charAt(0).toUpperCase() +
-                        props.order.shippingMode.substr(1).toLowerCase()}
+                          props.order.shippingMode.substr(1).toLowerCase()}
                     </span>
                   </Col>
                   <Col xs={2} sm={2} md={2} lg={2} className="qa-col-end">
                     {showRow ? (
                       <UpOutlined onClick={() => handleRow(false)} />
                     ) : (
-                        <DownOutlined onClick={() => handleRow(true)} />
-                      )}
+                      <DownOutlined onClick={() => handleRow(true)} />
+                    )}
                   </Col>
                   <Col
                     xs={24}
@@ -1124,11 +1114,11 @@ const OrderReview = (props) => {
                             src={process.env.NEXT_PUBLIC_URL + "/Air.png"}
                           ></img>
                         ) : (
-                            <img
-                              className="images"
-                              src={process.env.NEXT_PUBLIC_URL + "/Sea.png"}
-                            ></img>
-                          )}
+                          <img
+                            className="images"
+                            src={process.env.NEXT_PUBLIC_URL + "/Sea.png"}
+                          ></img>
+                        )}
                       </Col>
                       <Col xs={20} sm={20} md={20} lg={20}>
                         <span
@@ -1138,7 +1128,7 @@ const OrderReview = (props) => {
                           {props.order &&
                             props.order.shippingMode &&
                             props.order.shippingMode.charAt(0).toUpperCase() +
-                            props.order.shippingMode.substr(1).toLowerCase()}
+                              props.order.shippingMode.substr(1).toLowerCase()}
                         </span>
                       </Col>
                     </Row>
@@ -1157,22 +1147,24 @@ const OrderReview = (props) => {
                             letterSpacing: ".02em",
                           }}
                         >
-                          Estimated freight charges
-                      </span>
+                          Estimated freight fees
+                        </span>
                       </Col>
                       <Col xs={9} sm={9} md={9} lg={9} className="qa-col-end">
                         <span className="qa-font-san qa-fw-b qa-fs-14 qa-tc-white">
                           {getSymbolFromCurrency(
                             props.order && props.order.currency
                           )}
-                          {props.order &&
-                            props.order.miscCharges &&
-                            props.order.miscCharges.find(
-                              (x) => x.chargeId === "FREIGHT_CHARGES"
-                            ) &&
-                            props.order.miscCharges.find(
-                              (x) => x.chargeId === "FREIGHT_CHARGES"
-                            ).amount}
+                          {parseFloat(
+                            props.order &&
+                              props.order.miscCharges &&
+                              props.order.miscCharges.find(
+                                (x) => x.chargeId === "FREIGHT_CHARGES"
+                              ) &&
+                              props.order.miscCharges.find(
+                                (x) => x.chargeId === "FREIGHT_CHARGES"
+                              ).amount
+                          ).toFixed(2)}
                         </span>
                       </Col>
                     </Row>
@@ -1193,22 +1185,24 @@ const OrderReview = (props) => {
                             letterSpacing: ".02em",
                           }}
                         >
-                          Estimated duty charges
-                      </span>
+                          Estimated custom duties
+                        </span>
                       </Col>
                       <Col xs={9} sm={9} md={9} lg={9} className="qa-col-end">
                         <span className="qa-font-san qa-fw-b qa-fs-14 qa-tc-white">
                           {getSymbolFromCurrency(
                             props.order && props.order.currency
                           )}
-                          {props.order &&
-                            props.order.miscCharges &&
-                            props.order.miscCharges.find(
-                              (x) => x.chargeId === "CUSTOM_CHARGES"
-                            ) &&
-                            props.order.miscCharges.find(
-                              (x) => x.chargeId === "CUSTOM_CHARGES"
-                            ).amount}
+                          {parseFloat(
+                            props.order &&
+                              props.order.miscCharges &&
+                              props.order.miscCharges.find(
+                                (x) => x.chargeId === "CUSTOM_CHARGES"
+                              ) &&
+                              props.order.miscCharges.find(
+                                (x) => x.chargeId === "CUSTOM_CHARGES"
+                              ).amount
+                          ).toFixed(2)}
                         </span>
                       </Col>
                     </Row>
@@ -1230,7 +1224,7 @@ const OrderReview = (props) => {
                           }}
                         >
                           Total lead time
-                      </span>
+                        </span>
                       </Col>
                       <Col xs={9} sm={9} md={9} lg={9} className="qa-col-end">
                         <span className="qa-font-san qa-fw-b qa-fs-14 qa-tc-white">
@@ -1263,15 +1257,15 @@ const OrderReview = (props) => {
                           }}
                         >
                           Total estimated charges
-                      </span>
+                        </span>
                       </Col>
                       <Col xs={9} sm={9} md={9} lg={9} className="qa-col-end">
                         <span className="qa-font-san qa-fw-b qa-fs-14 qa-tc-white">
                           {getSymbolFromCurrency(
                             props.order && props.order.currency
                           )}
-                          {estimateCharge}*
-                      </span>
+                          {parseFloat(estimateCharge).toFixed(2)}*
+                        </span>
                       </Col>
                     </Row>
                   </Col>
@@ -1284,9 +1278,15 @@ const OrderReview = (props) => {
                         style={{ lineHeight: "110%", letterSpacing: ".01em" }}
                       >
                         Payment terms
-                    </span>
+                      </span>
                     </Col>
-                    <Col xs={24} sm={24} md={24} lg={24} className="payment-term">
+                    <Col
+                      xs={24}
+                      sm={24}
+                      md={24}
+                      lg={24}
+                      className="payment-term"
+                    >
                       <Row>
                         <Col xs={24} sm={24} md={24} lg={24}>
                           <Row>
@@ -1303,7 +1303,7 @@ const OrderReview = (props) => {
                                 }}
                               >
                                 Advance payment :
-                            </span>
+                              </span>
                             </Col>
                             <Col xs={14} sm={14} md={14} lg={14}>
                               <span
@@ -1320,11 +1320,13 @@ const OrderReview = (props) => {
                                 {getSymbolFromCurrency(
                                   props.order && props.order.currency
                                 )}
-                                {props.order &&
-                                  props.order.paymentTerms &&
-                                  props.order.paymentTerms.find(
-                                    (x) => x.chargeId === "ADVANCE"
-                                  ).amount}
+                                {parseFloat(
+                                  props.order &&
+                                    props.order.paymentTerms &&
+                                    props.order.paymentTerms.find(
+                                      (x) => x.chargeId === "ADVANCE"
+                                    ).amount
+                                ).toFixed(2)}
                               </span>
                             </Col>
                           </Row>
@@ -1356,7 +1358,7 @@ const OrderReview = (props) => {
                                 }}
                               >
                                 Pay on shipping :
-                            </span>
+                              </span>
                             </Col>
                             <Col xs={14} sm={14} md={14} lg={14}>
                               <span
@@ -1373,11 +1375,13 @@ const OrderReview = (props) => {
                                 {getSymbolFromCurrency(
                                   props.order && props.order.currency
                                 )}
-                                {props.order &&
-                                  props.order.paymentTerms &&
-                                  props.order.paymentTerms.find(
-                                    (x) => x.chargeId === "ON_SHIPPED"
-                                  ).amount}
+                                {parseFloat(
+                                  props.order &&
+                                    props.order.paymentTerms &&
+                                    props.order.paymentTerms.find(
+                                      (x) => x.chargeId === "ON_SHIPPED"
+                                    ).amount
+                                ).toFixed(2)}
                               </span>
                             </Col>
                           </Row>
@@ -1397,7 +1401,7 @@ const OrderReview = (props) => {
                                 }}
                               >
                                 Pay on delivery :
-                            </span>
+                              </span>
                             </Col>
                             <Col xs={14} sm={14} md={14} lg={14}>
                               <span
@@ -1414,11 +1418,13 @@ const OrderReview = (props) => {
                                 {getSymbolFromCurrency(
                                   props.order && props.order.currency
                                 )}
-                                {props.order &&
-                                  props.order.paymentTerms &&
-                                  props.order.paymentTerms.find(
-                                    (x) => x.chargeId === "POST_DELIVERY"
-                                  ).amount}
+                                {parseFloat(
+                                  props.order &&
+                                    props.order.paymentTerms &&
+                                    props.order.paymentTerms.find(
+                                      (x) => x.chargeId === "POST_DELIVERY"
+                                    ).amount
+                                ).toFixed(2)}
                               </span>
                             </Col>
                           </Row>
@@ -1429,8 +1435,9 @@ const OrderReview = (props) => {
                       <Row>
                         <Col xs={20} sm={20} md={20} lg={20}>
                           <span className="qa-font-san qa-tc-white qa-fs-12">
-                            secure payment by credit cards and other payment modes
-                        </span>
+                            secure payment by credit cards and other payment
+                            modes
+                          </span>
                         </Col>
                         <Col xs={4} sm={4} md={4} lg={4} className="qa-col-end">
                           <img
@@ -1442,12 +1449,18 @@ const OrderReview = (props) => {
                     </Col>
                   </Row>
                 ) : (
-                    ""
-                  )}
+                  ""
+                )}
               </Col>
               <Col xs={24} sm={24} md={24} lg={12} xl={12}>
                 <Row style={{ paddingTop: "10px" }}>
-                  <Col xs={24} sm={24} md={24} lg={24} className="qa-col-center">
+                  <Col
+                    xs={24}
+                    sm={24}
+                    md={24}
+                    lg={24}
+                    className="qa-col-center"
+                  >
                     <span
                       className="qa-font-san qa-fw-b qa-fs-12 qa-tc-white"
                       style={{ letterSpacing: ".02em" }}
@@ -1480,14 +1493,22 @@ const OrderReview = (props) => {
                       >
                         <img
                           className="images"
-                          src={process.env.NEXT_PUBLIC_URL + "/pdf_download.png"}
+                          src={
+                            process.env.NEXT_PUBLIC_URL + "/pdf_download.png"
+                          }
                           style={{ height: "50px" }}
                           onClick={(e) =>
                             downloadMedia(props.order.quotationMedia)
                           }
                         ></img>
                       </Col>
-                      <Col xs={1} sm={1} md={1} lg={1} className="qa-col-center">
+                      <Col
+                        xs={1}
+                        sm={1}
+                        md={1}
+                        lg={1}
+                        className="qa-col-center"
+                      >
                         <img
                           className="images"
                           src={process.env.NEXT_PUBLIC_URL + "/Line.png"}
@@ -1504,7 +1525,9 @@ const OrderReview = (props) => {
                       >
                         <img
                           className="images"
-                          src={process.env.NEXT_PUBLIC_URL + "/pdf_download.png"}
+                          src={
+                            process.env.NEXT_PUBLIC_URL + "/pdf_download.png"
+                          }
                           style={{ height: "50px" }}
                           onClick={(e) => downloadBuyerAgreement()}
                         ></img>
@@ -1529,9 +1552,15 @@ const OrderReview = (props) => {
                           style={{ color: "#191919" }}
                         >
                           Quotation & spec sheet
-                      </span>
+                        </span>
                       </Col>
-                      <Col xs={1} sm={1} md={1} lg={1} className="qa-col-center">
+                      <Col
+                        xs={1}
+                        sm={1}
+                        md={1}
+                        lg={1}
+                        className="qa-col-center"
+                      >
                         {/* <img className='images' src={process.env.NEXT_PUBLIC_URL + "/Line.png"} style={{ height: '50px' }}></img> */}
                       </Col>
                       <Col
@@ -1552,7 +1581,7 @@ const OrderReview = (props) => {
                           style={{ color: "#191919" }}
                         >
                           Buyer agreement
-                      </span>
+                        </span>
                       </Col>
                       <Col xs={3} sm={3} md={3} lg={5} xl={5}></Col>
                     </Row>
@@ -1567,7 +1596,7 @@ const OrderReview = (props) => {
                           style={{ lineHeight: "38px", letterSpacing: ".01em" }}
                         >
                           Order summary
-                      </span>
+                        </span>
                       </Col>
                       <Col xs={24} sm={24} md={24} lg={24}>
                         <hr
@@ -1603,7 +1632,7 @@ const OrderReview = (props) => {
                           }
                         >
                           Freight fee*
-                      </span>
+                        </span>
                       </Col>
                       <Col
                         xs={6}
@@ -1617,11 +1646,13 @@ const OrderReview = (props) => {
                           {getSymbolFromCurrency(
                             props.order && props.order.currency
                           )}
-                          {props.order &&
-                            props.order.miscCharges &&
-                            props.order.miscCharges.find(
-                              (x) => x.chargeId === "FREIGHT_CHARGES"
-                            ).amount}
+                          {parseFloat(
+                            props.order &&
+                              props.order.miscCharges &&
+                              props.order.miscCharges.find(
+                                (x) => x.chargeId === "FREIGHT_CHARGES"
+                              ).amount
+                          ).toFixed(2)}
                         </span>
                       </Col>
                       <Col
@@ -1640,7 +1671,7 @@ const OrderReview = (props) => {
                           }
                         >
                           Custom, taxes & duties*
-                      </span>
+                        </span>
                       </Col>
                       <Col
                         xs={6}
@@ -1655,11 +1686,13 @@ const OrderReview = (props) => {
                           {getSymbolFromCurrency(
                             props.order && props.order.currency
                           )}
-                          {props.order &&
-                            props.order.miscCharges &&
-                            props.order.miscCharges.find(
-                              (x) => x.chargeId === "CUSTOM_CHARGES"
-                            ).amount}
+                          {parseFloat(
+                            props.order &&
+                              props.order.miscCharges &&
+                              props.order.miscCharges.find(
+                                (x) => x.chargeId === "CUSTOM_CHARGES"
+                              ).amount
+                          ).toFixed(2)}
                         </span>
                       </Col>
                       {/* <Col xs={18} sm={18} md={18} lg={16} xl={16} style={{ paddingTop: "10px" }}>
@@ -1709,7 +1742,7 @@ const OrderReview = (props) => {
                           }
                         >
                           TOTAL CART VALUE
-                      </span>
+                        </span>
                       </Col>
                       <Col
                         xs={6}
@@ -1723,29 +1756,31 @@ const OrderReview = (props) => {
                           {getSymbolFromCurrency(
                             props.order && props.order.currency
                           )}
-                          {props.order &&
-                            props.order.miscCharges &&
-                            parseFloat(
-                              props.order.miscCharges.find(
-                                (x) => x.chargeId === "TOTAL_AMOUNT"
-                              ).amount
-                            ) +
-                            parseFloat(
-                              (props.order &&
-                                props.order.miscCharges &&
+                          {parseFloat(
+                            props.order &&
+                              props.order.miscCharges &&
+                              parseFloat(
                                 props.order.miscCharges.find(
-                                  (x) => x.chargeId === "DISCOUNT"
-                                ).amount) ||
-                              0
-                            ) -
-                            parseFloat(
-                              (props.order &&
-                                props.order.miscCharges &&
-                                props.order.miscCharges.find(
-                                  (x) => x.chargeId === "VAT"
-                                ).amount) ||
-                              0
-                            )}
+                                  (x) => x.chargeId === "TOTAL_AMOUNT"
+                                ).amount
+                              ) +
+                                parseFloat(
+                                  (props.order &&
+                                    props.order.miscCharges &&
+                                    props.order.miscCharges.find(
+                                      (x) => x.chargeId === "DISCOUNT"
+                                    ).amount) ||
+                                    0
+                                ) -
+                                parseFloat(
+                                  (props.order &&
+                                    props.order.miscCharges &&
+                                    props.order.miscCharges.find(
+                                      (x) => x.chargeId === "VAT"
+                                    ).amount) ||
+                                    0
+                                )
+                          ).toFixed(2)}
                         </span>
                       </Col>
 
@@ -1765,11 +1800,11 @@ const OrderReview = (props) => {
                           }
                         >
                           VAT / GST
-                      </span>
+                        </span>
                         {/* <div className="c-left-blk">
                         Part of these charges are refundable.{" "}
                         <Link
-                          to="/FAQforwholesalebuyers"
+                          href="/FAQforwholesalebuyers"
                           target="_blank"
                           className="qa-sm-color"
                         >
@@ -1789,17 +1824,19 @@ const OrderReview = (props) => {
                           {getSymbolFromCurrency(
                             props.order && props.order.currency
                           )}
-                          {(props.order &&
-                            props.order.miscCharges &&
-                            props.order.miscCharges.find(
-                              (x) => x.chargeId === "VAT"
-                            ) &&
-                            parseFloat(
+                          {parseFloat(
+                            (props.order &&
+                              props.order.miscCharges &&
                               props.order.miscCharges.find(
                                 (x) => x.chargeId === "VAT"
-                              ).amount
-                            )) ||
-                            0}
+                              ) &&
+                              parseFloat(
+                                props.order.miscCharges.find(
+                                  (x) => x.chargeId === "VAT"
+                                ).amount
+                              )) ||
+                              0
+                          ).toFixed(2)}
                         </span>
                       </Col>
                       <Col xs={15} sm={15} md={15} lg={15}>
@@ -1815,19 +1852,18 @@ const OrderReview = (props) => {
                           </span>
                           <Link
                             href="/FAQforwholesalebuyers"
-                            target="_blank"
-                            
-                          >
-                          <span 
-                          className={
+                            className={
                               mediaMatch.matches
                                 ? "qa-font-san qa-fs-14 qa-sm-color"
                                 : "qa-font-san qa-fs-12 qa-sm-color"
                             }
-                            style={{ textDecoration: "underline" }}>
+                            style={{ textDecoration: "underline" }}
+                          >
+                            <a target="_blank" className="qa-sm-color">
+                              Refer FAQs here
+                            </a>
                             Know more
-                          </span>
-                        </Link>
+                          </Link>
                         </div>
                       </Col>
                       <Col
@@ -1846,7 +1882,7 @@ const OrderReview = (props) => {
                           }
                         >
                           Coupon discount
-                      </span>
+                        </span>
                       </Col>
                       <Col
                         xs={6}
@@ -1865,12 +1901,14 @@ const OrderReview = (props) => {
                           {getSymbolFromCurrency(
                             props.order && props.order.currency
                           )}
-                          {(props.order &&
-                            props.order.miscCharges &&
-                            props.order.miscCharges.find(
-                              (x) => x.chargeId === "DISCOUNT"
-                            ).amount) ||
-                            0}
+                          {parseFloat(
+                            (props.order &&
+                              props.order.miscCharges &&
+                              props.order.miscCharges.find(
+                                (x) => x.chargeId === "DISCOUNT"
+                              ).amount) ||
+                              0
+                          ).toFixed(2)}
                         </span>
                       </Col>
                     </Row>
@@ -1889,7 +1927,7 @@ const OrderReview = (props) => {
                           }
                         >
                           TOTAL COST
-                      </span>
+                        </span>
                       </Col>
                       <Col
                         xs={6}
@@ -1903,19 +1941,28 @@ const OrderReview = (props) => {
                           {getSymbolFromCurrency(
                             props.order && props.order.currency
                           )}
-                          {props.order &&
-                            props.order.miscCharges &&
-                            parseFloat(
-                              props.order.miscCharges.find(
-                                (x) => x.chargeId === "TOTAL_AMOUNT"
-                              ).amount
-                            )}
+                          {parseFloat(
+                            props.order &&
+                              props.order.miscCharges &&
+                              parseFloat(
+                                props.order.miscCharges.find(
+                                  (x) => x.chargeId === "TOTAL_AMOUNT"
+                                ).amount
+                              )
+                          ).toFixed(2)}
                         </span>
                       </Col>
                     </Row>
 
                     <Row style={{ paddingTop: "10px" }} gutter={[8, 0]}>
-                      <Col xs={2} sm={2} md={2} lg={1} xl={1} style={mediaMatch.matches ? { marginTop: '-2px'} : {}}>
+                      <Col
+                        xs={2}
+                        sm={2}
+                        md={2}
+                        lg={1}
+                        xl={1}
+                        style={mediaMatch.matches ? { marginTop: "-2px" } : {}}
+                      >
                         <Checkbox onChange={handleCheck} id="check"></Checkbox>
                       </Col>
                       <Col
@@ -1924,7 +1971,11 @@ const OrderReview = (props) => {
                         md={22}
                         lg={23}
                         xl={23}
-                        style={mediaMatch.matches ? { lineHeight: "100%", paddingLeft: '10px' } : { lineHeight: "100%"}}
+                        style={
+                          mediaMatch.matches
+                            ? { lineHeight: "100%", paddingLeft: "10px" }
+                            : { lineHeight: "100%" }
+                        }
                       >
                         <span
                           className={
@@ -1944,7 +1995,7 @@ const OrderReview = (props) => {
                         >
                           quotation and specification sheet, and the buyer
                           agreement
-                      </span>
+                        </span>
                       </Col>
                       <Col
                         xs={24}
@@ -1959,7 +2010,7 @@ const OrderReview = (props) => {
                           style={{ display: "none" }}
                         >
                           Please accept this agreement
-                      </span>
+                        </span>
                       </Col>
                     </Row>
                     <Row style={{ paddingTop: "20px" }}>
@@ -1975,9 +2026,9 @@ const OrderReview = (props) => {
                             countryCode={
                               props.order &&
                               countries[
-                              props.order.shippingAddressDetails["country"]
-                                .toString()
-                                .toUpperCase()
+                                props.order.shippingAddressDetails["country"]
+                                  .toString()
+                                  .toUpperCase()
                               ]
                             }
                             termsAccepted={isTermsAccepted}
@@ -1985,11 +2036,11 @@ const OrderReview = (props) => {
                             locale={locale}
                             isCartSummary={false}
                             currencyDetails={null}
-                          // stateCode={getStateCode}
+                            // stateCode={getStateCode}
                           />
                         ) : (
-                            ""
-                          )}
+                          ""
+                        )}
                       </Col>
                     </Row>
                     <Row style={{ paddingTop: "10px" }}>
@@ -2012,7 +2063,7 @@ const OrderReview = (props) => {
                           }}
                         >
                           Transactions are secure and encrypted
-                      </span>
+                        </span>
                       </Col>
                     </Row>
                   </Col>
@@ -2031,7 +2082,7 @@ const OrderReview = (props) => {
                     >
                       *This is an estimate, final invoice will be shared at the
                       time of shipping
-                  </span>
+                    </span>
                   </Col>
                 </Row>
                 {/* <Row style={{ paddingTop: '10px' }} gutter={[8, 0]}>
@@ -2057,16 +2108,18 @@ const OrderReview = (props) => {
                         style={{ lineHeight: "110%", letterSpacing: ".01em" }}
                       >
                         Product details
-                    </span>
+                      </span>
                     </Col>
                     <Col xs={0} sm={0} md={4} lg={4} className="qa-col-end">
                       {showProduct ? (
-                        <UpOutlined onClick={() => handleProductDetails(false)} />
+                        <UpOutlined
+                          onClick={() => handleProductDetails(false)}
+                        />
                       ) : (
-                          <DownOutlined
-                            onClick={() => handleProductDetails(true)}
-                          />
-                        )}
+                        <DownOutlined
+                          onClick={() => handleProductDetails(true)}
+                        />
+                      )}
                     </Col>
                   </Row>
                   <Row style={{ paddingTop: "10px" }}>
@@ -2088,7 +2141,7 @@ const OrderReview = (props) => {
                     >
                       <span className="qa-font-san qa-fs-14 qa-tc-white qa-letter-spacing">
                         Additional services
-                    </span>
+                      </span>
                     </Col>
                     <Col xs={0} sm={0} md={20} lg={20} className="payment-term">
                       <Row>
@@ -2104,7 +2157,9 @@ const OrderReview = (props) => {
                               <Col xs={0} sm={0} md={2} lg={2}>
                                 <img
                                   className="images"
-                                  src={process.env.NEXT_PUBLIC_URL + "/tick.png"}
+                                  src={
+                                    process.env.NEXT_PUBLIC_URL + "/tick.png"
+                                  }
                                   style={{ height: "15px" }}
                                 ></img>
                               </Col>
@@ -2114,8 +2169,8 @@ const OrderReview = (props) => {
                                   {getSymbolFromCurrency(
                                     props.order && props.order.currency
                                   )}
-                                50 per seller order
-                              </span>
+                                  50 per seller order
+                                </span>
                               </Col>
                               <Col xs={0} sm={0} md={2} lg={2}></Col>
                               <Col xs={0} sm={0} md={22} lg={22}>
@@ -2127,12 +2182,18 @@ const OrderReview = (props) => {
                                   }}
                                 >
                                   Launch offer, this service is on us!
-                              </span>
+                                </span>
                               </Col>
                             </Row>
                           </Col>
                         </Col>
-                        <Col xs={0} sm={0} md={2} lg={2} className="qa-col-first">
+                        <Col
+                          xs={0}
+                          sm={0}
+                          md={2}
+                          lg={2}
+                          className="qa-col-first"
+                        >
                           <img
                             className="images"
                             src={process.env.NEXT_PUBLIC_URL + "/Line.png"}
@@ -2151,7 +2212,9 @@ const OrderReview = (props) => {
                               <Col xs={0} sm={0} md={2} lg={2}>
                                 <img
                                   className="images"
-                                  src={process.env.NEXT_PUBLIC_URL + "/tick.png"}
+                                  src={
+                                    process.env.NEXT_PUBLIC_URL + "/tick.png"
+                                  }
                                   style={{ height: "15px" }}
                                 ></img>
                               </Col>
@@ -2161,8 +2224,8 @@ const OrderReview = (props) => {
                                   {getSymbolFromCurrency(
                                     props.order && props.order.currency
                                   )}
-                                50 per seller order
-                              </span>
+                                  50 per seller order
+                                </span>
                               </Col>
                               <Col xs={0} sm={0} md={2} lg={2}></Col>
                               <Col xs={0} sm={0} md={22} lg={22}>
@@ -2174,7 +2237,7 @@ const OrderReview = (props) => {
                                   }}
                                 >
                                   Launch offer, this service is on us!
-                              </span>
+                                </span>
                               </Col>
                             </Row>
                           </Col>
@@ -2190,7 +2253,10 @@ const OrderReview = (props) => {
                     }
                   >
                     <Col xs={24} sm={24} md={24} lg={24}>
-                      <table style={{ width: "100%" }} className="product-table">
+                      <table
+                        style={{ width: "100%" }}
+                        className="product-table"
+                      >
                         <tr>
                           <th>
                             <span
@@ -2198,7 +2264,7 @@ const OrderReview = (props) => {
                               style={{ color: "#f9f7f2" }}
                             >
                               Seller name
-                          </span>{" "}
+                            </span>{" "}
                             <span
                               className="qa-font-san qa-fs-14"
                               style={{ color: "#f9f7f2" }}
@@ -2210,7 +2276,7 @@ const OrderReview = (props) => {
                               style={{ color: "#f9f7f2" }}
                             >
                               S.No
-                          </span>
+                            </span>
                           </th>
                           <th>
                             <span
@@ -2218,7 +2284,7 @@ const OrderReview = (props) => {
                               style={{ color: "#f9f7f2" }}
                             >
                               Item ID
-                          </span>
+                            </span>
                           </th>
                           <th>
                             <span
@@ -2226,7 +2292,7 @@ const OrderReview = (props) => {
                               style={{ color: "#f9f7f2" }}
                             >
                               Product name
-                          </span>
+                            </span>
                           </th>
                           <th>
                             <span
@@ -2234,7 +2300,7 @@ const OrderReview = (props) => {
                               style={{ color: "#f9f7f2" }}
                             >
                               Quantity
-                          </span>
+                            </span>
                           </th>
                           <th>
                             <span
@@ -2242,7 +2308,7 @@ const OrderReview = (props) => {
                               style={{ color: "#f9f7f2" }}
                             >
                               Unit
-                          </span>
+                            </span>
                           </th>
                           <th>
                             <span
@@ -2250,8 +2316,8 @@ const OrderReview = (props) => {
                               style={{ color: "#f9f7f2" }}
                             >
                               Per unit price (
-                            {props.order && props.order.currency})
-                          </span>
+                              {props.order && props.order.currency})
+                            </span>
                           </th>
                           <th>
                             <span
@@ -2259,8 +2325,8 @@ const OrderReview = (props) => {
                               style={{ color: "#f9f7f2" }}
                             >
                               Base price excl. margin and other charges (
-                            {props.order && props.order.currency})
-                          </span>
+                              {props.order && props.order.currency})
+                            </span>
                           </th>
                         </tr>
                         {prepareTableRows}
@@ -2308,165 +2374,165 @@ const OrderReview = (props) => {
                 </Col>
               </Row>
             ) : (
-                <React.Fragment>
-                  <Row style={{ marginTop: "35px" }}>
-                    <Col xs={22} sm={22} md={22} lg={0}>
-                      <span
-                        className="qa-font-san qa-fs-12 qa-fw-b qa-tc-white"
-                        style={{ lineHeight: "110%", letterSpacing: ".01em" }}
-                      >
-                        Additional services
-                  </span>
-                    </Col>
-                    <Col xs={2} sm={2} md={2} lg={0} className="qa-col-end">
-                      {showAdditionalServices ? (
-                        <UpOutlined
-                          onClick={() => setShowAdditionalServices(false)}
-                        />
-                      ) : (
-                          <DownOutlined
-                            onClick={() => setShowAdditionalServices(true)}
-                          />
-                        )}
-                    </Col>
-                    <Col xs={24} sm={24} md={24} lg={0} className="qa-mar-top-1">
-                      <hr />
-                    </Col>
-                    {showAdditionalServices ? (
-                      <React.Fragment>
-                        <Col xs={2} sm={2} md={2} lg={0} className="qa-mar-top-1">
-                          <img
-                            className="images"
-                            src={process.env.NEXT_PUBLIC_URL + "/tick.png"}
-                            style={{ height: "20px" }}
-                          ></img>
-                        </Col>
-                        <Col
-                          xs={22}
-                          sm={22}
-                          md={22}
-                          lg={22}
-                          className="qa-mar-top-1"
-                        >
-                          <span className="qa-font-san qa-fs-12 qa-tc-white">
-                            Production monitoring,{" "}
-                            {getSymbolFromCurrency(
-                              props.order && props.order.currency
-                            )}
-                        50 per seller order
-                      </span>
-                        </Col>
-                        <Col xs={2} sm={2} md={2} lg={0} className="qa-mar-top-1">
-                          <img
-                            className="images"
-                            src={process.env.NEXT_PUBLIC_URL + "/tick.png"}
-                            style={{ height: "20px" }}
-                          ></img>
-                        </Col>
-                        <Col
-                          xs={22}
-                          sm={22}
-                          md={22}
-                          lg={22}
-                          className="qa-mar-top-1"
-                        >
-                          <span className="qa-font-san qa-fs-12 qa-tc-white">
-                            Production monitoring,{" "}
-                            {getSymbolFromCurrency(
-                              props.order && props.order.currency
-                            )}
-                        50 per seller order
-                      </span>
-                        </Col>{" "}
-                      </React.Fragment>
-                    ) : (
-                        ""
-                      )}
-                  </Row>
-                  <Row style={{ marginTop: "35px" }}>
-                    <Col xs={22} sm={22} md={22} lg={0}>
-                      <span
-                        className="qa-font-san qa-fs-12 qa-fw-b qa-tc-white"
-                        style={{ lineHeight: "110%", letterSpacing: ".02em" }}
-                      >
-                        Product details
-                  </span>
-                    </Col>
-                    <Col
-                      xs={2}
-                      sm={2}
-                      md={2}
-                      lg={0}
-                      className="qa-col-end"
-                      style={{ alignItems: "center" }}
+              <React.Fragment>
+                <Row style={{ marginTop: "35px" }}>
+                  <Col xs={22} sm={22} md={22} lg={0}>
+                    <span
+                      className="qa-font-san qa-fs-12 qa-fw-b qa-tc-white"
+                      style={{ lineHeight: "110%", letterSpacing: ".01em" }}
                     >
-                      {showProduct ? (
-                        <UpOutlined onClick={() => setShowProduct(false)} />
-                      ) : (
-                          <DownOutlined onClick={() => setShowProduct(true)} />
-                        )}
-                    </Col>
-                    <Col xs={24} sm={24} md={24} lg={0} className="qa-mar-top-1">
-                      <hr />
-                    </Col>
-                    {showProduct ? prepareProductsForMobile : ""}
-                    <Col xs={24} sm={24} md={24} lg={0}>
-                      <Row style={{ paddingTop: "20px" }}>
-                        <Col xs={24} sm={24} md={24} lg={24}>
-                          {/* <Button className="qa-button payemnt-btn" style={{ minWidth: '90%' }} onClick><span>PROCEED TO PAYMENT</span></Button> */}
-                          {props.order && localeUpdated ? (
-                            <PayWithPaypal
-                              token={keycloak.token}
-                              saveOrder={saveOrder}
-                              order={props.order}
-                              user={props.user}
-                              currency={props.order && props.order.currency}
-                              countryCode={
-                                props.order &&
-                                countries[
+                      Additional services
+                    </span>
+                  </Col>
+                  <Col xs={2} sm={2} md={2} lg={0} className="qa-col-end">
+                    {showAdditionalServices ? (
+                      <UpOutlined
+                        onClick={() => setShowAdditionalServices(false)}
+                      />
+                    ) : (
+                      <DownOutlined
+                        onClick={() => setShowAdditionalServices(true)}
+                      />
+                    )}
+                  </Col>
+                  <Col xs={24} sm={24} md={24} lg={0} className="qa-mar-top-1">
+                    <hr />
+                  </Col>
+                  {showAdditionalServices ? (
+                    <React.Fragment>
+                      <Col xs={2} sm={2} md={2} lg={0} className="qa-mar-top-1">
+                        <img
+                          className="images"
+                          src={process.env.NEXT_PUBLIC_URL + "/tick.png"}
+                          style={{ height: "20px" }}
+                        ></img>
+                      </Col>
+                      <Col
+                        xs={22}
+                        sm={22}
+                        md={22}
+                        lg={22}
+                        className="qa-mar-top-1"
+                      >
+                        <span className="qa-font-san qa-fs-12 qa-tc-white">
+                          Production monitoring,{" "}
+                          {getSymbolFromCurrency(
+                            props.order && props.order.currency
+                          )}
+                          50 per seller order
+                        </span>
+                      </Col>
+                      <Col xs={2} sm={2} md={2} lg={0} className="qa-mar-top-1">
+                        <img
+                          className="images"
+                          src={process.env.NEXT_PUBLIC_URL + "/tick.png"}
+                          style={{ height: "20px" }}
+                        ></img>
+                      </Col>
+                      <Col
+                        xs={22}
+                        sm={22}
+                        md={22}
+                        lg={22}
+                        className="qa-mar-top-1"
+                      >
+                        <span className="qa-font-san qa-fs-12 qa-tc-white">
+                          Production monitoring,{" "}
+                          {getSymbolFromCurrency(
+                            props.order && props.order.currency
+                          )}
+                          50 per seller order
+                        </span>
+                      </Col>{" "}
+                    </React.Fragment>
+                  ) : (
+                    ""
+                  )}
+                </Row>
+                <Row style={{ marginTop: "35px" }}>
+                  <Col xs={22} sm={22} md={22} lg={0}>
+                    <span
+                      className="qa-font-san qa-fs-12 qa-fw-b qa-tc-white"
+                      style={{ lineHeight: "110%", letterSpacing: ".02em" }}
+                    >
+                      Product details
+                    </span>
+                  </Col>
+                  <Col
+                    xs={2}
+                    sm={2}
+                    md={2}
+                    lg={0}
+                    className="qa-col-end"
+                    style={{ alignItems: "center" }}
+                  >
+                    {showProduct ? (
+                      <UpOutlined onClick={() => setShowProduct(false)} />
+                    ) : (
+                      <DownOutlined onClick={() => setShowProduct(true)} />
+                    )}
+                  </Col>
+                  <Col xs={24} sm={24} md={24} lg={0} className="qa-mar-top-1">
+                    <hr />
+                  </Col>
+                  {showProduct ? prepareProductsForMobile : ""}
+                  <Col xs={24} sm={24} md={24} lg={0}>
+                    <Row style={{ paddingTop: "20px" }}>
+                      <Col xs={24} sm={24} md={24} lg={24}>
+                        {/* <Button className="qa-button payemnt-btn" style={{ minWidth: '90%' }} onClick><span>PROCEED TO PAYMENT</span></Button> */}
+                        {props.order && localeUpdated ? (
+                          <PayWithPaypal
+                            token={keycloak.token}
+                            saveOrder={saveOrder}
+                            order={props.order}
+                            user={props.user}
+                            currency={props.order && props.order.currency}
+                            countryCode={
+                              props.order &&
+                              countries[
                                 props.order.shippingAddressDetails["country"]
                                   .toString()
                                   .toUpperCase()
-                                ]
-                              }
-                              termsAccepted={isTermsAccepted}
-                              showError={showError}
-                              locale={locale}
-                              isCartSummary={false}
-                              currencyDetails={null}
-                            />
-                          ) : (
-                              ""
-                            )}
-                        </Col>
-                      </Row>
-                      <Row style={{ paddingTop: "10px" }}>
-                        <Col
-                          xs={24}
-                          sm={24}
-                          md={24}
-                          lg={24}
-                          className="qa-col-center"
-                        >
-                          <span
-                            className={
-                              mediaMatch.matches
-                                ? "qa-font-san qa-fs-14"
-                                : "qa-font-san qa-fs-12"
+                              ]
                             }
-                            style={{
-                              lineHeight: "110%",
-                              color: "rgba(25, 25, 25, 0.6)",
-                            }}
-                          >
-                            Transactions are secure and encrypted
-                      </span>
-                        </Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                </React.Fragment>
-              )}
+                            termsAccepted={isTermsAccepted}
+                            showError={showError}
+                            locale={locale}
+                            isCartSummary={false}
+                            currencyDetails={null}
+                          />
+                        ) : (
+                          ""
+                        )}
+                      </Col>
+                    </Row>
+                    <Row style={{ paddingTop: "10px" }}>
+                      <Col
+                        xs={24}
+                        sm={24}
+                        md={24}
+                        lg={24}
+                        className="qa-col-center"
+                      >
+                        <span
+                          className={
+                            mediaMatch.matches
+                              ? "qa-font-san qa-fs-14"
+                              : "qa-font-san qa-fs-12"
+                          }
+                          style={{
+                            lineHeight: "110%",
+                            color: "rgba(25, 25, 25, 0.6)",
+                          }}
+                        >
+                          Transactions are secure and encrypted
+                        </span>
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+              </React.Fragment>
+            )}
           </Col>
         </Row>
       </React.Fragment>

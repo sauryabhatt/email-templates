@@ -619,7 +619,7 @@ const SellerContact = (props) => {
                 </Upload>
               </Form.Item>
               <span className="label-paragraph">
-                What is the quantity that you're looking to order?
+                What is the quantity that you're looking to order?*
               </span>
               <Form.Item
                 name="quantity"
@@ -629,10 +629,10 @@ const SellerContact = (props) => {
                     type: "string",
                     message: "The input is not valid!",
                   },
-                  // {
-                  //     required: true,
-                  //     message: 'Please enter the quantity.',
-                  // },
+                  {
+                    required: true,
+                    message: "Please enter the quantity.",
+                  },
                   {
                     min: 1,
                     max: 50,
@@ -700,12 +700,15 @@ const SellerContact = (props) => {
               >
                 {country}
               </Form.Item>
-              <span className="label-paragraph">Destination City, State</span>
+              <span className="label-paragraph">Destination City, State*</span>
               <Form.Item
                 name="destinationCity"
                 style={{ marginBottom: "1em" }}
                 rules={[
-                  // { required: true, message: 'Please input State & City name!' },
+                  {
+                    required: true,
+                    message: "Please input State & City name!",
+                  },
                   {
                     min: 3,
                     max: 50,

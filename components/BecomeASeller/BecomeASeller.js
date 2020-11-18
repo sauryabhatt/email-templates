@@ -13,14 +13,12 @@ import Recycled from "../../public/filestore/recycled";
 import EcoFriendly from "../../public/filestore/ecoFriendly";
 import Sustainable from "../../public/filestore/sustainable";
 
-
 function BecomeASeller(props) {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [successVisible, setsuccessVisible] = useState(false);
 
   const onFinish = (values) => {
-
     fetch("https://ipapi.co/json/", {
       method: "GET",
     })
@@ -46,11 +44,11 @@ function BecomeASeller(props) {
     //   phoneNumber: values.phoneNumber,
     // };
     // console.log(data);
-  }
+  };
 
-  const sendInviteData = (data) =>{
+  const sendInviteData = (data) => {
     setLoading(true);
-    fetch(process.env.REACT_APP_API_FORM_URL + "/forms/lead-gens", {
+    fetch(process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/lead-gens", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {

@@ -801,7 +801,8 @@ const Register = (props) => {
                     </Form.Item>
                   </Col>
                 )}
-                {process.env.REACT_APP_REFERRAL_REQUIRED == "true" ? (
+                {process.env.NEXT_PUBLIC_REACT_APP_REFERRAL_REQUIRED ==
+                "true" ? (
                   <Col
                     xs={24}
                     sm={24}

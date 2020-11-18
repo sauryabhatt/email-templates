@@ -43,7 +43,7 @@ function ProductListingDesktop(props) {
         sort_by: "minimumOrderQuantity",
       };
     } else {
-      queryParam = { ...queryParam, sort_order: "ASC", sort_by: value };
+      queryParam = { ...queryParam, sort_order: "DESC", sort_by: value };
     }
     getFilterData(queryParam, "sort");
   };
@@ -98,7 +98,11 @@ function ProductListingDesktop(props) {
                 </div>
               </Col> */}
               <Col span={6} className="qa-txt-alg-rgt qa-mar-top-1">
-                <SortByFilter handleSortFilter={handleSortFilter} id="PLP" queryParams={queryParams}/>
+                <SortByFilter
+                  handleSortFilter={handleSortFilter}
+                  id="PLP"
+                  queryParams={queryParams}
+                />
               </Col>
             </Row>
 

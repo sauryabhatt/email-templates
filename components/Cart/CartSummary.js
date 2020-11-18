@@ -70,6 +70,8 @@ const CartSummary = (props) => {
     priceQuoteRef = "",
     referralCode = "",
     shippingAddressDetails = {},
+    promoDiscount = "",
+    promoCode = "",
   } = cart || {};
   let frieghtCharge = 0;
   let dutyCharge = 0;
@@ -130,16 +132,16 @@ const CartSummary = (props) => {
   };
 
   const checkCommitStatus = () => {
-    fetch(
-      `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/my/${orderId}/checkout/?mode=${shippingMode}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + keycloak.token,
-        },
-      }
-    )
+    let cartId = orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
+    let url = `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/my/${cartId}/checkout/?mode=${shippingMode}`;
+
+    fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + keycloak.token,
+      },
+    })
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -164,7 +166,8 @@ const CartSummary = (props) => {
   };
 
   const createOrder = () => {
-    let url = process.env.REACT_APP_REDIRECT_APP_DOMAIN + "/product/";
+    let url =
+      process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN + "/product/";
     let productList = [];
     let currencyFormat = getSymbolFromCurrency(convertToCurrency);
     for (let orders of subOrders) {
@@ -771,7 +774,7 @@ const CartSummary = (props) => {
             *
           </div>
           <div className="c-left-blk">
-            Part of these charges are refundable.{" "}
+            Refundable for some countries like UK/AU.{" "}
             <Link href="/FAQforwholesalebuyers">
               <a target="_blank">
                 <span className="qa-sm-color qa-cursor">Know more</span>
@@ -784,7 +787,12 @@ const CartSummary = (props) => {
       {id !== "cart" && (referralCode || couponDiscount > 0) && (
         <div className="qa-mar-btm-2">
           <div className="cart-ship-pt qa-border-bottom">
-            <div className="c-left-blk cart-prod-name">Coupon discount</div>
+            <div
+              style={{ color: "#27AE60" }}
+              className="c-left-blk cart-prod-name"
+            >
+              Festive offer discount applied
+            </div>
             <div className="c-right-blk qa-fw-b qa-txt-alg-rgt">
               {id !== "cart" && couponDiscount > 0 ? (
                 <span style={{ color: "#27AE60" }}>
@@ -802,6 +810,31 @@ const CartSummary = (props) => {
         </div>
       )}
 
+      {id !== "cart" && promoDiscount > 0 && (
+        <div className="qa-mar-btm-2">
+          <div className="cart-ship-pt qa-border-bottom">
+            <div
+              className="c-left-blk cart-prod-name"
+              style={{ color: "#27AE60" }}
+            >
+              {promoCode}
+            </div>
+            <div
+              className="c-left-blk cart-prod-name"
+              style={{ color: "#27AE60" }}
+            >
+              coupon discount applied
+            </div>
+            <div className="c-right-blk qa-fw-b qa-txt-alg-rgt">
+              <span style={{ color: "#27AE60" }}>
+                -{getSymbolFromCurrency(convertToCurrency)}
+                {getConvertedCurrency(promoDiscount)}
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div>
         <div className="cart-ship-pt">
           <div className="c-left-blk cart-prod-name qa-mar-btm-05 font-size-17">
@@ -811,10 +844,9 @@ const CartSummary = (props) => {
             {getSymbolFromCurrency(convertToCurrency)}
             {total ? getConvertedCurrency(total) : ""}
           </div>
-          <div className="c-left-blk">With refundable taxes</div>
+          {/* <div className="c-left-blk">With refundable taxes</div> */}
         </div>
       </div>
-      {console.log("enable && deliver && !showCartError", enable, deliver,!showCartError)}
       {id === "cart" && (
         <div>
           {enable && deliver && !showCartError ? (
@@ -874,8 +906,13 @@ const CartSummary = (props) => {
           <div className="qa-mar-top-2 qa-mar-btm-1">
             <Checkbox onChange={handleCheck} id="check"></Checkbox>
 
-            <span className="qa-font-san qa-fs-12 qa-tc-white qa-mar-lft">
-              I agree to the terms & conditions
+            <span className="qa-font-san qa-fs-14 qa-tc-white qa-mar-lft">
+              I agree to the{" "}
+              <Link href="/TermsOfUse" className="c-breakup">
+                <a target="_blank" className="qa-sm-color">
+                  terms & conditions
+                </a>
+              </Link>
             </span>
 
             <span
@@ -937,10 +974,14 @@ const CartSummary = (props) => {
       {deliver && !nonShippable ? (
         <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-top-05 qa-txt-alg-cnt">
           {id === "cart" ? (
-            <span>*Proceed to review shipping mode and costs</span>
+            <span>
+              *Please check the T&C box to review shipping mode and costs
+            </span>
           ) : (
             <span>
-              {!disablePayment && <span>*Proceed to review payment mode</span>}
+              {!disablePayment && id !== "payment" && (
+                <span>*Proceed to review payment mode</span>
+              )}
             </span>
           )}
         </div>
