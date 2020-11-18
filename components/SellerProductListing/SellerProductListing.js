@@ -34,8 +34,8 @@ const SellerProductListing = (props) => {
   const [sellerId, setSellerId] = useState(router.query.sellerId);
 
   const [queryParams, setQueryParams] = useState({
-    sort_by: "minimumOrderQuantity",
-    sort_order: "ASC",
+    sort_by: "popularity",
+    sort_order: "DESC",
     size: limit,
     from: offset,
   });
@@ -110,7 +110,6 @@ const SellerProductListing = (props) => {
         tempObj[key] = queryParams[key];
       }
     }
-    console.log("router", router);
     router.push(
       {
         pathname:
