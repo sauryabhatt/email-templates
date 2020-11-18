@@ -19,19 +19,16 @@ const PaypalButton = (props) => {
     } else {
       url = `https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_REACT_APP_PAYPAL_CLIENT_ID}&currency=${props.currency}&intent=order&disable-funding=credit,bancontact,blik,eps,giropay,ideal,mybank,p24,sepa,sofort`;
     }
-    // console.log(url);
     const script = document.getElementById("paypal-script");
     script.src = url;
     script.onload = () => {
       setSdkReady(true);
-      console.log("loaded")
     };
     script.onerror = () => {
       throw new Error("Paypal SDK could not be loaded.");
     };
     document.body.appendChild(script);
   };
-// console.log(window);
   useEffect(() => {
     if (window !== undefined) {
       updatePaypalSdk();
@@ -47,7 +44,9 @@ const PaypalButton = (props) => {
 
   const getConvertedCurrency = (baseAmount, conversionFactor) => {
     // let { convertToCurrency = "", rates = [] } = props.currencyDetails;
-    return Number.parseFloat(parseFloat(baseAmount) * conversionFactor).toFixed(2);
+    return Number.parseFloat(parseFloat(baseAmount) * conversionFactor).toFixed(
+      2
+    );
   };
 
   const prepareItems = (orders, conversionFactor) => {
@@ -77,7 +76,17 @@ const PaypalButton = (props) => {
     orders.map((order) => {
       order.products.map((product) => {
         if (isCartSummary) {
-          sum = sum + parseFloat(parseFloat(getConvertedCurrency(Number.parseFloat(product.exFactoryPrice), conversionFactor)).toFixed(2)) * product.quantity;
+          sum =
+            sum +
+            parseFloat(
+              parseFloat(
+                getConvertedCurrency(
+                  Number.parseFloat(product.exFactoryPrice),
+                  conversionFactor
+                )
+              ).toFixed(2)
+            ) *
+              product.quantity;
         } else {
           sum = sum + product.totalProductCost;
         }
@@ -95,10 +104,22 @@ const PaypalButton = (props) => {
           .amount;
       sum =
         sum +
-        (props.order.miscCharges.find((x) => x.chargeId === "VAT") && props.order.miscCharges.find((x) => x.chargeId === "VAT").amount || 0);
+        ((props.order.miscCharges.find((x) => x.chargeId === "VAT") &&
+          props.order.miscCharges.find((x) => x.chargeId === "VAT").amount) ||
+          0);
     } else {
       sum =
-        sum + parseFloat(parseFloat(getConvertedCurrency(Number.parseFloat(props.order.miscCharges.find((x) => x.chargeId === "VAT").amount), conversionFactor)).toFixed(2));
+        sum +
+        parseFloat(
+          parseFloat(
+            getConvertedCurrency(
+              Number.parseFloat(
+                props.order.miscCharges.find((x) => x.chargeId === "VAT").amount
+              ),
+              conversionFactor
+            )
+          ).toFixed(2)
+        );
     }
     orders.map((order) => {
       let { qalaraSellerMargin = 0 } = order;
@@ -108,11 +129,29 @@ const PaypalButton = (props) => {
       }
       order.products.map((product) => {
         if (product.sampleCost) {
-          sum = sum + parseFloat(parseFloat(getConvertedCurrency(Number.parseFloat(product.sampleCost), conversionFactor)).toFixed(2));
+          sum =
+            sum +
+            parseFloat(
+              parseFloat(
+                getConvertedCurrency(
+                  Number.parseFloat(product.sampleCost),
+                  conversionFactor
+                )
+              ).toFixed(2)
+            );
         }
 
         if (product.qualityTestingCharge) {
-          sum = sum + parseFloat(parseFloat(getConvertedCurrency(Number.parseFloat(product.qualityTestingCharge), conversionFactor)).toFixed(2));
+          sum =
+            sum +
+            parseFloat(
+              parseFloat(
+                getConvertedCurrency(
+                  Number.parseFloat(product.qualityTestingCharge),
+                  conversionFactor
+                )
+              ).toFixed(2)
+            );
         }
       });
     });
@@ -139,33 +178,70 @@ const PaypalButton = (props) => {
     return code || props.order.shippingAddressDetails["country"];
   };
 
-
   const createOrder = (data, actions) => {
-    
-    let conversionFactor = (props.currencyDetails == null || props.currencyDetails.convertToCurrency == 'USD') ? 1 : props.currencyDetails.rates[props.currencyDetails.convertToCurrency].toFixed(2);
+    let conversionFactor =
+      props.currencyDetails == null ||
+      props.currencyDetails.convertToCurrency == "USD"
+        ? 1
+        : props.currencyDetails.rates[
+            props.currencyDetails.convertToCurrency
+          ].toFixed(2);
     let itemsList = prepareItems(props.order.subOrders, conversionFactor);
-    let sumOfProd = getSumOfProd(props.order.subOrders, props.isCartSummary, conversionFactor);
-    let handlingSum = getHandlingAmount(props.order.subOrders, conversionFactor);
+    let sumOfProd = getSumOfProd(
+      props.order.subOrders,
+      props.isCartSummary,
+      conversionFactor
+    );
+    let handlingSum = getHandlingAmount(
+      props.order.subOrders,
+      conversionFactor
+    );
     let stateCode = getStateCode();
     let countryCode = getCountryCode();
     let paymentObj = null;
-    if (props.currencyDetails !== null && props.currencyDetails.convertToCurrency !== 'USD') {
-      handlingSum = parseFloat(handlingSum) + parseFloat((parseFloat((props.order.total * conversionFactor).toFixed(2)) - (parseFloat(handlingSum) + parseFloat(parseFloat(getConvertedCurrency(props.order.miscCharges
-        .find((x) => x.chargeId === "FREIGHT_MAX")
-        .amount.toString(), conversionFactor)).toFixed(2)) + parseFloat(sumOfProd) + parseFloat(parseFloat(getConvertedCurrency(props.order.miscCharges
-          .find((x) => x.chargeId === "DUTY_MAX")
-          .amount.toString(), conversionFactor)).toFixed(2)))));
+    if (
+      props.currencyDetails !== null &&
+      props.currencyDetails.convertToCurrency !== "USD"
+    ) {
+      handlingSum =
+        parseFloat(handlingSum) +
+        parseFloat(
+          parseFloat((props.order.total * conversionFactor).toFixed(2)) -
+            (parseFloat(handlingSum) +
+              parseFloat(
+                parseFloat(
+                  getConvertedCurrency(
+                    props.order.miscCharges
+                      .find((x) => x.chargeId === "FREIGHT_MAX")
+                      .amount.toString(),
+                    conversionFactor
+                  )
+                ).toFixed(2)
+              ) +
+              parseFloat(sumOfProd) +
+              parseFloat(
+                parseFloat(
+                  getConvertedCurrency(
+                    props.order.miscCharges
+                      .find((x) => x.chargeId === "DUTY_MAX")
+                      .amount.toString(),
+                    conversionFactor
+                  )
+                ).toFixed(2)
+              ))
+        );
     }
     paymentObj = {
       gbPayment: {
         gbOrderNo: props.order.orderId,
         tenderedAmt: props.isCartSummary
           ? (props.order.total * conversionFactor).toFixed(2)
-          : props.order.miscCharges.find((x) => x.chargeId === "TOTAL_AMOUNT")
-            .amount.toFixed(2),
+          : props.order.miscCharges
+              .find((x) => x.chargeId === "TOTAL_AMOUNT")
+              .amount.toFixed(2),
         currency: props.currency,
         conversionFactor: conversionFactor,
-        invoice_id: props.order.orderId + "_" + Date.now().toString()
+        invoice_id: props.order.orderId + "_" + Date.now().toString(),
       },
       ppCreateOrderRequest: {
         intent: "AUTHORIZE",
@@ -206,7 +282,8 @@ const PaypalButton = (props) => {
         purchase_units: [
           {
             description: props.order.orderId,
-            invoice_id: props.order.orderId.toString() + "_" + Date.now().toString(),
+            invoice_id:
+              props.order.orderId.toString() + "_" + Date.now().toString(),
             custom_id: props.order.orderId,
             soft_descriptor: "Qalara",
             amount: {
@@ -214,8 +291,9 @@ const PaypalButton = (props) => {
               value: props.isCartSummary
                 ? (props.order.total * conversionFactor).toFixed(2)
                 : props.order.miscCharges
-                  .find((x) => x.chargeId === "TOTAL_AMOUNT")
-                  .amount.toFixed(2).toString(),
+                    .find((x) => x.chargeId === "TOTAL_AMOUNT")
+                    .amount.toFixed(2)
+                    .toString(),
               breakdown: {
                 item_total: {
                   currency_code: props.currency,
@@ -224,12 +302,24 @@ const PaypalButton = (props) => {
                 shipping: {
                   currency_code: props.currency,
                   value: props.isCartSummary
-                    ? parseFloat(parseFloat(getConvertedCurrency(props.order.miscCharges
-                      .find((x) => x.chargeId === "TOTAL_COST_FREIGHT_MAX")
-                      .amount.toString(), conversionFactor)).toFixed(2)).toFixed(2).toString()
+                    ? parseFloat(
+                        parseFloat(
+                          getConvertedCurrency(
+                            props.order.miscCharges
+                              .find(
+                                (x) => x.chargeId === "TOTAL_COST_FREIGHT_MAX"
+                              )
+                              .amount.toString(),
+                            conversionFactor
+                          )
+                        ).toFixed(2)
+                      )
+                        .toFixed(2)
+                        .toString()
                     : props.order.miscCharges
-                      .find((x) => x.chargeId === "TOTAL_COST_FREIGHT_MAX")
-                      .amount.toFixed(2).toString(),
+                        .find((x) => x.chargeId === "TOTAL_COST_FREIGHT_MAX")
+                        .amount.toFixed(2)
+                        .toString(),
                 },
                 handling: {
                   currency_code: props.currency,
@@ -238,12 +328,26 @@ const PaypalButton = (props) => {
                 tax_total: {
                   currency_code: props.currency,
                   value: props.isCartSummary
-                    ? parseFloat(parseFloat(getConvertedCurrency(props.order.miscCharges
-                      .find((x) => x.chargeId === "DUTY_MAX")
-                      .amount.toString(), conversionFactor)).toFixed(2)).toFixed(2).toString()
+                    ? parseFloat(
+                        parseFloat(
+                          getConvertedCurrency(
+                            props.order.miscCharges
+                              .find((x) => x.chargeId === "DUTY_MAX")
+                              .amount.toString(),
+                            conversionFactor
+                          )
+                        ).toFixed(2)
+                      )
+                        .toFixed(2)
+                        .toString()
                     : props.order.miscCharges
-                      .find((x) => x.chargeId === "CUSTOM_CHARGES")
-                      .amount.toFixed(2).toString(),
+                        .find((x) => x.chargeId === "CUSTOM_CHARGES")
+                        .amount.toFixed(2)
+                        .toString(),
+                },
+                discount: {
+                  currency_code: props.currency,
+                  value: parseFloat(props.order.promoDiscount || 0).toFixed(2),
                 },
               },
             },
@@ -270,7 +374,8 @@ const PaypalButton = (props) => {
     };
 
     return fetch(
-      process.env.NEXT_PUBLIC_REACT_APP_PAYMENTS_URL + "/payments/paypal/checkout/orders",
+      process.env.NEXT_PUBLIC_REACT_APP_PAYMENTS_URL +
+        "/payments/paypal/checkout/orders",
       {
         method: "POST",
         body: JSON.stringify(paymentObj),
@@ -324,8 +429,6 @@ const PaypalButton = (props) => {
   };
 
   const toggleButton = (actions) => {
-    // console.log(actions);
-    // console.log(props.termsAccepted);
     return isTermsAccepted() ? actions.enable() : actions.disable();
   };
 

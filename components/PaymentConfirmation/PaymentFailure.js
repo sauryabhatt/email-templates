@@ -351,22 +351,22 @@ const PaymentFailure = (props) => {
                 </Col>
               </Row>
               {props.order.promoDiscount && props.order.promoDiscount > 0 && (
-                <Row className="qa-mar-top-1">
+                <Row className="qa-mar-top-2">
                   <Col xs={18} sm={18} md={18} lg={18}>
-                    <div
-                      className="cart-prod-name"
-                      style={{ color: "#27AE60" }}
-                    >
+                    <div className="qa-font-san qa-tc-white qa-fs-14">
                       {props.order.promoCode}
                     </div>
-                    <div
-                      className="cart-prod-name"
-                      style={{ color: "#27AE60" }}
-                    >
+                    <div className="qa-font-san qa-tc-white qa-fs-14">
                       coupon discount applied
                     </div>
                   </Col>
-                  <Col xs={6} sm={6} md={6} lg={6}>
+                  <Col
+                    xs={6}
+                    sm={6}
+                    md={6}
+                    lg={6}
+                    className="qa-font-san qa-fw-b qa-fs-14 qa-col-end"
+                  >
                     <span style={{ color: "#27AE60" }}>
                       -
                       {getSymbolFromCurrency(

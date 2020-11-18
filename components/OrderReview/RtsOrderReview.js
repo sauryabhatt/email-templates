@@ -92,13 +92,8 @@ const RtsOrderReview = (props) => {
 
   useEffect(() => {
     let { cart = "", app_token = "" } = props;
-    let {
-      priceQuoteRef = "",
-      shippingMode = "",
-      shippingAddressDetails = {},
-      promoCode = "",
-      promoDiscount = "",
-    } = cart || {};
+    let { priceQuoteRef = "", shippingMode = "", shippingAddressDetails = {} } =
+      cart || {};
     if (priceQuoteRef && shippingMode) {
       let { country = "" } = shippingAddressDetails || {};
       if (deliveredCountryList.includes(country)) {
@@ -106,7 +101,7 @@ const RtsOrderReview = (props) => {
       }
 
       fetch(
-        `${process.env.NEXT_PUBLIC_REACT_APP_PRICE_QUOTATION_URL}/quotes/rts/${priceQuoteRef}?mode=${shippingMode}&promoCode=${promoCode}&promoDiscount=${promoDiscount}`,
+        `${process.env.NEXT_PUBLIC_REACT_APP_PRICE_QUOTATION_URL}/quotes/rts/${priceQuoteRef}?mode=${shippingMode}`,
         {
           method: "GET",
           headers: {
