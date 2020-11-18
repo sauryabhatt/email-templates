@@ -870,8 +870,10 @@ const ProductContact = (props) => {
               >
                 <Checkbox className="check-box-tnc">
                   Standard{" "}
-                  <Link className="link-text" href="/TermsOfUse">
-                    <a target="_blank">T&C</a>
+                  <Link href="/TermsOfUse">
+                    <a target="_blank" className="link-text">
+                      T&C
+                    </a>
                   </Link>{" "}
                   apply.
                 </Checkbox>

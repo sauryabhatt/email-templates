@@ -276,14 +276,14 @@ const SellerContact = (props) => {
                   (props.sellerDetails.verificationStatus === "VERIFIED" ||
                     props.sellerDetails.verificationStatus ===
                       "REGISTERED") && ( */}
-                <span
+                {/* <span
                   style={{
                     color: "#d9bb7f",
                     verticalAlign: "middle",
                   }}
                 >
                   <Icon component={certifiedIcon} className="certified-icon" />
-                </span>
+                </span> */}
                 {/* )} */}
               </div>
               {/* <p className="para">
@@ -859,7 +859,9 @@ const SellerContact = (props) => {
                 <Checkbox className="check-box-tnc">
                   Standard{" "}
                   <Link className="link-text" href="/TermsOfUse">
-                    <a target="_blank">T&C</a>
+                    <a target="_blank" className="link-text">
+                      T&C
+                    </a>
                   </Link>{" "}
                   apply.
                 </Checkbox>
