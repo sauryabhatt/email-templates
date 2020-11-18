@@ -662,10 +662,8 @@ a.qa-sm-color:hover {
 
 @media only screen and (max-width: 768px) {
   .cart-section.empty-cart {
-    margin: 100px 30px;
+    padding: 100px 30px;
     width: auto;
-    padding-top: 10px;
-    margin-bottom: 20px;
   }
   .empty-cart .e-cart-title {
     font-size: 36px;

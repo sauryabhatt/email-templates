@@ -302,7 +302,7 @@ function AppHeader(props) {
       theme="dark"
       style={{ cursor: "default" }}
       onClick={(e) => {
-        handleVisibleChange(true);
+        handleVisibleChange(false);
       }}
     >
       <Menu.Divider style={{ height: "0.5px", color: "#ddd" }} />

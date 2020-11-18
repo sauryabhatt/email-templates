@@ -14,14 +14,13 @@ import {
   Upload,
   Checkbox,
   DatePicker,
-  Avatar,
 } from "antd";
 import Icon, { PlusOutlined } from "@ant-design/icons";
 import moment from "moment";
 import { getCountries } from "react-phone-number-input/input";
 import en from "react-phone-number-input/locale/en.json";
 import { loginToApp } from "../AuthWithKeycloak";
-import certifiedIcon from "../../public/filestore/certifiedIcon";
+import addToCollectionIcon from "../../public/filestore/addToCollection";
 import Link from "next/link";
 import { useRouter } from "next/router";
 const { Option } = Select;
