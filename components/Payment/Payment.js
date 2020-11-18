@@ -15,17 +15,12 @@ const Payment = (props) => {
 
   async function getCartDetails(token) {
     props.checkCartAPI(token, (result) => {
-      let {
-        orderId = "",
-        priceQuoteRef = "",
-        shippingMode = "",
-        promoCode = "",
-        promoDiscount = "",
-      } = result || {};
+      let { orderId = "", priceQuoteRef = "", shippingMode = "" } =
+        result || {};
 
       if (priceQuoteRef && shippingMode !== "DEFAULT") {
         fetch(
-          `${process.env.NEXT_PUBLIC_REACT_APP_PRICE_QUOTATION_URL}/quotes/rts/${priceQuoteRef}?mode=${shippingMode}&promoCode=${promoCode}&promoDiscount=${promoDiscount}`,
+          `${process.env.NEXT_PUBLIC_REACT_APP_PRICE_QUOTATION_URL}/quotes/rts/${priceQuoteRef}?mode=${shippingMode}`,
           {
             method: "GET",
             headers: {

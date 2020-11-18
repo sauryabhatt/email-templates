@@ -148,6 +148,9 @@ span.cart-banner-copy {
   letter-spacing: 0.02em;
   color: #f9f7f2;
 }
+.cart-section .cart-ship-pt.qa-pd-0 {
+  padding-bottom: 0px;
+}
 .cart-section .c-edit-address {
   color: #f9f7f2;
   text-align: right;

@@ -1,5 +1,4 @@
 /** @format */
-
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -133,7 +132,7 @@ const CartSummary = (props) => {
 
   const checkCommitStatus = () => {
     let cartId = orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
-    let url = `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/my/${cartId}/checkout/?mode=${shippingMode}`;
+    let url = `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/my/${cartId}/checkout/?mode=${shippingMode}&promoCode=${promoCode}&promoDiscount=${couponDiscount}`;
 
     fetch(url, {
       method: "PUT",
@@ -669,7 +668,13 @@ const CartSummary = (props) => {
       </div>
 
       <div className="qa-mar-btm-05">
-        <div className="cart-ship-pt">
+        <div
+          className={`${
+            referralCode && couponDiscount > 0
+              ? "cart-ship-pt qa-pd-0"
+              : "cart-ship-pt"
+          }`}
+        >
           <div className="c-left-blk cart-prod-name">
             Estimated freight fees
           </div>
@@ -698,6 +703,32 @@ const CartSummary = (props) => {
           </div>
         </div>
       </div>
+
+      {id !== "cart" && referralCode && couponDiscount > 0 && (
+        <div className="qa-mar-btm-2">
+          <div className="cart-ship-pt qa-border-bottom">
+            <div
+              style={{ color: "#27AE60" }}
+              className="c-left-blk cart-prod-name"
+            >
+              Festive offer discount applied
+            </div>
+            <div className="c-right-blk qa-fw-b qa-txt-alg-rgt">
+              {id !== "cart" && couponDiscount > 0 ? (
+                <span style={{ color: "#27AE60" }}>
+                  -{getSymbolFromCurrency(convertToCurrency)}
+                  {getConvertedCurrency(couponDiscount)}
+                </span>
+              ) : (
+                <span style={{ color: "#27AE60" }}>
+                  -{getSymbolFromCurrency(convertToCurrency)}
+                  {getConvertedCurrency(couponDiscount)}
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="qa-mar-btm-05">
         <div className="cart-ship-pt qa-border-bottom">
@@ -733,19 +764,24 @@ const CartSummary = (props) => {
           <div className="c-right-blk qa-fw-b qa-txt-alg-rgt font-size-17">
             {getSymbolFromCurrency(convertToCurrency)}
             {total
-              ? getConvertedCurrency(total + couponDiscount - vatCharge)
+              ? getConvertedCurrency(
+                  subOrders.reduce((x, y) => x + y["total"], 0) +
+                    frieghtCharge +
+                    dutyCharge -
+                    couponDiscount
+                )
               : ""}
           </div>
         </div>
       </div>
       <div
         className={`${
-          referralCode || couponDiscount > 0 ? "" : "qa-mar-btm-2"
+          referralCode && couponDiscount > 0 ? "" : "qa-mar-btm-2"
         }`}
       >
         <div
           className={`${
-            referralCode || couponDiscount > 0
+            referralCode && couponDiscount > 0
               ? "cart-ship-pt"
               : "cart-ship-pt qa-border-bottom"
           }`}
@@ -777,38 +813,12 @@ const CartSummary = (props) => {
             Refundable for some countries like UK/AU.{" "}
             <Link href="/FAQforwholesalebuyers">
               <a target="_blank">
-                <span className="qa-sm-color qa-cursor">Know more</span>
+                <span className="qa-sm-color qa-cursor">Learn more</span>
               </a>
             </Link>
           </div>
         </div>
       </div>
-
-      {id !== "cart" && (referralCode || couponDiscount > 0) && (
-        <div className="qa-mar-btm-2">
-          <div className="cart-ship-pt qa-border-bottom">
-            <div
-              style={{ color: "#27AE60" }}
-              className="c-left-blk cart-prod-name"
-            >
-              Festive offer discount applied
-            </div>
-            <div className="c-right-blk qa-fw-b qa-txt-alg-rgt">
-              {id !== "cart" && couponDiscount > 0 ? (
-                <span style={{ color: "#27AE60" }}>
-                  -{getSymbolFromCurrency(convertToCurrency)}
-                  {getConvertedCurrency(couponDiscount)}
-                </span>
-              ) : (
-                <span style={{ color: "#27AE60" }}>
-                  -{getSymbolFromCurrency(convertToCurrency)}
-                  {getConvertedCurrency(couponDiscount)}
-                </span>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
 
       {id !== "cart" && promoDiscount > 0 && (
         <div className="qa-mar-btm-2">

@@ -37,8 +37,12 @@ const ShippingDetails = (props) => {
     currencyDetails = {},
     userProfile = {},
   } = props;
-  let { subOrders = [], shippingAddressDetails = "", orderId = "" } =
-    cart || {};
+  let {
+    subOrders = [],
+    shippingAddressDetails = "",
+    orderId = "",
+    referralCode = "",
+  } = cart || {};
   let {
     fullName = "",
     addressLine1 = "",
@@ -85,7 +89,7 @@ const ShippingDetails = (props) => {
   const [couponErr, setCouponErr] = useState(false);
   const [couponApplied, setCouponApplied] = useState(false);
   const [promoMessage, setPromoMessage] = useState("");
-  const [promoDiscount, setPromoDiscount] = useState("");
+  const [couponDiscount, setCouponDiscount] = useState(0);
 
   useEffect(() => {
     let { cart = "", app_token = "" } = props;
@@ -217,7 +221,7 @@ const ShippingDetails = (props) => {
 
   const checkCommitStatus = () => {
     let cartId = orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
-    let url = `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/my/${cartId}/checkout/?mode=${mode}&promoCode=${couponCode}&promoDiscount=${promoDiscount}`;
+    let url = `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/my/${cartId}/checkout/?mode=${mode}&promoCode=${couponCode}&promoDiscount=${couponDiscount}`;
 
     fetch(url, {
       method: "PUT",
@@ -295,8 +299,8 @@ const ShippingDetails = (props) => {
       postalCode: postalCode,
       country: s_country,
       shippingMode: mode || "DEFAULT",
-      referralCode: "",
-      promoDiscount: 0,
+      referralCode: referralCode,
+      promoDiscount: couponDiscount,
       promoCode: couponCode,
       subOrders: allOrders,
     };
@@ -334,20 +338,20 @@ const ShippingDetails = (props) => {
       .then((result) => {
         let { promoMessage = "", promoDiscount = "" } = result || {};
         if (promoDiscount === 0) {
-          if (couponApplied === false) {
+          if (!couponApplied) {
             message.error(promoMessage, 5);
           }
           setPromoMessage(promoMessage);
         } else {
           setPromoMessage("");
-          if (couponApplied === false) {
+          if (!couponApplied) {
             message.success(promoMessage, 5);
           }
-          setPromoDiscount(promoDiscount);
         }
         setCartData(result);
         if (couponApplied === true) {
           setCouponApplied(false);
+          message.success("Promotion removed", 5);
         } else if (couponApplied === false) {
           setCouponApplied(true);
         }
@@ -449,6 +453,14 @@ const ShippingDetails = (props) => {
         })
         .then((result) => {
           setCartData(result);
+          let { miscCharges = [] } = result || {};
+          let discount = 0;
+          if (miscCharges.length) {
+            discount = miscCharges.find((x) => x.chargeId === "DISCOUNT")
+              ? miscCharges.find((x) => x.chargeId === "DISCOUNT")["amount"]
+              : 0;
+          }
+          setCouponDiscount(discount);
         })
         .catch((err) => {
           console.log(err);
@@ -463,17 +475,7 @@ const ShippingDetails = (props) => {
     } else {
       setEnable(true);
     }
-    let data = {
-      postalCode: postalCode,
-      country: s_country,
-      shippingMode: mode,
-      referralCode: "",
-      promoDiscount: 0,
-      promoCode: couponCode,
-      subOrders: allOrders,
-    };
-    applyCouponAPI(data, "mode");
-    // selectShippingMode(mode);
+    selectShippingMode(mode);
   };
 
   if (isLoading) {
@@ -489,11 +491,7 @@ const ShippingDetails = (props) => {
             <Col xs={24} sm={24} md={16} lg={16} xl={16}>
               <Steps current={1} progressDot={customDot}>
                 <Step
-                  title={
-                    <Link href="/cart">
-                      <span>Shopping cart</span>
-                    </Link>
-                  }
+                  title={<Link href="/cart">Shopping cart</Link>}
                   className="qa-cursor"
                 />
                 <Step title="Shipping" />
@@ -510,11 +508,7 @@ const ShippingDetails = (props) => {
             <Col xs={24} sm={24} md={24} lg={24} xl={24}>
               <Steps current={1} progressDot={mcustomDot} size="small">
                 <Step
-                  title={
-                    <Link href="/cart">
-                      <span>Shopping cart</span>
-                    </Link>
-                  }
+                  title={<Link href="/cart">Shopping cart</Link>}
                   className="qa-cursor"
                 />
                 <Step title="Shipping" />

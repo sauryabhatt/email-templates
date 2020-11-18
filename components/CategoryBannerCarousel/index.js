@@ -7,7 +7,7 @@ import { enquireScreen } from "enquire-js";
 import Slider from "react-slick";
 import { MinusOutlined } from "@ant-design/icons";
 
-import Link  from "next/link";
+import Link from "next/link";
 
 const categoryData = [
   {
@@ -35,10 +35,20 @@ const categoryData = [
     url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_5.jpg",
     linkTo: "Furniture & Storage",
   },
+  // {
+  //   title: "Jewellery",
+  //   url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_6.jpg",
+  //   linkTo: "Jewelry",
+  // },
   {
-    title: "Jewellery",
-    url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_6.jpg",
-    linkTo: "Jewelry",
+    title: "Baby & kids",
+    url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_7.jpg",
+    linkTo: "Baby & Kids",
+  },
+  {
+    title: "Stationery & novelty",
+    url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_8.jpg",
+    linkTo: "Stationery & Novelty",
   },
 ];
 const slides = categoryData?.map((item, index) => {
