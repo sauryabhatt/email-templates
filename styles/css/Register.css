@@ -167,7 +167,7 @@
 
   #user-register-form .ant-select-selector {
     padding: 11px 10px;
-    height: 55px;
+    min-height: 55px;
   }
 
   #user-register-form .congratulation-content {
@@ -407,7 +407,7 @@
   #user-register-form .ant-select-selector {
     padding-top: 6px;
     padding-bottom: 6px;
-    height: 44px;
+    min-height: 44px;
   }
 
   #user-register-form .congratulation-content {
@@ -595,11 +595,6 @@ input:-webkit-autofill:active  {
   border-radius: 4px;
 }
 
-/* #user-register-form .ant-select-selector:hover,
-#user-register-form .submit-button:hover {
-  border: 1px solid rgb(217, 187, 127);
-} */
-
 #user-register-form .ant-form-item-has-error .ant-select .ant-select-selector {
   border: 1px solid rgb(255, 255, 255) !important;
 }
@@ -758,7 +753,6 @@ p.verification-text {
   display: block;
 }
 .create-account .link-style.register {
-  cursor: pointer;
   text-align: center;
   font-family: "senregular";
   font-style: normal;
@@ -770,6 +764,7 @@ p.verification-text {
 .create-account .link-style.register .link {
   text-decoration: underline;
   font-weight: 600;
+  cursor: pointer;
 }
 #user-register-form .create-account .link:hover {
   text-decoration: underline;

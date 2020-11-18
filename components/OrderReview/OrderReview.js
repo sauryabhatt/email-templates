@@ -388,7 +388,7 @@ const OrderReview = (props) => {
         <div className="cart-info-text">
           Note: Qalara margin may vary by total cart value{" "}
           <Link href="/FAQforwholesalebuyers">
-            <a target="_blank" className="qa-sm-color">
+            <a target="_blank" className="qa-sm-color qa-cursor">
               Refer FAQs here
             </a>
           </Link>
@@ -406,7 +406,7 @@ const OrderReview = (props) => {
     props.order.subOrders &&
     props.order.subOrders.map((subOrder, index) => {
       return (
-        <React.Fragment>
+        <React.Fragment key={index}>
           <Row style={{ paddingTop: "10px" }}>
             <Col xs={24} sm={24} md={24} lg={24}>
               <span className="qa-fs-17 qa-font-san qa-fw-b qa-tc-white">
@@ -1859,10 +1859,12 @@ const OrderReview = (props) => {
                             }
                             style={{ textDecoration: "underline" }}
                           >
-                            <a target="_blank" className="qa-sm-color">
-                              Refer FAQs here
+                            <a
+                              target="_blank"
+                              className="qa-sm-color qa-cursor"
+                            >
+                              Know more
                             </a>
-                            Know more
                           </Link>
                         </div>
                       </Col>
@@ -2257,7 +2259,7 @@ const OrderReview = (props) => {
                         style={{ width: "100%" }}
                         className="product-table"
                       >
-                        <tr>
+                        <thead>
                           <th>
                             <span
                               className="qa-font-san qa-fs-12"
@@ -2328,7 +2330,7 @@ const OrderReview = (props) => {
                               {props.order && props.order.currency})
                             </span>
                           </th>
-                        </tr>
+                        </thead>
                         {prepareTableRows}
                         {/* <tr>
                                                 <td rowSpan={props.order && props.order} id="seller-name"><span className="qa-font-san qa-fw-b qa-fs-12">Craftloom exports</span></td>
