@@ -322,28 +322,26 @@ function UserHeader(props) {
     );
   }, [props.userProfile.userProfile]);
 
-  let firstName = "";
-  let orgName = "";
-  let verificationStatus = "";
-  let profileType = "";
+  let {
+    firstName = "",
+    lastName = "",
+    orgName = "",
+    profileType = "",
+    verificationStatus = "",
+    profileId = "",
+    email = "",
+    country = "",
+    orgPhone = "",
+  } = userProfile || {};
 
-  let requesterName = "";
-  if (
-    userProfile &&
-    userProfile.firstName &&
-    userProfile &&
-    userProfile.lastName
-  ) {
-    requesterName = userProfile.firstName + " " + userProfile.lastName;
-    firstName = userProfile.firstName;
-    orgName = userProfile.orgName;
-    verificationStatus = userProfile.verificationStatus;
-    profileType = userProfile.profileType;
+  let requesterName = firstName;
+  if (lastName && lastName !== null) {
+    requesterName = requesterName + lastName;
   }
 
   let values = {
-    profileId: userProfile && userProfile.profileId,
-    profileType: userProfile && userProfile.profileType,
+    profileId: profileId,
+    profileType: profileType,
     category: "",
     requirementDetails: "",
     upload: {},
@@ -351,11 +349,11 @@ function UserHeader(props) {
     pricePerItem: "",
     deliveryDate: "",
     requesterName: requesterName,
-    companyName: userProfile && userProfile.orgName,
-    emailId: userProfile && userProfile.email,
-    country: userProfile && userProfile.country,
+    companyName: orgName,
+    emailId: email,
+    country: country,
     city: "",
-    mobileNo: userProfile && userProfile.orgPhone,
+    mobileNo: orgPhone,
   };
 
   const showDrawer = () => {

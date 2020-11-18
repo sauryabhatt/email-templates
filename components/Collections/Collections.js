@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import { getCollections } from "../../store/actions";
 import { useKeycloak } from "@react-keycloak/ssr";
 import { LoadingOutlined } from "@ant-design/icons";
+import { useRouter } from "next/router";
 
 function Collections(props) {
   const { keycloak } = useKeycloak();
@@ -16,7 +17,7 @@ function Collections(props) {
   const [collections, setCollections] = useState([]);
   const [selectedCollection, setSelectedCollection] = useState([]);
   const mediaMatch = window.matchMedia("(min-width: 768px)");
-
+  const router = useRouter();
   const [buyerId, setBuyerId] = useState("");
   const monthNames = [
     "Jan",
@@ -198,7 +199,7 @@ function Collections(props) {
                       <Button
                         className="qa-button quote-contact-seller"
                         onClick={() => {
-                          history.push("/signup");
+                          router.push("/signup");
                         }}
                       >
                         <span className="qa-font-san qa-fw-b qa-fs-14">
@@ -207,12 +208,12 @@ function Collections(props) {
                       </Button>
                     ) : (
                       <Button
-                        className="qa-button quote-contact-seller"
+                        className="qa-button collection-btn-shop"
                         onClick={() => {
-                          history.push("/");
+                          router.push("/");
                         }}
                       >
-                        <span className="qa-font-san qa-fw-b qa-fs-14">
+                        <span className="qa-font-san qa-fw-b qa-fs-12">
                           START SHOPPING
                         </span>
                       </Button>

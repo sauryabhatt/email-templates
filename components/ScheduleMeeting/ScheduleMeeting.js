@@ -2,9 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { getSellerDetails } from "../../store/actions";
 import { useKeycloak } from "@react-keycloak/ssr";
-import { useSelector } from "react-redux";
 import {
   Button,
   Row,
@@ -12,17 +10,11 @@ import {
   Modal,
   Alert,
   Form,
-  Input,
   Select,
   DatePicker,
   TimePicker,
 } from "antd";
-import Icon, {
-  MinusOutlined,
-  StarOutlined,
-  CheckOutlined,
-  InfoCircleOutlined,
-} from "@ant-design/icons";
+import Icon from "@ant-design/icons";
 import momentTimezone from "moment-timezone";
 import dateFormat from "dateformat";
 import moment from "moment";
@@ -44,7 +36,6 @@ const ScheduleMeeting = (props) => {
   const [sellerStartTime, setSellerStartTime] = useState(null);
   const [sellerEndTime, setSellerEndTime] = useState(null);
   const [disabledTime, setDisabledTime] = useState([]);
-  const [correctValue, setCorrectValue] = useState(true);
   const [keycloak] = useKeycloak();
   const [disabledStartTime, setDisabledStartTime] = useState([]);
   const [disabledEndTimePicker, setDisabledEndTimePicker] = useState(true);
@@ -146,8 +137,6 @@ const ScheduleMeeting = (props) => {
               for (let j = parseInt(end_time); j > parseInt(start_time); j--) {
                 endTimeArr.push(j);
               }
-              // console.log(endTimeArr);
-              // console.log(startTimeArr);
             } else {
               startTimeArr.push(parseInt(start_time));
               endTimeArr.push(parseInt(end_time));
@@ -280,14 +269,6 @@ const ScheduleMeeting = (props) => {
   const disabledDate = (current) => {
     return current && moment().add(2, "day") >= current;
   };
-
-  // const handleEndTimeValidation = (rule, value, callback) => {
-  //     if (!value) {
-  //         callback('Field is required.')
-  //     } else if (!correctValue) {
-  //         callback('Duration max 2 hours');
-  //     }
-  // }
 
   const handleOpen = (value) => {
     if (disabledStartTime.length > 0) {

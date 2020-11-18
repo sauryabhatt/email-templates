@@ -8,7 +8,7 @@ import { getPLPDetails } from "../../store/actions";
 import queryString from "query-string";
 const querystring = require("querystring");
 import { useRouter } from "next/router";
-const isServer = () => typeof window == undefined;
+const isServer = () => typeof window == "undefined";
 
 const ProductListing = (props) => {
   const router = useRouter();
@@ -26,8 +26,8 @@ const ProductListing = (props) => {
   );
 
   const [queryParams, setQueryParams] = useState({
-    sort_by: "minimumOrderQuantity",
-    sort_order: "ASC",
+    sort_by: "popularity",
+    sort_order: "DESC",
     size: limit,
     from: offset,
   });
@@ -87,7 +87,6 @@ const ProductListing = (props) => {
     const tempObj = {};
 
     for (const key in queryParams) {
-      //f_key_methods, f_values, f_product_types
       if (
         key == "f_values" ||
         key == "f_key_methods" ||
@@ -96,35 +95,21 @@ const ProductListing = (props) => {
         tempObj[key] = queryParams[key];
       }
     }
+    console.log("router", router);
+
     router.push(
       {
-        pathname: router.asPath.split("?")[0],
+        pathname:
+          window.location.protocol +
+          "//" +
+          window.location.host +
+          "/products/" +
+          router.query.categoryId,
         query: tempObj,
       },
       undefined,
       { shallow: true }
     );
-    //   let queryResult = querystring.stringify(queryParams);
-    //   let tempQuery="";
-    //   const arr=[];
-    //   queryResult.split('&').forEach(element => {
-    //     if(!element.search('f_values')||!element.search('f_key_methods')||!element.search('f_product_types')){
-    //       arr.push(element);
-    //     }
-    // });
-
-    // if(arr.length>0){
-    // tempQuery = arr.length>2?(`?${arr[0]}&${arr[1]}&${arr[2]}`):(arr.length>1?`?${arr[0]}&${arr[1]}`:`?${arr[0]}`);
-    // }
-    // let newurl =
-    //       window.location.protocol +
-    //       "//" +
-    //       window.location.host +
-    //       window.location.pathname +
-    //       tempQuery;
-    //     window.history.pushState({ path: newurl }, "", newurl);
-    //     tempQuery="";
-    //   props.getPLPDetails(queryResult, false);
   };
 
   const loadMoreData = () => {

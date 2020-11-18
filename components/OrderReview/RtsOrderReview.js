@@ -27,12 +27,12 @@ import alertIcon from "../../public/filestore/alertIcon";
 import deliveredCountryList from "./../../public/filestore/deliveredCountries.json";
 import { useKeycloak } from "@react-keycloak/ssr";
 import { getOrderByOrderId } from "../../store/actions";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 
 const { Step } = Steps;
 
 const RtsOrderReview = (props) => {
-  const {keycloak} = useKeycloak();
+  const { keycloak } = useKeycloak();
   const router = useRouter();
   let { orderId: orderIdParam } = router.query;
   let { cart = {}, brandNames = "", user = {}, currencyDetails = {} } = props;
@@ -92,8 +92,13 @@ const RtsOrderReview = (props) => {
 
   useEffect(() => {
     let { cart = "", app_token = "" } = props;
-    let { priceQuoteRef = "", shippingMode = "", shippingAddressDetails = {} } =
-      cart || {};
+    let {
+      priceQuoteRef = "",
+      shippingMode = "",
+      shippingAddressDetails = {},
+      promoCode = "",
+      promoDiscount = "",
+    } = cart || {};
     if (priceQuoteRef && shippingMode) {
       let { country = "" } = shippingAddressDetails || {};
       if (deliveredCountryList.includes(country)) {
@@ -101,7 +106,7 @@ const RtsOrderReview = (props) => {
       }
 
       fetch(
-        `${process.env.NEXT_PUBLIC_REACT_APP_PRICE_QUOTATION_URL}/quotes/rts/${priceQuoteRef}?mode=${shippingMode}`,
+        `${process.env.NEXT_PUBLIC_REACT_APP_PRICE_QUOTATION_URL}/quotes/rts/${priceQuoteRef}?mode=${shippingMode}&promoCode=${promoCode}&promoDiscount=${promoDiscount}`,
         {
           method: "GET",
           headers: {
@@ -243,7 +248,7 @@ const RtsOrderReview = (props) => {
                     <div className="qa-pad-015 qa-dashed-border">
                       <div className="c-left-blk qa-txt-alg-lft">
                         <div className="cart-info-text">
-                          Estimated freight charges
+                          Estimated freight fees
                         </div>
                       </div>
                       <div className="c-right-blk qa-txt-alg-lft">
@@ -253,7 +258,7 @@ const RtsOrderReview = (props) => {
                               {getSymbolFromCurrency(convertToCurrency)}
                               {getConvertedCurrency(
                                 data["frightCostMin"],
-                                TextTrackCue
+                                true
                               )}
                               -{getSymbolFromCurrency(convertToCurrency)}
                               {getConvertedCurrency(
@@ -270,7 +275,7 @@ const RtsOrderReview = (props) => {
                     <div className="qa-pad-015 qa-dashed-border">
                       <div className="c-left-blk qa-txt-alg-lft">
                         <div className="cart-info-text">
-                          Estimated duty charges
+                          Estimated custom duties
                         </div>
                       </div>
                       <div className="c-right-blk">
@@ -560,9 +565,9 @@ const RtsOrderReview = (props) => {
                         </span>
                       </Radio>
                       <div className="cart-subtitle payment-subtitle qa-mar-btm-2">
-                        20% advance will be deducted now. The remaining 80% will
-                        be charged once the customs clearance is done at the
-                        destination country, a few days before delivery
+                        20% advance will be charged now. Balance 80% will be
+                        charged once customs clearance is done at destination, a
+                        few days before delivery.
                       </div>
                       {/* <Radio value="net30Terms" className="qa-disp-ib">
                         <span className="cart-prod-title qa-mar-btm-05">Net 30 terms</span>
@@ -712,9 +717,9 @@ const RtsOrderReview = (props) => {
                     </span>
                   </Radio>
                   <div className="cart-subtitle payment-subtitle qa-mar-btm-2">
-                    20% advance will be deducted now. The remaining 80% will be
-                    charged once the customs clearance is done at the
-                    destination country, a few days before delivery
+                    20% advance will be charged now. Balance 80% will be charged
+                    once customs clearance is done at destination, a few days
+                    before delivery.
                   </div>
 
                   {/* <Radio value="net30Terms" className="qa-disp-ib">
@@ -886,7 +891,7 @@ const RtsOrderReview = (props) => {
                     <div className="qa-pad-015 qa-dashed-border">
                       <div className="c-left-blk qa-txt-alg-lft">
                         <div className="cart-info-text">
-                          Estimated freight charges
+                          Estimated freight fees
                         </div>
                       </div>
                       <div className="c-right-blk qa-txt-alg-lft">
@@ -901,7 +906,7 @@ const RtsOrderReview = (props) => {
                     <div className="qa-pad-015 qa-dashed-border">
                       <div className="c-left-blk qa-txt-alg-lft">
                         <div className="cart-info-text">
-                          Estimated duty charges
+                          Estimated custom duties
                         </div>
                       </div>
                       <div className="c-right-blk">

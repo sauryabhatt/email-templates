@@ -6,7 +6,7 @@ import SearchListingDesktop from "./SearchListingDesktop";
 import SearchListingMobile from "../mobile/SearchListingMobile";
 import { getPLPDetails, getSLPDetails } from "../../store/actions";
 import queryString from "query-string";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 const querystring = require("querystring");
 
 const SearchListing = (props) => {
@@ -17,59 +17,61 @@ const SearchListing = (props) => {
   const [limit, setLimit] = useState(30);
   const [category, setCategory] = useState("All Categories");
   const [categoryTitle, setCategoryTitle] = useState("All categories");
-  const [subCategoryTitle, setSubCategoryTitle] = useState(
-    "Shop handcrafted and artisanal products, produced ethically at wholesale prices."
-  );
   const [searchBy, setSearchBy] = useState("");
   const [searchText, setSearchText] = useState("");
 
   const [queryParams, setQueryParams] = useState({
-    sort_by: "minimumOrderQuantity",
-    sort_order: "ASC",
+    sort_by: "popularity",
+    sort_order: "DESC",
     size: limit,
     from: offset,
-    // search:props.search
   });
 
-  const getQueryParamString=()=>{
-    let queryObj={};
-    const rq = router.query
+  const getQueryParamString = () => {
+    let queryObj = {};
+    const rq = router.query;
 
-    if(Object.keys(rq).length) {
+    if (Object.keys(rq).length) {
       for (const prop in router.query) {
-        if(prop !== "search" || prop!=="searchBy"){
-          queryObj[prop] = rq[prop]
+        if (prop !== "search" || prop !== "searchBy") {
+          queryObj[prop] = rq[prop];
         }
       }
       return querystring.stringify(queryObj);
-    } else return ""
-  }
+    } else return "";
+  };
 
   useEffect(() => {
     let width = window.screen ? window.screen.width : window.innerWidth;
     if (width <= 768) {
       setMobile(true);
     }
-    let { searchBy = "", search:searchFromQuery = "" } = router.query;
-    const { f_product_types, f_categories, f_key_methods, f_values,search,sort_by:sort,  ...rest } = queryParams;
+    let { searchBy = "", search: searchFromQuery = "" } = router.query;
+    const {
+      f_product_types,
+      f_categories,
+      f_key_methods,
+      f_values,
+      search,
+      sort_by: sort,
+      ...rest
+    } = queryParams;
     let newObj = { ...rest };
     if (searchBy.toLowerCase() === "seller") {
       newObj = {
         ...rest,
         sort_by: sort,
         sort_order: "DESC",
-        // search:searchFromQuery,
       };
     } else {
       newObj = {
         ...rest,
         sort_by: sort,
-        sort_order: "ASC",
-        // search:searchFromQuery,
+        sort_order: "DESC",
       };
     }
     let defaultQuery = querystring.stringify(newObj);
-    let query =  getQueryParamString();
+    let query = getQueryParamString();
 
     if (query) {
       query = defaultQuery + "&" + query.replace("?", "");
@@ -106,19 +108,26 @@ const SearchListing = (props) => {
     setQueryParams(queryParams);
 
     const tempObj = {};
-    
-    
-      for (const key in queryParams) {
-        if (key=="f_values"|| key=="f_key_methods" || key=="f_product_types") {
-          tempObj[key] = queryParams[key];
-        }
-      }
 
-      router.push({
-        pathname: router.asPath.split('?')[0],
-        query: tempObj,    
-      }, undefined, {shallow: true });
-    
+    for (const key in queryParams) {
+      if (
+        key == "f_values" ||
+        key == "f_key_methods" ||
+        key == "f_product_types"
+      ) {
+        tempObj[key] = queryParams[key];
+      }
+    }
+
+    router.push(
+      {
+        pathname: router.asPath.split("?")[0],
+        query: tempObj,
+      },
+      undefined,
+      { shallow: true }
+    );
+
     // let queryResult = querystring.stringify(queryParams);
     // let tempQuery = "";
     // const arr = [];

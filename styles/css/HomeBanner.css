@@ -15,6 +15,7 @@
 
 .steps-container {
   font-size: 12px;
+  cursor: pointer;
 }
 #q-source-banner {
   font-family: senregular !important;

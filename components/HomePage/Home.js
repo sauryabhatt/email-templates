@@ -286,18 +286,18 @@ function Home(props) {
     },
   ];
 
-  let sellerUrl = `/categoryedit/KitchenDining`;
+  let sellerUrl = `/sellers/all-categories`;
   let plpUrl = `/products/all-categories`;
   let productUrl = "/explore/curatedbyus";
   let rtsUrl = `/products/all-categories?f_product_types=${encodeURIComponent(
     "Ready to ship"
-  )}&sort_by=visibleTo`;
+  )}`;
   let customUrl = `/products/all-categories?f_product_types=${encodeURIComponent(
     "Make to order"
-  )}&sort_by=visibleTo`;
+  )}`;
   let ertmUrl = `/products/all-categories?f_product_types=${encodeURIComponent(
     "Express custom"
-  )}&sort_by=visibleTo`;
+  )}`;
   return (
     <>
       <HomeBanner>

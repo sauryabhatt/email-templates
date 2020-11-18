@@ -22,7 +22,6 @@ import {
 } from "react-phone-number-input/input";
 import en from "react-phone-number-input/locale/en.json";
 import { useKeycloak } from "@react-keycloak/ssr";
-import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import BackButton from "../../public/filestore/backButton";
 import sellerOrgTypeConfig from "../../public/filestore/sellerOrgType.json";
@@ -32,52 +31,30 @@ import dealsInOrderTypesConfig from "../../public/filestore/dealsInOrderTypes.js
 import dealsInCategoriesConfig from "../../public/filestore/dealsInCategories.json";
 import interestsInOrderTypesConfig from "../../public/filestore/interestsInOrderTypes.json";
 import interestsInCategoriesConfig from "../../public/filestore/interestsInCategories.json";
-import radio_select from "../../public/radio_select";
-import radio_nonSelect from "../../public/radio_nonSelect";
-import FeedbackModal from "./../FeedbackModal/FeedbackModal";
-
 import { loginToApp } from "../AuthWithKeycloak";
-//import { loginToApp } from "../../AuthWithKeycloak/AuthWithKeycloak";
-//import { findAllByLabelText } from "@testing-library/react";
-
 import { useRouter } from "next/router";
-// import ellipse from "./../../filestore/Ellipse 160.png";
-// import bird from "./../../filestore/Vector.png";
-// import picture from "./../../filestore/Vector-1.png";
-// import ellipseSm from "./../../filestore/Ellipse 160 (2).png";
-// import birdSm from "./../../filestore/Vector (2).png";
-// import pictureSm from "./../../filestore/Vector-1(2).png";
 
 const { Option } = Select;
-// const { Header } = Layout;
 
 const Register = (props) => {
   const router = useRouter();
-  const mediaMatch = "";
   const { keycloak } = useKeycloak();
-
-  // console.log(mediaMatch.matches);
-  let { token } = keycloak || {};
   const [form] = Form.useForm();
-  // const [errors, setErrors] = useState([]);
   const [profileType, setProfileType] = useState("BUYER");
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(0);
-  const [homeBasedValue, setHomeBasedValue] = useState();
   const [btnDisabled, setBtnDisabled] = useState(false);
   const [visible, setVisible] = useState(false);
   const [count, setCounter] = useState(0);
   const [userIP, setUserIP] = useState();
   const [userCountry, setUserCountry] = useState();
   const [linkError, setLinkError] = useState(false);
-  //const [cookie, setCookie] = useCookies(["userID"]);
   const [selCountryCode, setSelCountryCode] = useState("us");
   const [promoCode, setPromoCode] = useState(null);
   const [agreeToEmail, setAgreeToEmail] = useState(false);
   const [validPromo, setValidPromo] = useState(true);
 
   useEffect(() => {
-    const mediaMatch = window.matchMedia("(min-width: 768px)");
     // Update the document title using the browser API
     if (count === 0) {
       fetch("https://ipapi.co/json/", {
@@ -220,21 +197,9 @@ const Register = (props) => {
   };
 
   const handleRadioSelect = (e) => {
-    let id = e.target.parentElement.id;
-    if (id == "BUYER") {
-      document.getElementById("seller-text").classList.remove("qa-fw-b");
-      document.getElementById("buyer-text").classList.add("qa-fw-b");
-      document.getElementById("seller-want-text").classList.remove("qa-fw-b");
-      document.getElementById("buyer-want-text").classList.add("qa-fw-b");
-    } else {
-      document.getElementById("buyer-text").classList.remove("qa-fw-b");
-      document.getElementById("seller-text").classList.add("qa-fw-b");
-      document.getElementById("seller-want-text").classList.add("qa-fw-b");
-      document.getElementById("buyer-want-text").classList.remove("qa-fw-b");
-    }
     setAgreeToEmail(false);
     setPromoCode(null);
-    setProfileType(id);
+    setProfileType(e.target.value);
     form.setFieldsValue({
       orgType: [],
       inOrderTypes: [],
@@ -251,11 +216,8 @@ const Register = (props) => {
         "email",
         "country",
         "personalPhone",
-        "orgName",
-        "orgType",
-        "inOrderTypes",
-        "roleInOrganization",
-        "inCategories",
+        "city",
+        "zipcode",
       ])
       .then((values) => {
         setStep(step + 1);
@@ -264,10 +226,6 @@ const Register = (props) => {
       .catch((err) => {
         // console.log(err);
       });
-  };
-
-  const onCheckHomeRB = (event) => {
-    setHomeBasedValue(event.target.value);
   };
 
   const onFinish = (values) => {
@@ -448,42 +406,6 @@ const Register = (props) => {
   };
   return (
     <div className="user-registration">
-      {/* <Row
-      //   style={{
-      //     position: "absolute",
-      //     zIndex: 1,
-      //     width: "100%",
-      //     marginTop: "-81px",
-      //   }}
-      >
-        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-          <Header className="app-header">
-            <div
-              style={{
-                flexGrow: 1,
-                justifyContent: "center",
-                margin: "auto",
-              }}
-            >
-              <Link href="/" style={{ textDecoration: "none" }}>
-                <Icon
-                  component={LogoWithText}
-                  style={{ height: "40px", width: "135px" }}
-                ></Icon>
-              </Link>
-            </div>
-          </Header>
-        </Col>
-        {/* <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-          <div className="buyer-invite-text">
-            If you are a buyer interested in getting Invite-only access, you may
-            email us at <a href="mailto:buyers@qalara.com">buyers@qalara.com</a>
-             with details of your company to get an Invite Code for exclusive
-            access. Alternately, you can sign-up and once we have verified your
-            details we will unlock the same access.
-          </div>
-        </Col> 
-      </Row> */}
       <div id="user-register-form" className="user-registration-container">
         <Button
           className="button-back"
@@ -504,20 +426,13 @@ const Register = (props) => {
           }}
           onValuesChange={onValuesChange}
           onFinish={onFinish}
-          // onFinishFailed={() => { nextStatus = false }}
           form={form}
           scrollToFirstError
         >
           <Row
-            // justify='space-between'
             justify="space-around"
             style={step === 0 ? {} : { display: "none" }}
           >
-            {/* <Col className='main-left' xs={24} sm={24} md={11} lg={11} xl={11}>
-                        <div className='ellipse' style={{ backgroundImage: `url(${mediaMatch.matches ? ellipse : ellipseSm})` }} />
-                        <div className='bird' style={{ backgroundImage: `url(${mediaMatch.matches ? bird : birdSm})` }} />
-                        <div className='picture' style={{ backgroundImage: `url(${mediaMatch.matches ? picture : pictureSm})` }} />
-                    </Col> */}
             <Col className="main-right" xs={24} sm={24} md={11} lg={11} xl={11}>
               <Row justify="space-around user-profile-btn">
                 <Col
@@ -526,20 +441,18 @@ const Register = (props) => {
                   md={22}
                   lg={22}
                   xl={22}
-                  className="qa-mar-btm-3"
+                  className="qa-mar-btm-2"
                 >
-                  <p className="signup-heading" style={{ textAlign: "center" }}>
-                    Sign up
-                  </p>
+                  <p className="signup-heading">Sign up for free!</p>
+                  {/* <p className="signup-subtitle">in just a few minutes!</p> */}
                   <Row>
                     <Col xs={24} sm={24} md={24} lg={24}>
                       <div className="create-account">
-                        <div
-                          onClick={signIn}
-                          className="link-style register"
-                          style={{ textAlign: "center" }}
-                        >
-                          Already have an account? Sign in here
+                        <div className="link-style register">
+                          Already have an account?{" "}
+                          <span className="link" onClick={signIn}>
+                            Sign in here
+                          </span>
                         </div>
                       </div>
                     </Col>
@@ -548,113 +461,346 @@ const Register = (props) => {
                     Please select one to proceed:
                   </div>
                   <Row>
-                    <Col xs={24} sm={24} md={11} lg={11} xl={11}>
-                      <Row>
-                        <Col
-                          xs={6}
-                          sm={6}
-                          md={6}
-                          lg={6}
-                          xl={6}
-                          className={
-                            mediaMatch.matches
-                              ? "qa-vertical-center"
-                              : "qa-col-center"
-                          }
-                        >
-                          <span
-                            className="signup_radio"
-                            id="BUYER"
-                            style={{ cursor: "pointer" }}
-                            onClick={(e) => handleRadioSelect(e)}
-                          >
-                            {profileType === "BUYER"
-                              ? radio_select()
-                              : radio_nonSelect()}
-                          </span>
-                        </Col>
-                        <Col xs={17} sm={17} md={17} lg={17} xl={17}>
-                          <Row>
-                            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                              <span
-                                id="buyer-want-text"
-                                className="qa-font-san qa-fs-14 qa-fw-b"
-                                style={{ color: "#f9f7f2" }}
-                              >
-                                I want to
-                              </span>
-                            </Col>
-                            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                              <span
-                                className="qa-font-san qa-fs-17 qa-fw-b"
-                                style={{
-                                  textTransform: "uppercase",
-                                  color: "#D9BB7F",
-                                }}
-                                id="buyer-text"
-                              >
-                                BUY FROM QALARA
-                              </span>
-                            </Col>
-                          </Row>
-                        </Col>
-                      </Row>
+                    <Col xs={0} sm={0} md={24} lg={24}>
+                      <Radio.Group
+                        onChange={handleRadioSelect}
+                        value={profileType}
+                        className="radio-group"
+                      >
+                        <Row>
+                          <Col xs={11} sm={11} md={11} lg={11} xl={11}>
+                            <Radio
+                              value="BUYER"
+                              className={
+                                profileType === "BUYER"
+                                  ? "qa-radio-home qa-fw-b"
+                                  : "qa-radio-home"
+                              }
+                            >
+                              BUY FROM QALARA
+                            </Radio>
+                          </Col>
+
+                          <Col xs={2} sm={2} md={2} lg={2} xl={2}></Col>
+                          <Col xs={11} sm={11} md={11} lg={11} xl={11}>
+                            <Radio
+                              value="SELLER"
+                              className={
+                                profileType === "SELLER"
+                                  ? "qa-radio-home qa-fw-b"
+                                  : "qa-radio-home"
+                              }
+                            >
+                              SELL ON QALARA
+                            </Radio>
+                          </Col>
+                        </Row>
+                      </Radio.Group>
                     </Col>
-                    <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>
-                    <Col xs={24} sm={24} md={11} lg={11} xl={11}>
-                      <Row>
-                        <Col
-                          xs={6}
-                          sm={6}
-                          md={6}
-                          lg={6}
-                          xl={6}
-                          className={
-                            mediaMatch.matches
-                              ? "qa-vertical-center"
-                              : "qa-col-center"
-                          }
-                        >
-                          <span
-                            className="signup_radio"
-                            id="SELLER"
-                            style={{ cursor: "pointer" }}
-                            onClick={(e) => handleRadioSelect(e)}
+                    <Col xs={24} sm={24} md={0} lg={0}>
+                      <Radio.Group
+                        onChange={handleRadioSelect}
+                        value={profileType}
+                        className="radio-group"
+                      >
+                        <Row>
+                          <Col
+                            xs={11}
+                            sm={11}
+                            md={11}
+                            lg={11}
+                            xl={11}
+                            className="qa-mar-btm-1"
                           >
-                            {profileType === "SELLER"
-                              ? radio_select()
-                              : radio_nonSelect()}
-                          </span>
-                        </Col>
-                        <Col xs={17} sm={17} md={17} lg={17} xl={17}>
-                          <Row>
-                            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                              <span
-                                id="seller-want-text"
-                                className="qa-font-san qa-fs-14 "
-                                style={{ color: "#f9f7f2" }}
-                              >
-                                I want to
-                              </span>
-                            </Col>
-                            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                              <span
-                                className="qa-font-san qa-fs-17"
-                                style={{
-                                  textTransform: "uppercase",
-                                  color: "#D9BB7F",
-                                }}
-                                id="seller-text"
-                              >
-                                SELL ON QALARA
-                              </span>
-                            </Col>
-                          </Row>
-                        </Col>
-                      </Row>
+                            <Radio
+                              value="BUYER"
+                              className={
+                                profileType === "BUYER"
+                                  ? "qa-radio-home qa-fw-b"
+                                  : "qa-radio-home"
+                              }
+                            >
+                              <div className="qa-disp-f">
+                                <div>BUY FROM</div> <div>QALARA</div>
+                              </div>
+                            </Radio>
+                          </Col>
+
+                          <Col xs={2} sm={2} md={2} lg={2} xl={2}></Col>
+                          <Col xs={11} sm={11} md={11} lg={11} xl={11}>
+                            <Radio
+                              value="SELLER"
+                              className={
+                                profileType === "SELLER"
+                                  ? "qa-radio-home qa-fw-b"
+                                  : "qa-radio-home"
+                              }
+                            >
+                              <div className="qa-disp-f">
+                                <div>SELL ON</div> <div>QALARA</div>
+                              </div>
+                            </Radio>
+                          </Col>
+                        </Row>
+                      </Radio.Group>
                     </Col>
                   </Row>
                 </Col>
+
+                <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                  <div className="label-paragraph">First name</div>
+                  <Form.Item
+                    name="firstName"
+                    className="form-item"
+                    rules={[
+                      { required: true, message: "Field is required." },
+                      {
+                        min: 3,
+                        max: 50,
+                        message: "Length should be 3-50 characters!",
+                      },
+                    ]}
+                  >
+                    <Input disabled={btnDisabled} />
+                  </Form.Item>
+                </Col>
+                <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                  <div className="label-paragraph">Last name</div>
+                  <Form.Item
+                    name="lastName"
+                    className="form-item"
+                    rules={[
+                      // { required: true, message: "Field is required." },
+                      {
+                        min: 3,
+                        max: 50,
+                        message: "Length should be 3-50 characters!",
+                      },
+                    ]}
+                  >
+                    <Input disabled={btnDisabled} />
+                  </Form.Item>
+                </Col>
+                <Col xs={24} sm={24} md={22} lg={22} xl={22}>
+                  <div className="label-paragraph">
+                    E-mail{" "}
+                    {/* <Tooltip
+                      overlayClassName="qa-tooltip"
+                      title="Please enter your Business email address if available, Eg. John.doe@qalara.com"
+                    >
+                      <span className="text-right qa-cursor">What's this?</span>
+                    </Tooltip> */}
+                  </div>
+                  <Form.Item
+                    name="email"
+                    className="form-item"
+                    rules={[
+                      {
+                        type: "email",
+                        message: "Enter the correct email address.",
+                      },
+                      {
+                        required: true,
+                        message: "Field is required.",
+                      },
+                      {
+                        min: 1,
+                        max: 70,
+                        message: "Length should be 1-70 characters!",
+                      },
+                    ]}
+                  >
+                    <Input
+                      disabled={btnDisabled}
+                      placeholder="@companyname.com"
+                    />
+                  </Form.Item>
+                </Col>
+                <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                  <div className="label-paragraph">Country</div>
+                  <Form.Item
+                    name="country"
+                    className="form-item"
+                    rules={[{ required: true, message: "Field is required." }]}
+                  >
+                    <Select
+                      showSearch
+                      disabled={btnDisabled}
+                      dropdownClassName="qa-dark-menu-theme"
+                      placeholder="Select"
+                    >
+                      {country}
+                    </Select>
+                  </Form.Item>
+                </Col>
+                <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                  <div className="label-paragraph">Mobile number</div>
+                  <Form.Item
+                    name="personalPhone"
+                    className="form-item"
+                    rules={[
+                      { required: true, message: "Field is required." },
+                      {
+                        pattern: new RegExp("^[0-9]{6,15}$"),
+                        message:
+                          "Only numbers are allowed & length should be 6-15 characters.",
+                      },
+                    ]}
+                  >
+                    {/* <PhoneInput
+                      disabled={btnDisabled}
+                      country={selCountryCode}
+                      enableSearch={true}
+                      countryCodeEditable={false}
+                    /> */}
+                    <Input disabled={btnDisabled} />
+                  </Form.Item>
+                </Col>
+
+                {profileType === "SELLER" && (
+                  <Col xs={24} sm={24} md={22} lg={22} xl={22}>
+                    <div className="label-paragraph">
+                      Organization name
+                      <Tooltip
+                        overlayClassName="qa-tooltip"
+                        title="Enter the legal/registered organization name"
+                      >
+                        <span className="text-right qa-cursor">
+                          What's this?
+                        </span>
+                      </Tooltip>
+                    </div>
+                    <Form.Item
+                      name="orgName"
+                      rules={[
+                        { required: true, message: "Field is required." },
+                        {
+                          min: 3,
+                          max: 70,
+                          message: "Length should be 3-70 characters!",
+                        },
+                      ]}
+                    >
+                      <Input disabled={btnDisabled} />
+                    </Form.Item>
+                  </Col>
+                )}
+                {profileType === "SELLER" && (
+                  <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                    <div className="label-paragraph">Organization type</div>
+                    <Form.Item
+                      name="orgType"
+                      rules={[
+                        { required: true, message: "Field is required." },
+                      ]}
+                    >
+                      <Select
+                        disabled={btnDisabled}
+                        dropdownClassName="qa-dark-menu-theme"
+                      >
+                        {profileType === "BUYER" ? buyerOrgType : sellerOrgType}
+                      </Select>
+                    </Form.Item>
+                  </Col>
+                )}
+                {profileType === "SELLER" && (
+                  <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                    <div className="label-paragraph">Role in organization</div>
+                    <Form.Item
+                      name="roleInOrganization"
+                      rules={[
+                        { required: true, message: "Field is required." },
+                      ]}
+                    >
+                      <Select
+                        disabled={btnDisabled}
+                        dropdownClassName="qa-dark-menu-theme"
+                      >
+                        {roleInOrganization}
+                      </Select>
+                    </Form.Item>
+                  </Col>
+                )}
+                {profileType === "SELLER" && (
+                  <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                    <div className="label-paragraph">
+                      {profileType === "BUYER"
+                        ? "Order types interested in"
+                        : "Order types you deal in"}
+                    </div>
+                    <Form.Item
+                      name="inOrderTypes"
+                      rules={[
+                        { required: true, message: "Field is required." },
+                      ]}
+                    >
+                      <Select
+                        mode="multiple"
+                        className="qa-dark-menu-theme"
+                        disabled={btnDisabled}
+                        showArrow={true}
+                        dropdownClassName="qa-dark-menu-theme"
+                      >
+                        {profileType === "BUYER"
+                          ? interestsInOrderTypes
+                          : dealsInOrderTypes}
+                      </Select>
+                    </Form.Item>
+                  </Col>
+                )}
+                {profileType === "SELLER" && (
+                  <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                    <div className="label-paragraph">
+                      {profileType === "BUYER"
+                        ? "Categories interested in"
+                        : "Categories you deal in"}
+                    </div>
+                    <Form.Item
+                      name="inCategories"
+                      rules={[
+                        { required: true, message: "Field is required." },
+                      ]}
+                    >
+                      <Select
+                        mode="multiple"
+                        className="qa-dark-menu-theme"
+                        disabled={btnDisabled}
+                        showArrow={true}
+                        dropdownClassName="qa-dark-menu-theme"
+                      >
+                        {profileType === "BUYER"
+                          ? interestsInCategories
+                          : dealsInCategories}
+                      </Select>
+                    </Form.Item>
+                  </Col>
+                )}
+                {profileType === "BUYER" && (
+                  <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                    <div className="label-paragraph">City</div>
+                    <Form.Item
+                      name="city"
+                      rules={[
+                        { required: true, message: "Field is required." },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                )}
+                {profileType === "BUYER" && (
+                  <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                    <div className="label-paragraph">Pin / Zip code</div>
+                    <Form.Item
+                      name="zipcode"
+                      rules={[
+                        { required: true, message: "Field is required." },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  </Col>
+                )}
                 {process.env.NEXT_PUBLIC_REACT_APP_REFERRAL_REQUIRED ==
                 "true" ? (
                   <Col
@@ -666,7 +812,7 @@ const Register = (props) => {
                     style={profileType == "BUYER" ? {} : { display: "none" }}
                   >
                     <div className="label-paragraph">
-                      Enter your referral code here
+                      Referral code (if available)
                     </div>
                     <Row>
                       <Col xs={16} sm={16} md={16} lg={16} xl={16}>
@@ -689,7 +835,6 @@ const Register = (props) => {
                         <Form.Item>
                           <Button
                             className="referral-btn"
-                            style={{ padding: "15px 24px" }}
                             onClick={validateCode}
                           >
                             <span className="qa-font-san qa-fs-14">APPLY</span>
@@ -701,251 +846,60 @@ const Register = (props) => {
                 ) : (
                   ""
                 )}
-                <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-                  <div className="label-paragraph">Your first name</div>
-                  <Form.Item
-                    name="firstName"
-                    className="form-item"
-                    rules={[
-                      { required: true, message: "Field is required." },
-                      {
-                        min: 3,
-                        max: 50,
-                        message: "Length should be 3-50 characters!",
-                      },
-                    ]}
-                  >
-                    <Input disabled={btnDisabled} />
-                  </Form.Item>
-                </Col>
-                <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-                  <div className="label-paragraph">Your last name</div>
-                  <Form.Item
-                    name="lastName"
-                    className="form-item"
-                    rules={[
-                      // { required: true, message: "Field is required." },
-                      {
-                        min: 3,
-                        max: 50,
-                        message: "Length should be 3-50 characters!",
-                      },
-                    ]}
-                  >
-                    <Input disabled={btnDisabled} />
-                  </Form.Item>
-                </Col>
-                <Col xs={24} sm={24} md={22} lg={22} xl={22}>
-                  <div className="label-paragraph">
-                    Your e-mail{" "}
-                    <Tooltip
-                      overlayClassName="qa-tooltip"
-                      title="Please enter your Business email address if available, Eg. John.doe@qalara.com"
-                    >
-                      <span className="text-right">What's this?</span>
-                    </Tooltip>
-                  </div>
-                  <Form.Item
-                    name="email"
-                    className="form-item"
-                    rules={[
-                      {
-                        type: "email",
-                        message: "Enter the correct email address.",
-                      },
-                      {
-                        required: true,
-                        message: "Field is required.",
-                      },
-                      {
-                        min: 1,
-                        max: 70,
-                        message: "Length should be 1-70 characters!",
-                      },
-                    ]}
-                  >
-                    <Input disabled={btnDisabled} />
-                  </Form.Item>
-                </Col>
-                <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-                  <div className="label-paragraph">Country</div>
-                  <Form.Item
-                    name="country"
-                    className="form-item"
-                    rules={[{ required: true, message: "Field is required." }]}
-                  >
-                    <Select
-                      showSearch
-                      disabled={btnDisabled}
-                      dropdownClassName="qa-dark-menu-theme"
-                    >
-                      {country}
-                    </Select>
-                  </Form.Item>
-                </Col>
-                <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-                  <div className="label-paragraph">Your mobile number</div>
-                  <Form.Item
-                    name="personalPhone"
-                    className="form-item"
-                    rules={[
-                      { required: true, message: "Field is required." },
-                      {
-                        pattern: new RegExp("^[0-9]{6,15}$"),
-                        message:
-                          "Only numbers are allowed & length should be 6-15 characters.",
-                      },
-                    ]}
-                  >
-                    <PhoneInput
-                      disabled={btnDisabled}
-                      country={selCountryCode}
-                      enableSearch={true}
-                      countryCodeEditable={false}
-                    />
-                  </Form.Item>
-                </Col>
-
-                <Col xs={24} sm={24} md={22} lg={22} xl={22}>
-                  <div className="label-paragraph">
-                    Organization name
-                    <Tooltip
-                      overlayClassName="qa-tooltip"
-                      title="Enter the legal/registered organisation name"
-                    >
-                      <span className="text-right">What's this?</span>
-                    </Tooltip>
-                  </div>
-                  <Form.Item
-                    name="orgName"
-                    rules={[
-                      { required: true, message: "Field is required." },
-                      {
-                        min: 3,
-                        max: 70,
-                        message: "Length should be 3-70 characters!",
-                      },
-                    ]}
-                  >
-                    <Input disabled={btnDisabled} />
-                  </Form.Item>
-                </Col>
-                <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-                  <div className="label-paragraph">Organization type</div>
-                  <Form.Item
-                    name="orgType"
-                    rules={[{ required: true, message: "Field is required." }]}
-                  >
-                    <Select
-                      disabled={btnDisabled}
-                      dropdownClassName="qa-dark-menu-theme"
-                    >
-                      {profileType === "BUYER" ? buyerOrgType : sellerOrgType}
-                    </Select>
-                  </Form.Item>
-                </Col>
-                <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-                  <div className="label-paragraph">Role in organization</div>
-                  <Form.Item
-                    name="roleInOrganization"
-                    rules={[{ required: true, message: "Field is required." }]}
-                  >
-                    <Select
-                      disabled={btnDisabled}
-                      dropdownClassName="qa-dark-menu-theme"
-                    >
-                      {roleInOrganization}
-                    </Select>
-                  </Form.Item>
-                </Col>
-                <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-                  <div className="label-paragraph">
-                    {profileType === "BUYER"
-                      ? "Order types interested in"
-                      : "Order types you deal in"}
-                  </div>
-                  <Form.Item
-                    name="inOrderTypes"
-                    rules={[{ required: true, message: "Field is required." }]}
-                  >
-                    <Select
-                      mode="multiple"
-                      className="qa-dark-menu-theme"
-                      disabled={btnDisabled}
-                      dropdownClassName="qa-dark-menu-theme"
-                    >
-                      {profileType === "BUYER"
-                        ? interestsInOrderTypes
-                        : dealsInOrderTypes}
-                    </Select>
-                  </Form.Item>
-                </Col>
-                <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-                  <div className="label-paragraph">
-                    {profileType === "BUYER"
-                      ? "Categories interested in"
-                      : "Categories you deal in"}
-                  </div>
-                  <Form.Item
-                    name="inCategories"
-                    rules={[{ required: true, message: "Field is required." }]}
-                  >
-                    <Select
-                      mode="multiple"
-                      className="qa-dark-menu-theme"
-                      disabled={btnDisabled}
-                      dropdownClassName="qa-dark-menu-theme"
-                    >
-                      {profileType === "BUYER"
-                        ? interestsInCategories
-                        : dealsInCategories}
-                    </Select>
-                  </Form.Item>
-                </Col>
                 {profileType === "SELLER" && (
                   <React.Fragment>
-                    <Col xs={24} sm={24} md={22} lg={22} xl={22}>
-                      <Form.Item
-                        name="agreement"
-                        valuePropName="checked"
-                        rules={[
-                          {
-                            required: true,
-                            message: "Please accept the agreement.",
-                            validator: (_, value) =>
-                              value
-                                ? Promise.resolve()
-                                : Promise.reject(
-                                    "Please accept the agreement."
-                                  ),
-                          },
-                        ]}
-                      >
-                        <Checkbox
-                          className="check-box-tnc"
-                          disabled={btnDisabled}
+                    <Col
+                      xs={24}
+                      sm={24}
+                      md={22}
+                      lg={22}
+                      xl={22}
+                      className="checkbox-grp"
+                    >
+                      <span className="qa-disp-inline qa-fs-12">
+                        {" "}
+                        <Form.Item
+                          name="agreement"
+                          valuePropName="checked"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please accept the agreement.",
+                              validator: (_, value) =>
+                                value
+                                  ? Promise.resolve()
+                                  : Promise.reject(
+                                      "Please accept the agreement."
+                                    ),
+                            },
+                          ]}
                         >
-                          Standard{" "}
-                          <Link className="link-text" href="/TermsOfUse">
-                            <a target="_blank" className="link-text">
-                              T&C
-                            </a>
-                          </Link>{" "}
-                          apply.
-                        </Checkbox>
-                      </Form.Item>
-                    </Col>
-                    <Col xs={24} sm={24} md={22} lg={22} xl={22}>
-                      <Form.Item>
-                        <Checkbox
-                          className="check-box-tnc"
-                          disabled={btnDisabled}
-                          onChange={handleAgreeToEmail}
-                          checked={agreeToEmail}
-                        >
-                          <span>You agree to receive promotional emails</span>
-                        </Checkbox>
-                      </Form.Item>
+                          <Checkbox
+                            className="check-box-tnc"
+                            disabled={btnDisabled}
+                          >
+                            Standard{" "}
+                            <Link className="link-text" href="/TermsOfUse">
+                              <a target="_blank" className="link-text">
+                                T&C
+                              </a>
+                            </Link>{" "}
+                            apply
+                          </Checkbox>
+                        </Form.Item>
+                      </span>
+                      <span className="qa-disp-inline qa-mar-left-20 qa-fs-12">
+                        <Form.Item>
+                          <Checkbox
+                            className="check-box-tnc"
+                            disabled={btnDisabled}
+                            onChange={handleAgreeToEmail}
+                            value={agreeToEmail}
+                          >
+                            You agree to receive promotional emails
+                          </Checkbox>
+                        </Form.Item>
+                      </span>
                     </Col>
                   </React.Fragment>
                 )}
@@ -966,6 +920,20 @@ const Register = (props) => {
                       onClick={nextStep}
                     >
                       Next Step
+                      <span className="qa-mar-lft1">
+                        <svg
+                          width="18"
+                          height="8"
+                          viewBox="0 0 18 8"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M17.4964 4.35355C17.6917 4.15829 17.6917 3.84171 17.4964 3.64645L14.3144 0.464467C14.1192 0.269205 13.8026 0.269205 13.6073 0.464467C13.4121 0.659729 13.4121 0.976312 13.6073 1.17157L16.4357 4L13.6073 6.82843C13.4121 7.02369 13.4121 7.34027 13.6073 7.53554C13.8026 7.7308 14.1192 7.7308 14.3144 7.53554L17.4964 4.35355ZM-4.37114e-08 4.5L17.1429 4.5L17.1429 3.5L4.37114e-08 3.5L-4.37114e-08 4.5Z"
+                            fill="#000"
+                          />
+                        </svg>
+                      </span>
                     </Button>
                   ) : (
                     <Button
@@ -990,331 +958,253 @@ const Register = (props) => {
             </Col>
           </Row>
           {profileType === "BUYER" && (
-            <Row
-              // justify='space-between'
-              justify="space-around"
-              style={step === 1 ? {} : { display: "none" }}
-            >
-              <Col
-                className="main-right"
-                xs={24}
-                sm={24}
-                md={11}
-                lg={11}
-                xl={11}
+            <div style={step === 1 ? {} : { display: "none" }}>
+              <div>
+                <p className="signup-heading">Almost done!</p>
+                <p className="signup-sub-heading">
+                  This information helps us build a trusted platform. Your data
+                  is private and safe - we are GDPR compliant.
+                </p>
+              </div>
+
+              <Row
+                // justify='space-between'
+                justify="space-around"
+                style={step === 1 ? {} : { display: "none" }}
               >
-                <Row justify="space-around">
-                  <Col xs={24} sm={24} md={22} lg={22} xl={22}>
-                    <p
-                      className="signup-heading"
-                      style={{ textAlign: "center" }}
+                <Col xs={24} sm={24} md={11} lg={11} xl={11}>
+                  <Row justify="space-around">
+                    <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                      <div className="label-paragraph">
+                        Organization name
+                        {/* <Tooltip
+                          overlayClassName="qa-tooltip"
+                          title="Enter the legal/registered organization name"
+                        >
+                          <span className="text-right qa-cursor">
+                            What's this?
+                          </span>
+                        </Tooltip> */}
+                      </div>
+                      <Form.Item
+                        name="orgName"
+                        rules={[
+                          { required: true, message: "Field is required." },
+                          {
+                            min: 3,
+                            max: 70,
+                            message: "Length should be 3-70 characters!",
+                          },
+                        ]}
+                      >
+                        <Input disabled={btnDisabled} />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                      <div className="label-paragraph">
+                        Website / social media link
+                      </div>
+                      <Form.Item
+                        name="websiteLink"
+                        rules={[
+                          { required: true, message: "Field is required." },
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={22} lg={22} xl={22}>
+                      <div className="label-paragraph">
+                        <span className="qa-lft">
+                          ABN / VAT / EORI / UEN / Tax Number (as applicable)
+                        </span>
+                        <Tooltip
+                          overlayClassName="qa-tooltip"
+                          title="These details are usually required for the smooth customs clearance process of your shipment in the destination country. If not available please mention 'Not Available'"
+                        >
+                          <span className="text-right qa-cursor qa-rgt">
+                            What's this?
+                          </span>
+                        </Tooltip>
+                      </div>
+                      <Form.Item
+                        name="dunsNum"
+                        rules={[
+                          // { required: true, message: "Field is required." },
+                          {
+                            pattern: new RegExp("^[0-9]*$"),
+                            message:
+                              "Only numbers are allowed & length should be 6-15 characters.",
+                          },
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                    </Col>
+
+                    <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                      <div className="label-paragraph">Organization type</div>
+                      <Form.Item
+                        name="orgType"
+                        rules={[
+                          { required: true, message: "Field is required." },
+                        ]}
+                      >
+                        <Select
+                          disabled={btnDisabled}
+                          dropdownClassName="qa-dark-menu-theme"
+                        >
+                          {profileType === "BUYER"
+                            ? buyerOrgType
+                            : sellerOrgType}
+                        </Select>
+                      </Form.Item>
+                    </Col>
+
+                    <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                      <div className="label-paragraph">
+                        Role in organization
+                      </div>
+                      <Form.Item
+                        name="roleInOrganization"
+                        rules={[
+                          { required: true, message: "Field is required." },
+                        ]}
+                      >
+                        <Select
+                          disabled={btnDisabled}
+                          dropdownClassName="qa-dark-menu-theme"
+                        >
+                          {roleInOrganization}
+                        </Select>
+                      </Form.Item>
+                    </Col>
+
+                    <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                      <div className="label-paragraph">
+                        {profileType === "BUYER"
+                          ? "Categories interested in"
+                          : "Categories you deal in"}
+                      </div>
+                      <Form.Item
+                        name="inCategories"
+                        rules={[
+                          { required: true, message: "Field is required." },
+                        ]}
+                      >
+                        <Select
+                          mode="multiple"
+                          className="qa-dark-menu-theme"
+                          disabled={btnDisabled}
+                          showArrow={true}
+                          dropdownClassName="qa-dark-menu-theme"
+                        >
+                          {profileType === "BUYER"
+                            ? interestsInCategories
+                            : dealsInCategories}
+                        </Select>
+                      </Form.Item>
+                    </Col>
+
+                    <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                      <div className="label-paragraph">
+                        {profileType === "BUYER"
+                          ? "Order types"
+                          : "Order types you deal in"}
+                      </div>
+                      <Form.Item
+                        name="inOrderTypes"
+                        rules={[
+                          { required: true, message: "Field is required." },
+                        ]}
+                      >
+                        <Select
+                          mode="multiple"
+                          className="qa-dark-menu-theme"
+                          disabled={btnDisabled}
+                          showArrow={true}
+                          dropdownClassName="qa-dark-menu-theme"
+                        >
+                          {profileType === "BUYER"
+                            ? interestsInOrderTypes
+                            : dealsInOrderTypes}
+                        </Select>
+                      </Form.Item>
+                    </Col>
+
+                    <Col
+                      xs={24}
+                      sm={24}
+                      md={22}
+                      lg={22}
+                      xl={22}
+                      className="checkbox-grp"
                     >
-                      Sign up
-                    </p>
-                    <Row>
-                      <Col xs={24} sm={24} md={24} lg={24}>
-                        <div className="create-account">
-                          <div
-                            onClick={signIn}
-                            className="link-style register"
-                            style={{ textAlign: "center" }}
+                      <span className="qa-disp-inline qa-fs-12">
+                        <Form.Item
+                          name="agreement"
+                          valuePropName="checked"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please accept the agreement.",
+                              validator: (_, value) =>
+                                value
+                                  ? Promise.resolve()
+                                  : Promise.reject(
+                                      "Please accept the agreement."
+                                    ),
+                            },
+                          ]}
+                        >
+                          <Checkbox
+                            className="check-box-tnc"
+                            disabled={btnDisabled}
                           >
-                            Already have an account? Sign in here
-                          </div>
-                        </div>
-                      </Col>
-                    </Row>
-                    <p className="signup-sub-heading">
-                      This information helps us build a trusted platform. Your
-                      data is private and safe - we are GDPR compliant.
-                    </p>
-                  </Col>
-                  <Col xs={24} sm={24} md={22} lg={22} xl={22}>
-                    <div className="label-paragraph">
-                      Brand name
-                      <Tooltip
-                        overlayClassName="qa-tooltip"
-                        title="Name under which you generally conduct business"
-                      >
-                        <span className="text-right">What's this?</span>
-                      </Tooltip>
-                    </div>
-                    <Form.Item
-                      name="brandName"
-                      rules={[
-                        { required: true, message: "Field is required." },
-                        {
-                          min: 3,
-                          max: 70,
-                          message: "Length should be 3-70 characters!",
-                        },
-                      ]}
-                    >
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                  <Col xs={24} sm={24} md={22} lg={22} xl={22}>
-                    <div className="label-paragraph">
-                      ABN / VAT / EORI / UEN / Tax Registration Number
-                      <Tooltip
-                        overlayClassName="qa-tooltip"
-                        title="These details are usually required for the smooth customs clearance process of your shipment in the destination country. If not available please mention 'Not Available'"
-                      >
-                        <span className="text-right">Why?</span>
-                      </Tooltip>
-                    </div>
-                    <Form.Item
-                      name="dunsNum"
-                      rules={[
-                        // { required: true, message: "Field is required." },
-                        {
-                          pattern: new RegExp("^[0-9]*$"),
-                          message:
-                            "Only numbers are allowed & length should be 6-15 characters.",
-                        },
-                      ]}
-                    >
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                  <Col xs={24} sm={24} md={22} lg={22} xl={22}>
-                    <div className="label-paragraph">
-                      Are you a home-based business?
-                    </div>
-                    <Form.Item
-                      name="businessType"
-                      className="form-item"
-                      rules={[
-                        { required: true, message: "Field is required." },
-                      ]}
-                    >
-                      <Radio.Group
-                        onChange={onCheckHomeRB}
-                        value={homeBasedValue}
-                        className="radio-group"
-                      >
-                        <Radio value={true} className="qa-radio-home">
-                          Yes
-                        </Radio>
-                        <Radio value={false} className="qa-radio-home">
-                          No
-                        </Radio>
-                      </Radio.Group>
-                    </Form.Item>
-                  </Col>
+                            Standard{" "}
+                            <Link className="link-text" href="/TermsOfUse">
+                              <a target="_blank" className="link-text">
+                                T&C
+                              </a>
+                            </Link>{" "}
+                            apply
+                          </Checkbox>
+                        </Form.Item>
+                      </span>
+                      <span className="qa-disp-inline qa-mar-left-20 qa-fs-12">
+                        <Form.Item>
+                          <Checkbox
+                            className="check-box-tnc"
+                            disabled={btnDisabled}
+                            onChange={handleAgreeToEmail}
+                            value={agreeToEmail}
+                          >
+                            You agree to receive promotional emails
+                          </Checkbox>
+                        </Form.Item>
+                      </span>
+                    </Col>
 
-                  <Col xs={24} sm={24} md={22} lg={22} xl={22}>
-                    <p className="signup-sub-heading">
-                      Please provide the address where your business is
-                      registered:
-                    </p>
-                  </Col>
-
-                  <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-                    <div className="label-paragraph">Zipcode</div>
-                    <Form.Item
-                      name="zipcode"
-                      rules={[
-                        { required: true, message: "Field is required." },
-                      ]}
-                    >
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                  <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-                    <div className="label-paragraph">Address</div>
-                    <Form.Item
-                      name="address"
-                      rules={[
-                        { required: true, message: "Field is required." },
-                      ]}
-                    >
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                  <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-                    <div className="label-paragraph">City</div>
-                    <Form.Item
-                      name="city"
-                      rules={[
-                        { required: true, message: "Field is required." },
-                      ]}
-                    >
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                  <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-                    <div className="label-paragraph">State</div>
-                    <Form.Item
-                      name="state"
-                      rules={[
-                        { required: true, message: "Field is required." },
-                      ]}
-                    >
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                  <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-                    <div className="label-paragraph">Country</div>
-                    <Form.Item
-                      name="buyerCountry"
-                      rules={[
-                        { required: true, message: "Field is required." },
-                      ]}
-                    >
-                      <Select showSearch dropdownClassName="qa-dark-menu-theme">
-                        {country}
-                      </Select>
-                    </Form.Item>
-                  </Col>
-                  <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-                    <div className="label-paragraph">
-                      Organisation phone number
-                    </div>
-                    <Form.Item
-                      name="orgPhone"
-                      rules={[
-                        { required: true, message: "Field is required." },
-                        {
-                          pattern: new RegExp("^[0-9]{6,15}$"),
-                          message:
-                            "Only numbers are allowed & length should be 6-15 characters.",
-                        },
-                      ]}
-                    >
-                      <Input />
-                    </Form.Item>
-                  </Col>
-
-                  <Col xs={24} sm={24} md={22} lg={22} xl={22}>
-                    <p className="signup-sub-heading">
-                      Please provide minimum one of the following
-                      <Tooltip
-                        overlayClassName="qa-tooltip"
-                        title="This will help us speed up the verification process and share personalized recommendations with you"
+                    <Col xs={24} sm={24} md={22} lg={22} xl={22}>
+                      <Button
+                        type="primary"
+                        loading={loading}
+                        disabled={loading}
+                        htmlType="submit"
+                        className="submit-button"
                       >
-                        <span className="text-right">Why?</span>
-                      </Tooltip>
-                    </p>
-                  </Col>
-
-                  <Col xs={24} sm={24} md={22} lg={22} xl={22}>
-                    <div className="label-paragraph">
-                      Organisation website link
-                    </div>
-                    <Form.Item
-                      name="websiteLink"
-                      //   rules={[
-                      //     { required: true, message: "Field is required." },
-                      //   ]}
-                    >
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                  <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-                    <div className="label-paragraph">
-                      Organisation Facebook link
-                    </div>
-                    <Form.Item
-                      name="facebookLink"
-                      //   rules={[
-                      //     { required: true, message: "Field is required." },
-                      //   ]}
-                    >
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                  <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-                    <div className="label-paragraph">
-                      Organisation Instagram link
-                    </div>
-                    <Form.Item
-                      name="instagramLink"
-                      //   rules={[
-                      //     { required: true, message: "Field is required." },
-                      //   ]}
-                    >
-                      <Input />
-                    </Form.Item>
-                    {linkError && (
-                      <div className="qa-text-error">
-                        Please provide minimum one of the above details
-                      </div>
-                    )}
-                  </Col>
-
-                  <Col xs={24} sm={24} md={22} lg={22} xl={22}>
-                    <Form.Item
-                      name="agreement"
-                      valuePropName="checked"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please accept the agreement.",
-                          validator: (_, value) =>
-                            value
-                              ? Promise.resolve()
-                              : Promise.reject("Please accept the agreement."),
-                        },
-                      ]}
-                    >
-                      <Checkbox
-                        className="check-box-tnc"
-                        disabled={btnDisabled}
-                      >
-                        Standard{" "}
-                        <Link className="link-text" href="/TermsOfUse">
-                          <a target="_blank" className="link-text">
-                            T&C
-                          </a>
-                        </Link>{" "}
-                        apply.
-                      </Checkbox>
-                    </Form.Item>
-                  </Col>
-                  <Col xs={24} sm={24} md={22} lg={22} xl={22}>
-                    <Form.Item>
-                      <Checkbox
-                        className="check-box-tnc"
-                        disabled={btnDisabled}
-                        onChange={handleAgreeToEmail}
-                        checked={agreeToEmail}
-                      >
-                        <span>You agree to receive promotional emails</span>
-                      </Checkbox>
-                    </Form.Item>
-                  </Col>
-
-                  <Col xs={24} sm={24} md={22} lg={22} xl={22}>
-                    <Button
-                      type="primary"
-                      loading={loading}
-                      disabled={loading}
-                      htmlType="submit"
-                      className="submit-button"
-                    >
-                      Submit
-                    </Button>
-                    {/* <div className="create-account">
-                      <div onClick={signIn} className="link-style register">
-                        Already have an account? Sign in here
-                      </div>
-                    </div> */}
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
+                        Submit
+                      </Button>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+            </div>
           )}
           <Row
-            // justify='space-between'
             justify="space-around"
             style={step === 2 ? {} : { display: "none" }}
           >
-            {/* <Col className='main-left' xs={24} sm={24} md={11} lg={11} xl={11}>
-                        <div className='ellipse' style={{ backgroundImage: `url(${mediaMatch.matches ? ellipse : ellipseSm})` }} />
-                        <div className='bird' style={{ backgroundImage: `url(${mediaMatch.matches ? bird : birdSm})` }} />
-                        <div className='picture' style={{ backgroundImage: `url(${mediaMatch.matches ? picture : pictureSm})` }} />
-                    </Col> */}
             <Col className="main-right" xs={24} sm={24} md={11} lg={11} xl={11}>
               <div className="congratulation-content">
                 <p className="congratulation-head">Congratulations!</p>
@@ -1325,7 +1215,7 @@ const Register = (props) => {
               <Button
                 className="congratulation-button"
                 onClick={() => {
-                  router.push("/");
+                  history.push("/");
                 }}
               >
                 Back to home page
@@ -1387,7 +1277,7 @@ const Register = (props) => {
         <Button
           className="congratulation-button"
           onClick={() => {
-            router.push("/");
+            history.push("/");
           }}
         >
           Back to home page

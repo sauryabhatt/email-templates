@@ -261,8 +261,12 @@ const OrdersMobile = (props) => {
             ""
           )}
           {orders.map((order, i) => {
-            let { orderedDate = "", subOrders = [] } = order; // anything
-            let date = new Date(orderedDate);
+            let {
+              orderedDate = "",
+              subOrders = [],
+              orderConfirmedDate = "",
+            } = order; // anything
+            let date = new Date(orderConfirmedDate || orderedDate);
             let month = "" + (date.getMonth() + 1);
             let day = date.getDate();
             let year = date.getFullYear();
@@ -349,7 +353,7 @@ const OrdersMobile = (props) => {
                         sm={12}
                         md={12}
                         lg={12}
-                        style={{ padding: "10px 20px", textAlign: "right" }}
+                        style={{ textAlign: "right" }}
                         className="qa-vertical-center"
                       >
                         {order.payment_status !== "FAILED" ? (
@@ -836,7 +840,7 @@ const OrdersMobile = (props) => {
                         sm={16}
                         md={16}
                         lg={16}
-                        className="qa-col-start qa-mar-top-1"
+                        className="qa-col-start qa-mar-top-05"
                       >
                         <span className="qa-fs-14 qa-fw-b qa-font-san qa-tc-white">
                           Custom, taxes & duties
@@ -847,7 +851,7 @@ const OrdersMobile = (props) => {
                         sm={8}
                         md={8}
                         lg={8}
-                        className="qa-col-end qa-mar-top-1"
+                        className="qa-col-end qa-mar-top-05"
                       >
                         {order && order.orderType == "RTS" ? (
                           <span className="qa-fs-16 qa-fw-b qa-font-san qa-tc-white">
@@ -883,7 +887,7 @@ const OrdersMobile = (props) => {
                         sm={16}
                         md={16}
                         lg={16}
-                        className="qa-col-start qa-mar-top-1"
+                        className="qa-col-start qa-mar-top-05"
                       >
                         <span className="qa-fs-14 qa-fw-b qa-font-san qa-tc-white">
                           Coupon discount
@@ -894,7 +898,7 @@ const OrdersMobile = (props) => {
                         sm={8}
                         md={8}
                         lg={8}
-                        className="qa-col-end qa-mar-top-1"
+                        className="qa-col-end qa-mar-top-05"
                       >
                         {order && order.orderType == "RTS" ? (
                           <span
@@ -939,7 +943,7 @@ const OrdersMobile = (props) => {
                         sm={16}
                         md={16}
                         lg={16}
-                        className="qa-col-start qa-mar-top-1"
+                        className="qa-col-start qa-mar-top-05"
                       >
                         <span className="qa-fs-14 qa-fw-b qa-font-san qa-tc-white">
                           VAT / GST
@@ -950,7 +954,7 @@ const OrdersMobile = (props) => {
                         sm={8}
                         md={8}
                         lg={8}
-                        className="qa-col-end qa-mar-top-1"
+                        className="qa-col-end qa-mar-top-05"
                       >
                         {order && order.orderType == "RTS" ? (
                           <span className="qa-fs-16 qa-fw-b qa-font-san qa-tc-white">

@@ -13,7 +13,32 @@
   /* text-decoration: none; */
   color: #d9bb7f;
 }
-
+#user-register-form .qa-radio-home .ant-radio-inner,
+#user-register-form .qa-radio-home .ant-radio-checked.ant-radio-inner {
+  border: 2px solid #d9bb7f;
+  background-color: transparent;
+  opacity: 1;
+  width: 24px;
+  height: 24px;
+}
+#user-register-form .qa-radio-home .ant-radio-inner::after {
+  background-color: #d9bb7f;
+  opacity: 1;
+  width: 12px;
+  height: 12px;
+  top: 4px;
+  left: 4px;
+}
+#user-register-form .react-tel-input .form-control {
+  width: 100% !important;
+  height: 54px !important;
+  background: transparent !important;
+  border: 1px solid rgba(249, 247, 242, 0.6) !important;
+  border-radius: 4px !important;
+  color: #d9bb7f;
+  font-family: senregular !important;
+  font-size: 16px !important;
+}
 @media only screen and (min-width: 768px) {
   .user-registration .app-header {
     text-align: center;
@@ -31,7 +56,7 @@
   #user-register-form .main-right {
     /* padding-top: 8%; */
     min-height: 60vh;
-    padding-top: 4%;
+    padding-top: 40px;
   }
 
   #user-register-form .ellipse {
@@ -66,31 +91,39 @@
   }
 
   #user-register-form .button-back {
-    position: absolute;
-    top: 17%;
-    left: 3%;
     z-index: 1;
+    margin-top: 12px;
+    margin-left: 50px;
   }
 
-  #user-register-form .signup-heading,
-  #user-register-form .signup-sub-heading {
+  #user-register-form .signup-heading {
     font-family: Butler;
-    font-size: 50px;
-    line-height: 110%;
+    font-size: 36px;
+    line-height: 140%;
     letter-spacing: 0.01em;
     color: #f9f7f2;
-    margin-bottom: 30px;
+    text-align: center;
+    margin-bottom: 0px;
   }
-
-  #user-register-form .signup-sub-heading {
-    font-size: 14px;
-    margin-bottom: 20px;
-    font-family: senregular;
-    text-align: justify;
+  #user-register-form .signup-subtitle {
+    font-family: Butler;
+    font-size: 24px;
     line-height: 140%;
+    letter-spacing: 0.01em;
+    color: #f9f7f2;
+    text-align: center;
+    margin-bottom: 5px;
   }
-  #user-register-form .form-item {
-    /* margin-bottom: 2.5%; */
+  #user-register-form .signup-sub-heading {
+    letter-spacing: 0.01em;
+    color: #f9f7f2;
+    font-size: 14px;
+    margin-bottom: 5px;
+    font-family: senregular;
+    text-align: center;
+    line-height: 140%;
+    opacity: 0.6;
+    margin-bottom: 30px;
   }
 
   #user-register-form .radio-group {
@@ -123,8 +156,8 @@
   }
 
   #user-register-form input[type="text"] {
-    padding: 17px 24px;
-    height: 100%;
+    height: 55px;
+    padding: 0px 10px;
   }
 
   /* #user-register-form .ant-input-group-addon {
@@ -133,8 +166,8 @@
   } */
 
   #user-register-form .ant-select-selector {
-    padding: 11px 24px;
-    height: 100%;
+    padding: 11px 10px;
+    min-height: 55px;
   }
 
   #user-register-form .congratulation-content {
@@ -199,6 +232,21 @@
 }
 
 @media only screen and (max-width: 767px) {
+  #user-register-form .qa-radio-home.ant-radio-wrapper.qa-radio-home {
+    display: flex;
+    line-height: 130%;
+    margin-top: 2px;
+  }
+  #user-register-form .qa-disp-f {
+    font-size: 14px;
+    line-height: 120%;
+  }
+  #user-register-form .referral-btn {
+    height: 44px;
+  }
+  #user-register-form .checkbox-grp .ant-row.ant-form-item {
+    margin-bottom: 0px;
+  }
   .user-registration .app-header {
     background-color: #332f2f;
     height: 64px;
@@ -221,15 +269,41 @@
     /* margin-bottom: 7%; */
   }
 
-  #user-register-form .signup-sub-heading {
-    font-size: 14px;
-    color: #fff;
-    font-family: senregular;
+  #user-register-form .qa-radio-home .ant-radio-inner,
+  #user-register-form .qa-radio-home .ant-radio-checked.ant-radio-inner {
+    border: 2px solid #d9bb7f;
+    background-color: transparent;
+    opacity: 1;
+    width: 20px;
+    height: 20px;
+    margin-top: 5px;
   }
-  #user-register-form .main-right {
-    padding-top: 10%;
+  #user-register-form .qa-radio-home .ant-radio-inner::after {
+    background-color: #d9bb7f;
+    opacity: 1;
+    width: 8px;
+    height: 8px;
+    top: 4px;
+    left: 4px;
   }
 
+  #user-register-form .signup-sub-heading {
+    font-size: 14px;
+    color: #f9f7f2;
+    font-family: senregular;
+    text-align: center;
+    margin-top: 0px;
+    opacity: 0.6;
+    line-height: 130%;
+    margin-bottom: 30px;
+  }
+  #user-register-form .main-right {
+    padding-top: 30px;
+  }
+  .create-account .link-style.register .link {
+    display: block;
+    text-align: center;
+  }
   #user-register-form .ellipse {
     position: absolute;
     /* background: url("./../../filestore/Ellipse\ 160\ \(2\).png"); */
@@ -263,24 +337,30 @@
   }
 
   #user-register-form .button-back {
-    position: absolute;
-    top: 17%;
-    left: 3%;
     z-index: 1;
+    margin-top: 10px;
+    margin-left: 0px;
+    padding: 0px;
   }
 
   #user-register-form .signup-heading {
     font-family: Butler;
-    font-size: 32px;
-    line-height: 110%;
+    font-size: 30px;
+    line-height: 140%;
     letter-spacing: 0.01em;
     color: #ffffff;
-    margin-bottom: 40px;
+    margin-bottom: 0px;
     text-align: center;
   }
 
-  #user-register-form .form-item {
-    /* margin-bottom: 2.5%; */
+  #user-register-form .signup-subtitle {
+    font-family: Butler;
+    font-size: 24px;
+    line-height: 140%;
+    letter-spacing: 0.01em;
+    color: #f9f7f2;
+    text-align: center;
+    margin-bottom: 5px;
   }
 
   #user-register-form .radio-group {
@@ -315,8 +395,8 @@
   }
 
   #user-register-form input[type="text"] {
-    padding: 17px 24px;
-    height: 100%;
+    padding: 0px 10px;
+    height: 44px;
   }
 
   /* #user-register-form .ant-input-group-addon {
@@ -327,7 +407,7 @@
   #user-register-form .ant-select-selector {
     padding-top: 6px;
     padding-bottom: 6px;
-    height: 100%;
+    min-height: 44px;
   }
 
   #user-register-form .congratulation-content {
@@ -385,19 +465,39 @@
   .confirmation-modal p.verification-text {
     font-size: 12px;
   }
+  #user-register-form .react-tel-input .form-control {
+    height: 44px !important;
+  }
+  #user-register-form .qa-disp-inline.qa-mar-left-20 {
+    margin-left: 0px;
+    margin-bottom: 20px;
+    margin-top: 15px;
+  }
+  #user-register-form .qa-lft {
+    width: 60%;
+    display: inline-block;
+  }
+  #user-register-form .qa-rgt {
+    display: inline-block;
+    float: none;
+    width: 40%;
+    text-align: right;
+    vertical-align: top;
+  }
 }
 
 #user-register-form .label-paragraph {
   font-family: senregular;
   font-size: 14px;
-  color:#F9F7F2;
-  margin-bottom: 10px;
+  color: #f9f7f2;
+  margin-bottom: 3px;
 }
 
 #user-register-form .check-box-tnc {
   font-family: senregular;
   font-size: 12px;
   color: #f9f7f2;
+  vertical-align: middle;
 }
 
 #user-register-form .ant-checkbox-checked .ant-checkbox-inner {
@@ -422,7 +522,7 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active  {
   -webkit-text-fill-color: rgb(217, 187, 127, 0.9) !important;
   -webkit-box-shadow: 0 0 0px 1000px #332f2f inset;
-  border: 1px solid rgb(255, 255, 255, 0.16) !important;
+  border: 1px solid rgba(249, 247, 242, 0.6) !important;
 } */
 
 #user-register-form input[type="text"] {
@@ -431,12 +531,14 @@ input:-webkit-autofill:active  {
   font-size: 16px;
   color: rgb(217, 187, 127, 0.9);
   box-sizing: border-box;
-  border: 1px solid rgb(255, 255, 255, 0.16);
+  border: 1px solid rgba(249, 247, 242, 0.6);
   border-radius: 4px;
 }
 
 #user-register-form input[type="text"]:hover {
-  border: 1.5px solid rgb(217, 187, 127, 0.4);
+  border: 1px solid rgb(217, 187, 127, 0.4);
+  box-shadow: none;
+  outline: none;
 }
 
 #user-register-form .no-border {
@@ -461,12 +563,12 @@ input:-webkit-autofill:active  {
   font-size: 12px;
   color: rgb(217, 187, 127, 0.9);
   box-sizing: border-box;
-  border: 1px solid rgb(255, 255, 255, 0.16);
+  border: 1px solid rgba(249, 247, 242, 0.6);
   border-radius: 4px;
 }
 
 #user-register-form textarea:hover {
-  border: 1.5px solid rgb(217, 187, 127, 0.4);
+  border: 1px solid rgb(217, 187, 127, 0.4);
 }
 
 #user-register-form .ant-input-group-addon {
@@ -475,12 +577,12 @@ input:-webkit-autofill:active  {
   font-size: 12px;
   color: rgb(217, 187, 127, 0.9);
   box-sizing: border-box;
-  border: 1px solid rgb(255, 255, 255, 0.16);
+  border: 1px solid rgba(249, 247, 242, 0.6);
   border-radius: 4px;
 }
 
 #user-register-form .ant-input-group-addon:hover {
-  border: 1.5px solid rgb(217, 187, 127, 0.4);
+  border: 1px solid rgb(217, 187, 127, 0.4);
 }
 
 #user-register-form .ant-select-selector {
@@ -489,13 +591,8 @@ input:-webkit-autofill:active  {
   font-size: 16px;
   color: rgb(217, 187, 127, 0.9);
   box-sizing: border-box;
-  border: 1px solid rgb(255, 255, 255, 0.16) !important;
+  border: 1px solid rgba(249, 247, 242, 0.6) !important;
   border-radius: 4px;
-}
-
-#user-register-form .ant-select-selector:hover,
-#user-register-form .submit-button:hover {
-  border: 1.5px solid rgb(217, 187, 127);
 }
 
 #user-register-form .ant-form-item-has-error .ant-select .ant-select-selector {
@@ -507,7 +604,8 @@ input:-webkit-autofill:active  {
 }
 
 #user-register-form .ant-select-arrow {
-  color: rgb(217, 187, 127, 0.9);
+  color: #f9f7f2;
+  opacity: 0.9;
 }
 
 #user-register-form .ant-form-item-has-error .ant-form-item-explain,
@@ -516,24 +614,23 @@ input:-webkit-autofill:active  {
   font-size: 12px;
   line-height: 110%;
   letter-spacing: 0.01em;
-  margin: 5px 0px;
+  min-height: 10px;
   margin-top: 5px;
 }
 
 #user-register-form .submit-button {
-  background: #ffffff;
-  border-radius: 4px;
+  background: #d9bb7f;
   width: 100%;
-  height: 12vh;
-  font-size: 16px;
+  height: 54px;
+  font-size: 14px;
   font-family: senregular;
-  font-weight: bold;
   color: black;
   text-transform: uppercase;
   border: none;
   border-radius: 0;
-  margin-bottom: 20px;
-  margin-top: 30px;
+  margin-bottom: 40px;
+  box-shadow: none;
+  margin-top: 20px;
 }
 
 #user-register-form
@@ -601,7 +698,7 @@ input:-webkit-autofill:active  {
   .ant-select-single:not(.ant-select-customize-input)
   .ant-select-selector
   .ant-select-selection-search-input {
-  height: 100%;
+  height: 44px;
   padding: 0 10px;
 }
 /* #user-register-form .ant-radio-button-wrapper:hover {
@@ -616,19 +713,9 @@ input:-webkit-autofill:active  {
   color: #d9bb7f;
 }
 #user-register-form .qa-radio-home.ant-radio-wrapper.qa-radio-home {
-  font-size: 16px;
+  font-size: 14px;
   font-family: senregular;
   color: #fff;
-}
-#user-register-form .qa-radio-home .ant-radio-inner,
-#user-register-form .qa-radio-home .ant-radio-checked.ant-radio-inner {
-  border: 1px solid #d9bb7f;
-  background-color: transparent;
-  opacity: 1;
-}
-#user-register-form .qa-radio-home .ant-radio-inner::after {
-  background-color: #d9bb7f;
-  opacity: 1;
 }
 #user-register-form .ant-checkbox + span {
   color: #ffffff;
@@ -659,15 +746,27 @@ p.verification-text {
 }
 
 #user-register-form .create-account {
-  /* text-align: left; */
   font-size: 14px;
   font-family: senregular;
   color: #d9bb7f;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
   display: block;
 }
-
-#user-register-form .create-account:hover {
+.create-account .link-style.register {
+  text-align: center;
+  font-family: "senregular";
+  font-style: normal;
+  font-size: 14px;
+  line-height: 22px;
+  color: #d9bb7f;
+  margin-bottom: 30px;
+}
+.create-account .link-style.register .link {
+  text-decoration: underline;
+  font-weight: 600;
+  cursor: pointer;
+}
+#user-register-form .create-account .link:hover {
   text-decoration: underline;
 }
 .buyer-invite-text {
@@ -696,20 +795,14 @@ p.verification-text {
     width: 100%;
     margin-top: 30px;
   }
+  #user-register-form .main-right {
+    min-width: 90%;
+  }
 }
-#user-register-form .react-tel-input .form-control {
-  width: 100% !important;
-  height: 54px !important;
-  background: transparent !important;
-  border: 1px solid rgb(255, 255, 255, 0.16) !important;
-  border-radius: 4px !important;
-  color: #d9bb7f;
-  font-family: senregular !important;
-  font-size: 16px !important;
-}
+
 #user-register-form .react-tel-input .flag-dropdown {
   border: none !important;
-  border-right: 1px solid rgb(255, 255, 255, 0.16) !important;
+  border-right: 1px solid rgba(249, 247, 242, 0.6) !important;
   border-radius: 4px !important;
   background: transparent !important;
 }
@@ -719,7 +812,7 @@ p.verification-text {
 }
 #user-register-form .react-tel-input .form-control:hover,
 #user-register-form .react-tel-input .flag-dropdown:hover {
-  border: 1.5px solid rgb(217, 187, 127, 0.4) !important;
+  border: 1px solid rgb(217, 187, 127, 0.4) !important;
 }
 #user-register-form .react-tel-input .selected-flag:hover,
 .react-tel-input .selected-flag:focus {
@@ -743,14 +836,13 @@ p.verification-text {
 }
 #user-register-form .react-tel-input .country-list .search-box {
   background: transparent;
-  border: 1px solid rgb(255, 255, 255, 0.16);
+  border: 1px solid rgba(249, 247, 242, 0.6);
   font-family: senregular;
   padding: 8px;
 }
 
-
 .referral-btn {
-  background: #ffffff;
+  background: #f9f7f2;
   border-radius: 4px;
   width: 100%;
   font-size: 16px;
@@ -758,15 +850,14 @@ p.verification-text {
   font-weight: bold;
   color: black;
   text-transform: uppercase;
-  border: none;
+  border: 1px solid #f9f7f2;
   border-radius: 0;
-  height: 100%;
-  padding: 15px 24px;
-  background-color: #d9bb7f;
+  height: 55px;
+  padding: 0px 10px;
 }
 
 .referral-btn:hover {
-  background-color: #d9bb7f;
+  background-color: #f9f7f2;
   color: #000000;
 }
 
@@ -774,8 +865,10 @@ p.verification-text {
   color: rgba(249, 247, 242, 0.6);
 }
 
-.referral-btn:active,  .referral-btn:focus, .referral-btn:hover{
-  background-color: #d9bb7f !important;
+.referral-btn:active,
+.referral-btn:focus,
+.referral-btn:hover {
+  background-color: #f9f7f2 !important;
   color: #000000 !important;
 }
 
@@ -786,11 +879,28 @@ p.verification-text {
   margin: 5px 0px;
   line-height: 110%;
 }
-.signup_radio{
-    cursor: pointer;
-    height: 48px;
-    width: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+#user-register-form .ant-select-selection-placeholder,
+#user-register-form .ant-input::placeholder {
+  color: rgba(249, 247, 242, 0.6);
+  opacity: 0.6;
+}
+#user-register-form .qa-radio-home span {
+  vertical-align: middle;
+}
+#user-register-form .ant-row.ant-form-item {
+  margin-bottom: 15px;
+}
+#user-register-form .ant-input.referral-box {
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+#user-register-form .check-box-tnc.ant-checkbox-wrapper span:nth-child(2) {
+  vertical-align: top;
+}
+.ant-btn.referral-btn:hover {
+  background-color: #f9f7f2 !important;
+}
+#user-register-form .ant-btn.ant-btn-link.button-back:hover {
+  border: 1px solid transparent !important;
+  outline: none;
 }

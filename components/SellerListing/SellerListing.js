@@ -9,7 +9,7 @@ import { getSLPDetails } from "../../store/actions";
 import queryString from "query-string";
 import { useRouter } from "next/router";
 const querystring = require("querystring");
-const isServer = () => typeof window == undefined;
+const isServer = () => typeof window == "undefined";
 
 const SellerListing = (props) => {
   const router = useRouter();
@@ -106,7 +106,7 @@ const SellerListing = (props) => {
     // window.history.pushState({ path: newurl }, "", newurl);
     router.push(
       {
-        pathname: router.asPath.split("?")[0],
+        pathname: window.location.protocol+"//" +window.location.host + "/sellers/" +router.query.categoryId,
         query: tempObj,
       },
       undefined,

@@ -987,7 +987,7 @@ const UserAccount = (props) => {
   //     "countryCode": countryCode
   //   }
 
-  //   fetch(process.env.REACT_APP_CONTACTS_URL + "/contacts", {
+  //   fetch(process.env.NEXT_PUBLIC_REACT_APP_CONTACTS_URL + "/contacts", {
   //     method: "POST",
   //     body: JSON.stringify(data),
   //     headers: {

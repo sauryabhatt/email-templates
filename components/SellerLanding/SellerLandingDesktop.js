@@ -44,7 +44,7 @@ const DynamicPDFDocument = dynamic(() => import("../common/PDFDocument"), {
 });
 import Link from "next/link";
 import { useRouter } from "next/router";
-const isServer = () => typeof window == undefined;
+const isServer = () => typeof window == "undefined";
 
 const { Column, ColumnGroup } = Table;
 const { Content } = Layout;
@@ -77,7 +77,7 @@ const SellerLandingDesktop = (props) => {
   const [productionKMM, setProductionKMM] = useState([]);
 
   const [logoUrl, setLogoUrl] = useState();
-  const [productTypeDetails, setProductTypeDetails] = useState("");
+  const [productTypeDetails, setProductTypeDetails] = useState(props.productPopupDetails);
   let mediaMatch;
 
   useEffect(() => {
@@ -119,7 +119,7 @@ const SellerLandingDesktop = (props) => {
     productPopupDetails = [],
     aboutCompany = "",
     userProfile = "",
-    isLoading = true,
+    isLoading,
   } = props;
   let initialValues;
 
@@ -224,7 +224,6 @@ const SellerLandingDesktop = (props) => {
       process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
         props.data.showcaseMedia.media.mediaUrl
   );
-
   useEffect(() => {
     setLogoUrl(
       props.data &&
@@ -276,7 +275,6 @@ const SellerLandingDesktop = (props) => {
     }
     setProductTypeDetails(values);
   }, [props]);
-
   const requestLeadTimes = () => {
     setTitle("Lead times");
     let column = [
@@ -2017,7 +2015,7 @@ const SellerLandingDesktop = (props) => {
             <img
               className="qa-rel-pos image-container"
               style={{ height: "50px" }}
-              src={process.env.PUBLIC_URL + "/tick.png"}
+              src={process.env.NEXT_PUBLIC_URL + "/tick.png"}
             />
           </Col>
         </Row>

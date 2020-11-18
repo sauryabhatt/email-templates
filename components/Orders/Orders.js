@@ -237,8 +237,12 @@ const Orders = (props) => {
             ""
           )}
           {orders.map((order, i) => {
-            let { orderedDate = "", subOrders = [] } = order; // anything
-            let date = new Date(orderedDate);
+            let {
+              orderedDate = "",
+              subOrders = [],
+              orderConfirmedDate = "",
+            } = order;
+            let date = new Date(orderConfirmedDate || orderedDate);
             let month = "" + (date.getMonth() + 1);
             let day = date.getDate();
             let year = date.getFullYear();
@@ -452,6 +456,7 @@ const Orders = (props) => {
                       lg={24}
                       className={j === 0 ? "qa-order-first" : "qa-order-list"}
                       key={j}
+                      style={{ padding: "10px 20px" }}
                     >
                       <Col xs={24} sm={24} md={24} lg={24}>
                         <Row className="qa-mar-btm-15">
@@ -716,7 +721,9 @@ const Orders = (props) => {
                                     {SellerOrderStatuses.find(
                                       (x) => x.id === subOrder.status
                                     )
-                                      ? ((x) => x.id === subOrder.status).name
+                                      ? SellerOrderStatuses.find(
+                                          (x) => x.id === subOrder.status
+                                        ).name
                                       : ""}
                                   </span>
                                 </Col>
@@ -988,7 +995,7 @@ const Orders = (props) => {
                           Part of these charges are refundable.{" "}
                         </span>
                         <Link
-                          to="/FAQforwholesalebuyers"
+                          href="/FAQforwholesalebuyers"
                           target="_blank"
                           className={
                             mediaMatch.matches

@@ -8,12 +8,12 @@ import { getSPLPDetails, getProductSellerDetails } from "../../store/actions";
 import { useKeycloak } from "@react-keycloak/ssr";
 import { useSelector } from "react-redux";
 import queryString from "query-string";
-import {useRouter} from "next/router";
-const isServer = () => typeof window == undefined;
+import { useRouter } from "next/router";
 
 const querystring = require("querystring");
 
 //TODO: handle token
+const isServer = () => typeof window == "undefined";
 
 const SellerProductListing = (props) => {
   const router = useRouter();
@@ -21,12 +21,12 @@ const SellerProductListing = (props) => {
     (state) => state.appToken.token && state.appToken.token.access_token
   );
 
-  const {keycloak} = useKeycloak();
+  const { keycloak } = useKeycloak();
   let appToken = keycloak.token ? keycloak.token : token;
-  let data = !isServer()?props.listingPage:props.data;
+  let data = !isServer() ? props.listingPage : props.data;
   let { sellerDetails = {}, userProfile = {} } = props || {};
   let { orgName = "", categoryDescs = [] } = sellerDetails || {};
-  let { slp_content = [], isLoading = true } = !isServer()?props.listingPage:props.data;
+  let { slp_content = [], isLoading = true } = props.data;
   const [mobile, setMobile] = useState(false);
   const [offset, setOffset] = useState(0);
   const [limit, setLimit] = useState(30);
@@ -40,26 +40,33 @@ const SellerProductListing = (props) => {
     from: offset,
   });
 
-  const getQueryParamString=()=>{
-    let queryObj={};
-    const rq = router.query
+  const getQueryParamString = () => {
+    let queryObj = {};
+    const rq = router.query;
 
-    if(Object.keys(rq).length) {
+    if (Object.keys(rq).length) {
       for (const prop in router.query) {
-        if(prop !== "categoryId" && prop !== "sellerId"){
-          queryObj[prop] = rq[prop]
+        if (prop !== "categoryId" && prop !== "sellerId") {
+          queryObj[prop] = rq[prop];
         }
       }
       return querystring.stringify(queryObj);
-    } else return ""
-  }
+    } else return "";
+  };
 
   useEffect(() => {
     let width = window.screen ? window.screen.width : window.innerWidth;
     if (width <= 768) {
       setMobile(true);
     }
-    const { f_categories, sellerId: sellerIdKey,f_key_methods, f_values, f_product_types, ...rest } = queryParams;
+    const {
+      f_categories,
+      sellerId: sellerIdKey,
+      f_key_methods,
+      f_values,
+      f_product_types,
+      ...rest
+    } = queryParams;
     let defaultQuery = querystring.stringify(rest);
     let query = getQueryParamString();
     let { categoryId = "", sellerId = "" } = router.query;
@@ -93,45 +100,32 @@ const SellerProductListing = (props) => {
     setQueryParams(queryParams);
 
     const tempObj = {};
-    
+
     for (const key in queryParams) {
-      if (key=="f_values"|| key=="f_key_methods" || key=="f_product_types") {
+      if (
+        key == "f_values" ||
+        key == "f_key_methods" ||
+        key == "f_product_types"
+      ) {
         tempObj[key] = queryParams[key];
       }
     }
-    router.push({
-      pathname: router.asPath.split('?')[0],
-      query: tempObj,    
-  }, undefined, {shallow: true });
-    // let queryResult = querystring.stringify(queryParams);
-    // let tempQuery = "";
-    // const arr = [];
-    // queryResult.split("&").forEach((element) => {
-    //   if (
-    //     !element.search("f_values") ||
-    //     !element.search("f_key_methods") ||
-    //     !element.search("f_product_types")
-    //   ) {
-    //     arr.push(element);
-    //   }
-    // });
-    // if (arr.length > 0) {
-    //   tempQuery =
-    //     arr.length > 2
-    //       ? `?${arr[0]}&${arr[1]}&${arr[2]}`
-    //       : arr.length > 1
-    //       ? `?${arr[0]}&${arr[1]}`
-    //       : `?${arr[0]}`;
-    // }
-    // let newurl =
-    //   window.location.protocol +
-    //   "//" +
-    //   window.location.host +
-    //   window.location.pathname +
-    //   tempQuery;
-    // window.history.pushState({ path: newurl }, "", newurl);
-    // tempQuery = "";
-    // props.getSPLPDetails(queryResult);
+    console.log("router", router);
+    router.push(
+      {
+        pathname:
+          window.location.protocol +
+          "//" +
+          window.location.host +
+          "/seller/" +
+          router.query.sellerId +
+          "/" +
+          router.query.categoryId,
+        query: tempObj,
+      },
+      undefined,
+      { shallow: true }
+    );
   };
 
   const loadMoreData = () => {
@@ -147,32 +141,32 @@ const SellerProductListing = (props) => {
   };
   return (
     <div>
-       {mobile ? (
+      {mobile ? (
         <SellerProductListingMobile
-        data={!isServer()?props.listingPage:props.data}
-        isLoading={!isServer()?props.listingPage.isLoading:false}
+          data={!isServer() ? props.listingPage : props.data}
+          isLoading={!isServer() ? props.listingPage.isLoading : false}
           getFilterData={getFilterData}
           queryParams={queryParams}
           loadMoreData={loadMoreData}
           category={category}
           setCategoryName={setCategoryName}
           sellerId={sellerId}
-          sellerDetails={isServer()?props.data.sellerDetails:sellerDetails}
+          sellerDetails={isServer() ? props.data.sellerDetails : sellerDetails}
           // token={keycloak.token || token}
           userProfile={userProfile}
           // sellerIdentity={(sellerDetails && sellerDetails.kcIdentityId) || null}
         />
-      ) : ( 
+      ) : (
         <SellerProductListingDesktop
-          data={!isServer()?props.listingPage:props.data}
-          isLoading={!isServer()?props.listingPage.isLoading:false}
+          data={!isServer() ? props.listingPage : props.data}
+          isLoading={!isServer() ? props.listingPage.isLoading : false}
           getFilterData={getFilterData}
           queryParams={queryParams}
           loadMoreData={loadMoreData}
           category={category}
           setCategoryName={setCategoryName}
           sellerId={sellerId}
-          sellerDetails={isServer()?props.data.sellerDetails:sellerDetails}
+          sellerDetails={isServer() ? props.data.sellerDetails : sellerDetails}
           userProfile={userProfile}
           // token={keycloak.token || token}
           // sellerIdentity={(sellerDetails && sellerDetails.kcIdentityId) || null}

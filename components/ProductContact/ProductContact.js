@@ -14,14 +14,13 @@ import {
   Upload,
   Checkbox,
   DatePicker,
-  Avatar,
 } from "antd";
 import Icon, { PlusOutlined } from "@ant-design/icons";
 import moment from "moment";
 import { getCountries } from "react-phone-number-input/input";
 import en from "react-phone-number-input/locale/en.json";
 import { loginToApp } from "../AuthWithKeycloak";
-import certifiedIcon from "../../public/filestore/certifiedIcon";
+import addToCollectionIcon from "../../public/filestore/addToCollection";
 import Link from "next/link";
 import { useRouter } from "next/router";
 const { Option } = Select;
@@ -36,7 +35,14 @@ const ProductContact = (props) => {
 
   const { keycloak } = useKeycloak();
 
-  let { productDetails = {}, selectedColor = "", selectedSize = "" } = props;
+  let {
+    productDetails = {},
+    selectedColor = "",
+    selectedSize = "",
+    showPrice = false,
+    currencyDetails = {},
+  } = props;
+
   let {
     articleId = "",
     productName = "",
@@ -135,7 +141,7 @@ const ProductContact = (props) => {
       companyName: values.companyName,
       emailId: values.emailId,
       country: values.country || values.destinationCountry,
-      city: values.city,
+      city: values.city || values.destinationCity,
       mobileNo: values.mobileNo,
       destinationCity: values.destinationCity,
       destinationCountry: values.destinationCountry,
@@ -222,11 +228,21 @@ const ProductContact = (props) => {
             </Option>
           );
         }
-        return (
-          <Option key={country} value={en[country]}>
-            {en[country]}
-          </Option>
-        );
+        if (
+          country !== "CU" &&
+          country !== "IR" &&
+          country !== "KP" &&
+          country !== "SD" &&
+          country !== "SY" &&
+          country !== "PK" &&
+          country !== "SO"
+        ) {
+          return (
+            <Option key={country} value={en[country]}>
+              {en[country]}
+            </Option>
+          );
+        }
       })}
     </Select>
   );
@@ -245,49 +261,82 @@ const ProductContact = (props) => {
   let imageUrl2;
 
   if (heroImageUrl) {
-    imageUrl1 =
-      process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL + heroImageUrl;
+    imageUrl1 = process.env.NEXT_PUBLIC_REACT_APP_API_ASSETS_URL + heroImageUrl;
     imageUrl2 = galleryImages[0];
   } else {
     imageUrl1 = galleryImages[0];
     imageUrl2 = galleryImages[1];
   }
 
+  let displayPrice = priceMin || exfactoryListPrice;
+  let { convertToCurrency = "" } = currencyDetails || {};
+
   return (
     <Row id="seller-contact-form">
       <Col className="left-details" span={mediaMatch.matches ? 8 : 0}>
         <Row>
+          {showPrice && (
+            <Col span={24} className="left-verified-seller">
+              <div
+                style={{ backgroundColor: "#f2f0eb", padding: "17px" }}
+                className="qa-pos-rel"
+              >
+                <Icon
+                  component={addToCollectionIcon}
+                  className="atc-icon"
+                  style={{
+                    width: "30px",
+                    verticalAlign: "middle",
+                    marginRight: "5px",
+                  }}
+                />
+                <span className="custom-quote-atc">Save to collection</span>
+                <div className="custom-quote-text">
+                  If you would like to Get Custom Quote for multiple products,
+                  you can now use our new Save to Collection feature and send a
+                  combined Quote request easily
+                </div>
+                <span className="custom-quote-new">
+                  <span>NEW</span>
+                </span>
+              </div>
+            </Col>
+          )}
           <Col span={props.productDetails ? 24 : 0}>
             <div
               className="left-verified-seller"
-              style={{ marginTop: "140px" }}
+              style={{ marginTop: showPrice ? "0px" : "140px" }}
             >
               <div className="heading qa-tc-f" style={{ marginBottom: "20px" }}>
                 {productName}
               </div>
 
-              <div className="qa-tc-f">
-                <span
-                  style={{
-                    fontSize: "20px",
-                    fontFamily: "Butler",
-                    color: "#f9f7f2",
-                    verticalAlign: "middle",
-                  }}
-                >
-                  ${priceMin || exfactoryListPrice}
-                </span>
-                {priceMin && (
-                  <span className="qa-tc-f qa-fs-17 qa-font-butler qa-va-m">
-                    {" "}
-                    - ${exfactoryListPrice}
+              {/* {showPrice && (
+                <div className="qa-tc-f">
+                  <span
+                    style={{
+                      fontSize: "20px",
+                      fontFamily: "Butler",
+                      color: "#f9f7f2",
+                      verticalAlign: "middle",
+                    }}
+                  >
+                    {getSymbolFromCurrency(convertToCurrency)}
+                    {getConvertedCurrency(displayPrice)}
                   </span>
-                )}
+                  {priceMin && (
+                    <span className="qa-tc-f qa-fs-17 qa-font-butler qa-va-m">
+                      {" "}
+                      - {getSymbolFromCurrency(convertToCurrency)}
+                      {getConvertedCurrency(exfactoryListPrice)}
+                    </span>
+                  )}
 
-                {/* <div className="qa-font-san  qa-dark-body">
-                  Suggested retail price : <b>${suggestedRetailPrice}</b>
-                </div> */}
-              </div>
+                  <div className="qa-font-san  qa-dark-body">
+                    Suggested retail price : <b>${suggestedRetailPrice}</b>
+                  </div> 
+                </div>
+              )} */}
               <div className="qa-fs-12 qa-mar-btm-2 qa-font-san qa-dark-body qa-lh">
                 Base price per unit excl. margin and other charges
               </div>
@@ -332,14 +381,14 @@ const ProductContact = (props) => {
                 <span className="text-avatar">
                   {props.sellerDetails && props.sellerDetails.orgName}
                 </span>
-                <span
+                {/* <span
                   style={{
                     color: "#d9bb7f",
                     verticalAlign: "middle",
                   }}
                 >
                   <Icon component={certifiedIcon} className="certified-icon" />
-                </span>
+                </span> */}
               </div>
 
               <Row className="para">
@@ -464,6 +513,38 @@ const ProductContact = (props) => {
         className="register"
       >
         <Row justify="center">
+          {!mediaMatch.matches && showPrice && (
+            <Col span={20}>
+              <div
+                style={{
+                  backgroundColor: "#E5E3DF",
+                  padding: "17px",
+                  marginTop: "30px",
+                }}
+                className="qa-pos-rel"
+              >
+                <Icon
+                  component={addToCollectionIcon}
+                  className="atc-icon"
+                  style={{
+                    width: "30px",
+                    verticalAlign: "middle",
+                    marginRight: "5px",
+                  }}
+                />
+                <span className="custom-quote-atc">Save to collection</span>
+                <div className="custom-quote-text">
+                  If you would like to Get Custom Quote for multiple products,
+                  you can now use our new Save to Collection feature and send a
+                  combined Quote request easily
+                </div>
+                <span className="custom-quote-new">
+                  <span>NEW</span>
+                </span>
+              </div>
+            </Col>
+          )}
+
           <Col span={20}>
             {keycloak.authenticated ? null : (
               <Alert
@@ -592,12 +673,13 @@ const ProductContact = (props) => {
                 </Upload>
               </Form.Item>
               <span className="label-paragraph">
-                What is the quantity that you're looking to order?
+                What is the quantity that you're looking to order?*
               </span>
               <Form.Item
                 name="quantity"
                 style={{ marginBottom: "1em" }}
                 rules={[
+                  { required: true, message: "Please enter the quantity." },
                   {
                     type: "string",
                     message: "The input is not valid!",
@@ -654,11 +736,15 @@ const ProductContact = (props) => {
               >
                 {country}
               </Form.Item>
-              <span className="label-paragraph">Destination City, State</span>
+              <span className="label-paragraph">Destination City, State*</span>
               <Form.Item
                 name="destinationCity"
                 style={{ marginBottom: "1em" }}
                 rules={[
+                  {
+                    required: true,
+                    message: "Please input State & City name!",
+                  },
                   {
                     min: 3,
                     max: 50,
@@ -784,8 +870,10 @@ const ProductContact = (props) => {
               >
                 <Checkbox className="check-box-tnc">
                   Standard{" "}
-                  <Link className="link-text" href="/TermsOfUse">
-                    <a target="_blank">T&C</a>
+                  <Link href="/TermsOfUse">
+                    <a target="_blank" className="link-text">
+                      T&C
+                    </a>
                   </Link>{" "}
                   apply.
                 </Checkbox>
@@ -813,7 +901,7 @@ const ProductContact = (props) => {
                 {productName}
               </div>
 
-              <div className="qa-tc-f">
+              {/* <div className="qa-tc-f">
                 <span
                   style={{
                     fontSize: "20px",
@@ -831,10 +919,10 @@ const ProductContact = (props) => {
                   </span>
                 )}
 
-                {/* <div className="qa-font-san  qa-dark-body">
+                <div className="qa-font-san  qa-dark-body">
                   Suggested retail price : <b>${suggestedRetailPrice}</b>
-                </div> */}
-              </div>
+                </div>
+              </div> */}
               <div className="qa-mar-btm-1 qa-font-san qa-dark-body qa-fs-12 qa-lh">
                 Base price per unit excl. margin and other charges
               </div>
@@ -879,14 +967,14 @@ const ProductContact = (props) => {
                   {props.sellerDetails && props.sellerDetails.orgName}
                 </span>
 
-                <span
+                {/* <span
                   style={{
                     color: "#d9bb7f",
                     verticalAlign: "middle",
                   }}
                 >
                   <Icon component={certifiedIcon} className="certified-icon" />
-                </span>
+                </span> */}
               </div>
               <Row className="para">
                 <Col span={24}>

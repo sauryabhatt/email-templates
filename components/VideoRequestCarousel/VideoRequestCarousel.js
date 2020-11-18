@@ -110,7 +110,7 @@ const VideoRequestCarousel = (props) => {
                 <img
                   className="qa-rel-pos image-container bell-icon"
                   style={{ display: "inline" }}
-                  src={process.env.PUBLIC_URL + "/bell.png"}
+                  src={process.env.NEXT_PUBLIC_URL + "/bell.png"}
                 />
               </Col>
               {props.type == "BUYER" ? (

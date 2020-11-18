@@ -1,5 +1,7 @@
 /** @format */
-
+.main-layout-next {
+  background-color: #f9f7f2 !important;
+}
 .qa-pad-1 {
   padding: 10px;
 }
@@ -584,7 +586,7 @@
 }
 
 .qa-fs-60 {
-  font-size: 60px;
+  font-size: 52px;
 }
 
 .qa-vertical-center {
@@ -597,7 +599,9 @@
 .qa-mar-lft15 {
   margin-left: 15px;
 }
-
+.qa-mar-lft1 {
+  margin-left: 10px;
+}
 .qa-loader-middle {
   display: flex;
   justify-content: center;
@@ -627,7 +631,4 @@
 }
 .qa-pad-rgt-50 {
   padding-right: 50px;
-}
-.main-layout-next {
-  background-color: #f9f7f2 !important;
 }

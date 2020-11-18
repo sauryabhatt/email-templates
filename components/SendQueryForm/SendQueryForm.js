@@ -1,7 +1,6 @@
 /** @format */
 
 import React, { useState } from "react";
-// import { useSelector } from "react-redux";
 import { useKeycloak } from "@react-keycloak/ssr";
 import { useRouter } from "next/router";
 import {
@@ -15,7 +14,6 @@ import {
   message,
   Upload,
   Checkbox,
-  InputNumber,
   DatePicker,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
@@ -23,22 +21,18 @@ import moment from "moment";
 import { getCountries } from "react-phone-number-input/input";
 import en from "react-phone-number-input/locale/en.json";
 import { loginToApp } from "../AuthWithKeycloak";
-// import './index.css';
-import Link from "next/link";
 
 const { Option } = Select;
 
 const SendQueryForm = (props) => {
   const [form] = Form.useForm();
   const router = useRouter();
-
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(false);
   const [fileList, setFileList] = useState([]);
-
-  // const currentUser = useSelector(state => state.auth.currentUser);
   const { keycloak } = useKeycloak();
-  // console.log(keycloak.subject);
+
+  const { initialValues = {} } = props || {};
 
   const acceptedFileTypes = [
     "application/pdf",
@@ -48,25 +42,6 @@ const SendQueryForm = (props) => {
     "image/jpeg",
     "image/png",
   ];
-
-  // const normFile = e => {
-  //     // console.log('Upload event:', e);
-
-  //     if (Array.isArray(e)) {
-  //         return e;
-  //     }
-
-  //     return e;
-  // };
-
-  // const getBase64 = (file) => {
-  //     return new Promise((resolve, reject) => {
-  //         const reader = new FileReader();
-  //         reader.readAsDataURL(file);
-  //         reader.onload = () => resolve(reader.result);
-  //         reader.onerror = error => reject(error);
-  //     });
-  // }
 
   const beforeUpload = (file) => {
     const isJpgOrPng = acceptedFileTypes.includes(file.type);
@@ -83,15 +58,7 @@ const SendQueryForm = (props) => {
     return isJpgOrPng && isLt2M;
   };
 
-  // const handlePreview = async file => {
-  //     if (!file.url && !file.preview) {
-  //         file.preview = await getBase64(file.originFileObj);
-  //     }
-  //     return file.url;
-  // };
-
   const handleChange = (info) => {
-    // console.log(info.file.status);
     if (
       info.file.status === "uploading" ||
       info.file.status === "done" ||
@@ -103,17 +70,14 @@ const SendQueryForm = (props) => {
   };
 
   const onFinish = (values) => {
-    // console.log('Received values of form: ', values);
     let isAnonymousUser = true;
-    if (props.initialValues && props.initialValues.profileId) {
+    if (initialValues && initialValues.profileId) {
       isAnonymousUser = false;
     }
 
     var data = {
-      profileId:
-        (props.initialValues && props.initialValues.profileId) || "anonymous",
-      profileType:
-        (props.initialValues && props.initialValues.profileType) || "anonymous",
+      profileId: (initialValues && initialValues.profileId) || "anonymous",
+      profileType: (initialValues && initialValues.profileType) || "anonymous",
       isAnonymousUser: isAnonymousUser,
       queryCategory: values.category,
       questions: values.requirementDetails,
@@ -123,8 +87,10 @@ const SendQueryForm = (props) => {
       requesterName: values.requesterName,
       companyName: values.companyName,
       emailId: values.emailId,
-      country: values.country,
-      city: values.city,
+      country: values.destinationCountry,
+      city: values.destinationCity,
+      destinationCountry: values.destinationCountry,
+      destinationCity: values.destinationCity,
       mobileNo: values.mobileNo,
       rfqType: "QALARA",
       buyerId: props.userId && props.userId.split("::")[1],
@@ -166,6 +132,7 @@ const SendQueryForm = (props) => {
             // console.log(res);
             if (res.ok) {
               // message.success('Your query has been sent successfully.', 5);
+              form.resetFields();
               props.sendQueryCancel("success");
             } else {
               message.error(res.statusText, 5);
@@ -204,7 +171,12 @@ const SendQueryForm = (props) => {
   // const displayErrors = errors => errors.map((err, i) => <Alert key={i} type="error" message={err.atStage} description={err.message} closable />)
 
   const country = (
-    <Select placeholder="Select country" showSearch>
+    <Select
+      value={undefined}
+      className="country-selector"
+      placeholder="Select country"
+      showSearch
+    >
       {getCountries().map((country) => {
         // console.log(country);
         if (country === "US") {
@@ -227,11 +199,11 @@ const SendQueryForm = (props) => {
     process.env.NEXT_PUBLIC_REACT_APP_API_ASSETS_URL +
     "/assets?sourceService=forms";
 
-  if (props.initialValues && props.initialValues.profileId) {
+  if (initialValues && initialValues.profileId) {
     assetUrl =
       process.env.NEXT_PUBLIC_REACT_APP_API_ASSETS_URL +
       "/assets?sourceService=forms&userId=" +
-      props.initialValues.profileId;
+      initialValues.profileId;
   }
 
   return (
@@ -285,7 +257,7 @@ const SendQueryForm = (props) => {
         <Form
           form={form}
           name="send_query_form"
-          initialValues={props.initialValues}
+          initialValues={initialValues}
           onFinish={onFinish}
           scrollToFirstError
         >
@@ -305,6 +277,7 @@ const SendQueryForm = (props) => {
                 ]}
               >
                 <Select
+                  className="country-selector"
                   showSearch
                   placeholder="Select category"
                   value={undefined}
@@ -430,7 +403,7 @@ const SendQueryForm = (props) => {
                 </Upload>
               </Form.Item>
               <span className="label-paragraph order-quantity">
-                What is the quantity that you're looking to order?
+                What is the quantity that you're looking to order?*
               </span>
               <Form.Item
                 name="quantity"
@@ -440,10 +413,10 @@ const SendQueryForm = (props) => {
                     type: "string",
                     message: "The input is not valid!",
                   },
-                  // {
-                  //     required: true,
-                  //     message: 'Please enter the quantity.',
-                  // },
+                  {
+                    required: true,
+                    message: "Please enter the quantity.",
+                  },
                   {
                     min: 1,
                     max: 50,
@@ -498,12 +471,11 @@ const SendQueryForm = (props) => {
                 <DatePicker
                   disabledDate={disabledDate}
                   style={{ width: "100%" }}
-                  // placeholderplaceholder="Target delivery date"
                 />
               </Form.Item>
               <span className="label-paragraph">Destination Country*</span>
               <Form.Item
-                name="country"
+                name="destinationCountry"
                 style={{ marginBottom: "1em" }}
                 rules={[
                   { required: true, message: "Please select your country." },
@@ -513,12 +485,17 @@ const SendQueryForm = (props) => {
               </Form.Item>
               <div className="city-state-phone">
                 <div className="city-state">
-                  <span className="label-paragraph"> Destination City, State</span>
+                  <span className="label-paragraph">
+                    Destination City, State*
+                  </span>
                   <Form.Item
-                    name="city"
+                    name="destinationCity"
                     style={{ marginBottom: "1em" }}
                     rules={[
-                      // { required: true, message: 'Please input State & City name!' },
+                      {
+                        required: true,
+                        message: "Please input State & City name!",
+                      },
                       {
                         min: 3,
                         max: 50,
@@ -659,8 +636,18 @@ const SendQueryForm = (props) => {
               >
                 <Checkbox className="check-box-tnc">
                   Standard{" "}
-                  <span className="link-text" onClick={()=>window.open(window.location.protocol+"//" +window.location.host + "/TermsOfUse")}>
-                      T&C
+                  <span
+                    className="link-text"
+                    onClick={() =>
+                      window.open(
+                        window.location.protocol +
+                          "//" +
+                          window.location.host +
+                          "/TermsOfUse"
+                      )
+                    }
+                  >
+                    T&C
                   </span>{" "}
                   apply.
                 </Checkbox>
