@@ -27,8 +27,11 @@
   border-color: #c4c4c4 !important;
 }
 
-#user-account .download-invoice-btn-mob:disabled {
-  background: #d9bb7f !important;
+#user-account .download-invoice-btn-mob:disabled,
+#user-account .download-invoice-btn-mob:disabled:hover,
+#user-account .download-invoice-btn-mob:disabled:active,
+#user-account .download-invoice-btn-mob:disabled:focus {
+  background: #c4c4c4 !important;
   color: #191919;
 }
 
@@ -40,7 +43,7 @@
 }
 
 #user-account .first-row {
-  margin-bottom: 25px;
+  margin-bottom: 10px;
 }
 
 #user-account .seller-name {
