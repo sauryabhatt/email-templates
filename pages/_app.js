@@ -36,8 +36,10 @@ function MyApp(props) {
     <AuthWithKeycloak cookies={cookies}>
       <Provider store={store}>
         <React.Fragment>
-          <Component {...pageProps} />
-          <AppFooter />
+          <ScrollToTop>
+            <Component {...pageProps} />
+            <AppFooter />
+          </ScrollToTop>
         </React.Fragment>
       </Provider>
     </AuthWithKeycloak>

@@ -90,6 +90,10 @@ function Collections(props) {
     }
   }, [props.userProfile]);
 
+  const refreshCollection = (collections) => {
+    setCollections(collections);
+  };
+
   let {
     currencyDetails = {},
     userProfile = {},
@@ -336,6 +340,7 @@ function Collections(props) {
           userProfile={userProfile}
           buyerId={buyerId}
           setCollectionName={setCollectionName}
+          refreshCollection={refreshCollection}
         />
       )}
     </Row>

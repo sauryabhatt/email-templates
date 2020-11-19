@@ -1,7 +1,7 @@
 /** @format */
 
 import { Layout } from "../../components/common/Layout";
-import NotFound from "../../components/NotFound/NotFound"
+import NotFound from "../../components/NotFound/NotFound";
 const meta = {
   title:
     "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods from India | Qalara",
@@ -11,13 +11,16 @@ const meta = {
 
 export default function TrendDetails({ res, error }) {
   let { body = "" } = res || {};
-  if(error?.status || res?.body==null) {
-     return <> <NotFound /></>;
+  if (error?.status || res?.body == null) {
+    return (
+      <>
+        <NotFound />
+      </>
+    );
   }
   return (
     <Layout meta={meta}>
       <div
-        // style={{ paddingTop: "3%" }}
         dangerouslySetInnerHTML={{
           __html: body,
         }}
@@ -40,9 +43,8 @@ export async function getStaticPaths() {
   };
 }
 export async function getStaticProps({ params: { trend = "" } = {} }) {
-
-  let res; 
-  const error={status:false};
+  let res;
+  const error = { status: false };
   try {
     const response = await fetch(
       process.env.NEXT_PUBLIC_REACT_APP_CONTENT_URL +
@@ -51,21 +53,19 @@ export async function getStaticProps({ params: { trend = "" } = {} }) {
         method: "GET",
         headers: {
           "content-type": "application/json",
-          Authorization:
-            "Bearer " + process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN,
+          Authorization: "Bearer " + process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN,
         },
       }
     );
     res = await response.json();
   } catch (error) {
-    error["status"]=true;
+    error["status"] = true;
   }
-  
 
   return {
     props: {
       res: res,
-      error:error
+      error: error,
     },
   };
 }

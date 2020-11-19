@@ -2259,7 +2259,7 @@ const OrderReview = (props) => {
                         style={{ width: "100%" }}
                         className="product-table"
                       >
-                        <thead>
+                        <tr>
                           <th>
                             <span
                               className="qa-font-san qa-fs-12"
@@ -2330,7 +2330,7 @@ const OrderReview = (props) => {
                               {props.order && props.order.currency})
                             </span>
                           </th>
-                        </thead>
+                        </tr>
                         {prepareTableRows}
                         {/* <tr>
                                                 <td rowSpan={props.order && props.order} id="seller-name"><span className="qa-font-san qa-fw-b qa-fs-12">Craftloom exports</span></td>

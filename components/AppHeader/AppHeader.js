@@ -190,6 +190,11 @@ function AppHeader(props) {
       });
   };
 
+  const handleRedirect = () => {
+    setSuccessQueryVisible(false);
+    router.push("/");
+  };
+
   const sendInviteData = (data) => {
     fetch(process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/lead-gens", {
       method: "POST",
@@ -940,13 +945,12 @@ function AppHeader(props) {
                 the next 48 to 72 hours.
               </p>
             </div>
-            <Link href="/">
-              <a>
-                <Button className="send-query-success-modal-button">
-                  Back to home page
-                </Button>
-              </a>
-            </Link>
+            <Button
+              className="send-query-success-modal-button"
+              onClick={handleRedirect}
+            >
+              Back to home page
+            </Button>
           </div>
         </Modal>
         <Modal
