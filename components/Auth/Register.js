@@ -1213,10 +1213,8 @@ const Register = (props) => {
                 </p>
               </div>
               <Button
-                className="congratulation-button"
-                onClick={() => {
-                  history.push("/");
-                }}
+                className="send-query-success-modal-button"
+                onClick={handleCancel}
               >
                 Back to home page
               </Button>
@@ -1275,10 +1273,8 @@ const Register = (props) => {
           </p>
         )}
         <Button
-          className="congratulation-button"
-          onClick={() => {
-            history.push("/");
-          }}
+          className="send-query-success-modal-button"
+          onClick={handleCancel}
         >
           Back to home page
         </Button>

@@ -196,12 +196,12 @@ const SendQueryForm = (props) => {
   );
 
   let assetUrl =
-    process.env.NEXT_PUBLIC_REACT_APP_API_ASSETS_URL +
+    process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
     "/assets?sourceService=forms";
 
   if (initialValues && initialValues.profileId) {
     assetUrl =
-      process.env.NEXT_PUBLIC_REACT_APP_API_ASSETS_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
       "/assets?sourceService=forms&userId=" +
       initialValues.profileId;
   }

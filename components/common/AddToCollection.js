@@ -117,7 +117,6 @@ function AddToCollection(props) {
         }
       })
       .then((res) => {
-        console.log(res);
         setCollections(res);
         onClose();
         savedProductToCollection(value);

@@ -13,48 +13,48 @@ const categoryData = [
   {
     title: "Home decor",
     url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_1.jpg",
-    linkTo: "Home Décor & Accessories",
+    linkTo: "home-decor-and-accessories",
   },
   {
     title: "Fashion accessories",
     url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_2.jpg",
-    linkTo: "Fashion",
+    linkTo: "fashion",
   },
   {
     title: "Kitchen & dining",
     url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_3.jpg",
-    linkTo: "Kitchen & Dining",
+    linkTo: "kitchen-and-dining",
   },
   {
     title: "Home linen",
     url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_4.jpg",
-    linkTo: "Home Furnishing",
+    linkTo: "home-furnishing",
   },
   {
     title: "Furniture & storage",
     url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_5.jpg",
-    linkTo: "Furniture & Storage",
+    linkTo: "furniture-and-storage",
   },
   // {
   //   title: "Jewellery",
   //   url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_6.jpg",
-  //   linkTo: "Jewelry",
+  //   linkTo: "jewellery",
   // },
   {
     title: "Baby & kids",
     url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_7.jpg",
-    linkTo: "Baby & Kids",
+    linkTo: "baby-and-kids",
   },
   {
     title: "Stationery & novelty",
     url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_8.jpg",
-    linkTo: "Stationery & Novelty",
+    linkTo: "stationery-and-novelty",
   },
 ];
 const slides = categoryData?.map((item, index) => {
   return (
-    <Link href={`/sellers/${encodeURIComponent(item.linkTo)}`} key={index}>
-      <div className="category-card">
+    <Link href={`/sellers/${item.linkTo}`} key={index} className="qa-cursor">
+      <div className="category-card qa-cursor">
         {(index + 1) % 2 === 0 ? (
           <div className="category-title">{item.title ?? ""}</div>
         ) : null}

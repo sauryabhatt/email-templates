@@ -248,12 +248,12 @@ const ProductContact = (props) => {
   );
 
   let assetUrl =
-    process.env.NEXT_PUBLIC_REACT_APP_API_ASSETS_URL +
+    process.env.NEXT_PUBLIC_REACT_APP_ASSETS_URL +
     "/assets?sourceService=forms";
 
   if (props.initialValues && props.initialValues.profileId) {
     assetUrl =
-      process.env.NEXT_PUBLIC_REACT_APP_API_ASSETS_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_ASSETS_URL +
       "/assets?sourceService=forms&userId=" +
       props.initialValues.profileId;
   }
@@ -261,7 +261,8 @@ const ProductContact = (props) => {
   let imageUrl2;
 
   if (heroImageUrl) {
-    imageUrl1 = process.env.NEXT_PUBLIC_REACT_APP_API_ASSETS_URL + heroImageUrl;
+    imageUrl1 =
+      process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL + heroImageUrl;
     imageUrl2 = galleryImages[0];
   } else {
     imageUrl1 = galleryImages[0];

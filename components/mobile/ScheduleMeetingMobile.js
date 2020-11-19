@@ -2,9 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { getSellerDetails } from "../../store/actions";
 import { useKeycloak } from "@react-keycloak/ssr";
-import { useSelector } from "react-redux";
 import {
   Button,
   Row,
@@ -12,17 +10,11 @@ import {
   Modal,
   Alert,
   Form,
-  Input,
   Select,
   DatePicker,
   TimePicker,
 } from "antd";
-import Icon, {
-  MinusOutlined,
-  StarOutlined,
-  CheckOutlined,
-  InfoCircleOutlined,
-} from "@ant-design/icons";
+import Icon from "@ant-design/icons";
 import momentTimezone from "moment-timezone";
 import dateFormat from "dateformat";
 import moment from "moment";
@@ -51,8 +43,6 @@ const ScheduleMeetingMobile = (props) => {
   const [disabledEndTimePicker, setDisabledEndTimePicker] = useState(true);
   const [showSlotText, setShowSlotText] = useState(false);
   const [form] = Form.useForm();
-
-  const days = { Mon: "Monday", Tue: "Tuesday" };
 
   useEffect(() => {
     let width = window.innerWidth;
