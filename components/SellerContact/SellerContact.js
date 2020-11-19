@@ -236,12 +236,12 @@ const SellerContact = (props) => {
   );
 
   let assetUrl =
-    process.env.NEXT_PUBLIC_REACT_APP_API_ASSETS_URL +
+    process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
     "/assets?sourceService=forms";
 
   if (props.initialValues && props.initialValues.profileId) {
     assetUrl =
-      process.env.NEXT_PUBLIC_REACT_APP_API_ASSETS_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
       "/assets?sourceService=forms&userId=" +
       props.initialValues.profileId;
   }
@@ -352,14 +352,6 @@ const SellerContact = (props) => {
                 4. One stop sourcing platform from discovery to delivery
               </p>
               <p className="para">5. Secure digital commerce</p>
-              {/* <Button
-                className="button"
-                onClick={() => {
-                  history.push("/signup");
-                }}
-              >
-                Apply to buy/sell
-              </Button> */}
             </div>
           </Col>
           {/* <Col

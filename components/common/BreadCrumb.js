@@ -3,7 +3,7 @@
 import React from "react";
 import { Breadcrumb } from "antd";
 import Link from "next/link";
-import _startCase from "lodash/startCase";
+import _upperFirst from "lodash/upperFirst";
 
 function BreadCrumb(props) {
   let { pageId = "", categoryName = "", brandName = "", vanityId = "" } = props;
@@ -20,9 +20,10 @@ function BreadCrumb(props) {
   let brandNameSC =
     brandName.toLowerCase().charAt(0).toUpperCase() +
     brandName.toLowerCase().slice(1);
-  let categoryNameSC = _startCase(categoryName);
-  // categoryName.toLowerCase().charAt(0).toUpperCase() +
-  // categoryName.toLowerCase().slice(1);
+  categoryName = categoryName?.replace(/-/gi, " ");
+  categoryName = categoryName?.replace(/and/gi, "&");
+  let categoryNameSC = _upperFirst(categoryName);
+
   return (
     <Breadcrumb className="breadcrumb-text">
       <Breadcrumb.Item>
@@ -44,11 +45,7 @@ function BreadCrumb(props) {
           </Link>
         </Breadcrumb.Item>
       )}
-      {pageId === "product-description" ? (
-        <Breadcrumb.Item>{categoryNameSC}</Breadcrumb.Item>
-      ) : (
-        <Breadcrumb.Item>{categoryNameSC}</Breadcrumb.Item>
-      )}
+      <Breadcrumb.Item>{categoryNameSC}</Breadcrumb.Item>
     </Breadcrumb>
   );
 }

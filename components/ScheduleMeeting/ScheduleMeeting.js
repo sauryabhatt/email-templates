@@ -24,7 +24,7 @@ const { Option } = Select;
 
 const ScheduleMeeting = (props) => {
   const [selectedDate, setSelectedDate] = useState(null);
-  const [startTime, setStartTime] = useState("00:00");
+  const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
   const [dateValue, setDateValue] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState(null);
@@ -36,10 +36,11 @@ const ScheduleMeeting = (props) => {
   const [sellerStartTime, setSellerStartTime] = useState(null);
   const [sellerEndTime, setSellerEndTime] = useState(null);
   const [disabledTime, setDisabledTime] = useState([]);
-  const [keycloak] = useKeycloak();
+  const [correctValue, setCorrectValue] = useState(true);
   const [disabledStartTime, setDisabledStartTime] = useState([]);
-  const [disabledEndTimePicker, setDisabledEndTimePicker] = useState(true);
+  const { keycloak } = useKeycloak();
   const [disabledHoursBydate, setDisabledHoursBydate] = useState([]);
+  const [disabledEndTimePicker, setDisabledEndTimePicker] = useState(true);
   const [showSlotText, setShowSlotText] = useState(false);
   const [form] = Form.useForm();
 
@@ -59,8 +60,6 @@ const ScheduleMeeting = (props) => {
   });
 
   const handleDate = (date, dateString) => {
-    setDisabledTime((disabledTime) => []);
-    setDisabledStartTime((disabledStartTime) => []);
     setDateValue(dateFormat(date, "dddd, mmmm dS, yyyy"));
     setSelectedDate(dateString);
     if (startTime != null) {
@@ -88,7 +87,6 @@ const ScheduleMeeting = (props) => {
         moment(endTime, ["HH"]).format("hh A");
       setSelectedSlot(slot);
     }
-
     form.setFieldsValue({ end_time: null, start_time: null });
     setStartTime(null);
     setEndTime(null);
@@ -137,6 +135,8 @@ const ScheduleMeeting = (props) => {
               for (let j = parseInt(end_time); j > parseInt(start_time); j--) {
                 endTimeArr.push(j);
               }
+              // console.log(endTimeArr);
+              // console.log(startTimeArr);
             } else {
               startTimeArr.push(parseInt(start_time));
               endTimeArr.push(parseInt(end_time));

@@ -38,6 +38,7 @@ const CollectionDetails = (props) => {
     userProfile = {},
     collectionName = "",
     buyerId = "",
+    refreshCollection = "",
   } = props;
 
   const router = useRouter();
@@ -226,6 +227,7 @@ const CollectionDetails = (props) => {
                 setProducts(products);
               }
             }
+            refreshCollection(res);
           });
           // return res.json();
         } else {

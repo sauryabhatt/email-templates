@@ -162,7 +162,6 @@ const ProductDetails = (props) => {
   let {
     data = {},
     userProfile = "",
-    collections = "",
     sellerDetails = "",
     token = "",
     authenticated = false,
@@ -222,6 +221,7 @@ const ProductDetails = (props) => {
   const [loading, setLoading] = useState(false);
   const [showCollection, setCollection] = useState(false);
   const [selectedCollection, setSelectedCollection] = useState("");
+  const [collections, setCollections] = useState([]);
 
   const url = process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL;
 
@@ -314,7 +314,18 @@ const ProductDetails = (props) => {
 
     if (profileType === "BUYER") {
       profileId = profileId.replace("BUYER::", "");
-      props.getCollections(token, profileId);
+      props.getCollections(token, profileId, (result) => {
+        setCollections(result);
+        for (let list of result) {
+          let { products = [], name = "" } = list;
+          for (let product of products) {
+            let { articleId: pArticleId = "" } = product;
+            if (pArticleId === articleId) {
+              setSelectedCollection(name);
+            }
+          }
+        }
+      });
     }
     if (skus.length > 0) {
       let skuId = skus[0]["id"];
@@ -350,21 +361,6 @@ const ProductDetails = (props) => {
     setSelectedColor(color);
     setVariantId(variantId);
   }, [props.data]);
-
-  useEffect(() => {
-    let { collections = "" } = props;
-    if (collections && collections.length) {
-      for (let list of collections) {
-        let { products = [], name = "" } = list;
-        for (let product of products) {
-          let { articleId: pArticleId = "" } = product;
-          if (pArticleId === articleId) {
-            setSelectedCollection(name);
-          }
-        }
-      }
-    }
-  }, [props.collections]);
 
   let {
     articleId = "",
@@ -3747,7 +3743,6 @@ const mapStateToProps = (state) => {
     cart: state.checkout.cart,
     currencyDetails: state.currencyConverter,
     userProfile: state.userProfile.userProfile,
-    collections: state.userProfile.collections,
     isGuest:
       state.auth &&
       state.auth.userAuth &&
