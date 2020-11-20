@@ -188,7 +188,7 @@ const CartDetails = (props) => {
     profileId = "",
   } = shippingAddressDetails || {};
   let shippingId = id;
-  let mov = 250;
+  let mov = 0;
   let addressFlag = false;
   if (
     shippingAddressDetails &&
@@ -199,15 +199,21 @@ const CartDetails = (props) => {
   }
   if (subOrders && subOrders.length) {
     for (let orders of subOrders) {
-      let { total = 0, products = [] } = orders;
+      let { total = 0, sellerCode = "", products = [] } = orders;
+
       for (let product of products) {
-        let { productType = "" } = product;
-        if (productType === "ERTM" && total < 500) {
-          mov = 500;
+        let { productType = "" } = product || {};
+        let sellerMov =
+          brandNames[sellerCode] &&
+          brandNames[sellerCode].mov.find((x) => x.productType === productType)
+            .amount;
+
+        if (mov < sellerMov) {
+          mov = sellerMov;
         }
-        if (total < mov) {
-          showError = true;
-        }
+      }
+      if (total < mov) {
+        showError = true;
       }
     }
   }
@@ -255,7 +261,11 @@ const CartDetails = (props) => {
 
   const getConvertedCurrency = (baseAmount) => {
     let { convertToCurrency = "", rates = [] } = props.currencyDetails;
-    return Number.parseFloat(baseAmount * rates[convertToCurrency]).toFixed(2);
+    return Number.parseFloat(
+      (baseAmount *
+        Math.round((rates[convertToCurrency] + Number.EPSILON) * 100)) /
+        100
+    ).toFixed(2);
   };
 
   const handlePhoneNumber = (value, country) => {
@@ -1017,10 +1027,18 @@ const CartDetails = (props) => {
                     let { products = "", sellerCode = "", total = 0 } = order;
                     let servicesTotal = 0;
                     let servicesOpted = {};
-                    let mov = "";
+                    let mov = 0;
                     for (let product of products) {
-                      let { productType = "" } = product;
-                      mov = productType === "RTS" ? 250 : 500;
+                      let { productType = "" } = product || {};
+                      let sellerMov =
+                        brandNames[sellerCode] &&
+                        brandNames[sellerCode].mov.find(
+                          (x) => x.productType === productType
+                        ).amount;
+
+                      if (mov < sellerMov) {
+                        mov = sellerMov;
+                      }
                     }
                     return (
                       <div
@@ -1559,10 +1577,18 @@ const CartDetails = (props) => {
                     let { products = "", sellerCode = "", total = 0 } = order;
                     let servicesTotal = 0;
                     let servicesOpted = {};
-                    let mov = "";
+                    let mov = 0;
                     for (let product of products) {
-                      let { productType = "" } = product;
-                      mov = productType === "RTS" ? 250 : 500;
+                      let { productType = "" } = product || {};
+                      let sellerMov =
+                        brandNames[sellerCode] &&
+                        brandNames[sellerCode].mov.find(
+                          (x) => x.productType === productType
+                        ).amount;
+
+                      if (mov < sellerMov) {
+                        mov = sellerMov;
+                      }
                     }
                     return (
                       <div className="qa-bg-light-theme qa-mar-btm-2" key={i}>

@@ -199,38 +199,38 @@ const PaypalButton = (props) => {
     let stateCode = getStateCode();
     let countryCode = getCountryCode();
     let paymentObj = null;
-    if (
-      props.currencyDetails !== null &&
-      props.currencyDetails.convertToCurrency !== "USD"
-    ) {
-      handlingSum =
-        parseFloat(handlingSum) +
-        parseFloat(
-          parseFloat((props.order.total * conversionFactor).toFixed(2)) -
-            (parseFloat(handlingSum) +
-              parseFloat(
-                parseFloat(
-                  getConvertedCurrency(
-                    props.order.miscCharges
-                      .find((x) => x.chargeId === "FREIGHT_MAX")
-                      .amount.toString(),
-                    conversionFactor
-                  )
-                ).toFixed(2)
-              ) +
-              parseFloat(sumOfProd) +
-              parseFloat(
-                parseFloat(
-                  getConvertedCurrency(
-                    props.order.miscCharges
-                      .find((x) => x.chargeId === "DUTY_MAX")
-                      .amount.toString(),
-                    conversionFactor
-                  )
-                ).toFixed(2)
-              ))
-        );
-    }
+    // if (
+    //   props.currencyDetails !== null &&
+    //   props.currencyDetails.convertToCurrency !== "USD"
+    // ) {
+    //   handlingSum =
+    //     parseFloat(handlingSum) +
+    //     parseFloat(
+    //       parseFloat((props.order.total * conversionFactor).toFixed(2)) -
+    //         (parseFloat(handlingSum) +
+    //           parseFloat(
+    //             parseFloat(
+    //               getConvertedCurrency(
+    //                 props.order.miscCharges
+    //                   .find((x) => x.chargeId === "FREIGHT_MAX")
+    //                   .amount.toString(),
+    //                 conversionFactor
+    //               )
+    //             ).toFixed(2)
+    //           ) +
+    //           parseFloat(sumOfProd) +
+    //           parseFloat(
+    //             parseFloat(
+    //               getConvertedCurrency(
+    //                 props.order.miscCharges
+    //                   .find((x) => x.chargeId === "DUTY_MAX")
+    //                   .amount.toString(),
+    //                 conversionFactor
+    //               )
+    //             ).toFixed(2)
+    //           ))
+    //     );
+    // }
     paymentObj = {
       gbPayment: {
         gbOrderNo: props.order.orderId,
@@ -347,7 +347,12 @@ const PaypalButton = (props) => {
                 },
                 discount: {
                   currency_code: props.currency,
-                  value: parseFloat(props.order.promoDiscount || 0).toFixed(2),
+                  value: parseFloat(
+                    getConvertedCurrency(
+                      props.order.promoDiscount,
+                      conversionFactor
+                    ) || 0
+                  ).toFixed(2),
                 },
               },
             },
