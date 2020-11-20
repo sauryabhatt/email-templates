@@ -121,6 +121,7 @@ const PaypalButton = (props) => {
           ).toFixed(2)
         );
     }
+    console.log("Sum 1 ", sum);
     orders.map((order) => {
       let { qalaraSellerMargin = 0 } = order;
       if (props.isCartSummary) {
@@ -154,7 +155,9 @@ const PaypalButton = (props) => {
             );
         }
       });
+      console.log("Sum 2 ", sum);
     });
+    console.log("Sum 3 ", sum);
     return sum.toFixed(2);
   };
 
@@ -347,7 +350,12 @@ const PaypalButton = (props) => {
                 },
                 discount: {
                   currency_code: props.currency,
-                  value: parseFloat(props.order.promoDiscount || 0).toFixed(2),
+                  value: parseFloat(
+                    getConvertedCurrency(
+                      props.order.promoDiscount,
+                      conversionFactor
+                    ) || 0
+                  ).toFixed(2),
                 },
               },
             },
