@@ -114,11 +114,17 @@ const PaymentDetails = (props) => {
   const getConvertedCurrency = (baseAmount, round = false) => {
     let { convertToCurrency = "", rates = [] } = props.currencyDetails;
     if (round) {
-      return Math.round(
-        Number.parseFloat(baseAmount * rates[convertToCurrency])
-      );
+      return Number.parseFloat(
+        (baseAmount *
+          Math.round((rates[convertToCurrency] + Number.EPSILON) * 100)) /
+          100
+      ).toFixed(0);
     }
-    return Number.parseFloat(baseAmount * rates[convertToCurrency]).toFixed(2);
+    return Number.parseFloat(
+      (baseAmount *
+        Math.round((rates[convertToCurrency] + Number.EPSILON) * 100)) /
+        100
+    ).toFixed(2);
   };
 
   const customDot = (dot, { status, index }) => (

@@ -23,7 +23,7 @@ import getSymbolFromCurrency from "currency-symbol-map";
 import { QuantityInput } from "./QuantityInput";
 
 const SavedForLater = (props) => {
-  const {keycloak} = useKeycloak();
+  const { keycloak } = useKeycloak();
   const mediaMatch = window.matchMedia("(min-width: 1024px)");
   const [error, setError] = useState({});
   const [showRow, setShowRow] = useState(true);
@@ -51,7 +51,11 @@ const SavedForLater = (props) => {
 
   const getConvertedCurrency = (baseAmount) => {
     let { convertToCurrency = "", rates = [] } = currencyDetails;
-    return Number.parseFloat(baseAmount * rates[convertToCurrency]).toFixed(2);
+    return Number.parseFloat(
+      (baseAmount *
+        Math.round((rates[convertToCurrency] + Number.EPSILON) * 100)) /
+        100
+    ).toFixed(2);
   };
 
   const enableUpdateQty = (id) => {
@@ -138,7 +142,8 @@ const SavedForLater = (props) => {
             });
           } else {
             fetch(
-              `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/rts/` + profileId,
+              `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/rts/` +
+                profileId,
               {
                 method: "POST",
                 headers: {
