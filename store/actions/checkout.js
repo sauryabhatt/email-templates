@@ -86,7 +86,9 @@ export const checkCart = (token, callback = "") => async (dispatch) => {
   })
     .then((res) => {
       if (res.ok) {
-        return res.json();
+        return res.text().then(function (text) {
+          return text ? JSON.parse(text) : {};
+        });
       } else {
         throw res.statusText || "Error while saving user deatils.";
       }
@@ -111,7 +113,9 @@ export const checkInventory = (token, skuId = "", callback = "") => async (
     body: JSON.stringify(skuId),
     headers: {
       "Content-Type": "application/json",
-      Authorization: token?`Bearer ${token}`:"Bearer " + process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN,
+      Authorization: token
+        ? `Bearer ${token}`
+        : "Bearer " + process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN,
     },
   })
     .then((res) => {

@@ -102,14 +102,6 @@ const PaymentDetails = (props) => {
 
   let { convertToCurrency = "" } = currencyDetails || {};
   let showError = false;
-  if (subOrders && subOrders.length) {
-    for (let orders of subOrders) {
-      let { total = 0 } = orders;
-      if (total < 250) {
-        showError = true;
-      }
-    }
-  }
 
   const getConvertedCurrency = (baseAmount, round = false) => {
     let { convertToCurrency = "", rates = [] } = props.currencyDetails;
@@ -403,8 +395,6 @@ const PaymentDetails = (props) => {
                         return (
                           <div
                             className={`qa-bg-light-theme qa-pad-3 ${
-                              total < 250 ? " qa-error-border" : ""
-                            } ${
                               i < subOrders.length - 1 ? "qa-mar-btm-2" : ""
                             }`}
                             key={i}
@@ -425,14 +415,6 @@ const PaymentDetails = (props) => {
                                 {brandNames &&
                                   brandNames[sellerCode] &&
                                   brandNames[sellerCode].brandName}
-                                {total < 250 && (
-                                  <div className="cart-sub-text">
-                                    Add{" "}
-                                    {getSymbolFromCurrency(convertToCurrency)}
-                                    {getConvertedCurrency(250 - total)} more to
-                                    reach seller’s minimum order value
-                                  </div>
-                                )}
                                 {/* <span
                             className="cart-delete qa-cursor"
                             onClick={() => {
@@ -672,24 +654,6 @@ const PaymentDetails = (props) => {
             <Col xs={24} sm={24} md={1} lg={1} xl={1}></Col>
             {mediaMatch.matches && (
               <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-                {showError && (
-                  <div className="qa-pad-2 qa-mar-btm-2 cart-error-block display-flex cart-err">
-                    <div>
-                      <Icon
-                        component={alertIcon}
-                        className="alert-icon"
-                        style={{
-                          width: "15px",
-                          verticalAlign: "middle",
-                        }}
-                      />
-                    </div>
-                    Please move the seller cart with value less than{" "}
-                    {getSymbolFromCurrency(convertToCurrency)}
-                    {getConvertedCurrency(250)} to 'Save for later' in order to
-                    proceed
-                  </div>
-                )}
                 {/* {isFulfillable === false && (
                   <div className="qa-pad-2 qa-mar-btm-2 cart-error-block display-flex cart-err">
                     <div>
@@ -834,24 +798,6 @@ const PaymentDetails = (props) => {
               xl={24}
               className="qa-pad-btm-2 qa-mar-btm-1"
             >
-              {showError && (
-                <div className="qa-pad-2 qa-mar-btm-2 cart-error-block display-flex cart-err">
-                  <div>
-                    <Icon
-                      component={alertIcon}
-                      className="alert-icon"
-                      style={{
-                        width: "15px",
-                        verticalAlign: "middle",
-                      }}
-                    />
-                  </div>
-                  Please move the seller cart with value less than{" "}
-                  {getSymbolFromCurrency(convertToCurrency)}
-                  {getConvertedCurrency(250)} to 'Save for later' in order to
-                  proceed
-                </div>
-              )}
               {/* {isFulfillable === false && (
                 <div className="qa-pad-2 qa-mar-btm-2 cart-error-block display-flex cart-err">
                   <div>
@@ -1049,13 +995,6 @@ const PaymentDetails = (props) => {
                             {brandNames &&
                               brandNames[sellerCode] &&
                               brandNames[sellerCode].brandName}
-                            {total < 250 && (
-                              <div className="cart-sub-text">
-                                Add {getSymbolFromCurrency(convertToCurrency)}
-                                {getConvertedCurrency(250 - total)} more to
-                                reach seller’s minimum order value
-                              </div>
-                            )}
                           </div>
                           {/* <div className="qa-txt-alg-cnt qa-pad-top-05 qa-pad-btm-1">
                         <span

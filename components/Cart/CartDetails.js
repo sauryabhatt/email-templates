@@ -199,21 +199,24 @@ const CartDetails = (props) => {
   }
   if (subOrders && subOrders.length) {
     for (let orders of subOrders) {
+      let orderMov = 0;
       let { total = 0, sellerCode = "", products = [] } = orders;
 
       for (let product of products) {
         let { productType = "" } = product || {};
         let sellerMov =
           brandNames[sellerCode] &&
+          brandNames[sellerCode].mov &&
           brandNames[sellerCode].mov.find((x) => x.productType === productType)
             .amount;
 
-        if (mov < sellerMov) {
-          mov = sellerMov;
+        if (orderMov < sellerMov) {
+          orderMov = sellerMov;
         }
       }
-      if (total < mov) {
+      if (total < orderMov) {
         showError = true;
+        mov = orderMov;
       }
     }
   }
@@ -1032,6 +1035,7 @@ const CartDetails = (props) => {
                       let { productType = "" } = product || {};
                       let sellerMov =
                         brandNames[sellerCode] &&
+                        brandNames[sellerCode].mov &&
                         brandNames[sellerCode].mov.find(
                           (x) => x.productType === productType
                         ).amount;
@@ -1066,6 +1070,7 @@ const CartDetails = (props) => {
                             <div className="qa-disp-table-cell">
                               {brandNames &&
                                 brandNames[sellerCode] &&
+                                brandNames[sellerCode].mov &&
                                 brandNames[sellerCode].brandName}
                               {total < mov && (
                                 <div className="cart-sub-text">

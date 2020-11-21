@@ -553,7 +553,7 @@ const CartSummary = (props) => {
         Note: Qalara margin may vary by total cart value{" "}
         <span>
           <Link href="/FAQforwholesalebuyers">
-            <a target="_blank" className="qa-sm-color">
+            <a target="_blank" className="qa-sm-color qa-cursor">
               Refer FAQs here
             </a>
           </Link>
@@ -923,7 +923,7 @@ const CartSummary = (props) => {
             <span className="qa-font-san qa-fs-14 qa-tc-white qa-mar-lft">
               I agree to the{" "}
               <Link href="/TermsOfUse" className="c-breakup">
-                <a target="_blank" className="qa-sm-color">
+                <a target="_blank" className="qa-sm-color qa-cursor c-breakup">
                   terms & conditions
                 </a>
               </Link>

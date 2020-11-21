@@ -347,12 +347,15 @@ const PaypalButton = (props) => {
                 },
                 discount: {
                   currency_code: props.currency,
-                  value: parseFloat(
-                    getConvertedCurrency(
-                      props.order.promoDiscount,
-                      conversionFactor
-                    ) || 0
-                  ).toFixed(2),
+                  value:
+                    props.order.promoDiscount && props.order.promoDiscount > 0
+                      ? parseFloat(
+                          getConvertedCurrency(
+                            props.order.promoDiscount,
+                            conversionFactor
+                          )
+                        ).toFixed(2)
+                      : 0,
                 },
               },
             },
