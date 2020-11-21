@@ -285,7 +285,10 @@ function Collections(props) {
                             return (
                               <Col xs={22} sm={22} md={22} lg={22} key={k}>
                                 <div className="aspect-ratio-box">
-                                  <Link href={`/product/${articleId}`}>
+                                  <Link
+                                    href={`/product/${articleId}`}
+                                    className="qa-cursor"
+                                  >
                                     <img
                                       className="images"
                                       src={

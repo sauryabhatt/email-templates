@@ -1273,7 +1273,7 @@ const Register = (props) => {
           </p>
         )}
         <Button
-          className="send-query-success-modal-button"
+          className="send-query-success-modal-button congratulation-button"
           onClick={handleCancel}
         >
           Back to home page

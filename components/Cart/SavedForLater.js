@@ -123,7 +123,7 @@ const SavedForLater = (props) => {
       obj["products"] = productList;
       obj["orderId"] = orderId;
       setError(errorObjFinal);
-      // if (!doNotDelete) {
+
       if (orderId) {
         props.updateCart(keycloak.token, "ADD", obj, (response) => {
           message.success("Products have been moved to your cart!", 5);
@@ -174,7 +174,6 @@ const SavedForLater = (props) => {
           }
         });
       }
-      // }
     });
   };
 
