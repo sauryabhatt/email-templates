@@ -5,7 +5,7 @@ import Slider from "react-slick";
 import { Button } from "antd";
 import { MinusOutlined } from "@ant-design/icons";
 import Link from "next/link";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 function SellerCarousel(props) {
   const router = useRouter();
 
@@ -61,7 +61,7 @@ function SellerCarousel(props) {
   const slides = props.items.map((item, i) => {
     // console.log(item.image.toString());
     return (
-      <Link href={item.url} key={i}>
+      <Link href={item.url} key={i} className="qa-cursor">
         <div className="slider-slide">
           <div
             className="slider-slide-main"
@@ -106,15 +106,13 @@ function SellerCarousel(props) {
           <Button
             className="button-seller-group button-seller"
             onClick={() => {
-               router.push("/seller-subscription"); /*setVisible(true)*/
+              router.push("/seller-subscription"); /*setVisible(true)*/
             }}
           >
             Become a supplier
           </Button>
-
         </div>
       </div>
-      
     </>
   );
 }

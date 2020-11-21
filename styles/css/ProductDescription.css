@@ -817,8 +817,8 @@
 }
 #product-description .lock-outline-sec {
   position: absolute;
-  top: 30px;
-  right: 30px;
+  top: 0px;
+  right: 0px;
   height: 50px;
   width: 50px;
   line-height: 75px;

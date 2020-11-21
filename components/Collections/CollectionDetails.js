@@ -456,7 +456,10 @@ const CollectionDetails = (props) => {
                       className="qa-mar-btm-1 qa-font-san qa-fs-12"
                     >
                       <div className="aspect-ratio-box">
-                        <Link href={`/product/${articleId}`}>
+                        <Link
+                          href={`/product/${articleId}`}
+                          className="qa-cursor"
+                        >
                           <img
                             className="images"
                             src={
@@ -720,7 +723,7 @@ const CollectionDetails = (props) => {
               hours.
             </p>
           </div>
-          <Link href="/">
+          <Link href="/" className="qa-cursor">
             <Button
               className="send-query-success-modal-button"
               onClick={() => {
