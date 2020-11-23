@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import {useKeycloak  } from '@react-keycloak/ssr';
 import UserHeader from "../UserHeader/UserHeader";
 import AppHeader from "../AppHeader/AppHeader";
+import Ribbon from "../Ribbon/Ribbon";
 import {setAuth, getUserProfile} from '../../store/actions';
 import store from '../../store';
 import _ from "lodash";
@@ -13,14 +14,16 @@ export const Layout = ({
   meta = {},
 }) => {
 
+  const [isShowRibbon, setShowRibbon] = useState(true)
   const { keycloak } = useKeycloak()
   const router = useRouter();
   const pathname = router?.pathname ?? "/";
   const title = meta?.title || "";
   const description = meta?.description || "";
   const keywords = meta?.keywords || "";
-  const Header = keycloak.authenticated ? <UserHeader /> : <AppHeader/>;
-  
+  const Header = keycloak.authenticated ? <UserHeader isShowRibbon = {isShowRibbon}/> : <AppHeader isShowRibbon = {isShowRibbon}/>;
+  let url = pathname.indexOf("cart") >= 0 ||  pathname.indexOf("payment-success") >= 0 || pathname.indexOf("notfound") >= 0|| pathname.indexOf("shipping") >= 0||  pathname.indexOf("signup") >= 0||  pathname.indexOf("payment") >= 0   ? true : false;
+
   useEffect(() => {
     
     if(keycloak?.token){
@@ -54,6 +57,7 @@ export const Layout = ({
         <meta name="googlebot" content="noindex" />
         <script src="https://www.paypal.com/sdk/js?client-id=AUf6Jh8viomIa90m8KMFndz2iIwKkIcpzZHTUmKY1f8M9J7uDeQ1zO7d-lTb85AU4oiBHBlb2mBZ9g9_&currency=USD&intent=order" id="paypal-script" type="text/javaScript"></script>
       </Head>
+      {isShowRibbon && !url  ? <Ribbon isShowRibbon = {isShowRibbon} setShowRibbon = {setShowRibbon}/> : null}
       {Header}
      {<main className="main-layout-next">{children}</main>}
     </Fragment>

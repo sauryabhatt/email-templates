@@ -10,7 +10,7 @@ function PaymentBanner(props) {
 
   let mediaMatch = undefined;
   const handleSignUp = () => {
-     router.push("/signup");
+     router.push("/request-for-quote");
   };
 
   useEffect(() => {
@@ -50,13 +50,13 @@ function PaymentBanner(props) {
             }}
           >
             <div className="send-query-button-text qa-buyer-button qa-payment">
-              SIGN UP AS A BUYER
+              REQUEST FOR QUOTE
             </div>
           </Button>
         </div>
         <div className={mediaMatch?.matches ? "verified-buyer-section" : ""}>
           <span className="qa-font-san qa-fs-12 qa-tc-white">
-            Verified buyers from 25+ countries
+            Your wholesale shopping assistant
           </span>
         </div>
       </span>

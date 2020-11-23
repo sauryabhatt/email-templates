@@ -1,10 +1,13 @@
 import React from 'react';
+import HomePageCarousel from './HomePageCarousel';
 
 function HomeBanner (props) {
+    let {isAuthenticated} = props;
     return (
         <div id="banner-container">
-            <div className='bird-vector' />
-            {props.children}
+            <div className="home-first-fold">
+                <HomePageCarousel isAuthenticated = {isAuthenticated}/> 
+            </div>
         </div>
     )
 }
