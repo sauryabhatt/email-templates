@@ -198,6 +198,9 @@ const CollectionDetails = (props) => {
             setSuccessQueryVisible(true);
             setFileList([]);
             form.resetFields();
+            props.getCollections(token, buyerId, (res) => {
+              refreshCollection(res);
+            });
           })
           .catch((err) => {
             message.error(err.message || err, 5);
