@@ -1,12 +1,9 @@
 
 
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useSelector } from "react-redux";
-import { Helmet } from "react-helmet";
 import FeedbackModal from "./../FeedbackModal/FeedbackModal";
-import TrendsLoader from "../../filestore/TrendsLoader";
-import TrendsLoaderMobile from "../../filestore/TrendsLoaderMobile";
 import Icon from "@ant-design/icons";
 
 export default function PromotionDetails() {
@@ -18,12 +15,14 @@ export default function PromotionDetails() {
   const [cookie, setCookie] = useCookies(["qalaraUser"]);
   const [mobile, setMobile] = useState(false);
   const [loading, setLoading] = useState(true);
-
-  useState(() => {
+  useEffect(() => {
     let width = window.innerWidth;
     if (width <= 768) {
       setMobile(true);
     }
+
+  })
+  useState(() => {
     fetch(process.env.REACT_APP_CONTENT_URL + "/content/PromotionDetails", {
       method: "GET",
       headers: {
@@ -49,7 +48,7 @@ export default function PromotionDetails() {
   }, []);
 
   if (loading) {
-    if (mobile) {
+    /*if (mobile) {
       return (
         <Icon
           component={TrendsLoaderMobile}
@@ -65,12 +64,12 @@ export default function PromotionDetails() {
           className="trends-loader-icon"
         />
       );
-    }
+    }*/
   }
 
   return (
     <React.Fragment>
-      <Helmet>
+      {/*<Helmet>
         <title>
           Source unique handmade products, home decor,rugs and carpets,
           textiles, hand embroidered cushion, hand woven wall hanging, handwoven
@@ -85,7 +84,7 @@ export default function PromotionDetails() {
           rel="canonical"
           href="https://www.qalara.com/trends/globaltextures"
         />
-      </Helmet>
+      </Helmet>*/}
       {cookie.qalaraUser && cookie.qalaraUser !== "oldUser" && (
         <FeedbackModal />
       )}
