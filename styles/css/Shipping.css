@@ -60,6 +60,7 @@
 }
 .cart-section .shipping-section .c-left-blk {
   width: 60%;
+  vertical-align: middle;
 }
 .cart-section .shipping-section .c-right-blk {
   width: 40%;
