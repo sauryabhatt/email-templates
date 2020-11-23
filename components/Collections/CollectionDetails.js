@@ -457,11 +457,10 @@ const CollectionDetails = (props) => {
                     >
                       <div className="aspect-ratio-box">
                         <Link
-                          href={`/product/${articleId}`}
-                          className="qa-cursor"
+                          href={`/product/${articleId}`}                          
                         >
                           <img
-                            className="images"
+                            className="images qa-cursor"
                             src={
                               process.env
                                 .NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
@@ -723,9 +722,9 @@ const CollectionDetails = (props) => {
               hours.
             </p>
           </div>
-          <Link href="/" className="qa-cursor">
+          <Link href="/">
             <Button
-              className="send-query-success-modal-button"
+              className="send-query-success-modal-button qa-cursor"
               onClick={() => {
                 successQueryCancel();
               }}

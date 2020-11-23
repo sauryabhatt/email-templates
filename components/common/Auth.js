@@ -42,7 +42,7 @@ function Auth ({children, path}){
             } else {
             loginToApp(keycloak, {currentPath:path});
             }
-        }, 200);
+        }, 500);
         return <Spinner/>;
     } else if (status === "loggedin") {
         return children;

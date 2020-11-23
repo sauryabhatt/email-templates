@@ -123,7 +123,9 @@ const CartDetails = (props) => {
   const [inventoryQty, setInventoryQty] = useState();
   let showError = false;
   useEffect(() => {
-    props.getAddresses(app_token);
+    if(app_token) {
+      props.getAddresses(app_token);
+    }
   }, [app_token]);
 
   useEffect(() => {
