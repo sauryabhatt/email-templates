@@ -304,7 +304,7 @@ span.cart-banner-copy {
   line-height: 110%;
 }
 .cart-section .c-left-blk .qa-fw-b.qa-fr-color {
-  color: (0, 0, 0, 0.65);
+  color: rgba(0, 0, 0, 0.65);
 }
 .cart-section .c-right-blk,
 .calculation-modal .c-right-blk {
