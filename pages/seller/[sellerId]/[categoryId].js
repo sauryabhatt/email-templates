@@ -8,10 +8,11 @@ import NotFound from "../../../components/NotFound/NotFound";
 
 export default function SellerProductListingPage({ data }) {
   const router = useRouter();
-
+  
   const meta = {
     title:
-      data?.sellerDetails?.brandName ||
+      `Source quality ${data?.sellerDetails?.categoryDescs.join(", ")} from ${data?.sellerDetails?.brandName} for
+      wholesale. | Qalara` ||
       "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods from India | Qalara",
     description:
       data?.sellerDetails?.companyDescription ||

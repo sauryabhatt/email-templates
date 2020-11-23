@@ -14,7 +14,7 @@ export default function SellerListingPage({ data }) {
   switch (categoryId) {
     case "home-furnishing":
       meta = {
-        title: "Home furnishing suppliers",
+        title: "Source quality Home furnishing suppliers  from verified manufacturers at affordable wholesale prices | Qalara",
         description:
           "Wholesale home furnishing brands who cater to all your needs for sheets, quilts, blankets, cushions, throws, rugs, table mats, runners and more, handcrafted in a wide variety of techniques like applique, kantha, macrame, tufting and hand weaving.",
       };
@@ -22,7 +22,7 @@ export default function SellerListingPage({ data }) {
 
     case "furniture-and-storage":
       meta = {
-        title: "Furniture suppliers",
+        title: "Source quality Furniture suppliers  from verified manufacturers at affordable wholesale prices | Qalara",
         description:
           "Discover bulk furniture suppliers for chairs, benches, coffee tables, dressers and more, made in artisinal techniques like hand carving, hand weaving & hand painting. Choose from sustainable materials across wood, metal, wicker, rope & marble.",
       };
@@ -30,7 +30,7 @@ export default function SellerListingPage({ data }) {
 
     case "home-decor-and-accessories":
       meta = {
-        title: "Home decor suppliersFurniture suppliers",
+        title: "Source quality Home decor suppliers and accessories  from verified manufacturers at affordable wholesale prices | Qalara",
         description:
           "Handpicked wholesale home decor suppliers who specialize in artisanal techniques of hand carved wood, marble inlay, metal sand casting, cane weaving to create beautiful home accents; lamps, baskets, vases, mirrors, clocks.",
       };
@@ -38,7 +38,7 @@ export default function SellerListingPage({ data }) {
 
     case "kitchen-and-dining":
       meta = {
-        title: "Kitchenware suppliers",
+        title: "Source quality Kitchenware suppliers from verified manufacturers at affordable wholesale prices | Qalara",
         description:
           "Curated wholesale brands for platters, cutlery, mugs, wine glasses & kitchen storage. Hand carved & hand painted kitchenware turns everyday utilities into objects of art. Choose from sustainable materials like wood, iron, ceramic & glass.",
       };
@@ -46,7 +46,7 @@ export default function SellerListingPage({ data }) {
 
     case "fashion":
       meta = {
-        title: "Fashion accessories and textiles suppliers",
+        title: "Source quality Fashion accessories and textiles suppliers from verified manufacturers at affordable wholesale prices | Qalara",
         description:
           "The best wholesale textile and fashion accessories suppliers across silk, cashmere, cotton and other fabrics specializing in shibori, tie-dye, hand weaving, embroidery, patchwork and many more intricate techniques.",
       };
@@ -54,7 +54,7 @@ export default function SellerListingPage({ data }) {
 
     case "pets-essentials":
       meta = {
-        title: "Pets accessories suppliers",
+        title: "Source quality Pets accessories suppliers from verified manufacturers at affordable wholesale prices | Qalara",
         description:
           "Pet accessories wholesale suppliers who cater to all pet needs like food bowls, beds, mats and toys. Crafted in specialized techniques of knitting, patchwork, embroidery in sustainable materials like wood, leather, cotton and more.",
       };
@@ -62,7 +62,7 @@ export default function SellerListingPage({ data }) {
 
     case "baby-and-kids":
       meta = {
-        title: "Baby & Kids accessories suppliers",
+        title: "Source quality Baby & Kids accessories suppliers from verified manufacturers at affordable wholesale prices | Qalara",
         description:
           "The best wholesale suppliers specialising in baby and kids products. Choose from a wide range of available designs in crib sets, sheets, quilts, diaper bags and even customize designs to your specifications. These exquisite handcrafted eco-friendly wooden and cotton toys will become a part of your kid’s treasures.",
       };
@@ -70,7 +70,7 @@ export default function SellerListingPage({ data }) {
 
     case "jewelry":
       meta = {
-        title: "Jewelry suppliers",
+        title: "Source quality Jewelry suppliers from verified manufacturers at affordable wholesale prices | Qalara",
         description:
           "Wholesale suppliers for all kinds of Jewelry and accessories. Our sellers specialise in techniques like hammering, inlay, gem craft, wire braiding and more to create stunning earrings, anklets, necklaces, bracelets, nose pins and other accessories.",
       };
@@ -78,7 +78,7 @@ export default function SellerListingPage({ data }) {
 
     default:
       meta = {
-        title: "All curated suppliers",
+        title: "Source quality All curated suppliers from verified manufacturers at affordable wholesale prices | Qalara",
         description:
           "Wholesale suppliers for all kinds of Jewelry and accessories. Our sellers specialise in techniques like hammering, inlay, gem craft, wire braiding and more to create stunning earrings, anklets, necklaces, bracelets, nose pins and other accessories.",
       };

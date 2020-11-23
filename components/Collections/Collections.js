@@ -287,7 +287,6 @@ function Collections(props) {
                                 <div className="aspect-ratio-box">
                                   <Link
                                     href={`/product/${articleId}`}
-                                    className="qa-cursor"
                                   >
                                     <img
                                       className="images qa-cursor"
