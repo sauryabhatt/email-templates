@@ -77,9 +77,11 @@ const Quotations = (props) => {
   };
 
   useEffect(() => {
+    if(keycloak.token && props.userProfile) {
     setShowLoader(true);
     getQuotationByStatus(current);
-  }, []);
+    }
+  }, [keycloak.token, props.userProfile]);
 
   useEffect(() => {
     setShowLoader(false);
