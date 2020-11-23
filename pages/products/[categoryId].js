@@ -13,63 +13,63 @@ export default function ProductListingPage({data}) {
       switch (categoryId) {
         case "home-furnishing":
           meta={
-            title:"Home furnishings & linens",
+            title:"Source quality Home furnishings & linens from verified manufacturers at affordable wholesale prices | Qalara",
             description: "Wholesale cushions, throws, quilts, bedding, bath linen, rugs & carpets"
           }
           break;
   
         case "furniture-and-storage":
           meta={
-            title:"Furniture & storage",
+            title:"Source quality Furniture & storage from verified manufacturers at affordable wholesale prices | Qalara",
             description:"Shop bookcases, benches, chairs, desks, wine cabinets, trunks, beds & poufs in bulk"
           }
           break;
   
         case "home-decor-and-accessories":
           meta={
-            title:"Home decor",
+            title:"Source quality Home decor from verified manufacturers at affordable wholesale prices | Qalara",
             description:"Wholesale home decor, lighting, ornaments, wall art, candlesticks and garden accessories"
           }
           break;
   
         case "kitchen-and-dining":
           meta={
-            title:"Kitchen & dining",
+            title:"Source quality Kitchen & dining from verified manufacturers at affordable wholesale prices | Qalara",
             description:"Shop tableware, dinnerware, cookware, utensils, cutlery, linens & bar accessories in bulk"
           }
           break;
   
         case "fashion":
           meta={
-            title:"Fashion, accessories & textiles",
+            title:"Source quality Fashion, accessories & textiles from verified manufacturers at affordable wholesale prices | Qalara",
             description: "Wholesale textiles, apparel, scarves, stoles, bags, shawls, belts & footwear"
           }
           break;
   
         case "pets-essentials":
           meta={
-            title:"Pet accessories",
+            title:"Source quality Pet accessories from verified manufacturers at affordable wholesale prices | Qalara",
             description:"Shop dog beds, feeders, cat towers, collars & leashes in bulk"
           }
           break;
   
         case "baby-and-kids":
           meta={
-            title:"Baby & kids products",
+            title:"Source quality Baby & kids products from verified manufacturers at affordable wholesale prices | Qalara",
             description:"Shop in bulk for organic cotton crib sets, eco-friendly toys, learning tools and & kids furniture"
           }
           break;
   
         case "jewelry":
           meta={
-            title:"Jewelry",
+            title:"Source quality Jewelry from verified manufacturers at affordable wholesale prices | Qalara",
             description: "Wholesale earrings, necklaces, bracelets, rings, nose pins and cuff links"
           }
           break;
   
         default:
           meta={
-            title:"All categories",
+            title:"Source quality All categories from verified manufacturers at affordable wholesale prices | Qalara",
             description: "Shop handcrafted and artisanal products, produced ethically at wholesale prices"
           }
       }

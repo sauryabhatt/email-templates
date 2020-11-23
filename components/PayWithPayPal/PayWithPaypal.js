@@ -76,17 +76,9 @@ const PaypalButton = (props) => {
     orders.map((order) => {
       order.products.map((product) => {
         if (isCartSummary) {
+          let basePrice = product.exFactoryPrice * product.quantity;
           sum =
-            sum +
-            parseFloat(
-              parseFloat(
-                getConvertedCurrency(
-                  Number.parseFloat(product.exFactoryPrice),
-                  conversionFactor
-                )
-              ).toFixed(2)
-            ) *
-              product.quantity;
+            sum + parseFloat(getConvertedCurrency(basePrice, conversionFactor));
         } else {
           sum = sum + product.totalProductCost;
         }
@@ -183,9 +175,16 @@ const PaypalButton = (props) => {
       props.currencyDetails == null ||
       props.currencyDetails.convertToCurrency == "USD"
         ? 1
-        : props.currencyDetails.rates[
-            props.currencyDetails.convertToCurrency
-          ].toFixed(2);
+        : Number.parseFloat(
+            Math.round(
+              (props.currencyDetails.rates[
+                props.currencyDetails.convertToCurrency
+              ] +
+                Number.EPSILON) *
+                100
+            ) / 100
+          ).toFixed(2);
+
     let itemsList = prepareItems(props.order.subOrders, conversionFactor);
     let sumOfProd = getSumOfProd(
       props.order.subOrders,

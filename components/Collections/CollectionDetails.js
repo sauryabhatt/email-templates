@@ -40,6 +40,7 @@ const CollectionDetails = (props) => {
     buyerId = "",
     refreshCollection = "",
   } = props;
+  let { profileId = "" } = userProfile || {};
 
   const router = useRouter();
 
@@ -93,6 +94,13 @@ const CollectionDetails = (props) => {
   let assetUrl =
     process.env.NEXT_PUBLIC_REACT_APP_API_ASSETS_URL +
     "/assets?sourceService=forms";
+
+  if (profileId) {
+    assetUrl =
+      process.env.NEXT_PUBLIC_REACT_APP_API_ASSETS_URL +
+      "/assets?sourceService=forms&userId=" +
+      profileId;
+  }
 
   let { convertToCurrency = "" } = currencyDetails || {};
 
@@ -190,6 +198,9 @@ const CollectionDetails = (props) => {
             setSuccessQueryVisible(true);
             setFileList([]);
             form.resetFields();
+            props.getCollections(token, buyerId, (res) => {
+              refreshCollection(res);
+            });
           })
           .catch((err) => {
             message.error(err.message || err, 5);
@@ -250,20 +261,18 @@ const CollectionDetails = (props) => {
         "You can only upload JPG/PNG, PDF, MS-Excel & MS-PPT file!",
         5
       );
+      return false;
     }
     const isLt2M = file.size <= 2 * 1024 * 1024;
     if (!isLt2M) {
       message.error("File size must smaller than 2MB!", 5);
+      return false;
     }
     return isJpgOrPng && isLt2M;
   };
 
   const handleChange = (info) => {
-    if (
-      info.file.status === "uploading" ||
-      info.file.status === "done" ||
-      info.file.status === "removed"
-    ) {
+    if (info.file.status === "done" || info.file.status === "removed") {
       setFileList(info.fileList);
       return;
     }

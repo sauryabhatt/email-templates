@@ -44,7 +44,7 @@ const { SubMenu } = Menu;
 const { Option } = Select;
 
 function UserHeader(props) {
-  let { priceDetails = {}, nav } = props;
+  let { priceDetails = {}, nav, isShowRibbon } = props;
 
   const router = useRouter();
   let { convertToCurrency = "" } = priceDetails || {};
@@ -629,19 +629,12 @@ function UserHeader(props) {
                     marginRight: "20px",
                   }}
                 >
-                  SHOP
+                  SHOP CATEGORIES
                 </div>
               </Dropdown>
-              <Button
-                className="send-query-button"
-                onClick={() => {
-                  setVisible(true);
-                }}
-              >
-                <div className="send-query-button-text qa-rfq-button">
-                  Request for Quote
-                </div>
-              </Button>
+                <a href="/explore/curatedbyus" className="trend-navigation">
+                  FEATURED
+                </a>
             </div>
           </Col>
 
@@ -679,8 +672,20 @@ function UserHeader(props) {
             style={{
               textAlign: "right",
               margin: "auto",
+              display: "flex",
+              "justify-content": "flex-end",
             }}
           >
+            <Button
+              className="send-query-button"
+              onClick={() => {
+                setVisible(true);
+              }}
+            >
+              <div className="send-query-button-text qa-rfq-button">
+                Request for Quote
+              </div>
+            </Button>
             <div>
               <CurrencyConverter />
               <Link
@@ -989,6 +994,13 @@ function UserHeader(props) {
                 </SubMenu>
 
                 <Menu.Divider style={{ height: "0.5px" }} />
+                <Menu.Item key="8">
+                  <a href="/explore/curatedbyus" className="trend-navigation">
+                    FEATURED
+                  </a>
+                </Menu.Item>
+
+                <Menu.Divider style={{ height: "0.5px" }} />
                 {/* <Menu.Item key="blog">BLOG</Menu.Item> */}
                 <SubMenu
                   key="shop"
@@ -1234,7 +1246,7 @@ function UserHeader(props) {
           </p>
         </div>
       </Modal>
-      {shopColor && <div id="overlay"></div>}
+      {shopColor && <div style={{top: isShowRibbon ? "120px" : "70px"}} id="overlay"></div>}
     </Row>
   );
 }

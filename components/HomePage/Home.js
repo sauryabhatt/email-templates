@@ -12,6 +12,7 @@ import PaymentBanner from "./../PaymentBanner/PaymentBanner";
 // import SendQueryForm from "./../SendQueryForm/SendQueryForm";
 import CraftCarousel from "./../CraftCarousel/CraftCarousel";
 import SellerCarousel from "./../SellerCarousel/SellerCarousel";
+import PressCrousel from "./../PressCrousel/PressCrousel";
 import closeButton from "../../public/filestore/closeButton";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
@@ -221,68 +222,59 @@ function Home(props) {
   const imageHeading = "EXPLORE TRENDS";
   const craftItems = [
     {
-      imageTitle: "Global textures",
+      imageTitle: "Urban Jungle",
       imageHeading: <span>{imageHeading}</span>,
       slideText:
-        "Globally inspired textures, materials and patterns that bring an electric aesthetic to the home. Embrace the adventures of a collector who mixes treasures of different cultures together effortlessly by blending décor items with handcrafted textiles - rugs, cushions, throws and more! \n" +
-        "Our wholesale suppliers offer unique handmade products, combining local crafts and materials with new-age aesthetics, that cater to a global audience. ",
-      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_1.jpg",
-      searchText: "GlobalTextures",
-      path: "/trends/globaltextures",
+      "As boundaries between the indoors and the outdoors get blurred, eco-friendly products and natural materials surrounded with large patches of green within living spaces, lend much needed oneness with nature. Discover our range of handmade tropical inspiration which includes macrame planters, terracotta pots, sabai baskets, upcycled & bamboo outdoor furniture, dry flowers, marble garden decor and more from wholesale suppliers who care.",
+      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_2.jpg",
+      searchText: "UrbanJungle",
+      path: "/trends/urbanjungle",
     },
-    // {
-    //   imageTitle: "The new well-being",
-    //   imageHeading: <span>{imageHeading} ></span>,
-    //   slideText:
-    //     "As the world cautiously opens up post the pandemic, wellness products from our curated selection of suppliers will help you revitalise and face the world with renewed energy. Explore our collection of face masks made of eco-friendly cotton, hand-crafted diffusers, wax candle stands to fill your life with a sense of peace and calm.",
-    //   imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_2.jpg",
-    //   searchText: "TheNewWellBeing",
-    //   path: "",
-    // },
-    {
-      imageTitle: "Earth inspired",
-      imageHeading: <span>{imageHeading}</span>,
-      slideText:
-        "The elegance of natural materials and traditional crafts is truly unparalleled. Discover artisan-made handcrafted statement pieces in sustainable mango wood and natural rattan, recycled shelves and rugs, upcycled metal figurines, hand knotted jute planters; that create a  relaxed mood and add a sun-kissed glow to any space. Our wholesale suppliers believe in conscious production, sustainable supply chains, low carbon footprint & giving back.",
-      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_3.jpg",
-      searchText: "EarthInspired",
-      path: "/trends/earthinspired",
-    },
-    {
-      imageTitle: "Home office",
-      imageHeading: <span>{imageHeading}</span>,
-      slideText:
-        "Working from home can be comfortable and convenient with the right tools and set up. Curated from our responsible and conscious wholesale sellers, these writing tables, lighting solutions, notepads & table accessories inspire everyday creativity. Discover the grace of handmade: ajrakh diary covers, recycled wood clipboards, eco-friendly pen stands, cotton printed and bamboo lampshades, hand knotted hanging desks, ceramic coffee mugs and more.",
-      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_4.jpg",
-      searchText: "HomeOffice",
-      path: "/trends/homeoffice",
-    },
-    // {
-    //   imageTitle: "Eclectic brilliance",
-    //   imageHeading: <span>{imageHeading} ></span>,
-    //   slideText:
-    //     "Dazzle with glitzy gold or bold brass metallic highlights – elegant essentials for your home that add shimmer. Handmade metallic homewares are a huge trend this season, from copper, to silver, rose gold and everything in between.",
-    //   imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_5.jpg",
-    //   searchText: "EclecticBrilliance",
-    //   path: "",
-    // },
     {
       imageTitle: "Holiday spirit",
       imageHeading: <span>{imageHeading}</span>,
       slideText:
-        "Nothing quite welcomes the holiday season like a well-decorated festive home. Whether its traditional red-and-green decor or modern glitz, we’re certain that you’ll find something at Qalara. Bring in the season to be merry with crewel embroidered pillows, cozy blankets made of recycled yarns, outdoor lights, traditional toy, paper mache gift boxes and handmade décor pieces, thanks to brilliant ideas from some of our favourite sellers. ",
+      "Nothing quite welcomes the holiday season like a well-decorated festive home. Whether its traditional red-and-green decor or modern glitz, we’re certain that you’ll find something at Qalara. Bring in the season to be merry with crewel embroidered pillows, cozy blankets made of recycled yarns, outdoor lights, traditional toy, paper mache gift boxes and handmade décor pieces, thanks to brilliant ideas from some of our favourite sellers. ",
       imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_6.jpg",
       searchText: "ChristmasSpirit",
       path: "/trends/christmasspirit",
     },
     {
-      imageTitle: "Urban Jungle",
+      imageTitle: "Global textures",
       imageHeading: <span>{imageHeading}</span>,
       slideText:
-        "As boundaries between the indoors and the outdoors get blurred, eco-friendly products and natural materials surrounded with large patches of green within living spaces, lend much needed oneness with nature. Discover our range of handmade tropical inspiration which includes macrame planters, terracotta pots, sabai baskets, upcycled & bamboo outdoor furniture, dry flowers, marble garden decor and more from wholesale suppliers who care.",
-      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_2.jpg",
-      searchText: "UrbanJungle",
-      path: "/trends/urbanjungle",
+      "Globally inspired textures, materials and patterns that bring an electric aesthetic to the home. Embrace the adventures of a collector who mixes treasures of different cultures together effortlessly by blending décor items with handcrafted textiles - rugs, cushions, throws and more! \n" +
+      "Our wholesale suppliers offer unique handmade products, combining local crafts and materials with new-age aesthetics, that cater to a global audience. ",
+      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_1.jpg",
+      searchText: "GlobalTextures",
+      path: "/trends/globaltextures",
+    },
+    {
+      imageTitle: "Earth inspired",
+      imageHeading: <span>{imageHeading}</span>,
+      slideText:
+      "The elegance of natural materials and traditional crafts is truly unparalleled. Discover artisan-made handcrafted statement pieces in sustainable mango wood and natural rattan, recycled shelves and rugs, upcycled metal figurines, hand knotted jute planters; that create a  relaxed mood and add a sun-kissed glow to any space. Our wholesale suppliers believe in conscious production, sustainable supply chains, low carbon footprint & giving back.",
+      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_3.jpg",
+      searchText: "EarthInspired",
+      path: "/trends/earthinspired",
+    },
+    {
+      imageTitle: "Sunlit Spring '21",
+      imageHeading: <span>{imageHeading}</span>,
+      slideText:
+      "These dominant trends of the upcoming season showcase a brave new world, that celebrates Joy; a bold mix of warm colours, relaxing fits and conscious use of environment-friendly materials. Snug, comfortable masks will continue to be a part of the ensemble. Our sellers have adapted to these changing times and these curated must-haves will definitely awe your customers, so start stocking for a successful Spring Summer 21",
+      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_7.jpg",
+      searchText: "sunkissedSpring21",
+      path: "/trends/sunkissed-spring21",
+    },
+    {
+      imageTitle: "Home office",
+      imageHeading: <span>{imageHeading}</span>,
+      slideText:
+      "Working from home can be comfortable and convenient with the right tools and set up. Curated from our responsible and conscious wholesale sellers, these writing tables, lighting solutions, notepads & table accessories inspire everyday creativity. Discover the grace of handmade: ajrakh diary covers, recycled wood clipboards, eco-friendly pen stands, cotton printed and bamboo lampshades, hand knotted hanging desks, ceramic coffee mugs and more.",
+      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_4.jpg",
+      searchText: "HomeOffice",
+      path: "/trends/homeoffice",
     },
   ];
 
@@ -300,149 +292,7 @@ function Home(props) {
   )}`;
   return (
     <>
-      <HomeBanner>
-        <span className="banner-text">
-          Global wholesale <span>buying, </span>
-          <span
-            style={{
-              color: "#d9bb7f",
-            }}
-          >
-            reimagined.
-          </span>
-          <p className="banner-text-small">
-            Source wholesale products <br />
-            from India and South East Asia. <br />
-            Order digitally, reliably, affordably.
-            <br />
-            <br />
-            Backed by a <strong>Fortune 100</strong> company.
-            <br />
-            Verified buyers from <strong>25+</strong> countries.
-          </p>
-        </span>
-        <Button className="banner-button-circle" shape="circle">
-          <Link href={productUrl}>
-            <div className="banner-button-circle-text qa-cursor">
-              EXPLORE<br></br>NEW TRENDS<br></br>& EDITS
-              {/*<div className="banner-sub-text">Limited access</div>*/}
-              <div>
-                <svg
-                  width="18"
-                  height="8"
-                  viewBox="0 0 18 8"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M17.4964 4.35355C17.6917 4.15829 17.6917 3.84171 17.4964 3.64645L14.3144 0.464467C14.1192 0.269205 13.8026 0.269205 13.6073 0.464467C13.4121 0.659729 13.4121 0.976312 13.6073 1.17157L16.4357 4L13.6073 6.82843C13.4121 7.02369 13.4121 7.34027 13.6073 7.53554C13.8026 7.7308 14.1192 7.7308 14.3144 7.53554L17.4964 4.35355ZM-4.37114e-08 4.5L17.1429 4.5L17.1429 3.5L4.37114e-08 3.5L-4.37114e-08 4.5Z"
-                    fill="black"
-                  />
-                </svg>
-              </div>
-            </div>
-          </Link>
-        </Button>
-
-        <Button
-          className="banner-button-circle b-sellers"
-          shape="circle"
-          style={{ backgroundColor: "#C2B7A2" }}
-        >
-          <Link href={sellerUrl}>
-            <div className="banner-button-circle-text qa-cursor">
-              Browse<br></br>categories
-              <div className="banner-sub-text">Limited access</div>
-              <div>
-                <svg
-                  width="18"
-                  height="8"
-                  viewBox="0 0 18 8"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M17.4964 4.35355C17.6917 4.15829 17.6917 3.84171 17.4964 3.64645L14.3144 0.464467C14.1192 0.269205 13.8026 0.269205 13.6073 0.464467C13.4121 0.659729 13.4121 0.976312 13.6073 1.17157L16.4357 4L13.6073 6.82843C13.4121 7.02369 13.4121 7.34027 13.6073 7.53554C13.8026 7.7308 14.1192 7.7308 14.3144 7.53554L17.4964 4.35355ZM-4.37114e-08 4.5L17.1429 4.5L17.1429 3.5L4.37114e-08 3.5L-4.37114e-08 4.5Z"
-                    fill="black"
-                  />
-                </svg>
-              </div>
-            </div>
-          </Link>
-        </Button>
-        <Button
-          className="banner-button-circle b-invite"
-          shape="circle"
-          disabled={isAuthenticated}
-          onClick={() => router.push("/signup")}
-        >
-          <div className="banner-button-circle-text qa-cursor">
-            Sign up<br></br>for<br></br>Full access
-            {/*<div className="banner-sub-text">Limited access</div>*/}
-            <div>
-              <svg
-                width="18"
-                height="8"
-                viewBox="0 0 18 8"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M17.4964 4.35355C17.6917 4.15829 17.6917 3.84171 17.4964 3.64645L14.3144 0.464467C14.1192 0.269205 13.8026 0.269205 13.6073 0.464467C13.4121 0.659729 13.4121 0.976312 13.6073 1.17157L16.4357 4L13.6073 6.82843C13.4121 7.02369 13.4121 7.34027 13.6073 7.53554C13.8026 7.7308 14.1192 7.7308 14.3144 7.53554L17.4964 4.35355ZM-4.37114e-08 4.5L17.1429 4.5L17.1429 3.5L4.37114e-08 3.5L-4.37114e-08 4.5Z"
-                  fill="black"
-                />
-              </svg>
-            </div>
-          </div>
-        </Button>
-        {/* <Row>
-            <Col xs={0} sm={0} md={24} lg={24} xl={24}>
-              <p className='banner-text'>Products of India<p className='banner-text-small'>Hassle-free, reliable sourcing of beautiful & purposeful lifestyle products.</p></p>
-              <Button className='banner-button-circle' shape="circle" onClick={this.sendQueryOpen}><div className='banner-button-circle-text'>Free Consultation<br /><ArrowRightOutlined /></div></Button>
-            </Col>
-            <Col xs={24} sm={24} md={0} lg={0} xl={0}>
-              <p className='banner-text'>Products of India<p className='banner-text-small'>Hassle-free, reliable sourcing of beautiful & purposeful lifestyle products.</p></p>
-              <Button className='banner-button-circle' shape="circle" onClick={this.sendQueryOpen}><div className='banner-button-circle-text'>Free Consultation<br /><ArrowRightOutlined /></div></Button>
-            </Col>
-          </Row> */}
-        {showNotification && (
-          <div className="buyer-notification qa-bg-dark-theme">
-            <div className="qa-rel-pos notification-section">
-              <div
-                onClick={handleCancel}
-                style={{
-                  position: "absolute",
-                  right: "15px",
-                  top: "15px",
-                  cursor: "pointer",
-                  zIndex: "1",
-                }}
-              >
-                <Icon
-                  component={closeButton}
-                  style={{ width: "30px", height: "30px" }}
-                />
-              </div>
-              <div className="notification-title qa-pad-btm-1">
-                {props.isGuest === "true"
-                  ? "Sign up as a buyer"
-                  : "Verification in process"}
-              </div>
-              <div className="notification-para">
-                {notificationMsg}
-                <br></br>
-                {inProgressMsg}
-                {newUser && (
-                  <div>
-                    To go BACK TO THE PAGE you visited before signup please{" "}
-                    <Link href={previousUrl}>click here.</Link>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
-      </HomeBanner>
+      <HomeBanner isAuthenticated = {isAuthenticated}/>
 
       <Row id="q-source-banner">
         <div className="q-source-title">
@@ -757,6 +607,7 @@ function Home(props) {
       {/*<CategoryBanner />*/}
       <CategoryBannerCarousel />
       <PaymentBanner />
+      <PressCrousel/>
       <CraftCarousel items={craftItems} />
       <SellerCarousel items={sellerItems} />
       {/* <Button>

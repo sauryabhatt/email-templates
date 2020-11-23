@@ -1,0 +1,56 @@
+.home-page-ribben-wrp{
+    position: relative;
+    text-align: center;
+    background: #f9f7f2;
+    height: 40px;
+}
+.home-page-ribben {
+    font-family: 'senregular';
+    display: flex !important;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px;
+    text-decoration: none;
+    line-height: 40px;
+}
+.home-page-ribben-wrp span.cross-btn {
+    position: absolute;
+    right: 15px;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #874439;
+}
+.ribbon-title{
+    font-size: 15px;
+    color: #874439;
+    font-weight: bold;
+}
+.ribbon-link{
+    font-size: 12px;
+    line-height: 26px;
+    color: #000;
+    margin-left: 5px;
+    text-decoration: none;
+}
+.ribbon-link:hover{
+    color: #000;
+}
+@media only screen and (max-width: 768px) {
+    .ribbon-title {
+        font-size: 12px;
+        line-height: 14px;
+    }
+    .home-page-ribben{
+        line-height:inline;
+        height: 45px;
+        padding: 0 20px;
+    }
+    .home-page-ribben-wrp{
+        height: 45px;
+    }
+}

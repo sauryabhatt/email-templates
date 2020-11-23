@@ -73,7 +73,7 @@ function CategoryBannerCarousel(props) {
     infinite: true,
     speed: 500,
     slidesToShow: isMobile ? 2 : 5,
-    slidesToScroll: isMobile ? 1 : 1,
+    slidesToScroll: 1,
     arrows: false,
   };
 
