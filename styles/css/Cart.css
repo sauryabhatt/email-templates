@@ -303,6 +303,9 @@ span.cart-banner-copy {
   vertical-align: top;
   line-height: 110%;
 }
+.cart-section .c-left-blk .qa-fw-b.qa-fr-color {
+  color: (0, 0, 0, 0.65);
+}
 .cart-section .c-right-blk,
 .calculation-modal .c-right-blk {
   display: inline-block;

@@ -679,7 +679,7 @@ const ShippingDetails = (props) => {
                           </div>
                           <div className="qa-pad-015">
                             <div className="c-left-blk">
-                              <div className="qa-fw-b">
+                              <div className="qa-fw-b qa-fr-color">
                                 Total estimated charges
                               </div>
                             </div>
@@ -825,7 +825,7 @@ const ShippingDetails = (props) => {
                           </div>
                           <div className="qa-pad-015">
                             <div className="c-left-blk">
-                              <div className="qa-fw-b">
+                              <div className="qa-fw-b qa-fr-color">
                                 Total estimated charges
                               </div>
                             </div>
@@ -1473,7 +1473,7 @@ const ShippingDetails = (props) => {
                           </div>
                           <div className="qa-pad-015">
                             <div className="c-left-blk">
-                              <div className="qa-fw-b qa-dark-body">
+                              <div className="qa-fw-b qa-fr-color">
                                 Total estimated charges
                               </div>
                             </div>
@@ -1627,7 +1627,7 @@ const ShippingDetails = (props) => {
                           </div>
                           <div className="qa-pad-015">
                             <div className="c-left-blk">
-                              <div className="qa-fw-b qa-dark-body">
+                              <div className="qa-fw-b qa-fr-color">
                                 Total estimated charges
                               </div>
                             </div>
