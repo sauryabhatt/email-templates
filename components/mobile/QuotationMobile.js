@@ -176,7 +176,7 @@ const QuotationMobile = (props) => {
                 className="qa-fs-24 qa-font-san qa-fw-b"
                 style={{ color: "#191919", letterSpacing: "0.2px" }}
               >
-                QUOTATIONS
+                MY QUOTATION
               </p>
             </div>
           </Col>

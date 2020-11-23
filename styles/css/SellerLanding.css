@@ -72,7 +72,7 @@
 .qa-button:hover,
 .qa-button:active,
 .qa-button:focus {
-  color: #191919 !important;
+  color: #191919;
 }
 .button-get-verified {
   height: 8vh;
