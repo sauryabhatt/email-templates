@@ -78,28 +78,34 @@ const SellerContact = (props) => {
         "You can only upload JPG/PNG, PDF, MS-Excel & MS-PPT file!",
         5
       );
+      return false;
     }
     const isLt2M = file.size <= 2 * 1024 * 1024;
     if (!isLt2M) {
       message.error("File size must smaller than 2MB!", 5);
+      return false;
     }
     return isJpgOrPng && isLt2M;
   };
 
-  // const handlePreview = async file => {
-  //     if (!file.url && !file.preview) {
-  //         file.preview = await getBase64(file.originFileObj);
-  //     }
-  //     return file.url;
-  // };
+  const onPreview = async (file) => {
+    let src = file.url;
+    if (!src) {
+      src = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file.originFileObj);
+        reader.onload = () => resolve(reader.result);
+      });
+    }
+    const image = new Image();
+    image.src = src;
+    const imgWindow = window.open(src);
+    imgWindow.document.write(image.outerHTML);
+  };
 
   const handleChange = (info) => {
     // console.log(info.file.status);
-    if (
-      info.file.status === "uploading" ||
-      info.file.status === "done" ||
-      info.file.status === "removed"
-    ) {
+    if (info.file.status === "done" || info.file.status === "removed") {
       setFileList(info.fileList);
       return;
     }
@@ -236,12 +242,12 @@ const SellerContact = (props) => {
   );
 
   let assetUrl =
-    process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
+    process.env.NEXT_PUBLIC_REACT_APP_API_ASSETS_URL +
     "/assets?sourceService=forms";
 
   if (props.initialValues && props.initialValues.profileId) {
     assetUrl =
-      process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
+      process.env.NEXT_PUBLIC_REACT_APP_API_ASSETS_URL +
       "/assets?sourceService=forms&userId=" +
       props.initialValues.profileId;
   }
@@ -603,7 +609,7 @@ const SellerContact = (props) => {
                   }}
                   // className="avatar-uploader"
                   beforeUpload={beforeUpload}
-                  // onPreview={handlePreview}
+                  onPreview={onPreview}
                   onChange={handleChange}
                   multiple
                 >
