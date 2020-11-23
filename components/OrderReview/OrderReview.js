@@ -1868,51 +1868,69 @@ const OrderReview = (props) => {
                           </Link>
                         </div>
                       </Col>
-                      <Col
-                        xs={18}
-                        sm={18}
-                        md={18}
-                        lg={16}
-                        xl={16}
-                        style={{ paddingTop: "10px" }}
-                      >
-                        <span
-                          className={
-                            mediaMatch.matches
-                              ? "qa-font-san qa-tc-white qa-fs-17 qa-fw-b"
-                              : "qa-font-san qa-tc-white qa-fs-14 qa-fw-b"
-                          }
-                        >
-                          Coupon discount
-                        </span>
-                      </Col>
-                      <Col
-                        xs={6}
-                        sm={6}
-                        md={6}
-                        lg={8}
-                        xl={8}
-                        className="qa-col-end"
-                        style={{ paddingTop: "10px" }}
-                      >
-                        <span
-                          className="qa-font-san qa-fw-b qa-fs-14"
-                          style={{ color: "#0ABC1C" }}
-                        >
-                          -{" "}
-                          {getSymbolFromCurrency(
-                            props.order && props.order.currency
-                          )}
-                          {parseFloat(
-                            (props.order &&
-                              props.order.miscCharges &&
-                              props.order.miscCharges.find(
-                                (x) => x.chargeId === "DISCOUNT"
-                              ).amount) ||
-                              0
-                          ).toFixed(2)}
-                        </span>
-                      </Col>
+                      {props.order &&
+                        props.order.miscCharges &&
+                        props.order.miscCharges.find(
+                          (x) => x.chargeId === "DISCOUNT"
+                        ) &&
+                        props.order.miscCharges.find(
+                          (x) => x.chargeId === "DISCOUNT"
+                        ).amount > 0 && (
+                          <Col
+                            xs={18}
+                            sm={18}
+                            md={18}
+                            lg={16}
+                            xl={16}
+                            style={{ paddingTop: "10px" }}
+                          >
+                            <span
+                              className={
+                                mediaMatch.matches
+                                  ? "qa-font-san qa-tc-white qa-fs-17 qa-fw-b"
+                                  : "qa-font-san qa-tc-white qa-fs-14 qa-fw-b"
+                              }
+                            >
+                              Festive offer discount applied
+                            </span>
+                          </Col>
+                        )}
+                      {props.order &&
+                        props.order.miscCharges &&
+                        props.order.miscCharges.find(
+                          (x) => x.chargeId === "DISCOUNT"
+                        ) &&
+                        props.order.miscCharges.find(
+                          (x) => x.chargeId === "DISCOUNT"
+                        ).amount > 0 && (
+                          <Col
+                            xs={6}
+                            sm={6}
+                            md={6}
+                            lg={8}
+                            xl={8}
+                            className="qa-col-end"
+                            style={{ paddingTop: "10px" }}
+                          >
+                            <span
+                              className="qa-font-san qa-fw-b qa-fs-14"
+                              style={{ color: "#0ABC1C" }}
+                            >
+                              -{" "}
+                              {getSymbolFromCurrency(
+                                props.order && props.order.currency
+                              )}
+                              {parseFloat(
+                                (props.order &&
+                                  props.order.miscCharges &&
+                                  props.order.miscCharges.find(
+                                    (x) => x.chargeId === "DISCOUNT"
+                                  ).amount) ||
+                                  0
+                              ).toFixed(2)}
+                            </span>
+                          </Col>
+                        )}
                     </Row>
                     <Row style={{ paddingTop: "10px" }}>
                       <Col xs={24} sm={24} md={24} lg={24}>
