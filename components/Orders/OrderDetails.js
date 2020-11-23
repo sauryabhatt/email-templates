@@ -136,7 +136,7 @@ const OrderDetails = (props) => {
               {" "}
               {getSymbolFromCurrency(props.orders && props.orders.currency) ||
                 "$"}
-              0.0
+              0.00
             </span>
           </div>
 
