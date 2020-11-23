@@ -15,14 +15,24 @@ function BreadCrumb(props) {
     linkTo = "/sellers/all-categories";
   } else if (pageId === "search-listing") {
     pageName = "Search";
-    linkTo = "";
+    linkTo = "/";
   }
   let brandNameSC =
     brandName.toLowerCase().charAt(0).toUpperCase() +
     brandName.toLowerCase().slice(1);
   categoryName = categoryName?.replace(/-/gi, " ");
   categoryName = categoryName?.replace(/and/gi, "&");
-  let categoryNameSC = _upperFirst(categoryName);
+
+  const getCategoryName=(categoryName)=>{
+
+    if(categoryName==="home decor & accessories") {
+      return "Home décor & accessories"
+    } else if (categoryName==="All Categories") {
+      return "All categories"
+    } else return _upperFirst(categoryName);
+  }
+
+  let categoryNameSC = getCategoryName(categoryName);
 
   return (
     <Breadcrumb className="breadcrumb-text">

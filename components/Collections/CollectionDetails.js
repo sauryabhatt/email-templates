@@ -466,8 +466,7 @@ const CollectionDetails = (props) => {
                     >
                       <div className="aspect-ratio-box">
                         <Link
-                          href={`/product/${articleId}`}
-                          className="qa-cursor"
+                          href={`/product/${articleId}`}                          
                         >
                           <img
                             className="images qa-cursor"
@@ -732,9 +731,9 @@ const CollectionDetails = (props) => {
               hours.
             </p>
           </div>
-          <Link href="/" className="qa-cursor">
+          <Link href="/">
             <Button
-              className="send-query-success-modal-button"
+              className="send-query-success-modal-button qa-cursor"
               onClick={() => {
                 successQueryCancel();
               }}

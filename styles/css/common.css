@@ -415,7 +415,7 @@
   font-weight: 500;
 }
 .qa-cursor {
-  cursor: pointer;
+  cursor: pointer !important;
 }
 .qa-mar-left-50 {
   margin-left: 50px;
@@ -631,4 +631,7 @@
 }
 .qa-pad-rgt-50 {
   padding-right: 50px;
+}
+.tab-color .ant-tabs-tab-btn:active {
+  color: #d9bb7f !important;
 }

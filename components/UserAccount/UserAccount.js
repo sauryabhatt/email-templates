@@ -158,6 +158,8 @@ const UserAccount = (props) => {
     }
   }, [router.query.section]);
   useEffect(() => {
+    if(keycloak.token) {
+
     setShowOrderDetails(false);
     setCollectionDetails(false);
     if (currentNav == "profile") {
@@ -184,6 +186,8 @@ const UserAccount = (props) => {
         props.getAddresses(keycloak.token);
       }
     }
+  }
+
   }, [currentNav]);
 
   const formUpdate = (values) => {
@@ -205,7 +209,9 @@ const UserAccount = (props) => {
   };
 
   useEffect(() => {
+    if(keycloak.token) {
     props.getUserProfile(keycloak.token);
+    }
   }, [formUpdate(props.userProfile.userProfile)]);
 
   // useEffect(() => {
@@ -1597,7 +1603,7 @@ const UserAccount = (props) => {
                   size="large"
                   onChange={handleTabChange}
                 >
-                  <TabPane tab="Upcoming" key="1">
+                  <TabPane className="tab-color" tab="Upcoming" key="1">
                     {props.meetingByStatus &&
                     props.meetingByStatus.length > 0 ? (
                       meetingCard
@@ -1618,7 +1624,7 @@ const UserAccount = (props) => {
                     )}
                   </TabPane>
                   <TabPane tab="|"></TabPane>
-                  <TabPane tab="Past" key="2">
+                  <TabPane className="tab-color" tab="Past" key="2">
                     {props.meetingByStatus &&
                     props.meetingByStatus.length > 0 ? (
                       meetingCard

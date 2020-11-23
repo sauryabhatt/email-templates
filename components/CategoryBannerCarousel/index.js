@@ -70,12 +70,13 @@ const slides = categoryData?.map((item, index) => {
 function CategoryBannerCarousel(props) {
   const [isMobile, setIsMobile] = useState(false);
   const settings = {
-    infinite: false,
+    infinite: true,
     speed: 500,
     slidesToShow: isMobile ? 2 : 5,
     slidesToScroll: 1,
     arrows: false,
   };
+
   let slider;
 
   const next = () => {
@@ -87,6 +88,7 @@ function CategoryBannerCarousel(props) {
   //   const nextButton=;
 
   let { pageId = "" } = props;
+
   useEffect(() => {
     enquireScreen((status) => setIsMobile(status));
   }, []);
