@@ -186,7 +186,7 @@ const SendQueryForm = (props) => {
   const country = (
     <Select
       value={undefined}
-      className="country-selector"
+      className="country-selecto qa-cursor"
       placeholder="Select country"
       showSearch
     >
@@ -290,7 +290,7 @@ const SendQueryForm = (props) => {
                 ]}
               >
                 <Select
-                  className="country-selector"
+                  className="country-selector qa-cursor"
                   showSearch
                   placeholder="Select category"
                   value={undefined}
