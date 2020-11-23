@@ -535,7 +535,7 @@
     margin-bottom: 6px;
   }
   #product-description {
-    padding-top: 60px;
+    padding-top: 0px;
   }
   #product-description .pdp-explore-sec {
     display: inline-block;
