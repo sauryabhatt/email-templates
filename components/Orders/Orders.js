@@ -94,7 +94,7 @@ const Orders = (props) => {
   useEffect(() => {
     setShowLoader(true);
     props.getOrders(keycloak.token);
-  }, []);
+  }, [keycloak.token]);
 
   useEffect(() => {
     if (props.orders && props.isOrderAvailable) {
@@ -888,7 +888,7 @@ const Orders = (props) => {
                           className="qa-col-end qa-mar-top-05"
                         >
                           <span className="qa-fs-14 qa-fw-b qa-font-san qa-tc-white">
-                            Coupon discount
+                            Festive offer discount applied
                           </span>
                         </Col>
                       )}
@@ -1023,10 +1023,7 @@ const Orders = (props) => {
                             0}
                         </span>
                       ) : (
-                        <span
-                          className="qa-fs-16 qa-fw-b qa-font-san"
-                          style={{ color: "#0ABC1C" }}
-                        >
+                        <span className="qa-fs-16 qa-fw-b qa-font-san">
                           {getSymbolFromCurrency(order && order.currency)}
                           {(order &&
                             order.miscCharges &&

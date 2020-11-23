@@ -341,57 +341,66 @@ const PaymentSuccess = (props) => {
                       )}
                     </Col>
                   </Row>
-                  <Row className="qa-mar-top-2">
-                    <Col xs={18} sm={18} md={18} lg={18}>
-                      <span className="qa-font-san qa-tc-white qa-fs-14">
-                        Coupon discount
-                      </span>
-                    </Col>
-                    <Col xs={6} sm={6} md={6} lg={6}>
-                      {props.order && props.order.orderType == "RTS" ? (
-                        <span
-                          className="qa-font-san qa-fw-b qa-fs-14 qa-col-end"
-                          style={{ color: "#0ABC1C" }}
-                        >
-                          -{" "}
-                          {getSymbolFromCurrency(
-                            props.order && props.order.currency
+                  {props.order &&
+                    props.order.miscCharges &&
+                    props.order.miscCharges.find(
+                      (x) => x.chargeId === "DISCOUNT"
+                    ) &&
+                    props.order.miscCharges.find(
+                      (x) => x.chargeId === "DISCOUNT"
+                    ).amount > 0 && (
+                      <Row className="qa-mar-top-2">
+                        <Col xs={18} sm={18} md={18} lg={18}>
+                          <span className="qa-font-san qa-tc-white qa-fs-14">
+                            Festive offer discount applied
+                          </span>
+                        </Col>
+                        <Col xs={6} sm={6} md={6} lg={6}>
+                          {props.order && props.order.orderType == "RTS" ? (
+                            <span
+                              className="qa-font-san qa-fw-b qa-fs-14 qa-col-end"
+                              style={{ color: "#0ABC1C" }}
+                            >
+                              -{" "}
+                              {getSymbolFromCurrency(
+                                props.order && props.order.currency
+                              )}
+                              {props.order &&
+                                props.order.miscCharges &&
+                                props.order.miscCharges.find(
+                                  (x) => x.chargeId === "DISCOUNT"
+                                ) &&
+                                parseFloat(
+                                  (props.order.miscCharges.find(
+                                    (x) => x.chargeId === "DISCOUNT"
+                                  ).amount || 0) * props.order.conversionFactor
+                                ).toFixed(2)}
+                            </span>
+                          ) : (
+                            <span
+                              className="qa-font-san qa-fw-b qa-fs-14 qa-col-end"
+                              style={{ color: "#0ABC1C" }}
+                            >
+                              -{" "}
+                              {getSymbolFromCurrency(
+                                props.order && props.order.currency
+                              )}
+                              {parseFloat(
+                                (props.order &&
+                                  props.order.miscCharges &&
+                                  props.order.miscCharges.find(
+                                    (x) => x.chargeId === "DISCOUNT"
+                                  ) &&
+                                  props.order.miscCharges.find(
+                                    (x) => x.chargeId === "DISCOUNT"
+                                  ).amount) ||
+                                  0
+                              ).toFixed(2)}
+                            </span>
                           )}
-                          {props.order &&
-                            props.order.miscCharges &&
-                            props.order.miscCharges.find(
-                              (x) => x.chargeId === "DISCOUNT"
-                            ) &&
-                            parseFloat(
-                              (props.order.miscCharges.find(
-                                (x) => x.chargeId === "DISCOUNT"
-                              ).amount || 0) * props.order.conversionFactor
-                            ).toFixed(2)}
-                        </span>
-                      ) : (
-                        <span
-                          className="qa-font-san qa-fw-b qa-fs-14 qa-col-end"
-                          style={{ color: "#0ABC1C" }}
-                        >
-                          -{" "}
-                          {getSymbolFromCurrency(
-                            props.order && props.order.currency
-                          )}
-                          {parseFloat(
-                            (props.order &&
-                              props.order.miscCharges &&
-                              props.order.miscCharges.find(
-                                (x) => x.chargeId === "DISCOUNT"
-                              ) &&
-                              props.order.miscCharges.find(
-                                (x) => x.chargeId === "DISCOUNT"
-                              ).amount) ||
-                              0
-                          ).toFixed(2)}
-                        </span>
-                      )}
-                    </Col>
-                  </Row>
+                        </Col>
+                      </Row>
+                    )}
                   {promoDiscount > 0 && (
                     <Row className="qa-mar-top-2">
                       <Col xs={18} sm={18} md={18} lg={18}>
