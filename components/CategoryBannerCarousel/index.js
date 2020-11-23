@@ -72,8 +72,8 @@ function CategoryBannerCarousel(props) {
   const settings = {
     infinite: false,
     speed: 500,
-    slidesToShow: isMobile ? 1.6 : 4.8,
-    slidesToScroll: isMobile ? 1.6 : 1.8,
+    slidesToShow: isMobile ? 2 : 5,
+    slidesToScroll: 1,
     arrows: false,
   };
   let slider;
