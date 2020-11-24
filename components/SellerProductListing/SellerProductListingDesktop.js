@@ -752,6 +752,7 @@ function SellerProductListingDesktop(props) {
                   display: "flex",
                   flexDirection: "column",
                   textAlign: "center",
+                  color: "rgba(0,0,0,.65)",
                 }}
               >
                 Thank you for your interest for a live demo with {orgName} on{" "}

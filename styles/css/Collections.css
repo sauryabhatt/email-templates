@@ -45,11 +45,11 @@
   font-weight: bold;
 }
 
-.collection-btn-shop, 
+.collection-btn-shop,
 .collection-btn-shop:hover {
-    background-color: #d9bb7f;
-    border: 1px solid #d9bb7f;
-    color: #191919;
+  background-color: #d9bb7f;
+  border: 1px solid #d9bb7f;
+  color: #191919;
 }
 .add-to-collection .go-to-collection-button {
   background-color: transparent;
@@ -329,4 +329,10 @@
   .collections .c-request-for-quote-button {
     font-size: 10px;
   }
+}
+.collections .ant-btn.c-request-for-quote-button:disabled {
+  background: #c4c4c4;
+  color: rgba(25, 25, 25, 0.4);
+  border: 1px solid transparent;
+  cursor: pointer;
 }
