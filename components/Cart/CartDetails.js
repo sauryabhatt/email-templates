@@ -2536,7 +2536,7 @@ const CartDetails = (props) => {
                 <div className="address-label">Country</div>
                 <Form.Item
                   name="country"
-                  className="form-item"
+                  className="form-item modified-selector"
                   rules={[
                     {
                       required: true,
@@ -2565,6 +2565,7 @@ const CartDetails = (props) => {
                 <div className="address-label">State</div>
                 <Form.Item
                   name="state"
+                  className="modified-selector"
                   rules={[
                     {
                       required: true,
