@@ -10,8 +10,7 @@ export default function ProductDescriptionPage({ data }) {
   const router = useRouter();
 
   const meta = {
-    title:
-      data?.productName ||
+    title: `Buy ${data?.productName} online from India for wholesale exports. Source from verified exporters | Qalara`  ||
       "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods from India | Qalara",
     description:
       data?.productionDescription ||
