@@ -77,7 +77,9 @@ const SellerLandingDesktop = (props) => {
   const [productionKMM, setProductionKMM] = useState([]);
 
   const [logoUrl, setLogoUrl] = useState();
-  const [productTypeDetails, setProductTypeDetails] = useState(props.productPopupDetails);
+  const [productTypeDetails, setProductTypeDetails] = useState(
+    props.productPopupDetails
+  );
   let mediaMatch;
 
   useEffect(() => {
@@ -1930,6 +1932,7 @@ const SellerLandingDesktop = (props) => {
                   flexDirection: "column",
                   textAlign: "center",
                   padding: "20px",
+                  color: "rgba(0,0,0,.65)",
                 }}
               >
                 If you're a buyer with exclusive Invite-only access, after
@@ -1991,6 +1994,7 @@ const SellerLandingDesktop = (props) => {
                 marginLeft: "30%",
                 marginRight: "20%",
                 marginTop: "50px",
+                color: "rgba(0,0,0,.65)",
               }}
             >
               If you're a buyer with exclusive Invite-only access, after
@@ -2058,6 +2062,7 @@ const SellerLandingDesktop = (props) => {
                 display: "flex",
                 flexDirection: "column",
                 textAlign: "center",
+                color: "rgba(0,0,0,.65)",
               }}
             >
               Thank you for your interest for a live demo with {orgName} on{" "}
