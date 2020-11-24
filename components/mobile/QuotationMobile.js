@@ -79,9 +79,11 @@ const QuotationMobile = (props) => {
   };
 
   useEffect(() => {
+    if(props.userProfile) {
     setShowLoader(true);
     getQuotationByStatus(current);
-  }, []);
+    }
+  }, [props.userProfile]);
 
   useEffect(() => {
     setShowLoader(false);
