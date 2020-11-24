@@ -212,7 +212,6 @@ const Register = (props) => {
     form
       .validateFields([
         "firstName",
-        "lastName",
         "email",
         "country",
         "personalPhone",
@@ -253,45 +252,43 @@ const Register = (props) => {
     };
 
     if (profileType === "BUYER") {
-      if (values.websiteLink || values.facebookLink || values.instagramLink) {
-        // data.interestsInOrderTypes = values.inOrderTypes;
-        // data.interestsInCategories = values.inCategories;
-        data.dealsInOrderTypes = values.inOrderTypes;
-        data.dealsInCategories = values.inCategories;
+      // data.interestsInOrderTypes = values.inOrderTypes;
+      // data.interestsInCategories = values.inCategories;
+      data.dealsInOrderTypes = values.inOrderTypes;
+      data.dealsInCategories = values.inCategories;
 
-        data.brandName = values.brandName;
-        data.isHomeBased = values.businessType;
-        data.dunsNumber = values.dunsNum;
-        data.orgPhone = values.orgPhone;
+      data.brandName = values.brandName;
+      data.isHomeBased = values.businessType;
+      data.dunsNumber = values.dunsNum;
+      data.orgPhone = values.orgPhone;
 
-        data.userPrivateInfo = {
-          registeredAddress: {
-            address: values.address,
-            pinCode: values.zipcode,
-            city: values.city,
-            state: values.state,
-            country: values.buyerCountry,
-          },
-        };
+      data.userPrivateInfo = {
+        registeredAddress: {
+          address: values.address,
+          pinCode: values.zipcode,
+          city: values.city,
+          state: values.state,
+          country: values.buyerCountry,
+        },
+      };
 
+      if (values.websiteLink) {
         data.orgWebsite = values.websiteLink;
-        data.signupPromoCode = promoCode;
-        data.userSocialAccount = [];
-        if (values.facebookLink) {
-          data.userSocialAccount.push({
-            socialMedia: "FACEBOOK",
-            url: values.facebookLink,
-          });
-        }
-        if (values.instagramLink) {
-          data.userSocialAccount.push({
-            socialMedia: "INSTAGRAM",
-            url: values.instagramLink,
-          });
-        }
-      } else {
-        setLinkError(true);
-        return false;
+      }
+
+      data.signupPromoCode = promoCode;
+      data.userSocialAccount = [];
+      if (values.facebookLink) {
+        data.userSocialAccount.push({
+          socialMedia: "FACEBOOK",
+          url: values.facebookLink,
+        });
+      }
+      if (values.instagramLink) {
+        data.userSocialAccount.push({
+          socialMedia: "INSTAGRAM",
+          url: values.instagramLink,
+        });
       }
     }
 
@@ -569,14 +566,16 @@ const Register = (props) => {
                   <Form.Item
                     name="lastName"
                     className="form-item"
-                    rules={[
-                      // { required: true, message: "Field is required." },
-                      {
-                        min: 3,
-                        max: 50,
-                        message: "Length should be 3-50 characters!",
-                      },
-                    ]}
+                    rules={
+                      [
+                        // { required: true, message: "Field is required." },
+                        // {
+                        //   min: 3,
+                        //   max: 50,
+                        //   message: "Length should be 3-50 characters!",
+                        // },
+                      ]
+                    }
                   >
                     <Input disabled={btnDisabled} />
                   </Form.Item>
@@ -1008,9 +1007,9 @@ const Register = (props) => {
                       </div>
                       <Form.Item
                         name="websiteLink"
-                        rules={[
-                          { required: true, message: "Field is required." },
-                        ]}
+                        // rules={[
+                        //   { required: true, message: "Field is required." },
+                        // ]}
                       >
                         <Input />
                       </Form.Item>

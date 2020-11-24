@@ -662,14 +662,17 @@ function SellerLandingMobile(props) {
       ),
       slotDate: selectedDate,
     };
-    fetch(process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL + "/events/meeting ", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + keycloak.token,
-      },
-    })
+    fetch(
+      process.env.NEXT_PUBLIC_REACT_APP_API_MEETING_URL + "/events/meeting ",
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + keycloak.token,
+        },
+      }
+    )
       .then((res) => {
         if (res.ok) {
           setSelectedSlot(selectedSlot);
@@ -1920,6 +1923,7 @@ function SellerLandingMobile(props) {
                   flexDirection: "column",
                   textAlign: "center",
                   marginTop: "-45px",
+                  color: "rgba(0,0,0,.65)",
                 }}
               >
                 If you're a buyer with exclusive Invite-only access, after
@@ -1977,6 +1981,7 @@ function SellerLandingMobile(props) {
                 flexDirection: "column",
                 textAlign: "center",
                 marginTop: "25px",
+                color: "rgba(0,0,0,.65)",
               }}
             >
               If you're a buyer with exclusive Invite-only access, after
@@ -2040,8 +2045,7 @@ function SellerLandingMobile(props) {
                 display: "flex",
                 flexDirection: "column",
                 textAlign: "center",
-                color: "#332f2f",
-                opacity: "80%",
+                color: "rgba(0,0,0,0.65)",
               }}
             >
               Thank you for your interest for a live demo with {orgName} on{" "}

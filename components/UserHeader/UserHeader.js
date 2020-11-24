@@ -627,14 +627,16 @@ function UserHeader(props) {
                     verticalAlign: "middle",
                     marginLeft: "20px",
                     marginRight: "20px",
+                    height: "40px",
+                    lineHeight: "40px",
                   }}
                 >
                   SHOP CATEGORIES
                 </div>
               </Dropdown>
-                <a href="/explore/curatedbyus" className="trend-navigation">
-                  FEATURED
-                </a>
+              <a href="/explore/curatedbyus" className="trend-navigation">
+                FEATURED
+              </a>
             </div>
           </Col>
 
@@ -1246,7 +1248,12 @@ function UserHeader(props) {
           </p>
         </div>
       </Modal>
-      {shopColor && <div style={{top: isShowRibbon ? "120px" : "70px"}} id="overlay"></div>}
+      {shopColor && (
+        <div
+          style={{ top: isShowRibbon ? "120px" : "70px" }}
+          id="overlay"
+        ></div>
+      )}
     </Row>
   );
 }
