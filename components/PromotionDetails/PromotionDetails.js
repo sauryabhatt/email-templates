@@ -7,10 +7,6 @@ import FeedbackModal from "./../FeedbackModal/FeedbackModal";
 import Icon from "@ant-design/icons";
 
 export default function PromotionDetails() {
-  const token = useSelector(
-    (state) => state.appToken.token && state.appToken.token.access_token
-  );
-
   const [htmlContent, setHtmlContent] = useState(null);
   const [cookie, setCookie] = useCookies(["qalaraUser"]);
   const [mobile, setMobile] = useState(false);
@@ -29,7 +25,7 @@ export default function PromotionDetails() {
         method: "GET",
         headers: {
           "content-type": "application/json",
-          Authorization: "Bearer " + token,
+          Authorization: "Bearer " + process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN,
         },
       }
     )
