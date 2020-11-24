@@ -104,12 +104,24 @@ const ProductContact = (props) => {
   };
 
   const handleChange = (info) => {
-    if (info.file.status === "done" || info.file.status === "removed") {
-      setFileList(info.fileList);
+    if (
+      info.file.status === "done" ||
+      info.file.status === "removed" ||
+      info.file.status === "uploading"
+    ) {
+      let { fileList = [] } = info || {};
+      let uploadedList = [];
+      for (let file of fileList) {
+        const isJpgOrPng = acceptedFileTypes.includes(file.type);
+        const isLt2M = file.size <= 2 * 1024 * 1024;
+        if (isJpgOrPng && isLt2M) {
+          uploadedList.push(file);
+        }
+      }
+      setFileList(uploadedList);
       return;
     }
   };
-
   const onFinish = (values) => {
     let isAnonymousUser = true;
     if (props.initialValues && props.initialValues.profileId) {
