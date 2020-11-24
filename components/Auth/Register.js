@@ -620,7 +620,7 @@ const Register = (props) => {
                   <div className="label-paragraph">Country</div>
                   <Form.Item
                     name="country"
-                    className="form-item"
+                    className="form-item modified-selector"
                     rules={[{ required: true, message: "Field is required." }]}
                   >
                     <Select
@@ -730,6 +730,7 @@ const Register = (props) => {
                     </div>
                     <Form.Item
                       name="inOrderTypes"
+                      className="modified-selector"
                       rules={[
                         { required: true, message: "Field is required." },
                       ]}
@@ -757,6 +758,7 @@ const Register = (props) => {
                     </div>
                     <Form.Item
                       name="inCategories"
+                      className="modified-selector"
                       rules={[
                         { required: true, message: "Field is required." },
                       ]}
@@ -1088,6 +1090,7 @@ const Register = (props) => {
                       </div>
                       <Form.Item
                         name="inCategories"
+                        className="modified-selector"
                         rules={[
                           { required: true, message: "Field is required." },
                         ]}
@@ -1114,6 +1117,7 @@ const Register = (props) => {
                       </div>
                       <Form.Item
                         name="inOrderTypes"
+                        className="modified-selector"
                         rules={[
                           { required: true, message: "Field is required." },
                         ]}

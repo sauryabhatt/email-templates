@@ -166,6 +166,7 @@
     margin: auto;
     width: 12vw;
     height: 12vw;
+    cursor: pointer;
   }
 
   #seller-carousel .slick-current .slider-image-text {

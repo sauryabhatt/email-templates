@@ -191,7 +191,7 @@ export default function CuratedByUsWrapper(props) {
               <div className="fold-image-container">
                 {trend.map((e, index) => {
                   return (
-                    <div key ={`trend-img-${index}`} className="image-wrp" onClick={()=>router.push(e.url)}>
+                    <div key ={`trend-img-${index}`} className="image-wrp qa-cursor" onClick={()=>router.push(e.url)}>
                       <img alt={e.alt} src={e.img} />
                       <h3>{e.text}</h3>
                     </div>

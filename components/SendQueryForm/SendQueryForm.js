@@ -186,7 +186,7 @@ const SendQueryForm = (props) => {
   const country = (
     <Select
       value={undefined}
-      className="country-selecto qa-cursor"
+      className="country-selector"
       placeholder="Select country"
       showSearch
     >
@@ -284,13 +284,13 @@ const SendQueryForm = (props) => {
               <Form.Item
                 name="category"
                 style={{ marginBottom: "1em" }}
+                className="modified-selector"
                 // label='I am looking for'
                 rules={[
                   { required: true, message: "Please select a category." },
                 ]}
               >
                 <Select
-                  className="country-selector qa-cursor"
                   showSearch
                   placeholder="Select category"
                   value={undefined}
@@ -489,7 +489,7 @@ const SendQueryForm = (props) => {
               <span className="label-paragraph">Destination Country*</span>
               <Form.Item
                 name="destinationCountry"
-                style={{ marginBottom: "1em" }}
+                style={{ marginBottom: "1em", cursor:"pointer" }}
                 rules={[
                   { required: true, message: "Please select your country." },
                 ]}
