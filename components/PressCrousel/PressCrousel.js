@@ -85,7 +85,7 @@ export default function PressCrousel(props){
         <div className = "press-web-wrp">
           {press_data.map((data, index) =>{
           return(
-            <a href={data.url} target="blank" >
+            <a key = {`press-${index}`} href={data.url} target="blank" >
               <img style = {{height: `${data.height}`}} src={data.linkTo} alt={data.url} />
             </a>
           )

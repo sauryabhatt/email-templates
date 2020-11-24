@@ -309,7 +309,7 @@ function Home(props) {
           className="source-steps qa-mr-1"
         >
           <Link href={rtsUrl}>
-            <div className="steps-container">
+            <div className="steps-container qa-cursor">
               <span className="qa-next-line" style={{ color: "#191919" }}>
                 READY TO SHIP
               </span>
@@ -346,7 +346,7 @@ function Home(props) {
           className="source-steps qa-ml-1"
         >
           <Link href={ertmUrl}>
-            <div className="steps-container">
+            <div className="steps-container qa-cursor">
               <span className="qa-next-line" style={{ color: "#191919" }}>
                 EXPRESS CUSTOM
               </span>
@@ -376,7 +376,7 @@ function Home(props) {
         </Col>
         <Col xs={24} sm={24} md={8} lg={8} xl={8} className="source-steps">
           <Link href={customUrl}>
-            <div className="steps-container">
+            <div className="steps-container qa-cursor">
               <span className="qa-next-line" style={{ color: "#191919" }}>
                 CUSTOM QUOTE
               </span>

@@ -643,6 +643,7 @@ const CollectionDetails = (props) => {
                 <span className="label-paragraph">Destination Country*</span>
                 <Form.Item
                   name="destinationCountry"
+                  className="modified-selector"
                   style={{ marginBottom: "1em" }}
                   rules={[
                     { required: true, message: "Please select your country." },

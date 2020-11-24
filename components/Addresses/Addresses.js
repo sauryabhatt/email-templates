@@ -850,6 +850,7 @@ const Addresses = (props) => {
                       </span>
                       <Form.Item
                         // name="country"
+                        className="modified-selector"
                         rules={[
                           {
                             required: true,

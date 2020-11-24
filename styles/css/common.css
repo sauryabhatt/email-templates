@@ -634,5 +634,5 @@
   padding-right: 50px;
 }
 .tab-color .ant-tabs-tab-btn:active {
-  color: #d9bb7f !important;
+  color: unset;
 }

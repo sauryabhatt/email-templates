@@ -1599,11 +1599,12 @@ const UserAccount = (props) => {
                 style={{ marginTop: "30px" }}
               >
                 <Tabs
+                  className="tab-color"
                   defaultActiveKey="1"
                   size="large"
                   onChange={handleTabChange}
                 >
-                  <TabPane className="tab-color" tab="Upcoming" key="1">
+                  <TabPane  tab="Upcoming" key="1">
                     {props.meetingByStatus &&
                     props.meetingByStatus.length > 0 ? (
                       meetingCard
@@ -1624,7 +1625,7 @@ const UserAccount = (props) => {
                     )}
                   </TabPane>
                   <TabPane tab="|"></TabPane>
-                  <TabPane className="tab-color" tab="Past" key="2">
+                  <TabPane tab="Past" key="2">
                     {props.meetingByStatus &&
                     props.meetingByStatus.length > 0 ? (
                       meetingCard
@@ -1849,7 +1850,7 @@ const UserAccount = (props) => {
                 <p className="label-paragraph">Country</p>
                 <Form.Item
                   name="country"
-                  className="form-item"
+                  className="form-item modified-selector"
                   rules={[{ required: true, message: "Field is required." }]}
                 >
                   <Select showSearch disabled={edit}>
@@ -1896,6 +1897,7 @@ const UserAccount = (props) => {
                 <p className="label-paragraph">Organization type</p>
                 <Form.Item
                   name="orgType"
+                  className="modified-selector"
                   rules={[{ required: true, message: "Field is required." }]}
                 >
                   <Select disabled={edit}>
@@ -1904,6 +1906,7 @@ const UserAccount = (props) => {
                 </Form.Item>
                 <p className="label-paragraph">Role in organization</p>
                 <Form.Item
+                  className="modified-selector"
                   name="roleInOrganization"
                   rules={[{ required: true, message: "Field is required." }]}
                 >
@@ -1916,6 +1919,7 @@ const UserAccount = (props) => {
                 </p>
                 <Form.Item
                   name="inOrderTypes"
+                  className="modified-selector"
                   rules={[{ required: true, message: "Field is required." }]}
                 >
                   <Select mode="multiple" disabled={edit}>

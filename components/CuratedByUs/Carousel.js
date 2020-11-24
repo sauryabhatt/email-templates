@@ -124,7 +124,7 @@ export default function Carousel(props){
           {carouselContent.map((e, index) => {
             return( 
               <Link  key ={`carousel-img-${index}`}href={e.url}>
-                <div className = "image-wrp">
+                <div className = "image-wrp qa-cursor">
                   <img src = {e.img} alt = {e.alt}/>
                   <h3>{e.text}</h3>
                 </div>

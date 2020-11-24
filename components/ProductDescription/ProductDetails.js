@@ -3171,7 +3171,7 @@ const ProductDetails = (props) => {
                     </div>
                     <Form.Item
                       name="country"
-                      className="form-item"
+                      className="form-item modified-selector"
                       rules={[
                         { required: true, message: "Field is required." },
                       ]}

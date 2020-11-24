@@ -384,6 +384,7 @@ const ScheduleMeeting = (props) => {
                   </span>
                   <Form.Item
                     name="timezone"
+                    className="modified-selector"
                     rules={[{ required: true, message: "Field is required." }]}
                   >
                     <Select

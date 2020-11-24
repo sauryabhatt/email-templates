@@ -261,3 +261,15 @@
     margin-top: 27px;
   }
 }
+
+.country-selector .ant-select-selection-search-input {
+  cursor: pointer !important;
+}
+
+.modified-selector .ant-select-selector {
+  cursor: pointer !important;
+}
+
+.modified-selector .ant-select-selector input {
+  cursor: pointer !important;
+}
