@@ -1,6 +1,6 @@
+/** @format */
 
-
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useSelector } from "react-redux";
 import FeedbackModal from "./../FeedbackModal/FeedbackModal";
@@ -20,16 +20,19 @@ export default function PromotionDetails() {
     if (width <= 768) {
       setMobile(true);
     }
-
-  })
+  });
   useState(() => {
-    fetch(process.env.REACT_APP_CONTENT_URL + "/content/PromotionDetails", {
-      method: "GET",
-      headers: {
-        "content-type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    })
+    fetch(
+      process.env.NEXT_PUBLIC_REACT_APP_CONTENT_URL +
+        "/content/PromotionDetails",
+      {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      }
+    )
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -88,11 +91,7 @@ export default function PromotionDetails() {
       {cookie.qalaraUser && cookie.qalaraUser !== "oldUser" && (
         <FeedbackModal />
       )}
-      <div
-        dangerouslySetInnerHTML={{ __html: htmlContent }}
-        style={{ paddingTop: "3%" }}
-      ></div>
+      <div dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
     </React.Fragment>
   );
-};
-
+}
