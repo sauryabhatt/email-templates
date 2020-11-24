@@ -20,17 +20,30 @@ function BreadCrumb(props) {
   let brandNameSC =
     brandName.toLowerCase().charAt(0).toUpperCase() +
     brandName.toLowerCase().slice(1);
-  categoryName = categoryName?.replace(/-/gi, " ");
-  categoryName = categoryName?.replace(/and/gi, "&");
 
-  const getCategoryName=(categoryName)=>{
-
-    if(categoryName==="home decor & accessories") {
-      return "Home décor & accessories"
-    } else if (categoryName==="All Categories") {
-      return "All categories"
+  const getCategoryName = (categoryName) => {
+    if (categoryName === "all-categories") {
+      return "All categories";
+    } else if (categoryName === "baby-and-kids") {
+      return "Baby & kids";
+    } else if (categoryName === "fashion") {
+      return "Fashion";
+    } else if (categoryName === "furniture-and-storage") {
+      return "Furniture & storage";
+    } else if (categoryName === "home-decor-and-accessories") {
+      return "Home décor & accessories";
+    } else if (categoryName === "home-furnishing") {
+      return "Home furnishing";
+    } else if (categoryName === "jewelry") {
+      return "Jewelry";
+    } else if (categoryName === "kitchen-and-dining") {
+      return "Kitchen & dining";
+    } else if (categoryName === "pets-essentials") {
+      return "Pets essentials";
+    } else if (categoryName === "stationery-and-novelty") {
+      return "Stationery & novelty";
     } else return _upperFirst(categoryName);
-  }
+  };
 
   let categoryNameSC = getCategoryName(categoryName);
 

@@ -1,6 +1,7 @@
 /** @format */
 .main-layout-next {
   background-color: #f9f7f2 !important;
+  min-height: 500px;
 }
 .qa-pad-1 {
   padding: 10px;
