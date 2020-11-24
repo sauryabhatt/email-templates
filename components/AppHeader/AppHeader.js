@@ -43,7 +43,7 @@ const { SubMenu } = Menu;
 const { Option } = Select;
 
 function AppHeader(props) {
-  let { priceDetails = {}, isShowRibbon} = props;
+  let { priceDetails = {}, isShowRibbon } = props;
   const { keycloak } = useKeycloak();
   const router = useRouter();
   let { convertToCurrency = "" } = priceDetails || {};
@@ -534,13 +534,17 @@ function AppHeader(props) {
                       verticalAlign: "middle",
                       marginLeft: "20px",
                       marginRight: "20px",
+                      height: "40px",
+                      lineHeight: "40px",
                     }}
                   >
                     SHOP CATEGORIES
                   </div>
                 </Dropdown>
 
-                <a href="/explore/curatedbyus" className="trend-navigation">FEATURED</a>
+                <a href="/explore/curatedbyus" className="trend-navigation">
+                  FEATURED
+                </a>
               </div>
             </Col>
             <Col
@@ -579,7 +583,7 @@ function AppHeader(props) {
                 textAlign: "right",
                 margin: "auto",
                 display: "flex",
-                "justify-content": "flex-end"
+                "justify-content": "flex-end",
               }}
             >
               <Button
@@ -1168,7 +1172,12 @@ function AppHeader(props) {
           </div>
         </Modal>
 
-        {shopColor && <div style={{top: isShowRibbon ? "100px" : "50px"}} id="overlay"></div>}
+        {shopColor && (
+          <div
+            style={{ top: isShowRibbon ? "120px" : "70px" }}
+            id="overlay"
+          ></div>
+        )}
       </Row>
     );
   }

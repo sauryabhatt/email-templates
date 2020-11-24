@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Layout, Row, Col } from "antd";
-import Link from 'next/link'
+import Link from "next/link";
 
 const { Footer } = Layout;
 
@@ -61,13 +61,18 @@ function AppFooter(props) {
               </Link>
             </Col>
             <Col
+              className="app-footer-text"
               xs={24}
               sm={24}
-              md={12}
-              lg={12}
-              xl={12}
-              className="footer-links"
+              md={3}
+              lg={3}
+              xl={3}
             >
+              <Link href="/promotionsFAQ">
+                <a>Promotions FAQ</a>
+              </Link>
+            </Col>
+            <Col xs={24} sm={24} md={9} lg={9} xl={9} className="footer-links">
               <span style={{ padding: "0px 5px" }}>
                 <a href="https://facebook.com/QalaraGlobal/" target="_blank">
                   <svg
@@ -144,8 +149,14 @@ function AppFooter(props) {
             </Col>
           </Row>
         </Col>
-        <Col className="app-footer-social" xs={0} sm={0} md={4} lg={4} xl={4}>
-        </Col>
+        <Col
+          className="app-footer-social"
+          xs={0}
+          sm={0}
+          md={4}
+          lg={4}
+          xl={4}
+        ></Col>
       </Row>
       <div className="app-footer-copyright">
         QALARA.COM IS OWNED BY MESINDUS VENTURES PRIVATE LIMITED
