@@ -1354,6 +1354,7 @@ const ShippingDetails = (props) => {
                   <div className="qa-pad-top-2 qa-pad-btm-2 qa-horizontal-scroll">
                     {!disableAir && (
                       <div
+                        className="min-width-320px"
                         style={{ display: "inline-block", marginRight: "20px" }}
                       >
                         <div
@@ -1508,6 +1509,7 @@ const ShippingDetails = (props) => {
                     )}
                     {!disableSea && (
                       <div
+                        className="min-width-320px"
                         style={{ display: "inline-block", marginRight: "20px" }}
                       >
                         <div
@@ -1660,7 +1662,7 @@ const ShippingDetails = (props) => {
                         </div>
                       </div>
                     )}
-                    {/* <div style={{ display: "inline-block", marginRight: "20px" }}>
+                    {/* <div className="min-width-320px" style={{ display: "inline-block", marginRight: "20px" }}>
                 <div className="qa-bg-dark-theme qa-pad-2 qa-box-shadow shipping-mode-section">
                   <div className="qa-pad-btm-15 qa-border-bottom">
                     <span>

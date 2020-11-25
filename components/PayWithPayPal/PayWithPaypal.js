@@ -198,63 +198,6 @@ const PaypalButton = (props) => {
     let stateCode = getStateCode();
     let countryCode = getCountryCode();
     let paymentObj = null;
-    let totalAmount = props.isCartSummary
-      ? (props.order.total * conversionFactor).toFixed(2)
-      : props.order.miscCharges
-          .find((x) => x.chargeId === "TOTAL_AMOUNT")
-          .amount.toFixed(2);
-    let totalConvertedAmount = 0;
-    if (props.isCartSummary) {
-      totalConvertedAmount =
-        parseFloat(sumOfProd).toFixed(2) +
-        parseFloat(
-          parseFloat(
-            getConvertedCurrency(
-              props.order.miscCharges
-                .find((x) => x.chargeId === "TOTAL_COST_FREIGHT_MAX")
-                .amount.toString(),
-              conversionFactor
-            )
-          ).toFixed(2)
-        ).toFixed(2) +
-        parseFloat(handlingSum).toFixed(2) +
-        parseFloat(
-          parseFloat(
-            getConvertedCurrency(
-              props.order.miscCharges
-                .find((x) => x.chargeId === "DUTY_MAX")
-                .amount.toString(),
-              conversionFactor
-            )
-          ).toFixed(2)
-        ).toFixed(2) -
-        props.order.promoDiscount
-          ? props.order.promoDiscount
-          : 0;
-
-      console.log(
-        typeof parseFloat(sumOfProd).toFixed(2),
-        totalAmount,
-        totalConvertedAmount,
-        parseFloat(sumOfProd).toFixed(2),
-        parseFloat(
-          parseFloat(
-            getConvertedCurrency(
-              props.order.miscCharges
-                .find((x) => x.chargeId === "TOTAL_COST_FREIGHT_MAX")
-                .amount.toString(),
-              conversionFactor
-            )
-          ).toFixed(2)
-        ).toFixed(2),
-        parseFloat(handlingSum).toFixed(2)
-      );
-      if (totalAmount !== totalConvertedAmount) {
-        // totalAmount = totalConvertedAmount;
-        console.log("Not equal");
-      }
-    }
-
     // if (
     //   props.currencyDetails !== null &&
     //   props.currencyDetails.convertToCurrency !== "USD"
@@ -290,7 +233,11 @@ const PaypalButton = (props) => {
     paymentObj = {
       gbPayment: {
         gbOrderNo: props.order.orderId,
-        tenderedAmt: totalAmount,
+        tenderedAmt: props.isCartSummary
+          ? (props.order.total * conversionFactor).toFixed(2)
+          : props.order.miscCharges
+              .find((x) => x.chargeId === "TOTAL_AMOUNT")
+              .amount.toFixed(2),
         currency: props.currency,
         conversionFactor: conversionFactor,
         invoice_id: props.order.orderId + "_" + Date.now().toString(),
@@ -340,7 +287,12 @@ const PaypalButton = (props) => {
             soft_descriptor: "Qalara",
             amount: {
               currency_code: props.currency,
-              value: totalAmount.toString(),
+              value: props.isCartSummary
+                ? (props.order.total * conversionFactor).toFixed(2)
+                : props.order.miscCharges
+                    .find((x) => x.chargeId === "TOTAL_AMOUNT")
+                    .amount.toFixed(2)
+                    .toString(),
               breakdown: {
                 item_total: {
                   currency_code: props.currency,
