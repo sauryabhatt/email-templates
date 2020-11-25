@@ -46,9 +46,9 @@ export default function CategoryEditDetails({ data }) {
       }
       break;
   }
-  if(data?.res?.body == null) {
-    return <><NotFound /></>;
-  }
+  // if(data?.res?.body == null) {
+  //   return <><NotFound /></>;
+  // }
   
   return (
     <Layout meta={meta}>
