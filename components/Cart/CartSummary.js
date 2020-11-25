@@ -485,6 +485,15 @@ const CartSummary = (props) => {
     }
   };
 
+  let totalAmount = getConvertedCurrency(
+    subOrders.reduce((x, y) => x + y["total"], 0) +
+      frieghtCharge +
+      dutyCharge -
+      couponDiscount +
+      vatCharge -
+      promoDiscount
+  );
+
   const priceBreakup = (
     <div className="breakup-popup qa-font-san">
       <div className="qa-border-bottom qa-pad-btm-15 cart-prod-name">
@@ -828,7 +837,7 @@ const CartSummary = (props) => {
         <div className="qa-mar-btm-2">
           <div className="cart-ship-pt qa-border-bottom">
             <div
-              style={{textTransform: 'uppercase'}}
+              style={{ textTransform: "uppercase" }}
               className="c-left-blk cart-prod-name"
               style={{ color: "#27AE60" }}
             >
@@ -857,7 +866,9 @@ const CartSummary = (props) => {
           </div>
           <div className="c-right-blk qa-fw-b qa-txt-alg-rgt font-size-17">
             {getSymbolFromCurrency(convertToCurrency)}
-            {total ? getConvertedCurrency(total) : ""}
+            {total.toString() !== totalAmount.toString()
+              ? totalAmount
+              : getConvertedCurrency(total)}
           </div>
           {/* <div className="c-left-blk">With refundable taxes</div> */}
         </div>
