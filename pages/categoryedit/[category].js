@@ -46,9 +46,9 @@ export default function CategoryEditDetails({ data }) {
       }
       break;
   }
-  // if(data?.res?.body == null) {
-  //   return <><NotFound /></>;
-  // }
+  if(data?.res?.body == null) {
+    return <><NotFound /></>;
+  }
   
   return (
     <Layout meta={meta}>
@@ -56,6 +56,15 @@ export default function CategoryEditDetails({ data }) {
     </Layout>
   );
 }
+
+const categoryObj = {
+  kitchendining: "KitchenDining",
+  homedecor: "HomeDecor",
+  fashionaccessories: "FashionAccessories",
+  furniture: "Furniture",
+  homelinen: "HomeLinen",
+  jewelry: "Jewelry"
+};
 
 export async function getStaticPaths() {
   return {
@@ -70,7 +79,7 @@ export async function getStaticProps({ params: { category = "" } = {} }) {
   try {
   const response = await fetch(
     process.env.NEXT_PUBLIC_REACT_APP_CONTENT_URL +
-      `/content/${category.toLowerCase()}`,
+      `/content/${categoryObj[category.toLowerCase()]}`,
     {
       method: "GET",
       headers: {
