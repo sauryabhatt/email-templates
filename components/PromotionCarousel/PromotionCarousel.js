@@ -28,9 +28,9 @@ export default function PromotionCarousel(props) {
 
   let promotiolList = [
     {
-      title: "Festive offer! ",
+      title: "Black Friday Offer!",
       copy:
-        "$75 OFF on shipping for all orders. Automatically applied on the Shipping page.",
+        <div>Use code <b>BLACKFRIDAY</b> to avail<b> flat 10% off*</b> on all orders! <span style={{fontSize: "12px"}}>*T&C </span></div>,
     },
     {
       title: "Launch offer!",

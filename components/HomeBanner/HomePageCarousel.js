@@ -12,6 +12,9 @@ import signUp_icon from '../../public/filestore/Sign_Up'
 import Link from "next/link";
 import { useRouter } from "next/router";
 
+//import b2 from "../../public/filestore/Homepage-banner2.jpg"
+//import b2_m from "../../public/filestore/Homepage-banner2-mob.jpg"
+
 export default function HomePageCarousel(props){
     const [isMobile, setIsMobile] = useState(false);
     const imgs = [{
@@ -32,20 +35,21 @@ export default function HomePageCarousel(props){
         mobileImg: mobile1,
     },*/
     {
-        img: "https://cdn.qalara.com/images/Img_Homepage_Banner_Qalara_2-1.jpg",
-        hading_text: <div className = "second-img-head">Eco-friendly,{isMobile ?<br/>: null} handmade gifts for{isMobile ?<br/>: null} the Holiday season.</div>,
-        small_text: <span className = "second-img-subhead" ><div>Get flat <b>$75 OFF*</b> on shipping.</div> <div>Limited time offer!</div> </span>,
-        video_link: "",  
-        isSignupbtn: true,
-        signinBTNLink: "/sellers/all-categories?f_values=ECO_FRIENDLY",
-        signinBTNText: "EXPLORE NOW",
-        mobileImg: "https://cdn.qalara.com/images/Img_Homepage_Banner_Qalara_2-mob.jpg",
+        img: "https://cdn.qalara.com/images/Img_Homepage_Banner2.jpg",
+        hading_text: '',//<div className = "second-img-head">Eco-friendly,{isMobile ?<br/>: null} handmade gifts for{isMobile ?<br/>: null} the Holiday season.</div>,
+        small_text: '',//<span className = "second-img-subhead" ><div>Get flat <b>$75 OFF*</b> on shipping.</div> <div>Limited time offer!</div> </span>,
+        //video_link: "",  
+        isSignupbtn: false,
+        signinBTNLink: "/sellers/all-categories",
+        //signinBTNText: "EXPLORE NOW",
+        mobileImg: "https://cdn.qalara.com/images/Img_Homepage_Banner2_mob.jpg",
     },
     {
         img: "https://cdn.qalara.com/images/Img_Homepage_banner_3.jpg",
         hading_text: "",
         small_text: "",
         isSignupbtn: false,
+        signinBTNLink: "/sellers/all-categories",
         mobileImg: "https://cdn.qalara.com/images/Img_Homepage_banner_3_mob.jpg",            
     }
     ]
@@ -204,7 +208,7 @@ function SlideElement (props){
     }
 
     function signupAction(){
-        router.push("/sellers/all-categories");
+        router.push(e.signinBTNLink);
     }
     return (
         <div onClick={!e.isSignupbtn ? signupAction : ""} style = {isMobile ? {} : {backgroundImage: `url(${isMobile ? e.mobileImg : e.img})`}} key={index} className={`home-banner-carousel-wrap ${!e.isSignupbtn ? "pointer" : ""} ${!isVideo ? "active-banner" : ""}`}>
