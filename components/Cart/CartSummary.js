@@ -828,6 +828,7 @@ const CartSummary = (props) => {
         <div className="qa-mar-btm-2">
           <div className="cart-ship-pt qa-border-bottom">
             <div
+              style={{textTransform: 'uppercase'}}
               className="c-left-blk cart-prod-name"
               style={{ color: "#27AE60" }}
             >
@@ -837,7 +838,7 @@ const CartSummary = (props) => {
               className="c-left-blk cart-prod-name"
               style={{ color: "#27AE60" }}
             >
-              coupon discount applied
+              discount applied
             </div>
             <div className="c-right-blk qa-fw-b qa-txt-alg-rgt">
               <span style={{ color: "#27AE60" }}>

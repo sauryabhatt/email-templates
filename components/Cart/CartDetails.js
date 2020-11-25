@@ -1371,11 +1371,11 @@ const CartDetails = (props) => {
                   </div>
                 </div>
               )}
-              <div className="cart-price-block permot-text">
+              {/*<div className="cart-price-block permot-text">
                 <span className="sdf">
                   Black Friday offer discount automatically applied on Shipping page.
                 </span>
-              </div>
+              </div>*/}
               <CartSummary
                 id="cart"
                 enable={enable && isFulfillable && addressFlag}
@@ -1416,11 +1416,11 @@ const CartDetails = (props) => {
         <div style={{ width: "100%" }}>
           <PromotionCarousel />
           <Col span={24} className="qa-pad-0-20">
-            <div className="cart-price-block permot-text">
+            {/*<div className="cart-price-block permot-text">
               <span className="sdf">
                 Black Friday offer discount automatically applied on Shipping page.
               </span>
-            </div>
+            </div>*/}
             <Row>
               <Col span={24} className="cart-title qa-mar-btm-2">
                 Shopping cart

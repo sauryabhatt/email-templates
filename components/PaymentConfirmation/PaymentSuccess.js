@@ -404,11 +404,11 @@ const PaymentSuccess = (props) => {
                   {promoDiscount > 0 && (
                     <Row className="qa-mar-top-2">
                       <Col xs={18} sm={18} md={18} lg={18}>
-                        <div className="qa-font-san qa-tc-white qa-fs-14">
+                        <div style={{textTransform: 'uppercase'}} className="qa-font-san qa-tc-white qa-fs-14">
                           {promoCode}
                         </div>
                         <div className="qa-font-san qa-tc-white qa-fs-14">
-                          coupon discount applied
+                          discount applied
                         </div>
                       </Col>
                       <Col

@@ -964,7 +964,7 @@ const Orders = (props) => {
                           className="qa-col-end qa-mar-top-05"
                         >
                           <span className="qa-fs-14 qa-fw-b qa-font-san qa-tc-white">
-                            {order.promoCode} coupon discount applied
+                            <span style={{textTransform: 'uppercase'}}>{order.promoCode}</span> discount applied
                           </span>
                         </Col>
                       )}
