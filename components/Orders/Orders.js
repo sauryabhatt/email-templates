@@ -125,6 +125,10 @@ const Orders = (props) => {
     a.click();
   };
 
+  const addDefaultSrc = (ev) => {
+    ev.target.src = process.env.NEXT_PUBLIC_URL + "/placeholder.png";
+  };
+
   if (showLoader) {
     return (
       <div className="qa-loader-middle">
@@ -527,6 +531,7 @@ const Orders = (props) => {
                                         ) : (
                                           <img
                                             className="images"
+                                            onError={addDefaultSrc}
                                             src={
                                               process.env
                                                 .NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
