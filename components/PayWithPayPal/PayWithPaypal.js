@@ -206,18 +206,23 @@ const PaypalButton = (props) => {
     let totalConvertedAmount = 0;
     if (props.isCartSummary) {
       totalConvertedAmount =
-        sumOfProd +
-        getConvertedCurrency(
-          props.order.miscCharges.find(
-            (x) => x.chargeId === "TOTAL_COST_FREIGHT_MAX"
-          ).amount,
-          conversionFactor
-        ) +
+        parseFloat(sumOfProd).toFixed(2) +
+        parseFloat(
+          getConvertedCurrency(
+            props.order.miscCharges.find(
+              (x) => x.chargeId === "TOTAL_COST_FREIGHT_MAX"
+            ).amount,
+            conversionFactor
+          )
+        ).toFixed(2) +
         parseFloat(handlingSum).toFixed(2) +
-        getConvertedCurrency(
-          props.order.miscCharges.find((x) => x.chargeId === "DUTY_MAX").amount,
-          conversionFactor
-        );
+        parseFloat(
+          getConvertedCurrency(
+            props.order.miscCharges.find((x) => x.chargeId === "DUTY_MAX")
+              .amount,
+            conversionFactor
+          )
+        ).toFixed(2);
 
       console.log(totalAmount, totalConvertedAmount);
       if (totalAmount !== totalConvertedAmount) {
