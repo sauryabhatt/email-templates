@@ -221,7 +221,11 @@ const PaypalButton = (props) => {
           )
         ).toFixed(2)
       ) -
-      parseFloat(parseFloat(props.order.promoDiscount || 0).toFixed(2));
+      parseFloat(
+        parseFloat(
+          getConvertedCurrency(props.order.promoDiscount || 0, conversionFactor)
+        ).toFixed(2)
+      );
     totalAmount = parseFloat(
       Math.round((totalAmount + Number.EPSILON) * 100) / 100
     ).toFixed(2);
@@ -256,7 +260,11 @@ const PaypalButton = (props) => {
     );
     console.log(
       "Promo discount: ",
-      parseFloat(parseFloat(props.order.promoDiscount || 0).toFixed(2))
+      parseFloat(
+        parseFloat(
+          getConvertedCurrency(props.order.promoDiscount, conversionFactor)
+        ).toFixed(2)
+      )
     );
 
     // if (
