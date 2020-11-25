@@ -204,39 +204,27 @@ const PaypalButton = (props) => {
           .find((x) => x.chargeId === "TOTAL_AMOUNT")
           .amount.toFixed(2);
     let totalConvertedAmount = 0;
-    totalConvertedAmount =
-      sumOfProd + props.isCartSummary
-        ? parseFloat(
-            parseFloat(
-              getConvertedCurrency(
-                props.order.miscCharges.find(
-                  (x) => x.chargeId === "TOTAL_COST_FREIGHT_MAX"
-                ).amount,
-                conversionFactor
-              )
-            ).toFixed(2)
-          ).toFixed(2)
-        : props.order.miscCharges
-            .find((x) => x.chargeId === "TOTAL_COST_FREIGHT_MAX")
-            .amount.toFixed(2) +
-          parseFloat(handlingSum).toFixed(2) +
-          props.isCartSummary
-        ? parseFloat(
-            parseFloat(
-              getConvertedCurrency(
-                props.order.miscCharges.find((x) => x.chargeId === "DUTY_MAX")
-                  .amount,
-                conversionFactor
-              )
-            ).toFixed(2)
-          ).toFixed(2)
-        : props.order.miscCharges
-            .find((x) => x.chargeId === "CUSTOM_CHARGES")
-            .amount.toFixed(2);
-    console.log(totalAmount, totalConvertedAmount);
-    if (totalAmount !== totalConvertedAmount) {
-      totalAmount = totalConvertedAmount;
+    if (props.isCartSummary) {
+      totalConvertedAmount =
+        sumOfProd +
+        getConvertedCurrency(
+          props.order.miscCharges.find(
+            (x) => x.chargeId === "TOTAL_COST_FREIGHT_MAX"
+          ).amount,
+          conversionFactor
+        ) +
+        parseFloat(handlingSum).toFixed(2) +
+        getConvertedCurrency(
+          props.order.miscCharges.find((x) => x.chargeId === "DUTY_MAX").amount,
+          conversionFactor
+        );
+
+      console.log(totalAmount, totalConvertedAmount);
+      if (totalAmount !== totalConvertedAmount) {
+        totalAmount = totalConvertedAmount;
+      }
     }
+
     // if (
     //   props.currencyDetails !== null &&
     //   props.currencyDetails.convertToCurrency !== "USD"
