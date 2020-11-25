@@ -53,8 +53,8 @@ export const Layout = ({
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
         {/*remove the below two lines in production*/}
-        <meta name="robots" content="noindex" />
-        <meta name="googlebot" content="noindex" />
+        {/* <meta name="robots" content="noindex" />
+        <meta name="googlebot" content="noindex" /> */}
         <link rel="icon" href={`${process.env.NEXT_PUBLIC_URL}/favicon.ico?v=2`} />
         <script src="https://www.paypal.com/sdk/js?client-id=AUf6Jh8viomIa90m8KMFndz2iIwKkIcpzZHTUmKY1f8M9J7uDeQ1zO7d-lTb85AU4oiBHBlb2mBZ9g9_&currency=USD&intent=order" id="paypal-script" type="text/javaScript"></script>
       </Head>
