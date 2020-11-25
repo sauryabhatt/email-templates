@@ -351,7 +351,7 @@ const ShippingDetails = (props) => {
         setCartData(result);
         if (couponApplied === true) {
           setCouponApplied(false);
-          message.success("Promotion removed", 5);
+          message.success("Coupon removed", 5);
         } else if (couponApplied === false) {
           setCouponApplied(true);
         }
