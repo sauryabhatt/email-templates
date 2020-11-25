@@ -77,7 +77,7 @@ export default function ProductListingPage({data}) {
   if(data?.error?.status) {
     return <><NotFound /></>;
   } 
-
+  meta["url"]="products/"+ categoryId;
   if (router.isFallback) {
     return <Spinner />;
   }

@@ -49,7 +49,7 @@ export default function CategoryEditDetails({ data }) {
   if(data?.res?.body == null) {
     return <><NotFound /></>;
   }
-  
+  meta["url"] = "/categoryedit/"+ category;
   return (
     <Layout meta={meta}>
       <CategoryEditWrapper body={res?.body || "<p>No Data Available</p>"}/>

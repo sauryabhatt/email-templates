@@ -38,6 +38,7 @@ export default function ArtisanDetails({ data }) {
       }
       break;
   }
+  meta["url"]="/artisancrafts/"+artisan;
   if(data?.error?.status || res?.body == null) {
     return <><NotFound /></>;
   }
