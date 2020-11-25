@@ -1205,7 +1205,7 @@ const ShippingDetails = (props) => {
                   generate a custom quote for your requirements.
                 </div>
               )} */}
-              {/* <div className="qa-pad-0-20 qa-mar-btm-1 cart-price-block qa-font-san">
+              <div className="qa-pad-0-20 qa-mar-btm-1 cart-price-block qa-font-san">
                 <div className="qa-mar-top-05 cart-price-title qa-mar-btm-1">
                   Apply coupon
                 </div>
@@ -1256,7 +1256,7 @@ const ShippingDetails = (props) => {
                     </div>
                   </Col>
                 </Row>
-              </div> */}
+              </div>
 
               <CartSummary
                 id="shipping"
@@ -1281,7 +1281,7 @@ const ShippingDetails = (props) => {
           <Col xs={24} sm={24} md={24} lg={24} xl={24} className="qa-pad-0-20">
             <Row className="shipping-section">
               <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                {/* <div className="qa-pad-0-20 qa-mar-btm-2 cart-price-block qa-font-san">
+                <div className="qa-pad-0-20 qa-mar-btm-2 cart-price-block qa-font-san">
                   <div className="qa-mar-top-05 cart-price-title qa-mar-btm-1">
                     Apply coupon
                   </div>
@@ -1332,7 +1332,7 @@ const ShippingDetails = (props) => {
                       </div>
                     </Col>
                   </Row>
-                </div> */}
+                </div>
 
                 <div className="qa-tc-white qa-mar-btm-2 cart-ship-pt">
                   <div className="qa-fw-b qa-mar-btm-05">Shipping to:</div>
