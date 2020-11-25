@@ -22,7 +22,7 @@ export default function Ribbon(props) {
   };
   let slider = "";
   let t = [
-    "$75 OFF on shipping for all orders",
+    "Black Friday Offer! Flat 10% OFF on all orders",
     "ZERO Commissions. FREE quality inspections",
   ];
 

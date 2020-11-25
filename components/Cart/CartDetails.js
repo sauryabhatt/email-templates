@@ -1373,7 +1373,7 @@ const CartDetails = (props) => {
               )}
               <div className="cart-price-block permot-text">
                 <span className="sdf">
-                  Festive offer discount automatically applied on Shipping page.
+                  Black Friday offer discount automatically applied on Shipping page.
                 </span>
               </div>
               <CartSummary
@@ -1418,7 +1418,7 @@ const CartDetails = (props) => {
           <Col span={24} className="qa-pad-0-20">
             <div className="cart-price-block permot-text">
               <span className="sdf">
-                Festive offer discount automatically applied on Shipping page.
+                Black Friday offer discount automatically applied on Shipping page.
               </span>
             </div>
             <Row>

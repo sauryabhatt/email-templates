@@ -715,7 +715,7 @@ const CartSummary = (props) => {
               style={{ color: "#27AE60" }}
               className="c-left-blk cart-prod-name"
             >
-              Festive offer discount applied
+              Black Friday offer discount applied
             </div>
             <div className="c-right-blk qa-fw-b qa-txt-alg-rgt">
               {id !== "cart" && couponDiscount > 0 ? (
