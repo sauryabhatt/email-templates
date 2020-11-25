@@ -208,25 +208,31 @@ const PaypalButton = (props) => {
       totalConvertedAmount =
         parseFloat(sumOfProd).toFixed(2) +
         parseFloat(
-          getConvertedCurrency(
-            props.order.miscCharges.find(
-              (x) => x.chargeId === "TOTAL_COST_FREIGHT_MAX"
-            ).amount,
-            conversionFactor
-          )
+          parseFloat(
+            getConvertedCurrency(
+              props.order.miscCharges
+                .find((x) => x.chargeId === "TOTAL_COST_FREIGHT_MAX")
+                .amount.toString(),
+              conversionFactor
+            )
+          ).toFixed(2)
         ).toFixed(2) +
         parseFloat(handlingSum).toFixed(2) +
         parseFloat(
-          getConvertedCurrency(
-            props.order.miscCharges.find((x) => x.chargeId === "DUTY_MAX")
-              .amount,
-            conversionFactor
-          )
+          parseFloat(
+            getConvertedCurrency(
+              props.order.miscCharges
+                .find((x) => x.chargeId === "DUTY_MAX")
+                .amount.toString(),
+              conversionFactor
+            )
+          ).toFixed(2)
         ).toFixed(2);
 
       console.log(totalAmount, totalConvertedAmount);
       if (totalAmount !== totalConvertedAmount) {
-        totalAmount = totalConvertedAmount;
+        // totalAmount = totalConvertedAmount;
+        console.log("Not equal");
       }
     }
 
