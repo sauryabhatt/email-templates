@@ -46,9 +46,10 @@ export default function CategoryEditDetails({ data }) {
       }
       break;
   }
-  if(data?.error?.status || res?.body == null) {
+  if(data?.res?.body == null) {
     return <><NotFound /></>;
   }
+  
   return (
     <Layout meta={meta}>
       <CategoryEditWrapper body={res?.body || "<p>No Data Available</p>"}/>
