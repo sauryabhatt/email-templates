@@ -63,19 +63,12 @@ function AuthWithKeycloak(props) {
     clientId: "next",
   };
 
-  // const onKeycloakEvent = (event, error) => {
-  //     if (event === 'onReady') {
-  //     } else if (event === 'onAuthSuccess') {
-  //         keycloak.loadUserProfile().then((profile) => {
-  //             store.dispatch(setAuth(keycloak.authenticated, profile));
-  //         }).catch((error) => {
-  //             store.dispatch(setAuth(keycloak.authenticated, null));
-  //             history.push('/error?message="Somthing went wrong on loading user profile."&redirectURI='+history.location.pathname);
-  //         });
-  //         store.dispatch(getUserProfile(keycloak.token));
-  //     }
-  //
-  // }
+  const onKeycloakEvent = (event, error) => {
+    if (event === "onReady") {
+    } else if (event === "onAuthSuccess") {
+      alert("Inside event success");
+    }
+  };
   // const onKeycloakTokens = tokens => {
   //     // console.log('onKeycloakTokens', tokens)
   // }
@@ -85,7 +78,7 @@ function AuthWithKeycloak(props) {
       persistor={SSRCookies(cookies)}
       keycloak={keycloak}
       initConfig={keycloakProviderInitConfig}
-      // onEvent={onKeycloakEvent}
+      onEvent={onKeycloakEvent}
       // onTokens={onKeycloakTokens}
       // LoadingComponent={<Spinner/>}
     >
