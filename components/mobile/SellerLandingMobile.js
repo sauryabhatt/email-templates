@@ -612,7 +612,7 @@ function SellerLandingMobile(props) {
       setShowScheduleBenefits(false);
       setShowScheduling(true);
     } else {
-      signIn();
+      loginToApp(keycloak, { currentPath: `/seller/${props.sellerId}` });
     }
   };
 
