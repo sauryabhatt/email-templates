@@ -120,7 +120,6 @@ function SellerLandingMobile(props) {
   };
 
   const signIn = () => {
-    console.log("------>",router.query.sellerId);
     loginToApp(keycloak, { currentPath: `/seller/${router.query.sellerId}` });
   };
 
