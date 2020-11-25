@@ -39,7 +39,7 @@ export async function getStaticPaths() {
 }
 
 const getURL = (categoryId, sellerId) =>{
-  if(categoryId==="all-categories") {      
+  if(categoryId?.toLowerCase()==="all-categories") {      
     return process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL + `/splpv2?from=0&size=30&sort_by=minimumOrderQuantity&sort_order=ASC&sellerId=${sellerId}`
   }else {
     return process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL + `/splpv2?from=0&size=30&sort_by=minimumOrderQuantity&sort_order=ASC&sellerId=${sellerId}&f_categories=${categoryId}`
@@ -66,8 +66,8 @@ export const getStaticProps = async ({ params }) => {
     }
   );
   const [res, sellerRes] = await Promise.all([response, sellerResponse]);
-   res1 = await res.json();
-   sellerDetails = await sellerRes.json();
+  res1 = await res.json();
+  sellerDetails = await sellerRes.json();
   } catch (error) {
     error["status"]=true;
   }
