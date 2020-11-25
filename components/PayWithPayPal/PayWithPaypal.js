@@ -227,9 +227,28 @@ const PaypalButton = (props) => {
               conversionFactor
             )
           ).toFixed(2)
-        ).toFixed(2);
+        ).toFixed(2) -
+        props.order.promoDiscount
+          ? props.order.promoDiscount
+          : 0;
 
-      console.log(totalAmount, totalConvertedAmount);
+      console.log(
+        typeof parseFloat(sumOfProd).toFixed(2),
+        totalAmount,
+        totalConvertedAmount,
+        parseFloat(sumOfProd).toFixed(2),
+        parseFloat(
+          parseFloat(
+            getConvertedCurrency(
+              props.order.miscCharges
+                .find((x) => x.chargeId === "TOTAL_COST_FREIGHT_MAX")
+                .amount.toString(),
+              conversionFactor
+            )
+          ).toFixed(2)
+        ).toFixed(2),
+        parseFloat(handlingSum).toFixed(2)
+      );
       if (totalAmount !== totalConvertedAmount) {
         // totalAmount = totalConvertedAmount;
         console.log("Not equal");
