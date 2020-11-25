@@ -46,7 +46,7 @@ export const Layout = ({
         <title>{title}</title>
         <meta name="description" content={description} />
         <meta property="og:title" content={title} />
-        <meta property="og:url" content={`${pathname}`} />
+        {/* <meta property="og:url" content={`${pathname}`} /> */}
         <meta property="og:type" content="website" />
         <meta property="og:description" content={description} />
         <meta name="twitter:card" content="summary" />
@@ -56,7 +56,7 @@ export const Layout = ({
         {/* <meta name="robots" content="noindex" />
         <meta name="googlebot" content="noindex" /> */}
         <link rel="icon" href={`${process.env.NEXT_PUBLIC_URL}/favicon.ico?v=2`} />
-        <script src="https://www.paypal.com/sdk/js?client-id=AUf6Jh8viomIa90m8KMFndz2iIwKkIcpzZHTUmKY1f8M9J7uDeQ1zO7d-lTb85AU4oiBHBlb2mBZ9g9_&currency=USD&intent=order" id="paypal-script" type="text/javaScript"></script>
+        <script src={`https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_REACT_APP_PAYPAL_CLIENT_ID}&currency=USD&intent=order`} id="paypal-script" type="text/javaScript"></script>
       </Head>
       {isShowRibbon && !url  ? <Ribbon isShowRibbon = {isShowRibbon} setShowRibbon = {setShowRibbon}/> : null}
       {Header}
