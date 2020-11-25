@@ -119,6 +119,10 @@ const OrdersMobile = (props) => {
     }
   };
 
+  const addDefaultSrc = (ev) => {
+    ev.target.src = process.env.NEXT_PUBLIC_URL + "/placeholder.png";
+  };
+
   return (
     <React.Fragment>
       {props.showOrderDetails ? (
@@ -668,6 +672,7 @@ const OrdersMobile = (props) => {
                                       ) : (
                                         <img
                                           className="images"
+                                          onError={addDefaultSrc}
                                           src={
                                             process.env
                                               .NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
@@ -899,7 +904,7 @@ const OrdersMobile = (props) => {
                             className="qa-col-start qa-mar-top-05"
                           >
                             <span className="qa-fs-14 qa-fw-b qa-font-san qa-tc-white">
-                              Festive offer discount applied
+                              Black Friday offer discount applied
                             </span>
                           </Col>
                         )}

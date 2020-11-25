@@ -351,7 +351,7 @@ const ShippingDetails = (props) => {
         setCartData(result);
         if (couponApplied === true) {
           setCouponApplied(false);
-          message.success("Promotion removed", 5);
+          message.success("Coupon removed", 5);
         } else if (couponApplied === false) {
           setCouponApplied(true);
         }
@@ -1205,7 +1205,7 @@ const ShippingDetails = (props) => {
                   generate a custom quote for your requirements.
                 </div>
               )} */}
-              {/* <div className="qa-pad-0-20 qa-mar-btm-1 cart-price-block qa-font-san">
+              <div className="qa-pad-0-20 qa-mar-btm-1 cart-price-block qa-font-san">
                 <div className="qa-mar-top-05 cart-price-title qa-mar-btm-1">
                   Apply coupon
                 </div>
@@ -1256,7 +1256,7 @@ const ShippingDetails = (props) => {
                     </div>
                   </Col>
                 </Row>
-              </div> */}
+              </div>
 
               <CartSummary
                 id="shipping"
@@ -1281,7 +1281,7 @@ const ShippingDetails = (props) => {
           <Col xs={24} sm={24} md={24} lg={24} xl={24} className="qa-pad-0-20">
             <Row className="shipping-section">
               <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                {/* <div className="qa-pad-0-20 qa-mar-btm-2 cart-price-block qa-font-san">
+                <div className="qa-pad-0-20 qa-mar-btm-2 cart-price-block qa-font-san">
                   <div className="qa-mar-top-05 cart-price-title qa-mar-btm-1">
                     Apply coupon
                   </div>
@@ -1332,7 +1332,7 @@ const ShippingDetails = (props) => {
                       </div>
                     </Col>
                   </Row>
-                </div> */}
+                </div>
 
                 <div className="qa-tc-white qa-mar-btm-2 cart-ship-pt">
                   <div className="qa-fw-b qa-mar-btm-05">Shipping to:</div>
@@ -1354,6 +1354,7 @@ const ShippingDetails = (props) => {
                   <div className="qa-pad-top-2 qa-pad-btm-2 qa-horizontal-scroll">
                     {!disableAir && (
                       <div
+                        className="min-width-320px"
                         style={{ display: "inline-block", marginRight: "20px" }}
                       >
                         <div
@@ -1508,6 +1509,7 @@ const ShippingDetails = (props) => {
                     )}
                     {!disableSea && (
                       <div
+                        className="min-width-320px"
                         style={{ display: "inline-block", marginRight: "20px" }}
                       >
                         <div
@@ -1660,7 +1662,7 @@ const ShippingDetails = (props) => {
                         </div>
                       </div>
                     )}
-                    {/* <div style={{ display: "inline-block", marginRight: "20px" }}>
+                    {/* <div className="min-width-320px" style={{ display: "inline-block", marginRight: "20px" }}>
                 <div className="qa-bg-dark-theme qa-pad-2 qa-box-shadow shipping-mode-section">
                   <div className="qa-pad-btm-15 qa-border-bottom">
                     <span>

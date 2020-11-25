@@ -167,6 +167,10 @@ const OrderDetails = (props) => {
     );
   };
 
+  const addDefaultSrc = (ev) => {
+    ev.target.src = process.env.NEXT_PUBLIC_URL + "/placeholder.png";
+  };
+
   const mediaMatch = window.matchMedia("(min-width: 768px)");
   return (
     <React.Fragment>
@@ -511,6 +515,7 @@ const OrderDetails = (props) => {
                               ) : (
                                 <img
                                   className="images"
+                                  onError={addDefaultSrc}
                                   src={
                                     process.env
                                       .NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +

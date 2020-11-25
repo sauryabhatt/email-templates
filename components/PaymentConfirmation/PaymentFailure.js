@@ -307,7 +307,7 @@ const PaymentFailure = (props) => {
                   <Row className="qa-mar-top-2">
                     <Col xs={18} sm={18} md={18} lg={18}>
                       <span className="qa-font-san qa-tc-white qa-fs-14">
-                        Festive offer discount applied
+                        Black Friday offer discount applied
                       </span>
                     </Col>
                     <Col xs={6} sm={6} md={6} lg={6}>
@@ -361,11 +361,11 @@ const PaymentFailure = (props) => {
               {props.order.promoDiscount && props.order.promoDiscount > 0 && (
                 <Row className="qa-mar-top-2">
                   <Col xs={18} sm={18} md={18} lg={18}>
-                    <div className="qa-font-san qa-tc-white qa-fs-14">
+                    <div style={{textTransform: 'uppercase'}} className="qa-font-san qa-tc-white qa-fs-14">
                       {props.order.promoCode}
                     </div>
                     <div className="qa-font-san qa-tc-white qa-fs-14">
-                      coupon discount applied
+                      discount applied
                     </div>
                   </Col>
                   <Col

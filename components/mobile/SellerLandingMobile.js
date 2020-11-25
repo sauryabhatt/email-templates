@@ -120,7 +120,7 @@ function SellerLandingMobile(props) {
   };
 
   const signIn = () => {
-    loginToApp(keycloak, { currentPath: router.asPath.split("?")[0] });
+    loginToApp(keycloak, { currentPath: `/seller/${router.query.sellerId}` });
   };
 
   const sendQueryCancel = (status) => {
@@ -612,7 +612,7 @@ function SellerLandingMobile(props) {
       setShowScheduleBenefits(false);
       setShowScheduling(true);
     } else {
-      loginToApp(keycloak, { currentPath: router.pathname });
+      loginToApp(keycloak, { currentPath: `/seller/${props.sellerId}` });
     }
   };
 

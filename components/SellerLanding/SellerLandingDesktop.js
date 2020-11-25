@@ -100,7 +100,7 @@ const SellerLandingDesktop = (props) => {
   };
 
   const signIn = () => {
-    loginToApp(keycloak, { currentPath: router.asPath.split("?")[0] });
+    loginToApp(keycloak, { currentPath: `/seller/${router.query.sellerId}` });
   };
 
   const sendQueryCancel = (status) => {
@@ -528,7 +528,7 @@ const SellerLandingDesktop = (props) => {
       setShowScheduleBenefits(false);
       setShowScheduling(true);
     } else {
-      loginToApp(keycloak, { currentPath: router.asPath.split("?")[0] });
+      loginToApp(keycloak, { currentPath: `/seller/${router.query.sellerId}` });
     }
   };
 
