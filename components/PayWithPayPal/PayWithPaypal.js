@@ -263,7 +263,7 @@ const PaypalButton = (props) => {
       gbPayment: {
         gbOrderNo: props.order.orderId,
         tenderedAmt: props.isCartSummary
-          ? totalAmount
+          ? (props.order.total * conversionFactor).toFixed(2)
           : props.order.miscCharges
               .find((x) => x.chargeId === "TOTAL_AMOUNT")
               .amount.toFixed(2),
@@ -317,7 +317,7 @@ const PaypalButton = (props) => {
             amount: {
               currency_code: props.currency,
               value: props.isCartSummary
-                ? totalAmount
+                ? (props.order.total * conversionFactor).toFixed(2)
                 : props.order.miscCharges
                     .find((x) => x.chargeId === "TOTAL_AMOUNT")
                     .amount.toFixed(2)
