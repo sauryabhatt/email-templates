@@ -612,7 +612,7 @@ function SellerLandingMobile(props) {
       setShowScheduleBenefits(false);
       setShowScheduling(true);
     } else {
-      loginToApp(keycloak, { currentPath: router.pathname });
+      loginToApp(keycloak, { currentPath: `/seller/${router.query.sellerId}` });
     }
   };
 
