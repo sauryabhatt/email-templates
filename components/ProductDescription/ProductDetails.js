@@ -351,13 +351,18 @@ const ProductDetails = (props) => {
       color = variants[0]["color"];
       variantId = variants[0]["sequenceId"];
       let imageList = [];
-      let zoomedImages = [...variants[0]["zoomedImages"]];
+      let zoomedImages = [...variants[0]["mediaUrls"]];
+      if (variants[0]["zoomedImages"] && variants[0]["zoomedImages"].length) {
+        zoomedImages = [...variants[0]["zoomedImages"]];
+      }
       for (let i = 0; i < zoomedImages.length; i++) {
         let obj = {};
-        obj["fullscreen"] = url + zoomedImages[i];
+        obj["fullscreen"] =
+          url + (zoomedImages[i] || variants[0]["mediaUrls"][i]);
         obj["original"] =
           url + (variants[0]["mediaUrls"][i] || zoomedImages[i]);
-        obj["thumbnail"] = url + variants[0]["thumbNails"][i];
+        obj["thumbnail"] =
+          url + (variants[0]["thumbNails"][i] || variants[0]["mediaUrls"][i]);
         imageList.push(obj);
       }
       setGalleryImages(imageList);
@@ -578,6 +583,7 @@ const ProductDetails = (props) => {
             size: size,
             image: image,
             productType: productType,
+            typeOfOrder: productType,
           };
           setQtyErr(false);
           setSizeErr(false);
@@ -965,12 +971,16 @@ const ProductDetails = (props) => {
         if (list["color"] === value) {
           let { sequenceId = "" } = list;
           setVariantId(sequenceId);
-          let zoomedImages = [...list["zoomedImages"]];
+          let zoomedImages = [...list["mediaUrls"]];
+          if (list["zoomedImages"] && list["zoomedImages"].length) {
+            zoomedImages = [...list["zoomedImages"]];
+          }
           for (let i = 0; i < zoomedImages.length; i++) {
             let obj = {};
-            obj["fullscreen"] = url + zoomedImages[i];
+            obj["fullscreen"] = url + (zoomedImages[i] || list["mediaUrls"][i]);
             obj["original"] = url + (list["mediaUrls"][i] || zoomedImages[i]);
-            obj["thumbnail"] = url + list["thumbNails"][i];
+            obj["thumbnail"] =
+              url + (list["thumbNails"][i] || list["mediaUrls"][i]);
             imageList.push(obj);
           }
         }
