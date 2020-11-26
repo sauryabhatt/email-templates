@@ -8,7 +8,8 @@ export default function AboutUs() {
       "Shop curated trends at Qalara wholesale marketplace for artisanal and sustainable lifestyle products.",
     description:
       "Shop curated trends at Qalara wholesale marketplace for artisanal and sustainable lifestyle products. Discover latest trends in wellness, homeoffice, earthinspired, urbanjungle, and craft forms across carving & inlay, hand weaving, metal work, and shop in bulk.",
-  };
+      url:"/explore/curatedbyus"
+    };
 
   return <Layout meta={meta}><CuratedByUsWrapper/></Layout>;
 }
