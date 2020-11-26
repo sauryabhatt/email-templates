@@ -352,7 +352,8 @@ const PaymentSuccess = (props) => {
                       <Row className="qa-mar-top-2">
                         <Col xs={18} sm={18} md={18} lg={18}>
                           <span className="qa-font-san qa-tc-white qa-fs-14">
-                            Black Friday offer discount applied
+                            {props.order && props.order.referralCode} discount
+                            applied
                           </span>
                         </Col>
                         <Col xs={6} sm={6} md={6} lg={6}>
@@ -404,7 +405,10 @@ const PaymentSuccess = (props) => {
                   {promoDiscount > 0 && (
                     <Row className="qa-mar-top-2">
                       <Col xs={18} sm={18} md={18} lg={18}>
-                        <div style={{textTransform: 'uppercase'}} className="qa-font-san qa-tc-white qa-fs-14">
+                        <div
+                          style={{ textTransform: "uppercase" }}
+                          className="qa-font-san qa-tc-white qa-fs-14"
+                        >
                           {promoCode}
                         </div>
                         <div className="qa-font-san qa-tc-white qa-fs-14">

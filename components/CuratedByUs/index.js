@@ -91,6 +91,12 @@ export default function CuratedByUsWrapper(props) {
       url: "/categoryedit/fashionaccessories",
       alt: "",
     },
+    {
+      text: "Stationery & novelty",
+      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Category7.jpg",
+      url: "/categoryedit/stationery-novelty",
+      alt: "",
+    }
   ];
 
   const crafts = [

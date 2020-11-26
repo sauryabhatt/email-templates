@@ -166,14 +166,13 @@ const ProductContact = (props) => {
       companyName: values.companyName,
       emailId: values.emailId,
       country: values.country || values.destinationCountry,
-      city: values.city || values.destinationCity,
       mobileNo: values.mobileNo,
-      destinationCity: values.destinationCity,
+      zipcode: values.zipcode,
       destinationCountry: values.destinationCountry,
       rfqType: "PRODUCT",
       articleId: articleId,
       variantId: variantId,
-      pdpURL: "/product/" + articleId,
+      pdpURL: process.env.NEXT_PUBLIC_URL + "/product/" + articleId,
       skuId: skuId,
       sellerId: props.sellerDetails.id.split("::")[2],
       buyerId: props.userId && props.userId.split("::")[1],
@@ -763,7 +762,21 @@ const ProductContact = (props) => {
               >
                 {country}
               </Form.Item>
-              <span className="label-paragraph">Destination City, State*</span>
+              <span className="label-paragraph">Destination Pin Code*</span>
+              <Form.Item
+                name="zipcode"
+                style={{ marginBottom: "1em" }}
+                rules={[
+                  {
+                    required: true,
+                    message: "Please enter your zipcode.",
+                    whitespace: true,
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+              {/* <span className="label-paragraph">Destination City, State*</span>
               <Form.Item
                 name="destinationCity"
                 style={{ marginBottom: "1em" }}
@@ -780,7 +793,7 @@ const ProductContact = (props) => {
                 ]}
               >
                 <Input />
-              </Form.Item>
+              </Form.Item> */}
               <br />
               <span className="label-heading">
                 Please share your details so we can respond:

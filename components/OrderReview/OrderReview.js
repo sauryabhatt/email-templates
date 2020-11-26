@@ -1893,7 +1893,8 @@ const OrderReview = (props) => {
                                   : "qa-font-san qa-tc-white qa-fs-14 qa-fw-b"
                               }
                             >
-                              Black Friday offer discount applied
+                              {props.order && props.order.referralCode} discount
+                              applied
                             </span>
                           </Col>
                         )}

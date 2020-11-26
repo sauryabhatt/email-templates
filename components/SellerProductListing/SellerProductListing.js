@@ -23,10 +23,10 @@ const SellerProductListing = (props) => {
 
   const { keycloak } = useKeycloak();
   let appToken = keycloak.token ? keycloak.token : token;
-  let data = !isServer() ? props.listingPage : props.data;
   let { sellerDetails = {}, userProfile = {} } = props || {};
-  let { orgName = "", categoryDescs = [] } = sellerDetails || {};
-  let { slp_content = [], isLoading = true } = props.data;
+  let { slp_content = [], isLoading = true } = !isServer()
+    ? props.listingPage
+    : props.data;
   const [mobile, setMobile] = useState(false);
   const [offset, setOffset] = useState(0);
   const [limit, setLimit] = useState(30);

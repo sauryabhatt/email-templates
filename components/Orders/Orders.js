@@ -137,6 +137,12 @@ const Orders = (props) => {
     );
   }
 
+  const diff_hours = (dt2, dt1) => {
+    var diff = (dt2.getTime() - dt1.getTime()) / 1000;
+    diff /= 60 * 60;
+    return Math.abs(Math.round(diff));
+  };
+
   return (
     <React.Fragment>
       <Col xs={24} sm={24} md={22} lg={22}>
@@ -245,7 +251,10 @@ const Orders = (props) => {
               orderedDate = "",
               subOrders = [],
               orderConfirmedDate = "",
+              paymentTime = "",
             } = order;
+            let paymentTimeDiff = diff_hours(new Date(paymentTime), new Date());
+
             let date = new Date(orderConfirmedDate || orderedDate);
             let month = "" + (date.getMonth() + 1);
             let day = date.getDate();
@@ -368,22 +377,26 @@ const Orders = (props) => {
                           </span>
                         </Button>
                       ) : (
-                        <Button
-                          className={
-                            mediaMatch.matches
-                              ? "retry-payment-btn qa-vertical-center"
-                              : "retry-payment-btn-mob qa-vertical-center"
-                          }
-                          size={mediaMatch.matches ? "large" : "small"}
-                          style={{ justifyContent: "center" }}
-                          onClick={() =>
-                            retryPayment(order.orderId, order.orderType)
-                          }
-                        >
-                          <span className="qa-font-san qa-fs-12">
-                            RETRY PAYMENT
-                          </span>
-                        </Button>
+                        <span>
+                          {paymentTimeDiff <= 48 && (
+                            <Button
+                              className={
+                                mediaMatch.matches
+                                  ? "retry-payment-btn qa-vertical-center"
+                                  : "retry-payment-btn-mob qa-vertical-center"
+                              }
+                              size={mediaMatch.matches ? "large" : "small"}
+                              style={{ justifyContent: "center" }}
+                              onClick={() =>
+                                retryPayment(order.orderId, order.orderType)
+                              }
+                            >
+                              <span className="qa-font-san qa-fs-12">
+                                RETRY PAYMENT
+                              </span>
+                            </Button>
+                          )}
+                        </span>
                       )}
                     </Col>
                     {/* <Col
@@ -893,7 +906,7 @@ const Orders = (props) => {
                           className="qa-col-end qa-mar-top-05"
                         >
                           <span className="qa-fs-14 qa-fw-b qa-font-san qa-tc-white">
-                            Black Friday offer discount applied
+                            {order && order.referralCode} discount applied
                           </span>
                         </Col>
                       )}
@@ -964,7 +977,10 @@ const Orders = (props) => {
                           className="qa-col-end qa-mar-top-05"
                         >
                           <span className="qa-fs-14 qa-fw-b qa-font-san qa-tc-white">
-                            <span style={{textTransform: 'uppercase'}}>{order.promoCode}</span> discount applied
+                            <span style={{ textTransform: "uppercase" }}>
+                              {order.promoCode}
+                            </span>{" "}
+                            discount applied
                           </span>
                         </Col>
                       )}

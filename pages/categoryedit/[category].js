@@ -38,6 +38,12 @@ export default function CategoryEditDetails({ data }) {
         description:"Shop in bulk for block printed bed linen, hand made quilts, embroidered cushions, hand-tufted rugs, applique curtains, kantha throws, organic cotton towels and recycled rugs all produced consciously by Indian suppliers"
       }
       break;
+    case "stationery-novelty":
+      meta={
+        title:"Wholesale stationery and novelty products to delight your customers. Shop in bulk for handcrafted journals, DIY kits, wooden table organizers, hand painted ganjifa cards, dice games, vintage binoculars and learning tools.",
+        description:"Wholesale stationery and novelty products to delight your customers. Shop in bulk for handcrafted journals, DIY kits, wooden table organizers, hand painted ganjifa cards, dice games, vintage binoculars and learning tools."
+      }
+
   
     default:
       meta = {
@@ -63,7 +69,8 @@ const categoryObj = {
   fashionaccessories: "FashionAccessories",
   furniture: "Furniture",
   homelinen: "HomeLinen",
-  jewelry: "Jewelry"
+  jewelry: "Jewelry",
+  "stationery-novelty": "Stationery",
 };
 
 export async function getStaticPaths() {

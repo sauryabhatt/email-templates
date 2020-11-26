@@ -229,43 +229,43 @@ const PaypalButton = (props) => {
     totalAmount = parseFloat(
       Math.round((totalAmount + Number.EPSILON) * 100) / 100
     ).toFixed(2);
-    console.log("totalAmount: ", totalAmount);
-    console.log("Sum of items ", parseFloat(parseFloat(sumOfProd).toFixed(2)));
-    console.log(
-      "Shipping: ",
-      parseFloat(
-        parseFloat(
-          getConvertedCurrency(
-            props.order.miscCharges
-              .find((x) => x.chargeId === "TOTAL_COST_FREIGHT_MAX")
-              .amount.toString(),
-            conversionFactor
-          )
-        ).toFixed(2)
-      )
-    );
-    console.log("Handling: ", parseFloat(parseFloat(handlingSum).toFixed(2)));
-    console.log(
-      "Duty tax: ",
-      parseFloat(
-        parseFloat(
-          getConvertedCurrency(
-            props.order.miscCharges
-              .find((x) => x.chargeId === "DUTY_MAX")
-              .amount.toString(),
-            conversionFactor
-          )
-        ).toFixed(2)
-      )
-    );
-    console.log(
-      "Promo discount: ",
-      parseFloat(
-        parseFloat(
-          getConvertedCurrency(props.order.promoDiscount, conversionFactor)
-        ).toFixed(2)
-      )
-    );
+    // console.log("totalAmount: ", totalAmount);
+    // console.log("Sum of items ", parseFloat(parseFloat(sumOfProd).toFixed(2)));
+    // console.log(
+    //   "Shipping: ",
+    //   parseFloat(
+    //     parseFloat(
+    //       getConvertedCurrency(
+    //         props.order.miscCharges
+    //           .find((x) => x.chargeId === "TOTAL_COST_FREIGHT_MAX")
+    //           .amount.toString(),
+    //         conversionFactor
+    //       )
+    //     ).toFixed(2)
+    //   )
+    // );
+    // console.log("Handling: ", parseFloat(parseFloat(handlingSum).toFixed(2)));
+    // console.log(
+    //   "Duty tax: ",
+    //   parseFloat(
+    //     parseFloat(
+    //       getConvertedCurrency(
+    //         props.order.miscCharges
+    //           .find((x) => x.chargeId === "DUTY_MAX")
+    //           .amount.toString(),
+    //         conversionFactor
+    //       )
+    //     ).toFixed(2)
+    //   )
+    // );
+    // console.log(
+    //   "Promo discount: ",
+    //   parseFloat(
+    //     parseFloat(
+    //       getConvertedCurrency(props.order.promoDiscount, conversionFactor)
+    //     ).toFixed(2)
+    //   )
+    // );
 
     // if (
     //   props.currencyDetails !== null &&
@@ -303,7 +303,7 @@ const PaypalButton = (props) => {
       gbPayment: {
         gbOrderNo: props.order.orderId,
         tenderedAmt: props.isCartSummary
-          ? (props.order.total * conversionFactor).toFixed(2)
+          ? totalAmount
           : props.order.miscCharges
               .find((x) => x.chargeId === "TOTAL_AMOUNT")
               .amount.toFixed(2),
@@ -357,7 +357,7 @@ const PaypalButton = (props) => {
             amount: {
               currency_code: props.currency,
               value: props.isCartSummary
-                ? (props.order.total * conversionFactor).toFixed(2)
+                ? totalAmount
                 : props.order.miscCharges
                     .find((x) => x.chargeId === "TOTAL_AMOUNT")
                     .amount.toFixed(2)
@@ -423,7 +423,7 @@ const PaypalButton = (props) => {
                             conversionFactor
                           )
                         ).toFixed(2)
-                      : 0,
+                      : parseFloat(0).toFixed(2),
                 },
               },
             },
