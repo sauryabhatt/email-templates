@@ -583,7 +583,7 @@ const ProductDetails = (props) => {
             size: size,
             image: image,
             productType: productType,
-            typeOfOrder: typeOfOrder,
+            typeOfOrder: productType,
           };
           setQtyErr(false);
           setSizeErr(false);
