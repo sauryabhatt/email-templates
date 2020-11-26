@@ -76,12 +76,27 @@ export const Layout = ({ children, meta = {} }) => {
           type="text/javaScript"
         >
         </script>
+        <script dangerouslySetInnerHTML={{
+        __html: `(function (w, d, s, l, i) {
+        w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+        new Date().getTime(), event: 'gtm.js'
+        }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+        'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-KTVSR8R');`,
+        }}>
+        </script>
       </Head>
       {isShowRibbon && !url ? (
         <Ribbon isShowRibbon={isShowRibbon} setShowRibbon={setShowRibbon} />
       ) : null}
       {Header}
-      {<main className="main-layout-next">{children}</main>}
+      {
+        <main className="main-layout-next">
+        {children}
+        </main>
+      }
     </Fragment>
   );
 };
