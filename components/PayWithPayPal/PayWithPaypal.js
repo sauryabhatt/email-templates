@@ -423,7 +423,7 @@ const PaypalButton = (props) => {
                             conversionFactor
                           )
                         ).toFixed(2)
-                      : 0,
+                      : parseFloat(0).toFixed(2),
                 },
               },
             },

@@ -239,54 +239,57 @@ function UserHeader(props) {
     >
       <Menu.Divider style={{ height: "0.5px", color: "#ddd" }} />
       <Menu.Item key="1" style={{ padding: "40px 0px", cursor: "default" }}>
-        <Row justify="space-around">
-          {_.map(navigationItems, function (value, key) {
-            return (
-              <Col
-                key={key}
-                className={
-                  key < columns
-                    ? `navigation-border nav-key-${key}`
-                    : "qa-pad-lft-40"
+        {_.map(navigationItems, function (value, key) {
+          return (
+            <div
+              key={key}
+              style={{
+                display: "inline-block",
+                width: 100 / Object.keys(navigationItems).length + "%",
+              }}
+              className={
+                key < columns
+                  ? `navigation-border nav-key-${key}`
+                  : "qa-pad-lft-40"
+              }
+            >
+              {_.map(value, function (details, id) {
+                let link = "";
+                if (details.filterType) {
+                  link =
+                    "/sellers/" +
+                    "all-categories" +
+                    "?" +
+                    details.filterType.toLowerCase() +
+                    "=" +
+                    details.values;
+                } else if (details.action === "L2" && details.values) {
+                  link = "/sellers/" + details.values;
                 }
-              >
-                {_.map(value, function (details, id) {
-                  let link = "";
-                  if (details.filterType) {
-                    link =
-                      "/sellers/all-categories" +
-                      "?" +
-                      details.filterType.toLowerCase() +
-                      "=" +
-                      encodeURIComponent(details.values);
-                  } else if (details.action === "L2" && details.values) {
-                    link = "/sellers/" + encodeURIComponent(details.values);
-                  }
-                  return (
-                    <div
-                      className={
-                        details.font === "H1"
-                          ? "navigation-item navigation-title"
-                          : "navigation-item"
-                      }
-                      key={key + id}
-                    >
-                      {details.action === "URL" ? (
-                        <Link href={details.values}>
-                          {details.displayTitle}
-                        </Link>
-                      ) : link ? (
-                        <Link href={link}>{details.displayTitle}</Link>
-                      ) : (
-                        <span>{details.displayTitle}</span>
-                      )}
-                    </div>
-                  );
-                })}
-              </Col>
-            );
-          })}
-        </Row>
+                return (
+                  <div
+                    className={
+                      details.font === "H1"
+                        ? "navigation-item navigation-title"
+                        : "navigation-item"
+                    }
+                    key={key + id}
+                  >
+                    {details.action === "URL" ? (
+                      <Link href={details.values}>
+                        {details.displayTitle || ""}
+                      </Link>
+                    ) : link ? (
+                      <Link href={link}>{details.displayTitle || ""}</Link>
+                    ) : (
+                      <span>{details.displayTitle}</span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
       </Menu.Item>
     </Menu>
   );
