@@ -83,6 +83,7 @@ export default function SellerListingPage({ data }) {
           "Wholesale suppliers for all kinds of Jewelry and accessories. Our sellers specialise in techniques like hammering, inlay, gem craft, wire braiding and more to create stunning earrings, anklets, necklaces, bracelets, nose pins and other accessories.",
       };
   }
+  meta["url"] = "/sellers/" + categoryId;
   if(data?.error?.status) {
     return <><NotFound /></>;
   }
@@ -135,7 +136,7 @@ export const getStaticProps = async ({ params: { categoryId = "" } = {} }) => {
         slp_content: res.sellerHomeLiteViews,
         slp_facets: res.aggregates,
         slp_categories: res.fixedAggregates,
-        categoryId: categoryId,
+        categoryId: categoryId.toLowerCase(),
         error:error
       },
     },

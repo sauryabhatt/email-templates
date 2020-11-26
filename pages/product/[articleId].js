@@ -6,7 +6,7 @@ import Spinner from "../../components/Spinner/Spinner";
 import { useRouter } from "next/router";
 import NotFound from "../../components/NotFound/NotFound";
 
-export default function ProductDescriptionPage({ data }) {
+export default function ProductDescriptionPage({ data, articleId }) {
   const router = useRouter();
 
   const meta = {
@@ -15,7 +15,8 @@ export default function ProductDescriptionPage({ data }) {
     description:
       data?.productionDescription ||
       "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods - Décor, Rugs and Carpets, Kitchen, Home Furnishings – from India. Digitally. Reliably. Affordably. Responsibly.",
-  };
+      url:"/product/"+ articleId
+    };
 
   if(data?.error?.status) {
     return <><NotFound /></>;
@@ -62,7 +63,8 @@ export const getStaticProps = async ({
   return {
     props: {
       data: res,
-      error:error
+      error:error,
+      articleId:articleId
     },
   };
 };

@@ -17,7 +17,8 @@ export default function SellerLandingPage({ data }) {
     description:
       data?.sellerDetails?.companyDescription ||
       "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods - Décor, Rugs and Carpets, Kitchen, Home Furnishings – from India. Digitally. Reliably. Affordably. Responsibly.",
-  };
+    url:"/seller/"+ data?.sellerId
+    };
   
   if(data?.error?.status) {
     return <><NotFound /></>;
@@ -68,7 +69,8 @@ export const getStaticProps = async ({ params }) => {
         sellerDetails: res.sellerDetails,
         about:res.about,
         category_product_range:res.category_product_range,
-        error:error
+        error:error,
+        sellerId:sellerId
       },
     },
   };

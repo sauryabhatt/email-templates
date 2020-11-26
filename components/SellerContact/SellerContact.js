@@ -147,11 +147,10 @@ const SellerContact = (props) => {
       companyName: values.companyName,
       emailId: values.emailId,
       country: values.destinationCountry,
-      city: values.destinationCity,
       mobileNo: values.mobileNo,
-      destinationCity: values.destinationCity,
+      zipcode: values.zipcode,
       destinationCountry: values.destinationCountry,
-      scpURL: "/seller/" + vanityId,
+      scpURL: process.env.NEXT_PUBLIC_URL + "/seller/" + vanityId,
       vanityId: vanityId,
       rfqType: "SELLER",
       sellerId: props.sellerDetails.id.split("::")[2],
@@ -710,7 +709,21 @@ const SellerContact = (props) => {
               >
                 {country}
               </Form.Item>
-              <span className="label-paragraph">Destination City, State*</span>
+              <span className="label-paragraph">Destination Pin Code*</span>
+              <Form.Item
+                name="zipcode"
+                style={{ marginBottom: "1em" }}
+                rules={[
+                  {
+                    required: true,
+                    message: "Please enter your zipcode.",
+                    whitespace: true,
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+              {/* <span className="label-paragraph">Destination City, State*</span>
               <Form.Item
                 name="destinationCity"
                 style={{ marginBottom: "1em" }}
@@ -729,7 +742,7 @@ const SellerContact = (props) => {
                 <Input
                 // placeholder="State, City"
                 />
-              </Form.Item>
+              </Form.Item> */}
               <br />
               <div className="label-heading qa-lh">
                 Please share your details so we can respond:
