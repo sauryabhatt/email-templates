@@ -357,10 +357,12 @@ const ProductDetails = (props) => {
       }
       for (let i = 0; i < zoomedImages.length; i++) {
         let obj = {};
-        obj["fullscreen"] = url + zoomedImages[i];
+        obj["fullscreen"] =
+          url + (zoomedImages[i] || variants[0]["mediaUrls"][i]);
         obj["original"] =
           url + (variants[0]["mediaUrls"][i] || zoomedImages[i]);
-        obj["thumbnail"] = url + variants[0]["thumbNails"][i];
+        obj["thumbnail"] =
+          url + (variants[0]["thumbNails"][i] || variants[0]["mediaUrls"][i]);
         imageList.push(obj);
       }
       setGalleryImages(imageList);
@@ -974,9 +976,10 @@ const ProductDetails = (props) => {
           }
           for (let i = 0; i < zoomedImages.length; i++) {
             let obj = {};
-            obj["fullscreen"] = url + zoomedImages[i];
+            obj["fullscreen"] = url + (zoomedImages[i] || list["mediaUrls"][i]);
             obj["original"] = url + (list["mediaUrls"][i] || zoomedImages[i]);
-            obj["thumbnail"] = url + list["thumbNails"][i];
+            obj["thumbnail"] =
+              url + (list["thumbNails"][i] || list["mediaUrls"][i]);
             imageList.push(obj);
           }
         }
