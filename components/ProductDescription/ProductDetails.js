@@ -1346,7 +1346,7 @@ const ProductDetails = (props) => {
                                 style={{ float: "right" }}
                               >
                                 Minimum{" "}
-                                {switchMoq
+                                {switchMoq && inStock === 0
                                   ? switchMoq
                                   : inStock > 0 &&
                                     inStock < minimumOrderQuantity
@@ -1483,7 +1483,10 @@ const ProductDetails = (props) => {
                     {showPrice && (
                       <div className="qa-font-san qa-tc-white qa-font-12">
                         Minimum order quantity:{" "}
-                        {switchMoq || minimumOrderQuantity} {moqUnit}
+                        {switchMoq && inStock === 0
+                          ? switchMoq
+                          : minimumOrderQuantity}{" "}
+                        {moqUnit}
                         <span
                           style={{
                             marginRight: "5px",
@@ -2280,7 +2283,7 @@ const ProductDetails = (props) => {
                               style={{ float: "right" }}
                             >
                               Minimum{" "}
-                              {switchMoq
+                              {switchMoq && inStock === 0
                                 ? switchMoq
                                 : inStock > 0 && inStock < minimumOrderQuantity
                                 ? inStock
@@ -2412,7 +2415,10 @@ const ProductDetails = (props) => {
                     {showPrice && (
                       <div className="qa-font-san qa-tc-white qa-font-12">
                         Minimum order quantity:{" "}
-                        {switchMoq || minimumOrderQuantity} {moqUnit}
+                        {switchMoq && inStock === 0
+                          ? switchMoq
+                          : minimumOrderQuantity}{" "}
+                        {moqUnit}
                         <span
                           style={{
                             marginRight: "5px",
@@ -3323,7 +3329,7 @@ const ProductDetails = (props) => {
                     {showPrice && (
                       <span style={{ float: "right" }}>
                         Minimum{" "}
-                        {switchMoq
+                        {switchMoq && inStock === 0
                           ? switchMoq
                           : inStock > 0 && inStock < minimumOrderQuantity
                           ? inStock
