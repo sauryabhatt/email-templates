@@ -351,7 +351,10 @@ const ProductDetails = (props) => {
       color = variants[0]["color"];
       variantId = variants[0]["sequenceId"];
       let imageList = [];
-      let zoomedImages = [...variants[0]["zoomedImages"]];
+      let zoomedImages = [...variants[0]["mediaUrls"]];
+      if (variants[0]["zoomedImages"] && variants[0]["zoomedImages"].length) {
+        zoomedImages = [...variants[0]["zoomedImages"]];
+      }
       for (let i = 0; i < zoomedImages.length; i++) {
         let obj = {};
         obj["fullscreen"] = url + zoomedImages[i];
@@ -965,7 +968,10 @@ const ProductDetails = (props) => {
         if (list["color"] === value) {
           let { sequenceId = "" } = list;
           setVariantId(sequenceId);
-          let zoomedImages = [...list["zoomedImages"]];
+          let zoomedImages = [...list["mediaUrls"]];
+          if (list["zoomedImages"] && list["zoomedImages"].length) {
+            zoomedImages = [...list["zoomedImages"]];
+          }
           for (let i = 0; i < zoomedImages.length; i++) {
             let obj = {};
             obj["fullscreen"] = url + zoomedImages[i];
