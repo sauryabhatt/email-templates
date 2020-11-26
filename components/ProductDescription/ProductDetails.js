@@ -246,6 +246,12 @@ const ProductDetails = (props) => {
     };
   }, [open]);
 
+  useEffect(() => {
+    if (props.authenticated) {
+      setErrorMsg("");
+    }
+  }, [props.authenticated]);
+
   const selectProduct = (productId) => {
     setSelProductId(productId);
     setOpen(!open);
