@@ -3,4 +3,4 @@ User-agent: *
 
 Allow: /
 
-Sitemap: https://www.qalara.com/sitemap-index.xml
+Sitemap: https://www.qalara.com/index.xml
