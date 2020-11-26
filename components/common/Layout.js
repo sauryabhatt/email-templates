@@ -57,15 +57,20 @@ export const Layout = ({ children, meta = {} }) => {
         <title>{title}</title>
         <meta name="description" content={description} />
         <meta property="og:title" content={title} />
-        {meta?.url && <meta property="og:url" content={`https://www.qalara.com${meta.url}`}/>}
+        {meta?.url && (
+          <meta
+            property="og:url"
+            content={`https://www.qalara.com${meta.url}`}
+          />
+        )}
         <meta property="og:type" content="website" />
         <meta property="og:description" content={description} />
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
         {/*remove the below two lines in production*/}
-        <meta name="robots" content="noindex" />
-        <meta name="googlebot" content="noindex" />
+        {/* <meta name="robots" content="noindex" />
+        <meta name="googlebot" content="noindex" /> */}
         <link
           rel="icon"
           href={`${process.env.NEXT_PUBLIC_URL}/favicon.ico?v=2`}
@@ -74,8 +79,7 @@ export const Layout = ({ children, meta = {} }) => {
           src={`https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_REACT_APP_PAYPAL_CLIENT_ID}&currency=USD&intent=order`}
           id="paypal-script"
           type="text/javaScript"
-        >
-        </script>
+        ></script>
       </Head>
       {isShowRibbon && !url ? (
         <Ribbon isShowRibbon={isShowRibbon} setShowRibbon={setShowRibbon} />
