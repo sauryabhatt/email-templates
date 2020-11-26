@@ -198,8 +198,9 @@ const PaypalButton = (props) => {
     let stateCode = getStateCode();
     let countryCode = getCountryCode();
     let paymentObj = null;
+    let totalAmount = 0;
     if (props.isCartSummary) {
-      let totalAmount =
+      totalAmount =
         parseFloat(parseFloat(sumOfProd).toFixed(2)) +
         parseFloat(
           parseFloat(
@@ -410,6 +411,7 @@ const PaypalButton = (props) => {
         return res.id;
       })
       .catch((err) => {
+        console.log(err);
         message.error(err.message || err, 5);
         // setLoading(false);
       });
