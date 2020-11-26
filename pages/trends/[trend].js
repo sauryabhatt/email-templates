@@ -3,15 +3,13 @@
 import { Layout } from "../../components/common/Layout";
 import NotFound from "../../components/NotFound/NotFound";
 
-
 export default function TrendDetails({ res, error, trend }) {
-  
   const meta = {
     title:
-      "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods from India | Qalara",
+      "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods from South Asia | Qalara",
     description:
       "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods - Décor, Rugs and Carpets, Kitchen, Home Furnishings – from India. Digitally. Reliably. Affordably. Responsibly.",
-    url: "/trends/" + trend
+    url: "/trends/" + trend,
   };
 
   let { body = "" } = res || {};
@@ -70,7 +68,7 @@ export async function getStaticProps({ params: { trend = "" } = {} }) {
     props: {
       res: res,
       error: error,
-      trend:trend.toLowerCase()
+      trend: trend.toLowerCase(),
     },
   };
 }
