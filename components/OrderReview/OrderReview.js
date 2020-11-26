@@ -43,7 +43,9 @@ const OrderReview = (props) => {
   const [localeUpdated, setLocaleUpdated] = useState(false);
   const [popover, setPopover] = useState("");
   useEffect(() => {
-    props.getOrderByOrderId(keycloak.token, orderIdParam);
+    if(keycloak?.token && orderIdParam) {
+      props.getOrderByOrderId(keycloak.token, orderIdParam);
+    }
   }, [keycloak.token, orderIdParam]);
 
   useEffect(() => {
@@ -269,7 +271,7 @@ const OrderReview = (props) => {
       });
   };
 
-  if (isProcessing) {
+  if (isProcessing || !props.order) {
     return (
       <Row justify="space-around" className="order-body">
         <Spin tip="Processing payment" size="large" />
@@ -1891,7 +1893,10 @@ const OrderReview = (props) => {
                                   : "qa-font-san qa-tc-white qa-fs-14 qa-fw-b"
                               }
                             >
-                              Black Friday offer discount applied
+                              {props.order && props.order.referralCode
+                                ? props.order.referralCode
+                                : "Coupon"}{" "}
+                              discount applied
                             </span>
                           </Col>
                         )}

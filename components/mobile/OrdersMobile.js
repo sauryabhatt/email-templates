@@ -123,6 +123,12 @@ const OrdersMobile = (props) => {
     ev.target.src = process.env.NEXT_PUBLIC_URL + "/placeholder.png";
   };
 
+  const diff_hours = (dt2, dt1) => {
+    var diff = (dt2.getTime() - dt1.getTime()) / 1000;
+    diff /= 60 * 60;
+    return Math.abs(Math.round(diff));
+  };
+
   return (
     <React.Fragment>
       {props.showOrderDetails ? (
@@ -269,7 +275,10 @@ const OrdersMobile = (props) => {
               orderedDate = "",
               subOrders = [],
               orderConfirmedDate = "",
-            } = order; // anything
+              paymentTime = "",
+            } = order;
+            let paymentTimeDiff = diff_hours(new Date(paymentTime), new Date());
+
             let date = new Date(orderConfirmedDate || orderedDate);
             let month = "" + (date.getMonth() + 1);
             let day = date.getDate();
@@ -391,23 +400,27 @@ const OrdersMobile = (props) => {
                             </span>
                           </Button>
                         ) : (
-                          <Button
-                            className={
-                              mediaMatch.matches
-                                ? "retry-payment-btn qa-vertical-center"
-                                : "retry-payment-btn-mob qa-vertical-center"
-                            }
-                            size={mediaMatch.matches ? "large" : "small"}
-                            style={{ justifyContent: "center" }}
-                            onClick={() => retryPayment(order.orderId)}
-                          >
-                            <span
-                              className="qa-font-san qa-fs-12"
-                              style={{ color: "#F9F7F2" }}
-                            >
-                              RETRY PAYMENT
-                            </span>
-                          </Button>
+                          <span>
+                            {paymentTimeDiff <= 48 && (
+                              <Button
+                                className={
+                                  mediaMatch.matches
+                                    ? "retry-payment-btn qa-vertical-center"
+                                    : "retry-payment-btn-mob qa-vertical-center"
+                                }
+                                size={mediaMatch.matches ? "large" : "small"}
+                                style={{ justifyContent: "center" }}
+                                onClick={() => retryPayment(order.orderId)}
+                              >
+                                <span
+                                  className="qa-font-san qa-fs-12"
+                                  style={{ color: "#F9F7F2" }}
+                                >
+                                  RETRY PAYMENT
+                                </span>
+                              </Button>
+                            )}
+                          </span>
                         )}
                       </Col>
                       {/* <Col
@@ -888,14 +901,13 @@ const OrdersMobile = (props) => {
                           </span>
                         )}
                       </Col>
-                      {props.order &&
-                        props.order.miscCharges &&
-                        props.order.miscCharges.find(
+                      {order &&
+                        order.miscCharges &&
+                        order.miscCharges.find(
                           (x) => x.chargeId === "DISCOUNT"
                         ) &&
-                        props.order.miscCharges.find(
-                          (x) => x.chargeId === "DISCOUNT"
-                        ).amount > 0 && (
+                        order.miscCharges.find((x) => x.chargeId === "DISCOUNT")
+                          .amount > 0 && (
                           <Col
                             xs={16}
                             sm={16}
@@ -904,18 +916,17 @@ const OrdersMobile = (props) => {
                             className="qa-col-start qa-mar-top-05"
                           >
                             <span className="qa-fs-14 qa-fw-b qa-font-san qa-tc-white">
-                              Black Friday offer discount applied
+                              {order && order.referralCode} discount applied
                             </span>
                           </Col>
                         )}
-                      {props.order &&
-                        props.order.miscCharges &&
-                        props.order.miscCharges.find(
+                      {order &&
+                        order.miscCharges &&
+                        order.miscCharges.find(
                           (x) => x.chargeId === "DISCOUNT"
                         ) &&
-                        props.order.miscCharges.find(
-                          (x) => x.chargeId === "DISCOUNT"
-                        ).amount > 0 && (
+                        order.miscCharges.find((x) => x.chargeId === "DISCOUNT")
+                          .amount > 0 && (
                           <Col
                             xs={8}
                             sm={8}
@@ -964,6 +975,48 @@ const OrdersMobile = (props) => {
                             )}
                           </Col>
                         )}
+                      {order &&
+                        order.promoDiscount !== undefined &&
+                        order.promoDiscount !== "" &&
+                        order.promoDiscount > 0 && (
+                          <Col
+                            xs={16}
+                            sm={16}
+                            md={16}
+                            lg={16}
+                            className="qa-col-start qa-mar-top-05"
+                          >
+                            <span className="qa-fs-16 qa-fw-b qa-font-san qa-tc-white">
+                              <span style={{ textTransform: "uppercase" }}>
+                                {order.promoCode}
+                              </span>{" "}
+                              discount applied
+                            </span>
+                          </Col>
+                        )}
+                      {order &&
+                        order.promoDiscount !== undefined &&
+                        order.promoDiscount !== "" &&
+                        order.promoDiscount > 0 && (
+                          <Col
+                            xs={8}
+                            sm={8}
+                            md={8}
+                            lg={8}
+                            className="qa-col-end qa-mar-top-05"
+                          >
+                            <span
+                              className="qa-fs-16 qa-fw-b qa-font-san"
+                              style={{ color: "#0ABC1C" }}
+                            >
+                              -{" "}
+                              {getSymbolFromCurrency(order && order.currency) ||
+                                "$"}
+                              {parseFloat(order.promoDiscount).toFixed(2)}
+                            </span>
+                          </Col>
+                        )}
+
                       <Col
                         xs={16}
                         sm={16}

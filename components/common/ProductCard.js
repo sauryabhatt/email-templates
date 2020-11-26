@@ -110,7 +110,7 @@ function ProductCard(props) {
     let linkTo = `/product/${id}`;
 
     if (accessLocked) {
-      linkTo = "";
+      linkTo = "/";
     }
     let sellerLink = `/seller/${sellerCode}/all-categories`;
 

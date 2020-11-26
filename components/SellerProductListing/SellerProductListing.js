@@ -23,10 +23,10 @@ const SellerProductListing = (props) => {
 
   const { keycloak } = useKeycloak();
   let appToken = keycloak.token ? keycloak.token : token;
-  let data = !isServer() ? props.listingPage : props.data;
   let { sellerDetails = {}, userProfile = {} } = props || {};
-  let { orgName = "", categoryDescs = [] } = sellerDetails || {};
-  let { slp_content = [], isLoading = true } = props.data;
+  let { slp_content = [], isLoading = true } = !isServer()
+    ? props.listingPage
+    : props.data;
   const [mobile, setMobile] = useState(false);
   const [offset, setOffset] = useState(0);
   const [limit, setLimit] = useState(30);
@@ -151,7 +151,7 @@ const SellerProductListing = (props) => {
           setCategoryName={setCategoryName}
           sellerId={sellerId}
           sellerDetails={isServer() ? props.data.sellerDetails : sellerDetails}
-          // token={keycloak.token || token}
+          token={keycloak.token || token}
           userProfile={userProfile}
           // sellerIdentity={(sellerDetails && sellerDetails.kcIdentityId) || null}
         />
@@ -167,7 +167,7 @@ const SellerProductListing = (props) => {
           sellerId={sellerId}
           sellerDetails={isServer() ? props.data.sellerDetails : sellerDetails}
           userProfile={userProfile}
-          // token={keycloak.token || token}
+          token={keycloak.token || token}
           // sellerIdentity={(sellerDetails && sellerDetails.kcIdentityId) || null}
         />
       )}
