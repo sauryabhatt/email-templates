@@ -151,7 +151,7 @@ const SellerProductListing = (props) => {
           setCategoryName={setCategoryName}
           sellerId={sellerId}
           sellerDetails={isServer() ? props.data.sellerDetails : sellerDetails}
-          // token={keycloak.token || token}
+          token={keycloak.token || token}
           userProfile={userProfile}
           // sellerIdentity={(sellerDetails && sellerDetails.kcIdentityId) || null}
         />
@@ -167,7 +167,7 @@ const SellerProductListing = (props) => {
           sellerId={sellerId}
           sellerDetails={isServer() ? props.data.sellerDetails : sellerDetails}
           userProfile={userProfile}
-          // token={keycloak.token || token}
+          token={keycloak.token || token}
           // sellerIdentity={(sellerDetails && sellerDetails.kcIdentityId) || null}
         />
       )}
