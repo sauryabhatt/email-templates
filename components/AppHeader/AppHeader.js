@@ -65,7 +65,6 @@ function AppHeader(props) {
   const [searchVisibleMob, setSearchVisibleMob] = useState(false);
   const [selectedType, setSelectedType] = useState("product");
   const [close, setClose] = useState(false);
-
   const token = useSelector(
     (state) => state.appToken.token && state.appToken.token.access_token
   );
@@ -118,7 +117,7 @@ function AppHeader(props) {
   };
 
   const onSearch = () => {
-    console.log("search page runs");
+    // console.log("search page runs");
     let formValues = searchForm.getFieldValue();
     let { searchBy = "", search = "" } = formValues;
     if (!searchBy) {
@@ -254,7 +253,7 @@ function AppHeader(props) {
       </Menu.Item>
     </Menu>
   );
-
+  
   const searchMenuMob = (
     <Menu theme="dark">
       <Menu.Item key="1" className="search-dropdown">
@@ -688,7 +687,6 @@ function AppHeader(props) {
                   }}
                 />
               </Dropdown>
-
               <Link
                 href="/cart"
                 style={{
@@ -782,9 +780,9 @@ function AppHeader(props) {
                   </SubMenu>
                   <Menu.Divider style={{ height: "0.5px" }} />
                   <Menu.Item key="8">
-                    <a href="/explore/curatedbyus" className="trend-navigation">
-                      FEATURED
-                    </a>
+                    <Link href="/explore/curatedbyus" >
+                      <span className="trend-navigation">FEATURED</span>
+                    </Link>
                   </Menu.Item>
                   <Menu.Divider style={{ height: "0.5px" }} />
                   {/* <Menu.Item key="blog">BLOG</Menu.Item> */}
@@ -836,7 +834,7 @@ function AppHeader(props) {
                                           {details.displayTitle || ""}
                                         </Link>
                                       ) : link ? (
-                                        <Link href={"/"}>
+                                        <Link href={link}>
                                           {details.displayTitle || ""}
                                         </Link>
                                       ) : (

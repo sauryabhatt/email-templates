@@ -57,7 +57,7 @@ export const Layout = ({ children, meta = {} }) => {
         <title>{title}</title>
         <meta name="description" content={description} />
         <meta property="og:title" content={title} />
-        {/* <meta property="og:url" content={`${pathname}`} /> */}
+        {meta?.url && <meta property="og:url" content={`https://www.qalara.com${meta.url}`}/>}
         <meta property="og:type" content="website" />
         <meta property="og:description" content={description} />
         <meta name="twitter:card" content="summary" />
@@ -74,7 +74,8 @@ export const Layout = ({ children, meta = {} }) => {
           src={`https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_REACT_APP_PAYPAL_CLIENT_ID}&currency=USD&intent=order`}
           id="paypal-script"
           type="text/javaScript"
-        ></script>
+        >
+        </script>
       </Head>
       {isShowRibbon && !url ? (
         <Ribbon isShowRibbon={isShowRibbon} setShowRibbon={setShowRibbon} />
