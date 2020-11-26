@@ -114,9 +114,8 @@ const SendQueryForm = (props) => {
       companyName: values.companyName,
       emailId: values.emailId,
       country: values.destinationCountry,
-      city: values.destinationCity,
       destinationCountry: values.destinationCountry,
-      destinationCity: values.destinationCity,
+      zipcode: values.zipcode,
       mobileNo: values.mobileNo,
       rfqType: "QALARA",
       buyerId: props.userId && props.userId.split("::")[1],
@@ -502,14 +501,28 @@ const SendQueryForm = (props) => {
               <span className="label-paragraph">Destination Country*</span>
               <Form.Item
                 name="destinationCountry"
-                style={{ marginBottom: "1em", cursor:"pointer" }}
+                style={{ marginBottom: "1em", cursor: "pointer" }}
                 rules={[
                   { required: true, message: "Please select your country." },
                 ]}
               >
                 {country}
               </Form.Item>
-              <div className="city-state-phone">
+              <span className="label-paragraph">Destination Pin Code*</span>
+              <Form.Item
+                name="zipcode"
+                style={{ marginBottom: "1em" }}
+                rules={[
+                  {
+                    required: true,
+                    message: "Please enter your zipcode.",
+                    whitespace: true,
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+              {/* <div className="city-state-phone">
                 <div className="city-state">
                   <span className="label-paragraph">
                     Destination City, State*
@@ -529,12 +542,10 @@ const SendQueryForm = (props) => {
                       },
                     ]}
                   >
-                    <Input
-                    // placeholder="State, City"
-                    />
+                    <Input />
                   </Form.Item>
                 </div>
-              </div>
+              </div> */}
               <br />
               <span className="label-heading" id="user-details">
                 Please share your details so we can respond:
