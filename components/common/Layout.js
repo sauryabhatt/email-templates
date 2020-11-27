@@ -48,12 +48,9 @@ export const Layout = ({ children, meta = {} }) => {
           .loadUserProfile()
           .then((profile) => {
             console.log(profile);
-            const {
-              profile: {
-                attributes: { parentProfileId = [] },
-              },
-            } = keycloak;
-            let profileId = parentProfileId[0] || "";
+            const { attributes: { parentProfileId = [] } = {} } = profile;
+            let profileId = parentProfileId[0].replace("BUYER::", "");
+            profileId = profileId.replace("SELLER::", "");
             fetch(
               process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
                 "/profiles/" +
