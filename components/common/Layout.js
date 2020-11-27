@@ -44,7 +44,13 @@ export const Layout = ({ children, meta = {} }) => {
       console.log("Not logged in!!");
       if (keycloak?.authenticated) {
         console.log("Logging in!! ", keycloak);
-        let profileId = "BU123456";
+
+        const {
+          profile: {
+            attributes: { parentProfileId = [] },
+          },
+        } = keycloak;
+        let profileId = parentProfileId[0] || "";
         fetch(
           process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
             "/profiles/" +
