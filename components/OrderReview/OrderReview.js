@@ -1803,7 +1803,7 @@ const OrderReview = (props) => {
                               : "qa-font-san qa-tc-white qa-fs-14 qa-fw-b"
                           }
                         >
-                          VAT / GST
+                          VAT/ GST
                         </span>
                         {/* <div className="c-left-blk">
                         Part of these charges are refundable.{" "}
@@ -1932,6 +1932,70 @@ const OrderReview = (props) => {
                                   props.order.miscCharges &&
                                   props.order.miscCharges.find(
                                     (x) => x.chargeId === "DISCOUNT"
+                                  ).amount) ||
+                                  0
+                              ).toFixed(2)}
+                            </span>
+                          </Col>
+                        )}
+
+                      {props.order &&
+                        props.order.miscCharges &&
+                        props.order.miscCharges.find(
+                          (x) => x.chargeId === "SELLER_DISCOUNT"
+                        ) &&
+                        props.order.miscCharges.find(
+                          (x) => x.chargeId === "SELLER_DISCOUNT"
+                        ).amount > 0 && (
+                          <Col
+                            xs={18}
+                            sm={18}
+                            md={18}
+                            lg={16}
+                            xl={16}
+                            style={{ paddingTop: "10px" }}
+                          >
+                            <span
+                              className={
+                                mediaMatch.matches
+                                  ? "qa-font-san qa-tc-white qa-fs-17 qa-fw-b"
+                                  : "qa-font-san qa-tc-white qa-fs-14 qa-fw-b"
+                              }
+                            >
+                              Shipping promotion applied
+                            </span>
+                          </Col>
+                        )}
+                      {props.order &&
+                        props.order.miscCharges &&
+                        props.order.miscCharges.find(
+                          (x) => x.chargeId === "SELLER_DISCOUNT"
+                        ) &&
+                        props.order.miscCharges.find(
+                          (x) => x.chargeId === "SELLER_DISCOUNT"
+                        ).amount > 0 && (
+                          <Col
+                            xs={6}
+                            sm={6}
+                            md={6}
+                            lg={8}
+                            xl={8}
+                            className="qa-col-end"
+                            style={{ paddingTop: "10px" }}
+                          >
+                            <span
+                              className="qa-font-san qa-fw-b qa-fs-14"
+                              style={{ color: "#0ABC1C" }}
+                            >
+                              -{" "}
+                              {getSymbolFromCurrency(
+                                props.order && props.order.currency
+                              )}
+                              {parseFloat(
+                                (props.order &&
+                                  props.order.miscCharges &&
+                                  props.order.miscCharges.find(
+                                    (x) => x.chargeId === "SELLER_DISCOUNT"
                                   ).amount) ||
                                   0
                               ).toFixed(2)}

@@ -330,11 +330,12 @@ const OrderDetails = (props) => {
                     marginLeft: "20px",
                   }}
                 >
-                  {
+                  {ParentOrderStatuses.find(
+                    (x) => x.id === props.orders.status
+                  ) &&
                     ParentOrderStatuses.find(
                       (x) => x.id === props.orders.status
-                    ).name
-                  }
+                    ).name}
                 </span>
               </Col>
               <Col

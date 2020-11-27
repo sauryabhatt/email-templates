@@ -276,7 +276,35 @@ const OrdersMobile = (props) => {
               subOrders = [],
               orderConfirmedDate = "",
               paymentTime = "",
+              miscCharges = [],
             } = order;
+            let frieghtCharge = 0;
+            let dutyCharge = 0;
+            let vatCharge = 0;
+            let couponDiscount = 0;
+            let freightDis = 0;
+            let sellerDiscount = 0;
+
+            for (let charge of miscCharges) {
+              let { chargeId = "", amount = 0 } = charge;
+              if (chargeId === "TOTAL_COST_FREIGHT_MAX") {
+                frieghtCharge = amount;
+              } else if (chargeId === "VAT") {
+                vatCharge = amount;
+              } else if (chargeId === "DUTY_MAX") {
+                dutyCharge = amount;
+              } else if (chargeId === "DISCOUNT") {
+                couponDiscount = amount;
+              } else if (chargeId === "FREIGHT_MAX") {
+                freightDis = amount;
+              } else if (chargeId === "SELLER_DISCOUNT") {
+                sellerDiscount = amount;
+              }
+            }
+
+            if (couponDiscount > 0 || sellerDiscount > 0) {
+              frieghtCharge = freightDis;
+            }
             let paymentTimeDiff = diff_hours(new Date(paymentTime), new Date());
 
             let date = new Date(orderConfirmedDate || orderedDate);
@@ -829,15 +857,9 @@ const OrdersMobile = (props) => {
                           <span className="qa-fs-16 qa-fw-b qa-font-san qa-tc-white">
                             {getSymbolFromCurrency(order && order.currency) ||
                               "$"}
-                            {order &&
-                              order.miscCharges &&
-                              order.miscCharges.find(
-                                (x) => x.chargeId === "FREIGHT_MAX"
-                              ) &&
+                            {frieghtCharge > 0 &&
                               parseFloat(
-                                order.miscCharges.find(
-                                  (x) => x.chargeId === "FREIGHT_MAX"
-                                ).amount * order.conversionFactor
+                                frieghtCharge * order.conversionFactor
                               ).toFixed(2)}
                           </span>
                         ) : (
@@ -975,6 +997,84 @@ const OrdersMobile = (props) => {
                             )}
                           </Col>
                         )}
+
+                      {order &&
+                        order.miscCharges &&
+                        order.miscCharges.find(
+                          (x) => x.chargeId === "SELLER_DISCOUNT"
+                        ) &&
+                        order.miscCharges.find(
+                          (x) => x.chargeId === "SELLER_DISCOUNT"
+                        ).amount > 0 && (
+                          <Col
+                            xs={16}
+                            sm={16}
+                            md={16}
+                            lg={16}
+                            className="qa-col-start qa-mar-top-05"
+                          >
+                            <span className="qa-fs-14 qa-fw-b qa-font-san qa-tc-white">
+                              Shipping promotion applied
+                            </span>
+                          </Col>
+                        )}
+                      {order &&
+                        order.miscCharges &&
+                        order.miscCharges.find(
+                          (x) => x.chargeId === "SELLER_DISCOUNT"
+                        ) &&
+                        order.miscCharges.find(
+                          (x) => x.chargeId === "SELLER_DISCOUNT"
+                        ).amount > 0 && (
+                          <Col
+                            xs={8}
+                            sm={8}
+                            md={8}
+                            lg={8}
+                            className="qa-col-end qa-mar-top-05"
+                          >
+                            {order && order.orderType == "RTS" ? (
+                              <span
+                                className="qa-fs-16 qa-fw-b qa-font-san"
+                                style={{ color: "#0ABC1C" }}
+                              >
+                                -{" "}
+                                {getSymbolFromCurrency(
+                                  order && order.currency
+                                ) || "$"}
+                                {(order &&
+                                  order.miscCharges &&
+                                  order.miscCharges.find(
+                                    (x) => x.chargeId === "SELLER_DISCOUNT"
+                                  ) &&
+                                  parseFloat(
+                                    order.miscCharges.find(
+                                      (x) => x.chargeId === "SELLER_DISCOUNT"
+                                    ).amount * order.conversionFactor
+                                  ).toFixed(2)) ||
+                                  0}
+                              </span>
+                            ) : (
+                              <span
+                                className="qa-fs-16 qa-fw-b qa-font-san"
+                                style={{ color: "#0ABC1C" }}
+                              >
+                                -{" "}
+                                {getSymbolFromCurrency(order && order.currency)}
+                                {(order &&
+                                  order.miscCharges &&
+                                  order.miscCharges.find(
+                                    (x) => x.chargeId === "SELLER_DISCOUNT"
+                                  ) &&
+                                  order.miscCharges.find(
+                                    (x) => x.chargeId === "SELLER_DISCOUNT"
+                                  ).amount) ||
+                                  0}
+                              </span>
+                            )}
+                          </Col>
+                        )}
+
                       {order &&
                         order.promoDiscount !== undefined &&
                         order.promoDiscount !== "" &&
@@ -1025,7 +1125,7 @@ const OrdersMobile = (props) => {
                         className="qa-col-start qa-mar-top-05"
                       >
                         <span className="qa-fs-14 qa-fw-b qa-font-san qa-tc-white">
-                          VAT / GST
+                          VAT/ GST
                         </span>
                       </Col>
                       <Col
