@@ -43,7 +43,7 @@ const OrderReview = (props) => {
   const [localeUpdated, setLocaleUpdated] = useState(false);
   const [popover, setPopover] = useState("");
   useEffect(() => {
-    if(keycloak?.token && orderIdParam) {
+    if (keycloak?.token && orderIdParam) {
       props.getOrderByOrderId(keycloak.token, orderIdParam);
     }
   }, [keycloak.token, orderIdParam]);
@@ -1110,7 +1110,7 @@ const OrderReview = (props) => {
                   >
                     <Row>
                       <Col xs={4} sm={4} md={4} lg={4}>
-                        {props.shippingMode == "AIR" ? (
+                        {props.order.shippingMode == "AIR" ? (
                           <img
                             className="images"
                             src={process.env.NEXT_PUBLIC_URL + "/Air.png"}
