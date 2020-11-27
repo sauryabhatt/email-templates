@@ -28,6 +28,7 @@
     "react-add-to-calendar": "^0.1.5",
     "react-cookie": "^4.0.3",
     "react-dom": "16.13.1",
+    "react-gtm-module": "^2.0.11",
     "react-image-gallery": "^1.0.8",
     "react-infinite-scroll-component": "^5.1.0",
     "react-modal-video": "^1.2.6",
