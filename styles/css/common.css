@@ -636,3 +636,10 @@
 .tab-color .ant-tabs-tab-btn:active {
   color: unset;
 }
+.qa-offer-text {
+  font-family: senregular;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 14px;
+  color: #02873a;
+}

@@ -10,6 +10,7 @@ import Ribbon from "../Ribbon/Ribbon";
 import { setAuth, getUserProfile } from "../../store/actions";
 import store from "../../store";
 import _ from "lodash";
+import { getCookie } from "../common/Auth";
 
 export const Layout = ({ children, meta = {} }) => {
   const [isShowRibbon, setShowRibbon] = useState(true);
@@ -35,7 +36,55 @@ export const Layout = ({ children, meta = {} }) => {
       : false;
 
   useEffect(() => {
+    // console.log("Inside auth ", keycloak.authenticated, getCookie("appToken"));
+
+    if (getCookie("appToken")) {
+      console.log("Already logged in!!");
+    } else {
+      console.log("Not logged in!!");
+      if (keycloak?.authenticated) {
+        console.log("Logging in!! ", keycloak);
+        keycloak
+          .loadUserProfile()
+          .then((profile) => {
+            console.log(profile);
+            const { attributes: { parentProfileId = [] } = {} } = profile;
+            let profileId = parentProfileId[0].replace("BUYER::", "");
+            profileId = profileId.replace("SELLER::", "");
+            fetch(
+              process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
+                "/profiles/" +
+                profileId +
+                "/events/login",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + keycloak.token,
+                },
+              }
+            )
+              .then((res) => {
+                if (res.ok) {
+                  return res.json();
+                } else {
+                  throw res.statusText || "Error while getting user deatils.";
+                }
+              })
+              .then((res) => {
+                return true;
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          })
+          .catch((error) => {
+            console.log("error ", error);
+          });
+      }
+    }
     if (keycloak?.token) {
+      console.log("Inside keycloak token");
       document.cookie = `appToken=${keycloak.token}`;
       keycloak
         .loadUserProfile()
@@ -56,7 +105,12 @@ export const Layout = ({ children, meta = {} }) => {
         <title>{title}</title>
         <meta name="description" content={description} />
         <meta property="og:title" content={title} />
-        {meta?.url && <meta property="og:url" content={`https://www.qalara.com${meta.url}`}/>}
+        {meta?.url && (
+          <meta
+            property="og:url"
+            content={`https://www.qalara.com${meta.url}`}
+          />
+        )}
         <meta property="og:type" content="website" />
         <meta property="og:description" content={description} />
         <meta name="twitter:card" content="summary" />
@@ -80,11 +134,7 @@ export const Layout = ({ children, meta = {} }) => {
         <Ribbon isShowRibbon={isShowRibbon} setShowRibbon={setShowRibbon} />
       ) : null}
       {Header}
-      {
-        <main className="main-layout-next">
-        {children}
-        </main>
-      }
+      {<main className="main-layout-next">{children}</main>}
     </Fragment>
   );
 };
