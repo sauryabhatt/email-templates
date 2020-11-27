@@ -37,7 +37,6 @@ export const Layout = ({ children, meta = {} }) => {
   useEffect(() => {
     if (keycloak?.token) {
       document.cookie = `appToken=${keycloak.token}`;
-
       keycloak
         .loadUserProfile()
         .then((profile) => {
