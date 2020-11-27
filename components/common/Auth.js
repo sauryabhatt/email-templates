@@ -5,7 +5,7 @@ import { useKeycloak } from "@react-keycloak/ssr";
 import { loginToApp } from "../AuthWithKeycloak";
 import Spinner from "../Spinner/Spinner";
 
-function getCookie(cname) {
+export const getCookie = (cname) => {
   var name = cname + "=";
   var decodedCookie = decodeURIComponent(document.cookie);
   var ca = decodedCookie.split(";");
@@ -19,15 +19,13 @@ function getCookie(cname) {
     }
   }
   return "";
-}
+};
 
 function Auth({ children, path }) {
   const { keycloak } = useKeycloak();
   const [status, setStatus] = useState(undefined);
 
   useEffect(() => {
-    console.log("Inside auth ", keycloak.authenticated, getCookie("appToken"));
-
     if (getCookie("appToken")) {
       setStatus("loggedin");
     } else {

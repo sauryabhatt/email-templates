@@ -6,6 +6,7 @@ import {
   SSRCookies,
   useKeycloak,
 } from "@react-keycloak/ssr";
+import { getCookie } from "./../common/Auth";
 // import store from '../../store';
 // import {setAuth, getUserProfile} from '../../store/actions';
 // import Spinner from '../Spinner/Spinner';
@@ -62,6 +63,16 @@ function AuthWithKeycloak(props) {
     url: "https://api-dev.qalara.com:8443/auth/",
     clientId: "next",
   };
+
+  useEffect(() => {
+    console.log("Inside auth ", keycloak.authenticated, getCookie("appToken"));
+
+    if (getCookie("appToken")) {
+      setStatus("loggedin");
+    } else {
+      setStatus("loggedout");
+    }
+  }, [keycloak.authenticated, keycloak.token]);
 
   // const onKeycloakEvent = (event, error) => {
   //     if (event === 'onReady') {
