@@ -36,12 +36,15 @@ export const Layout = ({ children, meta = {} }) => {
       : false;
 
   useEffect(() => {
-    console.log("Inside auth ", keycloak.authenticated, getCookie("appToken"));
+    // console.log("Inside auth ", keycloak.authenticated, getCookie("appToken"));
 
     if (getCookie("appToken")) {
-      console.log("Cookie");
+      console.log("Already logged in!!");
     } else {
-      console.log("Else");
+      console.log("Not logged in!!");
+      if (keycloak?.authenticated) {
+        console.log("Logging in!!");
+      }
     }
     if (keycloak?.token) {
       document.cookie = `appToken=${keycloak.token}`;

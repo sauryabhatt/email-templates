@@ -247,6 +247,7 @@ const CartSummary = (props) => {
 
   const updateOrder = (data, status) => {
     let formData = { ...data };
+    let { shippingMode = "" } = cart || {};
     formData["shippingMode"] = shippingMode;
     fetch(
       process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL +
