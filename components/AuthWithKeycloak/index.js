@@ -63,14 +63,6 @@ function AuthWithKeycloak(props) {
     clientId: "next",
   };
 
-  console.log("Cookies ", cookies);
-  if (cookies) {
-    console.log("cookie present");
-  } else {
-    if (keycloak.authenticated) {
-      console.log("New login");
-    }
-  }
   // const onKeycloakEvent = (event, error) => {
   //     if (event === 'onReady') {
   //     } else if (event === 'onAuthSuccess') {
