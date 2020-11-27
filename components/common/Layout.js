@@ -44,38 +44,45 @@ export const Layout = ({ children, meta = {} }) => {
       console.log("Not logged in!!");
       if (keycloak?.authenticated) {
         console.log("Logging in!! ", keycloak);
-
-        const {
-          profile: {
-            attributes: { parentProfileId = [] },
-          },
-        } = keycloak;
-        let profileId = parentProfileId[0] || "";
-        fetch(
-          process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
-            "/profiles/" +
-            profileId +
-            "/events/login",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + keycloak.token,
-            },
-          }
-        )
-          .then((res) => {
-            if (res.ok) {
-              return res.json();
-            } else {
-              throw res.statusText || "Error while getting user deatils.";
-            }
+        keycloak
+          .loadUserProfile()
+          .then((profile) => {
+            console.log(profile);
+            const {
+              profile: {
+                attributes: { parentProfileId = [] },
+              },
+            } = keycloak;
+            let profileId = parentProfileId[0] || "";
+            fetch(
+              process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
+                "/profiles/" +
+                profileId +
+                "/events/login",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + keycloak.token,
+                },
+              }
+            )
+              .then((res) => {
+                if (res.ok) {
+                  return res.json();
+                } else {
+                  throw res.statusText || "Error while getting user deatils.";
+                }
+              })
+              .then((res) => {
+                return true;
+              })
+              .catch((err) => {
+                console.log(err);
+              });
           })
-          .then((res) => {
-            return true;
-          })
-          .catch((err) => {
-            console.log(err);
+          .catch((error) => {
+            console.log("error ", error);
           });
       }
     }
