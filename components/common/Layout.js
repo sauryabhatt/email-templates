@@ -43,10 +43,38 @@ export const Layout = ({ children, meta = {} }) => {
     } else {
       console.log("Not logged in!!");
       if (keycloak?.authenticated) {
-        console.log("Logging in!!");
+        console.log("Logging in!! ", keycloak);
+        let profileId = "BU123456";
+        fetch(
+          process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
+            "/profiles/" +
+            profileId +
+            "/events/login",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + keycloak.token,
+            },
+          }
+        )
+          .then((res) => {
+            if (res.ok) {
+              return res.json();
+            } else {
+              throw res.statusText || "Error while getting user deatils.";
+            }
+          })
+          .then((res) => {
+            return true;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     }
     if (keycloak?.token) {
+      console.log("Inside keycloak token");
       document.cookie = `appToken=${keycloak.token}`;
       keycloak
         .loadUserProfile()
