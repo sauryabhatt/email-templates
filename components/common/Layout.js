@@ -10,6 +10,7 @@ import Ribbon from "../Ribbon/Ribbon";
 import { setAuth, getUserProfile } from "../../store/actions";
 import store from "../../store";
 import _ from "lodash";
+import { getCookie } from "../common/Auth";
 
 export const Layout = ({ children, meta = {} }) => {
   const [isShowRibbon, setShowRibbon] = useState(true);
@@ -35,6 +36,13 @@ export const Layout = ({ children, meta = {} }) => {
       : false;
 
   useEffect(() => {
+    console.log("Inside auth ", keycloak.authenticated, getCookie("appToken"));
+
+    if (getCookie("appToken")) {
+      console.log("Cookie");
+    } else {
+      console.log("Else");
+    }
     if (keycloak?.token) {
       document.cookie = `appToken=${keycloak.token}`;
       keycloak
@@ -56,7 +64,12 @@ export const Layout = ({ children, meta = {} }) => {
         <title>{title}</title>
         <meta name="description" content={description} />
         <meta property="og:title" content={title} />
-        {meta?.url && <meta property="og:url" content={`https://www.qalara.com${meta.url}`}/>}
+        {meta?.url && (
+          <meta
+            property="og:url"
+            content={`https://www.qalara.com${meta.url}`}
+          />
+        )}
         <meta property="og:type" content="website" />
         <meta property="og:description" content={description} />
         <meta name="twitter:card" content="summary" />
@@ -73,10 +86,10 @@ export const Layout = ({ children, meta = {} }) => {
           src={`https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_REACT_APP_PAYPAL_CLIENT_ID}&currency=USD&intent=order`}
           id="paypal-script"
           type="text/javaScript"
-        >
-        </script>
-        <script dangerouslySetInnerHTML={{
-        __html: `(function (w, d, s, l, i) {
+        ></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function (w, d, s, l, i) {
         w[l] = w[l] || []; w[l].push({
         'gtm.start':
         new Date().getTime(), event: 'gtm.js'
@@ -84,18 +97,14 @@ export const Layout = ({ children, meta = {} }) => {
         j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
         'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
         })(window, document, 'script', 'dataLayer', 'GTM-KTVSR8R');`,
-        }}>
-        </script>
+          }}
+        ></script>
       </Head>
       {isShowRibbon && !url ? (
         <Ribbon isShowRibbon={isShowRibbon} setShowRibbon={setShowRibbon} />
       ) : null}
       {Header}
-      {
-        <main className="main-layout-next">
-        {children}
-        </main>
-      }
+      {<main className="main-layout-next">{children}</main>}
     </Fragment>
   );
 };
