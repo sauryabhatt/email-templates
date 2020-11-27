@@ -21,20 +21,32 @@ const redirectUriForApp = {
 export const loginToApp = (keycloak, options) => {
   if (options && options.currentPath) {
     if (redirectUriForApp[options.currentPath]) {
-      keycloak.login({
-        redirectUri: process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN,
-      });
+      keycloak
+        .login({
+          redirectUri: process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN,
+        })
+        .then((res) => {
+          console.log("Success 1");
+        });
     } else {
-      keycloak.login({
-        redirectUri:
-          process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN +
-          options.currentPath,
-      });
+      keycloak
+        .login({
+          redirectUri:
+            process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN +
+            options.currentPath,
+        })
+        .then((res) => {
+          console.log("Success 2");
+        });
     }
   } else {
-    keycloak.login({
-      redirectUri: process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN,
-    });
+    keycloak
+      .login({
+        redirectUri: process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN,
+      })
+      .then((res) => {
+        console.log("Success 3");
+      });
   }
 };
 
