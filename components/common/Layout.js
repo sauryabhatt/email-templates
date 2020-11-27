@@ -10,6 +10,7 @@ import Ribbon from "../Ribbon/Ribbon";
 import { setAuth, getUserProfile } from "../../store/actions";
 import store from "../../store";
 import _ from "lodash";
+import { getCookie } from "../common/Auth";
 
 export const Layout = ({ children, meta = {} }) => {
   const [isShowRibbon, setShowRibbon] = useState(true);
@@ -35,9 +36,11 @@ export const Layout = ({ children, meta = {} }) => {
       : false;
 
   useEffect(() => {
-    if (keycloak?.token) {
-      document.cookie = `appToken=${keycloak.token}`;
+    // console.log("Inside auth ", keycloak.authenticated, getCookie("appToken"));
 
+    if (keycloak?.token) {
+      console.log("Inside keycloak token");
+      document.cookie = `appToken=${keycloak.token}`;
       keycloak
         .loadUserProfile()
         .then((profile) => {
@@ -49,7 +52,88 @@ export const Layout = ({ children, meta = {} }) => {
         });
       store.dispatch(getUserProfile(keycloak.token));
     }
+
+    // if (getCookie("appToken")) {
+    //   console.log("Already logged in!!");
+    // } else {
+    //   console.log("Not logged in!!");
+    //   if (keycloak?.authenticated) {
+    //     console.log("Logging in!! ", keycloak);
+
+    //     const {
+    //       profile: { attributes: { parentProfileId = [] } = {} } = {},
+    //     } = keycloak;
+    //     let profileId = parentProfileId[0].replace("BUYER::", "") || "";
+    //     profileId = profileId.replace("SELLER::", "");
+    //     fetch(
+    //       process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
+    //         "/profiles/" +
+    //         profileId +
+    //         "/events/login",
+    //       {
+    //         method: "POST",
+    //         headers: {
+    //           "Content-Type": "application/json",
+    //           Authorization: "Bearer " + keycloak.token,
+    //         },
+    //       }
+    //     )
+    //       .then((res) => {
+    //         if (res.ok) {
+    //           return res.json();
+    //         } else {
+    //           throw res.statusText || "Error while getting user deatils.";
+    //         }
+    //       })
+    //       .then((res) => {
+    //         return true;
+    //       })
+    //       .catch((err) => {
+    //         console.log(err);
+    //       });
+    //   }
+    // }
   }, [keycloak.token]);
+
+  // useEffect(() => {
+  //   if (keycloak.authenticated) {
+  //     let userLastActive = sessionStorage.getItem("userLastActive");
+  //     if (!userLastActive) {
+  //       const {
+  //         profile: { attributes: { parentProfileId = [] } = {} } = {},
+  //       } = keycloak;
+  //       let profileId = parentProfileId[0].replace("BUYER::", "") || "";
+  //       profileId = profileId.replace("SELLER::", "");
+  //       fetch(
+  //         process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
+  //           "/profiles/" +
+  //           profileId +
+  //           "/events/login",
+  //         {
+  //           method: "POST",
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //             Authorization: "Bearer " + keycloak.token,
+  //           },
+  //         }
+  //       )
+  //         .then((res) => {
+  //           if (res.ok) {
+  //             return res.json();
+  //           } else {
+  //             throw res.statusText || "Error while getting user deatils.";
+  //           }
+  //         })
+  //         .then((res) => {
+  //           return true;
+  //         })
+  //         .catch((err) => {
+  //           console.log(err);
+  //         });
+  //       sessionStorage.setItem("userLastActive", "USER_ACTIVE");
+  //     }
+  //   }
+  // }, [keycloak.token, keycloak.authenticated]);
 
   return (
     <Fragment>
@@ -79,18 +163,6 @@ export const Layout = ({ children, meta = {} }) => {
           src={`https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_REACT_APP_PAYPAL_CLIENT_ID}&currency=USD&intent=order`}
           id="paypal-script"
           type="text/javaScript"
-        ></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function (w, d, s, l, i) {
-        w[l] = w[l] || []; w[l].push({
-        'gtm.start':
-        new Date().getTime(), event: 'gtm.js'
-        }); var f = d.getElementsByTagName(s)[0],
-        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-        'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-KTVSR8R');`,
-          }}
         ></script>
       </Head>
       {isShowRibbon && !url ? (

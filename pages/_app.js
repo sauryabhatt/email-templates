@@ -13,6 +13,7 @@ import { getToken } from "../components/taskBeforeLoad";
 import Spinner from "../components/Spinner/Spinner";
 import { Provider } from "react-redux";
 import cookie from "cookie";
+import TagManager from 'react-gtm-module';
 import Cookies from "js-cookie";
 import store from "../store";
 import { setTokenSuccess, setTokenFail } from "../store/actions";
@@ -31,6 +32,11 @@ function MyApp(props) {
   //   }
 
   // }, [])
+
+  // Google Tag Manager
+  useEffect(() => {
+    TagManager.initialize({ gtmId: 'GTM-KTVSR8R' });
+  }, []);
 
   return (
     <AuthWithKeycloak cookies={cookies}>
