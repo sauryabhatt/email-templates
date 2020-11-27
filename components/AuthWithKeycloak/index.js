@@ -21,32 +21,20 @@ const redirectUriForApp = {
 export const loginToApp = (keycloak, options) => {
   if (options && options.currentPath) {
     if (redirectUriForApp[options.currentPath]) {
-      keycloak
-        .login({
-          redirectUri: process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN,
-        })
-        .then((res) => {
-          console.log("Success 1");
-        });
+      keycloak.login({
+        redirectUri: process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN,
+      });
     } else {
-      keycloak
-        .login({
-          redirectUri:
-            process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN +
-            options.currentPath,
-        })
-        .then((res) => {
-          console.log("Success 2");
-        });
+      keycloak.login({
+        redirectUri:
+          process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN +
+          options.currentPath,
+      });
     }
   } else {
-    keycloak
-      .login({
-        redirectUri: process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN,
-      })
-      .then((res) => {
-        console.log("Success 3");
-      });
+    keycloak.login({
+      redirectUri: process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN,
+    });
   }
 };
 
@@ -75,6 +63,14 @@ function AuthWithKeycloak(props) {
     clientId: "next",
   };
 
+  console.log("Cookies ", cookies);
+  if (cookies) {
+    console.log("cookie present");
+  } else {
+    if (keycloak.authenticated) {
+      console.log("New login");
+    }
+  }
   // const onKeycloakEvent = (event, error) => {
   //     if (event === 'onReady') {
   //     } else if (event === 'onAuthSuccess') {
