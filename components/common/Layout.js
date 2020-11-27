@@ -63,7 +63,8 @@ export const Layout = ({ children, meta = {} }) => {
         const {
           profile: { attributes: { parentProfileId = [] } = {} } = {},
         } = keycloak;
-        let profileId = parentProfileId[0] || "";
+        let profileId = parentProfileId[0].replace("BUYER::", "") || "";
+        profileId = profileId.replace("SELLER::", "");
         fetch(
           process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
             "/profiles/" +
@@ -98,7 +99,11 @@ export const Layout = ({ children, meta = {} }) => {
     if (keycloak.authenticated) {
       let userLastActive = sessionStorage.getItem("userLastActive");
       if (!userLastActive) {
-        let profileId = parentProfileId[0] || "";
+        const {
+          profile: { attributes: { parentProfileId = [] } = {} } = {},
+        } = keycloak;
+        let profileId = parentProfileId[0].replace("BUYER::", "") || "";
+        profileId = profileId.replace("SELLER::", "");
         fetch(
           process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
             "/profiles/" +
