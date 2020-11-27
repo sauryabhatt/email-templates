@@ -77,6 +77,7 @@ const CartSummary = (props) => {
   let vatCharge = 0;
   let couponDiscount = 0;
   let freightDis = 0;
+  let sellerDiscount = 0;
 
   for (let charge of miscCharges) {
     let { chargeId = "", amount = 0 } = charge;
@@ -90,10 +91,12 @@ const CartSummary = (props) => {
       couponDiscount = amount;
     } else if (chargeId === "FREIGHT_MAX") {
       freightDis = amount;
+    } else if (chargeId === "SELLER_DISCOUNT") {
+      sellerDiscount = amount;
     }
   }
 
-  if (couponDiscount > 0) {
+  if (couponDiscount > 0 || sellerDiscount > 0) {
     frieghtCharge = freightDis;
   }
 
@@ -243,15 +246,15 @@ const CartSummary = (props) => {
   };
 
   const updateOrder = (data, status) => {
-    let formData = { ...data };
-    formData["shippingMode"] = shippingMode;
+    // let formData = { ...data };
+    // formData["shippingMode"] = shippingMode;
     fetch(
       process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL +
         "/v1/orders/my/payments-reference?order_updated_Status=" +
         status,
       {
         method: "PUT",
-        body: JSON.stringify(formData),
+        body: JSON.stringify(data),
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + keycloak.token,
@@ -491,6 +494,7 @@ const CartSummary = (props) => {
     subOrders.reduce((x, y) => x + y["total"], 0) +
       frieghtCharge +
       dutyCharge -
+      sellerDiscount -
       couponDiscount +
       vatCharge -
       promoDiscount
@@ -685,7 +689,7 @@ const CartSummary = (props) => {
       <div className="qa-mar-btm-05">
         <div
           className={`${
-            referralCode && couponDiscount > 0
+            (referralCode && couponDiscount > 0) || sellerDiscount > 0
               ? "cart-ship-pt qa-pd-0"
               : "cart-ship-pt"
           }`}
@@ -729,17 +733,29 @@ const CartSummary = (props) => {
               {referralCode} discount applied
             </div>
             <div className="c-right-blk qa-fw-b qa-txt-alg-rgt">
-              {id !== "cart" && couponDiscount > 0 ? (
-                <span style={{ color: "#27AE60" }}>
-                  -{getSymbolFromCurrency(convertToCurrency)}
-                  {getConvertedCurrency(couponDiscount)}
-                </span>
-              ) : (
-                <span style={{ color: "#27AE60" }}>
-                  -{getSymbolFromCurrency(convertToCurrency)}
-                  {getConvertedCurrency(couponDiscount)}
-                </span>
-              )}
+              <span style={{ color: "#27AE60" }}>
+                -{getSymbolFromCurrency(convertToCurrency)}
+                {getConvertedCurrency(couponDiscount)}
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {id !== "cart" && sellerDiscount > 0 && (
+        <div className="qa-mar-btm-2">
+          <div className="cart-ship-pt qa-border-bottom">
+            <div
+              style={{ color: "#27AE60" }}
+              className="c-left-blk cart-prod-name"
+            >
+              Shipping promotion applied
+            </div>
+            <div className="c-right-blk qa-fw-b qa-txt-alg-rgt">
+              <span style={{ color: "#27AE60" }}>
+                -{getSymbolFromCurrency(convertToCurrency)}
+                {getConvertedCurrency(sellerDiscount)}
+              </span>
             </div>
           </div>
         </div>
@@ -783,7 +799,8 @@ const CartSummary = (props) => {
                   subOrders.reduce((x, y) => x + y["total"], 0) +
                     frieghtCharge +
                     dutyCharge -
-                    couponDiscount
+                    couponDiscount -
+                    sellerDiscount
                 )
               : ""}
           </div>
@@ -791,12 +808,14 @@ const CartSummary = (props) => {
       </div>
       <div
         className={`${
-          referralCode && couponDiscount > 0 ? "" : "qa-mar-btm-2"
+          (referralCode && couponDiscount > 0) || sellerDiscount > 0
+            ? ""
+            : "qa-mar-btm-2"
         }`}
       >
         <div
           className={`${
-            referralCode && couponDiscount > 0
+            (referralCode && couponDiscount > 0) || sellerDiscount > 0
               ? "cart-ship-pt"
               : "cart-ship-pt qa-border-bottom"
           }`}

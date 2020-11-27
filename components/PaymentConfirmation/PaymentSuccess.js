@@ -92,7 +92,37 @@ const PaymentSuccess = (props) => {
     conversionFactor = 0,
     promoDiscount = 0,
     promoCode = "",
+    miscCharges = [],
   } = order || {};
+
+  let frieghtCharge = 0;
+  let dutyCharge = 0;
+  let vatCharge = 0;
+  let couponDiscount = 0;
+  let freightDis = 0;
+  let sellerDiscount = 0;
+
+  for (let charge of miscCharges) {
+    let { chargeId = "", amount = 0 } = charge;
+    if (chargeId === "TOTAL_COST_FREIGHT_MAX") {
+      frieghtCharge = amount;
+    } else if (chargeId === "VAT") {
+      vatCharge = amount;
+    } else if (chargeId === "DUTY_MAX") {
+      dutyCharge = amount;
+    } else if (chargeId === "DISCOUNT") {
+      couponDiscount = amount;
+    } else if (chargeId === "FREIGHT_MAX") {
+      freightDis = amount;
+    } else if (chargeId === "SELLER_DISCOUNT") {
+      sellerDiscount = amount;
+    }
+  }
+
+  if (couponDiscount > 0 || sellerDiscount > 0) {
+    frieghtCharge = freightDis;
+  }
+
   if (conversionFactor) {
     total = total * conversionFactor;
   }
@@ -269,15 +299,9 @@ const PaymentSuccess = (props) => {
                           {getSymbolFromCurrency(
                             props.order && props.order.currency
                           )}
-                          {props.order &&
-                            props.order.miscCharges &&
-                            props.order.miscCharges.find(
-                              (x) => x.chargeId === "FREIGHT_MAX"
-                            ) &&
+                          {frieghtCharge > 0 &&
                             parseFloat(
-                              props.order.miscCharges.find(
-                                (x) => x.chargeId === "FREIGHT_MAX"
-                              ).amount * props.order.conversionFactor
+                              frieghtCharge * props.order.conversionFactor
                             ).toFixed(2)}
                         </span>
                       ) : (
@@ -302,7 +326,7 @@ const PaymentSuccess = (props) => {
                   <Row className="qa-mar-top-2">
                     <Col xs={18} sm={18} md={18} lg={18}>
                       <span className="qa-font-san qa-tc-white qa-fs-14">
-                        Estimated custom, duties & taxes
+                        Estimated custom, taxes & duties
                       </span>
                     </Col>
                     <Col xs={6} sm={6} md={6} lg={6}>
@@ -341,6 +365,51 @@ const PaymentSuccess = (props) => {
                       )}
                     </Col>
                   </Row>
+
+                  <Row className="qa-mar-top-2">
+                    <Col xs={18} sm={18} md={18} lg={18}>
+                      <span className="qa-font-san qa-tc-white qa-fs-14">
+                        VAT/ GST
+                      </span>
+                    </Col>
+                    <Col xs={6} sm={6} md={6} lg={6}>
+                      {props.order && props.order.orderType == "RTS" ? (
+                        <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
+                          {getSymbolFromCurrency(
+                            props.order && props.order.currency
+                          )}
+                          {props.order &&
+                            props.order.miscCharges &&
+                            props.order.miscCharges.find(
+                              (x) => x.chargeId === "VAT"
+                            ) &&
+                            parseFloat(
+                              props.order.miscCharges.find(
+                                (x) => x.chargeId === "VAT"
+                              ).amount * props.order.conversionFactor
+                            ).toFixed(2)}
+                        </span>
+                      ) : (
+                        <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
+                          {getSymbolFromCurrency(
+                            props.order && props.order.currency
+                          )}
+                          {parseFloat(
+                            (props.order &&
+                              props.order.miscCharges &&
+                              props.order.miscCharges.find(
+                                (x) => x.chargeId === "VAT"
+                              ) &&
+                              props.order.miscCharges.find(
+                                (x) => x.chargeId === "VAT"
+                              ).amount) ||
+                              0
+                          ).toFixed(2)}
+                        </span>
+                      )}
+                    </Col>
+                  </Row>
+
                   {props.order &&
                     props.order.miscCharges &&
                     props.order.miscCharges.find(
@@ -394,6 +463,66 @@ const PaymentSuccess = (props) => {
                                   ) &&
                                   props.order.miscCharges.find(
                                     (x) => x.chargeId === "DISCOUNT"
+                                  ).amount) ||
+                                  0
+                              ).toFixed(2)}
+                            </span>
+                          )}
+                        </Col>
+                      </Row>
+                    )}
+                  {props.order &&
+                    props.order.miscCharges &&
+                    props.order.miscCharges.find(
+                      (x) => x.chargeId === "SELLER_DISCOUNT"
+                    ) &&
+                    props.order.miscCharges.find(
+                      (x) => x.chargeId === "SELLER_DISCOUNT"
+                    ).amount > 0 && (
+                      <Row className="qa-mar-top-2">
+                        <Col xs={18} sm={18} md={18} lg={18}>
+                          <span className="qa-font-san qa-tc-white qa-fs-14">
+                            Shipping promotion applied
+                          </span>
+                        </Col>
+                        <Col xs={6} sm={6} md={6} lg={6}>
+                          {props.order && props.order.orderType == "RTS" ? (
+                            <span
+                              className="qa-font-san qa-fw-b qa-fs-14 qa-col-end"
+                              style={{ color: "#0ABC1C" }}
+                            >
+                              -{" "}
+                              {getSymbolFromCurrency(
+                                props.order && props.order.currency
+                              )}
+                              {props.order &&
+                                props.order.miscCharges &&
+                                props.order.miscCharges.find(
+                                  (x) => x.chargeId === "SELLER_DISCOUNT"
+                                ) &&
+                                parseFloat(
+                                  (props.order.miscCharges.find(
+                                    (x) => x.chargeId === "SELLER_DISCOUNT"
+                                  ).amount || 0) * props.order.conversionFactor
+                                ).toFixed(2)}
+                            </span>
+                          ) : (
+                            <span
+                              className="qa-font-san qa-fw-b qa-fs-14 qa-col-end"
+                              style={{ color: "#0ABC1C" }}
+                            >
+                              -{" "}
+                              {getSymbolFromCurrency(
+                                props.order && props.order.currency
+                              )}
+                              {parseFloat(
+                                (props.order &&
+                                  props.order.miscCharges &&
+                                  props.order.miscCharges.find(
+                                    (x) => x.chargeId === "SELLER_DISCOUNT"
+                                  ) &&
+                                  props.order.miscCharges.find(
+                                    (x) => x.chargeId === "SELLER_DISCOUNT"
                                   ).amount) ||
                                   0
                               ).toFixed(2)}
