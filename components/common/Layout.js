@@ -36,8 +36,6 @@ export const Layout = ({ children, meta = {} }) => {
       : false;
 
   useEffect(() => {
-    // console.log("Inside auth ", keycloak.authenticated, getCookie("appToken"));
-
     if (keycloak?.token) {
       console.log("Inside keycloak token");
       document.cookie = `appToken=${keycloak.token}`;
@@ -63,7 +61,8 @@ export const Layout = ({ children, meta = {} }) => {
         const {
           profile: { attributes: { parentProfileId = [] } = {} } = {},
         } = keycloak;
-        let profileId = parentProfileId[0].replace("BUYER::", "") || "";
+        let profileId = parentProfileId[0] || "";
+        profileId = profileId.replace("BUYER::", "");
         profileId = profileId.replace("SELLER::", "");
         fetch(
           process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
@@ -102,7 +101,9 @@ export const Layout = ({ children, meta = {} }) => {
         const {
           profile: { attributes: { parentProfileId = [] } = {} } = {},
         } = keycloak;
-        let profileId = parentProfileId[0].replace("BUYER::", "") || "";
+
+        let profileId = parentProfileId[0] || "";
+        profileId = profileId.replace("BUYER::", "");
         profileId = profileId.replace("SELLER::", "");
         fetch(
           process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
@@ -163,8 +164,7 @@ export const Layout = ({ children, meta = {} }) => {
           src={`https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_REACT_APP_PAYPAL_CLIENT_ID}&currency=USD&intent=order`}
           id="paypal-script"
           type="text/javaScript"
-        >
-        </script>
+        ></script>
       </Head>
       {isShowRibbon && !url ? (
         <Ribbon isShowRibbon={isShowRibbon} setShowRibbon={setShowRibbon} />
