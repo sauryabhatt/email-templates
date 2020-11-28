@@ -639,11 +639,11 @@ const CartSummary = (props) => {
               qualityTestingCharge = 0,
               sampleCost = 0,
               quantity = 0,
-              exFactoryPrice = 0,
+              exfactoryListPrice = 0,
             } = items;
             samplePrice = samplePrice + sampleCost;
             testingPrice = testingPrice + qualityTestingCharge;
-            basePrice = basePrice + exFactoryPrice * quantity;
+            basePrice = basePrice + exfactoryListPrice * quantity;
           }
           return (
             <div className="qa-mar-btm-2" key={i}>

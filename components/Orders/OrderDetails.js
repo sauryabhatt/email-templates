@@ -100,7 +100,7 @@ const OrderDetails = (props) => {
                 "$"}
               {parseFloat(
                 subOrder.products.reduce(
-                  (x, y) => x + y["quantity"] * y["exFactoryPrice"],
+                  (x, y) => x + y["quantity"] * y["exfactoryListPrice"],
                   0
                 ) * orders.conversionFactor
               ).toFixed(2)}

@@ -188,8 +188,12 @@ const ShippingDetails = (props) => {
         let { products = "", qalaraSellerMargin = 0, basePrice = 0 } = sellers;
 
         for (let items of products) {
-          let { quantity = 0, exFactoryPrice = 0, productType = "" } = items;
-          basePrice = basePrice + exFactoryPrice * quantity;
+          let {
+            quantity = 0,
+            exfactoryListPrice = 0,
+            productType = "",
+          } = items;
+          basePrice = basePrice + exfactoryListPrice * quantity;
           if (productType === "ERTM") {
             setMov(true);
           }
