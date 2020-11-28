@@ -719,7 +719,7 @@ function UserHeader(props) {
               textAlign: "right",
               margin: "auto",
               display: "flex",
-              "justify-content": "flex-end",
+              justifyContent: "flex-end",
             }}
           >
             <Button

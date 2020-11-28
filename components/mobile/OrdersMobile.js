@@ -723,7 +723,7 @@ const OrdersMobile = (props) => {
                                         ></img>
                                       )}
                                       {products.length > 2 && k == 1 ? (
-                                        <span class="show-more-circle circle-position">
+                                        <span className="show-more-circle circle-position">
                                           <span
                                             className="qa-font-san qa-fs-17"
                                             style={{

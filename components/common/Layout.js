@@ -36,12 +36,8 @@ export const Layout = ({ children, meta = {} }) => {
       : false;
 
   useEffect(() => {
-    if (getCookie("appToken")) {
-      console.log("Already logged in!!");
-    } else {
-      console.log("Not logged in!!");
+    if (!getCookie("appToken")) {
       if (keycloak?.authenticated) {
-        console.log("Logging in!! ", keycloak);
         keycloak
           .loadUserProfile()
           .then((profile) => {
