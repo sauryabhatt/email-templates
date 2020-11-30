@@ -1109,6 +1109,19 @@ const RtsOrderReview = (props) => {
                                   This product is currently out of stock
                                 </div>
                               )}
+                              {miscCharges &&
+                                miscCharges.length > 0 &&
+                                miscCharges.find(
+                                  (x) => x.chargeId === "SELLER_DISCOUNT"
+                                ) &&
+                                miscCharges.find(
+                                  (x) => x.chargeId === "SELLER_DISCOUNT"
+                                ).amount > 0 &&
+                                sellerList.includes(sellerCode) && (
+                                  <div className="qa-offer-text qa-mar-top-05">
+                                    FREE shipping
+                                  </div>
+                                )}
                             </Col>
                             <Col
                               xs={24}
@@ -1136,19 +1149,6 @@ const RtsOrderReview = (props) => {
                                   charges
                                 </div>
                               )}
-                              {miscCharges &&
-                                miscCharges.length > 0 &&
-                                miscCharges.find(
-                                  (x) => x.chargeId === "SELLER_DISCOUNT"
-                                ) &&
-                                miscCharges.find(
-                                  (x) => x.chargeId === "SELLER_DISCOUNT"
-                                ).amount > 0 &&
-                                sellerList.includes(sellerCode) && (
-                                  <div className="qa-offer-text qa-mar-top-15">
-                                    FREE shipping
-                                  </div>
-                                )}
                             </Col>
                           </Row>
                         );
