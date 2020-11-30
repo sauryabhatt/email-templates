@@ -268,7 +268,7 @@ const PaymentSuccess = (props) => {
                           sm={24}
                           md={24}
                           lg={24}
-                          style={{ lineHeight: "100%" }}
+                          style={{ lineHeight: "0%" }}
                         >
                           <span
                             className="qa-col-end qa-font-san qa-fs-12"
@@ -488,6 +488,84 @@ const PaymentSuccess = (props) => {
                               props.order.miscCharges.find(
                                 (x) => x.chargeId === "CUSTOM_CHARGES"
                               ).amount
+                          ).toFixed(2)}
+                        </span>
+                      )}
+                    </Col>
+                  </Row>
+                  <Row className="qa-mar-top-1">
+                    <Col xs={24} sm={24} md={24} lg={24}>
+                      <hr
+                        style={{ border: "-1px solid rgba(25, 25, 25, 0.6)" }}
+                      />
+                    </Col>
+                  </Row>
+                  <Row className="qa-mar-top-1">
+                    <Col xs={18} sm={18} md={18} lg={18}>
+                      <span className="qa-font-san qa-tc-white qa-fs-17 qa-fw-b">
+                        SUBTOTAL
+                      </span>
+                    </Col>
+                    <Col xs={6} sm={6} md={6} lg={6}>
+                      {props.order && props.order.orderType == "RTS" ? (
+                        <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
+                          {getSymbolFromCurrency(
+                            props.order && props.order.currency
+                          )}
+                          {parseFloat(
+                            props.order &&
+                              props.order.subOrders &&
+                              props.order.subOrders.length > 0 &&
+                              props.order.subOrders.reduce(
+                                (x, y) => x + y["total"],
+                                0
+                              ) +
+                                frieghtCharge +
+                                dutyCharge -
+                                couponDiscount -
+                                sellerDiscount
+                          ).toFixed(2)}
+                        </span>
+                      ) : (
+                        <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
+                          {getSymbolFromCurrency(
+                            props.order && props.order.currency
+                          )}
+                          {parseFloat(
+                            props.order &&
+                              props.order.miscCharges &&
+                              parseFloat(
+                                props.order.miscCharges.find(
+                                  (x) => x.chargeId === "TOTAL_AMOUNT"
+                                ).amount
+                              ) +
+                                parseFloat(
+                                  (props.order &&
+                                    props.order.miscCharges &&
+                                    props.order.miscCharges.find(
+                                      (x) => x.chargeId === "DISCOUNT"
+                                    ).amount) ||
+                                    0
+                                ) +
+                                parseFloat(
+                                  (props.order &&
+                                    props.order.miscCharges &&
+                                    props.order.miscCharges.find(
+                                      (x) => x.chargeId === "SELLER_DISCOUNT"
+                                    ) &&
+                                    props.order.miscCharges.find(
+                                      (x) => x.chargeId === "SELLER_DISCOUNT"
+                                    ).amount) ||
+                                    0
+                                ) -
+                                parseFloat(
+                                  (props.order &&
+                                    props.order.miscCharges &&
+                                    props.order.miscCharges.find(
+                                      (x) => x.chargeId === "VAT"
+                                    ).amount) ||
+                                    0
+                                )
                           ).toFixed(2)}
                         </span>
                       )}

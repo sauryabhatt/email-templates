@@ -204,7 +204,11 @@ const SellerLandingDesktop = (props) => {
   const [itemsToShow, setItemsToShow] = useState(2);
   const [videoType, setVideoType] = useState("");
   const [videoName, setVideoName] = useState("");
-  let offerings = [showRoom, ...publicOfferings, ...privateOfferings];
+  let offerings = [];
+  if (Object.keys(showRoom).length) {
+    offerings.push(showRoom);
+  }
+  offerings = [...offerings, ...publicOfferings, ...privateOfferings];
 
   let { altName = "", seoTitle = "" } = showcaseMedia || {};
 
@@ -1327,8 +1331,7 @@ const SellerLandingDesktop = (props) => {
               {offeringDetails}
             </Slider>
           </div>
-          {((showroomMediaUrl && offerings.length > 3) ||
-            offerings.length > 4) && (
+          {offerings.length > 3 && (
             <div className="qa-txt-alg-cnt qa-mar-top-1">
               <Button className="qa-slick-button" onClick={(e) => previous(e)}>
                 <svg

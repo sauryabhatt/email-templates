@@ -858,24 +858,23 @@ const OrderDetails = (props) => {
                                       FREE shipping
                                     </div>
                                   )}
-                                {miscCharges &&
-                                  miscCharges.length > 0 &&
-                                  miscCharges.find(
-                                    (x) => x.chargeId === "SELLER_DISCOUNT"
-                                  ) &&
-                                  miscCharges.find(
-                                    (x) => x.chargeId === "SELLER_DISCOUNT"
-                                  ).amount > 0 &&
-                                  sellerList.length &&
-                                  !sellerList.includes(sellerCode) && (
-                                    <span
-                                      className="qa-font-san qa-fs-12 qa-tc-white"
-                                      style={{ color: "rgba(25, 25, 25, 0.6)" }}
-                                    >
-                                      Base price per unit excl. margin and other
-                                      charges
-                                    </span>
-                                  )}
+                                {(!sellerList.includes(sellerCode) ||
+                                  !(
+                                    miscCharges.find(
+                                      (x) => x.chargeId === "SELLER_DISCOUNT"
+                                    ) &&
+                                    miscCharges.find(
+                                      (x) => x.chargeId === "SELLER_DISCOUNT"
+                                    ).amount > 0
+                                  )) && (
+                                  <span
+                                    className="qa-font-san qa-fs-12 qa-tc-white"
+                                    style={{ color: "rgba(25, 25, 25, 0.6)" }}
+                                  >
+                                    Base price per unit excl. margin and other
+                                    charges
+                                  </span>
+                                )}
                               </Col>
                             </Row>
                           </Col>
@@ -886,24 +885,23 @@ const OrderDetails = (props) => {
                             lg={0}
                             style={{ lineHeight: "110%" }}
                           >
-                            {miscCharges &&
-                              miscCharges.length > 0 &&
-                              miscCharges.find(
-                                (x) => x.chargeId === "SELLER_DISCOUNT"
-                              ) &&
-                              miscCharges.find(
-                                (x) => x.chargeId === "SELLER_DISCOUNT"
-                              ).amount > 0 &&
-                              !sellerList.length &&
-                              sellerList.includes(sellerCode) && (
-                                <span
-                                  className="qa-font-san qa-fs-8"
-                                  style={{ color: "rgba(25, 25, 25, 0.6)" }}
-                                >
-                                  Base price per unit excl. margin and other
-                                  charges
-                                </span>
-                              )}
+                            {(!sellerList.includes(sellerCode) ||
+                              !(
+                                miscCharges.find(
+                                  (x) => x.chargeId === "SELLER_DISCOUNT"
+                                ) &&
+                                miscCharges.find(
+                                  (x) => x.chargeId === "SELLER_DISCOUNT"
+                                ).amount > 0
+                              )) && (
+                              <span
+                                className="qa-font-san qa-fs-8"
+                                style={{ color: "rgba(25, 25, 25, 0.6)" }}
+                              >
+                                Base price per unit excl. margin and other
+                                charges
+                              </span>
+                            )}
                           </Col>
                         </Row>
                       </Col>

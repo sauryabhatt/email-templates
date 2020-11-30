@@ -2154,7 +2154,7 @@ const ProductDetails = (props) => {
                   showPrice ? (
                     <div className="qa-mar-btm-1">
                       <Row>
-                        <Col span={16}>
+                        <Col span={12}>
                           <span
                             style={{
                               fontSize: "26px",
@@ -2176,8 +2176,8 @@ const ProductDetails = (props) => {
                         </Col>
                         {sellerList.includes(sellerCode) && (
                           <Col
-                            span={8}
-                            className="qa-txt-alg-rgt qa-mar-top-12"
+                            span={12}
+                            className="qa-txt-alg-rgt qa-mar-top-1"
                           >
                             <span className="qa-offer-text">FREE shipping</span>
                           </Col>

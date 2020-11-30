@@ -938,7 +938,13 @@
 .qty-tooltip .ant-tooltip-inner {
   width: 208px;
 }
+#product-description .qa-pad-3 {
+  padding: 20px;
+}
 #product-description .qa-offer-text {
   font-size: 14px;
   vertical-align: middle;
+}
+#product-description .product-list-details .qa-offer-text {
+  font-size: 12px;
 }

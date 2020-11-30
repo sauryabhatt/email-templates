@@ -221,7 +221,11 @@ function SellerLandingMobile(props) {
   } = sellerDetails || {};
 
   let { sellerSubscriptions = [] } = props;
-  let offerings = [showRoom, ...publicOfferings, ...privateOfferings];
+  let offerings = [];
+  if (Object.keys(showRoom).length) {
+    offerings.push(showRoom);
+  }
+  offerings = [...offerings, ...publicOfferings, ...privateOfferings];
 
   let { altName = "", seoTitle = "" } = showcaseMedia || {};
   let subscriptions = 3 - sellerSubscriptions.length;
@@ -256,10 +260,7 @@ function SellerLandingMobile(props) {
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow:
-            (showroomMediaUrl && offerings.length > 1) || offerings.length > 2
-              ? 2
-              : 1,
+          slidesToShow: offerings.length > 2 ? 2 : 1,
           slidesToScroll: 1,
           infinite: true,
         },
@@ -267,10 +268,7 @@ function SellerLandingMobile(props) {
       {
         breakpoint: 768,
         settings: {
-          slidesToShow:
-            (showroomMediaUrl && offerings.length > 1) || offerings.length > 2
-              ? 2
-              : 1,
+          slidesToShow: offerings.length > 2 ? 2 : 1,
           slidesToScroll: 1,
           infinite: true,
         },
@@ -1288,8 +1286,7 @@ function SellerLandingMobile(props) {
               {offeringDetails}
             </Slider>
           </div>
-          {((showroomMediaUrl && offerings.length > 1) ||
-            offerings.length > 2) && (
+          {offerings.length > 1 && (
             <div className="qa-txt-alg-cnt qa-mar-top-1 qa-pad-btm-2">
               <Button className="qa-slick-button" onClick={previous}>
                 <svg

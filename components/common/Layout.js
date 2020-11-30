@@ -79,7 +79,6 @@ export const Layout = ({ children, meta = {} }) => {
     }
 
     if (keycloak?.token) {
-      console.log("Inside keycloak token");
       document.cookie = `appToken=${keycloak.token}`;
       keycloak
         .loadUserProfile()
