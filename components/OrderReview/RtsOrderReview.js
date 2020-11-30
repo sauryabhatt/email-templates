@@ -46,6 +46,7 @@ const RtsOrderReview = (props) => {
     orderId = "",
     shippingMode = "",
     isFulfillable = false,
+    miscCharges = [],
   } = cart || {};
   let {
     fullName = "",
@@ -498,17 +499,35 @@ const RtsOrderReview = (props) => {
                                       {getSymbolFromCurrency(convertToCurrency)}
                                       {total ? getConvertedCurrency(total) : ""}
                                     </div>
-                                    {!sellerList.includes(sellerCode) && (
+                                    {(!sellerList.includes(sellerCode) ||
+                                      !(
+                                        miscCharges.find(
+                                          (x) =>
+                                            x.chargeId === "SELLER_DISCOUNT"
+                                        ) &&
+                                        miscCharges.find(
+                                          (x) =>
+                                            x.chargeId === "SELLER_DISCOUNT"
+                                        ).amount > 0
+                                      )) && (
                                       <div className="cart-price-text">
                                         Base price per unit excl. margin and
                                         other charges
                                       </div>
                                     )}
-                                    {sellerList.includes(sellerCode) && (
-                                      <div className="qa-offer-text qa-mar-top-15">
-                                        FREE shipping
-                                      </div>
-                                    )}
+                                    {miscCharges &&
+                                      miscCharges.length > 0 &&
+                                      miscCharges.find(
+                                        (x) => x.chargeId === "SELLER_DISCOUNT"
+                                      ) &&
+                                      miscCharges.find(
+                                        (x) => x.chargeId === "SELLER_DISCOUNT"
+                                      ).amount > 0 &&
+                                      sellerList.includes(sellerCode) && (
+                                        <div className="qa-offer-text qa-mar-top-15">
+                                          FREE shipping
+                                        </div>
+                                      )}
                                   </div>
                                 </Col>
                               </Row>
@@ -1103,17 +1122,33 @@ const RtsOrderReview = (props) => {
                                 {getSymbolFromCurrency(convertToCurrency)}
                                 {total ? getConvertedCurrency(total) : ""}
                               </div>
-                              {!sellerList.includes(sellerCode) && (
+                              {(!sellerList.includes(sellerCode) ||
+                                !(
+                                  miscCharges.find(
+                                    (x) => x.chargeId === "SELLER_DISCOUNT"
+                                  ) &&
+                                  miscCharges.find(
+                                    (x) => x.chargeId === "SELLER_DISCOUNT"
+                                  ).amount > 0
+                                )) && (
                                 <div className="cart-price-text qa-mar-btm-1">
                                   Base price per unit excl. margin and other
                                   charges
                                 </div>
                               )}
-                              {sellerList.includes(sellerCode) && (
-                                <div className="qa-offer-text qa-mar-top-15">
-                                  FREE shipping
-                                </div>
-                              )}
+                              {miscCharges &&
+                                miscCharges.length > 0 &&
+                                miscCharges.find(
+                                  (x) => x.chargeId === "SELLER_DISCOUNT"
+                                ) &&
+                                miscCharges.find(
+                                  (x) => x.chargeId === "SELLER_DISCOUNT"
+                                ).amount > 0 &&
+                                sellerList.includes(sellerCode) && (
+                                  <div className="qa-offer-text qa-mar-top-15">
+                                    FREE shipping
+                                  </div>
+                                )}
                             </Col>
                           </Row>
                         );
