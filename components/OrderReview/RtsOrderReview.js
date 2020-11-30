@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { useState, useEffect } from "react";
-import { Button, Row, Col, Radio, Modal } from "antd";
+import { Row, Col, Radio, Modal } from "antd";
 import Icon, {
   UpOutlined,
   DownOutlined,
@@ -28,6 +28,7 @@ import deliveredCountryList from "./../../public/filestore/deliveredCountries.js
 import { useKeycloak } from "@react-keycloak/ssr";
 import { getOrderByOrderId } from "../../store/actions";
 import { useRouter } from "next/router";
+import sellerList from "../../public/filestore/freeShippingSellers.json";
 
 const { Step } = Steps;
 
@@ -482,7 +483,7 @@ const RtsOrderReview = (props) => {
                                   xl={9}
                                   className="qa-mar-top-15"
                                 >
-                                  <div className="qa-disp-table-cell qa-txt-alg-rgt">
+                                  <div className="qa-txt-alg-rgt">
                                     {isQualityTestingRequired && (
                                       <div className="cart-subtitle qa-mar-btm-05">
                                         <CheckCircleOutlined /> Quality testing
@@ -497,10 +498,17 @@ const RtsOrderReview = (props) => {
                                       {getSymbolFromCurrency(convertToCurrency)}
                                       {total ? getConvertedCurrency(total) : ""}
                                     </div>
-                                    <div className="cart-price-text">
-                                      Base price per unit excl. margin and other
-                                      charges
-                                    </div>
+                                    {!sellerList.includes(sellerCode) && (
+                                      <div className="cart-price-text">
+                                        Base price per unit excl. margin and
+                                        other charges
+                                      </div>
+                                    )}
+                                    {sellerList.includes(sellerCode) && (
+                                      <div className="qa-offer-text qa-mar-top-15">
+                                        FREE shipping
+                                      </div>
+                                    )}
                                   </div>
                                 </Col>
                               </Row>
@@ -1095,10 +1103,17 @@ const RtsOrderReview = (props) => {
                                 {getSymbolFromCurrency(convertToCurrency)}
                                 {total ? getConvertedCurrency(total) : ""}
                               </div>
-                              <div className="cart-price-text qa-mar-btm-1">
-                                Base price per unit excl. margin and other
-                                charges
-                              </div>
+                              {!sellerList.includes(sellerCode) && (
+                                <div className="cart-price-text qa-mar-btm-1">
+                                  Base price per unit excl. margin and other
+                                  charges
+                                </div>
+                              )}
+                              {sellerList.includes(sellerCode) && (
+                                <div className="qa-offer-text qa-mar-top-15">
+                                  FREE shipping
+                                </div>
+                              )}
                             </Col>
                           </Row>
                         );
