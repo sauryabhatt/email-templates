@@ -2,13 +2,24 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Button, Popover, Row, Modal, Checkbox, message, Spin } from "antd";
+import {
+  Button,
+  Popover,
+  Row,
+  Modal,
+  Checkbox,
+  message,
+  Spin,
+  Tooltip,
+} from "antd";
 import Icon from "@ant-design/icons";
 import closeButton from "../../public/filestore/closeButton";
+import infoIcon from "../../public/filestore/infoSuccess";
 import PayWithPaypal from "../PayWithPayPal/PayWithPaypal";
 import { useKeycloak } from "@react-keycloak/ssr";
 import countries from "../../public/filestore/countryCodes_en.json";
 import getSymbolFromCurrency from "currency-symbol-map";
+import sellerList from "../../public/filestore/freeShippingSellers.json";
 import _ from "lodash";
 
 const CartSummary = (props) => {
@@ -32,11 +43,23 @@ const CartSummary = (props) => {
   const [nonShippable, setNonShippable] = useState(false);
   const [orderModal, showOrderModal] = useState(false);
   const [reRender, setReRender] = useState(false);
+  const [sellers, setSellers] = useState([]);
 
   useEffect(() => {
     if (props.cart) {
       getCountryCode();
       getEstimateCharge();
+      if (props.cart.subOrders.length) {
+        let sellers = [];
+        for (let orders of props.cart.subOrders) {
+          let { sellerCode = "" } = orders;
+          if (sellerList.includes(sellerCode)) {
+            let sellerName = brandNames[sellerCode].brandName;
+            sellers.push(sellerName);
+          }
+        }
+        setSellers(sellers);
+      }
     }
   }, [props]);
 
@@ -750,7 +773,31 @@ const CartSummary = (props) => {
               style={{ color: "#27AE60" }}
               className="c-left-blk cart-prod-name"
             >
-              Shipping promotion applied
+              Shipping promotion applied{" "}
+              <Tooltip
+                overlayClassName="qa-tooltip"
+                placement="top"
+                trigger="hover"
+                title={`Free shipping promotion applied for ${sellers.join(
+                  ", "
+                )}`}
+              >
+                <span
+                  style={{
+                    cursor: "pointer",
+                    verticalAlign: "text-top",
+                  }}
+                >
+                  <Icon
+                    component={infoIcon}
+                    style={{
+                      width: "15px",
+                      height: "15px",
+                      verticalAlign: "middle",
+                    }}
+                  />
+                </span>
+              </Tooltip>
             </div>
             <div className="c-right-blk qa-fw-b qa-txt-alg-rgt">
               <span style={{ color: "#27AE60" }}>

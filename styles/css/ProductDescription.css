@@ -67,7 +67,6 @@
 #product-description .product-s-title {
   font-family: senregular;
   display: inline-block;
-  padding-left: 8px;
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
@@ -229,11 +228,6 @@
 }
 #product-description .product-card .slick-dots {
   bottom: 20px;
-}
-.product-card .p-more-option {
-  position: relative;
-  bottom: 3px;
-  line-height: 110%;
 }
 #product-description .ant-collapse-header {
   font-family: senregular;
@@ -644,7 +638,7 @@
   }
   #product-description .pdp-zoom-image .product-list-details {
     position: absolute;
-    bottom: 20px;
+    bottom: 35px;
     left: 10px;
   }
   #product-description .p-custom-size-stitle {
@@ -674,11 +668,6 @@
   }
   .calculation-modal .qa-pad-3 {
     padding: 0px;
-  }
-  .product-card .p-more-option {
-    position: relative;
-    bottom: 0px;
-    margin-bottom: 3px;
   }
   .calculation-modal .frieght-sea-sec {
     padding-left: 0px;
@@ -948,4 +937,8 @@
 }
 .qty-tooltip .ant-tooltip-inner {
   width: 208px;
+}
+#product-description .qa-offer-text {
+  font-size: 14px;
+  vertical-align: middle;
 }

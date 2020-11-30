@@ -643,3 +643,22 @@
   line-height: 14px;
   color: #02873a;
 }
+.qa-mar-top-12 {
+  margin-top: 12px;
+}
+.qa-mar-rgt-05 {
+  margin-right: 5px;
+}
+.qa-discount {
+  background: #dabbae;
+  border-radius: 100px;
+  font-family: senregular;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 110%;
+  padding: 5px;
+  text-align: center;
+  letter-spacing: 0.02em;
+  color: #191919;
+  vertical-align: middle;
+}

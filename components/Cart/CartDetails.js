@@ -44,6 +44,7 @@ import states from "../../public/filestore/stateCodes_en.json";
 import Spinner from "../Spinner/Spinner";
 import deliveredCountryList from "../../public/filestore/deliveredCountries.json";
 import PromotionCarousel from "../PromotionCarousel/PromotionCarousel";
+import sellerList from "../../public/filestore/freeShippingSellers.json";
 
 const { Step } = Steps;
 const { Option } = Select;
@@ -1176,9 +1177,9 @@ const CartDetails = (props) => {
                               <Col
                                 xs={24}
                                 sm={24}
-                                md={9}
-                                lg={9}
-                                xl={9}
+                                md={10}
+                                lg={10}
+                                xl={10}
                                 className="qa-pad-0-10"
                               >
                                 <div className="cart-prod-title qa-fw-b">
@@ -1210,8 +1211,18 @@ const CartDetails = (props) => {
                                   )}
                                 </div>
                               </Col>
-                              <Col xs={24} sm={24} md={9} lg={9} xl={9}>
-                                <div className="qa-disp-table-cell qa-txt-alg-rgt">
+                              <Col
+                                xs={24}
+                                sm={24}
+                                md={8}
+                                lg={8}
+                                xl={8}
+                                className="qa-mar-top-05"
+                              >
+                                <div
+                                  className="qa-disp-table-cell qa-txt-alg-rgt"
+                                  style={{ width: "90%" }}
+                                >
                                   {isQualityTestingRequired && (
                                     <div className="cart-subtitle qa-mar-btm-05">
                                       <CheckCircleOutlined /> Quality testing
@@ -1226,10 +1237,17 @@ const CartDetails = (props) => {
                                     {getSymbolFromCurrency(convertToCurrency)}
                                     {total ? getConvertedCurrency(total) : ""}
                                   </div>
-                                  <div className="cart-price-text">
-                                    Base price per unit excl. margin and other
-                                    charges
-                                  </div>
+                                  {!sellerList.includes(sellerCode) && (
+                                    <div className="cart-price-text">
+                                      Base price per unit excl. margin and other
+                                      charges
+                                    </div>
+                                  )}
+                                  {sellerList.includes(sellerCode) && (
+                                    <div className="qa-mar-top-15 qa-offer-text">
+                                      FREE shipping
+                                    </div>
+                                  )}
                                 </div>
                                 <div
                                   className="qa-txt-alg-rgt qa-disp-table-cell qa-cart-delete"
@@ -1726,16 +1744,23 @@ const CartDetails = (props) => {
                                     <CheckCircleOutlined /> Sample required
                                   </div>
                                 )}
+                                {sellerList.includes(sellerCode) && (
+                                  <div className="qa-mar-top-1 qa-offer-text">
+                                    FREE shipping
+                                  </div>
+                                )}
                               </Col>
                               <Col xs={24} sm={24} md={10} lg={24} xl={24}>
                                 <div className="cart-prod-title qa-fw-b qa-mar-top-05">
                                   {getSymbolFromCurrency(convertToCurrency)}
                                   {total ? getConvertedCurrency(total) : ""}
                                 </div>
-                                <div className="cart-price-text qa-mar-btm-1">
-                                  Base price per unit excl. margin and other
-                                  charges
-                                </div>
+                                {!sellerList.includes(sellerCode) && (
+                                  <div className="cart-price-text qa-mar-btm-1">
+                                    Base price per unit excl. margin and other
+                                    charges
+                                  </div>
+                                )}
                                 <div>
                                   <div
                                     className="qa-disp-tc"
