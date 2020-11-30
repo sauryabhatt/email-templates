@@ -784,7 +784,15 @@ const OrderDetails = (props) => {
                                 >
                                   Units: {quantity} {unitOfMeasure}
                                 </div>
-                                {sellerList.length &&
+                                {miscCharges &&
+                                  miscCharges.length > 0 &&
+                                  miscCharges.find(
+                                    (x) => x.chargeId === "SELLER_DISCOUNT"
+                                  ) &&
+                                  miscCharges.find(
+                                    (x) => x.chargeId === "SELLER_DISCOUNT"
+                                  ).amount > 0 &&
+                                  sellerList.length &&
                                   sellerList.includes(sellerCode) && (
                                     <div className="qa-offer-text qa-mar-top-05 qa-disp-inline">
                                       FREE shipping
@@ -836,13 +844,29 @@ const OrderDetails = (props) => {
                                   paddingLeft: "50%",
                                 }}
                               >
-                                {sellerList.length &&
+                                {miscCharges &&
+                                  miscCharges.length > 0 &&
+                                  miscCharges.find(
+                                    (x) => x.chargeId === "SELLER_DISCOUNT"
+                                  ) &&
+                                  miscCharges.find(
+                                    (x) => x.chargeId === "SELLER_DISCOUNT"
+                                  ).amount > 0 &&
+                                  sellerList.length &&
                                   sellerList.includes(sellerCode) && (
                                     <div className="qa-offer-text qa-mar-top-1 qa-disp-inline">
                                       FREE shipping
                                     </div>
                                   )}
-                                {sellerList.length &&
+                                {miscCharges &&
+                                  miscCharges.length > 0 &&
+                                  miscCharges.find(
+                                    (x) => x.chargeId === "SELLER_DISCOUNT"
+                                  ) &&
+                                  miscCharges.find(
+                                    (x) => x.chargeId === "SELLER_DISCOUNT"
+                                  ).amount > 0 &&
+                                  sellerList.length &&
                                   !sellerList.includes(sellerCode) && (
                                     <span
                                       className="qa-font-san qa-fs-12 qa-tc-white"
@@ -862,7 +886,15 @@ const OrderDetails = (props) => {
                             lg={0}
                             style={{ lineHeight: "110%" }}
                           >
-                            {!sellerList.length &&
+                            {miscCharges &&
+                              miscCharges.length > 0 &&
+                              miscCharges.find(
+                                (x) => x.chargeId === "SELLER_DISCOUNT"
+                              ) &&
+                              miscCharges.find(
+                                (x) => x.chargeId === "SELLER_DISCOUNT"
+                              ).amount > 0 &&
+                              !sellerList.length &&
                               sellerList.includes(sellerCode) && (
                                 <span
                                   className="qa-font-san qa-fs-8"

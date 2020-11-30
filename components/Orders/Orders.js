@@ -9,12 +9,10 @@ import { getOrders, getOrderByOrderId } from "../../store/actions";
 import { useKeycloak } from "@react-keycloak/ssr";
 import { useRouter } from "next/router";
 import getSymbolFromCurrency from "currency-symbol-map";
-import Spinner from "../Spinner/Spinner";
 import { LoadingOutlined } from "@ant-design/icons";
 import closeButton from "../../public/filestore/closeButton";
 import SendQueryForm from "../SendQueryForm/SendQueryForm";
 import Icon from "@ant-design/icons";
-import ParentOrderStatuses from "../../public/filestore/ParentOrderStatuses.json";
 import SellerOrderStatuses from "../../public/filestore/SellerOrderStatuses.json";
 import moment from "moment";
 
