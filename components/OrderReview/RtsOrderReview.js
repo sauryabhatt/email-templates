@@ -91,7 +91,7 @@ const RtsOrderReview = (props) => {
   }, []);
 
   useEffect(() => {
-    let { cart = "", app_token = "" } = props;
+    let { cart = "" } = props;
     let { priceQuoteRef = "", shippingMode = "", shippingAddressDetails = {} } =
       cart || {};
     if (priceQuoteRef && shippingMode) {
@@ -106,7 +106,7 @@ const RtsOrderReview = (props) => {
           method: "GET",
           headers: {
             "content-type": "application/json",
-            Authorization: "Bearer " + app_token,
+            Authorization: "Bearer " + keycloak.token,
           },
         }
       )
@@ -126,7 +126,7 @@ const RtsOrderReview = (props) => {
           setLoading(false);
         });
     }
-  }, [props.cart]);
+  }, [keycloak.token, props.cart]);
 
   let { convertToCurrency = "" } = currencyDetails || {};
   let showError = false;
@@ -1155,6 +1155,7 @@ const mapStateToProps = (state) => {
     currencyDetails: state.currencyConverter,
     cart: state.userProfile.order,
     user: state.userProfile.userProfile,
+    brandNames: state.userProfile.brandNameList,
   };
 };
 

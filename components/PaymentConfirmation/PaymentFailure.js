@@ -469,7 +469,7 @@ const PaymentFailure = (props) => {
                   {props.order && props.order.orderType == "RTS" ? (
                     <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
                       {getSymbolFromCurrency(
-                        props.order && props.order.currency
+                        (props.order && props.order.currency) || "USD"
                       )}
                       {parseFloat(
                         props.order &&
@@ -488,7 +488,7 @@ const PaymentFailure = (props) => {
                   ) : (
                     <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
                       {getSymbolFromCurrency(
-                        props.order && props.order.currency
+                        (props.order && props.order.currency) || "USD"
                       )}
                       {parseFloat(
                         props.order &&
@@ -585,41 +585,39 @@ const PaymentFailure = (props) => {
                 </Col>
               </Row>
 
-              {props.order &&
-                props.order.promoDiscount &&
-                props.order.promoDiscount > 0 && (
-                  <Row className="qa-mar-top-2">
-                    <Col xs={18} sm={18} md={18} lg={18}>
-                      <div
-                        style={{ textTransform: "uppercase", color: "#02873A" }}
-                        className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b"
-                      >
-                        {props.order.promoCode}
-                      </div>
-                      <div
-                        className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b"
-                        style={{ color: "#02873A" }}
-                      >
-                        discount applied
-                      </div>
-                    </Col>
-                    <Col
-                      xs={6}
-                      sm={6}
-                      md={6}
-                      lg={6}
-                      className="qa-font-san qa-fw-b qa-fs-14 qa-col-end"
+              {props.order && props.order.promoDiscount > 0 && (
+                <Row className="qa-mar-top-2">
+                  <Col xs={18} sm={18} md={18} lg={18}>
+                    <div
+                      style={{ textTransform: "uppercase", color: "#02873A" }}
+                      className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b"
                     >
-                      <span style={{ color: "#27AE60" }}>
-                        -
-                        {getSymbolFromCurrency(
-                          props.order && props.order.currency
-                        )}
-                        {parseFloat(props.order.promoDiscount).toFixed(2)}
-                      </span>
-                    </Col>
-                  </Row>
-                )}
+                      {props.order.promoCode}
+                    </div>
+                    <div
+                      className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b"
+                      style={{ color: "#02873A" }}
+                    >
+                      discount applied
+                    </div>
+                  </Col>
+                  <Col
+                    xs={6}
+                    sm={6}
+                    md={6}
+                    lg={6}
+                    className="qa-font-san qa-fw-b qa-fs-14 qa-col-end"
+                  >
+                    <span style={{ color: "#27AE60" }}>
+                      -
+                      {getSymbolFromCurrency(
+                        (props.order && props.order.currency) || "USD"
+                      )}
+                      {parseFloat(props.order.promoDiscount).toFixed(2)}
+                    </span>
+                  </Col>
+                </Row>
+              )}
               <Row className="qa-mar-top-1">
                 <Col xs={24} sm={24} md={24} lg={24}>
                   <hr style={{ border: "-1px solid rgba(25, 25, 25, 0.6)" }} />

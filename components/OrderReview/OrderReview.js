@@ -2,16 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import {
-  Row,
-  Col,
-  Steps,
-  Button,
-  Checkbox,
-  Spin,
-  message,
-  Popover,
-} from "antd";
+import { Row, Col, Steps, Checkbox, Spin, message, Popover } from "antd";
 import { UpOutlined, DownOutlined, LoadingOutlined } from "@ant-design/icons";
 import PayWithPaypal from "../PayWithPayPal/PayWithPaypal";
 import { useKeycloak } from "@react-keycloak/ssr";
