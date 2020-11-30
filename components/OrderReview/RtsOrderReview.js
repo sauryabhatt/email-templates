@@ -482,7 +482,7 @@ const RtsOrderReview = (props) => {
                                   md={9}
                                   lg={9}
                                   xl={9}
-                                  className="qa-mar-top-15"
+                                  className="qa-mar-top-1"
                                 >
                                   <div className="qa-txt-alg-rgt">
                                     {isQualityTestingRequired && (
