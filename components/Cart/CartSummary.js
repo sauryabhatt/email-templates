@@ -49,12 +49,16 @@ const CartSummary = (props) => {
     if (props.cart) {
       getCountryCode();
       getEstimateCharge();
-      if (props.cart.subOrders.length) {
+      if (props.cart.subOrders.length && props.brandNames) {
         let sellers = [];
         for (let orders of props.cart.subOrders) {
           let { sellerCode = "" } = orders;
           if (sellerList.includes(sellerCode)) {
-            let sellerName = brandNames[sellerCode].brandName;
+            let sellerName = brandNames[sellerCode]
+              ? brandNames[sellerCode].brandName
+                ? brandNames[sellerCode].brandName
+                : ""
+              : "";
             sellers.push(sellerName);
           }
         }
