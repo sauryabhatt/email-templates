@@ -1299,27 +1299,29 @@ const SellerLandingDesktop = (props) => {
           </Row>
         ) : (
           <Row className="qa-pad-24 qa-pad-top-1">
-            <Col
-              className="qa-pad-rgt-1 qa-mar-btm-2"
-              xs={24}
-              sm={24}
-              md={16}
-              lg={16}
-              xl={16}
-            >
-              <div className="qa-tc-white qa-fs-16">
-                Explore product catalog(s) with curated collections
-              </div>
-              <div className="qa-fs-13">
-                Glance through curated product collections showcasing the range
-                of the seller's products and design capabilities, and some of
-                the stories behind them.
-              </div>
-            </Col>
+            {offeringDetails.length > 0 && (
+              <Col
+                className="qa-pad-rgt-1 qa-mar-btm-2"
+                xs={24}
+                sm={24}
+                md={16}
+                lg={16}
+                xl={16}
+              >
+                <div className="qa-tc-white qa-fs-16">
+                  Explore product catalog(s) with curated collections
+                </div>
+                <div className="qa-fs-13">
+                  Glance through curated product collections showcasing the
+                  range of the seller's products and design capabilities, and
+                  some of the stories behind them.
+                </div>
+              </Col>
+            )}
           </Row>
         )}
 
-        <div style={{}}>
+        <div>
           <div className="seller-carousel-main">
             <Slider ref={(c) => (slider = c)} {...settings}>
               {offeringDetails}

@@ -865,13 +865,11 @@ const Register = (props) => {
                           rules={[
                             {
                               required: true,
-                              message: "Please accept the agreement.",
+                              message: "Please accept T&C",
                               validator: (_, value) =>
                                 value
                                   ? Promise.resolve()
-                                  : Promise.reject(
-                                      "Please accept the agreement."
-                                    ),
+                                  : Promise.reject("Please accept T&C"),
                             },
                           ]}
                         >
@@ -1030,14 +1028,16 @@ const Register = (props) => {
                       </div>
                       <Form.Item
                         name="dunsNum"
-                        rules={[
-                          // { required: true, message: "Field is required." },
-                          {
-                            pattern: new RegExp("^[0-9]*$"),
-                            message:
-                              "Only numbers are allowed & length should be 6-15 characters.",
-                          },
-                        ]}
+                        rules={
+                          [
+                            // { required: true, message: "Field is required." },
+                            // {
+                            //   pattern: new RegExp("^[0-9]*$"),
+                            //   message:
+                            //     "Only numbers are allowed & length should be 6-15 characters.",
+                            // },
+                          ]
+                        }
                       >
                         <Input />
                       </Form.Item>
@@ -1150,13 +1150,11 @@ const Register = (props) => {
                           rules={[
                             {
                               required: true,
-                              message: "Please accept the agreement.",
+                              message: "Please accept T&C",
                               validator: (_, value) =>
                                 value
                                   ? Promise.resolve()
-                                  : Promise.reject(
-                                      "Please accept the agreement."
-                                    ),
+                                  : Promise.reject("Please accept T&C"),
                             },
                           ]}
                         >
