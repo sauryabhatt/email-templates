@@ -355,15 +355,18 @@ const PaypalButton = (props) => {
                 },
                 discount: {
                   currency_code: props.currency,
-                  value:
-                    props.order.promoDiscount && props.order.promoDiscount > 0
+                  value: props.isCartSummary
+                    ? props.order.promoDiscount && props.order.promoDiscount > 0
                       ? parseFloat(
                           getConvertedCurrency(
                             props.order.promoDiscount,
                             conversionFactor
                           )
                         ).toFixed(2)
-                      : parseFloat(0).toFixed(2),
+                      : parseFloat(0).toFixed(2)
+                    : props.order.miscCharges
+                        .find((x) => x.chargeId === "DISCOUNT")
+                        .amount.toFixed(2),
                 },
               },
             },

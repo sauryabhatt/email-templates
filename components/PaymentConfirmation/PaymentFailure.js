@@ -7,6 +7,8 @@ import { connect } from "react-redux";
 import getSymbolFromCurrency from "currency-symbol-map";
 import { useKeycloak } from "@react-keycloak/ssr";
 import { useRouter } from "next/router";
+import Link from "next/link";
+
 const PaymentFailure = (props) => {
   const { keycloak } = useKeycloak();
   const router = useRouter();
@@ -76,7 +78,7 @@ const PaymentFailure = (props) => {
           <Row className="qa-mar-top-2">
             <Col xs={18} sm={18} md={18} lg={18}>
               <span className="qa-font-san qa-tc-white qa-fs-14">
-                Total product price
+                Value of products purchased
               </span>
             </Col>
             <Col xs={6} sm={6} md={6} lg={6}>
@@ -207,7 +209,7 @@ const PaymentFailure = (props) => {
                   <Row>
                     <Col xs={18} sm={18} md={18} lg={18}>
                       <span className="qa-font-butler qa-fs-20 qa-tc-white">
-                        Cart summary
+                        Order summary
                       </span>
                     </Col>
                     <Col
@@ -280,6 +282,136 @@ const PaymentFailure = (props) => {
                   )}
                 </Col>
               </Row>
+              {props.order &&
+                props.order.miscCharges &&
+                props.order.miscCharges.find(
+                  (x) => x.chargeId === "DISCOUNT"
+                ) &&
+                props.order.miscCharges.find((x) => x.chargeId === "DISCOUNT")
+                  .amount > 0 && (
+                  <Row className="">
+                    <Col xs={18} sm={18} md={18} lg={18}>
+                      <span
+                        className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b"
+                        style={{ color: "#02873A" }}
+                      >
+                        {props.order && props.order.referralCode} discount
+                        applied
+                      </span>
+                    </Col>
+                    <Col xs={6} sm={6} md={6} lg={6}>
+                      {props.order && props.order.orderType == "RTS" ? (
+                        <span
+                          className="qa-font-san qa-fw-b qa-fs-14 qa-col-end"
+                          style={{ color: "#02873A" }}
+                        >
+                          -{" "}
+                          {getSymbolFromCurrency(
+                            (props.order && props.order.currency) || "USD"
+                          )}
+                          {props.order &&
+                            props.order.miscCharges &&
+                            props.order.miscCharges.find(
+                              (x) => x.chargeId === "DISCOUNT"
+                            ) &&
+                            parseFloat(
+                              (props.order.miscCharges.find(
+                                (x) => x.chargeId === "DISCOUNT"
+                              ).amount || 0) * props.order.conversionFactor
+                            ).toFixed(2)}
+                        </span>
+                      ) : (
+                        <span
+                          className="qa-font-san qa-fw-b qa-fs-14 qa-col-end"
+                          style={{ color: "#02873A" }}
+                        >
+                          -{" "}
+                          {getSymbolFromCurrency(
+                            (props.order && props.order.currency) || "USD"
+                          )}
+                          {(
+                            (props.order &&
+                              props.order.miscCharges &&
+                              props.order.miscCharges.find(
+                                (x) => x.chargeId === "DISCOUNT"
+                              ) &&
+                              parseFloat(
+                                props.order.miscCharges.find(
+                                  (x) => x.chargeId === "DISCOUNT"
+                                ).amount
+                              )) ||
+                            0
+                          ).toFixed(2)}
+                        </span>
+                      )}
+                    </Col>
+                  </Row>
+                )}
+              {props.order &&
+                props.order.miscCharges &&
+                props.order.miscCharges.find(
+                  (x) => x.chargeId === "SELLER_DISCOUNT"
+                ) &&
+                props.order.miscCharges.find(
+                  (x) => x.chargeId === "SELLER_DISCOUNT"
+                ).amount > 0 && (
+                  <Row className="">
+                    <Col xs={18} sm={18} md={18} lg={18}>
+                      <span
+                        className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b"
+                        style={{ color: "#02873A" }}
+                      >
+                        Shipping promotion applied
+                      </span>
+                    </Col>
+                    <Col xs={6} sm={6} md={6} lg={6}>
+                      {props.order && props.order.orderType == "RTS" ? (
+                        <span
+                          className="qa-font-san qa-fw-b qa-fs-14 qa-col-end"
+                          style={{ color: "#02873A" }}
+                        >
+                          -{" "}
+                          {getSymbolFromCurrency(
+                            (props.order && props.order.currency) || "USD"
+                          )}
+                          {props.order &&
+                            props.order.miscCharges &&
+                            props.order.miscCharges.find(
+                              (x) => x.chargeId === "SELLER_DISCOUNT"
+                            ) &&
+                            parseFloat(
+                              (props.order.miscCharges.find(
+                                (x) => x.chargeId === "SELLER_DISCOUNT"
+                              ).amount || 0) * props.order.conversionFactor
+                            ).toFixed(2)}
+                        </span>
+                      ) : (
+                        <span
+                          className="qa-font-san qa-fw-b qa-fs-14 qa-col-end"
+                          style={{ color: "#02873A" }}
+                        >
+                          -{" "}
+                          {getSymbolFromCurrency(
+                            (props.order && props.order.currency) || "USD"
+                          )}
+                          {(
+                            (props.order &&
+                              props.order.miscCharges &&
+                              props.order.miscCharges.find(
+                                (x) => x.chargeId === "SELLER_DISCOUNT"
+                              ) &&
+                              parseFloat(
+                                props.order.miscCharges.find(
+                                  (x) => x.chargeId === "SELLER_DISCOUNT"
+                                ).amount
+                              )) ||
+                            0
+                          ).toFixed(2)}
+                        </span>
+                      )}
+                    </Col>
+                  </Row>
+                )}
               <Row className="qa-mar-top-2">
                 <Col xs={18} sm={18} md={18} lg={18}>
                   <span className="qa-font-san qa-tc-white qa-fs-14">
@@ -328,6 +460,16 @@ const PaymentFailure = (props) => {
                   <span className="qa-font-san qa-tc-white qa-fs-14">
                     VAT/ GST
                   </span>
+                  <div className="qa-fs-14 qa-font-san">
+                    Refundable for some countries like UK/AU.{" "}
+                    <Link href="/FAQforwholesalebuyers">
+                      <a target="_blank">
+                        <span className="qa-sm-color qa-cursor">
+                          Learn more
+                        </span>
+                      </a>
+                    </Link>
+                  </div>
                 </Col>
                 <Col xs={6} sm={6} md={6} lg={6}>
                   {props.order && props.order.orderType == "RTS" ? (
@@ -367,140 +509,19 @@ const PaymentFailure = (props) => {
                 </Col>
               </Row>
 
-              {props.order &&
-                props.order.miscCharges &&
-                props.order.miscCharges.find(
-                  (x) => x.chargeId === "DISCOUNT"
-                ) &&
-                props.order.miscCharges.find((x) => x.chargeId === "DISCOUNT")
-                  .amount > 0 && (
-                  <Row className="qa-mar-top-2">
-                    <Col xs={18} sm={18} md={18} lg={18}>
-                      <span className="qa-font-san qa-tc-white qa-fs-14">
-                        {props.order && props.order.referralCode} discount
-                        applied
-                      </span>
-                    </Col>
-                    <Col xs={6} sm={6} md={6} lg={6}>
-                      {props.order && props.order.orderType == "RTS" ? (
-                        <span
-                          className="qa-font-san qa-fw-b qa-fs-14 qa-col-end"
-                          style={{ color: "#0ABC1C" }}
-                        >
-                          -{" "}
-                          {getSymbolFromCurrency(
-                            (props.order && props.order.currency) || "USD"
-                          )}
-                          {props.order &&
-                            props.order.miscCharges &&
-                            props.order.miscCharges.find(
-                              (x) => x.chargeId === "DISCOUNT"
-                            ) &&
-                            parseFloat(
-                              (props.order.miscCharges.find(
-                                (x) => x.chargeId === "DISCOUNT"
-                              ).amount || 0) * props.order.conversionFactor
-                            ).toFixed(2)}
-                        </span>
-                      ) : (
-                        <span
-                          className="qa-font-san qa-fw-b qa-fs-14 qa-col-end"
-                          style={{ color: "#0ABC1C" }}
-                        >
-                          -{" "}
-                          {getSymbolFromCurrency(
-                            (props.order && props.order.currency) || "USD"
-                          )}
-                          {(
-                            (props.order &&
-                              props.order.miscCharges &&
-                              props.order.miscCharges.find(
-                                (x) => x.chargeId === "DISCOUNT"
-                              ) &&
-                              parseFloat(
-                                props.order.miscCharges.find(
-                                  (x) => x.chargeId === "DISCOUNT"
-                                ).amount
-                              )) ||
-                            0
-                          ).toFixed(2)}
-                        </span>
-                      )}
-                    </Col>
-                  </Row>
-                )}
-              {props.order &&
-                props.order.miscCharges &&
-                props.order.miscCharges.find(
-                  (x) => x.chargeId === "SELLER_DISCOUNT"
-                ) &&
-                props.order.miscCharges.find(
-                  (x) => x.chargeId === "SELLER_DISCOUNT"
-                ).amount > 0 && (
-                  <Row className="qa-mar-top-2">
-                    <Col xs={18} sm={18} md={18} lg={18}>
-                      <span className="qa-font-san qa-tc-white qa-fs-14">
-                        Shipping promotion applied
-                      </span>
-                    </Col>
-                    <Col xs={6} sm={6} md={6} lg={6}>
-                      {props.order && props.order.orderType == "RTS" ? (
-                        <span
-                          className="qa-font-san qa-fw-b qa-fs-14 qa-col-end"
-                          style={{ color: "#0ABC1C" }}
-                        >
-                          -{" "}
-                          {getSymbolFromCurrency(
-                            (props.order && props.order.currency) || "USD"
-                          )}
-                          {props.order &&
-                            props.order.miscCharges &&
-                            props.order.miscCharges.find(
-                              (x) => x.chargeId === "SELLER_DISCOUNT"
-                            ) &&
-                            parseFloat(
-                              (props.order.miscCharges.find(
-                                (x) => x.chargeId === "SELLER_DISCOUNT"
-                              ).amount || 0) * props.order.conversionFactor
-                            ).toFixed(2)}
-                        </span>
-                      ) : (
-                        <span
-                          className="qa-font-san qa-fw-b qa-fs-14 qa-col-end"
-                          style={{ color: "#0ABC1C" }}
-                        >
-                          -{" "}
-                          {getSymbolFromCurrency(
-                            (props.order && props.order.currency) || "USD"
-                          )}
-                          {(
-                            (props.order &&
-                              props.order.miscCharges &&
-                              props.order.miscCharges.find(
-                                (x) => x.chargeId === "SELLER_DISCOUNT"
-                              ) &&
-                              parseFloat(
-                                props.order.miscCharges.find(
-                                  (x) => x.chargeId === "SELLER_DISCOUNT"
-                                ).amount
-                              )) ||
-                            0
-                          ).toFixed(2)}
-                        </span>
-                      )}
-                    </Col>
-                  </Row>
-                )}
               {props.order.promoDiscount && props.order.promoDiscount > 0 && (
                 <Row className="qa-mar-top-2">
                   <Col xs={18} sm={18} md={18} lg={18}>
                     <div
-                      style={{ textTransform: "uppercase" }}
-                      className="qa-font-san qa-tc-white qa-fs-14"
+                      style={{ textTransform: "uppercase", color: "#02873A" }}
+                      className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b"
                     >
                       {props.order.promoCode}
                     </div>
-                    <div className="qa-font-san qa-tc-white qa-fs-14">
+                    <div
+                      className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b"
+                      style={{ color: "#02873A" }}
+                    >
                       discount applied
                     </div>
                   </Col>

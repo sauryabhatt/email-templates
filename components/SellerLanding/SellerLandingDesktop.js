@@ -1299,7 +1299,7 @@ const SellerLandingDesktop = (props) => {
           </Row>
         ) : (
           <Row className="qa-pad-24 qa-pad-top-1">
-            {offeringDetails.length > 0 && (
+            {offerings.length > 0 && (
               <Col
                 className="qa-pad-rgt-1 qa-mar-btm-2"
                 xs={24}
