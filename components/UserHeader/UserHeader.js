@@ -331,7 +331,7 @@ function UserHeader(props) {
       props.userProfile.userProfile &&
       props.userProfile.userProfile.profileId
     ) {
-      if (userLastActive === props.userProfile.userProfile.profileId) {
+      if (userLastActive !== props.userProfile.userProfile.profileId) {
         let profileId = props.userProfile.userProfile.profileId || "";
         profileId = profileId.replace("BUYER::", "");
         profileId = profileId.replace("SELLER::", "");
