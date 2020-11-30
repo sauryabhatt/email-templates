@@ -331,7 +331,7 @@ function UserHeader(props) {
       props.userProfile.userProfile &&
       props.userProfile.userProfile.profileId
     ) {
-      if (!userLastActive) {
+      if (userLastActive === props.userProfile.userProfile.profileId) {
         let profileId = props.userProfile.userProfile.profileId || "";
         profileId = profileId.replace("BUYER::", "");
         profileId = profileId.replace("SELLER::", "");
@@ -361,7 +361,10 @@ function UserHeader(props) {
           .catch((err) => {
             console.log(err);
           });
-        sessionStorage.setItem("userLastActive", "USER_ACTIVE");
+        sessionStorage.setItem(
+          "userLastActive",
+          props.userProfile.userProfile.profileId
+        );
       }
     }
   }, [props.userProfile.userProfile]);
