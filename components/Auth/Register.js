@@ -865,11 +865,11 @@ const Register = (props) => {
                           rules={[
                             {
                               required: true,
-                              message: "Please accept T&C",
+                              message: "Please accept T&C.",
                               validator: (_, value) =>
                                 value
                                   ? Promise.resolve()
-                                  : Promise.reject("Please accept T&C"),
+                                  : Promise.reject("Please accept T&C."),
                             },
                           ]}
                         >
@@ -1150,11 +1150,11 @@ const Register = (props) => {
                           rules={[
                             {
                               required: true,
-                              message: "Please accept T&C",
+                              message: "Please accept T&C.",
                               validator: (_, value) =>
                                 value
                                   ? Promise.resolve()
-                                  : Promise.reject("Please accept T&C"),
+                                  : Promise.reject("Please accept T&C."),
                             },
                           ]}
                         >
