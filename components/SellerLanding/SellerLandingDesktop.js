@@ -78,9 +78,7 @@ const SellerLandingDesktop = (props) => {
   const [productionKMM, setProductionKMM] = useState([]);
 
   const [logoUrl, setLogoUrl] = useState();
-  const [productTypeDetails, setProductTypeDetails] = useState(
-    props.productPopupDetails
-  );
+  const [productTypeDetails, setProductTypeDetails] = useState([]);
   let mediaMatch;
 
   let { sellerId = "" } = props || {};
@@ -1025,24 +1023,25 @@ const SellerLandingDesktop = (props) => {
                     </h4>
                     <div className="qa-fs-13">
                       <ul className="qa-mar-btm-0 qa-ul-p0">
-                        {leadTimes.slice(0, itemsToShow).map((list, i) => {
-                          return (
-                            <li key={i}>
-                              {list.type === "READY TO SHIP"
-                                ? "Ready to ship"
-                                : "Custom orders"}{" "}
-                              - {list.value}{" "}
-                              {list.type === "Custom Orders" && (
-                                <span
-                                  onClick={requestLeadTimes}
-                                  className="qa-cursor qa-sm-color"
-                                >
-                                  &nbsp;See lead time details
-                                </span>
-                              )}
-                            </li>
-                          );
-                        })}
+                        {leadTimes.length > 0 &&
+                          leadTimes.slice(0, itemsToShow).map((list, i) => {
+                            return (
+                              <li key={i}>
+                                {list.type === "READY TO SHIP"
+                                  ? "Ready to ship"
+                                  : "Custom orders"}{" "}
+                                - {list.value}{" "}
+                                {list.type === "Custom Orders" && (
+                                  <span
+                                    onClick={requestLeadTimes}
+                                    className="qa-cursor qa-sm-color"
+                                  >
+                                    &nbsp;See lead time details
+                                  </span>
+                                )}
+                              </li>
+                            );
+                          })}
                       </ul>
                     </div>
                   </div>
@@ -1069,9 +1068,10 @@ const SellerLandingDesktop = (props) => {
                     <div className="qa-fs-013 qa-mar-btm-05">Key materials</div>
                     <div className="qa-fs-13">
                       <ul className="qa-mar-btm-0 qa-ul-p0">
-                        {keyMaterials.slice(0, 3).map((list, i) => {
-                          return <li key={i}>{list}</li>;
-                        })}
+                        {keyMaterials.length > 0 &&
+                          keyMaterials.slice(0, 3).map((list, i) => {
+                            return <li key={i}>{list}</li>;
+                          })}
                       </ul>
                     </div>
                     {keyMethods.length > 3 && (

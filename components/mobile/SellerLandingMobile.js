@@ -143,7 +143,7 @@ function SellerLandingMobile(props) {
   const [pdfValue, setPdfValue] = useState(0);
   const [itemsToShow, setItemsToShow] = useState(5);
   const [videoType, setVideoType] = useState("");
-  const [productTypeDetails, setProductTypeDetails] = useState("");
+  const [productTypeDetails, setProductTypeDetails] = useState([]);
 
   const [showcaseMediaUrl, setShowcaseMediaUrl] = useState(
     props.data &&
@@ -1174,9 +1174,10 @@ function SellerLandingMobile(props) {
             <div className="qa-fs-013 qa-mar-btm-05">Key materials</div>
             <div className="qa-fs-13">
               <ul className="qa-mar-btm-0 qa-ul-p0">
-                {keyMaterials.map((list, i) => {
-                  return <li key={i}>{list}</li>;
-                })}
+                {keyMaterials.length > 0 &&
+                  keyMaterials.map((list, i) => {
+                    return <li key={i}>{list}</li>;
+                  })}
               </ul>
             </div>
             {/* {keyMethods.length > 5 && (
@@ -1191,24 +1192,25 @@ function SellerLandingMobile(props) {
           <Panel header="Lead times" key="5">
             <div className="qa-fs-13">
               <ul className="qa-mar-btm-0 qa-ul-p0">
-                {leadTimes.slice(0, itemsToShow).map((list, i) => {
-                  return (
-                    <li key={i}>
-                      {list.type === "READY TO SHIP"
-                        ? "Ready to ship"
-                        : "Custom orders"}{" "}
-                      - {list.value}{" "}
-                      {list.type === "Custom Orders" && (
-                        <span
-                          onClick={requestLeadTimes}
-                          className="qa-cursor qa-sm-color"
-                        >
-                          &nbsp;See lead time details
-                        </span>
-                      )}
-                    </li>
-                  );
-                })}
+                {leadTimes.length > 0 &&
+                  leadTimes.slice(0, itemsToShow).map((list, i) => {
+                    return (
+                      <li key={i}>
+                        {list.type === "READY TO SHIP"
+                          ? "Ready to ship"
+                          : "Custom orders"}{" "}
+                        - {list.value}{" "}
+                        {list.type === "Custom Orders" && (
+                          <span
+                            onClick={requestLeadTimes}
+                            className="qa-cursor qa-sm-color"
+                          >
+                            &nbsp;See lead time details
+                          </span>
+                        )}
+                      </li>
+                    );
+                  })}
               </ul>
             </div>
           </Panel>
