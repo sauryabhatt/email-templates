@@ -321,8 +321,8 @@ const OrderDetails = (props) => {
                 <span
                   className={
                     mediaMatch.matches
-                      ? "qa-fs-14 qa-font-san qa-fw-b"
-                      : "qa-fs-10 qa-font-san qa-fw-b"
+                      ? "qa-fs-14 qa-font-san"
+                      : "qa-fs-10 qa-font-san"
                   }
                   style={{
                     color: "#332f2f",
@@ -348,8 +348,8 @@ const OrderDetails = (props) => {
                 <span
                   className={
                     mediaMatch.matches
-                      ? "qa-fs-14 qa-font-san qa-fw-b"
-                      : "qa-fs-10 qa-font-san qa-fw-b"
+                      ? "qa-fs-14 qa-font-san"
+                      : "qa-fs-10 qa-font-san"
                   }
                   style={{
                     color: "#332f2f",
@@ -357,11 +357,22 @@ const OrderDetails = (props) => {
                     justifyContent: "flex-end",
                   }}
                 >
-                  {props.orders.expectedDeliveryDate
-                    ? moment(props.orders.expectedDeliveryDate).format(
+                  {props.orders.expectedDeliveryDateMin &&
+                  props.orders.expectedDeliveryDateMax ? (
+                    <span>
+                      {moment(props.orders.expectedDeliveryDateMin).format(
                         "DD/MM/YYYY"
-                      )
-                    : null}
+                      )}{" "}
+                      -{" "}
+                      {moment(props.orders.expectedDeliveryDateMax).format(
+                        "DD/MM/YYYY"
+                      )}
+                    </span>
+                  ) : props.orders.expectedDeliveryDate ? (
+                    moment(props.orders.expectedDeliveryDate).format(
+                      "DD/MM/YYYY"
+                    )
+                  ) : null}
                 </span>
               </Col>
             </Row>
@@ -437,18 +448,13 @@ const OrderDetails = (props) => {
                       }
                       size={mediaMatch.matches ? "large" : "small"}
                       disabled={
-                        (props.subOrders &&
-                          props.subOrders &&
-                          props.subOrders.orderTrackingLink == undefined) ||
-                        (props.subOrders &&
-                          props.subOrders &&
-                          props.subOrders.orderTrackingLink == null)
+                        (props.orders &&
+                          props.orders.trackingURL === undefined) ||
+                        (props.orders && props.orders.trackingURL == null)
                       }
                       onClick={(e) =>
                         redirectTrackingUrl(
-                          props.subOrders &&
-                            props.subOrders &&
-                            props.subOrders.orderTrackingLink
+                          props.orders && props.orders.trackingURL
                         )
                       }
                     >

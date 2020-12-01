@@ -631,7 +631,7 @@ const Orders = (props) => {
                             style={{ paddingRight: "10px" }}
                           >
                             <Row>
-                              <Col xs={0} sm={0} md={3} lg={3}></Col>
+                              <Col xs={0} sm={0} md={2} lg={2}></Col>
                               <Col xs={0} sm={0} md={11} lg={11}>
                                 <span
                                   className="qa-font-san qa-fs-14"
@@ -645,7 +645,7 @@ const Orders = (props) => {
                                 </span>
                               </Col>
                               <Col xs={0} sm={0} md={1} lg={1}></Col>
-                              <Col xs={0} sm={0} md={9} lg={9}>
+                              <Col xs={0} sm={0} md={10} lg={10}>
                                 <span
                                   className="qa-fs-14 qa-font-san qa-fw-b"
                                   style={{
@@ -676,7 +676,7 @@ const Orders = (props) => {
                             </Row>
                             {order.payment_status !== "FAILED" ? (
                               <Row style={{ marginTop: "15px" }}>
-                                <Col xs={0} sm={0} md={3} lg={3}></Col>
+                                <Col xs={0} sm={0} md={2} lg={2}></Col>
                                 <Col xs={0} sm={0} md={11} lg={11}>
                                   <span
                                     className="qa-font-san qa-fs-14"
@@ -689,7 +689,7 @@ const Orders = (props) => {
                                   </span>
                                 </Col>
                                 <Col xs={0} sm={0} md={1} lg={1}></Col>
-                                <Col xs={0} sm={0} md={9} lg={9}>
+                                <Col xs={0} sm={0} md={10} lg={10}>
                                   <span
                                     className="qa-fs-14 qa-font-san qa-fw-b"
                                     style={{
@@ -698,11 +698,22 @@ const Orders = (props) => {
                                       justifyContent: "flex-end",
                                     }}
                                   >
-                                    {subOrder.expectedDeliveryDate
-                                      ? moment(
-                                          subOrder.expectedDeliveryDate
-                                        ).format("DD/MM/YYYY")
-                                      : null}
+                                    {order.expectedDeliveryDateMin &&
+                                    order.expectedDeliveryDateMax ? (
+                                      <span>
+                                        {moment(
+                                          order.expectedDeliveryDateMin
+                                        ).format("DD/MM/YYYY")}{" "}
+                                        -{" "}
+                                        {moment(
+                                          order.expectedDeliveryDateMax
+                                        ).format("DD/MM/YYYY")}
+                                      </span>
+                                    ) : order.expectedDeliveryDate ? (
+                                      moment(order.expectedDeliveryDate).format(
+                                        "DD/MM/YYYY"
+                                      )
+                                    ) : null}
                                   </span>
                                 </Col>
                               </Row>
@@ -711,7 +722,7 @@ const Orders = (props) => {
                             )}
                             {order.payment_status !== "FAILED" ? (
                               <Row style={{ marginTop: "15px" }}>
-                                <Col xs={0} sm={0} md={3} lg={3}></Col>
+                                <Col xs={0} sm={0} md={2} lg={2}></Col>
                                 <Col xs={0} sm={0} md={11} lg={11}>
                                   <span
                                     className="qa-font-san qa-fs-14"
@@ -725,7 +736,7 @@ const Orders = (props) => {
                                   </span>
                                 </Col>
                                 <Col xs={0} sm={0} md={1} lg={1}></Col>
-                                <Col xs={0} sm={0} md={9} lg={9}>
+                                <Col xs={0} sm={0} md={10} lg={10}>
                                   <span
                                     className="qa-fs-14 qa-font-san qa-fw-b"
                                     style={{

@@ -943,7 +943,8 @@ const SellerLandingDesktop = (props) => {
                     <h4 className="qa-tc-white qa-uppercase">Product types</h4>
                     <div className="qa-fs-13">
                       <ul className="qa-mar-btm-0 qa-ul-p0">
-                        {productTypeDetails.length > 0 &&
+                        {productTypeDetails &&
+                          productTypeDetails.length > 0 &&
                           productTypeDetails
                             .slice(0, itemsToShow)
                             .map((list, i) => {
@@ -1023,7 +1024,8 @@ const SellerLandingDesktop = (props) => {
                     </h4>
                     <div className="qa-fs-13">
                       <ul className="qa-mar-btm-0 qa-ul-p0">
-                        {leadTimes.length > 0 &&
+                        {leadTimes &&
+                          leadTimes.length > 0 &&
                           leadTimes.slice(0, itemsToShow).map((list, i) => {
                             return (
                               <li key={i}>
@@ -1060,7 +1062,8 @@ const SellerLandingDesktop = (props) => {
                     <div className="qa-fs-013 qa-mar-btm-05">Key methods</div>
                     <div className="qa-fs-13 qa-mar-btm-2">
                       <ul className="qa-ul-p0">
-                        {keyMethods.length > 0 &&
+                        {keyMethods &&
+                          keyMethods.length > 0 &&
                           keyMethods.slice(0, 3).map((list, i) => {
                             return <li key={i}>{list}</li>;
                           })}
@@ -1069,7 +1072,8 @@ const SellerLandingDesktop = (props) => {
                     <div className="qa-fs-013 qa-mar-btm-05">Key materials</div>
                     <div className="qa-fs-13">
                       <ul className="qa-mar-btm-0 qa-ul-p0">
-                        {keyMaterials.length > 0 &&
+                        {keyMaterials &&
+                          keyMaterials.length > 0 &&
                           keyMaterials.slice(0, 3).map((list, i) => {
                             return <li key={i}>{list}</li>;
                           })}

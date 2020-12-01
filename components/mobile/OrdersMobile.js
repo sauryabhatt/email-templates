@@ -603,11 +603,22 @@ const OrdersMobile = (props) => {
                                     justifyContent: "flex-end",
                                   }}
                                 >
-                                  {subOrder.expectedDeliveryDate
-                                    ? moment(
-                                        subOrder.expectedDeliveryDate
-                                      ).format("DD/MM/YYYY")
-                                    : null}
+                                  {order.expectedDeliveryDateMin &&
+                                  order.expectedDeliveryDateMax ? (
+                                    <span className="qa-txt-alg-rgt">
+                                      {moment(
+                                        order.expectedDeliveryDateMin
+                                      ).format("DD/MM/YYYY")}{" "}
+                                      -{" "}
+                                      {moment(
+                                        order.expectedDeliveryDateMax
+                                      ).format("DD/MM/YYYY")}
+                                    </span>
+                                  ) : order.expectedDeliveryDate ? (
+                                    moment(order.expectedDeliveryDate).format(
+                                      "DD/MM/YYYY"
+                                    )
+                                  ) : null}
                                 </span>
                               </Col>
                             </Row>
