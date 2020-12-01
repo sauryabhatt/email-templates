@@ -19,6 +19,32 @@ const PaymentFailure = (props) => {
     props.getOrderByOrderId(keycloak.token, orderIdParam);
   }, [keycloak.token, router.query.orderId]);
 
+  let { order = {} } = props || {};
+  let { miscCharges = [] } = order || {};
+  let frieghtCharge = 0;
+  let dutyCharge = 0;
+  let vatCharge = 0;
+  let couponDiscount = 0;
+  let freightDis = 0;
+  let sellerDiscount = 0;
+
+  for (let charge of miscCharges) {
+    let { chargeId = "", amount = 0 } = charge;
+    if (chargeId === "TOTAL_COST_FREIGHT_MAX") {
+      frieghtCharge = amount;
+    } else if (chargeId === "VAT") {
+      vatCharge = amount;
+    } else if (chargeId === "DUTY_MAX") {
+      dutyCharge = amount;
+    } else if (chargeId === "DISCOUNT") {
+      couponDiscount = amount;
+    } else if (chargeId === "FREIGHT_MAX") {
+      freightDis = amount;
+    } else if (chargeId === "SELLER_DISCOUNT") {
+      sellerDiscount = amount;
+    }
+  }
+
   const getOrders =
     props.order &&
     props.order.subOrders &&
