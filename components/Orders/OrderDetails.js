@@ -133,7 +133,7 @@ const OrderDetails = (props) => {
               {subOrder.qalaraSellerMargin &&
                 subOrder.qalaraSellerMargin.toFixed(2)}
             </span>
-            <span className="qa-font-san qa-fw-b" style={{ color: "#27AE60" }}>
+            <span className="qa-font-san qa-fw-b" style={{ color: "#02873A" }}>
               {" "}
               {getSymbolFromCurrency(props.orders && props.orders.currency) ||
                 "$"}

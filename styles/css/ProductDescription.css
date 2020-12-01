@@ -61,7 +61,7 @@
 
 #product-description .product-title {
   color: #191919;
-  line-height: 100%;
+  line-height: 130%;
   margin-bottom: 8px;
 }
 #product-description .product-s-title {
@@ -546,7 +546,7 @@
   #product-description .pdp-collection-sec {
     display: inline-block;
     width: 40%;
-    background-color: #ffffff;
+    background-color: #f9f7f2;
     padding: 5px 20px;
   }
   #product-description .pdp-collection-sec .pdp-stc {
@@ -562,7 +562,7 @@
   #product-description .product-org-section {
     padding: 0px;
     margin-bottom: 0px;
-    background-color: #fff;
+    background-color: #f9f7f2;
   }
   #product-description .product-org-section .qa-p-title {
     padding-right: 0px;

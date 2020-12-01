@@ -563,7 +563,7 @@ const CartSummary = (props) => {
               : ""}
           </span>
 
-          <span style={{ color: "#27AE60" }}>
+          <span style={{ color: "#02873A" }}>
             {getSymbolFromCurrency(convertToCurrency)}
             {popoverData["qalaraSellerMargin"] ? getConvertedCurrency(0) : ""}
           </span>
@@ -755,13 +755,13 @@ const CartSummary = (props) => {
         <div className="qa-mar-btm-2">
           <div className="cart-ship-pt qa-border-bottom">
             <div
-              style={{ color: "#27AE60" }}
+              style={{ color: "#02873A" }}
               className="c-left-blk cart-prod-name"
             >
               {referralCode} discount applied
             </div>
             <div className="c-right-blk qa-fw-b qa-txt-alg-rgt">
-              <span style={{ color: "#27AE60" }}>
+              <span style={{ color: "#02873A" }}>
                 -{getSymbolFromCurrency(convertToCurrency)}
                 {getConvertedCurrency(couponDiscount)}
               </span>
@@ -774,7 +774,7 @@ const CartSummary = (props) => {
         <div className="qa-mar-btm-2">
           <div className="cart-ship-pt qa-border-bottom">
             <div
-              style={{ color: "#27AE60" }}
+              style={{ color: "#02873A" }}
               className="c-left-blk cart-prod-name"
             >
               Shipping promotion applied{" "}
@@ -782,7 +782,7 @@ const CartSummary = (props) => {
                 overlayClassName="qa-tooltip"
                 placement="top"
                 trigger="hover"
-                title={`Free shipping promotion applied for ${sellers.join(
+                title={`Free shipping promotion applied for seller ${sellers.join(
                   ", "
                 )}`}
               >
@@ -804,7 +804,7 @@ const CartSummary = (props) => {
               </Tooltip>
             </div>
             <div className="c-right-blk qa-fw-b qa-txt-alg-rgt">
-              <span style={{ color: "#27AE60" }}>
+              <span style={{ color: "#02873A" }}>
                 -{getSymbolFromCurrency(convertToCurrency)}
                 {getConvertedCurrency(sellerDiscount)}
               </span>
@@ -912,18 +912,18 @@ const CartSummary = (props) => {
             <div
               style={{ textTransform: "uppercase" }}
               className="c-left-blk cart-prod-name"
-              style={{ color: "#27AE60" }}
+              style={{ color: "#02873A" }}
             >
               {promoCode}
             </div>
             <div
               className="c-left-blk cart-prod-name"
-              style={{ color: "#27AE60" }}
+              style={{ color: "#02873A" }}
             >
               discount applied
             </div>
             <div className="c-right-blk qa-fw-b qa-txt-alg-rgt">
-              <span style={{ color: "#27AE60" }}>
+              <span style={{ color: "#02873A" }}>
                 -{getSymbolFromCurrency(convertToCurrency)}
                 {getConvertedCurrency(promoDiscount)}
               </span>

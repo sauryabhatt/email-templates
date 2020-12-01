@@ -206,9 +206,10 @@ const SellerLandingDesktop = (props) => {
   const [videoName, setVideoName] = useState("");
   let offerings = [];
   if (Object.keys(showRoom).length) {
-    offerings.push(showRoom);
+    offerings = [showRoom, ...publicOfferings, ...privateOfferings];
+  } else {
+    offerings = [...publicOfferings, ...privateOfferings];
   }
-  offerings = [...offerings, ...publicOfferings, ...privateOfferings];
 
   let { altName = "", seoTitle = "" } = showcaseMedia || {};
 

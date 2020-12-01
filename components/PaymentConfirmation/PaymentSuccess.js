@@ -652,7 +652,7 @@ const PaymentSuccess = (props) => {
                         lg={6}
                         className="qa-font-san qa-fw-b qa-fs-14 qa-col-end"
                       >
-                        <span style={{ color: "#27AE60" }}>
+                        <span style={{ color: "#02873A" }}>
                           -
                           {getSymbolFromCurrency(
                             props.order && props.order.currency

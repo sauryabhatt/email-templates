@@ -178,7 +178,7 @@ function ProductCard(props) {
               {isMobile ? (
                 <Row className="qa-tc-white">
                   <Col span={24}>
-                    <div className="qa-tc-white qa-fw-b qa-line-height qa-text-2line">
+                    <div className="qa-tc-white qa-fw-b qa-line-height qa-text-ellipsis">
                       {productNameSC}
                     </div>
                   </Col>
