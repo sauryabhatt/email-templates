@@ -717,7 +717,8 @@ const CartSummary = (props) => {
       <div className="qa-mar-btm-05">
         <div
           className={`${
-            (referralCode && couponDiscount > 0) || sellerDiscount > 0
+            (referralCode && couponDiscount > 0) ||
+            (sellerDiscount && sellerDiscount > 0)
               ? "cart-ship-pt qa-pd-0"
               : "cart-ship-pt"
           }`}
@@ -770,7 +771,7 @@ const CartSummary = (props) => {
         </div>
       )}
 
-      {id !== "cart" && sellerDiscount > 0 && (
+      {id !== "cart" && sellerDiscount && sellerDiscount > 0 && (
         <div className="qa-mar-btm-2">
           <div className="cart-ship-pt qa-border-bottom">
             <div
@@ -860,14 +861,16 @@ const CartSummary = (props) => {
       </div>
       <div
         className={`${
-          (referralCode && couponDiscount > 0) || sellerDiscount > 0
+          (referralCode && couponDiscount > 0) ||
+          (sellerDiscount && sellerDiscount > 0)
             ? ""
             : "qa-mar-btm-2"
         }`}
       >
         <div
           className={`${
-            (referralCode && couponDiscount > 0) || sellerDiscount > 0
+            (referralCode && couponDiscount > 0) ||
+            (sellerDiscount && sellerDiscount > 0)
               ? "cart-ship-pt"
               : "cart-ship-pt qa-border-bottom"
           }`}
