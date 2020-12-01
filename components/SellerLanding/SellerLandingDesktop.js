@@ -83,6 +83,9 @@ const SellerLandingDesktop = (props) => {
   );
   let mediaMatch;
 
+  let { sellerId = "" } = props || {};
+  sellerId = sellerId.replace("SELLER::", "");
+
   useEffect(() => {
     mediaMatch = window.matchMedia("(max-width: 1024px)");
     if (isAuthenticated) {
