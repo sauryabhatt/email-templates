@@ -1060,9 +1060,10 @@ const SellerLandingDesktop = (props) => {
                     <div className="qa-fs-013 qa-mar-btm-05">Key methods</div>
                     <div className="qa-fs-13 qa-mar-btm-2">
                       <ul className="qa-ul-p0">
-                        {keyMethods.slice(0, 3).map((list, i) => {
-                          return <li key={i}>{list}</li>;
-                        })}
+                        {keyMethods.length > 0 &&
+                          keyMethods.slice(0, 3).map((list, i) => {
+                            return <li key={i}>{list}</li>;
+                          })}
                       </ul>
                     </div>
                     <div className="qa-fs-013 qa-mar-btm-05">Key materials</div>

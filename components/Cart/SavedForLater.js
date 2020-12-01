@@ -112,6 +112,7 @@ const SavedForLater = (props) => {
           image: image,
           articleId: articleId,
           productType: productType,
+          typeOfOrder: productType,
         };
 
         if (doNotDelete) {

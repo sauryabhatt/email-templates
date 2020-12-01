@@ -273,16 +273,16 @@ const CartSummary = (props) => {
   };
 
   const updateOrder = (data, status) => {
-    // let formData = { ...data };
-    // let { shippingMode = "" } = cart || {};
-    // formData["shippingMode"] = shippingMode;
+    let formData = { ...data };
+    let { shippingMode = "" } = cart || {};
+    formData["shippingMode"] = shippingMode;
     fetch(
       process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL +
         "/v1/orders/my/payments-reference?order_updated_Status=" +
         status,
       {
         method: "PUT",
-        body: JSON.stringify(data),
+        body: JSON.stringify(formData),
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + keycloak.token,

@@ -825,6 +825,7 @@ const CartDetails = (props) => {
                 articleId: articleId,
                 image: image,
                 productType: productType,
+                typeOfOrder: productType,
               };
             }
           }
