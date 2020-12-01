@@ -49,7 +49,11 @@ const CartSummary = (props) => {
     if (props.cart) {
       getCountryCode();
       getEstimateCharge();
-      if (props.cart.subOrders.length && props.brandNames) {
+      if (
+        props.cart.subOrders &&
+        props.cart.subOrders.length &&
+        props.brandNames
+      ) {
         let sellers = [];
         for (let orders of props.cart.subOrders) {
           let { sellerCode = "" } = orders;
