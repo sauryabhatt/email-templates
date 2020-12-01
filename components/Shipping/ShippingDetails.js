@@ -19,12 +19,12 @@ import cartIcon from "../../public/filestore/cartIcon";
 import Spinner from "../Spinner/Spinner";
 import Air from "../../public/filestore/air";
 import Sea from "../../public/filestore/sea";
-import alertIcon from "../../public/filestore/alertIcon";
 import infoIcon from "../../public/filestore/infoIcon";
 import deliveredCountryList from "../../public/filestore/deliveredCountries.json";
 import _ from "lodash";
 import { getBrandNameByCode } from "../../store/actions";
 import PromotionCarousel from "../PromotionCarousel/PromotionCarousel";
+import sellerList from "../../public/filestore/freeShippingSellers.json";
 const { Step } = Steps;
 
 const ShippingDetails = (props) => {
@@ -188,8 +188,12 @@ const ShippingDetails = (props) => {
         let { products = "", qalaraSellerMargin = 0, basePrice = 0 } = sellers;
 
         for (let items of products) {
-          let { quantity = 0, exFactoryPrice = 0, productType = "" } = items;
-          basePrice = basePrice + exFactoryPrice * quantity;
+          let {
+            quantity = 0,
+            exfactoryListPrice = 0,
+            productType = "",
+          } = items;
+          basePrice = basePrice + exfactoryListPrice * quantity;
           if (productType === "ERTM") {
             setMov(true);
           }
@@ -351,7 +355,7 @@ const ShippingDetails = (props) => {
         setCartData(result);
         if (couponApplied === true) {
           setCouponApplied(false);
-          message.success("Promotion removed", 5);
+          message.success("Coupon removed", 5);
         } else if (couponApplied === false) {
           setCouponApplied(true);
         }
@@ -1110,7 +1114,7 @@ const ShippingDetails = (props) => {
                                     xl={9}
                                     className="qa-mar-top-15"
                                   >
-                                    <div className="qa-disp-table-cell qa-txt-alg-rgt">
+                                    <div className="qa-txt-alg-rgt">
                                       {isQualityTestingRequired && (
                                         <div className="cart-subtitle qa-mar-btm-05">
                                           <CheckCircleOutlined /> Quality
@@ -1131,10 +1135,17 @@ const ShippingDetails = (props) => {
                                           ? getConvertedCurrency(total)
                                           : ""}
                                       </div>
-                                      <div className="cart-price-text">
-                                        Base price per unit excl. margin and
-                                        other charges
-                                      </div>
+                                      {!sellerList.includes(sellerCode) && (
+                                        <div className="cart-price-text">
+                                          Base price per unit excl. margin and
+                                          other charges
+                                        </div>
+                                      )}
+                                      {sellerList.includes(sellerCode) && (
+                                        <div className="qa-offer-text qa-mar-top-15">
+                                          FREE shipping
+                                        </div>
+                                      )}
                                     </div>
                                   </Col>
                                 </Row>
@@ -1949,6 +1960,11 @@ const ShippingDetails = (props) => {
                                       <CheckCircleOutlined /> Sample required
                                     </div>
                                   )}
+                                  {sellerList.includes(sellerCode) && (
+                                    <div className="qa-mar-top-1 qa-offer-text">
+                                      FREE shipping
+                                    </div>
+                                  )}
                                   <div className="cart-prod-title qa-mar-top-1">
                                     Units: {quantity} {unitOfMeasure}
                                   </div>
@@ -1970,10 +1986,12 @@ const ShippingDetails = (props) => {
                                     {getSymbolFromCurrency(convertToCurrency)}
                                     {total ? getConvertedCurrency(total) : ""}
                                   </div>
-                                  <div className="cart-price-text">
-                                    Base price per unit excl. margin and other
-                                    charges
-                                  </div>
+                                  {!sellerList.includes(sellerCode) && (
+                                    <div className="cart-price-text">
+                                      Base price per unit excl. margin and other
+                                      charges
+                                    </div>
+                                  )}
                                 </Col>
                               </Row>
                             );

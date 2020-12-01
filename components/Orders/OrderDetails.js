@@ -1,12 +1,13 @@
 /** @format */
 
 import React, { useState } from "react";
-import { Row, Col, Menu, Button, Popover } from "antd";
+import { Row, Col, Button, Popover } from "antd";
 import getSymbolFromCurrency from "currency-symbol-map";
 import Icon from "@ant-design/icons";
 import closeButton from "../../public/filestore/closeButton";
 import Link from "next/link";
 import ParentOrderStatuses from "../../public/filestore/ParentOrderStatuses.json";
+import sellerList from "../../public/filestore/freeShippingSellers.json";
 import moment from "moment";
 
 const OrderDetails = (props) => {
@@ -100,7 +101,7 @@ const OrderDetails = (props) => {
                 "$"}
               {parseFloat(
                 subOrder.products.reduce(
-                  (x, y) => x + y["quantity"] * y["exFactoryPrice"],
+                  (x, y) => x + y["quantity"] * y["exfactoryListPrice"],
                   0
                 ) * orders.conversionFactor
               ).toFixed(2)}
@@ -132,7 +133,7 @@ const OrderDetails = (props) => {
               {subOrder.qalaraSellerMargin &&
                 subOrder.qalaraSellerMargin.toFixed(2)}
             </span>
-            <span className="qa-font-san qa-fw-b" style={{ color: "#27AE60" }}>
+            <span className="qa-font-san qa-fw-b" style={{ color: "#02873A" }}>
               {" "}
               {getSymbolFromCurrency(props.orders && props.orders.currency) ||
                 "$"}
@@ -769,12 +770,11 @@ const OrderDetails = (props) => {
                                   mediaMatch.matches
                                     ? { display: "none" }
                                     : {
-                                        display: "flex",
-                                        justifyContent: "flex-start",
+                                        display: "block",
                                       }
                                 }
                               >
-                                <span
+                                <div
                                   className={
                                     mediaMatch.matches
                                       ? "qa-font-san qa-fs-14 qa-tc-white"
@@ -782,11 +782,22 @@ const OrderDetails = (props) => {
                                   }
                                 >
                                   Units: {quantity} {unitOfMeasure}
-                                </span>
+                                </div>
+                                {miscCharges &&
+                                  miscCharges.length > 0 &&
+                                  miscCharges.find(
+                                    (x) => x.chargeId === "SELLER_DISCOUNT"
+                                  ) &&
+                                  miscCharges.find(
+                                    (x) => x.chargeId === "SELLER_DISCOUNT"
+                                  ).amount > 0 &&
+                                  sellerList.length &&
+                                  sellerList.includes(sellerCode) && (
+                                    <div className="qa-offer-text qa-mar-top-05 qa-disp-inline">
+                                      FREE shipping
+                                    </div>
+                                  )}
                               </Col>
-                              {/* <Col xs={16} sm={16} md={0} lg={0} style={{ lineHeight: '.8em' }}>
-                                                    <span className="qa-font-san qa-fs-12 qa-tc-white">Base price per unit excl. margin and other charges</span>
-                                                </Col> */}
                             </Row>
                           </Col>
                           <Col xs={0} sm={0} md={10} lg={10}>
@@ -828,39 +839,41 @@ const OrderDetails = (props) => {
                                 style={{
                                   display: "flex",
                                   justifyContent: "flex-end",
+                                  textAlign: "right",
+                                  paddingLeft: "50%",
                                 }}
                               >
-                                <span className="qa-font-san qa-fs-12 qa-tc-white">
-                                  Base price per
-                                </span>
-                              </Col>
-                              <Col
-                                xs={24}
-                                sm={24}
-                                md={24}
-                                lg={24}
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "flex-end",
-                                }}
-                              >
-                                <span className="qa-font-san qa-fs-12 qa-tc-white">
-                                  unit excl. margin
-                                </span>
-                              </Col>
-                              <Col
-                                xs={24}
-                                sm={24}
-                                md={24}
-                                lg={24}
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "flex-end",
-                                }}
-                              >
-                                <span className="qa-font-san qa-fs-12 qa-tc-white">
-                                  and other charges
-                                </span>
+                                {miscCharges &&
+                                  miscCharges.length > 0 &&
+                                  miscCharges.find(
+                                    (x) => x.chargeId === "SELLER_DISCOUNT"
+                                  ) &&
+                                  miscCharges.find(
+                                    (x) => x.chargeId === "SELLER_DISCOUNT"
+                                  ).amount > 0 &&
+                                  sellerList.length &&
+                                  sellerList.includes(sellerCode) && (
+                                    <div className="qa-offer-text qa-mar-top-1 qa-disp-inline">
+                                      FREE shipping
+                                    </div>
+                                  )}
+                                {(!sellerList.includes(sellerCode) ||
+                                  !(
+                                    miscCharges.find(
+                                      (x) => x.chargeId === "SELLER_DISCOUNT"
+                                    ) &&
+                                    miscCharges.find(
+                                      (x) => x.chargeId === "SELLER_DISCOUNT"
+                                    ).amount > 0
+                                  )) && (
+                                  <span
+                                    className="qa-font-san qa-fs-12 qa-tc-white"
+                                    style={{ color: "rgba(25, 25, 25, 0.6)" }}
+                                  >
+                                    Base price per unit excl. margin and other
+                                    charges
+                                  </span>
+                                )}
                               </Col>
                             </Row>
                           </Col>
@@ -871,12 +884,23 @@ const OrderDetails = (props) => {
                             lg={0}
                             style={{ lineHeight: "110%" }}
                           >
-                            <span
-                              className="qa-font-san qa-fs-8"
-                              style={{ color: "rgba(25, 25, 25, 0.6)" }}
-                            >
-                              Base price per unit excl. margin and other charges
-                            </span>
+                            {(!sellerList.includes(sellerCode) ||
+                              !(
+                                miscCharges.find(
+                                  (x) => x.chargeId === "SELLER_DISCOUNT"
+                                ) &&
+                                miscCharges.find(
+                                  (x) => x.chargeId === "SELLER_DISCOUNT"
+                                ).amount > 0
+                              )) && (
+                              <span
+                                className="qa-font-san qa-fs-8"
+                                style={{ color: "rgba(25, 25, 25, 0.6)" }}
+                              >
+                                Base price per unit excl. margin and other
+                                charges
+                              </span>
+                            )}
                           </Col>
                         </Row>
                       </Col>

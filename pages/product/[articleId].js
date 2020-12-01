@@ -6,19 +6,25 @@ import Spinner from "../../components/Spinner/Spinner";
 import { useRouter } from "next/router";
 import NotFound from "../../components/NotFound/NotFound";
 
-export default function ProductDescriptionPage({ data }) {
+export default function ProductDescriptionPage({ data, articleId }) {
   const router = useRouter();
 
   const meta = {
-    title: `Buy ${data?.productName} online from India for wholesale exports. Source from verified exporters | Qalara`  ||
-      "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods from India | Qalara",
+    title:
+      `Buy ${data?.productName} online from India for wholesale exports. Source from verified exporters | Qalara` ||
+      "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods from South Asia | Qalara",
     description:
       data?.productionDescription ||
       "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods - Décor, Rugs and Carpets, Kitchen, Home Furnishings – from India. Digitally. Reliably. Affordably. Responsibly.",
+    url: "/product/" + articleId,
   };
 
-  if(data?.error?.status) {
-    return <><NotFound /></>;
+  if (data?.error?.status) {
+    return (
+      <>
+        <NotFound />
+      </>
+    );
   }
 
   if (router.isFallback) {
@@ -38,31 +44,30 @@ export async function getStaticPaths() {
   };
 }
 
-export const getStaticProps = async ({
-  params: { articleId = "" } = {},
-}) => {
-  let res; 
-  const error={status:false};
+export const getStaticProps = async ({ params: { articleId = "" } = {} }) => {
+  let res;
+  const error = { status: false };
   try {
-  const response = await fetch(
-    process.env.NEXT_PUBLIC_REACT_APP_API_PRODUCT_DESCRIPTION_URL +
-      `/products/${articleId}`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN,
-      },
-    }
-  );
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_REACT_APP_API_PRODUCT_DESCRIPTION_URL +
+        `/products/${articleId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN,
+        },
+      }
+    );
 
-  res = await response.json();
-} catch (error) {
-  error["status"]=true;
-}
+    res = await response.json();
+  } catch (error) {
+    error["status"] = true;
+  }
   return {
     props: {
       data: res,
-      error:error
+      error: error,
+      articleId: articleId,
     },
   };
 };

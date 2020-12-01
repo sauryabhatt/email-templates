@@ -10,7 +10,7 @@ import {
 } from "../../store/actions";
 import { useKeycloak } from "@react-keycloak/ssr";
 import { useSelector } from "react-redux";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 const querystring = require("querystring");
 const isServer = () => typeof window == undefined;
 
@@ -20,21 +20,16 @@ const ProductDescription = (props) => {
     userProfile = {},
     listingPage = {},
     isLoading,
-  } = !isServer()?props:props.data;
+  } = !isServer() ? props : props.data;
   const router = useRouter();
   let { articleId } = router.query;
-
   let { sellerDetails = {} } = productDetails || {};
 
-  let { productName = "" } = productDetails || {};
-  let { categoryDescs = [] } = sellerDetails || {};
-
-  const {keycloak} = useKeycloak();
+  const { keycloak } = useKeycloak();
   let authenticated = keycloak.authenticated;
   const token = useSelector(
     (state) => state.appToken.token && state.appToken.token.access_token
   );
-
 
   const [count, setCount] = useState(0);
 
@@ -84,7 +79,7 @@ const ProductDescription = (props) => {
         sellerDetails={sellerDetails}
         token={app_token}
         listingPage={listingPage}
-        isLoading={!isServer()?isLoading:false}
+        isLoading={!isServer() ? isLoading : false}
       />
     </div>
   );

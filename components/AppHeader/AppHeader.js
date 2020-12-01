@@ -65,7 +65,6 @@ function AppHeader(props) {
   const [searchVisibleMob, setSearchVisibleMob] = useState(false);
   const [selectedType, setSelectedType] = useState("product");
   const [close, setClose] = useState(false);
-
   const token = useSelector(
     (state) => state.appToken.token && state.appToken.token.access_token
   );
@@ -118,7 +117,7 @@ function AppHeader(props) {
   };
 
   const onSearch = () => {
-    console.log("search page runs");
+    // console.log("search page runs");
     let formValues = searchForm.getFieldValue();
     let { searchBy = "", search = "" } = formValues;
     if (!searchBy) {
@@ -312,55 +311,57 @@ function AppHeader(props) {
     >
       <Menu.Divider style={{ height: "0.5px", color: "#ddd" }} />
       <Menu.Item key="1" style={{ padding: "40px 0px", cursor: "default" }}>
-        <Row justify="space-around">
-          {_.map(navigationItems, function (value, key) {
-            return (
-              <Col
-                key={key}
-                className={
-                  key < columns
-                    ? `navigation-border nav-key-${key}`
-                    : "qa-pad-lft-40"
+        {_.map(navigationItems, function (value, key) {
+          return (
+            <div
+              key={key}
+              style={{
+                display: "inline-block",
+                width: 100 / Object.keys(navigationItems).length + "%",
+              }}
+              className={
+                key < columns
+                  ? `navigation-border nav-key-${key}`
+                  : "qa-pad-lft-40"
+              }
+            >
+              {_.map(value, function (details, id) {
+                let link = "";
+                if (details.filterType) {
+                  link =
+                    "/sellers/" +
+                    "all-categories" +
+                    "?" +
+                    details.filterType.toLowerCase() +
+                    "=" +
+                    details.values;
+                } else if (details.action === "L2" && details.values) {
+                  link = "/sellers/" + details.values;
                 }
-              >
-                {_.map(value, function (details, id) {
-                  let link = "";
-                  if (details.filterType) {
-                    link =
-                      "/sellers/" +
-                      "all-categories" +
-                      "?" +
-                      details.filterType.toLowerCase() +
-                      "=" +
-                      details.values;
-                  } else if (details.action === "L2" && details.values) {
-                    link = "/sellers/" + details.values;
-                  }
-                  return (
-                    <div
-                      className={
-                        details.font === "H1"
-                          ? "navigation-item navigation-title"
-                          : "navigation-item"
-                      }
-                      key={key + id}
-                    >
-                      {details.action === "URL" ? (
-                        <Link href={details.values}>
-                          {details.displayTitle || ""}
-                        </Link>
-                      ) : link ? (
-                        <Link href={link}>{details.displayTitle || ""}</Link>
-                      ) : (
-                        <span>{details.displayTitle}</span>
-                      )}
-                    </div>
-                  );
-                })}
-              </Col>
-            );
-          })}
-        </Row>
+                return (
+                  <div
+                    className={
+                      details.font === "H1"
+                        ? "navigation-item navigation-title"
+                        : "navigation-item"
+                    }
+                    key={key + id}
+                  >
+                    {details.action === "URL" ? (
+                      <Link href={details.values}>
+                        {details.displayTitle || ""}
+                      </Link>
+                    ) : link ? (
+                      <Link href={link}>{details.displayTitle || ""}</Link>
+                    ) : (
+                      <span>{details.displayTitle}</span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
       </Menu.Item>
     </Menu>
   );
@@ -583,7 +584,7 @@ function AppHeader(props) {
                 textAlign: "right",
                 margin: "auto",
                 display: "flex",
-                "justify-content": "flex-end",
+                justifyContent: "flex-end",
               }}
             >
               <Button
@@ -686,7 +687,6 @@ function AppHeader(props) {
                   }}
                 />
               </Dropdown>
-
               <Link
                 href="/cart"
                 style={{
@@ -780,9 +780,9 @@ function AppHeader(props) {
                   </SubMenu>
                   <Menu.Divider style={{ height: "0.5px" }} />
                   <Menu.Item key="8">
-                    <a href="/explore/curatedbyus" className="trend-navigation">
-                      FEATURED
-                    </a>
+                    <Link href="/explore/curatedbyus">
+                      <span className="trend-navigation">FEATURED</span>
+                    </Link>
                   </Menu.Item>
                   <Menu.Divider style={{ height: "0.5px" }} />
                   {/* <Menu.Item key="blog">BLOG</Menu.Item> */}
@@ -834,7 +834,7 @@ function AppHeader(props) {
                                           {details.displayTitle || ""}
                                         </Link>
                                       ) : link ? (
-                                        <Link href={"/"}>
+                                        <Link href={link}>
                                           {details.displayTitle || ""}
                                         </Link>
                                       ) : (

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <sitemap>
+	<loc>https://www.qalara.com/sitemap-static.xml</loc>
+    <lastmod>2020-11-27T11:16:09.471+05:30</lastmod>
+  </sitemap>
+   <sitemap>
+    <loc>https://www.qalara.com/sitemap-productcategories.xml</loc>
+    <lastmod>2020-11-27T11:16:09.471+05:30</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://www.qalara.com/sitemap-products.xml</loc>
+    <lastmod>2020-11-27T11:16:09.471+05:30</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://www.qalara.com/sitemap-sellercategories.xml</loc>
+    <lastmod>2020-11-27T11:16:09.471+05:30</lastmod>
+  </sitemap>
+  <sitemap>
+    <loc>https://www.qalara.com/sitemap-sellers.xml</loc>
+    <lastmod>2020-11-27T11:16:09.471+05:30</lastmod>
+  </sitemap>
+</sitemapindex>

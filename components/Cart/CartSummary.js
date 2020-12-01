@@ -2,13 +2,24 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Button, Popover, Row, Modal, Checkbox, message, Spin } from "antd";
+import {
+  Button,
+  Popover,
+  Row,
+  Modal,
+  Checkbox,
+  message,
+  Spin,
+  Tooltip,
+} from "antd";
 import Icon from "@ant-design/icons";
 import closeButton from "../../public/filestore/closeButton";
+import infoIcon from "../../public/filestore/infoSuccess";
 import PayWithPaypal from "../PayWithPayPal/PayWithPaypal";
 import { useKeycloak } from "@react-keycloak/ssr";
 import countries from "../../public/filestore/countryCodes_en.json";
 import getSymbolFromCurrency from "currency-symbol-map";
+import sellerList from "../../public/filestore/freeShippingSellers.json";
 import _ from "lodash";
 
 const CartSummary = (props) => {
@@ -32,11 +43,27 @@ const CartSummary = (props) => {
   const [nonShippable, setNonShippable] = useState(false);
   const [orderModal, showOrderModal] = useState(false);
   const [reRender, setReRender] = useState(false);
+  const [sellers, setSellers] = useState([]);
 
   useEffect(() => {
     if (props.cart) {
       getCountryCode();
       getEstimateCharge();
+      if (props.cart.subOrders.length && props.brandNames) {
+        let sellers = [];
+        for (let orders of props.cart.subOrders) {
+          let { sellerCode = "" } = orders;
+          if (sellerList.includes(sellerCode)) {
+            let sellerName = brandNames[sellerCode]
+              ? brandNames[sellerCode].brandName
+                ? brandNames[sellerCode].brandName
+                : ""
+              : "";
+            sellers.push(sellerName);
+          }
+        }
+        setSellers(sellers);
+      }
     }
   }, [props]);
 
@@ -77,6 +104,7 @@ const CartSummary = (props) => {
   let vatCharge = 0;
   let couponDiscount = 0;
   let freightDis = 0;
+  let sellerDiscount = 0;
 
   for (let charge of miscCharges) {
     let { chargeId = "", amount = 0 } = charge;
@@ -90,10 +118,12 @@ const CartSummary = (props) => {
       couponDiscount = amount;
     } else if (chargeId === "FREIGHT_MAX") {
       freightDis = amount;
+    } else if (chargeId === "SELLER_DISCOUNT") {
+      sellerDiscount = amount;
     }
   }
 
-  if (couponDiscount > 0) {
+  if (couponDiscount > 0 || sellerDiscount > 0) {
     frieghtCharge = freightDis;
   }
 
@@ -243,13 +273,16 @@ const CartSummary = (props) => {
   };
 
   const updateOrder = (data, status) => {
+    let formData = { ...data };
+    let { shippingMode = "" } = cart || {};
+    formData["shippingMode"] = shippingMode;
     fetch(
       process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL +
         "/v1/orders/my/payments-reference?order_updated_Status=" +
         status,
       {
         method: "PUT",
-        body: JSON.stringify(data),
+        body: JSON.stringify(formData),
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + keycloak.token,
@@ -489,6 +522,7 @@ const CartSummary = (props) => {
     subOrders.reduce((x, y) => x + y["total"], 0) +
       frieghtCharge +
       dutyCharge -
+      sellerDiscount -
       couponDiscount +
       vatCharge -
       promoDiscount
@@ -529,7 +563,7 @@ const CartSummary = (props) => {
               : ""}
           </span>
 
-          <span style={{ color: "#27AE60" }}>
+          <span style={{ color: "#02873A" }}>
             {getSymbolFromCurrency(convertToCurrency)}
             {popoverData["qalaraSellerMargin"] ? getConvertedCurrency(0) : ""}
           </span>
@@ -632,11 +666,11 @@ const CartSummary = (props) => {
               qualityTestingCharge = 0,
               sampleCost = 0,
               quantity = 0,
-              exFactoryPrice = 0,
+              exfactoryListPrice = 0,
             } = items;
             samplePrice = samplePrice + sampleCost;
             testingPrice = testingPrice + qualityTestingCharge;
-            basePrice = basePrice + exFactoryPrice * quantity;
+            basePrice = basePrice + exfactoryListPrice * quantity;
           }
           return (
             <div className="qa-mar-btm-2" key={i}>
@@ -683,7 +717,7 @@ const CartSummary = (props) => {
       <div className="qa-mar-btm-05">
         <div
           className={`${
-            referralCode && couponDiscount > 0
+            (referralCode && couponDiscount > 0) || sellerDiscount > 0
               ? "cart-ship-pt qa-pd-0"
               : "cart-ship-pt"
           }`}
@@ -721,23 +755,59 @@ const CartSummary = (props) => {
         <div className="qa-mar-btm-2">
           <div className="cart-ship-pt qa-border-bottom">
             <div
-              style={{ color: "#27AE60" }}
+              style={{ color: "#02873A" }}
               className="c-left-blk cart-prod-name"
             >
-              Black Friday offer discount applied
+              {referralCode} discount applied
             </div>
             <div className="c-right-blk qa-fw-b qa-txt-alg-rgt">
-              {id !== "cart" && couponDiscount > 0 ? (
-                <span style={{ color: "#27AE60" }}>
-                  -{getSymbolFromCurrency(convertToCurrency)}
-                  {getConvertedCurrency(couponDiscount)}
+              <span style={{ color: "#02873A" }}>
+                -{getSymbolFromCurrency(convertToCurrency)}
+                {getConvertedCurrency(couponDiscount)}
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {id !== "cart" && sellerDiscount > 0 && (
+        <div className="qa-mar-btm-2">
+          <div className="cart-ship-pt qa-border-bottom">
+            <div
+              style={{ color: "#02873A" }}
+              className="c-left-blk cart-prod-name"
+            >
+              Shipping promotion applied{" "}
+              <Tooltip
+                overlayClassName="qa-tooltip"
+                placement="top"
+                trigger="hover"
+                title={`Free shipping promotion applied for seller ${sellers.join(
+                  ", "
+                )}`}
+              >
+                <span
+                  style={{
+                    cursor: "pointer",
+                    verticalAlign: "text-top",
+                  }}
+                >
+                  <Icon
+                    component={infoIcon}
+                    style={{
+                      width: "15px",
+                      height: "15px",
+                      verticalAlign: "middle",
+                    }}
+                  />
                 </span>
-              ) : (
-                <span style={{ color: "#27AE60" }}>
-                  -{getSymbolFromCurrency(convertToCurrency)}
-                  {getConvertedCurrency(couponDiscount)}
-                </span>
-              )}
+              </Tooltip>
+            </div>
+            <div className="c-right-blk qa-fw-b qa-txt-alg-rgt">
+              <span style={{ color: "#02873A" }}>
+                -{getSymbolFromCurrency(convertToCurrency)}
+                {getConvertedCurrency(sellerDiscount)}
+              </span>
             </div>
           </div>
         </div>
@@ -781,7 +851,8 @@ const CartSummary = (props) => {
                   subOrders.reduce((x, y) => x + y["total"], 0) +
                     frieghtCharge +
                     dutyCharge -
-                    couponDiscount
+                    couponDiscount -
+                    sellerDiscount
                 )
               : ""}
           </div>
@@ -789,12 +860,14 @@ const CartSummary = (props) => {
       </div>
       <div
         className={`${
-          referralCode && couponDiscount > 0 ? "" : "qa-mar-btm-2"
+          (referralCode && couponDiscount > 0) || sellerDiscount > 0
+            ? ""
+            : "qa-mar-btm-2"
         }`}
       >
         <div
           className={`${
-            referralCode && couponDiscount > 0
+            (referralCode && couponDiscount > 0) || sellerDiscount > 0
               ? "cart-ship-pt"
               : "cart-ship-pt qa-border-bottom"
           }`}
@@ -839,18 +912,18 @@ const CartSummary = (props) => {
             <div
               style={{ textTransform: "uppercase" }}
               className="c-left-blk cart-prod-name"
-              style={{ color: "#27AE60" }}
+              style={{ color: "#02873A" }}
             >
               {promoCode}
             </div>
             <div
               className="c-left-blk cart-prod-name"
-              style={{ color: "#27AE60" }}
+              style={{ color: "#02873A" }}
             >
               discount applied
             </div>
             <div className="c-right-blk qa-fw-b qa-txt-alg-rgt">
-              <span style={{ color: "#27AE60" }}>
+              <span style={{ color: "#02873A" }}>
                 -{getSymbolFromCurrency(convertToCurrency)}
                 {getConvertedCurrency(promoDiscount)}
               </span>

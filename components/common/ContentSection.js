@@ -4,19 +4,21 @@ import React, { useState, useEffect } from "react";
 import { Layout, Row, Col } from "antd";
 import ProductCard from "./ProductCard";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const { Content } = Layout;
 
 function ContentSection(props) {
   let {
-    content=[],
+    content = [],
     count = 0,
     pageId,
     isMobile = false,
     loadMoreData,
     sellerId = "",
   } = props;
-// console.log("content===>", content);
+  // console.log("content===>", content);
   const [selProductId, setSelProductId] = useState("");
 
   const [open, setOpen] = useState(false);
@@ -39,7 +41,6 @@ function ContentSection(props) {
   }, [open]);
 
   const selectProduct = (productId) => {
-    
     setSelProductId(productId);
     setOpen(!open);
   };
@@ -57,10 +58,20 @@ function ContentSection(props) {
               style={{ textAlign: "center" }}
             >
               <div style={{ textAlign: "center" }}>
-                <span className="dot one"></span>
-                <span className="dot two"></span>
-                <span className="dot three"></span>
-                <div> Loading. Stay tuned!</div>
+                <Spin
+                  indicator={
+                    <LoadingOutlined
+                      style={{ fontSize: 24, color: "black" }}
+                      spin
+                    />
+                  }
+                  tip="Loading. Stay tuned!"
+                  size="large"
+                  style={{
+                    verticalAlign: "middle",
+                    color: "black",
+                  }}
+                />
               </div>
             </div>
           }

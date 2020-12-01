@@ -462,7 +462,7 @@ const CollectionDetails = (props) => {
                   let {
                     imageUrl = "",
                     productName = "",
-                    exFactoryPrice = "",
+                    exfactoryListPrice = "",
                     minQty = "",
                     articleId = "",
                     moqUnit = "",
@@ -521,7 +521,7 @@ const CollectionDetails = (props) => {
                             Base price{" "}
                             <span className="qa-fw-b">
                               {getSymbolFromCurrency(convertToCurrency)}
-                              {getConvertedCurrency(exFactoryPrice)}
+                              {getConvertedCurrency(exfactoryListPrice)}
                             </span>
                           </div>
                           <div

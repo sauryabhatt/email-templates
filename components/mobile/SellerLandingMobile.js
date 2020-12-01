@@ -143,7 +143,7 @@ function SellerLandingMobile(props) {
   const [pdfValue, setPdfValue] = useState(0);
   const [itemsToShow, setItemsToShow] = useState(5);
   const [videoType, setVideoType] = useState("");
-  const [productTypeDetails, setProductTypeDetails] = useState("");
+  const [productTypeDetails, setProductTypeDetails] = useState([]);
 
   const [showcaseMediaUrl, setShowcaseMediaUrl] = useState(
     props.data &&
@@ -221,7 +221,12 @@ function SellerLandingMobile(props) {
   } = sellerDetails || {};
 
   let { sellerSubscriptions = [] } = props;
-  let offerings = [showRoom, ...publicOfferings, ...privateOfferings];
+  let offerings = [];
+  if (Object.keys(showRoom).length) {
+    offerings = [showRoom, ...publicOfferings, ...privateOfferings];
+  } else {
+    offerings = [...publicOfferings, ...privateOfferings];
+  }
 
   let { altName = "", seoTitle = "" } = showcaseMedia || {};
   let subscriptions = 3 - sellerSubscriptions.length;
@@ -256,10 +261,7 @@ function SellerLandingMobile(props) {
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow:
-            (showroomMediaUrl && offerings.length > 1) || offerings.length > 2
-              ? 2
-              : 1,
+          slidesToShow: offerings.length > 2 ? 2 : 1,
           slidesToScroll: 1,
           infinite: true,
         },
@@ -267,10 +269,7 @@ function SellerLandingMobile(props) {
       {
         breakpoint: 768,
         settings: {
-          slidesToShow:
-            (showroomMediaUrl && offerings.length > 1) || offerings.length > 2
-              ? 2
-              : 1,
+          slidesToShow: offerings.length > 2 ? 2 : 1,
           slidesToScroll: 1,
           infinite: true,
         },
@@ -1175,9 +1174,10 @@ function SellerLandingMobile(props) {
             <div className="qa-fs-013 qa-mar-btm-05">Key materials</div>
             <div className="qa-fs-13">
               <ul className="qa-mar-btm-0 qa-ul-p0">
-                {keyMaterials.map((list, i) => {
-                  return <li key={i}>{list}</li>;
-                })}
+                {keyMaterials.length > 0 &&
+                  keyMaterials.map((list, i) => {
+                    return <li key={i}>{list}</li>;
+                  })}
               </ul>
             </div>
             {/* {keyMethods.length > 5 && (
@@ -1192,24 +1192,25 @@ function SellerLandingMobile(props) {
           <Panel header="Lead times" key="5">
             <div className="qa-fs-13">
               <ul className="qa-mar-btm-0 qa-ul-p0">
-                {leadTimes.slice(0, itemsToShow).map((list, i) => {
-                  return (
-                    <li key={i}>
-                      {list.type === "READY TO SHIP"
-                        ? "Ready to ship"
-                        : "Custom orders"}{" "}
-                      - {list.value}{" "}
-                      {list.type === "Custom Orders" && (
-                        <span
-                          onClick={requestLeadTimes}
-                          className="qa-cursor qa-sm-color"
-                        >
-                          &nbsp;See lead time details
-                        </span>
-                      )}
-                    </li>
-                  );
-                })}
+                {leadTimes.length > 0 &&
+                  leadTimes.slice(0, itemsToShow).map((list, i) => {
+                    return (
+                      <li key={i}>
+                        {list.type === "READY TO SHIP"
+                          ? "Ready to ship"
+                          : "Custom orders"}{" "}
+                        - {list.value}{" "}
+                        {list.type === "Custom Orders" && (
+                          <span
+                            onClick={requestLeadTimes}
+                            className="qa-cursor qa-sm-color"
+                          >
+                            &nbsp;See lead time details
+                          </span>
+                        )}
+                      </li>
+                    );
+                  })}
               </ul>
             </div>
           </Panel>
@@ -1260,23 +1261,25 @@ function SellerLandingMobile(props) {
           </Row>
         ) : (
           <Row className="qa-pad-24 qa-pad-top-1">
-            <Col
-              className="qa-pad-rgt-1 qa-mar-btm-2"
-              xs={24}
-              sm={24}
-              md={16}
-              lg={16}
-              xl={16}
-            >
-              <div className="qa-tc-white qa-fs-16">
-                Explore product catalog(s) with curated collections
-              </div>
-              <div className="qa-fs-13">
-                Glance through curated product collections showcasing the range
-                of the seller's products and design capabilities, and some of
-                the stories behind them.
-              </div>
-            </Col>
+            {offerings.length > 0 && (
+              <Col
+                className="qa-pad-rgt-1 qa-mar-btm-2"
+                xs={24}
+                sm={24}
+                md={16}
+                lg={16}
+                xl={16}
+              >
+                <div className="qa-tc-white qa-fs-16">
+                  Explore product catalog(s) with curated collections
+                </div>
+                <div className="qa-fs-13">
+                  Glance through curated product collections showcasing the
+                  range of the seller's products and design capabilities, and
+                  some of the stories behind them.
+                </div>
+              </Col>
+            )}
           </Row>
         )}
 
@@ -1286,8 +1289,7 @@ function SellerLandingMobile(props) {
               {offeringDetails}
             </Slider>
           </div>
-          {((showroomMediaUrl && offerings.length > 1) ||
-            offerings.length > 2) && (
+          {offerings.length > 1 && (
             <div className="qa-txt-alg-cnt qa-mar-top-1 qa-pad-btm-2">
               <Button className="qa-slick-button" onClick={previous}>
                 <svg

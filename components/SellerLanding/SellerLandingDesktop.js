@@ -39,6 +39,7 @@ import dynamic from "next/dynamic";
 import sellerProfileIcon from "../../public/filestore/sellerProfileIcon";
 import productListingIcon from "../../public/filestore/productListingIcon";
 import locationIcon from "../../public/filestore/locationIcon";
+import sellerList from "../../public/filestore/freeShippingSellers.json";
 const DynamicPDFDocument = dynamic(() => import("../common/PDFDocument"), {
   ssr: false,
 });
@@ -77,10 +78,11 @@ const SellerLandingDesktop = (props) => {
   const [productionKMM, setProductionKMM] = useState([]);
 
   const [logoUrl, setLogoUrl] = useState();
-  const [productTypeDetails, setProductTypeDetails] = useState(
-    props.productPopupDetails
-  );
+  const [productTypeDetails, setProductTypeDetails] = useState([]);
   let mediaMatch;
+
+  let { sellerId = "" } = props || {};
+  sellerId = sellerId.replace("SELLER::", "");
 
   useEffect(() => {
     mediaMatch = window.matchMedia("(max-width: 1024px)");
@@ -204,7 +206,12 @@ const SellerLandingDesktop = (props) => {
   const [itemsToShow, setItemsToShow] = useState(2);
   const [videoType, setVideoType] = useState("");
   const [videoName, setVideoName] = useState("");
-  let offerings = [showRoom, ...publicOfferings, ...privateOfferings];
+  let offerings = [];
+  if (Object.keys(showRoom).length) {
+    offerings = [showRoom, ...publicOfferings, ...privateOfferings];
+  } else {
+    offerings = [...publicOfferings, ...privateOfferings];
+  }
 
   let { altName = "", seoTitle = "" } = showcaseMedia || {};
 
@@ -903,6 +910,13 @@ const SellerLandingDesktop = (props) => {
                   <div style={{ padding: "3px 0px" }}>Product listing</div>
                 </div>
               </Menu.Item>
+              {sellerList.includes(sellerId) && (
+                <div style={{ float: "right", marginTop: "12px" }}>
+                  <div className="qa-offer-text" style={{ fontSize: "14px" }}>
+                    FREE shipping
+                  </div>
+                </div>
+              )}
             </Menu>
           </Content>
         ) : null}
@@ -1009,24 +1023,25 @@ const SellerLandingDesktop = (props) => {
                     </h4>
                     <div className="qa-fs-13">
                       <ul className="qa-mar-btm-0 qa-ul-p0">
-                        {leadTimes.slice(0, itemsToShow).map((list, i) => {
-                          return (
-                            <li key={i}>
-                              {list.type === "READY TO SHIP"
-                                ? "Ready to ship"
-                                : "Custom orders"}{" "}
-                              - {list.value}{" "}
-                              {list.type === "Custom Orders" && (
-                                <span
-                                  onClick={requestLeadTimes}
-                                  className="qa-cursor qa-sm-color"
-                                >
-                                  &nbsp;See lead time details
-                                </span>
-                              )}
-                            </li>
-                          );
-                        })}
+                        {leadTimes.length > 0 &&
+                          leadTimes.slice(0, itemsToShow).map((list, i) => {
+                            return (
+                              <li key={i}>
+                                {list.type === "READY TO SHIP"
+                                  ? "Ready to ship"
+                                  : "Custom orders"}{" "}
+                                - {list.value}{" "}
+                                {list.type === "Custom Orders" && (
+                                  <span
+                                    onClick={requestLeadTimes}
+                                    className="qa-cursor qa-sm-color"
+                                  >
+                                    &nbsp;See lead time details
+                                  </span>
+                                )}
+                              </li>
+                            );
+                          })}
                       </ul>
                     </div>
                   </div>
@@ -1045,17 +1060,19 @@ const SellerLandingDesktop = (props) => {
                     <div className="qa-fs-013 qa-mar-btm-05">Key methods</div>
                     <div className="qa-fs-13 qa-mar-btm-2">
                       <ul className="qa-ul-p0">
-                        {keyMethods.slice(0, 3).map((list, i) => {
-                          return <li key={i}>{list}</li>;
-                        })}
+                        {keyMethods.length > 0 &&
+                          keyMethods.slice(0, 3).map((list, i) => {
+                            return <li key={i}>{list}</li>;
+                          })}
                       </ul>
                     </div>
                     <div className="qa-fs-013 qa-mar-btm-05">Key materials</div>
                     <div className="qa-fs-13">
                       <ul className="qa-mar-btm-0 qa-ul-p0">
-                        {keyMaterials.slice(0, 3).map((list, i) => {
-                          return <li key={i}>{list}</li>;
-                        })}
+                        {keyMaterials.length > 0 &&
+                          keyMaterials.slice(0, 3).map((list, i) => {
+                            return <li key={i}>{list}</li>;
+                          })}
                       </ul>
                     </div>
                     {keyMethods.length > 3 && (
@@ -1299,34 +1316,35 @@ const SellerLandingDesktop = (props) => {
           </Row>
         ) : (
           <Row className="qa-pad-24 qa-pad-top-1">
-            <Col
-              className="qa-pad-rgt-1 qa-mar-btm-2"
-              xs={24}
-              sm={24}
-              md={16}
-              lg={16}
-              xl={16}
-            >
-              <div className="qa-tc-white qa-fs-16">
-                Explore product catalog(s) with curated collections
-              </div>
-              <div className="qa-fs-13">
-                Glance through curated product collections showcasing the range
-                of the seller's products and design capabilities, and some of
-                the stories behind them.
-              </div>
-            </Col>
+            {offerings.length > 0 && (
+              <Col
+                className="qa-pad-rgt-1 qa-mar-btm-2"
+                xs={24}
+                sm={24}
+                md={16}
+                lg={16}
+                xl={16}
+              >
+                <div className="qa-tc-white qa-fs-16">
+                  Explore product catalog(s) with curated collections
+                </div>
+                <div className="qa-fs-13">
+                  Glance through curated product collections showcasing the
+                  range of the seller's products and design capabilities, and
+                  some of the stories behind them.
+                </div>
+              </Col>
+            )}
           </Row>
         )}
 
-        <div style={{}}>
+        <div>
           <div className="seller-carousel-main">
             <Slider ref={(c) => (slider = c)} {...settings}>
               {offeringDetails}
             </Slider>
           </div>
-          {((showroomMediaUrl && offerings.length > 3) ||
-            offerings.length > 4) && (
+          {offerings.length > 3 && (
             <div className="qa-txt-alg-cnt qa-mar-top-1">
               <Button className="qa-slick-button" onClick={(e) => previous(e)}>
                 <svg

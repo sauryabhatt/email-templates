@@ -239,54 +239,57 @@ function UserHeader(props) {
     >
       <Menu.Divider style={{ height: "0.5px", color: "#ddd" }} />
       <Menu.Item key="1" style={{ padding: "40px 0px", cursor: "default" }}>
-        <Row justify="space-around">
-          {_.map(navigationItems, function (value, key) {
-            return (
-              <Col
-                key={key}
-                className={
-                  key < columns
-                    ? `navigation-border nav-key-${key}`
-                    : "qa-pad-lft-40"
+        {_.map(navigationItems, function (value, key) {
+          return (
+            <div
+              key={key}
+              style={{
+                display: "inline-block",
+                width: 100 / Object.keys(navigationItems).length + "%",
+              }}
+              className={
+                key < columns
+                  ? `navigation-border nav-key-${key}`
+                  : "qa-pad-lft-40"
+              }
+            >
+              {_.map(value, function (details, id) {
+                let link = "";
+                if (details.filterType) {
+                  link =
+                    "/sellers/" +
+                    "all-categories" +
+                    "?" +
+                    details.filterType.toLowerCase() +
+                    "=" +
+                    details.values;
+                } else if (details.action === "L2" && details.values) {
+                  link = "/sellers/" + details.values;
                 }
-              >
-                {_.map(value, function (details, id) {
-                  let link = "";
-                  if (details.filterType) {
-                    link =
-                      "/sellers/all-categories" +
-                      "?" +
-                      details.filterType.toLowerCase() +
-                      "=" +
-                      encodeURIComponent(details.values);
-                  } else if (details.action === "L2" && details.values) {
-                    link = "/sellers/" + encodeURIComponent(details.values);
-                  }
-                  return (
-                    <div
-                      className={
-                        details.font === "H1"
-                          ? "navigation-item navigation-title"
-                          : "navigation-item"
-                      }
-                      key={key + id}
-                    >
-                      {details.action === "URL" ? (
-                        <Link href={details.values}>
-                          {details.displayTitle}
-                        </Link>
-                      ) : link ? (
-                        <Link href={link}>{details.displayTitle}</Link>
-                      ) : (
-                        <span>{details.displayTitle}</span>
-                      )}
-                    </div>
-                  );
-                })}
-              </Col>
-            );
-          })}
-        </Row>
+                return (
+                  <div
+                    className={
+                      details.font === "H1"
+                        ? "navigation-item navigation-title"
+                        : "navigation-item"
+                    }
+                    key={key + id}
+                  >
+                    {details.action === "URL" ? (
+                      <Link href={details.values}>
+                        {details.displayTitle || ""}
+                      </Link>
+                    ) : link ? (
+                      <Link href={link}>{details.displayTitle || ""}</Link>
+                    ) : (
+                      <span>{details.displayTitle}</span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
       </Menu.Item>
     </Menu>
   );
@@ -320,6 +323,50 @@ function UserHeader(props) {
         process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
           props.userProfile.userProfile.profileImage.media.mediaUrl
     );
+  }, [props.userProfile.userProfile]);
+
+  useEffect(() => {
+    let userLastActive = sessionStorage.getItem("userLastActive");
+    if (
+      props.userProfile.userProfile &&
+      props.userProfile.userProfile.profileId
+    ) {
+      if (userLastActive !== props.userProfile.userProfile.profileId) {
+        let profileId = props.userProfile.userProfile.profileId || "";
+        profileId = profileId.replace("BUYER::", "");
+        profileId = profileId.replace("SELLER::", "");
+        fetch(
+          process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
+            "/profiles/" +
+            profileId +
+            "/events/active",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + keycloak.token,
+            },
+          }
+        )
+          .then((res) => {
+            if (res.ok) {
+              return res.json();
+            } else {
+              throw res.statusText || "Error while getting user deatils.";
+            }
+          })
+          .then((res) => {
+            return true;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        sessionStorage.setItem(
+          "userLastActive",
+          props.userProfile.userProfile.profileId
+        );
+      }
+    }
   }, [props.userProfile.userProfile]);
 
   let {
@@ -675,7 +722,7 @@ function UserHeader(props) {
               textAlign: "right",
               margin: "auto",
               display: "flex",
-              "justify-content": "flex-end",
+              justifyContent: "flex-end",
             }}
           >
             <Button

@@ -10,6 +10,7 @@ import Ribbon from "../Ribbon/Ribbon";
 import { setAuth, getUserProfile } from "../../store/actions";
 import store from "../../store";
 import _ from "lodash";
+import { getCookie } from "../common/Auth";
 
 export const Layout = ({ children, meta = {} }) => {
   const [isShowRibbon, setShowRibbon] = useState(true);
@@ -35,9 +36,50 @@ export const Layout = ({ children, meta = {} }) => {
       : false;
 
   useEffect(() => {
+    if (!getCookie("appToken")) {
+      if (keycloak?.authenticated) {
+        keycloak
+          .loadUserProfile()
+          .then((profile) => {
+            const { attributes: { parentProfileId = [] } = {} } = profile;
+            let profileId = parentProfileId[0] || "";
+            profileId = profileId.replace("BUYER::", "");
+            profileId = profileId.replace("SELLER::", "");
+            fetch(
+              process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
+                "/profiles/" +
+                profileId +
+                "/events/login",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + keycloak.token,
+                },
+              }
+            )
+              .then((res) => {
+                if (res.ok) {
+                  return res.json();
+                } else {
+                  throw res.statusText || "Error while getting user deatils.";
+                }
+              })
+              .then((res) => {
+                return true;
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          })
+          .catch((error) => {
+            console.log("error ", error);
+          });
+      }
+    }
+
     if (keycloak?.token) {
       document.cookie = `appToken=${keycloak.token}`;
-
       keycloak
         .loadUserProfile()
         .then((profile) => {
@@ -57,15 +99,20 @@ export const Layout = ({ children, meta = {} }) => {
         <title>{title}</title>
         <meta name="description" content={description} />
         <meta property="og:title" content={title} />
-        {/* <meta property="og:url" content={`${pathname}`} /> */}
+        {meta?.url && (
+          <meta
+            property="og:url"
+            content={`https://www.qalara.com${meta.url}`}
+          />
+        )}
         <meta property="og:type" content="website" />
         <meta property="og:description" content={description} />
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
         {/*remove the below two lines in production*/}
-        {/* <meta name="robots" content="noindex" />
-        <meta name="googlebot" content="noindex" /> */}
+        <meta name="robots" content="noindex" />
+        <meta name="googlebot" content="noindex" />
         <link
           rel="icon"
           href={`${process.env.NEXT_PUBLIC_URL}/favicon.ico?v=2`}

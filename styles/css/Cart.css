@@ -779,3 +779,6 @@ a.qa-sm-color:hover {
 .cart-section input[type="number"] {
   -moz-appearance: textfield;
 }
+.cart-section .qa-offer-text {
+  font-size: 14px;
+}
