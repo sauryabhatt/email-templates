@@ -39,6 +39,7 @@ import dynamic from "next/dynamic";
 import sellerProfileIcon from "../../public/filestore/sellerProfileIcon";
 import productListingIcon from "../../public/filestore/productListingIcon";
 import locationIcon from "../../public/filestore/locationIcon";
+import sellerList from "../../public/filestore/freeShippingSellers.json";
 const DynamicPDFDocument = dynamic(() => import("../common/PDFDocument"), {
   ssr: false,
 });
@@ -908,6 +909,13 @@ const SellerLandingDesktop = (props) => {
                   <div style={{ padding: "3px 0px" }}>Product listing</div>
                 </div>
               </Menu.Item>
+              {sellerList.includes(sellerId) && (
+                <div style={{ float: "right", marginTop: "12px" }}>
+                  <div className="qa-offer-text" style={{ fontSize: "14px" }}>
+                    FREE shipping
+                  </div>
+                </div>
+              )}
             </Menu>
           </Content>
         ) : null}
