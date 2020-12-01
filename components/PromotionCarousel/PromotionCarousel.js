@@ -30,7 +30,7 @@ export default function PromotionCarousel(props) {
     {
       title: "Holiday offer!",
       copy:
-        <div> Use code <b>FLAT75OFF</b> to avail <b>$75 off*</b> on all orders. <span style={{fontSize: "12px"}}>*T&C </span></div>,
+        <div> Use coupon code <b>FLAT75OFF</b> to avail <b>$75 off*</b> on all orders. <span style={{fontSize: "12px"}}>*T&C </span></div>,
     },
     {
       title: "Launch offer!",
