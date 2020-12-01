@@ -100,6 +100,7 @@ export async function getStaticProps({ params: { category = "" } = {} }) {
   } catch (error) {
     error["status"]=true;
   }
+  debugger
   return {
     props: {
       data :{

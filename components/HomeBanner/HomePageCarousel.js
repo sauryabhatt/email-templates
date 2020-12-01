@@ -35,14 +35,14 @@ export default function HomePageCarousel(props){
         mobileImg: mobile1,
     },*/
     {
-        img: "https://cdn.qalara.com/images/Img_Blackfriday-2020.jpg",
-        hading_text: '',//<div className = "second-img-head">Eco-friendly,{isMobile ?<br/>: null} handmade gifts for{isMobile ?<br/>: null} the Holiday season.</div>,
-        small_text: '',//<span className = "second-img-subhead" ><div>Get flat <b>$75 OFF*</b> on shipping.</div> <div>Limited time offer!</div> </span>,
+        img: "https://cdn.qalara.com/images/Img_Homepage_Banner_Qalara_2-1.jpg",
+        hading_text: <div className = "second-img-head">Eco-friendly,{isMobile ?<br/>: null} handmade gifts for{isMobile ?<br/>: null} the Holiday season.</div>,
+        small_text: <span className = "second-img-subhead" >  Use code <b>FLAT75OFF</b> to avail <b>$75 off*</b> on all orders.</span>,
         //video_link: "",  
-        isSignupbtn: false,
-        signinBTNLink: "/sellers/all-categories",
-        //signinBTNText: "EXPLORE NOW",
-        mobileImg: "https://cdn.qalara.com/images/Img_Blackfriday-2020_m.jpg",
+        isSignupbtn: true,
+        signinBTNLink: "/sellers/all-categories?f_values=ECO_FRIENDLY",
+        signinBTNText: "EXPLORE NOW",
+        mobileImg: "https://cdn.qalara.com/images/Img_Homepage_Banner_Qalara_2-mob.jpg",
     },
     {
         img: "https://cdn.qalara.com/images/Img_Homepage_banner_3.jpg",
