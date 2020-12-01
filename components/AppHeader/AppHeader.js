@@ -253,7 +253,7 @@ function AppHeader(props) {
       </Menu.Item>
     </Menu>
   );
-  
+
   const searchMenuMob = (
     <Menu theme="dark">
       <Menu.Item key="1" className="search-dropdown">
@@ -584,7 +584,7 @@ function AppHeader(props) {
                 textAlign: "right",
                 margin: "auto",
                 display: "flex",
-                "justify-content": "flex-end",
+                justifyContent: "flex-end",
               }}
             >
               <Button
@@ -780,7 +780,7 @@ function AppHeader(props) {
                   </SubMenu>
                   <Menu.Divider style={{ height: "0.5px" }} />
                   <Menu.Item key="8">
-                    <Link href="/explore/curatedbyus" >
+                    <Link href="/explore/curatedbyus">
                       <span className="trend-navigation">FEATURED</span>
                     </Link>
                   </Menu.Item>

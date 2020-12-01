@@ -135,3 +135,8 @@
   padding: 10px 20px;
   background-color: #f2f0eb;
 }
+@media only screen and (max-width: 320px) {
+  .download-invoice-btn-mob span {
+    font-size: 10px;
+  }
+}

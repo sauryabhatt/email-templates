@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { useState, useEffect } from "react";
-import { Button, Row, Col, Radio, Modal } from "antd";
+import { Row, Col, Radio, Modal } from "antd";
 import Icon, {
   UpOutlined,
   DownOutlined,
@@ -28,6 +28,7 @@ import deliveredCountryList from "./../../public/filestore/deliveredCountries.js
 import { useKeycloak } from "@react-keycloak/ssr";
 import { getOrderByOrderId } from "../../store/actions";
 import { useRouter } from "next/router";
+import sellerList from "../../public/filestore/freeShippingSellers.json";
 
 const { Step } = Steps;
 
@@ -45,6 +46,7 @@ const RtsOrderReview = (props) => {
     orderId = "",
     shippingMode = "",
     isFulfillable = false,
+    miscCharges = [],
   } = cart || {};
   let {
     fullName = "",
@@ -91,7 +93,7 @@ const RtsOrderReview = (props) => {
   }, []);
 
   useEffect(() => {
-    let { cart = "", app_token = "" } = props;
+    let { cart = "" } = props;
     let { priceQuoteRef = "", shippingMode = "", shippingAddressDetails = {} } =
       cart || {};
     if (priceQuoteRef && shippingMode) {
@@ -106,7 +108,7 @@ const RtsOrderReview = (props) => {
           method: "GET",
           headers: {
             "content-type": "application/json",
-            Authorization: "Bearer " + app_token,
+            Authorization: "Bearer " + keycloak.token,
           },
         }
       )
@@ -126,7 +128,7 @@ const RtsOrderReview = (props) => {
           setLoading(false);
         });
     }
-  }, [props.cart]);
+  }, [keycloak.token, props.cart]);
 
   let { convertToCurrency = "" } = currencyDetails || {};
   let showError = false;
@@ -480,9 +482,9 @@ const RtsOrderReview = (props) => {
                                   md={9}
                                   lg={9}
                                   xl={9}
-                                  className="qa-mar-top-15"
+                                  className="qa-mar-top-1"
                                 >
-                                  <div className="qa-disp-table-cell qa-txt-alg-rgt">
+                                  <div className="qa-txt-alg-rgt">
                                     {isQualityTestingRequired && (
                                       <div className="cart-subtitle qa-mar-btm-05">
                                         <CheckCircleOutlined /> Quality testing
@@ -497,10 +499,35 @@ const RtsOrderReview = (props) => {
                                       {getSymbolFromCurrency(convertToCurrency)}
                                       {total ? getConvertedCurrency(total) : ""}
                                     </div>
-                                    <div className="cart-price-text">
-                                      Base price per unit excl. margin and other
-                                      charges
-                                    </div>
+                                    {(!sellerList.includes(sellerCode) ||
+                                      !(
+                                        miscCharges.find(
+                                          (x) =>
+                                            x.chargeId === "SELLER_DISCOUNT"
+                                        ) &&
+                                        miscCharges.find(
+                                          (x) =>
+                                            x.chargeId === "SELLER_DISCOUNT"
+                                        ).amount > 0
+                                      )) && (
+                                      <div className="cart-price-text">
+                                        Base price per unit excl. margin and
+                                        other charges
+                                      </div>
+                                    )}
+                                    {miscCharges &&
+                                      miscCharges.length > 0 &&
+                                      miscCharges.find(
+                                        (x) => x.chargeId === "SELLER_DISCOUNT"
+                                      ) &&
+                                      miscCharges.find(
+                                        (x) => x.chargeId === "SELLER_DISCOUNT"
+                                      ).amount > 0 &&
+                                      sellerList.includes(sellerCode) && (
+                                        <div className="qa-offer-text qa-mar-top-15">
+                                          FREE shipping
+                                        </div>
+                                      )}
                                   </div>
                                 </Col>
                               </Row>
@@ -1082,6 +1109,19 @@ const RtsOrderReview = (props) => {
                                   This product is currently out of stock
                                 </div>
                               )}
+                              {miscCharges &&
+                                miscCharges.length > 0 &&
+                                miscCharges.find(
+                                  (x) => x.chargeId === "SELLER_DISCOUNT"
+                                ) &&
+                                miscCharges.find(
+                                  (x) => x.chargeId === "SELLER_DISCOUNT"
+                                ).amount > 0 &&
+                                sellerList.includes(sellerCode) && (
+                                  <div className="qa-offer-text qa-mar-top-05">
+                                    FREE shipping
+                                  </div>
+                                )}
                             </Col>
                             <Col
                               xs={24}
@@ -1095,10 +1135,20 @@ const RtsOrderReview = (props) => {
                                 {getSymbolFromCurrency(convertToCurrency)}
                                 {total ? getConvertedCurrency(total) : ""}
                               </div>
-                              <div className="cart-price-text qa-mar-btm-1">
-                                Base price per unit excl. margin and other
-                                charges
-                              </div>
+                              {(!sellerList.includes(sellerCode) ||
+                                !(
+                                  miscCharges.find(
+                                    (x) => x.chargeId === "SELLER_DISCOUNT"
+                                  ) &&
+                                  miscCharges.find(
+                                    (x) => x.chargeId === "SELLER_DISCOUNT"
+                                  ).amount > 0
+                                )) && (
+                                <div className="cart-price-text qa-mar-btm-1">
+                                  Base price per unit excl. margin and other
+                                  charges
+                                </div>
+                              )}
                             </Col>
                           </Row>
                         );
@@ -1155,6 +1205,7 @@ const mapStateToProps = (state) => {
     currencyDetails: state.currencyConverter,
     cart: state.userProfile.order,
     user: state.userProfile.userProfile,
+    brandNames: state.userProfile.brandNameList,
   };
 };
 

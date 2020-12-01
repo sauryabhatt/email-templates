@@ -325,6 +325,50 @@ function UserHeader(props) {
     );
   }, [props.userProfile.userProfile]);
 
+  useEffect(() => {
+    let userLastActive = sessionStorage.getItem("userLastActive");
+    if (
+      props.userProfile.userProfile &&
+      props.userProfile.userProfile.profileId
+    ) {
+      if (userLastActive !== props.userProfile.userProfile.profileId) {
+        let profileId = props.userProfile.userProfile.profileId || "";
+        profileId = profileId.replace("BUYER::", "");
+        profileId = profileId.replace("SELLER::", "");
+        fetch(
+          process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
+            "/profiles/" +
+            profileId +
+            "/events/active",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + keycloak.token,
+            },
+          }
+        )
+          .then((res) => {
+            if (res.ok) {
+              return res.json();
+            } else {
+              throw res.statusText || "Error while getting user deatils.";
+            }
+          })
+          .then((res) => {
+            return true;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        sessionStorage.setItem(
+          "userLastActive",
+          props.userProfile.userProfile.profileId
+        );
+      }
+    }
+  }, [props.userProfile.userProfile]);
+
   let {
     firstName = "",
     lastName = "",
@@ -678,7 +722,7 @@ function UserHeader(props) {
               textAlign: "right",
               margin: "auto",
               display: "flex",
-              "justify-content": "flex-end",
+              justifyContent: "flex-end",
             }}
           >
             <Button

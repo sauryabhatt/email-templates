@@ -39,6 +39,7 @@ import dynamic from "next/dynamic";
 import sellerProfileIcon from "../../public/filestore/sellerProfileIcon";
 import productListingIcon from "../../public/filestore/productListingIcon";
 import locationIcon from "../../public/filestore/locationIcon";
+import sellerList from "../../public/filestore/freeShippingSellers.json";
 const DynamicPDFDocument = dynamic(() => import("../common/PDFDocument"), {
   ssr: false,
 });
@@ -81,6 +82,9 @@ const SellerLandingDesktop = (props) => {
     props.productPopupDetails
   );
   let mediaMatch;
+
+  let { sellerId = "" } = props || {};
+  sellerId = sellerId.replace("SELLER::", "");
 
   useEffect(() => {
     mediaMatch = window.matchMedia("(max-width: 1024px)");
@@ -204,7 +208,12 @@ const SellerLandingDesktop = (props) => {
   const [itemsToShow, setItemsToShow] = useState(2);
   const [videoType, setVideoType] = useState("");
   const [videoName, setVideoName] = useState("");
-  let offerings = [showRoom, ...publicOfferings, ...privateOfferings];
+  let offerings = [];
+  if (Object.keys(showRoom).length) {
+    offerings = [showRoom, ...publicOfferings, ...privateOfferings];
+  } else {
+    offerings = [...publicOfferings, ...privateOfferings];
+  }
 
   let { altName = "", seoTitle = "" } = showcaseMedia || {};
 
@@ -903,6 +912,13 @@ const SellerLandingDesktop = (props) => {
                   <div style={{ padding: "3px 0px" }}>Product listing</div>
                 </div>
               </Menu.Item>
+              {sellerList.includes(sellerId) && (
+                <div style={{ float: "right", marginTop: "12px" }}>
+                  <div className="qa-offer-text" style={{ fontSize: "14px" }}>
+                    FREE shipping
+                  </div>
+                </div>
+              )}
             </Menu>
           </Content>
         ) : null}
@@ -1299,34 +1315,35 @@ const SellerLandingDesktop = (props) => {
           </Row>
         ) : (
           <Row className="qa-pad-24 qa-pad-top-1">
-            <Col
-              className="qa-pad-rgt-1 qa-mar-btm-2"
-              xs={24}
-              sm={24}
-              md={16}
-              lg={16}
-              xl={16}
-            >
-              <div className="qa-tc-white qa-fs-16">
-                Explore product catalog(s) with curated collections
-              </div>
-              <div className="qa-fs-13">
-                Glance through curated product collections showcasing the range
-                of the seller's products and design capabilities, and some of
-                the stories behind them.
-              </div>
-            </Col>
+            {offerings.length > 0 && (
+              <Col
+                className="qa-pad-rgt-1 qa-mar-btm-2"
+                xs={24}
+                sm={24}
+                md={16}
+                lg={16}
+                xl={16}
+              >
+                <div className="qa-tc-white qa-fs-16">
+                  Explore product catalog(s) with curated collections
+                </div>
+                <div className="qa-fs-13">
+                  Glance through curated product collections showcasing the
+                  range of the seller's products and design capabilities, and
+                  some of the stories behind them.
+                </div>
+              </Col>
+            )}
           </Row>
         )}
 
-        <div style={{}}>
+        <div>
           <div className="seller-carousel-main">
             <Slider ref={(c) => (slider = c)} {...settings}>
               {offeringDetails}
             </Slider>
           </div>
-          {((showroomMediaUrl && offerings.length > 3) ||
-            offerings.length > 4) && (
+          {offerings.length > 3 && (
             <div className="qa-txt-alg-cnt qa-mar-top-1">
               <Button className="qa-slick-button" onClick={(e) => previous(e)}>
                 <svg
