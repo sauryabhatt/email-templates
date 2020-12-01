@@ -24,8 +24,8 @@ import _ from "lodash";
 import Spinner from "./../Spinner/Spinner";
 import Air from "../../public/filestore/air";
 import Sea from "../../public/filestore/sea";
-import alertIcon from "../../public/filestore/alertIcon";
 import { getBrandNameByCode } from "./../../store/actions";
+import sellerList from "../../public/filestore/freeShippingSellers.json";
 const { Step } = Steps;
 
 const PaymentDetails = (props) => {
@@ -495,7 +495,7 @@ const PaymentDetails = (props) => {
                                     xl={9}
                                     className="qa-mar-top-15"
                                   >
-                                    <div className="qa-disp-table-cell qa-txt-alg-rgt">
+                                    <div className="qa-txt-alg-rgt">
                                       {isQualityTestingRequired && (
                                         <div className="cart-subtitle qa-mar-btm-05">
                                           <CheckCircleOutlined /> Quality
@@ -516,10 +516,17 @@ const PaymentDetails = (props) => {
                                           ? getConvertedCurrency(total)
                                           : ""}
                                       </div>
-                                      <div className="cart-price-text">
-                                        Base price per unit excl. margin and
-                                        other charges
-                                      </div>
+                                      {!sellerList.includes(sellerCode) && (
+                                        <div className="cart-price-text">
+                                          Base price per unit excl. margin and
+                                          other charges
+                                        </div>
+                                      )}
+                                      {sellerList.includes(sellerCode) && (
+                                        <div className="qa-offer-text qa-mar-top-15">
+                                          FREE shipping
+                                        </div>
+                                      )}
                                     </div>
                                   </Col>
                                 </Row>
@@ -1060,6 +1067,11 @@ const PaymentDetails = (props) => {
                                 {isSampleDeliveryRequired && (
                                   <div className="cart-subtitle">
                                     <CheckCircleOutlined /> Sample required
+                                  </div>
+                                )}
+                                {sellerList.includes(sellerCode) && (
+                                  <div className="qa-mar-top-15 qa-offer-text">
+                                    FREE shipping
                                   </div>
                                 )}
                                 <div className="cart-prod-title qa-mar-top-1">

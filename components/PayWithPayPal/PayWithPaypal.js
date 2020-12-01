@@ -59,7 +59,10 @@ const PaypalButton = (props) => {
           unit_amount: {
             currency_code: props.currency,
             value: props.isCartSummary
-              ? getConvertedCurrency(product.exFactoryPrice, conversionFactor)
+              ? getConvertedCurrency(
+                  product.exfactoryListPrice,
+                  conversionFactor
+                )
               : product.unitPrice.toFixed(2).toString(),
           },
           quantity: product.quantity.toString(),
@@ -76,7 +79,7 @@ const PaypalButton = (props) => {
     orders.map((order) => {
       order.products.map((product) => {
         if (isCartSummary) {
-          let basePrice = product.exFactoryPrice * product.quantity;
+          let basePrice = product.exfactoryListPrice * product.quantity;
           sum =
             sum + parseFloat(getConvertedCurrency(basePrice, conversionFactor));
         } else {
@@ -352,15 +355,18 @@ const PaypalButton = (props) => {
                 },
                 discount: {
                   currency_code: props.currency,
-                  value:
-                    props.order.promoDiscount && props.order.promoDiscount > 0
+                  value: props.isCartSummary
+                    ? props.order.promoDiscount && props.order.promoDiscount > 0
                       ? parseFloat(
                           getConvertedCurrency(
                             props.order.promoDiscount,
                             conversionFactor
                           )
                         ).toFixed(2)
-                      : parseFloat(0).toFixed(2),
+                      : parseFloat(0).toFixed(2)
+                    : props.order.miscCharges
+                        .find((x) => x.chargeId === "DISCOUNT")
+                        .amount.toFixed(2),
                 },
               },
             },

@@ -55,6 +55,7 @@ import { useKeycloak } from "@react-keycloak/ssr";
 import { checkInventory, getCollections } from "../../store/actions";
 import playButton from "./../../public/filestore/playButton";
 import AddToCollection from "../common/AddToCollection";
+import sellerList from "../../public/filestore/freeShippingSellers.json";
 
 const { Option } = Select;
 
@@ -447,7 +448,13 @@ const ProductDetails = (props) => {
   }
 
   let splpLink = "/seller/" + sellerCode + "/all-categories";
-  let displayPrice = priceMin || exfactoryListPrice;
+  // let displayPrice = priceMin || exfactoryListPrice;
+  let displayPrice = exfactoryListPrice;
+
+  let discount = 0;
+  if (exFactoryPrice !== exfactoryListPrice) {
+    discount = ((exFactoryPrice - exfactoryListPrice) / exFactoryPrice) * 100;
+  }
 
   let initialValues;
   let slider;
@@ -1187,8 +1194,8 @@ const ProductDetails = (props) => {
               xl={9}
               style={{ paddingRight: "30px" }}
             >
-              <div className="qa-fs-28 qa-font-butler product-title">
-                {productNameSC}
+              <div className="qa-fs-24 qa-font-butler product-title">
+                <span className="qa-mar-rgt-05">{productNameSC}</span>
                 {packType && <div className="product-s-title">{packType}</div>}
               </div>
               {authenticated ? (
@@ -1202,7 +1209,7 @@ const ProductDetails = (props) => {
                     <div style={{ marginBottom: "10px" }}>
                       <span
                         style={{
-                          fontSize: "30px",
+                          fontSize: "26px",
                           fontFamily: "Butler",
                           color: "#191919",
                           verticalAlign: "middle",
@@ -1211,29 +1218,42 @@ const ProductDetails = (props) => {
                         {getSymbolFromCurrency(convertToCurrency)}
                         {getConvertedCurrency(displayPrice)}
                       </span>
-                      {priceMin && (
+                      {/* {priceMin && (
                         <span className="qa-fs-20 qa-font-butler qa-va-m">
                           {" "}
                           - {getSymbolFromCurrency(convertToCurrency)}
                           {getConvertedCurrency(exfactoryListPrice)}
                         </span>
+                      )} */}
+                      {sellerList.includes(sellerCode) && (
+                        <div className="qa-offer-text qa-pad-0-10 qa-disp-inline">
+                          FREE shipping
+                        </div>
                       )}
-                      <div
-                        className="qa-font-butler"
-                        style={{
-                          textDecoration: "line-through",
-                          display: "none",
-                        }}
-                      >
-                        {getSymbolFromCurrency(convertToCurrency)}
-                        {getConvertedCurrency(500)} -
-                        {getSymbolFromCurrency(convertToCurrency)}
-                        {getConvertedCurrency(600)}
-                      </div>
-                      <div className="qa-font-san qa-fs-12">
-                        Base price per unit excl. margin, freight and other
-                        charges
-                      </div>
+                      {exFactoryPrice !== exfactoryListPrice && (
+                        <div>
+                          <span
+                            className="qa-font-butler"
+                            style={{
+                              textDecoration: "line-through",
+                              fontSize: "17px",
+                              color: "rgba(25, 25, 25, 0.8)",
+                              marginRight: "10px",
+                              verticalAlign: "middle",
+                            }}
+                          >
+                            {getSymbolFromCurrency(convertToCurrency)}
+                            {getConvertedCurrency(exFactoryPrice)}
+                          </span>
+                          <span className="qa-discount">{discount}% off</span>
+                        </div>
+                      )}
+                      {!sellerList.includes(sellerCode) && (
+                        <div className="qa-font-san qa-fs-12 qa-lh">
+                          Base price per unit excl. margin, freight and other
+                          charges
+                        </div>
+                      )}
                       {/* <div className="qa-tc-white qa-font-san qa-fs-12">
                         Suggested retail price:{" "}
                         <b>
@@ -2023,7 +2043,7 @@ const ProductDetails = (props) => {
                 <Link href={`/seller/${vanityId}`}>
                   <a target="_blank">
                     <div className="qa-tc-white qa-fs-14">Explore seller:</div>
-                    <span className="qa-text-2line qa-p-title qa-cursor">
+                    <span className="qa-text-ellipsis qa-p-title qa-cursor">
                       {brandNameSC}
                     </span>
                   </a>
@@ -2132,40 +2152,60 @@ const ProductDetails = (props) => {
                   (profileType === "SELLER" && profileId === sellerCode) ||
                   showPrice ? (
                     <div className="qa-mar-btm-1">
-                      <span
-                        style={{
-                          fontSize: "30px",
-                          fontFamily: "Butler",
-                          color: "#191919",
-                          verticalAlign: "middle",
-                        }}
-                      >
-                        {getSymbolFromCurrency(convertToCurrency)}
-                        {getConvertedCurrency(displayPrice)}
-                      </span>
-                      {priceMin && (
-                        <span className="qa-fs-20 qa-font-butler qa-va-m">
-                          {" "}
-                          - {getSymbolFromCurrency(convertToCurrency)}
-                          {getConvertedCurrency(exfactoryListPrice)}
-                        </span>
+                      <Row>
+                        <Col span={12}>
+                          <span
+                            style={{
+                              fontSize: "26px",
+                              fontFamily: "Butler",
+                              color: "#191919",
+                              verticalAlign: "middle",
+                            }}
+                          >
+                            {getSymbolFromCurrency(convertToCurrency)}
+                            {getConvertedCurrency(displayPrice)}
+                          </span>
+                          {/* {priceMin && (
+                            <span className="qa-fs-20 qa-font-butler qa-va-m">
+                              {" "}
+                              - {getSymbolFromCurrency(convertToCurrency)}
+                              {getConvertedCurrency(exfactoryListPrice)}
+                            </span>
+                          )} */}
+                        </Col>
+                        {sellerList.includes(sellerCode) && (
+                          <Col
+                            span={12}
+                            className="qa-txt-alg-rgt qa-mar-top-1"
+                          >
+                            <span className="qa-offer-text">FREE shipping</span>
+                          </Col>
+                        )}
+                      </Row>
+                      {exFactoryPrice !== exfactoryListPrice && (
+                        <div>
+                          <span
+                            className="qa-font-butler"
+                            style={{
+                              textDecoration: "line-through",
+                              fontSize: "17px",
+                              color: "rgba(25, 25, 25, 0.8)",
+                              marginRight: "10px",
+                              verticalAlign: "middle",
+                            }}
+                          >
+                            {getSymbolFromCurrency(convertToCurrency)}
+                            {getConvertedCurrency(exFactoryPrice)}
+                          </span>
+                          <span className="qa-discount">{discount}% off</span>
+                        </div>
                       )}
-                      <div
-                        className="qa-font-butler"
-                        style={{
-                          textDecoration: "line-through",
-                          display: "none",
-                        }}
-                      >
-                        {getSymbolFromCurrency(convertToCurrency)}
-                        {getConvertedCurrency(500)} -
-                        {getSymbolFromCurrency(convertToCurrency)}
-                        {getConvertedCurrency(600)}
-                      </div>
-                      <div className="qa-font-san qa-fs-12">
-                        Base price per unit excl. margin, freight and other
-                        charges
-                      </div>
+                      {!sellerList.includes(sellerCode) && (
+                        <div className="qa-font-san qa-fs-12 qa-lh">
+                          Base price per unit excl. margin, freight and other
+                          charges
+                        </div>
+                      )}
                       {/* <div className="qa-tc-white qa-font-san qa-fs-12">
                         Suggested retail price:{" "}
                         <b>
@@ -2259,8 +2299,8 @@ const ProductDetails = (props) => {
                   </span>
                 </div>
               )}
-              <div className="qa-fs-28 qa-font-butler product-title">
-                {productNameSC}
+              <div className="qa-fs-24 qa-font-butler product-title">
+                <span className="qa-mar-rgt-05">{productNameSC}</span>
                 {packType && (
                   <span className="product-s-title">{packType}</span>
                 )}

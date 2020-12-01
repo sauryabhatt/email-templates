@@ -695,7 +695,7 @@ const OrdersMobile = (props) => {
                                         ></img>
                                       )}
                                       {products.length > 2 && k == 1 ? (
-                                        <span class="show-more-circle circle-position">
+                                        <span className="show-more-circle circle-position">
                                           <span
                                             className="qa-font-san qa-fs-17"
                                             style={{
@@ -854,6 +854,163 @@ const OrdersMobile = (props) => {
                           </span>
                         )}
                       </Col>
+                      {order &&
+                        order.miscCharges &&
+                        order.miscCharges.find(
+                          (x) => x.chargeId === "DISCOUNT"
+                        ) &&
+                        order.miscCharges.find((x) => x.chargeId === "DISCOUNT")
+                          .amount > 0 && (
+                          <Col
+                            xs={16}
+                            sm={16}
+                            md={16}
+                            lg={16}
+                            className="qa-col-start"
+                          >
+                            <span
+                              className="qa-fs-14 qa-fw-b qa-font-san"
+                              style={{ color: "#02873A" }}
+                            >
+                              {order && order.referralCode} discount applied
+                            </span>
+                          </Col>
+                        )}
+                      {order &&
+                        order.miscCharges &&
+                        order.miscCharges.find(
+                          (x) => x.chargeId === "DISCOUNT"
+                        ) &&
+                        order.miscCharges.find((x) => x.chargeId === "DISCOUNT")
+                          .amount > 0 && (
+                          <Col
+                            xs={8}
+                            sm={8}
+                            md={8}
+                            lg={8}
+                            className="qa-col-end"
+                          >
+                            {order && order.orderType == "RTS" ? (
+                              <span
+                                className="qa-fs-16 qa-fw-b qa-font-san"
+                                style={{ color: "#02873A" }}
+                              >
+                                -{" "}
+                                {getSymbolFromCurrency(
+                                  order && order.currency
+                                ) || "$"}
+                                {(order &&
+                                  order.miscCharges &&
+                                  order.miscCharges.find(
+                                    (x) => x.chargeId === "DISCOUNT"
+                                  ) &&
+                                  parseFloat(
+                                    order.miscCharges.find(
+                                      (x) => x.chargeId === "DISCOUNT"
+                                    ).amount * order.conversionFactor
+                                  ).toFixed(2)) ||
+                                  0}
+                              </span>
+                            ) : (
+                              <span
+                                className="qa-fs-16 qa-fw-b qa-font-san"
+                                style={{ color: "#02873A" }}
+                              >
+                                -{" "}
+                                {getSymbolFromCurrency(order && order.currency)}
+                                {(order &&
+                                  order.miscCharges &&
+                                  order.miscCharges.find(
+                                    (x) => x.chargeId === "DISCOUNT"
+                                  ) &&
+                                  order.miscCharges.find(
+                                    (x) => x.chargeId === "DISCOUNT"
+                                  ).amount) ||
+                                  0}
+                              </span>
+                            )}
+                          </Col>
+                        )}
+
+                      {order &&
+                        order.miscCharges &&
+                        order.miscCharges.find(
+                          (x) => x.chargeId === "SELLER_DISCOUNT"
+                        ) &&
+                        order.miscCharges.find(
+                          (x) => x.chargeId === "SELLER_DISCOUNT"
+                        ).amount > 0 && (
+                          <Col
+                            xs={16}
+                            sm={16}
+                            md={16}
+                            lg={16}
+                            className="qa-col-start"
+                          >
+                            <span
+                              className="qa-fs-14 qa-fw-b qa-font-san"
+                              style={{ color: "#02873A" }}
+                            >
+                              Shipping promotion applied
+                            </span>
+                          </Col>
+                        )}
+                      {order &&
+                        order.miscCharges &&
+                        order.miscCharges.find(
+                          (x) => x.chargeId === "SELLER_DISCOUNT"
+                        ) &&
+                        order.miscCharges.find(
+                          (x) => x.chargeId === "SELLER_DISCOUNT"
+                        ).amount > 0 && (
+                          <Col
+                            xs={8}
+                            sm={8}
+                            md={8}
+                            lg={8}
+                            className="qa-col-end"
+                          >
+                            {order && order.orderType == "RTS" ? (
+                              <span
+                                className="qa-fs-16 qa-fw-b qa-font-san"
+                                style={{ color: "#02873A" }}
+                              >
+                                -{" "}
+                                {getSymbolFromCurrency(
+                                  order && order.currency
+                                ) || "$"}
+                                {(order &&
+                                  order.miscCharges &&
+                                  order.miscCharges.find(
+                                    (x) => x.chargeId === "SELLER_DISCOUNT"
+                                  ) &&
+                                  parseFloat(
+                                    order.miscCharges.find(
+                                      (x) => x.chargeId === "SELLER_DISCOUNT"
+                                    ).amount * order.conversionFactor
+                                  ).toFixed(2)) ||
+                                  0}
+                              </span>
+                            ) : (
+                              <span
+                                className="qa-fs-16 qa-fw-b qa-font-san"
+                                style={{ color: "#02873A" }}
+                              >
+                                -{" "}
+                                {getSymbolFromCurrency(order && order.currency)}
+                                {(order &&
+                                  order.miscCharges &&
+                                  order.miscCharges.find(
+                                    (x) => x.chargeId === "SELLER_DISCOUNT"
+                                  ) &&
+                                  order.miscCharges.find(
+                                    (x) => x.chargeId === "SELLER_DISCOUNT"
+                                  ).amount) ||
+                                  0}
+                              </span>
+                            )}
+                          </Col>
+                        )}
                       <Col
                         xs={16}
                         sm={16}
@@ -901,121 +1058,6 @@ const OrdersMobile = (props) => {
                           </span>
                         )}
                       </Col>
-                      {order &&
-                        order.miscCharges &&
-                        order.miscCharges.find(
-                          (x) => x.chargeId === "DISCOUNT"
-                        ) &&
-                        order.miscCharges.find((x) => x.chargeId === "DISCOUNT")
-                          .amount > 0 && (
-                          <Col
-                            xs={16}
-                            sm={16}
-                            md={16}
-                            lg={16}
-                            className="qa-col-start qa-mar-top-05"
-                          >
-                            <span className="qa-fs-14 qa-fw-b qa-font-san qa-tc-white">
-                              {order && order.referralCode} discount applied
-                            </span>
-                          </Col>
-                        )}
-                      {order &&
-                        order.miscCharges &&
-                        order.miscCharges.find(
-                          (x) => x.chargeId === "DISCOUNT"
-                        ) &&
-                        order.miscCharges.find((x) => x.chargeId === "DISCOUNT")
-                          .amount > 0 && (
-                          <Col
-                            xs={8}
-                            sm={8}
-                            md={8}
-                            lg={8}
-                            className="qa-col-end qa-mar-top-05"
-                          >
-                            {order && order.orderType == "RTS" ? (
-                              <span
-                                className="qa-fs-16 qa-fw-b qa-font-san"
-                                style={{ color: "#0ABC1C" }}
-                              >
-                                -{" "}
-                                {getSymbolFromCurrency(
-                                  order && order.currency
-                                ) || "$"}
-                                {(order &&
-                                  order.miscCharges &&
-                                  order.miscCharges.find(
-                                    (x) => x.chargeId === "DISCOUNT"
-                                  ) &&
-                                  parseFloat(
-                                    order.miscCharges.find(
-                                      (x) => x.chargeId === "DISCOUNT"
-                                    ).amount * order.conversionFactor
-                                  ).toFixed(2)) ||
-                                  0}
-                              </span>
-                            ) : (
-                              <span
-                                className="qa-fs-16 qa-fw-b qa-font-san"
-                                style={{ color: "#0ABC1C" }}
-                              >
-                                -{" "}
-                                {getSymbolFromCurrency(order && order.currency)}
-                                {(order &&
-                                  order.miscCharges &&
-                                  order.miscCharges.find(
-                                    (x) => x.chargeId === "DISCOUNT"
-                                  ) &&
-                                  order.miscCharges.find(
-                                    (x) => x.chargeId === "DISCOUNT"
-                                  ).amount) ||
-                                  0}
-                              </span>
-                            )}
-                          </Col>
-                        )}
-                      {order &&
-                        order.promoDiscount !== undefined &&
-                        order.promoDiscount !== "" &&
-                        order.promoDiscount > 0 && (
-                          <Col
-                            xs={16}
-                            sm={16}
-                            md={16}
-                            lg={16}
-                            className="qa-col-start qa-mar-top-05"
-                          >
-                            <span className="qa-fs-16 qa-fw-b qa-font-san qa-tc-white">
-                              <span style={{ textTransform: "uppercase" }}>
-                                {order.promoCode}
-                              </span>{" "}
-                              discount applied
-                            </span>
-                          </Col>
-                        )}
-                      {order &&
-                        order.promoDiscount !== undefined &&
-                        order.promoDiscount !== "" &&
-                        order.promoDiscount > 0 && (
-                          <Col
-                            xs={8}
-                            sm={8}
-                            md={8}
-                            lg={8}
-                            className="qa-col-end qa-mar-top-05"
-                          >
-                            <span
-                              className="qa-fs-16 qa-fw-b qa-font-san"
-                              style={{ color: "#0ABC1C" }}
-                            >
-                              -{" "}
-                              {getSymbolFromCurrency(order && order.currency) ||
-                                "$"}
-                              {parseFloat(order.promoDiscount).toFixed(2)}
-                            </span>
-                          </Col>
-                        )}
 
                       <Col
                         xs={16}
@@ -1066,6 +1108,50 @@ const OrdersMobile = (props) => {
                           </span>
                         )}
                       </Col>
+                      {order &&
+                        order.promoDiscount !== undefined &&
+                        order.promoDiscount !== "" &&
+                        order.promoDiscount > 0 && (
+                          <Col
+                            xs={16}
+                            sm={16}
+                            md={16}
+                            lg={16}
+                            className="qa-col-start qa-mar-top-05"
+                          >
+                            <span
+                              className="qa-fs-14 qa-fw-b qa-font-san"
+                              style={{ color: "#02873A" }}
+                            >
+                              <span style={{ textTransform: "uppercase" }}>
+                                {order.promoCode}
+                              </span>{" "}
+                              discount applied
+                            </span>
+                          </Col>
+                        )}
+                      {order &&
+                        order.promoDiscount !== undefined &&
+                        order.promoDiscount !== "" &&
+                        order.promoDiscount > 0 && (
+                          <Col
+                            xs={8}
+                            sm={8}
+                            md={8}
+                            lg={8}
+                            className="qa-col-end qa-mar-top-05"
+                          >
+                            <span
+                              className="qa-fs-14 qa-fw-b qa-font-san"
+                              style={{ color: "#02873A" }}
+                            >
+                              -{" "}
+                              {getSymbolFromCurrency(order && order.currency) ||
+                                "$"}
+                              {parseFloat(order.promoDiscount).toFixed(2)}
+                            </span>
+                          </Col>
+                        )}
                     </Row>
                   </Col>
                   <Col

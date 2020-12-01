@@ -22,6 +22,7 @@ import { getUserProfile } from "../../store/actions";
 import sellerProfileIcon from "../../public/filestore/sellerProfileIcon";
 import productListingIcon from "../../public/filestore/productListingIcon";
 import locationIcon from "../../public/filestore/locationIcon";
+import sellerList from "../../public/filestore/freeShippingSellers.json";
 import Link from "next/link";
 const { Content } = Layout;
 
@@ -404,6 +405,13 @@ function SellerProductListingDesktop(props) {
                     <div style={{ padding: "3px 0px" }}>Product listing</div>
                   </div>
                 </Menu.Item>
+                {sellerList.includes(sellerId) && (
+                  <div style={{ float: "right", marginTop: "12px" }}>
+                    <div className="qa-offer-text" style={{ fontSize: "14px" }}>
+                      FREE shipping
+                    </div>
+                  </div>
+                )}
               </Menu>
             </Content>
           </div>
