@@ -88,7 +88,6 @@ const PaymentSuccess = (props) => {
   let { order = {} } = props || {};
   let {
     balance = 0,
-    total = 0,
     paymentTerms = [],
     conversionFactor = 0,
     promoDiscount = 0,
@@ -119,17 +118,20 @@ const PaymentSuccess = (props) => {
       sellerDiscount = amount;
     }
   }
+
   if (conversionFactor) {
     total = total * conversionFactor;
   }
-  let advance = total - balance || 0;
 
   if (!balance) {
     if (paymentTerms.find((x) => x.chargeId === "ADVANCE")) {
       advance = paymentTerms.find((x) => x.chargeId === "ADVANCE").amount;
-      balance = total - advance;
+      balance = total - advance * conversionFactor;
     }
+  } else {
+    balance = balance * conversionFactor;
   }
+  let advance = total - balance || 0;
 
   return (
     // <div className='bird-vector'>
