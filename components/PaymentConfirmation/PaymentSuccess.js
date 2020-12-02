@@ -88,6 +88,7 @@ const PaymentSuccess = (props) => {
   let { order = {} } = props || {};
   let {
     balance = 0,
+    total = 0,
     paymentTerms = [],
     conversionFactor = 0,
     promoDiscount = 0,
