@@ -1909,7 +1909,7 @@ const OrderReview = (props) => {
                               : "qa-font-san qa-tc-white qa-fs-14 qa-fw-b"
                           }
                         >
-                          VAT / GST
+                          VAT/ GST
                         </span>
                       </Col>
                       <Col

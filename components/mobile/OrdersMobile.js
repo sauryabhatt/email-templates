@@ -1078,7 +1078,7 @@ const OrdersMobile = (props) => {
                         className="qa-col-start qa-mar-top-05"
                       >
                         <span className="qa-fs-14 qa-fw-b qa-font-san qa-tc-white">
-                          VAT / GST
+                          VAT/ GST
                         </span>
                       </Col>
                       <Col

@@ -201,49 +201,94 @@ const PaypalButton = (props) => {
     let stateCode = getStateCode();
     let countryCode = getCountryCode();
     let paymentObj = null;
-    let totalAmount = 0;
+    let subTotal = 0;
+    let totalCartValue = 0;
     if (props.isCartSummary) {
-      totalAmount =
-        parseFloat(parseFloat(sumOfProd).toFixed(2)) +
-        parseFloat(
-          parseFloat(
-            getConvertedCurrency(
-              props.order.miscCharges
-                .find((x) => x.chargeId === "TOTAL_COST_FREIGHT_MAX")
-                .amount.toString(),
-              conversionFactor
-            )
-          ).toFixed(2)
-        ) +
-        parseFloat(parseFloat(handlingSum).toFixed(2)) +
-        parseFloat(
-          parseFloat(
-            getConvertedCurrency(
-              props.order.miscCharges
-                .find((x) => x.chargeId === "DUTY_MAX")
-                .amount.toString(),
-              conversionFactor
-            )
-          ).toFixed(2)
-        ) -
-        parseFloat(
-          parseFloat(
-            getConvertedCurrency(
-              props.order.promoDiscount || 0,
-              conversionFactor
-            )
-          ).toFixed(2)
-        );
-      totalAmount = parseFloat(
-        Math.round((totalAmount + Number.EPSILON) * 100) / 100
-      ).toFixed(2);
+      let { order = {} } = props || {};
+      let { subOrders = [], miscCharges = [], promoDiscount = "" } =
+        order || {};
+      let frieghtCharge = 0;
+      let dutyCharge = 0;
+      let vatCharge = 0;
+      let couponDiscount = 0;
+      let freightDis = 0;
+      let sellerDiscount = 0;
+
+      for (let charge of miscCharges) {
+        let { chargeId = "", amount = 0 } = charge;
+        if (chargeId === "TOTAL_COST_FREIGHT_MAX") {
+          frieghtCharge = amount;
+        } else if (chargeId === "VAT") {
+          vatCharge = amount;
+        } else if (chargeId === "DUTY_MAX") {
+          dutyCharge = amount;
+        } else if (chargeId === "DISCOUNT") {
+          couponDiscount = amount;
+        } else if (chargeId === "FREIGHT_MAX") {
+          freightDis = amount;
+        } else if (chargeId === "SELLER_DISCOUNT") {
+          sellerDiscount = amount;
+        }
+      }
+
+      if (couponDiscount > 0 || sellerDiscount > 0) {
+        frieghtCharge = freightDis;
+      }
+
+      if (subOrders && subOrders.length > 0) {
+        for (let order of subOrders) {
+          let { products = "", qalaraSellerMargin = 0 } = order;
+
+          let sellerTotal = 0;
+          let basePrice = 0;
+          let samplePrice = 0;
+          let testingPrice = 0;
+
+          for (let items of products) {
+            let {
+              qualityTestingCharge = 0,
+              sampleCost = 0,
+              quantity = 0,
+              exfactoryListPrice = 0,
+            } = items;
+            samplePrice = samplePrice + sampleCost;
+            testingPrice = testingPrice + qualityTestingCharge;
+            console.log(exfactoryListPrice * quantity);
+            basePrice =
+              basePrice +
+              parseFloat(
+                getConvertedCurrency(exfactoryListPrice, conversionFactor)
+              ) *
+                quantity;
+            console.log("BP ", basePrice);
+          }
+
+          sellerTotal = basePrice + samplePrice + testingPrice;
+
+          subTotal = subTotal + sellerTotal;
+          console.log("subtotal ", subTotal);
+          totalCartValue = totalCartValue + sellerTotal;
+        }
+      }
+
+      totalCartValue =
+        totalCartValue +
+        parseFloat(getConvertedCurrency(frieghtCharge, conversionFactor)) +
+        parseFloat(getConvertedCurrency(dutyCharge, conversionFactor)) -
+        parseFloat(getConvertedCurrency(sellerDiscount, conversionFactor)) -
+        parseFloat(getConvertedCurrency(couponDiscount, conversionFactor)) +
+        parseFloat(getConvertedCurrency(vatCharge, conversionFactor)) -
+        parseFloat(getConvertedCurrency(promoDiscount, conversionFactor));
+
+      console.log("Sub total ", subTotal);
+      console.log("Total cart value ", totalCartValue);
     }
 
     paymentObj = {
       gbPayment: {
         gbOrderNo: props.order.orderId,
         tenderedAmt: props.isCartSummary
-          ? totalAmount
+          ? parseFloat(totalCartValue).toFixed(2)
           : props.order.miscCharges
               .find((x) => x.chargeId === "TOTAL_AMOUNT")
               .amount.toFixed(2),
@@ -297,7 +342,7 @@ const PaypalButton = (props) => {
             amount: {
               currency_code: props.currency,
               value: props.isCartSummary
-                ? totalAmount
+                ? parseFloat(totalCartValue).toFixed(2)
                 : props.order.miscCharges
                     .find((x) => x.chargeId === "TOTAL_AMOUNT")
                     .amount.toFixed(2)
@@ -305,7 +350,9 @@ const PaypalButton = (props) => {
               breakdown: {
                 item_total: {
                   currency_code: props.currency,
-                  value: sumOfProd.toString(),
+                  value: props.isCartSummary
+                    ? parseFloat(subTotal).toFixed(2)
+                    : sumOfProd.toString(),
                 },
                 shipping: {
                   currency_code: props.currency,
@@ -325,7 +372,7 @@ const PaypalButton = (props) => {
                         .toFixed(2)
                         .toString()
                     : props.order.miscCharges
-                        .find((x) => x.chargeId === "TOTAL_COST_FREIGHT_MAX")
+                        .find((x) => x.chargeId === "FREIGHT_CHARGES")
                         .amount.toFixed(2)
                         .toString(),
                 },
