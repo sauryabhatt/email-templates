@@ -746,10 +746,10 @@ const Orders = (props) => {
                                     }}
                                   >
                                     {SellerOrderStatuses.find(
-                                      (x) => x.id === subOrder.status
+                                      (x) => x.id === order.status
                                     )
                                       ? SellerOrderStatuses.find(
-                                          (x) => x.id === subOrder.status
+                                          (x) => x.id === order.status
                                         ).name
                                       : ""}
                                   </span>
