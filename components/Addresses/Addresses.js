@@ -322,6 +322,7 @@ const Addresses = (props) => {
       ...prevState,
       zipCode: value,
     }));
+    process.env.NEXT_PUBLIC_REACT_APP_DUTY_COST_URL
   };
 
   const handleDefault = (e) => {
@@ -971,12 +972,26 @@ const Addresses = (props) => {
                           },
                         ]}
                       >
-                        <Input
+                        {/* <Input
                           value={state.zipCode}
                           onChange={handleZipCode}
                           id="zipCode"
                           onBlur={(e) => handleError("zipCode", state.zipCode)}
-                        />
+                        />*/}
+
+                        <Select 
+                          showSearch
+                          value={state.zipCode}
+                          onChange={handleZipCode}
+                          id="zipCode"
+                          onBlur={(e) => handleError("zipCode", state.zipCode)}
+                        >
+                          <options value = "1">aa</options>
+                          <options value = "2">aa2</options>
+                          <options value = "3">aa3</options>
+                          <options value = "4">aa4</options>
+                        </Select>
+
                         <span
                           className="qa-font-san qa-fs-12 qa-error zipCode-error-block"
                           style={{ display: "none" }}
