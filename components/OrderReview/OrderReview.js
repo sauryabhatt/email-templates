@@ -68,7 +68,8 @@ const OrderReview = (props) => {
 
   const updateOrder = (data, status) => {
     let formData = { ...data };
-    let { shippingMode = "" } = cart || {};
+    let { order = {} } = props || {};
+    let { shippingMode = "" } = order || {};
     formData["shippingMode"] = shippingMode;
     fetch(
       process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL +
