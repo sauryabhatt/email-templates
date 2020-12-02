@@ -452,7 +452,7 @@ const ProductDetails = (props) => {
   let displayPrice = exfactoryListPrice;
 
   let discount = 0;
-  if (exFactoryPrice !== exfactoryListPrice) {
+  if (exFactoryPrice > exfactoryListPrice) {
     discount = ((exFactoryPrice - exfactoryListPrice) / exFactoryPrice) * 100;
   }
 
@@ -1230,7 +1230,7 @@ const ProductDetails = (props) => {
                           FREE shipping
                         </div>
                       )}
-                      {exFactoryPrice !== exfactoryListPrice && (
+                      {exFactoryPrice > exfactoryListPrice && (
                         <div>
                           <span
                             className="qa-font-butler"
@@ -1245,7 +1245,9 @@ const ProductDetails = (props) => {
                             {getSymbolFromCurrency(convertToCurrency)}
                             {getConvertedCurrency(exFactoryPrice)}
                           </span>
-                          <span className="qa-discount">{discount}% off</span>
+                          <span className="qa-discount">
+                            {parseFloat(discount).toFixed(2)}% off
+                          </span>
                         </div>
                       )}
                       {!sellerList.includes(sellerCode) && (
@@ -2182,7 +2184,7 @@ const ProductDetails = (props) => {
                           </Col>
                         )}
                       </Row>
-                      {exFactoryPrice !== exfactoryListPrice && (
+                      {exFactoryPrice > exfactoryListPrice && (
                         <div>
                           <span
                             className="qa-font-butler"
@@ -2197,7 +2199,9 @@ const ProductDetails = (props) => {
                             {getSymbolFromCurrency(convertToCurrency)}
                             {getConvertedCurrency(exFactoryPrice)}
                           </span>
-                          <span className="qa-discount">{discount}% off</span>
+                          <span className="qa-discount">
+                            {parseFloat(discount).toFixed(2)}% off
+                          </span>
                         </div>
                       )}
                       {!sellerList.includes(sellerCode) && (
