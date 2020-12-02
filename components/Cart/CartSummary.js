@@ -544,17 +544,14 @@ const CartSummary = (props) => {
         } = items;
         samplePrice = samplePrice + sampleCost;
         testingPrice = testingPrice + qualityTestingCharge;
-        console.log(exfactoryListPrice * quantity);
         basePrice =
           basePrice +
           parseFloat(getConvertedCurrency(exfactoryListPrice)) * quantity;
-        console.log("BP ", basePrice);
       }
 
       sellerTotal = basePrice + samplePrice + testingPrice;
 
       subTotal = subTotal + sellerTotal;
-      console.log("subtotal ", subTotal);
       totalCartValue = totalCartValue + sellerTotal;
     }
   }
@@ -574,13 +571,6 @@ const CartSummary = (props) => {
     parseFloat(getConvertedCurrency(couponDiscount)) +
     parseFloat(getConvertedCurrency(vatCharge)) -
     parseFloat(getConvertedCurrency(promoDiscount));
-
-  console.log("Sub total ", subTotal, getConvertedCurrency(subTotal));
-  console.log(
-    "Total cart value ",
-    totalCartValue,
-    getConvertedCurrency(totalCartValue)
-  );
 
   const priceBreakup = (
     <div className="breakup-popup qa-font-san">
@@ -729,9 +719,8 @@ const CartSummary = (props) => {
               basePrice +
               parseFloat(getConvertedCurrency(exfactoryListPrice)) * quantity;
           }
-          console.log("Seller ", basePrice);
+
           totalAmount = basePrice + samplePrice + testingPrice;
-          console.log(totalAmount);
 
           return (
             <div className="qa-mar-btm-2" key={i}>

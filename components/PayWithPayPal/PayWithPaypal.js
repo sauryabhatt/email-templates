@@ -253,20 +253,17 @@ const PaypalButton = (props) => {
             } = items;
             samplePrice = samplePrice + sampleCost;
             testingPrice = testingPrice + qualityTestingCharge;
-            console.log(exfactoryListPrice * quantity);
             basePrice =
               basePrice +
               parseFloat(
                 getConvertedCurrency(exfactoryListPrice, conversionFactor)
               ) *
                 quantity;
-            console.log("BP ", basePrice);
           }
 
           sellerTotal = basePrice + samplePrice + testingPrice;
 
           subTotal = subTotal + sellerTotal;
-          console.log("subtotal ", subTotal);
           totalCartValue = totalCartValue + sellerTotal;
         }
       }
@@ -279,9 +276,6 @@ const PaypalButton = (props) => {
         parseFloat(getConvertedCurrency(couponDiscount, conversionFactor)) +
         parseFloat(getConvertedCurrency(vatCharge, conversionFactor)) -
         parseFloat(getConvertedCurrency(promoDiscount, conversionFactor));
-
-      console.log("Sub total ", subTotal);
-      console.log("Total cart value ", totalCartValue);
     }
 
     paymentObj = {
