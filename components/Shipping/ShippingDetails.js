@@ -29,7 +29,7 @@ const { Step } = Steps;
 
 const ShippingDetails = (props) => {
   const router = useRouter();
-  const LANDING_LIMITER = 3;
+  const LANDING_LIMITER = 2;
   let {
     cart = {},
     app_token = "",
