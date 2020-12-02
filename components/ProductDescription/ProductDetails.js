@@ -1247,7 +1247,7 @@ const ProductDetails = (props) => {
                             {getConvertedCurrency(exFactoryPrice)}
                           </span>
                           <span className="qa-discount">
-                            {parseFloat(discount).toFixed(2)}% off
+                            {parseFloat(discount).toFixed(0)}% off
                           </span>
                         </div>
                       )}
@@ -2201,7 +2201,7 @@ const ProductDetails = (props) => {
                             {getConvertedCurrency(exFactoryPrice)}
                           </span>
                           <span className="qa-discount">
-                            {parseFloat(discount).toFixed(2)}% off
+                            {parseFloat(discount).toFixed(0)}% off
                           </span>
                         </div>
                       )}
