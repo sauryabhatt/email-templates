@@ -91,6 +91,7 @@ const CartSummary = (props) => {
     shippingMode = "",
     disablePayment = false,
     hideCreateOrder = false,
+    tat = "",
   } = props;
   let {
     subOrders = [],
@@ -170,7 +171,7 @@ const CartSummary = (props) => {
 
   const checkCommitStatus = () => {
     let cartId = orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
-    let url = `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/my/${cartId}/checkout/?mode=${shippingMode}&promoCode=${promoCode}&promoDiscount=${couponDiscount}`;
+    let url = `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/my/${cartId}/checkout/?mode=${shippingMode}&promoCode=${promoCode}&promoDiscount=${couponDiscount}&tat=${tat}`;
 
     fetch(url, {
       method: "PUT",

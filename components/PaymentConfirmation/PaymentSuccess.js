@@ -123,6 +123,7 @@ const PaymentSuccess = (props) => {
   if (conversionFactor) {
     total = total * conversionFactor;
   }
+  let advance = 0;
 
   if (!balance) {
     if (paymentTerms.find((x) => x.chargeId === "ADVANCE")) {
@@ -132,7 +133,7 @@ const PaymentSuccess = (props) => {
   } else {
     balance = balance * conversionFactor;
   }
-  let advance = total - balance || 0;
+  advance = total - balance || 0;
 
   return (
     // <div className='bird-vector'>

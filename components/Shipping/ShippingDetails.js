@@ -90,6 +90,7 @@ const ShippingDetails = (props) => {
   const [couponApplied, setCouponApplied] = useState(false);
   const [promoMessage, setPromoMessage] = useState("");
   const [couponDiscount, setCouponDiscount] = useState(0);
+  const [tat, setTat] = useState("");
 
   useEffect(() => {
     let { cart = "", app_token = "" } = props;
@@ -225,7 +226,7 @@ const ShippingDetails = (props) => {
 
   const checkCommitStatus = () => {
     let cartId = orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
-    let url = `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/my/${cartId}/checkout/?mode=${mode}&promoCode=${couponCode}&promoDiscount=${couponDiscount}`;
+    let url = `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/my/${cartId}/checkout/?mode=${mode}&promoCode=${couponCode}&promoDiscount=${couponDiscount}&tat=${tat}`;
 
     fetch(url, {
       method: "PUT",
@@ -455,6 +456,14 @@ const ShippingDetails = (props) => {
         })
         .then((result) => {
           setCartData(result);
+          console.log(airData, seaData);
+          if (mode === "AIR") {
+            let { tat = 0 } = airData || {};
+            setTat(tat);
+          } else {
+            let { tat = 0 } = seaData || {};
+            setTat(tat);
+          }
           let { miscCharges = [] } = result || {};
           let discount = 0;
           if (miscCharges.length) {
@@ -1280,6 +1289,7 @@ const ShippingDetails = (props) => {
                 shippingMode={mode}
                 deliver={deliver}
                 disablePayment={disablePayment}
+                tat={tat}
               />
             </Col>
           </Row>
@@ -1851,6 +1861,7 @@ const ShippingDetails = (props) => {
                     deliver={deliver}
                     user={userProfile}
                     disablePayment={disablePayment}
+                    tat={tat}
                   />
                 </Col>
               )}
