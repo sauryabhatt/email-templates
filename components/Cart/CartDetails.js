@@ -329,7 +329,7 @@ const CartDetails = (props) => {
     }else{
       setDeliver(false);
     }
-
+    setSelCountry(value)
   };
 
   const handleCancel = () => {
