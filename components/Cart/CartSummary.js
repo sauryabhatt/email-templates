@@ -49,7 +49,11 @@ const CartSummary = (props) => {
     if (props.cart) {
       getCountryCode();
       getEstimateCharge();
-      if (props.cart.subOrders.length && props.brandNames) {
+      if (
+        props.cart.subOrders &&
+        props.cart.subOrders.length &&
+        props.brandNames
+      ) {
         let sellers = [];
         for (let orders of props.cart.subOrders) {
           let { sellerCode = "" } = orders;
@@ -87,6 +91,7 @@ const CartSummary = (props) => {
     shippingMode = "",
     disablePayment = false,
     hideCreateOrder = false,
+    tat = "",
   } = props;
   let {
     subOrders = [],
@@ -166,7 +171,7 @@ const CartSummary = (props) => {
 
   const checkCommitStatus = () => {
     let cartId = orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
-    let url = `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/my/${cartId}/checkout/?mode=${shippingMode}&promoCode=${promoCode}&promoDiscount=${couponDiscount}`;
+    let url = `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/my/${cartId}/checkout/?mode=${shippingMode}&promoCode=${promoCode}&promoDiscount=${couponDiscount}&tat=${tat}`;
 
     fetch(url, {
       method: "PUT",
@@ -273,16 +278,16 @@ const CartSummary = (props) => {
   };
 
   const updateOrder = (data, status) => {
-    // let formData = { ...data };
-    // let { shippingMode = "" } = cart || {};
-    // formData["shippingMode"] = shippingMode;
+    let formData = { ...data };
+    let { shippingMode = "" } = cart || {};
+    formData["shippingMode"] = shippingMode;
     fetch(
       process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL +
         "/v1/orders/my/payments-reference?order_updated_Status=" +
         status,
       {
         method: "PUT",
-        body: JSON.stringify(data),
+        body: JSON.stringify(formData),
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + keycloak.token,
@@ -307,7 +312,7 @@ const CartSummary = (props) => {
   };
 
   const capturePayment = (authId, orderId, actions) => {
-    let finalValue = getConvertedCurrency(cart.total);
+    let finalValue = getConvertedCurrency(totalCartValue);
     let data = {
       amount: {
         value: parseFloat((finalValue * 20) / 100).toFixed(2),
@@ -428,7 +433,7 @@ const CartSummary = (props) => {
 
   const authorizePayment = (orderId, actions) => {
     setIsProcessing(true);
-    let finalValue = getConvertedCurrency(cart.total);
+    let finalValue = getConvertedCurrency(totalCartValue);
     let data = {
       amount: {
         value: parseFloat((finalValue * 20) / 100).toFixed(2),
@@ -518,15 +523,54 @@ const CartSummary = (props) => {
     }
   };
 
-  let totalAmount = getConvertedCurrency(
-    subOrders.reduce((x, y) => x + y["total"], 0) +
-      frieghtCharge +
-      dutyCharge -
-      sellerDiscount -
-      couponDiscount +
-      vatCharge -
-      promoDiscount
-  );
+  let subTotal = 0;
+  let totalCartValue = 0;
+
+  if (subOrders && subOrders.length > 0) {
+    for (let order of subOrders) {
+      let { products = "", qalaraSellerMargin = 0 } = order;
+
+      let sellerTotal = 0;
+      let basePrice = 0;
+      let samplePrice = 0;
+      let testingPrice = 0;
+
+      for (let items of products) {
+        let {
+          qualityTestingCharge = 0,
+          sampleCost = 0,
+          quantity = 0,
+          exfactoryListPrice = 0,
+        } = items;
+        samplePrice = samplePrice + sampleCost;
+        testingPrice = testingPrice + qualityTestingCharge;
+        basePrice =
+          basePrice +
+          parseFloat(getConvertedCurrency(exfactoryListPrice)) * quantity;
+      }
+
+      sellerTotal = basePrice + samplePrice + testingPrice;
+
+      subTotal = subTotal + sellerTotal;
+      totalCartValue = totalCartValue + sellerTotal;
+    }
+  }
+
+  subTotal =
+    subTotal +
+    parseFloat(getConvertedCurrency(frieghtCharge)) +
+    parseFloat(getConvertedCurrency(dutyCharge)) -
+    parseFloat(getConvertedCurrency(couponDiscount)) -
+    parseFloat(getConvertedCurrency(sellerDiscount));
+
+  totalCartValue =
+    totalCartValue +
+    parseFloat(getConvertedCurrency(frieghtCharge)) +
+    parseFloat(getConvertedCurrency(dutyCharge)) -
+    parseFloat(getConvertedCurrency(sellerDiscount)) -
+    parseFloat(getConvertedCurrency(couponDiscount)) +
+    parseFloat(getConvertedCurrency(vatCharge)) -
+    parseFloat(getConvertedCurrency(promoDiscount));
 
   const priceBreakup = (
     <div className="breakup-popup qa-font-san">
@@ -654,13 +698,14 @@ const CartSummary = (props) => {
           let {
             products = "",
             sellerCode = "",
-            total = "",
             qalaraSellerMargin = 0,
-            basePrice = 0,
           } = order;
-          let totalAmount = total;
+
+          let totalAmount = 0;
+          let basePrice = 0;
           let samplePrice = 0;
           let testingPrice = 0;
+
           for (let items of products) {
             let {
               qualityTestingCharge = 0,
@@ -670,8 +715,13 @@ const CartSummary = (props) => {
             } = items;
             samplePrice = samplePrice + sampleCost;
             testingPrice = testingPrice + qualityTestingCharge;
-            basePrice = basePrice + exfactoryListPrice * quantity;
+            basePrice =
+              basePrice +
+              parseFloat(getConvertedCurrency(exfactoryListPrice)) * quantity;
           }
+
+          totalAmount = basePrice + samplePrice + testingPrice;
+
           return (
             <div className="qa-mar-btm-2" key={i}>
               <div className="cart-prod-name qa-mar-btm-1">
@@ -683,7 +733,7 @@ const CartSummary = (props) => {
                 <div className="c-left-blk">Value of products purchased</div>
                 <div className="c-right-blk qa-fw-b qa-txt-alg-rgt">
                   {getSymbolFromCurrency(convertToCurrency)}
-                  {totalAmount ? getConvertedCurrency(totalAmount) : ""}
+                  {parseFloat(totalAmount).toFixed(2)}
                   <div className="qa-txt-alg-rgt">
                     <Popover
                       placement="bottomRight"
@@ -697,7 +747,9 @@ const CartSummary = (props) => {
                         onClick={() => {
                           popupHover(sellerCode);
                           setPopoverData(order);
-                          setSellerTotalAmount(totalAmount);
+                          setSellerTotalAmount(
+                            parseFloat(totalAmount).toFixed(2)
+                          );
                           setSamplePrice(samplePrice);
                           setQualityPrice(testingPrice);
                           setBasePrice(basePrice);
@@ -846,15 +898,7 @@ const CartSummary = (props) => {
           <div className="c-left-blk cart-prod-name font-size-17">SUBTOTAL</div>
           <div className="c-right-blk qa-fw-b qa-txt-alg-rgt font-size-17">
             {getSymbolFromCurrency(convertToCurrency)}
-            {total
-              ? getConvertedCurrency(
-                  subOrders.reduce((x, y) => x + y["total"], 0) +
-                    frieghtCharge +
-                    dutyCharge -
-                    couponDiscount -
-                    sellerDiscount
-                )
-              : ""}
+            {parseFloat(subTotal).toFixed(2)}
           </div>
         </div>
       </div>
@@ -939,9 +983,7 @@ const CartSummary = (props) => {
           </div>
           <div className="c-right-blk qa-fw-b qa-txt-alg-rgt font-size-17">
             {getSymbolFromCurrency(convertToCurrency)}
-            {total.toString() !== totalAmount.toString()
-              ? totalAmount
-              : getConvertedCurrency(total)}
+            {parseFloat(totalCartValue).toFixed(2)}
           </div>
           {/* <div className="c-left-blk">With refundable taxes</div> */}
         </div>

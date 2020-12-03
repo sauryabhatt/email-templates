@@ -508,6 +508,10 @@ const RtsOrderReview = (props) => {
                                         miscCharges.find(
                                           (x) =>
                                             x.chargeId === "SELLER_DISCOUNT"
+                                        ).amount &&
+                                        miscCharges.find(
+                                          (x) =>
+                                            x.chargeId === "SELLER_DISCOUNT"
                                         ).amount > 0
                                       )) && (
                                       <div className="cart-price-text">
@@ -520,6 +524,9 @@ const RtsOrderReview = (props) => {
                                       miscCharges.find(
                                         (x) => x.chargeId === "SELLER_DISCOUNT"
                                       ) &&
+                                      miscCharges.find(
+                                        (x) => x.chargeId === "SELLER_DISCOUNT"
+                                      ).amount &&
                                       miscCharges.find(
                                         (x) => x.chargeId === "SELLER_DISCOUNT"
                                       ).amount > 0 &&
@@ -1116,6 +1123,9 @@ const RtsOrderReview = (props) => {
                                 ) &&
                                 miscCharges.find(
                                   (x) => x.chargeId === "SELLER_DISCOUNT"
+                                ).amount &&
+                                miscCharges.find(
+                                  (x) => x.chargeId === "SELLER_DISCOUNT"
                                 ).amount > 0 &&
                                 sellerList.includes(sellerCode) && (
                                   <div className="qa-offer-text qa-mar-top-05">
@@ -1140,6 +1150,9 @@ const RtsOrderReview = (props) => {
                                   miscCharges.find(
                                     (x) => x.chargeId === "SELLER_DISCOUNT"
                                   ) &&
+                                  miscCharges.find(
+                                    (x) => x.chargeId === "SELLER_DISCOUNT"
+                                  ).amount &&
                                   miscCharges.find(
                                     (x) => x.chargeId === "SELLER_DISCOUNT"
                                   ).amount > 0

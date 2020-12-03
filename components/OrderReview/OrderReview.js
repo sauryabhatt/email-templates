@@ -67,13 +67,17 @@ const OrderReview = (props) => {
   };
 
   const updateOrder = (data, status) => {
+    let formData = { ...data };
+    let { order = {} } = props || {};
+    let { shippingMode = "" } = order || {};
+    formData["shippingMode"] = shippingMode;
     fetch(
       process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL +
         "/v1/orders/my/payments-reference?order_updated_Status=" +
         status,
       {
         method: "PUT",
-        body: JSON.stringify(data),
+        body: JSON.stringify(formData),
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + keycloak.token,
@@ -1170,6 +1174,9 @@ const OrderReview = (props) => {
                         ) &&
                         props.order.miscCharges.find(
                           (x) => x.chargeId === "SELLER_DISCOUNT"
+                        ).amount &&
+                        props.order.miscCharges.find(
+                          (x) => x.chargeId === "SELLER_DISCOUNT"
                         ).amount > 0 && (
                           <Col xs={18} sm={18} md={18} lg={16} xl={16}>
                             <span
@@ -1188,6 +1195,9 @@ const OrderReview = (props) => {
                         props.order.miscCharges.find(
                           (x) => x.chargeId === "SELLER_DISCOUNT"
                         ) &&
+                        props.order.miscCharges.find(
+                          (x) => x.chargeId === "SELLER_DISCOUNT"
+                        ).amount &&
                         props.order.miscCharges.find(
                           (x) => x.chargeId === "SELLER_DISCOUNT"
                         ).amount > 0 && (
@@ -1210,6 +1220,9 @@ const OrderReview = (props) => {
                               {parseFloat(
                                 (props.order &&
                                   props.order.miscCharges &&
+                                  props.order.miscCharges.find(
+                                    (x) => x.chargeId === "SELLER_DISCOUNT"
+                                  ) &&
                                   props.order.miscCharges.find(
                                     (x) => x.chargeId === "SELLER_DISCOUNT"
                                   ).amount) ||
@@ -1897,7 +1910,7 @@ const OrderReview = (props) => {
                               : "qa-font-san qa-tc-white qa-fs-14 qa-fw-b"
                           }
                         >
-                          VAT / GST
+                          VAT/ GST
                         </span>
                       </Col>
                       <Col
