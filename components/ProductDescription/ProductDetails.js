@@ -875,11 +875,19 @@ const ProductDetails = (props) => {
     if (item.fullscreen.includes(".mp4") || item.original.includes(".mp4")) {
       return (
         <div className="image-gallery-thumbnail-inner qa-rel-pos">
-          <img
-            className="image-gallery-thumbnail-image"
-            src={item.thumbnail}
-            alt={item.thumbnail}
-          />
+          {item.thumbnail.includes(".mp4") ? (
+            <video
+              className="qa-thumbnail-video image-gallery-thumbnail-image"
+              src={item.thumbnail}
+              preload="meta"
+            ></video>
+          ) : (
+            <img
+              className="image-gallery-thumbnail-image"
+              src={item.thumbnail}
+              alt={item.thumbnail}
+            />
+          )}
           <span
             style={{
               position: "absolute",
