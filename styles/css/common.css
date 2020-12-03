@@ -581,9 +581,6 @@
   font-weight: bold;
   font-size: 12px;
   line-height: 100%;
-  /* or 12px */
-
-  color: #af0000;
 }
 
 .qa-fs-60 {
@@ -661,4 +658,7 @@
   letter-spacing: 0.02em;
   color: #191919;
   vertical-align: middle;
+}
+.qa-tc1 {
+  color: #dabbae;
 }
