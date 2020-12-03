@@ -1130,7 +1130,7 @@ const OrderDetails = (props) => {
           </Col>
         </Col>
       </Col>
-      <Col
+      {/* <Col
         xs={24}
         sm={24}
         md={22}
@@ -1141,7 +1141,7 @@ const OrderDetails = (props) => {
           *These are estimates. Final value to be shared at the time of
           shipment.
         </div>
-      </Col>
+      </Col> */}
     </React.Fragment>
   );
 };
