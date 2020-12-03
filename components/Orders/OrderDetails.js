@@ -130,8 +130,9 @@ const OrderDetails = (props) => {
             >
               {getSymbolFromCurrency(props.orders && props.orders.currency) ||
                 "$"}
-              {subOrder.qalaraSellerMargin &&
-                subOrder.qalaraSellerMargin.toFixed(2)}
+              {(subOrder.qalaraSellerMargin > 0 &&
+                subOrder.qalaraSellerMargin.toFixed(2)) ||
+                parseFloat(0).toFixed(2)}
             </span>
             <span className="qa-font-san qa-fw-b" style={{ color: "#02873A" }}>
               {" "}
@@ -321,8 +322,8 @@ const OrderDetails = (props) => {
                 <span
                   className={
                     mediaMatch.matches
-                      ? "qa-fs-14 qa-font-san qa-fw-b"
-                      : "qa-fs-10 qa-font-san qa-fw-b"
+                      ? "qa-fs-14 qa-font-san"
+                      : "qa-fs-10 qa-font-san"
                   }
                   style={{
                     color: "#332f2f",
@@ -348,8 +349,8 @@ const OrderDetails = (props) => {
                 <span
                   className={
                     mediaMatch.matches
-                      ? "qa-fs-14 qa-font-san qa-fw-b"
-                      : "qa-fs-10 qa-font-san qa-fw-b"
+                      ? "qa-fs-14 qa-font-san"
+                      : "qa-fs-10 qa-font-san"
                   }
                   style={{
                     color: "#332f2f",
@@ -357,11 +358,22 @@ const OrderDetails = (props) => {
                     justifyContent: "flex-end",
                   }}
                 >
-                  {props.orders.expectedDeliveryDate
-                    ? moment(props.orders.expectedDeliveryDate).format(
+                  {props.orders.expectedDeliveryDateMin &&
+                  props.orders.expectedDeliveryDateMax ? (
+                    <span>
+                      {moment(props.orders.expectedDeliveryDateMin).format(
                         "DD/MM/YYYY"
-                      )
-                    : null}
+                      )}{" "}
+                      -{" "}
+                      {moment(props.orders.expectedDeliveryDateMax).format(
+                        "DD/MM/YYYY"
+                      )}
+                    </span>
+                  ) : props.orders.expectedDeliveryDate ? (
+                    moment(props.orders.expectedDeliveryDate).format(
+                      "DD/MM/YYYY"
+                    )
+                  ) : null}
                 </span>
               </Col>
             </Row>
@@ -437,18 +449,13 @@ const OrderDetails = (props) => {
                       }
                       size={mediaMatch.matches ? "large" : "small"}
                       disabled={
-                        (props.subOrders &&
-                          props.subOrders &&
-                          props.subOrders.orderTrackingLink == undefined) ||
-                        (props.subOrders &&
-                          props.subOrders &&
-                          props.subOrders.orderTrackingLink == null)
+                        (props.orders &&
+                          props.orders.trackingURL === undefined) ||
+                        (props.orders && props.orders.trackingURL == null)
                       }
                       onClick={(e) =>
                         redirectTrackingUrl(
-                          props.subOrders &&
-                            props.subOrders &&
-                            props.subOrders.orderTrackingLink
+                          props.orders && props.orders.trackingURL
                         )
                       }
                     >
@@ -1124,7 +1131,7 @@ const OrderDetails = (props) => {
           </Col>
         </Col>
       </Col>
-      <Col
+      {/* <Col
         xs={24}
         sm={24}
         md={22}
@@ -1135,7 +1142,7 @@ const OrderDetails = (props) => {
           *These are estimates. Final value to be shared at the time of
           shipment.
         </div>
-      </Col>
+      </Col> */}
     </React.Fragment>
   );
 };

@@ -603,11 +603,22 @@ const OrdersMobile = (props) => {
                                     justifyContent: "flex-end",
                                   }}
                                 >
-                                  {subOrder.expectedDeliveryDate
-                                    ? moment(
-                                        subOrder.expectedDeliveryDate
-                                      ).format("DD/MM/YYYY")
-                                    : null}
+                                  {order.expectedDeliveryDateMin &&
+                                  order.expectedDeliveryDateMax ? (
+                                    <span className="qa-txt-alg-rgt">
+                                      {moment(
+                                        order.expectedDeliveryDateMin
+                                      ).format("DD/MM/YYYY")}{" "}
+                                      -{" "}
+                                      {moment(
+                                        order.expectedDeliveryDateMax
+                                      ).format("DD/MM/YYYY")}
+                                    </span>
+                                  ) : order.expectedDeliveryDate ? (
+                                    moment(order.expectedDeliveryDate).format(
+                                      "DD/MM/YYYY"
+                                    )
+                                  ) : null}
                                 </span>
                               </Col>
                             </Row>
@@ -640,10 +651,10 @@ const OrdersMobile = (props) => {
                                   }}
                                 >
                                   {SellerOrderStatuses.find(
-                                    (x) => x.id === subOrder.status
+                                    (x) => x.id === order.status
                                   ) &&
                                     SellerOrderStatuses.find(
-                                      (x) => x.id === subOrder.status
+                                      (x) => x.id === order.status
                                     ).name}
                                 </span>
                               </Col>
@@ -1067,7 +1078,7 @@ const OrdersMobile = (props) => {
                         className="qa-col-start qa-mar-top-05"
                       >
                         <span className="qa-fs-14 qa-fw-b qa-font-san qa-tc-white">
-                          VAT / GST
+                          VAT/ GST
                         </span>
                       </Col>
                       <Col

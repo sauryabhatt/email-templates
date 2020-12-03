@@ -1192,7 +1192,8 @@ function SellerLandingMobile(props) {
           <Panel header="Lead times" key="5">
             <div className="qa-fs-13">
               <ul className="qa-mar-btm-0 qa-ul-p0">
-                {leadTimes.length > 0 &&
+                {leadTimes &&
+                  leadTimes.length > 0 &&
                   leadTimes.slice(0, itemsToShow).map((list, i) => {
                     return (
                       <li key={i}>
