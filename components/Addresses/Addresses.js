@@ -29,6 +29,7 @@ import { useKeycloak } from "@react-keycloak/ssr";
 import { getAddresses } from "../../store/actions";
 import { connect } from "react-redux";
 import states from "../../public/filestore/stateCodes_en.json";
+import deliveredCountryList from "../../public/filestore/deliveredCountries.json";
 
 const { Option } = Select;
 const Addresses = (props) => {
@@ -46,6 +47,7 @@ const Addresses = (props) => {
   const [fullName, setFullName] = useState(null);
   const [loading, setLoading] = useState(false);
   const [zipCodeList, setZipcodeList] = useState([])
+  const [deliver, setDeliver] = useState(false);
   const [state, setState] = useState({
     fullName: null,
     addressLine1: null,
@@ -192,7 +194,11 @@ const Addresses = (props) => {
           statesByCountry: obj ? obj.stateCodes : [],
           isStatesDropdown: obj ? true : false,
         }));
-
+        if (deliveredCountryList.includes(response.country)) {
+          setDeliver(true);
+        } else {
+          setDeliver(false);
+        }
         setSelCountryExpectedLength(response.phoneNumber.length);
         setSelCountryCode(response.countryCode);
         setIsEdit(true);
@@ -268,6 +274,12 @@ const Addresses = (props) => {
 
   const handleCountry = (e) => {
     let value = e;
+    if (deliveredCountryList.includes(value)) {
+      setDeliver(true);
+    }else{
+      setDeliver(false)
+    }
+
     let obj = states.find((state) => {
       return state.country == value;
     });
@@ -322,13 +334,13 @@ const Addresses = (props) => {
       handleError("zipCode", state.zipCode, "Please enter Country name first!!")
       return
     }
-    let value = e
+    let value = e.target ? e.target.value.toUpperCase() : e.toUpperCase()
     setState((prevState) => ({
       ...prevState,
       zipCode: value,
     }));
 
-    if(value.toString().length >= 3){
+    if(value.toString().length >= 3 && deliver){
       fetch(process.env.NEXT_PUBLIC_REACT_APP_DUTY_COST_URL + "/country/" + state.country + "/zipcode/"+value, {
         method: "GET",
         headers: {
@@ -352,6 +364,8 @@ const Addresses = (props) => {
           message.error(err.message || err, 5);
           setLoading(false);
         });
+    }else{
+      setZipcodeList([])
     }
   };
 
@@ -1010,26 +1024,38 @@ const Addresses = (props) => {
                           },
                         ]}
                       >
-                        <Select 
-                          showSearch
-                          value={state.zipCode}
-                          onSearch={handleZipCode}
-                          onChange={handleZipcodeChange}
-                          id="zipCode"
-                          onBlur={(e) => handleError("zipCode", state.zipCode)}
-                        >
-                          {zipCodeList && zipCodeList.length > 0 
-                            ? (zipCodeList.map(e => {
-                              return <Option key= {e} value={e}>{e}</Option> 
-                            })): null
-                          }
-                        </Select>
-                        <span
-                          className="qa-font-san qa-fs-12 qa-error zipCode-error-block"
-                          style={{ display: "none" }}
-                        >
-                          Field is required
-                        </span>
+                        {deliver
+                          ?(
+                            <Select 
+                              showSearch
+                              value={state.zipCode}
+                              onSearch={handleZipCode}
+                              onChange={handleZipcodeChange}
+                              id="zipCode"
+                              onBlur={(e) => handleError("zipCode", state.zipCode)}
+                            >
+                              {zipCodeList && zipCodeList.length > 0 
+                                ?(zipCodeList.map(e => {
+                                    return <Option key= {e} value={e}>{e}</Option> 
+                                  }))
+                                  : null
+                              }
+                            </Select>)
+                            :(
+                              <Input
+                                value={state.zipCode}
+                                onChange={handleZipCode}
+                                id="zipCode"
+                                className = "testInput"
+                                onBlur={(e) => handleError("zipCode", state.zipCode)}
+                              />
+                            )}
+                            <span
+                              className="qa-font-san qa-fs-12 qa-error zipCode-error-block"
+                              style={{ display: "none" }}
+                            >
+                              Field is required
+                            </span>
                       </Form.Item>
                     </Col>
                   </Row>

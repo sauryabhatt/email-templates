@@ -121,6 +121,7 @@ const CartDetails = (props) => {
   const [deliver, setDeliver] = useState(false);
   const [serviceTotal, setServiceTotal] = useState(0);
   const [hCountry, setHCountry] = useState([]);
+  const [zipCodeList, setZipcodeList] = useState([])
   const [inventoryQty, setInventoryQty] = useState();
   let showError = false;
   useEffect(() => {
@@ -323,6 +324,12 @@ const CartDetails = (props) => {
     }
     form.setFieldsValue({ state: "" });
     addform.setFieldsValue({ state: "" });
+    if (deliveredCountryList.includes(value)) {
+        setDeliver(true);
+    }else{
+      setDeliver(false);
+    }
+
   };
 
   const handleCancel = () => {
@@ -542,6 +549,47 @@ const CartDetails = (props) => {
       .catch((err) => {
         message.error("Error updating info!", 5);
       });
+  };
+  
+  const handleZipCode = (e) => {
+    if(!selCountry){
+      alert("Enter Country first!!")
+      //handleError("zipCode", state.zipCode, "Please enter Country name first!!")
+      return
+    }
+    let value = e.target ? e.target.value.toUpperCase() : e.toUpperCase()
+    /*setState((prevState) => ({
+      ...prevState,
+      zipCode: value,
+    }));*/
+
+    if(value.toString().length >= 3){
+      fetch(process.env.NEXT_PUBLIC_REACT_APP_DUTY_COST_URL + "/country/" + selCountry + "/zipcode/"+value, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + app_token,
+        }
+      })
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            throw res.statusText || "Error while updating info.";
+          }
+        })
+        .then((res) => {
+          if(res.zipcodes && res.zipcodes.length > 0){
+            setZipcodeList(res.zipcodes)
+          }
+        })
+        .catch((err) => {
+          message.error(err.message || err, 5);
+          setLoading(false);
+        });
+    }else{
+      setZipcodeList([])
+    }
   };
 
   const updateCart = (action = "", sellerCode = "", services = "") => {
@@ -2650,7 +2698,24 @@ const CartDetails = (props) => {
                     },
                   ]}
                 >
-                  <Input />
+                  {deliver
+                    ?(
+                      <Select 
+                        showSearch
+                        onSearch={handleZipCode}
+                      >
+                        {zipCodeList && zipCodeList.length > 0 
+                          ?(zipCodeList.map(e => {
+                            return <Option key= {e} value={e}>{e}</Option> 
+                          }))
+                          : null
+                        }
+                      </Select>)
+                      :(
+                        <Input
+                        />
+                      )
+                  }
                 </Form.Item>
               </Col>
               <Col
