@@ -580,6 +580,11 @@ const Addresses = (props) => {
         document.querySelectorAll(
           "#add-new-address-form .ant-select-selector"
         )[0].style.border = "1px solid #ff4d4f";
+      }else if (value == "zipCode" && deliver) {
+        let node = document.querySelectorAll(
+          "#add-new-address-form .ant-select-selector"
+        )
+        node[node.length - 1].style.border = "1px solid #ff4d4f";
       } else if (value == "phone") {
         checkPhone(value, inputVal);
       } else if (value == "state" && state.isStatesDropdown) {
@@ -593,7 +598,13 @@ const Addresses = (props) => {
       if(message) document.getElementsByClassName(divName)[0].innerText = message
     } else if (value == "phone") {
       checkPhone(value, inputVal);
-    } else if (value == "state" && state.isStatesDropdown) {
+    } else if (value == "zipCode" && deliver) {
+        let node = document.querySelectorAll(
+          "#add-new-address-form .ant-select-selector"
+        )
+        node[node.length - 1].style.border = "1px solid #d9d9d9";
+      document.getElementsByClassName(divName)[0].style.display = "none";
+    }else if (value == "state" && state.isStatesDropdown) {
       document.querySelectorAll(
         "#add-new-address-form .ant-select-selector"
       )[1].style.border = "1px solid #d9d9d9";
