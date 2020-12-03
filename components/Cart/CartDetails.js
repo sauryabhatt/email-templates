@@ -206,10 +206,6 @@ const CartDetails = (props) => {
     addressFlag = true;
   }
 
-  console.log(
-    shippingAddressId,
-    addresses.find((x) => x.id === shippingAddressId)
-  );
   if (subOrders && subOrders.length) {
     for (let orders of subOrders) {
       let orderMov = 0;
