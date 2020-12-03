@@ -45,6 +45,7 @@ const Addresses = (props) => {
   const {keycloak} = useKeycloak();
   const [fullName, setFullName] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [zipCodeList, setZipcodeList] = useState([])
   const [state, setState] = useState({
     fullName: null,
     addressLine1: null,
@@ -317,12 +318,50 @@ const Addresses = (props) => {
   };
 
   const handleZipCode = (e) => {
-    let value = e.target.value;
+    if(!state.country){
+      handleError("zipCode", state.zipCode, "Please enter Country name first!!")
+      return
+    }
+    let value = e
     setState((prevState) => ({
       ...prevState,
       zipCode: value,
     }));
+
+    if(value.toString().length >= 3){
+      fetch(process.env.NEXT_PUBLIC_REACT_APP_DUTY_COST_URL + "/country/" + state.country + "/zipcode/"+value, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + keycloak.token,
+        }
+      })
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            throw res.statusText || "Error while updating info.";
+          }
+        })
+        .then((res) => {
+          if(res.zipcodes && res.zipcodes.length > 0){
+            setZipcodeList(res.zipcodes)
+          }
+        })
+        .catch((err) => {
+          message.error(err.message || err, 5);
+          setLoading(false);
+        });
+    }
   };
+
+  const handleZipcodeChange = (e) => {
+    let value = e
+    setState((prevState) => ({
+      ...prevState,
+      zipCode: value,
+    }));
+  }
 
   const handleDefault = (e) => {
     let value = e.target.value;
@@ -520,7 +559,7 @@ const Addresses = (props) => {
     }
   };
 
-  const handleError = (value, inputVal = null) => {
+  const handleError = (value, inputVal = null, message) => {
     let divName = value + "-error-block";
     if (inputVal == null || inputVal == "") {
       if (value == "country") {
@@ -537,6 +576,7 @@ const Addresses = (props) => {
         document.getElementById(value).style.border = "1px solid #ff4d4f";
       }
       document.getElementsByClassName(divName)[0].style.display = "block";
+      if(message) document.getElementsByClassName(divName)[0].innerText = message
     } else if (value == "phone") {
       checkPhone(value, inputVal);
     } else if (value == "state" && state.isStatesDropdown) {
@@ -597,7 +637,6 @@ const Addresses = (props) => {
     }
     return isValid;
   };
-
   return (
     <React.Fragment>
       <Col xs={24} sm={24} md={22} lg={22}>
@@ -971,12 +1010,20 @@ const Addresses = (props) => {
                           },
                         ]}
                       >
-                        <Input
+                        <Select 
+                          showSearch
                           value={state.zipCode}
-                          onChange={handleZipCode}
+                          onSearch={handleZipCode}
+                          onChange={handleZipcodeChange}
                           id="zipCode"
                           onBlur={(e) => handleError("zipCode", state.zipCode)}
-                        />
+                        >
+                          {zipCodeList && zipCodeList.length > 0 
+                            ? (zipCodeList.map(e => {
+                              return <Option key= {e} value={e}>{e}</Option> 
+                            })): null
+                          }
+                        </Select>
                         <span
                           className="qa-font-san qa-fs-12 qa-error zipCode-error-block"
                           style={{ display: "none" }}
