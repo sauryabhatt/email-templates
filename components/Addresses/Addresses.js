@@ -291,6 +291,7 @@ const Addresses = (props) => {
         isStatesDropdown: true,
         country: value,
         state: null,
+        zipCode: "",
       }));
     } else {
       setState((prevState) => ({
@@ -299,6 +300,7 @@ const Addresses = (props) => {
         isStatesDropdown: false,
         country: value,
         state: null,
+        zipCode: "",
       }));
     }
     // setState(prevState => ({
