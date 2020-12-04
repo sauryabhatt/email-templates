@@ -121,6 +121,7 @@ const CartDetails = (props) => {
   const [deliver, setDeliver] = useState(false);
   const [serviceTotal, setServiceTotal] = useState(0);
   const [hCountry, setHCountry] = useState([]);
+  const [zipCodeList, setZipcodeList] = useState([]);
   const [inventoryQty, setInventoryQty] = useState();
   let showError = false;
   useEffect(() => {
@@ -173,6 +174,7 @@ const CartDetails = (props) => {
   let {
     subOrders = [],
     shippingAddressDetails = "",
+    shippingAddressId = "",
     orderId = "",
     isFulfillable = true,
     referralCode = "",
@@ -197,9 +199,13 @@ const CartDetails = (props) => {
     shippingAddressDetails &&
     Object.keys(shippingAddressDetails).length > 0 &&
     addresses.length > 0
+    // &&
+    // addresses.find((x) => x.id === shippingAddressId) &&
+    // addresses.find((x) => x.id === shippingAddressId).id
   ) {
     addressFlag = true;
   }
+
   if (subOrders && subOrders.length) {
     for (let orders of subOrders) {
       let orderMov = 0;
@@ -322,7 +328,16 @@ const CartDetails = (props) => {
       setHCountry([]);
     }
     form.setFieldsValue({ state: "" });
+    form.setFieldsValue({ zipCode: "" });
+    addform.setFieldsValue({ zipCode: "" });
     addform.setFieldsValue({ state: "" });
+    if (deliveredCountryList.includes(value)) {
+      setDeliver(true);
+    } else {
+      setDeliver(false);
+    }
+    setSelCountry(value)
+    setZipcodeList([])
   };
 
   const handleCancel = () => {
@@ -542,6 +557,54 @@ const CartDetails = (props) => {
       .catch((err) => {
         message.error("Error updating info!", 5);
       });
+  };
+
+  const handleZipCode = (e) => {
+    if (!selCountry) {
+      alert("Enter Country first!!");
+      //handleError("zipCode", state.zipCode, "Please enter Country name first!!")
+      return;
+    }
+    let value = e.target ? e.target.value.toUpperCase() : e.toUpperCase();
+    /*setState((prevState) => ({
+      ...prevState,
+      zipCode: value,
+    }));*/
+
+    if (value.toString().length >= 3) {
+      fetch(
+        process.env.NEXT_PUBLIC_REACT_APP_DUTY_COST_URL +
+          "/country/" +
+          selCountry +
+          "/zipcode/" +
+          value,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + app_token,
+          },
+        }
+      )
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            throw res.statusText || "Error while updating info.";
+          }
+        })
+        .then((res) => {
+          if (res.zipcodes && res.zipcodes.length > 0) {
+            setZipcodeList(res.zipcodes);
+          }
+        })
+        .catch((err) => {
+          message.error(err.message || err, 5);
+          setLoading(false);
+        });
+    } else {
+      setZipcodeList([]);
+    }
   };
 
   const updateCart = (action = "", sellerCode = "", services = "") => {
@@ -981,26 +1044,50 @@ const CartDetails = (props) => {
             <PromotionCarousel />
             <Col xs={24} sm={24} md={15} lg={15} xl={15}>
               <div className="qa-dark-theme qa-pad-2 qa-mar-btm-2">
-                <div className="qa-disp-table-cell qa-ship-addr">
-                  <div className="cart-ship-st qa-fw-b qa-mar-btm-05">
-                    Shipping to:
-                  </div>
-                  {addressFlag ? (
+                {addressFlag ? (
+                  <div className="qa-disp-table-cell qa-ship-addr">
+                    <div className="cart-ship-st qa-fw-b qa-mar-btm-05">
+                      Shipping to:
+                    </div>
                     <div className="cart-ship-st">{shippingAddr}</div>
-                  ) : (
+                  </div>
+                ) : (
+                  <div className="qa-disp-table-cell qa-ship-addr-text">
+                    <div className="cart-ship-st qa-fw-b qa-mar-btm-05">
+                      Shipping to:
+                    </div>
                     <div
                       className="add-shipping-addr"
                       onClick={() => {
                         setAddressModal(true);
                         setAddressFunc("add");
-                        setSelCountryCode("us");
-                        setDialCode("+1");
                       }}
                     >
                       +Add a new address
                     </div>
-                  )}
-                </div>
+                  </div>
+                )}
+
+                {!addressFlag && (
+                  <div className="qa-disp-table-cell c-edit-address addr-error">
+                    <div className="display-flex qa-tc1">
+                      <div className="qa-lh qa-fw-b">
+                        Please enter your shipping address in order to proceed
+                        to the next page
+                      </div>
+                      <div className="qa-mar-lft15">
+                        <Icon
+                          component={alertIcon}
+                          className="alert-icon"
+                          style={{
+                            width: "25px",
+                            marginTop: "3px",
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
                 {addressFlag && (
                   <div
                     className="qa-disp-table-cell c-edit-address qa-cursor"
@@ -1324,22 +1411,6 @@ const CartDetails = (props) => {
             </Col>
             <Col xs={24} sm={24} md={1} lg={1} xl={1}></Col>
             <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-              {!addressFlag && (
-                <div className="qa-pad-2 qa-mar-btm-2 cart-error-block cart-err display-flex">
-                  <div className="margin-right-2p">
-                    <Icon
-                      component={alertIcon}
-                      className="alert-icon"
-                      style={{
-                        width: "15px",
-                        verticalAlign: "top",
-                      }}
-                    />
-                  </div>
-                  Please enter your Shipping Address in order to proceed to the
-                  next page
-                </div>
-              )}
               {showError && (
                 <div className="qa-pad-2 qa-mar-btm-2 cart-error-block cart-err display-flex">
                   <div className="margin-right-2p">
@@ -1408,6 +1479,10 @@ const CartDetails = (props) => {
                 clearCart={() => {
                   props.getCart(app_token);
                 }}
+                showAddrModal={() => {
+                  setAddressModal(true);
+                  setAddressFunc("add");
+                }}
               />
               <div className=" qa-mar-btm-2">
                 <Checkbox
@@ -1460,8 +1535,10 @@ const CartDetails = (props) => {
                         }}
                       />
                     </div>
-                    Please enter your Shipping Address in order to proceed to
-                    the next page
+                    <div className="qa-error qa-fs-14 qa-lh">
+                      Please enter your shipping address in order to proceed to
+                      the next page
+                    </div>
                   </div>
                 )}
                 {showError && (
@@ -1509,6 +1586,10 @@ const CartDetails = (props) => {
                   hideCreateOrder={!addressFlag}
                   clearCart={() => {
                     props.getCart(app_token);
+                  }}
+                  showAddrModal={() => {
+                    setAddressModal(true);
+                    setAddressFunc("add");
                   }}
                 />
                 <div className="qa-mar-top-05">
@@ -1568,6 +1649,7 @@ const CartDetails = (props) => {
                       </div>
                     )}
                   </div>
+
                   {addressFlag && (
                     <div
                       className="qa-disp-table-cell c-edit-address"
@@ -2650,7 +2732,21 @@ const CartDetails = (props) => {
                     },
                   ]}
                 >
-                  <Input />
+                  {deliver ? (
+                    <Select showSearch onSearch={handleZipCode}>
+                      {zipCodeList && zipCodeList.length > 0
+                        ? zipCodeList.map((e) => {
+                            return (
+                              <Option key={e} value={e}>
+                                {e}
+                              </Option>
+                            );
+                          })
+                        : null}
+                    </Select>
+                  ) : (
+                    <Input />
+                  )}
                 </Form.Item>
               </Col>
               <Col

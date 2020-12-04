@@ -20,6 +20,7 @@ import { useKeycloak } from "@react-keycloak/ssr";
 import countries from "../../public/filestore/countryCodes_en.json";
 import getSymbolFromCurrency from "currency-symbol-map";
 import sellerList from "../../public/filestore/freeShippingSellers.json";
+import alertIcon from "../../public/filestore/alertIcon";
 import _ from "lodash";
 
 const CartSummary = (props) => {
@@ -992,26 +993,34 @@ const CartSummary = (props) => {
         <div>
           {enable && deliver && !showCartError ? (
             <Link href="/shipping">
-              <Button
-                className={`${
-                  enable && deliver && !showCartError
-                    ? "qa-button qa-fs-12 qa-mar-top-1 proceed-to-ship active"
-                    : "qa-button qa-fs-12 qa-mar-top-1 proceed-to-ship"
-                }`}
-              >
+              <Button className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-ship active">
                 Proceed to shipping
               </Button>
             </Link>
           ) : (
-            <Button
-              className={`${
-                enable && deliver && !showCartError
-                  ? "qa-button qa-fs-12 qa-mar-top-1 proceed-to-ship active"
-                  : "qa-button qa-fs-12 qa-mar-top-1 proceed-to-ship"
-              }`}
-            >
+            <Button className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-ship">
               Proceed to shipping
             </Button>
+          )}
+          {hideCreateOrder && (
+            <div className="qa-error qa-txt-alg-cnt display-flex qa-mar-top-05">
+              <div>
+                <Icon
+                  component={alertIcon}
+                  className="alert-icon"
+                  style={{
+                    width: "15px",
+                  }}
+                />
+              </div>
+              <div
+                className="qa-mar-lft qa-cursor qa-shipping-err"
+                onClick={props.showAddrModal}
+              >
+                Click here to enter your shipping address in order to proceed to
+                the next page
+              </div>
+            </div>
           )}
         </div>
       )}
@@ -1020,22 +1029,12 @@ const CartSummary = (props) => {
           {enable && deliver && !showCartError && !disablePayment ? (
             <Button
               onClick={checkCommitStatus}
-              className={`${
-                enable && deliver && !showCartError && !disablePayment
-                  ? "qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment active"
-                  : "qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment"
-              }`}
+              className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment active"
             >
               Proceed to payment
             </Button>
           ) : (
-            <Button
-              className={`${
-                enable && deliver && !showCartError && !disablePayment
-                  ? "qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment active"
-                  : "qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment"
-              }`}
-            >
+            <Button className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment">
               Proceed to payment
             </Button>
           )}
@@ -1116,7 +1115,9 @@ const CartSummary = (props) => {
         <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-top-05 qa-txt-alg-cnt">
           {id === "cart" ? (
             <span>
-              *Please check the T&C box to review shipping mode and costs
+              {!hideCreateOrder
+                ? "*Please check the T&C box to review shipping mode and costs"
+                : ""}
             </span>
           ) : (
             <span>

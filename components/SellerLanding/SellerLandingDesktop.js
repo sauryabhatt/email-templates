@@ -208,7 +208,15 @@ const SellerLandingDesktop = (props) => {
   const [videoName, setVideoName] = useState("");
   let offerings = [];
   if (Object.keys(showRoom).length) {
-    offerings = [showRoom, ...publicOfferings, ...privateOfferings];
+    if (
+      showRoom &&
+      showRoom.catalogMedia &&
+      showRoom.catalogMedia.media &&
+      showRoom.catalogMedia.media.mediaUrl &&
+      showRoom.catalogMedia.media.mediaUrl !== null
+    ) {
+      offerings = [showRoom, ...publicOfferings, ...privateOfferings];
+    }
   } else {
     offerings = [...publicOfferings, ...privateOfferings];
   }
