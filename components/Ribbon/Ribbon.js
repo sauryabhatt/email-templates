@@ -22,6 +22,7 @@ export default function Ribbon(props) {
   };
   let slider = "";
   let t = [
+    "Launching Qalara Bazaar with FREE SHIPPING",
     "Holiday offer! Get $75 OFF on all orders",
     "ZERO Commissions. FREE quality inspections",
   ];
@@ -40,7 +41,7 @@ export default function Ribbon(props) {
           return (
             <a
               target="_blank"
-              href="/promotionsFAQ"
+              href="/seller/SL10789/all-categories"
               key={a}
               className="home-page-ribben"
             >

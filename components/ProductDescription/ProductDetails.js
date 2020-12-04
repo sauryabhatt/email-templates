@@ -163,7 +163,7 @@ const ProductDetails = (props) => {
   let {
     data = {},
     userProfile = "",
-    sellerDetails = "",
+    sellerDetails,
     token = "",
     authenticated = false,
     currencyDetails = {},
@@ -172,14 +172,12 @@ const ProductDetails = (props) => {
     isLoading = true,
     isGuest = false,
   } = props;
-
   let {
     companyDescription = "",
     valueCertifications = [],
     vanityId = "",
     brandName = "",
   } = sellerDetails || {};
-
   let { orderId = "" } = cart;
   const router = useRouter();
   const { keycloak } = useKeycloak();
@@ -416,7 +414,6 @@ const ProductDetails = (props) => {
     height = "",
     lbhUnit = "",
   } = data || {};
-
   let sizes = [];
   let standardSize = "Standard (l*b*h)";
   let lbh = [];
@@ -3739,8 +3736,8 @@ const ProductDetails = (props) => {
         width={400}
         className={
           rfqType === "Seller RFQ"
-            ? "seller-order-query-submission"
-            : "product-order-query-submission"
+            ? "pdp seller-order-query-submission"
+            : "pdp product-order-query-submission"
         }
       >
         <div id="send-query-success-modal">

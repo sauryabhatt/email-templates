@@ -1073,6 +1073,7 @@ const CartSummary = (props) => {
             countryCode={
               cart &&
               cart["shippingAddressDetails"] &&
+              countries[cart.shippingAddressDetails["country"]] &&
               countries[
                 cart.shippingAddressDetails["country"].toString().toUpperCase()
               ]
