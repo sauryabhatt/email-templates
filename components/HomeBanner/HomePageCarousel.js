@@ -46,8 +46,7 @@ export default function HomePageCarousel(props) {
       isSignupbtn: true,
       signinBTNLink: "/sellers/all-categories",
       signinBTNText: "START SHOPPING",
-      mobileImg:
-        "https://cdn.qalara.com/images/Img_Homepage_Banner_Qalara_1-mob.jpg",
+      mobileImg: "https://cdn.qalara.com/images/Img_Homepage_Banner_Qalara_1-mob.jpg",
     },
     /*,{
         img: desk1,
@@ -57,14 +56,14 @@ export default function HomePageCarousel(props) {
         mobileImg: mobile1,
     },*/
     {
-        img: "https://cdn.qalara.com/images/Img_Homepage_Banner_Qalara_2-1.jpg",
-        hading_text: <div className = "second-img-head">Eco-friendly,{isMobile ?<br/>: null} handmade gifts for{isMobile ?<br/>: null} the Holiday season.</div>,
+      img: "https://cdn.qalara.com/images/Img_Homepage_Banner_Qalara_2-1.jpg",
+      hading_text: <div className = "second-img-head">Eco-friendly,{isMobile ?<br/>: null} handmade gifts for{isMobile ?<br/>: null} the Holiday season.</div>,
       small_text: <span className = "second-img-subhead" > <div> Use coupon code <b>FLAT75OFF</b> to avail</div><div> <b>$75 off*</b> on all orders.</div></span>,
-        //video_link: "",  
-        isSignupbtn: true,
-        signinBTNLink: "/sellers/all-categories?f_values=ECO_FRIENDLY",
-        signinBTNText: "EXPLORE NOW",
-        mobileImg: "https://cdn.qalara.com/images/Img_Homepage_Banner_Qalara_2-mob.jpg",
+      //video_link: "",  
+      isSignupbtn: true,
+      signinBTNLink: "/sellers/all-categories?f_values=ECO_FRIENDLY",
+      signinBTNText: "EXPLORE NOW",
+      mobileImg: "https://cdn.qalara.com/images/Img_Homepage_Banner_Qalara_2-mob.jpg",
     },
     {
       img: "https://cdn.qalara.com/images/Img_Homepage_banner_3.jpg",
@@ -318,8 +317,8 @@ function SlideElement(props) {
             !e.video_link
               ? { top: "17%" }
               : isVideo
-              ? { fontSize: "30px", top: "27px" }
-              : {}
+                ? { fontSize: "30px", top: "27px" }
+                : {}
           }
           className="home-banner-head-text"
         >

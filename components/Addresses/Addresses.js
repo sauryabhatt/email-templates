@@ -29,6 +29,7 @@ import { useKeycloak } from "@react-keycloak/ssr";
 import { getAddresses } from "../../store/actions";
 import { connect } from "react-redux";
 import states from "../../public/filestore/stateCodes_en.json";
+import deliveredCountryList from "../../public/filestore/deliveredCountries.json";
 
 const { Option } = Select;
 const Addresses = (props) => {
@@ -45,6 +46,8 @@ const Addresses = (props) => {
   const {keycloak} = useKeycloak();
   const [fullName, setFullName] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [zipCodeList, setZipcodeList] = useState([])
+  const [deliver, setDeliver] = useState(false);
   const [state, setState] = useState({
     fullName: null,
     addressLine1: null,
@@ -191,7 +194,11 @@ const Addresses = (props) => {
           statesByCountry: obj ? obj.stateCodes : [],
           isStatesDropdown: obj ? true : false,
         }));
-
+        if (deliveredCountryList.includes(response.country)) {
+          setDeliver(true);
+        } else {
+          setDeliver(false);
+        }
         setSelCountryExpectedLength(response.phoneNumber.length);
         setSelCountryCode(response.countryCode);
         setIsEdit(true);
@@ -267,6 +274,12 @@ const Addresses = (props) => {
 
   const handleCountry = (e) => {
     let value = e;
+    if (deliveredCountryList.includes(value)) {
+      setDeliver(true);
+    }else{
+      setDeliver(false)
+    }
+
     let obj = states.find((state) => {
       return state.country == value;
     });
@@ -278,6 +291,7 @@ const Addresses = (props) => {
         isStatesDropdown: true,
         country: value,
         state: null,
+        zipCode: "",
       }));
     } else {
       setState((prevState) => ({
@@ -286,6 +300,7 @@ const Addresses = (props) => {
         isStatesDropdown: false,
         country: value,
         state: null,
+        zipCode: "",
       }));
     }
     // setState(prevState => ({
@@ -317,12 +332,52 @@ const Addresses = (props) => {
   };
 
   const handleZipCode = (e) => {
-    let value = e.target.value;
+    if(!state.country){
+      handleError("zipCode", state.zipCode, "Please enter Country name first!!")
+      return
+    }
+    let value = e.target ? e.target.value.toUpperCase() : e.toUpperCase()
     setState((prevState) => ({
       ...prevState,
       zipCode: value,
     }));
+
+    if(value.toString().length >= 3 && deliver){
+      fetch(process.env.NEXT_PUBLIC_REACT_APP_DUTY_COST_URL + "/country/" + state.country + "/zipcode/"+value, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + keycloak.token,
+        }
+      })
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            throw res.statusText || "Error while updating info.";
+          }
+        })
+        .then((res) => {
+          if(res.zipcodes && res.zipcodes.length > 0){
+            setZipcodeList(res.zipcodes)
+          }
+        })
+        .catch((err) => {
+          message.error(err.message || err, 5);
+          setLoading(false);
+        });
+    }else{
+      setZipcodeList([])
+    }
   };
+
+  const handleZipcodeChange = (e) => {
+    let value = e
+    setState((prevState) => ({
+      ...prevState,
+      zipCode: value,
+    }));
+  }
 
   const handleDefault = (e) => {
     let value = e.target.value;
@@ -520,13 +575,18 @@ const Addresses = (props) => {
     }
   };
 
-  const handleError = (value, inputVal = null) => {
+  const handleError = (value, inputVal = null, message) => {
     let divName = value + "-error-block";
     if (inputVal == null || inputVal == "") {
       if (value == "country") {
         document.querySelectorAll(
           "#add-new-address-form .ant-select-selector"
         )[0].style.border = "1px solid #ff4d4f";
+      }else if (value == "zipCode" && deliver) {
+        let node = document.querySelectorAll(
+          "#add-new-address-form .ant-select-selector"
+        )
+        node[node.length - 1].style.border = "1px solid #ff4d4f";
       } else if (value == "phone") {
         checkPhone(value, inputVal);
       } else if (value == "state" && state.isStatesDropdown) {
@@ -537,9 +597,16 @@ const Addresses = (props) => {
         document.getElementById(value).style.border = "1px solid #ff4d4f";
       }
       document.getElementsByClassName(divName)[0].style.display = "block";
+      if(message) document.getElementsByClassName(divName)[0].innerText = message
     } else if (value == "phone") {
       checkPhone(value, inputVal);
-    } else if (value == "state" && state.isStatesDropdown) {
+    } else if (value == "zipCode" && deliver) {
+        let node = document.querySelectorAll(
+          "#add-new-address-form .ant-select-selector"
+        )
+        node[node.length - 1].style.border = "1px solid #d9d9d9";
+      document.getElementsByClassName(divName)[0].style.display = "none";
+    }else if (value == "state" && state.isStatesDropdown) {
       document.querySelectorAll(
         "#add-new-address-form .ant-select-selector"
       )[1].style.border = "1px solid #d9d9d9";
@@ -597,7 +664,6 @@ const Addresses = (props) => {
     }
     return isValid;
   };
-
   return (
     <React.Fragment>
       <Col xs={24} sm={24} md={22} lg={22}>
@@ -971,18 +1037,38 @@ const Addresses = (props) => {
                           },
                         ]}
                       >
-                        <Input
-                          value={state.zipCode}
-                          onChange={handleZipCode}
-                          id="zipCode"
-                          onBlur={(e) => handleError("zipCode", state.zipCode)}
-                        />
-                        <span
-                          className="qa-font-san qa-fs-12 qa-error zipCode-error-block"
-                          style={{ display: "none" }}
-                        >
-                          Field is required
-                        </span>
+                        {deliver
+                          ?(
+                            <Select 
+                              showSearch
+                              value={state.zipCode}
+                              onSearch={handleZipCode}
+                              onChange={handleZipcodeChange}
+                              id="zipCode"
+                              onBlur={(e) => handleError("zipCode", state.zipCode)}
+                            >
+                              {zipCodeList && zipCodeList.length > 0 
+                                ?(zipCodeList.map(e => {
+                                    return <Option key= {e} value={e}>{e}</Option> 
+                                  }))
+                                  : null
+                              }
+                            </Select>)
+                            :(
+                              <Input
+                                value={state.zipCode}
+                                onChange={handleZipCode}
+                                id="zipCode"
+                                className = "testInput"
+                                onBlur={(e) => handleError("zipCode", state.zipCode)}
+                              />
+                            )}
+                            <span
+                              className="qa-font-san qa-fs-12 qa-error zipCode-error-block"
+                              style={{ display: "none" }}
+                            >
+                              Field is required
+                            </span>
                       </Form.Item>
                     </Col>
                   </Row>
