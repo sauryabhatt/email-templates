@@ -328,6 +328,8 @@ const CartDetails = (props) => {
       setHCountry([]);
     }
     form.setFieldsValue({ state: "" });
+    form.setFieldsValue({ zipCode: "" });
+    addform.setFieldsValue({ zipCode: "" });
     addform.setFieldsValue({ state: "" });
     if (deliveredCountryList.includes(value)) {
       setDeliver(true);
@@ -335,6 +337,7 @@ const CartDetails = (props) => {
       setDeliver(false);
     }
     setSelCountry(value)
+    setZipcodeList([])
   };
 
   const handleCancel = () => {
