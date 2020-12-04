@@ -12,15 +12,14 @@ import { useKeycloak } from "@react-keycloak/ssr";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 const querystring = require("querystring");
-const isServer = () => typeof window == undefined;
+const isServer = () => typeof window == "undefined";
 
 const ProductDescription = (props) => {
   let {
-    productDetails = {},
     userProfile = {},
-    listingPage = {},
     isLoading,
-  } = !isServer() ? props : props.data;
+  } =  props;
+  let {productDetails, listingPage} = !isServer() ? props : props.data;
   const router = useRouter();
   let { articleId } = router.query;
   let { sellerDetails = {} } = productDetails || {};
@@ -69,7 +68,6 @@ const ProductDescription = (props) => {
 
     // }
   }, [props]);
-
   return (
     <div>
       <ProductDetails
