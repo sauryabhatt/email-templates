@@ -48,13 +48,15 @@ export default function HomePageCarousel(props) {
       signinBTNText: "START SHOPPING",
       mobileImg: "https://cdn.qalara.com/images/Img_Homepage_Banner_Qalara_1-mob.jpg",
     },
-    /*,{
-        img: desk1,
-        hading_text: "Global wholesale buying, reimagined.",
-        small_text: "Source wholesale products from India and South East Asia. Order digitally, reliably, affordably.Backed by a Fortune 100 company.Verified buyers from 25+ countries.",
-        video_link: "https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4",            
-        mobileImg: mobile1,
-    },*/
+    {
+      img: "https://cdn.qalara.com/images/Img_Banner_Qalarabazar.jpg",
+      hading_text: "",//"Global wholesale buying, reimagined.",
+      small_text: "",//"Source wholesale products from India and South East Asia. Order digitally, reliably, affordably.Backed by a Fortune 100 company.Verified buyers from 25+ countries.",
+      video_link: "",//"https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4",            
+      isSignupbtn: false,
+      signinBTNLink: "/seller/SL10789/all-categories",
+      mobileImg: "https://cdn.qalara.com/images/Img_Banner_Qalarabazar_mob.jpg",
+    },
     {
       img: "https://cdn.qalara.com/images/Img_Homepage_Banner_Qalara_2-1.jpg",
       hading_text: <div className = "second-img-head">Eco-friendly,{isMobile ?<br/>: null} handmade gifts for{isMobile ?<br/>: null} the Holiday season.</div>,
