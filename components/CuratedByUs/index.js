@@ -429,6 +429,7 @@ export default function CuratedByUsWrapper(props) {
             className="send-query-success-modal-button"
             onClick={() => {
               successQueryCancel();
+              router.push("/");
             }}
           >
             Back to home page
