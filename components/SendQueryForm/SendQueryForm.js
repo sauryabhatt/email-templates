@@ -116,7 +116,7 @@ const SendQueryForm = (props) => {
       isAnonymousUser: isAnonymousUser,
       queryCategory: values.category,
       questions: values.requirementDetails,
-      quantityRequired: values.quantinty,
+      quantityRequired: values.quantity,
       targetUnitPrice: values.pricePerItem,
       targetDeliveryDate: values.deliveryDate,
       requesterName: values.requesterName,
