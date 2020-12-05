@@ -22,7 +22,7 @@ export default function Ribbon(props) {
   };
   let slider = "";
   let t = [
-    "Launching Qalara Bazaar with FREE SHIPPING",
+    "FREE SHIPPING with Qalara Bazaar",
     "Holiday offer! Get $75 OFF on all orders",
     "ZERO Commissions. FREE quality inspections",
   ];

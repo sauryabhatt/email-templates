@@ -9,7 +9,7 @@ import Icon from "@ant-design/icons";
 import HomeBanner from "./../HomeBanner/HomeBanner";
 import CategoryBannerCarousel from "../CategoryBannerCarousel";
 import PaymentBanner from "./../PaymentBanner/PaymentBanner";
-// import SendQueryForm from "./../SendQueryForm/SendQueryForm";
+import SendQueryForm from "./../SendQueryForm/SendQueryForm";
 import CraftCarousel from "./../CraftCarousel/CraftCarousel";
 import SellerCarousel from "./../SellerCarousel/SellerCarousel";
 import PressCrousel from "./../PressCrousel/PressCrousel";
@@ -225,7 +225,7 @@ function Home(props) {
       imageTitle: "Urban Jungle",
       imageHeading: <span>{imageHeading}</span>,
       slideText:
-      "As boundaries between the indoors and the outdoors get blurred, eco-friendly products and natural materials surrounded with large patches of green within living spaces, lend much needed oneness with nature. Discover our range of handmade tropical inspiration which includes macrame planters, terracotta pots, sabai baskets, upcycled & bamboo outdoor furniture, dry flowers, marble garden decor and more from wholesale suppliers who care.",
+        "As boundaries between the indoors and the outdoors get blurred, eco-friendly products and natural materials surrounded with large patches of green within living spaces, lend much needed oneness with nature. Discover our range of handmade tropical inspiration which includes macrame planters, terracotta pots, sabai baskets, upcycled & bamboo outdoor furniture, dry flowers, marble garden decor and more from wholesale suppliers who care.",
       imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_2.jpg",
       searchText: "UrbanJungle",
       path: "/trends/urbanjungle",
@@ -234,7 +234,7 @@ function Home(props) {
       imageTitle: "Holiday spirit",
       imageHeading: <span>{imageHeading}</span>,
       slideText:
-      "Nothing quite welcomes the holiday season like a well-decorated festive home. Whether its traditional red-and-green decor or modern glitz, we’re certain that you’ll find something at Qalara. Bring in the season to be merry with crewel embroidered pillows, cozy blankets made of recycled yarns, outdoor lights, traditional toy, paper mache gift boxes and handmade décor pieces, thanks to brilliant ideas from some of our favourite sellers. ",
+        "Nothing quite welcomes the holiday season like a well-decorated festive home. Whether its traditional red-and-green decor or modern glitz, we’re certain that you’ll find something at Qalara. Bring in the season to be merry with crewel embroidered pillows, cozy blankets made of recycled yarns, outdoor lights, traditional toy, paper mache gift boxes and handmade décor pieces, thanks to brilliant ideas from some of our favourite sellers. ",
       imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_6.jpg",
       searchText: "ChristmasSpirit",
       path: "/trends/christmasspirit",
@@ -243,8 +243,8 @@ function Home(props) {
       imageTitle: "Global textures",
       imageHeading: <span>{imageHeading}</span>,
       slideText:
-      "Globally inspired textures, materials and patterns that bring an electric aesthetic to the home. Embrace the adventures of a collector who mixes treasures of different cultures together effortlessly by blending décor items with handcrafted textiles - rugs, cushions, throws and more! \n" +
-      "Our wholesale suppliers offer unique handmade products, combining local crafts and materials with new-age aesthetics, that cater to a global audience. ",
+        "Globally inspired textures, materials and patterns that bring an electric aesthetic to the home. Embrace the adventures of a collector who mixes treasures of different cultures together effortlessly by blending décor items with handcrafted textiles - rugs, cushions, throws and more! \n" +
+        "Our wholesale suppliers offer unique handmade products, combining local crafts and materials with new-age aesthetics, that cater to a global audience. ",
       imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_1.jpg",
       searchText: "GlobalTextures",
       path: "/trends/globaltextures",
@@ -253,7 +253,7 @@ function Home(props) {
       imageTitle: "Earth inspired",
       imageHeading: <span>{imageHeading}</span>,
       slideText:
-      "The elegance of natural materials and traditional crafts is truly unparalleled. Discover artisan-made handcrafted statement pieces in sustainable mango wood and natural rattan, recycled shelves and rugs, upcycled metal figurines, hand knotted jute planters; that create a  relaxed mood and add a sun-kissed glow to any space. Our wholesale suppliers believe in conscious production, sustainable supply chains, low carbon footprint & giving back.",
+        "The elegance of natural materials and traditional crafts is truly unparalleled. Discover artisan-made handcrafted statement pieces in sustainable mango wood and natural rattan, recycled shelves and rugs, upcycled metal figurines, hand knotted jute planters; that create a  relaxed mood and add a sun-kissed glow to any space. Our wholesale suppliers believe in conscious production, sustainable supply chains, low carbon footprint & giving back.",
       imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_3.jpg",
       searchText: "EarthInspired",
       path: "/trends/earthinspired",
@@ -262,7 +262,7 @@ function Home(props) {
       imageTitle: "Sunlit Spring '21",
       imageHeading: <span>{imageHeading}</span>,
       slideText:
-      "These dominant trends of the upcoming season showcase a brave new world, that celebrates Joy; a bold mix of warm colours, relaxing fits and conscious use of environment-friendly materials. Snug, comfortable masks will continue to be a part of the ensemble. Our sellers have adapted to these changing times and these curated must-haves will definitely awe your customers, so start stocking for a successful Spring Summer 21",
+        "These dominant trends of the upcoming season showcase a brave new world, that celebrates Joy; a bold mix of warm colours, relaxing fits and conscious use of environment-friendly materials. Snug, comfortable masks will continue to be a part of the ensemble. Our sellers have adapted to these changing times and these curated must-haves will definitely awe your customers, so start stocking for a successful Spring Summer 21",
       imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_7.jpg",
       searchText: "sunkissedSpring21",
       path: "/trends/sunkissed-spring21",
@@ -271,7 +271,7 @@ function Home(props) {
       imageTitle: "Home office",
       imageHeading: <span>{imageHeading}</span>,
       slideText:
-      "Working from home can be comfortable and convenient with the right tools and set up. Curated from our responsible and conscious wholesale sellers, these writing tables, lighting solutions, notepads & table accessories inspire everyday creativity. Discover the grace of handmade: ajrakh diary covers, recycled wood clipboards, eco-friendly pen stands, cotton printed and bamboo lampshades, hand knotted hanging desks, ceramic coffee mugs and more.",
+        "Working from home can be comfortable and convenient with the right tools and set up. Curated from our responsible and conscious wholesale sellers, these writing tables, lighting solutions, notepads & table accessories inspire everyday creativity. Discover the grace of handmade: ajrakh diary covers, recycled wood clipboards, eco-friendly pen stands, cotton printed and bamboo lampshades, hand knotted hanging desks, ceramic coffee mugs and more.",
       imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_4.jpg",
       searchText: "HomeOffice",
       path: "/trends/homeoffice",
@@ -292,8 +292,7 @@ function Home(props) {
   )}`;
   return (
     <>
-      <HomeBanner isAuthenticated = {isAuthenticated}/>
-
+      <HomeBanner isAuthenticated={isAuthenticated} />
       <Row id="q-source-banner">
         <div className="q-source-title">
           <div className="banner-text">
@@ -603,11 +602,14 @@ function Home(props) {
         </div>
         <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>
       </Row>*/}
-
       {/*<CategoryBanner />*/}
       <CategoryBannerCarousel />
-      <PaymentBanner />
-      <PressCrousel/>
+      <PaymentBanner
+        showRFQ={() => {
+          setVisible(true);
+        }}
+      />
+      <PressCrousel />
       <CraftCarousel items={craftItems} />
       <SellerCarousel items={sellerItems} />
       {/* <Button>
@@ -620,7 +622,7 @@ function Home(props) {
           <Link href="/sellers/products">SPLP</Link>
         </Button> */}
       {/* <AppFeedBanner/> */}
-      {/*}
+      {/* } */}
       <Modal
         visible={visible}
         footer={null}
@@ -632,7 +634,7 @@ function Home(props) {
       >
         <SendQueryForm
           sendQueryCancel={sendQueryCancel}
-          token={token}
+          token={token || process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN}
           initialValues={values}
         />
       </Modal>
@@ -650,7 +652,8 @@ function Home(props) {
           <div className="send-query-success-modal-content">
             <p className="send-query-success-modal-para1">Thank you!</p>
             <p className="send-query-success-modal-para2">
-              We are excited to serve you and will revert within 24 hrs.
+              We have received your request for quote and will revert within the
+              next 48 to 72 hours.
             </p>
           </div>
           <Button
@@ -663,7 +666,7 @@ function Home(props) {
           </Button>
         </div>
       </Modal>
-      <Modal
+      {/* <Modal
         visible={inviteAccess}
         footer={null}
         closable={false}
@@ -864,7 +867,7 @@ function Home(props) {
           </Form>
         </div>
       </Modal>
-    */}
+     */}
     </>
   );
 }
