@@ -70,10 +70,10 @@ const slides = categoryData?.map((item, index) => {
 function CategoryBannerCarousel(props) {
   const [isMobile, setIsMobile] = useState(false);
   const settings = {
-    infinite: true,
+    infinite: false,
     speed: 500,
-    slidesToShow: isMobile ? 2 : 5,
-    slidesToScroll: 1,
+    slidesToShow: isMobile ? 1.5 : 5,
+    slidesToScroll: isMobile ? 1.5 : 1,
     arrows: false,
   };
 

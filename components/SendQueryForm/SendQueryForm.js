@@ -20,6 +20,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import moment from "moment";
 import { getCountries } from "react-phone-number-input/input";
 import en from "react-phone-number-input/locale/en.json";
+import categories from "../../public/filestore/categories.json";
 import { loginToApp } from "../AuthWithKeycloak";
 
 const { Option } = Select;
@@ -42,6 +43,14 @@ const SendQueryForm = (props) => {
     "image/jpeg",
     "image/png",
   ];
+
+  const typeOfCategories = categories.map((v, i) => {
+    return (
+      <Option key={i} value={v.key}>
+        {v.value}
+      </Option>
+    );
+  });
 
   const beforeUpload = (file) => {
     const isJpgOrPng = acceptedFileTypes.includes(file.type);
@@ -302,26 +311,8 @@ const SendQueryForm = (props) => {
                   { required: true, message: "Please select a category." },
                 ]}
               >
-                <Select
-                  showSearch
-                  placeholder="Select category"
-                  value={undefined}
-                >
-                  <Option key={0} value="Rugs & Carpets">
-                    Rugs & Carpets
-                  </Option>
-                  <Option key={1} value="Art & Decor">
-                    Art & Decor
-                  </Option>
-                  <Option key={2} value="Home Furnishings">
-                    Home Furnishings
-                  </Option>
-                  <Option key={3} value="Kitchen">
-                    Kitchen
-                  </Option>
-                  <Option key={4} value="Others">
-                    Others
-                  </Option>
+                <Select placeholder="Select category">
+                  {typeOfCategories}
                 </Select>
               </Form.Item>
               {/* <Form.Item
@@ -364,7 +355,7 @@ const SendQueryForm = (props) => {
                   {
                     min: 5,
                     max: 500,
-                    message: "Message must be in 5-500 characters",
+                    message: "Please enter message within 25-500 characters",
                   },
                 ]}
               >
@@ -440,7 +431,7 @@ const SendQueryForm = (props) => {
                   },
                   {
                     required: true,
-                    message: "Please enter the quantity.",
+                    message: "Please enter target quantity.",
                   },
                   {
                     min: 1,

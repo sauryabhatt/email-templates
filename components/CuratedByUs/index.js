@@ -4,13 +4,20 @@ import React, { useState } from "react";
 import ordered from "../../public/filestore/Landing-page/ordered";
 import ship from "../../public/filestore/Landing-page/ship";
 import expres from "../../public/filestore/Landing-page/express";
-import  Link  from "next/link";
-import {useRouter} from "next/router";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import Carousel from "./Carousel";
+import SendQueryForm from "./../SendQueryForm/SendQueryForm";
+import { Button, Modal } from "antd";
+import { useSelector } from "react-redux";
 
 export default function CuratedByUsWrapper(props) {
-
-    const router = useRouter();
+  const [visible, setVisible] = useState(false);
+  const [successQueryVisible, setSuccessQueryVisible] = useState(false);
+  const router = useRouter();
+  const token = useSelector(
+    (state) => state.appToken.token && state.appToken.token.access_token
+  );
   const trend = [
     {
       url: "/trends/earthinspired",
@@ -57,46 +64,54 @@ export default function CuratedByUsWrapper(props) {
   const category = [
     {
       url: "/categoryedit/kitchendining",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Category1.jpg",
+      img:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Category1.jpg",
       text: "Kitchen & dining",
       alt: "Wholesale kitchenware and dinnerware products from Qalara",
     },
     {
       url: "/categoryedit/homedecor",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Category2.jpg",
+      img:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Category2.jpg",
       text: "Home decor",
       alt: "Wholesale home accents & utilities from Qalara",
     },
     {
       url: "/categoryedit/furniture",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Category3.jpg",
+      img:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Category3.jpg",
       text: "Furniture",
       alt: "Source collection of handpicked wholesale furniture from Qalara",
     },
     {
       url: "/categoryedit/homelinen",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Category4.jpg",
+      img:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Category4.jpg",
       text: "Home linen",
       alt: "Wholesale furnishings & linens from Qalara",
     },
     {
       text: "Jewelry",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Categorys5.jpg",
+      img:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL +
+        "/images/Img_Categorys5.jpg",
       url: "/categoryedit/jewelry",
       alt: "Explore jewelry handcrafted by Indian artisans from Qalara",
     },
     {
       text: "Fashion accessories",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Category6.jpg",
+      img:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Category6.jpg",
       url: "/categoryedit/fashionaccessories",
       alt: "",
     },
     {
       text: "Stationery & novelty",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Category7.jpg",
+      img:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Category7.jpg",
       url: "/categoryedit/stationery-novelty",
       alt: "",
-    }
+    },
   ];
 
   const crafts = [
@@ -131,37 +146,43 @@ export default function CuratedByUsWrapper(props) {
   const values = [
     {
       url: "/sellers/all-categories?f_values=ORGANIC",
-      img:  process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Values1.jpg",
+      img:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Values1.jpg",
       text: "Organic",
       alt: "Explore selection of organic products by Qalara",
     },
     {
       url: "/sellers/all-categories?f_values=ECO_FRIENDLY",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Values2.jpg",
+      img:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Values2.jpg",
       text: "Ecofriendly",
       alt: "Explore selection of eco friendly  products by Qalara",
     },
     {
       url: "/sellers/all-categories?f_values=FAIR_TRADE",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Values3.jpg",
+      img:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Values3.jpg",
       text: "Fair & social",
       alt: "Explore our selection of fair and social products  by Qalara",
     },
     {
       url: "/sellers/all-categories?f_values=RECYCLED",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Values4.jpg",
+      img:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Values4.jpg",
       text: "Recycled",
       alt: " Explore selection of recycled products  by Qalara",
     },
     {
       text: "Sustainable",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Values5.jpg",
+      img:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Values5.jpg",
       url: "/sellers/all-categories?f_values=SUSTAINABLE",
       alt: " Explore selection of sustainable products by Qalara",
     },
     {
       url: "/sellers/all-categories?f_values=ARTISANAL",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Values6.jpg",
+      img:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Values6.jpg",
       text: "Artisanal",
       alt: "Explore our selection of artisanal products  by Qalara",
     },
@@ -171,6 +192,19 @@ export default function CuratedByUsWrapper(props) {
   const [craft_new, setCraftNew] = useState(crafts);
   const [category_new, setCategoryNew] = useState(category);
   const [values_new, setValuesNew] = useState(values);
+
+  const sendQueryCancel = (status) => {
+    if (status === "success") {
+      setVisible(false);
+      setSuccessQueryVisible(true);
+    } else {
+      setVisible(false);
+    }
+  };
+
+  const successQueryCancel = () => {
+    setSuccessQueryVisible(false);
+  };
 
   return (
     <div className="landing-container">
@@ -182,10 +216,15 @@ export default function CuratedByUsWrapper(props) {
               Handpicked on-trend collections from hundreds of ethical
               suppliers, for contemporary living.
             </p>
-            <div className="button-wrp" >
-              <Link href="/request-for-quote">
-                <span className="button" style={{cursor:"pointer"}} >request for quote</span>
-              </Link>
+            <div className="button-wrp">
+              <span
+                className="button"
+                style={{ cursor: "pointer" }}
+                onClick={() => setVisible(true)}
+              >
+                request for quote
+              </span>
+
               <p className="tagline-small-text">
                 We can curate for your brand!
               </p>
@@ -197,7 +236,11 @@ export default function CuratedByUsWrapper(props) {
               <div className="fold-image-container">
                 {trend.map((e, index) => {
                   return (
-                    <div key ={`trend-img-${index}`} className="image-wrp qa-cursor" onClick={()=>router.push(e.url)}>
+                    <div
+                      key={`trend-img-${index}`}
+                      className="image-wrp qa-cursor"
+                      onClick={() => router.push(e.url)}
+                    >
                       <img alt={e.alt} src={e.img} />
                       <h3>{e.text}</h3>
                     </div>
@@ -239,10 +282,11 @@ export default function CuratedByUsWrapper(props) {
 
       <div className="landing-third-fold right-align-container">
         <div className="curated-fold">
-          <Link
-            href={zoom_url.url}
-          >
-            <div style={{ backgroundImage: "url(" + zoom_url.img + ")" }} className="fold-heading">
+          <Link href={zoom_url.url}>
+            <div
+              style={{ backgroundImage: "url(" + zoom_url.img + ")" }}
+              className="fold-heading"
+            >
               <div className="dialog-box">
                 <span className="dialog-big-text">Handcrafted by artisans</span>
                 <span className="dialog-small-text">{zoom_url.text}</span>
@@ -309,33 +353,88 @@ export default function CuratedByUsWrapper(props) {
               className="hroizontal-img-container"
             >
               <div
-                onClick={()=>router.push("/products/all-categories?f_product_types=Ready%20to%20ship")}
+                onClick={() =>
+                  router.push(
+                    "/products/all-categories?f_product_types=Ready%20to%20ship"
+                  )
+                }
                 className="image-wrp"
-                style={{cursor:"pointer"}} 
+                style={{ cursor: "pointer" }}
               >
                 {ship()}
-                <span className="svg-text" >READY TO SHIP</span>
+                <span className="svg-text">READY TO SHIP</span>
               </div>
               <div
-                onClick={()=>router.push("/products/all-categories?f_product_types=Express%20custom")}
+                onClick={() =>
+                  router.push(
+                    "/products/all-categories?f_product_types=Express%20custom"
+                  )
+                }
                 className="image-wrp"
-                style={{cursor:"pointer"}} 
+                style={{ cursor: "pointer" }}
               >
                 {expres()}
-                <span className="svg-text" >Express custom</span>
+                <span className="svg-text">Express custom</span>
               </div>
               <div
-                onClick={()=>router.push("/products/all-categories?f_product_types=Make%20to%20order")}
+                onClick={() =>
+                  router.push(
+                    "/products/all-categories?f_product_types=Make%20to%20order"
+                  )
+                }
                 className="image-wrp"
-                style={{cursor:"pointer"}} 
+                style={{ cursor: "pointer" }}
               >
                 {ordered()}
-                <span className="svg-text" >Made to order</span>
+                <span className="svg-text">Made to order</span>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <Modal
+        visible={visible}
+        footer={null}
+        onCancel={sendQueryCancel}
+        style={{ top: 5 }}
+        bodyStyle={{ padding: "0" }}
+        width={550}
+        className="rfq-submit-modal"
+      >
+        <SendQueryForm
+          sendQueryCancel={sendQueryCancel}
+          token={token || process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN}
+          initialValues={values}
+        />
+      </Modal>
+      <Modal
+        visible={successQueryVisible}
+        footer={null}
+        closable={true}
+        onCancel={successQueryCancel}
+        centered
+        bodyStyle={{ padding: "0" }}
+        width={400}
+        className="rfq-submission-modal"
+      >
+        <div id="send-query-success-modal">
+          <div className="send-query-success-modal-content">
+            <p className="send-query-success-modal-para1">Thank you!</p>
+            <p className="send-query-success-modal-para2">
+              We have received your request for quote and will revert within the
+              next 48 to 72 hours.
+            </p>
+          </div>
+          <Button
+            className="send-query-success-modal-button"
+            onClick={() => {
+              successQueryCancel();
+            }}
+          >
+            Back to home page
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 }

@@ -22,11 +22,9 @@ import Icon, { PlusOutlined } from "@ant-design/icons";
 import moment from "moment";
 import { getCountries } from "react-phone-number-input/input";
 import en from "react-phone-number-input/locale/en.json";
+import categories from "../../public/filestore/categories.json";
 import { loginToApp } from "../AuthWithKeycloak";
-// import './index.css';
 import { useRouter } from "next/router";
-
-import certifiedIcon from "../../public/filestore/certifiedIcon";
 import Link from "next/link";
 
 const { Option } = Select;
@@ -51,6 +49,14 @@ const SellerContact = (props) => {
     "image/jpeg",
     "image/png",
   ];
+
+  const typeOfCategories = categories.map((v, i) => {
+    return (
+      <Option key={i} value={v.key}>
+        {v.value}
+      </Option>
+    );
+  });
 
   // const normFile = e => {
   //     // console.log('Upload event:', e);
@@ -506,22 +512,8 @@ const SellerContact = (props) => {
                   { required: true, message: "Please select a category." },
                 ]}
               >
-                <Select showSearch placeholder="Select category">
-                  <Option key={0} value="Rugs & Carpets">
-                    Rugs & Carpets
-                  </Option>
-                  <Option key={1} value="Art & Decor">
-                    Art & Decor
-                  </Option>
-                  <Option key={2} value="Home Furnishings">
-                    Home Furnishings
-                  </Option>
-                  <Option key={3} value="Kitchen">
-                    Kitchen
-                  </Option>
-                  <Option key={4} value="Others">
-                    Others
-                  </Option>
+                <Select placeholder="Select category">
+                  {typeOfCategories}
                 </Select>
               </Form.Item>
               {/* <Form.Item
@@ -564,7 +556,7 @@ const SellerContact = (props) => {
                   {
                     min: 5,
                     max: 500,
-                    message: "Message must be in 5-500 characters",
+                    message: "Please enter message within 25-500 characters",
                   },
                 ]}
               >
@@ -640,7 +632,7 @@ const SellerContact = (props) => {
                   },
                   {
                     required: true,
-                    message: "Please enter the quantity.",
+                    message: "Please enter target quantity.",
                   },
                   {
                     min: 1,

@@ -1,22 +1,22 @@
 /** @format */
 
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { Button } from "antd";
 import { connect } from "react-redux";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 
 function PaymentBanner(props) {
   const router = useRouter();
 
   let mediaMatch = undefined;
   const handleSignUp = () => {
-     router.push("/request-for-quote");
+    //  router.push("/request-for-quote");
+    props.showRFQ();
   };
 
   useEffect(() => {
-    
-   mediaMatch = window.matchMedia("(min-width: 768px)");
-  }, [])
+    mediaMatch = window.matchMedia("(min-width: 768px)");
+  }, []);
   return (
     <div id="payment-banner">
       {/* <div className='bird-vector' /> */}
@@ -54,10 +54,12 @@ function PaymentBanner(props) {
             </div>
           </Button>
         </div>
-        <div className={mediaMatch?.matches ? "verified-buyer-section" : ""}>
-          <span className="qa-font-san qa-fs-12 qa-tc-white">
-            Your wholesale shopping assistant
-          </span>
+
+        <div
+          className="qa-font-san qa-fs-12 qa-tc-white qa-mar-top-05"
+          style={{ lineHeight: "initial" }}
+        >
+          Your wholesale shopping assistant
         </div>
       </span>
       {props.children}

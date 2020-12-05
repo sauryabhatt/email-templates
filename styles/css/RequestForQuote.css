@@ -62,7 +62,7 @@
 
 @media only screen and (max-width: 767px) {
   .rfq-container {
-    margin-top: 62px;
+    /* margin-top: 62px; */
     background-color: #f9f7f2;
   }
 
@@ -84,7 +84,7 @@
   }
 
   .rfq-body-header {
-    margin-top: 70px !important; 
+    /* margin-top: 70px !important; */
   }
   .rfq-body-header h1 {
     font-size: 31px;
