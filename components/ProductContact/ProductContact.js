@@ -658,7 +658,7 @@ const ProductContact = (props) => {
                   {
                     min: 5,
                     max: 500,
-                    message: "Message must be in 5-500 characters",
+                    message: "Please enter message within 25-500 characters",
                   },
                 ]}
               >
@@ -705,7 +705,7 @@ const ProductContact = (props) => {
                 name="quantity"
                 style={{ marginBottom: "1em" }}
                 rules={[
-                  { required: true, message: "Please enter the quantity." },
+                  { required: true, message: "Please enter target quantity." },
                   {
                     type: "string",
                     message: "The input is not valid!",

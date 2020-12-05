@@ -115,7 +115,7 @@ export const Layout = ({ children, meta = {} }) => {
         <meta name="googlebot" content="noindex" /> */}
         <link
           rel="icon"
-          href={`${process.env.NEXT_PUBLIC_URL}/favicon.ico?v=2`}
+          href={`${process.env.NEXT_PUBLIC_REACT_APP_CDN_URL}/images/Img_Favicon_Public.ico`}
         />
         <script
           src={`https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_REACT_APP_PAYPAL_CLIENT_ID}&currency=USD&intent=order`}

@@ -1299,7 +1299,7 @@ const Orders = (props) => {
           <div className="send-query-success-modal-content">
             <p className="send-query-success-modal-para1">Thank you!</p>
             <p className="send-query-success-modal-para2">
-              We are excited to serve you and will revert within 24 hrs.
+              We are excited to serve you and will revert within 24-48 hrs.
             </p>
           </div>
           <Button
