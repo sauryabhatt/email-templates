@@ -36,7 +36,7 @@ export default () => (
     />
     <path
       fillRule="evenodd"
-      clip-rule="evenodd"
+      clipRule="evenodd"
       d="M28.4248 27.6686H46.1138V29.9743H28.4248V27.6686Z"
       fill="#874439"
     />
