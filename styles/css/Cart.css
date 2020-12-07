@@ -593,26 +593,28 @@ a.qa-sm-color:hover {
   padding-top: 75px;
   background: #f9f7f2;
   padding-bottom: 150px;
+  position: relative;
+  background: url("https://cdn.qalara.com/images/Img_Bird_Outline.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 .empty-cart .e-cart-title {
   font-family: Butler;
-  font-style: normal;
-  font-weight: 300;
   font-size: 60px;
   line-height: 110%;
   letter-spacing: 0.01em;
   color: #191919;
 }
 .empty-cart .e-cart-stitle {
-  font-family: senregular;
-  font-style: normal;
-  font-weight: 300;
-  font-size: 18px;
-  line-height: 110%;
+  font-family: Butler;
+  font-size: 20px;
+  line-height: 130%;
   text-align: center;
   letter-spacing: 0.01em;
   color: #191919;
-  margin-bottom: 30px;
+  width: 35%;
+  margin: 30px auto;
 }
 .empty-cart .e-cart-subtitle {
   font-family: senregular;
@@ -660,32 +662,12 @@ a.qa-sm-color:hover {
   background: #d9bb7f;
   font-size: 14px;
   width: auto;
-  padding: 0px 25px;
+  padding: 0px 50px;
 }
 .empty-cart.cart-price-block .qa-shop-btn {
   width: 100%;
 }
 
-@media only screen and (max-width: 768px) {
-  .cart-section.empty-cart {
-    padding: 100px 30px;
-    width: auto;
-  }
-  .empty-cart .e-cart-title {
-    font-size: 36px;
-    margin-bottom: 10px;
-  }
-  .empty-cart .e-cart-stitle {
-    margin: 0px 0px 30px 0px;
-  }
-  .cart-section .qa-shipping-err {
-    text-align: left;
-  }
-  .cart-section .cart-error-block .qa-error {
-    font-size: 14px;
-    line-height: 17px;
-  }
-}
 .opt-service-modal .ant-checkbox-checked .ant-checkbox-inner {
   background-color: #d9bb7f;
   border-color: #d9bb7f;
@@ -798,4 +780,45 @@ a.qa-sm-color:hover {
 .cart-section .qa-shipping-err {
   text-decoration: underline;
   line-height: 15px;
+}
+.empty-cart .e-cart-title.qa-fs48 {
+  font-size: 48px;
+}
+.empty-cart .qa-signin-link {
+  font-family: senregular;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 130%;
+  text-align: center;
+  letter-spacing: 0.01em;
+  color: #191919;
+}
+@media only screen and (max-width: 768px) {
+  .cart-section.empty-cart {
+    padding: 75px 30px;
+    width: auto;
+  }
+  .empty-cart .e-cart-title {
+    font-size: 36px;
+    margin-bottom: 10px;
+  }
+  .empty-cart .e-cart-stitle {
+    width: 100%;
+    margin: 20px 0px;
+    font-size: 14px;
+    margin-bottom: 30px;
+  }
+  .cart-section .qa-shipping-err {
+    text-align: left;
+  }
+  .cart-section .cart-error-block .qa-error {
+    font-size: 14px;
+    line-height: 17px;
+  }
+  .empty-cart .e-cart-title.qa-fs48 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    line-height: 110%;
+  }
 }
