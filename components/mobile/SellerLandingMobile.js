@@ -221,7 +221,7 @@ function SellerLandingMobile(props) {
   } = sellerDetails || {};
 
   let { sellerSubscriptions = [] } = props;
-  let offerings = [];
+  let offerings = [...publicOfferings, ...privateOfferings];
   if (Object.keys(showRoom).length) {
     if (
       showRoom &&
@@ -230,10 +230,8 @@ function SellerLandingMobile(props) {
       showRoom.catalogMedia.media.mediaUrl &&
       showRoom.catalogMedia.media.mediaUrl !== null
     ) {
-      offerings = [showRoom, ...publicOfferings, ...privateOfferings];
+      offerings.unshift(showRoom);
     }
-  } else {
-    offerings = [...publicOfferings, ...privateOfferings];
   }
 
   let { altName = "", seoTitle = "" } = showcaseMedia || {};
