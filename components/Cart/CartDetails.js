@@ -934,37 +934,12 @@ const CartDetails = (props) => {
     return <Spinner />;
   }
 
-  if (!keycloak.authenticated) {
-    return (
-      <div id="cart-details" className="cart-section qa-font-san empty-cart">
-        <div className="e-cart-title qa-txt-alg-cnt qa-mar-btm-2 qa-fs48">
-          Sign up to add products to your cart
-        </div>
-        <div className="qa-txt-alg-cnt e-cart-stitle">
-          In order to checkout and place an order please signup as a buyer
-        </div>
-
-        <div className="qa-txt-alg-cnt">
-          <Button
-            className="qa-button qa-fs-12 qa-shop-btn"
-            onClick={(e) => {
-              router.push("/signup");
-            }}
-          >
-            sign up as a buyer
-          </Button>
-        </div>
-        <div className="qa-signin-link qa-mar-top-05">
-          Already have an account?{" "}
-          <span className="c-breakup" onClick={signIn}>
-            Sign in here
-          </span>
-        </div>
-      </div>
-    );
-  }
-
-  if (subOrders && subOrders.length === 0 && products.length) {
+  if (
+    subOrders &&
+    subOrders.length === 0 &&
+    products.length &&
+    keycloak.authenticated
+  ) {
     return (
       <div id="cart-details" className="cart-section qa-font-san">
         {mediaMatch.matches ? (
@@ -997,7 +972,7 @@ const CartDetails = (props) => {
     );
   }
 
-  if (subOrders && subOrders.length === 0) {
+  if (subOrders && subOrders.length === 0 && keycloak.authenticated) {
     return (
       <div id="cart-details" className="cart-section qa-font-san empty-cart">
         <div className="e-cart-title qa-txt-alg-cnt qa-mar-btm-1">
@@ -1028,6 +1003,37 @@ const CartDetails = (props) => {
       </div>
     );
   }
+
+  if (!keycloak.authenticated) {
+    return (
+      <div id="cart-details" className="cart-section qa-font-san empty-cart">
+        <div className="e-cart-title qa-txt-alg-cnt qa-mar-btm-2 qa-fs48">
+          Sign up to add products to your cart
+        </div>
+        <div className="qa-txt-alg-cnt e-cart-stitle">
+          In order to checkout and place an order please signup as a buyer
+        </div>
+
+        <div className="qa-txt-alg-cnt">
+          <Button
+            className="qa-button qa-fs-12 qa-shop-btn"
+            onClick={(e) => {
+              router.push("/signup");
+            }}
+          >
+            sign up as a buyer
+          </Button>
+        </div>
+        <div className="qa-signin-link qa-mar-top-05">
+          Already have an account?{" "}
+          <span className="c-breakup" onClick={signIn}>
+            Sign in here
+          </span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <Row id="cart-details" className="cart-section qa-font-san">
       {mediaMatch.matches && (
