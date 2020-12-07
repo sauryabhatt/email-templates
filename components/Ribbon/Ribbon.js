@@ -37,11 +37,13 @@ export default function Ribbon(props) {
   return (
     <div className="home-page-ribben-wrp">
       <Slider ref={(c) => (slider = c)} {...settings}>
-        {t.map((a) => {
+        {t.map((a, i) => {
           return (
             <a
               target="_blank"
-              href="/seller/SL10789/all-categories"
+              href={
+                i === 0 ? "/seller/SL10789/all-categories" : "/promotionsFAQ"
+              }
               key={a}
               className="home-page-ribben"
             >
