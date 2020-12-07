@@ -662,7 +662,8 @@ a.qa-sm-color:hover {
   background: #d9bb7f;
   font-size: 14px;
   width: auto;
-  padding: 0px 50px;
+  padding: 0px 40px;
+  height: 50px;
 }
 .empty-cart.cart-price-block .qa-shop-btn {
   width: 100%;
@@ -821,4 +822,9 @@ a.qa-sm-color:hover {
     margin-bottom: 10px;
     line-height: 110%;
   }
+}
+.empty-cart .sign-up-cart-icon {
+  vertical-align: middle;
+  margin-right: 15px;
+  margin-top: 6px;
 }
