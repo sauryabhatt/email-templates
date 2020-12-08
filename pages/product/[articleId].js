@@ -11,10 +11,10 @@ export default function ProductDescriptionPage({ data, articleId }) {
 
   const meta = {
     title:
-      `Buy ${data?.productName} online from India for wholesale exports. Source from verified exporters | Qalara` ||
+      `Buy ${data?.productDetails?.productName} online from India for wholesale exports. Source from verified exporters | Qalara` ||
       "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods from South Asia | Qalara",
     description:
-      data?.productionDescription ||
+      data?.productDetails?.productionDescription ||
       "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods - Décor, Rugs and Carpets, Kitchen, Home Furnishings – from India. Digitally. Reliably. Affordably. Responsibly.",
     url: "/product/" + articleId,
   };
