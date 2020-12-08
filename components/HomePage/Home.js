@@ -188,34 +188,34 @@ function Home(props) {
 
   const sellerItems = [
     {
-      imageHeading: "Fair & Social",
-      image: "https://cdn.qalara.com/images/Img_HomePageCarousel2_3.jpg",
-      url: "/seller/aravali",
+      imageHeading: "Shop Fair & Social",
+      image: "https://cdn.qalara.com/images/Img_FairAndSocial.jpg",
+      url: "/sellers/all-categories?f_values=FAIR_TRADE",
     },
     {
-      imageHeading: "Artisanal",
-      image: "https://cdn.qalara.com/images/Img_HomePageCarousel2_4.jpg",
-      url: "/seller/theindiacrafthouse",
+      imageHeading: "Shop Artisanal",
+      image: "https://cdn.qalara.com/images/Img_Artisanal.jpg",
+      url: "/sellers/all-categories?f_values=ARTISANAL",
     },
     {
-      imageHeading: "Recycled",
-      image: "https://cdn.qalara.com/images/Img_HomePageCarousel2_5.jpg",
-      url: "/seller/creativedehome",
+      imageHeading: "Shop Recycled",
+      image: "https://cdn.qalara.com/images/Img_Recycled.jpg",
+      url: "/sellers/all-categories?f_values=RECYCLED",
     },
     {
-      imageHeading: "Sustainable",
-      image: "https://cdn.qalara.com/images/Img_HomePageCarousel2_6.jpg",
-      url: "/seller/collectivecraft",
+      imageHeading: "Shop Sustainable",
+      image: "https://cdn.qalara.com/images/Img_Sustainable.jpg",
+      url: "/sellers/all-categories?f_values=SUSTAINABLE",
     },
     {
-      imageHeading: "Organic",
-      image: "https://cdn.qalara.com/images/Img_HomePageCarousel2_1.jpg",
-      url: "/seller/greenfurhandcrafts",
+      imageHeading: "Shop Organic",
+      image: "https://cdn.qalara.com/images/Img_Organic.jpg",
+      url: "/sellers/all-categories?f_values=ORGANIC",
     },
     {
-      imageHeading: "Eco friendly",
-      image: "https://cdn.qalara.com/images/Img_HomePageCarousel2_2.jpg",
-      url: "/seller/kalaghar",
+      imageHeading: "Shop Eco friendly",
+      image: "https://cdn.qalara.com/images/Img_Ecofriendly.jpg",
+      url: "/sellers/all-categories?f_values=ECO_FRIENDLY",
     },
   ];
 

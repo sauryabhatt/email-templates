@@ -855,17 +855,26 @@ const OrdersMobile = (props) => {
                           <span className="qa-fs-16 qa-fw-b qa-font-san qa-tc-white">
                             {getSymbolFromCurrency(order && order.currency)}
                             {order &&
-                              order.miscCharges &&
-                              order.miscCharges.find(
-                                (x) => x.chargeId === "FREIGHT_CHARGES"
-                              ) &&
-                              order.miscCharges.find(
-                                (x) => x.chargeId === "FREIGHT_CHARGES"
-                              ).amount}
+                            order.miscChargesActual &&
+                            order.miscChargesActual.find(
+                              (x) => x.chargeId === "FREIGHT_CHARGES"
+                            )
+                              ? order.miscChargesActual.find(
+                                  (x) => x.chargeId === "FREIGHT_CHARGES"
+                                ).amount
+                              : order &&
+                                order.miscCharges &&
+                                order.miscCharges.find(
+                                  (x) => x.chargeId === "FREIGHT_CHARGES"
+                                ) &&
+                                order.miscCharges.find(
+                                  (x) => x.chargeId === "FREIGHT_CHARGES"
+                                ).amount}
                           </span>
                         )}
                       </Col>
                       {order &&
+                        order.orderType == "RTS" &&
                         order.miscCharges &&
                         order.miscCharges.find(
                           (x) => x.chargeId === "DISCOUNT"
@@ -888,6 +897,7 @@ const OrdersMobile = (props) => {
                           </Col>
                         )}
                       {order &&
+                        order.orderType == "RTS" &&
                         order.miscCharges &&
                         order.miscCharges.find(
                           (x) => x.chargeId === "DISCOUNT"
@@ -1059,13 +1069,21 @@ const OrdersMobile = (props) => {
                           <span className="qa-fs-16 qa-fw-b qa-font-san qa-tc-white">
                             {getSymbolFromCurrency(order && order.currency)}
                             {order &&
-                              order.miscCharges &&
-                              order.miscCharges.find(
-                                (x) => x.chargeId === "FREIGHT_CHARGES"
-                              ) &&
-                              order.miscCharges.find(
-                                (x) => x.chargeId === "FREIGHT_CHARGES"
-                              ).amount}
+                            order.miscChargesActual &&
+                            order.miscChargesActual.find(
+                              (x) => x.chargeId === "CUSTOM_CHARGES"
+                            )
+                              ? order.miscChargesActual.find(
+                                  (x) => x.chargeId === "CUSTOM_CHARGES"
+                                ).amount
+                              : order &&
+                                order.miscCharges &&
+                                order.miscCharges.find(
+                                  (x) => x.chargeId === "CUSTOM_CHARGES"
+                                ) &&
+                                order.miscCharges.find(
+                                  (x) => x.chargeId === "CUSTOM_CHARGES"
+                                ).amount}
                           </span>
                         )}
                       </Col>
@@ -1107,15 +1125,22 @@ const OrdersMobile = (props) => {
                         ) : (
                           <span className="qa-fs-16 qa-fw-b qa-font-san">
                             {getSymbolFromCurrency(order && order.currency)}
-                            {(order &&
-                              order.miscCharges &&
-                              order.miscCharges.find(
-                                (x) => x.chargeId === "VAT"
-                              ) &&
-                              order.miscCharges.find(
-                                (x) => x.chargeId === "VAT"
-                              ).amount) ||
-                              0}
+                            {order &&
+                            order.miscChargesActual &&
+                            order.miscChargesActual.find(
+                              (x) => x.chargeId === "VAT"
+                            )
+                              ? order.miscChargesActual.find(
+                                  (x) => x.chargeId === "VAT"
+                                ).amount
+                              : order &&
+                                order.miscCharges &&
+                                order.miscCharges.find(
+                                  (x) => x.chargeId === "VAT"
+                                ) &&
+                                order.miscCharges.find(
+                                  (x) => x.chargeId === "VAT"
+                                ).amount}
                           </span>
                         )}
                       </Col>
@@ -1215,14 +1240,7 @@ const OrdersMobile = (props) => {
                         ) : (
                           <span className="qa-fs-16 qa-fw-b qa-font-san qa-tc-white">
                             {getSymbolFromCurrency(order && order.currency)}
-                            {order &&
-                              order.miscCharges &&
-                              order.miscCharges.find(
-                                (x) => x.chargeId === "TOTAL_AMOUNT"
-                              ) &&
-                              order.miscCharges.find(
-                                (x) => x.chargeId === "TOTAL_AMOUNT"
-                              ).amount}
+                            {order && order.total}
                           </span>
                         )}
                       </Col>
