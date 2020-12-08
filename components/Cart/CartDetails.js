@@ -47,6 +47,7 @@ import deliveredCountryList from "../../public/filestore/deliveredCountries.json
 import PromotionCarousel from "../PromotionCarousel/PromotionCarousel";
 import sellerList from "../../public/filestore/freeShippingSellers.json";
 import { loginToApp } from "../AuthWithKeycloak";
+import signUp_icon from "../../public/filestore/Sign_Up";
 
 const { Step } = Steps;
 const { Option } = Select;
@@ -1021,7 +1022,8 @@ const CartDetails = (props) => {
               router.push("/signup");
             }}
           >
-            sign up as a buyer
+            <span className="sign-up-cart-icon">{signUp_icon()} </span>
+            <span className="qa-va-m">sign up as a buyer</span>
           </Button>
         </div>
         <div className="qa-signin-link qa-mar-top-05">

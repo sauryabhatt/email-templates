@@ -124,7 +124,10 @@ export const Layout = ({ children, meta = {} }) => {
         ></script>
       </Head>
       {isShowRibbon && !url ? (
-        <Ribbon isShowRibbon={isShowRibbon} setShowRibbon={setShowRibbon} />
+        <Ribbon
+          isShowRibbon={isShowRibbon}
+          setShowRibbon={(flag) => setShowRibbon(flag)}
+        />
       ) : null}
       {Header}
       {<main className="main-layout-next">{children}</main>}
