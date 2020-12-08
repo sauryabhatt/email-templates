@@ -206,7 +206,7 @@ const SellerLandingDesktop = (props) => {
   const [itemsToShow, setItemsToShow] = useState(2);
   const [videoType, setVideoType] = useState("");
   const [videoName, setVideoName] = useState("");
-  let offerings = [];
+  let offerings = [...publicOfferings, ...privateOfferings];
   if (Object.keys(showRoom).length) {
     if (
       showRoom &&
@@ -215,10 +215,8 @@ const SellerLandingDesktop = (props) => {
       showRoom.catalogMedia.media.mediaUrl &&
       showRoom.catalogMedia.media.mediaUrl !== null
     ) {
-      offerings = [showRoom, ...publicOfferings, ...privateOfferings];
+      offerings.unshift(showRoom);
     }
-  } else {
-    offerings = [...publicOfferings, ...privateOfferings];
   }
 
   let { altName = "", seoTitle = "" } = showcaseMedia || {};

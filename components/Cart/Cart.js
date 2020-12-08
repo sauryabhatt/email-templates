@@ -14,7 +14,7 @@ import _ from "lodash";
 const Cart = (props) => {
   let { cart = {}, brandNameList = [] } = props;
   const [isLoading, setLoading] = useState(true);
-  const {keycloak} = useKeycloak();
+  const { keycloak } = useKeycloak();
   let { token } = keycloak || {};
 
   async function getCartDetails() {
@@ -58,16 +58,18 @@ const Cart = (props) => {
       if (profileType === "BUYER") {
         getCartDetails();
       }
+    } else {
+      setLoading(false);
     }
   }, [props.user]);
 
   return (
-      <CartDetails
-        isLoading={isLoading}
-        app_token={token}
-        cart={cart}
-        brandNames={brandNameList}
-      />
+    <CartDetails
+      isLoading={isLoading}
+      app_token={token}
+      cart={cart}
+      brandNames={brandNameList}
+    />
   );
 };
 

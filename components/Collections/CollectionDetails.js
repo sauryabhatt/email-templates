@@ -732,7 +732,7 @@ const CollectionDetails = (props) => {
         centered
         bodyStyle={{ padding: "0" }}
         width={400}
-        className="seller-order-query-submission collection-rfq"
+        className="collection-rfq-submission"
       >
         <div id="send-query-success-modal">
           <div className="send-query-success-modal-content">

@@ -3736,8 +3736,8 @@ const ProductDetails = (props) => {
         width={400}
         className={
           rfqType === "Seller RFQ"
-            ? "seller-order-query-submission"
-            : "product-order-query-submission"
+            ? "pdp seller-order-query-submission"
+            : "pdp product-order-query-submission"
         }
       >
         <div id="send-query-success-modal">

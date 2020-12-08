@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { Row, Col, Steps, Checkbox, Spin, message, Popover } from "antd";
+import { Row, Col, Checkbox, Spin, message, Popover } from "antd";
 import { UpOutlined, DownOutlined, LoadingOutlined } from "@ant-design/icons";
 import PayWithPaypal from "../PayWithPayPal/PayWithPaypal";
 import { useKeycloak } from "@react-keycloak/ssr";
@@ -12,9 +12,8 @@ import getSymbolFromCurrency from "currency-symbol-map";
 import countries from "../../public/filestore/countryCodes_en.json";
 import Icon from "@ant-design/icons";
 import closeButton from "../../public/filestore/closeButton";
+import Spinner from "./../Spinner/Spinner";
 import Link from "next/link";
-
-const { Step } = Steps;
 
 const OrderReview = (props) => {
   const router = useRouter();
@@ -33,6 +32,7 @@ const OrderReview = (props) => {
   const [locale, setLocale] = useState(null);
   const [localeUpdated, setLocaleUpdated] = useState(false);
   const [popover, setPopover] = useState("");
+  const [isLoading, setLoading] = useState(true);
   useEffect(() => {
     if (keycloak?.token && orderIdParam) {
       props.getOrderByOrderId(keycloak.token, orderIdParam);
@@ -40,6 +40,7 @@ const OrderReview = (props) => {
   }, [keycloak.token, orderIdParam]);
 
   useEffect(() => {
+    setLoading(false);
     if (props.order) {
       getCountryCode();
       getEstimateCharge();
@@ -266,7 +267,11 @@ const OrderReview = (props) => {
       });
   };
 
-  if (isProcessing || !props.order) {
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  if (isProcessing) {
     return (
       <Row justify="space-around" className="order-body">
         <Spin tip="Processing payment" size="large" />

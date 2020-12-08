@@ -22,6 +22,7 @@ export default function Ribbon(props) {
   };
   let slider = "";
   let t = [
+    "FREE SHIPPING with Qalara Bazaar",
     "Holiday offer! Get $75 OFF on all orders",
     "ZERO Commissions. FREE quality inspections",
   ];
@@ -36,11 +37,13 @@ export default function Ribbon(props) {
   return (
     <div className="home-page-ribben-wrp">
       <Slider ref={(c) => (slider = c)} {...settings}>
-        {t.map((a) => {
+        {t.map((a, i) => {
           return (
             <a
               target="_blank"
-              href="/promotionsFAQ"
+              href={
+                i === 0 ? "/seller/SL10789/all-categories" : "/promotionsFAQ"
+              }
               key={a}
               className="home-page-ribben"
             >

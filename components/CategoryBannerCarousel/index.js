@@ -16,9 +16,9 @@ const categoryData = [
     linkTo: "home-decor-and-accessories",
   },
   {
-    title: "Fashion accessories",
-    url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_2.jpg",
-    linkTo: "fashion",
+    title: "Home linen",
+    url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_4.jpg",
+    linkTo: "home-furnishing",
   },
   {
     title: "Kitchen & dining",
@@ -26,9 +26,9 @@ const categoryData = [
     linkTo: "kitchen-and-dining",
   },
   {
-    title: "Home linen",
-    url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_4.jpg",
-    linkTo: "home-furnishing",
+    title: "Fashion accessories",
+    url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_2.jpg",
+    linkTo: "fashion",
   },
   {
     title: "Furniture & storage",
@@ -70,10 +70,10 @@ const slides = categoryData?.map((item, index) => {
 function CategoryBannerCarousel(props) {
   const [isMobile, setIsMobile] = useState(false);
   const settings = {
-    infinite: true,
+    infinite: false,
     speed: 500,
-    slidesToShow: isMobile ? 2 : 5,
-    slidesToScroll: 1,
+    slidesToShow: isMobile ? 1.5 : 5,
+    slidesToScroll: isMobile ? 1.5 : 1,
     arrows: false,
   };
 

@@ -29,6 +29,7 @@ import couponIcon from "../../public/filestore/couponIcon";
 import cartIcon from "../../public/filestore/cartIcon";
 import CartSummary from "./CartSummary";
 import SavedForLater from "./SavedForLater";
+import { useKeycloak } from "@react-keycloak/ssr";
 import {
   getAddresses,
   getCart,
@@ -45,6 +46,8 @@ import Spinner from "../Spinner/Spinner";
 import deliveredCountryList from "../../public/filestore/deliveredCountries.json";
 import PromotionCarousel from "../PromotionCarousel/PromotionCarousel";
 import sellerList from "../../public/filestore/freeShippingSellers.json";
+import { loginToApp } from "../AuthWithKeycloak";
+import signUp_icon from "../../public/filestore/Sign_Up";
 
 const { Step } = Steps;
 const { Option } = Select;
@@ -94,6 +97,7 @@ const CartDetails = (props) => {
     isGuest = false,
   } = props;
   const router = useRouter();
+  const { keycloak } = useKeycloak();
   const [addressFunc, setAddressFunc] = useState("");
   const [modal, showModal] = useState(false);
   const [addressModal, setAddressModal] = useState(false);
@@ -199,9 +203,6 @@ const CartDetails = (props) => {
     shippingAddressDetails &&
     Object.keys(shippingAddressDetails).length > 0 &&
     addresses.length > 0
-    // &&
-    // addresses.find((x) => x.id === shippingAddressId) &&
-    // addresses.find((x) => x.id === shippingAddressId).id
   ) {
     addressFlag = true;
   }
@@ -336,8 +337,8 @@ const CartDetails = (props) => {
     } else {
       setDeliver(false);
     }
-    setSelCountry(value)
-    setZipcodeList([])
+    setSelCountry(value);
+    setZipcodeList([]);
   };
 
   const handleCancel = () => {
@@ -352,6 +353,10 @@ const CartDetails = (props) => {
 
   const enableUpdateQty = (id) => {
     setUpdate(id);
+  };
+
+  const signIn = () => {
+    loginToApp(keycloak, { currentPath: router.asPath.split("?")[0] });
   };
 
   const onOptServiceChange = (checkedValues, index) => {
@@ -930,7 +935,12 @@ const CartDetails = (props) => {
     return <Spinner />;
   }
 
-  if (subOrders && subOrders.length === 0 && products.length) {
+  if (
+    subOrders &&
+    subOrders.length === 0 &&
+    products.length &&
+    keycloak.authenticated
+  ) {
     return (
       <div id="cart-details" className="cart-section qa-font-san">
         {mediaMatch.matches ? (
@@ -963,15 +973,13 @@ const CartDetails = (props) => {
     );
   }
 
-  if (subOrders && subOrders.length === 0) {
+  if (subOrders && subOrders.length === 0 && keycloak.authenticated) {
     return (
       <div id="cart-details" className="cart-section qa-font-san empty-cart">
         <div className="e-cart-title qa-txt-alg-cnt qa-mar-btm-1">
           Your cart is empty!
         </div>
-        <div className="qa-txt-alg-cnt e-cart-stitle qa-mar-auto-4">
-          {notificationMsg}
-        </div>
+        <div className="qa-txt-alg-cnt e-cart-stitle">{notificationMsg}</div>
         <Link href="/account/profile">
           <div className="qa-txt-alg-cnt e-link">My account</div>
         </Link>
@@ -996,6 +1004,38 @@ const CartDetails = (props) => {
       </div>
     );
   }
+
+  if (!keycloak.authenticated) {
+    return (
+      <div id="cart-details" className="cart-section qa-font-san empty-cart">
+        <div className="e-cart-title qa-txt-alg-cnt qa-mar-btm-2 qa-fs48">
+          Sign up to add products to your cart
+        </div>
+        <div className="qa-txt-alg-cnt e-cart-stitle">
+          In order to checkout and place an order please signup as a buyer
+        </div>
+
+        <div className="qa-txt-alg-cnt">
+          <Button
+            className="qa-button qa-fs-12 qa-shop-btn"
+            onClick={(e) => {
+              router.push("/signup");
+            }}
+          >
+            <span className="sign-up-cart-icon">{signUp_icon()} </span>
+            <span className="qa-va-m">sign up as a buyer</span>
+          </Button>
+        </div>
+        <div className="qa-signin-link qa-mar-top-05">
+          Already have an account?{" "}
+          <span className="c-breakup" onClick={signIn}>
+            Sign in here
+          </span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <Row id="cart-details" className="cart-section qa-font-san">
       {mediaMatch.matches && (

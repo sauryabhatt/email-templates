@@ -1,7 +1,9 @@
-.landing-container{
+/** @format */
+
+.landing-container {
   background-color: #333030;
   /* margin-top: 70px; */
-  color: #F9F7F2;
+  color: #f9f7f2;
 }
 .landing {
   background-image: url("../../public/filestore/Landing-page/Small_bird_vector.svg");
@@ -11,7 +13,7 @@
   padding-bottom: 20px;
   /* margin-top: 70px; */
 }
-.right-align-container{
+.right-align-container {
   display: flex;
   justify-content: flex-end;
   background-color: #333030;
@@ -61,7 +63,7 @@
   padding-top: 20px;
   color: #fff !important;
 }
-.big-text-bottom-line{
+.big-text-bottom-line {
   font-size: 17px;
   line-height: 22.5px;
   letter-spacing: 0.02em;
@@ -114,22 +116,22 @@ h6 {
   position: relative;
 }
 .image-wrp::after {
-    content: "";
-    display: block;
-    padding-bottom: 132%;
+  content: "";
+  display: block;
+  padding-bottom: 132%;
 }
-.landing-first-fold .image-wrp{
+.landing-first-fold .image-wrp {
   margin-bottom: 40px;
   width: 27%;
 }
 .image-wrp img {
   width: 100%;
   position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    right: 0;
-    bottom: 0;
+  left: 0;
+  top: 0;
+  width: 100%;
+  right: 0;
+  bottom: 0;
 }
 
 .image-wrp h3 {
@@ -140,7 +142,7 @@ h6 {
   font-weight: bold;
   font-family: senregular;
 }
-.big-heading{
+.big-heading {
   font-size: 32px;
   font-family: Butler;
   font-weight: 400;
@@ -153,14 +155,14 @@ h6 {
   line-height: 120%;
   padding-right: 60px;
 }
-.landing-second-fold{
+.landing-second-fold {
   margin-top: 10px;
   flex-direction: column;
 }
-.side-heading{
+.side-heading {
   margin-top: 0;
 }
-.aligne-column{
+.aligne-column {
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -170,17 +172,17 @@ h6 {
   overflow-x: hidden;
 }
 
-.curated-fold a{
+.curated-fold a {
   color: inherit;
 }
-.scroll-container{
+.scroll-container {
   transition: all 0.5s ease-in-out;
   width: 150%;
   display: flex;
   justify-content: space-between;
   flex-direction: row;
 }
-.scroll-container .image-wrp{
+.scroll-container .image-wrp {
   margin-bottom: 0;
   margin-right: 40px;
   min-width: 215px;
@@ -198,11 +200,12 @@ h6 {
   margin-top: 30px;
   font-family: senregular;
 }
-.next-btn, .previous-btn{
+.next-btn,
+.previous-btn {
   position: relative;
   cursor: pointer;
 }
-.previous-btn::after{
+.previous-btn::after {
   content: "";
   position: absolute;
   width: 40px;
@@ -210,7 +213,7 @@ h6 {
   top: 50%;
   right: calc(-100% - 20px);
 }
-.next-btn::before{
+.next-btn::before {
   content: "";
   position: absolute;
   width: 40px;
@@ -218,18 +221,18 @@ h6 {
   top: 50%;
   left: calc(-100% - 20px);
 }
-.landing-third-fold{
+.landing-third-fold {
   background-image: url("../../public/filestore/Landing-page/Small_bird_vector.svg");
   background-repeat: no-repeat;
   background-position: 145px 95px;
   background-size: 64%;
 }
-.landing-third-fold .discription-text{
+.landing-third-fold .discription-text {
   width: 56%;
   margin-bottom: 60px;
   line-height: 28px;
 }
-.landing-third-fold .fold-heading{
+.landing-third-fold .fold-heading {
   width: 30%;
   align-items: stretch;
   background-repeat: no-repeat;
@@ -237,14 +240,13 @@ h6 {
   background-position: center;
   position: relative;
 }
-.landing-third-fold .fold-content{
+.landing-third-fold .fold-content {
   width: calc(62% - 52px);
-
 }
-.landing-third-fold .fold-heading img{
+.landing-third-fold .fold-heading img {
   width: 100%;
 }
-.landing-third-fold .curated-fold{
+.landing-third-fold .curated-fold {
   width: calc(100% - 80px);
   margin-top: 145px;
 }
@@ -254,7 +256,7 @@ h6 {
 }
 
 .landing-third-fold .dialog-box {
-  background-color: #4E4848;
+  background-color: #4e4848;
   height: 170px;
   width: 160px;
   position: absolute;
@@ -262,7 +264,7 @@ h6 {
   right: -25px;
   padding: 21px 16px;
 }
-.landing-third-fold .dialog-box .dialog-big-text{
+.landing-third-fold .dialog-box .dialog-big-text {
   margin-bottom: 22px;
   font-size: 22px;
   line-height: 26px;
@@ -270,25 +272,25 @@ h6 {
   font-family: Butler;
   letter-spacing: 0.01em;
 }
-.landing-third-fold .dialog-box .dialog-small-text{
+.landing-third-fold .dialog-box .dialog-small-text {
   font-size: 16px;
   font-weight: bold;
   font-family: senregular;
 }
 
-.big-margin-top{
+.big-margin-top {
   margin-top: 100px;
 }
 
-.landing-fourth-fold{
+.landing-fourth-fold {
   flex-direction: column;
 }
 
-.landing-fifth-fold.curated-fold{
+.landing-fifth-fold.curated-fold {
   margin-bottom: 60px;
   margin-top: 150px;
 }
-.landing-fifth-fold .bar-heading{
+.landing-fifth-fold .bar-heading {
   width: 250px;
   line-height: inherit;
   padding-top: 20px;
@@ -297,7 +299,7 @@ h6 {
 .landing-fifth-fold .image-wrp {
   height: 108px;
   width: 146px;
-  background: #D9BB7F;
+  background: #d9bb7f;
   margin-right: 20px;
   min-width: initial;
   text-align: center;
@@ -308,23 +310,24 @@ h6 {
   text-transform: uppercase;
   padding: 4px;
 }
-.landing-fifth-fold .image-wrp .svg-text{
+.landing-fifth-fold .image-wrp .svg-text {
   font-size: 14px;
   font-family: senregular;
   color: #000;
   margin-top: 14px;
 }
-.landing-fifth-fold .image-wrp::after{
+.landing-fifth-fold .image-wrp::after {
   padding: 0;
 }
 .image-wrp:nth-child(2) {
-  background-color: #F9F7F2;
+  background-color: #f9f7f2;
 }
-.fold-content .category-slider{
+.fold-content .category-slider {
   margin-top: 0;
 }
-@media only screen and (max-width: 1020px){
-  .fold-content, .big-heading{
+@media only screen and (max-width: 1020px) {
+  .fold-content,
+  .big-heading {
     width: 55%;
   }
   .landing-third-fold .fold-content {
@@ -332,37 +335,37 @@ h6 {
   }
 }
 
-
-@media only screen and (max-width: 940px){
-  .landing{
+@media only screen and (max-width: 940px) {
+  .landing {
     margin-top: -8px;
   }
-  .fold-content{
+  .fold-content {
     width: 100%;
   }
-  .big-heading{
+  .big-heading {
     width: 90%;
     align-self: flex-start;
     margin-bottom: 40px;
   }
-  .aligne-column, .landing-fifth-fold.curated-fold{
+  .aligne-column,
+  .landing-fifth-fold.curated-fold {
     flex-direction: column;
   }
-  .curated-fold{
+  .curated-fold {
     width: 100%;
     padding-left: 30px;
   }
-  .landing-fifth-fold .bar-heading{
+  .landing-fifth-fold .bar-heading {
     width: 310px;
     margin-bottom: 50px;
   }
-  .landing-first-fold{
+  .landing-first-fold {
     flex-direction: column;
     margin-top: 0;
     position: relative;
     padding-bottom: 100px;
   }
-  .fold-image-container{
+  .fold-image-container {
     justify-content: space-around;
     margin-right: 0;
     width: 100%;
@@ -371,7 +374,7 @@ h6 {
   .fold-image-container a {
     width: calc(33% - 70px);
     margin-right: 23px;
-    min-width: 119px
+    min-width: 119px;
   }
   .button-wrp {
     position: absolute;
@@ -379,12 +382,12 @@ h6 {
     z-index: 99;
     width: calc(100% - 60px);
   }
-  .landing-third-fold .dialog-box{
+  .landing-third-fold .dialog-box {
     bottom: -25px;
     left: 50%;
     transform: translateX(-50%);
   }
-  .landing-third-fold .fold-heading{
+  .landing-third-fold .fold-heading {
     width: 70%;
     height: 500px;
     align-self: center;
@@ -396,7 +399,7 @@ h6 {
     flex-direction: column;
     position: relative;
   }
-  .landing-third-fold .fold-content{
+  .landing-third-fold .fold-content {
     width: 100%;
     margin-top: 150px;
   }
@@ -404,25 +407,26 @@ h6 {
     position: absolute;
     top: 55px;
   }
-  .main-header{
-    margin-top:45px;
+  .main-header {
+    margin-top: 45px;
   }
-  .landing-third-fold .discription-text{
+  .landing-third-fold .discription-text {
     width: 100%;
   }
-  .landing-third-fold{
+  .landing-third-fold {
     background-position: 45px 95px;
     background-size: 80%;
   }
 }
-@media only screen and (max-width: 768px){
-  .landing-fourth-fold.curated-fold a{
+@media only screen and (max-width: 768px) {
+  .landing-fourth-fold.curated-fold a {
     width: 135px;
   }
-  .landing-fourth-fold.curated-fold .image-wrp, .landing-second-fold.curated-fold .image-wrp  {
+  .landing-fourth-fold.curated-fold .image-wrp,
+  .landing-second-fold.curated-fold .image-wrp {
     min-width: 116px;
   }
-  .landing{
+  .landing {
     padding-bottom: 0;
     background-size: 100% 100%;
     background-position: -168px -225px;
@@ -441,31 +445,32 @@ h6 {
     margin-bottom: 20px;
     width: 91px;
   }
-  .landing-third-fold .discription-text{
+  .landing-third-fold .discription-text {
     font-size: 14px;
     line-height: 18px;
   }
   .fold-image-container {
     width: 130%;
   }
-  .fold-image, .hroizontal-img-container {
+  .fold-image,
+  .hroizontal-img-container {
     width: 100%;
     overflow-x: scroll;
   }
-  .bar-heading{
+  .bar-heading {
     font-size: 20px;
     line-height: 26px;
     padding-top: 16px;
     margin-bottom: 10px;
     color: #fff !important;
   }
-  .landing .bar-heading{
+  .landing .bar-heading {
     margin-bottom: 20px;
   }
   .scroll-container .image-wrp {
     margin-right: 20px !important;
   }
-  .image-wrp h3{
+  .image-wrp h3 {
     font-size: 14px;
     bottom: 13px;
     left: 13px;
@@ -473,18 +478,18 @@ h6 {
     height: 28px;
     text-align: left;
   }
-  .big-heading{
+  .big-heading {
     font-size: 18px;
     line-height: 127%;
     padding-top: 0;
     padding-right: 30px;
     width: 100%;
   }
-  .big-text-bottom-line{
-    font-size:12px;
+  .big-text-bottom-line {
+    font-size: 12px;
     line-height: 14px;
   }
-  .landing-third-fold .fold-content{
+  .landing-third-fold .fold-content {
     margin-top: 50px;
   }
   .discription-text {
@@ -498,24 +503,24 @@ h6 {
   .curated-fold {
     margin-top: 50px !important;
   }
-  .landing-first-fold.curated-fold{
+  .landing-first-fold.curated-fold {
     margin-top: 0 !important;
   }
-  .landing-fifth-fold .bar-heading{
+  .landing-fifth-fold .bar-heading {
     margin-bottom: 10px;
     width: 220px;
     padding-top: 16px;
   }
-  .landing-third-fold .dialog-box .dialog-big-text{
+  .landing-third-fold .dialog-box .dialog-big-text {
     font-size: 16px;
     margin-bottom: 12px;
     line-height: 120%;
   }
-  .landing-third-fold .dialog-box .dialog-small-text{
+  .landing-third-fold .dialog-box .dialog-small-text {
     font-size: 14px;
     line-height: 16px;
   }
-  .landing-third-fold .dialog-box{
+  .landing-third-fold .dialog-box {
     width: 120px;
     height: 150px;
   }
@@ -523,25 +528,33 @@ h6 {
     height: 300px;
     margin-left: -15px;
   }
-  .landing-fourth-fold .image-wrp h3, .landing-first-fold  .image-wrp h3{
+  .landing-fourth-fold .image-wrp h3,
+  .landing-first-fold .image-wrp h3 {
     height: auto;
   }
   .hroizontal-img-container svg {
     width: 43px;
   }
-  .landing-fifth-fold .image-wrp .svg-text{
+  .landing-fifth-fold .image-wrp .svg-text {
     font-size: 13px;
     text-transform: uppercase;
   }
-  .scroll-container{
-    width: 140%
+  .scroll-container {
+    width: 140%;
   }
-  .landing-third-fold .slick-slide .image-wrp{
+  .landing-third-fold .slick-slide .image-wrp {
+  }
+  .curated-fold .previous-btn {
+    top: 10px;
+    right: 40%;
+  }
+  .curated-fold .next-btn {
+    left: 35%;
+    top: 10px;
   }
 }
-@media only screen and (max-width: 360px){
+@media only screen and (max-width: 360px) {
   .fold-image-container {
     width: 180%;
   }
 }
-
