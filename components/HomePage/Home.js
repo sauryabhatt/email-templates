@@ -189,32 +189,32 @@ function Home(props) {
   const sellerItems = [
     {
       imageHeading: "Shop Fair & Social",
-      image: "https://cdn.qalara.com/images/Img_HomePageCarousel2_3.jpg",
+      image: "https://cdn.qalara.com/images/Img_FairAndSocial.jpg",
       url: "/sellers/all-categories?f_values=FAIR_TRADE",
     },
     {
       imageHeading: "Shop Artisanal",
-      image: "https://cdn.qalara.com/images/Img_HomePageCarousel2_4.jpg",
+      image: "https://cdn.qalara.com/images/Img_Artisanal.jpg",
       url: "/sellers/all-categories?f_values=ARTISANAL",
     },
     {
       imageHeading: "Shop Recycled",
-      image: "https://cdn.qalara.com/images/Img_HomePageCarousel2_5.jpg",
+      image: "https://cdn.qalara.com/images/Img_Recycled.jpg",
       url: "/sellers/all-categories?f_values=RECYCLED",
     },
     {
       imageHeading: "Shop Sustainable",
-      image: "https://cdn.qalara.com/images/Img_HomePageCarousel2_6.jpg",
+      image: "https://cdn.qalara.com/images/Img_Sustainable.jpg",
       url: "/sellers/all-categories?f_values=SUSTAINABLE",
     },
     {
       imageHeading: "Shop Organic",
-      image: "https://cdn.qalara.com/images/Img_HomePageCarousel2_1.jpg",
+      image: "https://cdn.qalara.com/images/Img_Organic.jpg",
       url: "/sellers/all-categories?f_values=ORGANIC",
     },
     {
       imageHeading: "Shop Eco friendly",
-      image: "https://cdn.qalara.com/images/Img_HomePageCarousel2_2.jpg",
+      image: "https://cdn.qalara.com/images/Img_Ecofriendly.jpg",
       url: "/sellers/all-categories?f_values=ECO_FRIENDLY",
     },
   ];
