@@ -232,6 +232,7 @@ const CartDetails = (props) => {
   }
 
   let shippingAddr = "";
+  let pls = phoneNumber.indexOf("+") >=0 ? "" : "+"
   shippingAddr =
     fullName +
     ", " +
@@ -246,7 +247,8 @@ const CartDetails = (props) => {
     country +
     ", " +
     zipCode +
-    ", +" +
+    ", " +
+    pls +
     phoneNumber;
 
   let { convertToCurrency = "" } = currencyDetails || {};
@@ -286,8 +288,8 @@ const CartDetails = (props) => {
     let { format = "", countryCode = "" } = country;
     console.log(country, value);
     let length = (format.match(/\./g) || []).length;
-    //setSelCountryCode(countryCode);
-    //setDialCode(dialCode);
+    setSelCountryCode(countryCode);
+    setDialCode(dialCode);
     setSelCountryExpectedLength(length);
   };
 
@@ -2467,6 +2469,7 @@ const CartDetails = (props) => {
                     } = address || {};
 
                     let shippingAddr = "";
+                    let pls = phoneNumber.indexOf("+") >=0 ? "" : "+"
                     shippingAddr =
                       addressLine1 +
                       ", " +
@@ -2479,7 +2482,8 @@ const CartDetails = (props) => {
                       country +
                       ", " +
                       zipCode +
-                      ", +" +
+                      ", " +
+                      pls +
                       phoneNumber;
 
                     return (
