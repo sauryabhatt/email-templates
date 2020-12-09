@@ -343,7 +343,13 @@ const Addresses = (props) => {
     }));
 
     if(value.toString().length >= 3 && deliver){
-      fetch(process.env.NEXT_PUBLIC_REACT_APP_DUTY_COST_URL + "/country/" + state.country + "/zipcode/"+value, {
+      if(!value.replace(/[^a-z0-9]/gi,'')){
+        setZipcodeList([value])
+        handleError("zipCode", "", "Please enter valid pin code!!")
+        return
+      }
+      let val = value.replace(/[^a-z0-9]/gi,'')
+      fetch(process.env.NEXT_PUBLIC_REACT_APP_DUTY_COST_URL + "/country/" + state.country + "/zipcode/"+val, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -359,7 +365,11 @@ const Addresses = (props) => {
         })
         .then((res) => {
           if(res.zipcodes && res.zipcodes.length > 0){
-            setZipcodeList(res.zipcodes)
+            let a = res.zipcodes.slice(0)
+            a.push(value);
+            setZipcodeList(a)
+          }else{
+            setZipcodeList([value])
           }
         })
         .catch((err) => {
@@ -367,7 +377,7 @@ const Addresses = (props) => {
           setLoading(false);
         });
     }else{
-      setZipcodeList([])
+      setZipcodeList([value])
     }
   };
 
@@ -390,6 +400,7 @@ const Addresses = (props) => {
   const saveAddress = () => {
     if (validateFields()) {
       setLoading(true);
+      let zip= state.zipCode.replace(/[^a-z0-9]/gi,'')
       let data = {
         profileId: props.userProfile.userProfile.profileId,
         fullName: state.fullName,
@@ -398,7 +409,7 @@ const Addresses = (props) => {
         country: state.country,
         state: state.state,
         city: state.city,
-        zipCode: state.zipCode,
+        zipCode: zip,
         phoneNumber: state.phoneNumber,
         isDefault: state.isDefault,
         countryCode: selCountryCode,
@@ -450,6 +461,7 @@ const Addresses = (props) => {
   const updateAddress = () => {
     if (validateFields()) {
       setLoading(true);
+      let zip= state.zipCode.replace(/[^a-z0-9]/gi,'')
       let data = {
         profileId: props.userProfile.userProfile.profileId,
         fullName: state.fullName,
@@ -458,7 +470,7 @@ const Addresses = (props) => {
         country: state.country,
         state: state.state,
         city: state.city,
-        zipCode: state.zipCode,
+        zipCode: zip,
         phoneNumber: state.phoneNumber,
         isDefault: state.isDefault,
         countryCode: selCountryCode,
@@ -1051,7 +1063,7 @@ const Addresses = (props) => {
                                 ?(zipCodeList.map(e => {
                                     return <Option key= {e} value={e}>{e}</Option> 
                                   }))
-                                  : null
+                                  : <Option value="">Enter min 3 digits to view list</Option> 
                               }
                             </Select>)
                             :(

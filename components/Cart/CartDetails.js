@@ -232,6 +232,7 @@ const CartDetails = (props) => {
   }
 
   let shippingAddr = "";
+  let pls = phoneNumber.indexOf("+") >=0 ? "" : "+"
   shippingAddr =
     fullName +
     ", " +
@@ -247,6 +248,7 @@ const CartDetails = (props) => {
     ", " +
     zipCode +
     ", " +
+    pls +
     phoneNumber;
 
   let { convertToCurrency = "" } = currencyDetails || {};
@@ -475,6 +477,7 @@ const CartDetails = (props) => {
     setSelCountry(values.country);
     setSelPincode(values.zipCode);
     countryCheck(values.country);
+    let zip= values.zipCode.replace(/[^a-z0-9]/gi,'')
     let data = {
       profileId: profileId,
       fullName: values.fullName,
@@ -483,7 +486,7 @@ const CartDetails = (props) => {
       country: values.country,
       state: values.state,
       city: values.city,
-      zipCode: values.zipCode,
+      zipCode: zip,
       phoneNumber: values.phoneNumber,
       isDefault: values.isDefault === "yes" ? true : false,
       countryCode: selCountryCode,
@@ -521,6 +524,7 @@ const CartDetails = (props) => {
     setSelCountry(values.country);
     setSelPincode(values.zipCode);
     countryCheck(values.country);
+    let zip= values.zipCode.replace(/[^a-z0-9]/gi,'')
     let data = {
       profileId: profileId,
       fullName: values.fullName,
@@ -529,7 +533,7 @@ const CartDetails = (props) => {
       country: values.country,
       state: values.state,
       city: values.city,
-      zipCode: values.zipCode,
+      zipCode: zip,
       phoneNumber: values.phoneNumber,
       isDefault: values.isDefault === "yes" ? true : false,
       countryCode: selCountryCode,
@@ -577,6 +581,10 @@ const CartDetails = (props) => {
     }));*/
 
     if (value.toString().length >= 3) {
+      if(!value.replace(/[^a-z0-9]/gi,'')){
+        setZipcodeList([value])
+        return
+      }
       fetch(
         process.env.NEXT_PUBLIC_REACT_APP_DUTY_COST_URL +
           "/country/" +
@@ -600,7 +608,11 @@ const CartDetails = (props) => {
         })
         .then((res) => {
           if (res.zipcodes && res.zipcodes.length > 0) {
-            setZipcodeList(res.zipcodes);
+            let a = res.zipcodes.slice(0)
+            a.push(value);
+            setZipcodeList(a)
+          }else{
+            setZipcodeList([value])
           }
         })
         .catch((err) => {
@@ -608,7 +620,7 @@ const CartDetails = (props) => {
           setLoading(false);
         });
     } else {
-      setZipcodeList([]);
+      setZipcodeList([value]);
     }
   };
 
@@ -2457,6 +2469,7 @@ const CartDetails = (props) => {
                     } = address || {};
 
                     let shippingAddr = "";
+                    let pls = phoneNumber.indexOf("+") >=0 ? "" : "+"
                     shippingAddr =
                       addressLine1 +
                       ", " +
@@ -2470,6 +2483,7 @@ const CartDetails = (props) => {
                       ", " +
                       zipCode +
                       ", " +
+                      pls +
                       phoneNumber;
 
                     return (
@@ -2782,7 +2796,8 @@ const CartDetails = (props) => {
                               </Option>
                             );
                           })
-                        : null}
+                        : <Option value="">Enter min 3 digits to view list</Option> 
+                      }
                     </Select>
                   ) : (
                     <Input />
