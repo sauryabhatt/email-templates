@@ -841,15 +841,25 @@ const OrdersMobile = (props) => {
                             {getSymbolFromCurrency(order && order.currency) ||
                               "$"}
                             {order &&
-                              order.miscCharges &&
-                              order.miscCharges.find(
-                                (x) => x.chargeId === "FREIGHT_MAX"
-                              ) &&
-                              parseFloat(
+                            order.miscChargesActual &&
+                            order.miscChargesActual.find(
+                              (x) => x.chargeId === "FREIGHT_MAX"
+                            )
+                              ? parseFloat(
+                                  order.miscChargesActual.find(
+                                    (x) => x.chargeId === "FREIGHT_MAX"
+                                  ).amount * order.conversionFactor
+                                ).toFixed(2)
+                              : order &&
+                                order.miscCharges &&
                                 order.miscCharges.find(
                                   (x) => x.chargeId === "FREIGHT_MAX"
-                                ).amount * order.conversionFactor
-                              ).toFixed(2)}
+                                ) &&
+                                parseFloat(
+                                  order.miscCharges.find(
+                                    (x) => x.chargeId === "FREIGHT_MAX"
+                                  ).amount * order.conversionFactor
+                                ).toFixed(2)}
                           </span>
                         ) : (
                           <span className="qa-fs-16 qa-fw-b qa-font-san qa-tc-white">
@@ -1055,15 +1065,25 @@ const OrdersMobile = (props) => {
                             {getSymbolFromCurrency(order && order.currency) ||
                               "$"}
                             {order &&
-                              order.miscCharges &&
-                              order.miscCharges.find(
-                                (x) => x.chargeId === "DUTY_MAX"
-                              ) &&
-                              parseFloat(
+                            order.miscChargesActual &&
+                            order.miscChargesActual.find(
+                              (x) => x.chargeId === "DUTY_MAX"
+                            )
+                              ? parseFloat(
+                                  order.miscChargesActual.find(
+                                    (x) => x.chargeId === "DUTY_MAX"
+                                  ).amount * order.conversionFactor
+                                ).toFixed(2)
+                              : order &&
+                                order.miscCharges &&
                                 order.miscCharges.find(
                                   (x) => x.chargeId === "DUTY_MAX"
-                                ).amount * order.conversionFactor
-                              ).toFixed(2)}
+                                ) &&
+                                parseFloat(
+                                  order.miscCharges.find(
+                                    (x) => x.chargeId === "DUTY_MAX"
+                                  ).amount * order.conversionFactor
+                                ).toFixed(2)}
                           </span>
                         ) : (
                           <span className="qa-fs-16 qa-fw-b qa-font-san qa-tc-white">
@@ -1110,17 +1130,26 @@ const OrdersMobile = (props) => {
                           <span className="qa-fs-16 qa-fw-b qa-font-san qa-tc-white">
                             {getSymbolFromCurrency(order && order.currency) ||
                               "$"}
-                            {(order &&
-                              order.miscCharges &&
-                              order.miscCharges.find(
-                                (x) => x.chargeId === "VAT"
-                              ) &&
-                              parseFloat(
+                            {order &&
+                            order.miscChargesActual &&
+                            order.miscChargesActual.find(
+                              (x) => x.chargeId === "VAT"
+                            )
+                              ? parseFloat(
+                                  order.miscChargesActual.find(
+                                    (x) => x.chargeId === "VAT"
+                                  ).amount * order.conversionFactor
+                                ).toFixed(2)
+                              : order &&
+                                order.miscCharges &&
                                 order.miscCharges.find(
                                   (x) => x.chargeId === "VAT"
-                                ).amount * order.conversionFactor
-                              ).toFixed(2)) ||
-                              0}
+                                ) &&
+                                parseFloat(
+                                  order.miscCharges.find(
+                                    (x) => x.chargeId === "VAT"
+                                  ).amount * order.conversionFactor
+                                ).toFixed(2)}
                           </span>
                         ) : (
                           <span className="qa-fs-16 qa-fw-b qa-font-san">
