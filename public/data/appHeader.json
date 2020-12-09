@@ -95,7 +95,7 @@
       "font": "H2",
       "action": "URL",
       "filterType": "",
-      "values": "all-categories",
+      "values": "/sellers/all-categories",
       "isActive": "TRUE"
   },
   {
