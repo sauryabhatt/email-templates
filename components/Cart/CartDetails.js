@@ -475,6 +475,7 @@ const CartDetails = (props) => {
     setSelCountry(values.country);
     setSelPincode(values.zipCode);
     countryCheck(values.country);
+    let zip= values.zipCode.replace(/[^a-z0-9]/gi,'')
     let data = {
       profileId: profileId,
       fullName: values.fullName,
@@ -483,7 +484,7 @@ const CartDetails = (props) => {
       country: values.country,
       state: values.state,
       city: values.city,
-      zipCode: values.zipCode,
+      zipCode: zip,
       phoneNumber: values.phoneNumber,
       isDefault: values.isDefault === "yes" ? true : false,
       countryCode: selCountryCode,
@@ -521,6 +522,7 @@ const CartDetails = (props) => {
     setSelCountry(values.country);
     setSelPincode(values.zipCode);
     countryCheck(values.country);
+    let zip= values.zipCode.replace(/[^a-z0-9]/gi,'')
     let data = {
       profileId: profileId,
       fullName: values.fullName,
@@ -529,7 +531,7 @@ const CartDetails = (props) => {
       country: values.country,
       state: values.state,
       city: values.city,
-      zipCode: values.zipCode,
+      zipCode: zip,
       phoneNumber: values.phoneNumber,
       isDefault: values.isDefault === "yes" ? true : false,
       countryCode: selCountryCode,
@@ -601,6 +603,8 @@ const CartDetails = (props) => {
         .then((res) => {
           if (res.zipcodes && res.zipcodes.length > 0) {
             setZipcodeList(res.zipcodes);
+          }else{
+            setZipcodeList([value])
           }
         })
         .catch((err) => {
@@ -608,7 +612,7 @@ const CartDetails = (props) => {
           setLoading(false);
         });
     } else {
-      setZipcodeList([]);
+      setZipcodeList([value]);
     }
   };
 
