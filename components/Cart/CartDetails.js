@@ -579,6 +579,10 @@ const CartDetails = (props) => {
     }));*/
 
     if (value.toString().length >= 3) {
+      if(!value.replace(/[^a-z0-9]/gi,'')){
+        setZipcodeList([value])
+        return
+      }
       fetch(
         process.env.NEXT_PUBLIC_REACT_APP_DUTY_COST_URL +
           "/country/" +
@@ -602,7 +606,9 @@ const CartDetails = (props) => {
         })
         .then((res) => {
           if (res.zipcodes && res.zipcodes.length > 0) {
-            setZipcodeList(res.zipcodes);
+            let a = res.zipcodes.slice(0)
+            a.push(value);
+            setZipcodeList(a)
           }else{
             setZipcodeList([value])
           }
@@ -2786,7 +2792,8 @@ const CartDetails = (props) => {
                               </Option>
                             );
                           })
-                        : null}
+                        : <Option value="">Search For Pincode</Option> 
+                      }
                     </Select>
                   ) : (
                     <Input />
