@@ -1063,7 +1063,7 @@ const Addresses = (props) => {
                                 ?(zipCodeList.map(e => {
                                     return <Option key= {e} value={e}>{e}</Option> 
                                   }))
-                                  : <Option value="">Search For Pincode</Option> 
+                                  : <Option value="">Enter min 3 digits to view list</Option> 
                               }
                             </Select>)
                             :(

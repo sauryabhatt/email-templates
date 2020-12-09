@@ -662,3 +662,9 @@
 .qa-tc1 {
   color: #dabbae;
 }
+.ant-empty-image, .ant-empty-description{
+  display: none;
+}
+.ant-select-single.ant-select-open .ant-select-selection-item, .ant-form-item-control-input-content{
+  font-family: 'senregular';
+}

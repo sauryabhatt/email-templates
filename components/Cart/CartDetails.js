@@ -246,7 +246,7 @@ const CartDetails = (props) => {
     country +
     ", " +
     zipCode +
-    ", " +
+    ", +" +
     phoneNumber;
 
   let { convertToCurrency = "" } = currencyDetails || {};
@@ -286,8 +286,8 @@ const CartDetails = (props) => {
     let { format = "", countryCode = "" } = country;
     console.log(country, value);
     let length = (format.match(/\./g) || []).length;
-    setSelCountryCode(countryCode);
-    setDialCode(dialCode);
+    //setSelCountryCode(countryCode);
+    //setDialCode(dialCode);
     setSelCountryExpectedLength(length);
   };
 
@@ -2479,7 +2479,7 @@ const CartDetails = (props) => {
                       country +
                       ", " +
                       zipCode +
-                      ", " +
+                      ", +" +
                       phoneNumber;
 
                     return (
@@ -2792,7 +2792,7 @@ const CartDetails = (props) => {
                               </Option>
                             );
                           })
-                        : <Option value="">Search For Pincode</Option> 
+                        : <Option value="">Enter min 3 digits to view list</Option> 
                       }
                     </Select>
                   ) : (
