@@ -13,6 +13,7 @@ import SendQueryForm from "./../SendQueryForm/SendQueryForm";
 import CraftCarousel from "./../CraftCarousel/CraftCarousel";
 import SellerCarousel from "./../SellerCarousel/SellerCarousel";
 import PressCrousel from "./../PressCrousel/PressCrousel";
+import HotThisWeekCarousel from "./../HotThisWeekCarousel/HotThisWeekCarousel";
 import closeButton from "../../public/filestore/closeButton";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
@@ -226,7 +227,7 @@ function Home(props) {
       imageHeading: <span>{imageHeading}</span>,
       slideText:
         "As boundaries between the indoors and the outdoors get blurred, eco-friendly products and natural materials surrounded with large patches of green within living spaces, lend much needed oneness with nature. Discover our range of handmade tropical inspiration which includes macrame planters, terracotta pots, sabai baskets, upcycled & bamboo outdoor furniture, dry flowers, marble garden decor and more from wholesale suppliers who care.",
-      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_2.jpg",
+      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_2_1.jpg",
       searchText: "UrbanJungle",
       path: "/trends/urbanjungle",
     },
@@ -245,7 +246,7 @@ function Home(props) {
       slideText:
         "Globally inspired textures, materials and patterns that bring an electric aesthetic to the home. Embrace the adventures of a collector who mixes treasures of different cultures together effortlessly by blending décor items with handcrafted textiles - rugs, cushions, throws and more! \n" +
         "Our wholesale suppliers offer unique handmade products, combining local crafts and materials with new-age aesthetics, that cater to a global audience. ",
-      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_1.jpg",
+      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_1_1.jpg",
       searchText: "GlobalTextures",
       path: "/trends/globaltextures",
     },
@@ -254,7 +255,7 @@ function Home(props) {
       imageHeading: <span>{imageHeading}</span>,
       slideText:
         "The elegance of natural materials and traditional crafts is truly unparalleled. Discover artisan-made handcrafted statement pieces in sustainable mango wood and natural rattan, recycled shelves and rugs, upcycled metal figurines, hand knotted jute planters; that create a  relaxed mood and add a sun-kissed glow to any space. Our wholesale suppliers believe in conscious production, sustainable supply chains, low carbon footprint & giving back.",
-      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_3.jpg",
+      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_3_1.jpg",
       searchText: "EarthInspired",
       path: "/trends/earthinspired",
     },
@@ -272,7 +273,7 @@ function Home(props) {
       imageHeading: <span>{imageHeading}</span>,
       slideText:
         "Working from home can be comfortable and convenient with the right tools and set up. Curated from our responsible and conscious wholesale sellers, these writing tables, lighting solutions, notepads & table accessories inspire everyday creativity. Discover the grace of handmade: ajrakh diary covers, recycled wood clipboards, eco-friendly pen stands, cotton printed and bamboo lampshades, hand knotted hanging desks, ceramic coffee mugs and more.",
-      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_4.jpg",
+      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_4_1.jpg",
       searchText: "HomeOffice",
       path: "/trends/homeoffice",
     },
@@ -611,6 +612,7 @@ function Home(props) {
       />
       <PressCrousel />
       <CraftCarousel items={craftItems} />
+      <HotThisWeekCarousel/>
       <SellerCarousel items={sellerItems} />
       {/* <Button>
           <Link href="/categories">Seller Listing Page</Link>
