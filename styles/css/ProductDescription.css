@@ -835,6 +835,11 @@
   background: transparent;
   margin-left: 20px;
 }
+#product-description .qa-button.go-to-cart,
+#product-description .qa-button.go-to-cart:hover {
+  background: #d9bb7f;
+  width: 50%;
+}
 #product-description .qa-error-atc {
   color: #191919;
   line-height: 110%;

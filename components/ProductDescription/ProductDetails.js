@@ -1070,8 +1070,8 @@ const ProductDetails = (props) => {
             <Col
               style={{
                 display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+                justifyContent: "flex-end",
+                alignItems: "flex-end",
               }}
               xs={24}
               sm={24}
@@ -1079,7 +1079,7 @@ const ProductDetails = (props) => {
               lg={7}
               xl={7}
             >
-              <Button
+              {/* <Button
                 className="qa-button button-contact-seller"
                 onClick={() => {
                   setRfqModal(true);
@@ -1087,7 +1087,7 @@ const ProductDetails = (props) => {
                 }}
               >
                 send order query
-              </Button>
+              </Button> */}
 
               <Button
                 className="qa-button go-to-cart"
