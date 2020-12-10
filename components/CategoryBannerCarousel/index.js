@@ -12,27 +12,27 @@ import Link from "next/link";
 const categoryData = [
   {
     title: "Home decor",
-    url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_1.jpg",
+    url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_1_1.jpg",
     linkTo: "home-decor-and-accessories",
   },
   {
     title: "Home linen",
-    url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_4.jpg",
+    url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_4_1.jpg",
     linkTo: "home-furnishing",
   },
   {
     title: "Kitchen & dining",
-    url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_3.jpg",
+    url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_3_1.jpg",
     linkTo: "kitchen-and-dining",
   },
   {
     title: "Fashion accessories",
-    url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_2.jpg",
+    url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_2_1.jpg",
     linkTo: "fashion",
   },
   {
     title: "Furniture & storage",
-    url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_5.jpg",
+    url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_5_1.jpg",
     linkTo: "furniture-and-storage",
   },
   // {
@@ -49,6 +49,11 @@ const categoryData = [
     title: "Stationery & novelty",
     url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_8.jpg",
     linkTo: "stationery-and-novelty",
+  },
+  {
+    title: "Shop all",
+    url: "https://cdn.qalara.com/images/Img_HomePageCategory_7.jpg",
+    linkTo: "all-categories",
   },
 ];
 const slides = categoryData?.map((item, index) => {
