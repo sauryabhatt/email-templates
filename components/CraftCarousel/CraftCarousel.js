@@ -1,13 +1,15 @@
 /** @format */
 
-import React from "react";
+import React, { useState, useEffect} from 'react';
 import Slider from "react-slick";
 import { Button, Row, Col } from "antd";
 import { LeftOutlined, RightOutlined, MinusOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { enquireScreen } from "enquire-js";
 
 function CraftCarousel(props) {
+  const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
   const settings = {
     infinite: true,
@@ -19,6 +21,9 @@ function CraftCarousel(props) {
     // style: { height: '100%' }
   };
 
+  useEffect(() => {
+    enquireScreen((status) => setIsMobile(status));
+  }, []); 
   let slider;
 
   const next = () => {

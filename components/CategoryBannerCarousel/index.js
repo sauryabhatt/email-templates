@@ -50,6 +50,11 @@ const categoryData = [
     url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_8.jpg",
     linkTo: "stationery-and-novelty",
   },
+  {
+    title: "Shop all",
+    url: "https://cdn.qalara.com/images/Img_HomePageCategory_7.jpg",
+    linkTo: "all-categories",
+  },
 ];
 const slides = categoryData?.map((item, index) => {
   return (

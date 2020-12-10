@@ -13,6 +13,7 @@ import SendQueryForm from "./../SendQueryForm/SendQueryForm";
 import CraftCarousel from "./../CraftCarousel/CraftCarousel";
 import SellerCarousel from "./../SellerCarousel/SellerCarousel";
 import PressCrousel from "./../PressCrousel/PressCrousel";
+import HotThisWeekCarousel from "./../HotThisWeekCarousel/HotThisWeekCarousel";
 import closeButton from "../../public/filestore/closeButton";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
@@ -611,6 +612,7 @@ function Home(props) {
       />
       <PressCrousel />
       <CraftCarousel items={craftItems} />
+      <HotThisWeekCarousel/>
       <SellerCarousel items={sellerItems} />
       {/* <Button>
           <Link href="/categories">Seller Listing Page</Link>
