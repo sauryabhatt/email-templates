@@ -310,8 +310,11 @@ svg.icn-spinner circle {
   .second-img-subhead {
     font-size: 20px !important;
   }
-  .hot-weel-wrp img{
-    width: 180px;
+  
+}
+@media only screen and (max-width: 1100px) {
+  .hot-weel-crousel img{
+    width: 200px;
   }
 
 }
@@ -519,13 +522,11 @@ top: 2.48vh; */
   .hot-weel-crousel{
     padding: 26px 0 33px 23px;
   }
+
   .hot-weel-header {
     font-size: 23px;
     line-height: 38px;
     margin-bottom: 10px;
-}
-.hot-week-link img {
-    width: 180px;
 }
   #banner-container {
     height: auto;
@@ -1049,6 +1050,10 @@ top: 2.48vh; */
   }
 }
 @media only screen and (max-width: 320px) {
+  .hot-weel-crousel img {
+    width: 180px;
+  }
+
   #banner-container .banner-button-circle {
     left: 2%;
     margin-right: 0px;
