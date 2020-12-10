@@ -832,8 +832,9 @@
 .qa-button.go-to-cart,
 .qa-button.go-to-cart:hover {
   border: 1px solid #d9bb7f;
-  background: transparent;
+  background: #d9bb7f;
   margin-left: 20px;
+  width: 50%;
 }
 #product-description .qa-error-atc {
   color: #191919;
