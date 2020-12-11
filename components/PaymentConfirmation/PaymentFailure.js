@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { useEffect } from "react";
-import { Row, Col, Button } from "antd";
+import { Row, Col, Button, Popover } from "antd";
 import { getOrderByOrderId } from "../../store/actions";
 import { connect } from "react-redux";
 import getSymbolFromCurrency from "currency-symbol-map";
@@ -20,7 +20,27 @@ const PaymentFailure = (props) => {
   }, [keycloak.token, router.query.orderId]);
 
   let { order = {} } = props || {};
-  let { miscCharges = [] } = order || {};
+  let {
+    miscCharges = [],
+    total = 0,
+    paymentTerms = [],
+    conversionFactor = 0,
+    promoDiscount = 0,
+    promoCode = "",
+    shippingTerms = "",
+    shippingMode = "",
+    expectedDeliveryDateMax = "",
+    expectedDeliveryDateMin = "",
+    orderType = "",
+    typeOfOrder = "",
+    orderId = "",
+  } = order || {};
+
+  let date1 = new Date(expectedDeliveryDateMin);
+  let date2 = new Date(expectedDeliveryDateMax);
+  let diffTime = Math.abs(date2 - date1);
+  let tat = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
   let frieghtCharge = 0;
   let dutyCharge = 0;
   let vatCharge = 0;
@@ -28,6 +48,9 @@ const PaymentFailure = (props) => {
   let freightDis = 0;
   let sellerDiscount = 0;
   let customFreightCharge = 0;
+  let vat = 0;
+  let dutyMax = 0;
+  let dutyMin = 0;
 
   for (let charge of miscCharges) {
     let { chargeId = "", amount = 0 } = charge;
@@ -47,6 +70,12 @@ const PaymentFailure = (props) => {
       customFreightCharge = amount;
     } else if (chargeId === "QALARA_CHARGES") {
       vatCharge = vatCharge + amount;
+    } else if (chargeId === "DDP_VAT") {
+      vat = amount;
+    } else if (chargeId === "DDP_DUTY_MAX") {
+      dutyMax = amount;
+    } else if (chargeId === "DDP_DUTY_MIN") {
+      dutyMin = amount;
     }
   }
 
@@ -74,16 +103,14 @@ const PaymentFailure = (props) => {
               style={{ lineHeight: "100%" }}
             >
               <span
-                className="qa-font-san qa-tc-white qa-fw-b qa-fs-17"
+                className="qa-font-san qa-tc-white qa-fs-16"
                 style={{ letterSpacing: "0.02em" }}
               >
-                {props.brandNameList &&
-                  props.brandNameList[subOrder.sellerCode] &&
-                  props.brandNameList[subOrder.sellerCode].brandName}
+                Seller ID: {subOrder.sellerCode}
               </span>
             </Col>
           </Row>
-          <Row className="qa-mar-top-2">
+          <Row className="qa-mar-top-1">
             <Col xs={18} sm={18} md={18} lg={18}>
               <span className="qa-font-san qa-tc-white qa-fs-14">
                 Value of products purchased
@@ -91,7 +118,7 @@ const PaymentFailure = (props) => {
             </Col>
             <Col xs={6} sm={6} md={6} lg={6}>
               {props.order && props.order.orderType == "RTS" ? (
-                <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
+                <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end">
                   {getSymbolFromCurrency(
                     (props.order && props.order.currency) || "USD"
                   )}
@@ -101,7 +128,7 @@ const PaymentFailure = (props) => {
                   ).toFixed(2)}
                 </span>
               ) : (
-                <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
+                <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end">
                   {getSymbolFromCurrency(
                     (props.order && props.order.currency) || "USD"
                   )}
@@ -124,6 +151,35 @@ const PaymentFailure = (props) => {
     router.push("/account/orders");
   };
 
+  const dduContent = (
+    <div className="breakup-popup qa-font-san qa-tc-white">
+      <div className="qa-border-bottom qa-pad-btm-15 qa-fs-14 qa-lh">
+        Estimated custom taxes and duties
+      </div>
+      <div className="qa-mar-top-1 qa-lh">
+        Estimated custom duties for this order is{" "}
+        <b>
+          {getSymbolFromCurrency(props.order && props.order.currency)}
+          {dutyMin} to{" "}
+          {getSymbolFromCurrency(props.order && props.order.currency)}
+          {dutyMax}.
+        </b>
+      </div>
+      <div className="qa-mar-top-05 qa-lh">
+        Estimated VAT/GST/Taxes for this order is{" "}
+        <b>
+          {getSymbolFromCurrency(props.order && props.order.currency)}
+          {vat}.
+        </b>
+      </div>
+      <div className="qa-fs-12 qa-mar-top-15 qa-lh">
+        Since you have selected DDU mode this has to be paid directly by you at
+        actuals to our freight/logistics partner at the time of delivery/custom
+        clearance as applicable.
+      </div>
+    </div>
+  );
+
   return (
     <div>
       <div className="bird-vector" />
@@ -131,15 +187,15 @@ const PaymentFailure = (props) => {
         justify="center"
         className={
           mediaMatch.matches
-            ? "payment-confirmation-body"
-            : "payment-confirmation-body-mobile"
+            ? "payment-confirmation-body payment-failure-section"
+            : "payment-confirmation-body-mobile payment-failure-section"
         }
         align="middle"
       >
         <Col xs={22} sm={22} md={18} lg={18}>
           <Row justify="center">
             <Col xs={22} sm={22} md={12} lg={12}>
-              <Row>
+              <Row className="qa-mar-top-2">
                 <Col xs={24} sm={24} md={24} lg={24}>
                   <span className="qa-font-butler qa-tc-white qa-fs-60">
                     Sorry!
@@ -215,19 +271,13 @@ const PaymentFailure = (props) => {
               <Row>
                 <Col xs={24} sm={24} md={24} lg={24}>
                   <Row>
-                    <Col xs={18} sm={18} md={18} lg={18}>
+                    <Col xs={16} sm={16} md={16} lg={16}>
                       <span className="qa-font-butler qa-fs-20 qa-tc-white">
                         Order summary
                       </span>
                     </Col>
-                    <Col
-                      xs={6}
-                      sm={6}
-                      md={6}
-                      lg={6}
-                      style={{ lineHeight: "0%" }}
-                    >
-                      <span className="qa-col-end qa-font-san qa-fs-14 qa-tc-white qa-fw-b">
+                    <Col xs={8} sm={8} md={8} lg={8}>
+                      <span className="qa-col-end qa-font-san qa-fs-14 qa-tc-white">
                         Order ID
                       </span>
                     </Col>
@@ -236,13 +286,13 @@ const PaymentFailure = (props) => {
                       sm={24}
                       md={24}
                       lg={24}
-                      style={{ lineHeight: "100%" }}
+                      style={{ lineHeight: "0%" }}
                     >
                       <span
-                        className="qa-col-end qa-font-san qa-fs-12 "
+                        className="qa-col-end qa-font-san qa-fs-12"
                         style={{ color: "#332f2f", opacity: "80%" }}
                       >
-                        {props.order && props.order.orderId}
+                        {orderId}
                       </span>
                     </Col>
                   </Row>
@@ -262,7 +312,7 @@ const PaymentFailure = (props) => {
                 </Col>
                 <Col xs={6} sm={6} md={6} lg={6}>
                   {props.order && props.order.orderType == "RTS" ? (
-                    <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
+                    <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end">
                       {getSymbolFromCurrency(
                         (props.order && props.order.currency) || "USD"
                       )}
@@ -278,7 +328,7 @@ const PaymentFailure = (props) => {
                         ).toFixed(2)}
                     </span>
                   ) : (
-                    <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
+                    <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end">
                       {getSymbolFromCurrency(
                         (props.order && props.order.currency) || "USD"
                       )}
@@ -407,53 +457,75 @@ const PaymentFailure = (props) => {
               <Row className="qa-mar-top-2">
                 <Col xs={18} sm={18} md={18} lg={18}>
                   <span className="qa-font-san qa-tc-white qa-fs-14">
-                    Estimated custom, taxes & duties
+                    {shippingTerms === "DDU"
+                      ? "Customs duties excluded*"
+                      : "Estimated custom, taxes & duties"}
                   </span>
+                  {shippingTerms === "DDU" && (
+                    <div>
+                      <Popover
+                        placement="bottomRight"
+                        content={dduContent}
+                        trigger="click"
+                        overlayClassName="price-breakup-popup"
+                      >
+                        <span className="c-breakup">View estimates</span>
+                      </Popover>
+                    </div>
+                  )}
                 </Col>
                 <Col xs={6} sm={6} md={6} lg={6}>
-                  {props.order && props.order.orderType == "RTS" ? (
-                    <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
-                      {getSymbolFromCurrency(
-                        (props.order && props.order.currency) || "USD"
-                      )}
-                      {props.order &&
-                        props.order.miscCharges &&
-                        props.order.miscCharges.find(
-                          (x) => x.chargeId === "DUTY_MAX"
-                        ) &&
-                        parseFloat(
-                          props.order.miscCharges.find(
-                            (x) => x.chargeId === "DUTY_MAX"
-                          ).amount * props.order.conversionFactor
-                        ).toFixed(2)}
+                  {shippingTerms === "DDU" ? (
+                    <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end">
+                      NA
                     </span>
                   ) : (
-                    <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
-                      {getSymbolFromCurrency(
-                        (props.order && props.order.currency) || "USD"
-                      )}
-                      {parseFloat(
-                        parseFloat(
-                          props.order &&
+                    <span>
+                      {props.order && props.order.orderType == "RTS" ? (
+                        <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end">
+                          {getSymbolFromCurrency(
+                            (props.order && props.order.currency) || "USD"
+                          )}
+                          {props.order &&
                             props.order.miscCharges &&
                             props.order.miscCharges.find(
-                              (x) => x.chargeId === "CUSTOM_CHARGES"
+                              (x) => x.chargeId === "DUTY_MAX"
                             ) &&
-                            props.order.miscCharges.find(
-                              (x) => x.chargeId === "CUSTOM_CHARGES"
-                            ).amount
-                        ) +
-                          parseFloat(
-                            props.order &&
-                              props.order.miscCharges &&
+                            parseFloat(
                               props.order.miscCharges.find(
-                                (x) => x.chargeId === "QALARA_CHARGES"
-                              ) &&
-                              props.order.miscCharges.find(
-                                (x) => x.chargeId === "QALARA_CHARGES"
-                              ).amount
-                          )
-                      ).toFixed(2)}
+                                (x) => x.chargeId === "DUTY_MAX"
+                              ).amount * props.order.conversionFactor
+                            ).toFixed(2)}
+                        </span>
+                      ) : (
+                        <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end">
+                          {getSymbolFromCurrency(
+                            (props.order && props.order.currency) || "USD"
+                          )}
+                          {parseFloat(
+                            parseFloat(
+                              props.order &&
+                                props.order.miscCharges &&
+                                props.order.miscCharges.find(
+                                  (x) => x.chargeId === "CUSTOM_CHARGES"
+                                ) &&
+                                props.order.miscCharges.find(
+                                  (x) => x.chargeId === "CUSTOM_CHARGES"
+                                ).amount
+                            ) +
+                              parseFloat(
+                                props.order &&
+                                  props.order.miscCharges &&
+                                  props.order.miscCharges.find(
+                                    (x) => x.chargeId === "QALARA_CHARGES"
+                                  ) &&
+                                  props.order.miscCharges.find(
+                                    (x) => x.chargeId === "QALARA_CHARGES"
+                                  ).amount
+                              )
+                          ).toFixed(2)}
+                        </span>
+                      )}
                     </span>
                   )}
                 </Col>
@@ -538,7 +610,9 @@ const PaymentFailure = (props) => {
               <Row className="qa-mar-top-2">
                 <Col xs={18} sm={18} md={18} lg={18}>
                   <span className="qa-font-san qa-tc-white qa-fs-14">
-                    VAT/ GST
+                    {shippingTerms === "DDU"
+                      ? "VAT/ GST / Taxes excluded*"
+                      : "VAT/ GST"}
                   </span>
                   <div className="qa-fs-14 qa-font-san">
                     Refundable for some countries like UK/AU.{" "}
@@ -552,38 +626,46 @@ const PaymentFailure = (props) => {
                   </div>
                 </Col>
                 <Col xs={6} sm={6} md={6} lg={6}>
-                  {props.order && props.order.orderType == "RTS" ? (
-                    <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
-                      {getSymbolFromCurrency(
-                        (props.order && props.order.currency) || "USD"
-                      )}
-                      {props.order &&
-                        props.order.miscCharges &&
-                        props.order.miscCharges.find(
-                          (x) => x.chargeId === "VAT"
-                        ) &&
-                        parseFloat(
-                          props.order.miscCharges.find(
-                            (x) => x.chargeId === "VAT"
-                          ).amount * props.order.conversionFactor
-                        ).toFixed(2)}
+                  {shippingTerms === "DDU" ? (
+                    <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end">
+                      NA
                     </span>
                   ) : (
-                    <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
-                      {getSymbolFromCurrency(
-                        (props.order && props.order.currency) || "USD"
+                    <span>
+                      {props.order && props.order.orderType == "RTS" ? (
+                        <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end">
+                          {getSymbolFromCurrency(
+                            (props.order && props.order.currency) || "USD"
+                          )}
+                          {props.order &&
+                            props.order.miscCharges &&
+                            props.order.miscCharges.find(
+                              (x) => x.chargeId === "VAT"
+                            ) &&
+                            parseFloat(
+                              props.order.miscCharges.find(
+                                (x) => x.chargeId === "VAT"
+                              ).amount * props.order.conversionFactor
+                            ).toFixed(2)}
+                        </span>
+                      ) : (
+                        <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end">
+                          {getSymbolFromCurrency(
+                            (props.order && props.order.currency) || "USD"
+                          )}
+                          {(props.order &&
+                            props.order.miscCharges &&
+                            props.order.miscCharges.find(
+                              (x) => x.chargeId === "VAT"
+                            ) &&
+                            parseFloat(
+                              props.order.miscCharges.find(
+                                (x) => x.chargeId === "VAT"
+                              ).amount
+                            ).toFixed(2)) ||
+                            0}
+                        </span>
                       )}
-                      {(props.order &&
-                        props.order.miscCharges &&
-                        props.order.miscCharges.find(
-                          (x) => x.chargeId === "VAT"
-                        ) &&
-                        parseFloat(
-                          props.order.miscCharges.find(
-                            (x) => x.chargeId === "VAT"
-                          ).amount
-                        ).toFixed(2)) ||
-                        0}
                     </span>
                   )}
                 </Col>
@@ -677,7 +759,13 @@ const PaymentFailure = (props) => {
               <Row className="qa-mar-top-1">
                 <Col xs={18} sm={18} md={18} lg={18}>
                   <span className="qa-font-san qa-tc-white qa-fs-17 qa-fw-b">
-                    TOTAL CART VALUE
+                    TOTAL CART VALUE{" "}
+                    {shippingTerms === "DDU" ||
+                      (shippingTerms === "DDP" && (
+                        <span className="qa-fw-n qa-uppercase">
+                          ({shippingTerms.toUpperCase()})
+                        </span>
+                      ))}
                   </span>
                 </Col>
                 <Col xs={6} sm={6} md={6} lg={6}>

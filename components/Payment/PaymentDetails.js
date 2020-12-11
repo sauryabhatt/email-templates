@@ -1,7 +1,6 @@
 /** @format */
 
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
 import { Row, Col, Radio, Modal } from "antd";
 import Icon, {
   UpOutlined,
@@ -9,7 +8,6 @@ import Icon, {
   CheckCircleOutlined,
   CheckOutlined,
 } from "@ant-design/icons";
-import { Steps } from "antd";
 import { connect } from "react-redux";
 import getSymbolFromCurrency from "currency-symbol-map";
 import amexPayment from "../../public/filestore/amexPayment";
@@ -24,9 +22,10 @@ import _ from "lodash";
 import Spinner from "./../Spinner/Spinner";
 import Air from "../../public/filestore/air";
 import Sea from "../../public/filestore/sea";
-import { getBrandNameByCode } from "./../../store/actions";
 import sellerList from "../../public/filestore/freeShippingSellers.json";
-const { Step } = Steps;
+import CheckoutSteps from "../common/CheckoutSteps";
+import PaymentBanner from "../common/PaymentBanner";
+import moment from "moment";
 
 const PaymentDetails = (props) => {
   let {
@@ -41,7 +40,8 @@ const PaymentDetails = (props) => {
     subOrders = [],
     shippingAddressDetails = "",
     shippingMode = "",
-    isFulfillable = false,
+    shippingTerms = "",
+    typeOfOrder = "",
   } = cart || {};
   let {
     fullName = "",
@@ -54,6 +54,8 @@ const PaymentDetails = (props) => {
     phoneNumber = "",
   } = shippingAddressDetails || {};
 
+  let tat = 0;
+  tat = data["tat"];
   let shippingAddr = "";
   shippingAddr =
     fullName +
@@ -75,33 +77,15 @@ const PaymentDetails = (props) => {
   const [paymentValue, setPaymentValue] = useState("");
   const [showCart, setShowCart] = useState(false);
   const [showShip, setShowShip] = useState(false);
+  const [shippingTerm, setShippingTerm] = useState(true);
+  const [estimatedDelivery, setEstimatedDelivery] = useState(false);
   const mediaMatch = window.matchMedia("(min-width: 1024px)");
 
   useEffect(() => {
     setPaymentValue("payViaPaypal");
   }, []);
 
-  useEffect(() => {
-    let { cart = "", app_token = "" } = props;
-    let { subOrders = [] } = cart || {};
-
-    let sellerCodeList = [];
-    if (subOrders && subOrders.length) {
-      for (let sellers of subOrders) {
-        let { sellerCode = "" } = sellers;
-        if (!sellerCodeList.includes(sellerCode)) {
-          sellerCodeList.push(sellerCode);
-        }
-      }
-    }
-    if (sellerCodeList.length) {
-      let codes = sellerCodeList.join();
-      props.getBrandNameByCode(codes, app_token);
-    }
-  }, [props.cart]);
-
   let { convertToCurrency = "" } = currencyDetails || {};
-  let showError = false;
 
   const getConvertedCurrency = (baseAmount, round = false) => {
     let { convertToCurrency = "", rates = [] } = props.currencyDetails;
@@ -119,19 +103,6 @@ const PaymentDetails = (props) => {
     ).toFixed(2);
   };
 
-  const customDot = (dot, { status, index }) => (
-    <Link href={index === 0 ? "/cart" : "/shipping"}>
-      <span className="qa-ant-steps-icon">
-        {status === "finish" ? <CheckOutlined /> : index + 1}
-      </span>
-    </Link>
-  );
-  const mcustomDot = (dot, { status, index }) => (
-    <Link href={index === 0 ? "/cart" : "/shipping"}>
-      <span className="ant-steps-icon-dot"></span>
-    </Link>
-  );
-
   const onChange = (e) => {
     setPaymentValue(e.target.value);
   };
@@ -140,56 +111,35 @@ const PaymentDetails = (props) => {
     showModal(false);
   };
 
+  let today = new Date();
+  let deliveryDateMin = new Date();
+  let deliveryDateMax = new Date();
+
+  let eddMin = "";
+  let eddMax = "";
+  if (typeOfOrder === "ERTM") {
+    eddMin = deliveryDateMin.setDate(today.getDate() + 25 + tat);
+    eddMax = deliveryDateMax.setDate(today.getDate() + 35 + tat);
+  } else {
+    eddMin = deliveryDateMin.setDate(today.getDate() + 7 + tat);
+    eddMax = deliveryDateMax.setDate(today.getDate() + 10 + tat);
+  }
+
+  deliveryDateMin = new Date(eddMin);
+  deliveryDateMax = new Date(eddMax);
+
   if (isLoading) {
     return <Spinner />;
   }
 
   return (
     <Row id="cart-details" className="cart-section qa-font-san">
-      {mediaMatch.matches ? (
-        <Col xs={0} sm={0} md={24} lg={24} xl={24}>
-          <Row className="qa-mar-btm-2 qa-cart-steps">
-            <Col xs={0} sm={0} md={4} lg={4} xl={4}></Col>
-            <Col xs={24} sm={24} md={16} lg={16} xl={16}>
-              <Steps current={2} progressDot={customDot}>
-                <Step
-                  title={<Link href="/cart">Shopping cart</Link>}
-                  className="qa-cursor"
-                />
-                <Step
-                  title={<Link href="/shipping">Shipping</Link>}
-                  className="qa-cursor"
-                />
-                <Step title="Payment" />
-              </Steps>
-            </Col>
-            <Col xs={0} sm={0} md={4} lg={4} xl={4}></Col>
-          </Row>
-        </Col>
-      ) : (
-        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-          <Row className="qa-mar-2">
-            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-              <Steps current={2} progressDot={mcustomDot} size="small">
-                <Step
-                  title={<Link href="/cart">Shopping cart</Link>}
-                  className="qa-cursor"
-                />
-                <Step
-                  title={<Link href="/shipping">Shopping</Link>}
-                  className="qa-cursor"
-                />
-                <Step title="Payment" />
-              </Steps>
-            </Col>
-          </Row>
-        </Col>
-      )}
-      <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>
+      <CheckoutSteps pageId="payment" />
+      {mediaMatch.matches && <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>}
       {mediaMatch.matches && (
         <Col xs={0} sm={0} md={20} lg={20} xl={20}>
           <Row>
-            <Col
+            {/* <Col
               xs={24}
               sm={24}
               md={24}
@@ -198,7 +148,7 @@ const PaymentDetails = (props) => {
               className="cart-title qa-mar-btm-2"
             >
               Payment
-            </Col>
+            </Col> */}
             <Col
               xs={24}
               sm={24}
@@ -208,9 +158,35 @@ const PaymentDetails = (props) => {
               className="shipping-section"
             >
               <div className="qa-tc-white qa-mar-btm-2 cart-ship-pt qa-border-bottom">
-                <div className="qa-fw-b qa-mar-btm-05">Shipping to:</div>
+                <div className="qa-mar-btm-05">Shipping to:</div>
                 <div className="">{shippingAddr}</div>
               </div>
+              <div
+                className="cart-prod-title qa-pad-btm-05 qa-mar-btm-1 qa-cursor"
+                onClick={() => setShippingTerm(!shippingTerm)}
+              >
+                Shipping term:{" "}
+                <span className="qa-fw-b qa-tc-white qa-font-san">
+                  {shippingTerms.toUpperCase()}{" "}
+                  {shippingTerms === "ddu"
+                    ? "(Delivered Duty Unpaid)"
+                    : "(Delivered Duty Paid)"}
+                </span>
+                <span style={{ float: "right" }}>
+                  {shippingTerm ? (
+                    <UpOutlined style={{ fontSize: "12px" }} />
+                  ) : (
+                    <DownOutlined style={{ fontSize: "12px" }} />
+                  )}
+                </span>
+              </div>
+              {shippingTerm && (
+                <div className="qa-pad-btm-15 qa-border-bottom qa-mar-btm-15 qa-lh">
+                  {shippingTerms === "ddu"
+                    ? "Duties and taxes will be paid by you at the time of delivery. Qalara will pay the freight fee for the order."
+                    : "Duties and taxes are estimated and charged to you by Qalara and paid during customs clearance on your behalf."}
+                </div>
+              )}
               <div
                 className="cart-prod-title qa-pad-btm-05 qa-border-bottom qa-mar-btm-2 qa-cursor"
                 onClick={() => setShowShip(!showShip)}
@@ -260,11 +236,11 @@ const PaymentDetails = (props) => {
                       <div className="qa-pad-015 qa-dashed-border">
                         <div className="c-left-blk qa-txt-alg-lft">
                           <div className="cart-info-text">
-                            Estimated freight fees
+                            Estimated freight fee*
                           </div>
                         </div>
                         <div className="c-right-blk qa-txt-alg-lft">
-                          <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
+                          <div className="cart-prod-title qa-txt-alg-rgt">
                             {data ? (
                               <span>
                                 {getSymbolFromCurrency(convertToCurrency)}
@@ -284,14 +260,14 @@ const PaymentDetails = (props) => {
                           </div>
                         </div>
                       </div>
-                      <div className="qa-pad-015 qa-dashed-border">
+                      {/* <div className="qa-pad-015 qa-dashed-border">
                         <div className="c-left-blk qa-txt-alg-lft">
                           <div className="cart-info-text">
                             Estimated custom duties
                           </div>
                         </div>
                         <div className="c-right-blk">
-                          <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
+                          <div className="cart-prod-title qa-txt-alg-rgt">
                             {data ? (
                               <span>
                                 {getSymbolFromCurrency(convertToCurrency)}
@@ -304,15 +280,15 @@ const PaymentDetails = (props) => {
                             )}
                           </div>
                         </div>
-                      </div>
-                      <div className="qa-pad-015 qa-dashed-border">
+                      </div> */}
+                      <div className="qa-pad-015">
                         <div className="c-left-blk qa-txt-alg-lft">
                           <div className="cart-info-text">
                             Shipping lead time
                           </div>
                         </div>
                         <div className="c-right-blk">
-                          <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
+                          <div className="cart-prod-title qa-txt-alg-rgt">
                             {data ? (
                               <span>
                                 {data["tat"]
@@ -327,7 +303,7 @@ const PaymentDetails = (props) => {
                           </div>
                         </div>
                       </div>
-                      <div className="qa-pad-015">
+                      {/* <div className="qa-pad-015">
                         <div className="c-left-blk">
                           <div className="qa-fw-b">Total estimated charges</div>
                         </div>
@@ -352,10 +328,60 @@ const PaymentDetails = (props) => {
                             *
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </Col>
                 </Row>
+              )}
+              <div
+                className="cart-prod-title qa-pad-btm-05 qa-border-bottom qa-mar-btm-15 qa-cursor"
+                onClick={() => setEstimatedDelivery(!estimatedDelivery)}
+              >
+                Estimated delivery date:{" "}
+                <span className="qa-fw-b qa-success">
+                  {tat && shippingMode ? (
+                    <span>
+                      {moment(deliveryDateMin).format("DD MMM YY")} -{" "}
+                      {moment(deliveryDateMax).format("DD MMM YY")}
+                    </span>
+                  ) : (
+                    ""
+                  )}
+                </span>
+                <span style={{ float: "right" }}>
+                  {estimatedDelivery ? (
+                    <UpOutlined style={{ fontSize: "12px" }} />
+                  ) : (
+                    <DownOutlined style={{ fontSize: "12px" }} />
+                  )}
+                </span>
+              </div>
+              {estimatedDelivery && (
+                <div className="qa-pad-btm-2" style={{ width: "70%" }}>
+                  <div className="qa-fs-12 qa-mar-btm-05">
+                    <div className="c-left-blk qa-txt-alg-lft qa-stitle">
+                      <li>Estimated production/ dispatch time</li>
+                    </div>
+                    <div className="c-right-blk qa-txt-alg-rgt">
+                      {typeOfOrder === "ERTM" ? "25-35" : "7-10"} days
+                    </div>
+                  </div>
+
+                  <div className="qa-fs-12 qa-mar-btm-05">
+                    <div className="c-left-blk qa-txt-alg-lft qa-stitle">
+                      <li>Estimated shipping lead time</li>
+                    </div>
+                    <div className="c-right-blk qa-txt-alg-rgt">
+                      {tat && shippingMode ? (
+                        <span>
+                          {tat - (shippingMode === "AIR" ? 3 : 7)}-{tat} days
+                        </span>
+                      ) : (
+                        "-"
+                      )}
+                    </div>
+                  </div>
+                </div>
               )}
               <Row>
                 <Col
@@ -399,7 +425,7 @@ const PaymentDetails = (props) => {
                             }`}
                             key={i}
                           >
-                            <div className="cart-ship-pt qa-fw-b qa-border-bottom">
+                            <div className="cart-ship-pt qa-border-bottom">
                               <div className="qa-disp-table-cell">
                                 <Icon
                                   component={cartIcon}
@@ -412,9 +438,7 @@ const PaymentDetails = (props) => {
                                 />
                               </div>
                               <div className="qa-disp-table-cell">
-                                {brandNames &&
-                                  brandNames[sellerCode] &&
-                                  brandNames[sellerCode].brandName}
+                                Seller ID: {sellerCode}
                                 {/* <span
                             className="cart-delete qa-cursor"
                             onClick={() => {
@@ -470,7 +494,7 @@ const PaymentDetails = (props) => {
                                     xl={9}
                                     className="qa-pad-0-10"
                                   >
-                                    <div className="cart-prod-title qa-fw-b">
+                                    <div className="cart-prod-title">
                                       {productName}
                                     </div>
                                     <div className="cart-prod-title">
@@ -508,7 +532,7 @@ const PaymentDetails = (props) => {
                                           required
                                         </div>
                                       )}
-                                      <div className="cart-prod-title qa-fw-b">
+                                      <div className="cart-prod-title">
                                         {getSymbolFromCurrency(
                                           convertToCurrency
                                         )}
@@ -539,7 +563,7 @@ const PaymentDetails = (props) => {
                                 md={12}
                                 lg={12}
                                 xl={12}
-                                className="cart-prod-title qa-fw-b"
+                                className="cart-prod-title"
                               >
                                 SELLER CART VALUE
                               </Col>
@@ -549,7 +573,7 @@ const PaymentDetails = (props) => {
                                 md={12}
                                 lg={12}
                                 xl={12}
-                                className="qa-txt-alg-rgt cart-prod-title qa-fw-b"
+                                className="qa-txt-alg-rgt cart-prod-title"
                               >
                                 {getSymbolFromCurrency(convertToCurrency)}
                                 {total ? getConvertedCurrency(total) : ""}
@@ -676,6 +700,7 @@ const PaymentDetails = (props) => {
                     Please move out of stock products in order to proceed
                   </div>
                 )} */}
+                <PaymentBanner />
                 <CartSummary
                   id="payment"
                   // enable={isFulfillable}
@@ -689,12 +714,12 @@ const PaymentDetails = (props) => {
           </Row>
         </Col>
       )}
-      <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>
+      {mediaMatch.matches && <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>}
 
       {!mediaMatch.matches && (
         <Col xs={24} sm={24} md={24} lg={24} xl={24} className="qa-pad-0-20">
           <Row>
-            <Col
+            {/* <Col
               xs={24}
               sm={24}
               md={24}
@@ -703,7 +728,8 @@ const PaymentDetails = (props) => {
               className="cart-title qa-mar-btm-2 "
             >
               Payment mode
-            </Col>
+            </Col> */}
+            <PaymentBanner />
             <Col
               xs={24}
               sm={24}
@@ -838,17 +864,43 @@ const PaymentDetails = (props) => {
               xl={24}
               className="shipping-section"
             >
-              <div className="qa-tc-white qa-mar-btm-1 cart-ship-pt">
+              <div className="qa-tc-white cart-ship-pt">
                 <div className="qa-fw-b qa-mar-btm-05">Shipping to:</div>
                 <div className="qa-border-bottom qa-pad-btm-1">
                   {shippingAddr}
                 </div>
               </div>
               <div
+                className="cart-ship-pt qa-cursor qa-tc-white qa-font-san qa-lh"
+                onClick={() => setShippingTerm(!shippingTerm)}
+              >
+                Shipping term:{" "}
+                <span className="qa-fw-b">
+                  {shippingTerms.toUpperCase()}{" "}
+                  {/* {shippingTerms === "ddu"
+                    ? "(Delivered Duty Unpaid)"
+                    : "(Delivered Duty Paid)"} */}
+                </span>
+                <span style={{ float: "right" }}>
+                  {shippingTerm ? (
+                    <UpOutlined style={{ fontSize: "12px" }} />
+                  ) : (
+                    <DownOutlined style={{ fontSize: "12px" }} />
+                  )}
+                </span>
+              </div>
+              {shippingTerm && (
+                <div className="qa-pad-btm-2 qa-lh">
+                  {shippingTerms === "ddu"
+                    ? "Duties and taxes will be paid by you at the time of delivery. Qalara will pay the freight fee for the order."
+                    : "Duties and taxes are estimated and charged to you by Qalara and paid during customs clearance on your behalf."}
+                </div>
+              )}
+              <div
                 className="cart-ship-pt qa-border-bottom qa-cursor qa-tc-white qa-font-san"
                 onClick={() => setShowShip(!showShip)}
               >
-                <span className="qa-fw-b">Shipping mode:</span> {shippingMode}
+                Shipping mode: <span className="qa-fw-b">{shippingMode}</span>
                 <span style={{ float: "right" }}>
                   {showShip ? (
                     <UpOutlined style={{ fontSize: "12px" }} />
@@ -858,7 +910,7 @@ const PaymentDetails = (props) => {
                 </span>
               </div>
               {showShip && (
-                <div className="qa-pad-top-2 qa-pad-btm-2 qa-horizontal-scroll">
+                <div className="qa-pad-top-2 qa-pad-btm-2">
                   <div>
                     <div className="qa-bg-dark-theme qa-pad-2 qa-box-shadow">
                       <div className="qa-pad-btm-15 qa-border-bottom">
@@ -882,11 +934,11 @@ const PaymentDetails = (props) => {
                       <div className="qa-pad-015 qa-dashed-border">
                         <div className="c-left-blk qa-txt-alg-lft">
                           <div className="cart-info-text">
-                            Estimated freight fees
+                            Estimated freight fee*
                           </div>
                         </div>
                         <div className="c-right-blk qa-txt-alg-lft">
-                          <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
+                          <div className="cart-prod-title qa-txt-alg-rgt">
                             {getSymbolFromCurrency(convertToCurrency)}
                             {getConvertedCurrency(data["frightCostMin"], true)}-
                             {getSymbolFromCurrency(convertToCurrency)}
@@ -894,29 +946,29 @@ const PaymentDetails = (props) => {
                           </div>
                         </div>
                       </div>
-                      <div className="qa-pad-015 qa-dashed-border">
+                      {/* <div className="qa-pad-015 qa-dashed-border">
                         <div className="c-left-blk qa-txt-alg-lft">
                           <div className="cart-info-text">
                             Estimated custom duties
                           </div>
                         </div>
                         <div className="c-right-blk">
-                          <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
+                          <div className="cart-prod-title qa-txt-alg-rgt">
                             {getSymbolFromCurrency(convertToCurrency)}
                             {getConvertedCurrency(data["dutyMin"], true)}-
                             {getSymbolFromCurrency(convertToCurrency)}
                             {getConvertedCurrency(data["dutyMax"], true)}
                           </div>
                         </div>
-                      </div>
-                      <div className="qa-pad-015 qa-dashed-border">
+                      </div> */}
+                      <div className="qa-pad-015">
                         <div className="c-left-blk qa-txt-alg-lft">
                           <div className="cart-info-text">
                             Shipping lead time
                           </div>
                         </div>
                         <div className="c-right-blk">
-                          <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
+                          <div className="cart-prod-title qa-txt-alg-rgt">
                             {data ? (
                               <span>
                                 {data["tat"]
@@ -931,7 +983,7 @@ const PaymentDetails = (props) => {
                           </div>
                         </div>
                       </div>
-                      <div className="qa-pad-015">
+                      {/* <div className="qa-pad-015">
                         <div className="c-left-blk">
                           <div className="qa-fw-b">Total estimated charges</div>
                         </div>
@@ -949,7 +1001,47 @@ const PaymentDetails = (props) => {
                             )}
                           </div>
                         </div>
-                      </div>
+                      </div> */}
+                    </div>
+                  </div>
+                </div>
+              )}
+              <div
+                className="cart-ship-pt qa-border-bottom qa-cursor qa-tc-white qa-font-san qa-mar-top-1"
+                onClick={() => setEstimatedDelivery(!estimatedDelivery)}
+              >
+                Estimated delivery date
+                <span style={{ float: "right" }}>
+                  {estimatedDelivery ? (
+                    <UpOutlined style={{ fontSize: "12px" }} />
+                  ) : (
+                    <DownOutlined style={{ fontSize: "12px" }} />
+                  )}
+                </span>
+              </div>
+              {estimatedDelivery && (
+                <div className="qa-pad-top-2 qa-pad-btm-1">
+                  <div className="qa-fs-12 qa-mar-btm-1">
+                    <div className="c-left-blk qa-txt-alg-lft qa-stitle">
+                      <li>Estimated production/ dispatch time</li>
+                    </div>
+                    <div className="c-right-blk qa-txt-alg-rgt">
+                      {typeOfOrder === "ERTM" ? "25-35" : "7-10"} days
+                    </div>
+                  </div>
+
+                  <div className="qa-fs-12 qa-mar-btm-1">
+                    <div className="c-left-blk qa-txt-alg-lft qa-stitle">
+                      <li>Estimated shipping lead time</li>
+                    </div>
+                    <div className="c-right-blk qa-txt-alg-rgt">
+                      {tat && shippingMode ? (
+                        <span>
+                          {tat - (shippingMode === "AIR" ? 3 : 7)}-{tat} days
+                        </span>
+                      ) : (
+                        "-"
+                      )}
                     </div>
                   </div>
                 </div>
@@ -987,7 +1079,7 @@ const PaymentDetails = (props) => {
                       total + qalaraSellerMargin + qualityTestingCharge;
                     return (
                       <div className="qa-bg-light-theme qa-mar-btm-2" key={i}>
-                        <div className="cart-ship-pt qa-fw-b qa-border-bottom">
+                        <div className="cart-ship-pt qa-border-bottom">
                           <Icon
                             component={cartIcon}
                             className="cart-icon qa-disp-tc"
@@ -999,9 +1091,7 @@ const PaymentDetails = (props) => {
                           />
 
                           <div className="qa-disp-tc">
-                            {brandNames &&
-                              brandNames[sellerCode] &&
-                              brandNames[sellerCode].brandName}
+                            Seller ID: {sellerCode}
                           </div>
                           {/* <div className="qa-txt-alg-cnt qa-pad-top-05 qa-pad-btm-1">
                         <span
@@ -1051,7 +1141,7 @@ const PaymentDetails = (props) => {
                                 xl={15}
                                 className="qa-pad-0-10"
                               >
-                                <div className="cart-prod-title qa-fw-b">
+                                <div className="cart-prod-title">
                                   {productName}
                                 </div>
                                 <div className="cart-prod-title">
@@ -1091,7 +1181,7 @@ const PaymentDetails = (props) => {
                                 xl={24}
                                 className="qa-mar-top-1"
                               >
-                                <div className="cart-prod-title qa-fw-b">
+                                <div className="cart-prod-title">
                                   {getSymbolFromCurrency(convertToCurrency)}
                                   {total ? getConvertedCurrency(total) : ""}
                                 </div>
@@ -1110,7 +1200,7 @@ const PaymentDetails = (props) => {
                             md={16}
                             lg={16}
                             xl={16}
-                            className="cart-prod-title qa-fw-b"
+                            className="cart-prod-title"
                           >
                             SELLER CART VALUE
                           </Col>
@@ -1120,7 +1210,7 @@ const PaymentDetails = (props) => {
                             md={8}
                             lg={8}
                             xl={8}
-                            className="qa-txt-alg-rgt cart-prod-title qa-fw-b"
+                            className="qa-txt-alg-rgt cart-prod-title"
                           >
                             {getSymbolFromCurrency(convertToCurrency)}
                             {total ? getConvertedCurrency(total) : ""}
@@ -1157,4 +1247,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { getBrandNameByCode })(PaymentDetails);
+export default connect(mapStateToProps, null)(PaymentDetails);

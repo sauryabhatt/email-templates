@@ -59,12 +59,12 @@
     0px 1px 1px rgba(25, 25, 25, 0.2);
 }
 .cart-section .shipping-section .c-left-blk {
-  width: 60%;
+  width: 65%;
   vertical-align: middle;
 }
 .cart-section .shipping-section .c-right-blk {
-  width: 40%;
-  vertical-align: middle;
+  width: 35%;
+  vertical-align: top;
 }
 .cart-price-block .coupon-btn {
   height: 44px;
@@ -93,4 +93,13 @@
   .cart-section .shipping-section .c-right-blk {
     white-space: break-spaces;
   }
+}
+.cart-section .shipment-term-subtitle {
+  font-family: senregular;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 130%;
+  letter-spacing: 0.28px;
+  color: #191919;
 }
