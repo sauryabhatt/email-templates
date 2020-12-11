@@ -281,7 +281,7 @@ const PaymentDetails = (props) => {
                           </div>
                         </div>
                       </div> */}
-                      <div className="qa-pad-015">
+                      <div className="qa-mar-top-15">
                         <div className="c-left-blk qa-txt-alg-lft">
                           <div className="cart-info-text">
                             Shipping lead time
@@ -961,7 +961,7 @@ const PaymentDetails = (props) => {
                           </div>
                         </div>
                       </div> */}
-                      <div className="qa-pad-015">
+                      <div className="qa-mar-top-15">
                         <div className="c-left-blk qa-txt-alg-lft">
                           <div className="cart-info-text">
                             Shipping lead time
