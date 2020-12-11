@@ -67,6 +67,7 @@ const SavedForLater = (props) => {
       let errorObjFinal = {};
       let productList = [];
       let obj = { ...order };
+      let count = 0;
       for (let product of products) {
         let {
           quantity = "",
