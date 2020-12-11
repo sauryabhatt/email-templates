@@ -388,57 +388,6 @@ const ProductContact = (props) => {
             </div>
           </Col>
 
-          <Col span={props.sellerDetails ? 24 : 0}>
-            <div className="left-verified-seller">
-              <p className="heading">Seller details</p>
-              <div className="para">
-                {/* <Avatar
-                  size={40}
-                  src={
-                    props.sellerDetails &&
-                    props.sellerDetails.brandLogo &&
-                    props.sellerDetails.brandLogo.media &&
-                    props.sellerDetails.brandLogo.media.mediaUrl &&
-                    process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
-                      props.sellerDetails.brandLogo.media.mediaUrl
-                  }
-                ></Avatar> */}
-                <span className="text-avatar">
-                  {props.sellerDetails && props.sellerDetails.orgName}
-                </span>
-                {/* <span
-                  style={{
-                    color: "#d9bb7f",
-                    verticalAlign: "middle",
-                  }}
-                >
-                  <Icon component={certifiedIcon} className="certified-icon" />
-                </span> */}
-              </div>
-
-              <Row className="para">
-                <Col span={24}>
-                  <span className="label">City</span>
-                  {/* </Col> */}
-                  {/* <Col span={24} className="qa-txt-alg-lft"> */}
-                  <span className="text">
-                    {props.sellerDetails && props.sellerDetails.city}
-                  </span>
-                </Col>
-              </Row>
-
-              <Row className="para">
-                <Col span={24}>
-                  <span className="label">Country</span>
-                  {/* </Col> */}
-                  {/* <Col span={24} className="qa-txt-alg-lft"> */}
-                  <span className="text">
-                    {props.sellerDetails && props.sellerDetails.country}
-                  </span>
-                </Col>
-              </Row>
-            </div>
-          </Col>
           <Col
             span={
               props.initialValues && props.initialValues.profileType ? 0 : 24
@@ -988,57 +937,6 @@ const ProductContact = (props) => {
             </div>
           </Col>
 
-          <Col span={props.sellerDetails ? 24 : 0}>
-            <div className="left-verified-seller">
-              <p className="heading">Seller details</p>
-              <div className="para">
-                {/* <Avatar
-                  size={40}
-                  src={
-                    props.sellerDetails &&
-                    props.sellerDetails.brandLogo &&
-                    props.sellerDetails.brandLogo.media &&
-                    props.sellerDetails.brandLogo.media.mediaUrl &&
-                    process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
-                      props.sellerDetails.brandLogo.media.mediaUrl
-                  }
-                ></Avatar> */}
-                <span className="text-avatar">
-                  {props.sellerDetails && props.sellerDetails.orgName}
-                </span>
-
-                {/* <span
-                  style={{
-                    color: "#d9bb7f",
-                    verticalAlign: "middle",
-                  }}
-                >
-                  <Icon component={certifiedIcon} className="certified-icon" />
-                </span> */}
-              </div>
-              <Row className="para">
-                <Col span={24}>
-                  <span className="label">City</span>
-                  {/* </Col> */}
-                  {/* <Col span={24} className="qa-txt-alg-lft"> */}
-                  <span className="text">
-                    {props.sellerDetails && props.sellerDetails.city}
-                  </span>
-                </Col>
-              </Row>
-
-              <Row className="para">
-                <Col span={24}>
-                  <span className="label">Country</span>
-                  {/* </Col> */}
-                  {/* <Col span={24} className="qa-txt-alg-lft"> */}
-                  <span className="text">
-                    {props.sellerDetails && props.sellerDetails.country}
-                  </span>
-                </Col>
-              </Row>
-            </div>
-          </Col>
           {/* <Col
             span={
               props.initialValues && props.initialValues.profileType ? 24 : 0

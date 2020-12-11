@@ -129,9 +129,7 @@ const QuotationcardMobile = (props) => {
               )
             }
           >
-            {props.brandNames &&
-              props.brandNames[subOrder.sellerCode] &&
-              props.brandNames[subOrder.sellerCode].brandName}
+            {subOrder.sellerCode }
           </span>
         </Col>
       );
@@ -352,9 +350,7 @@ const QuotationcardMobile = (props) => {
                         )
                       }
                     >
-                      {props.brandNames &&
-                        props.brandNames[props.data.sellerId] &&
-                        props.brandNames[props.data.sellerId].brandName}
+                      {props.data.sellerId}
                     </span>
                   ) : (
                     <span className="qa-font-san qa-fs-14 qa-fw-b qa-tc-white">

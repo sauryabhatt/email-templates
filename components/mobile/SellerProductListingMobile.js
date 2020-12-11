@@ -301,10 +301,6 @@ function SellerProductListingMobile(props) {
                 xl={24}
                 className="qa-mar-btm-15"
               >
-                <div className="qa-scp-text qa-font-butler qa-fs-20 qa-mar-btm-1 qa-titlecase qa-lh">
-                  {brandName.toLowerCase() || orgName.toLowerCase()}
-                </div>
-
                 <div className="qa-text-4line banner-text-small qa-font-san qa-fs-12 qa-mar-btm-1">
                   {companyDescription}
                 </div>
@@ -396,7 +392,7 @@ function SellerProductListingMobile(props) {
             pageId="seller-product-listing"
             categoryName={category}
             vanityId={vanityId}
-            brandName={brandName}
+            brandName={sellerId}
           />
           <div className="qa-pad-0-30">
             <Button className="qa-button slp-filters" onClick={showDrawer}>

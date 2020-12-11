@@ -484,10 +484,7 @@ const Orders = (props) => {
                                 lineHeight: "20px",
                               }}
                             >
-                              {props.brandNameList &&
-                                props.brandNameList[subOrder.sellerCode] &&
-                                props.brandNameList[subOrder.sellerCode]
-                                  .brandName}
+                              {subOrder.sellerCode }
                             </div>
                             <div
                               className="qa-fs-12 qa-font-san qa-mar-top-05"
