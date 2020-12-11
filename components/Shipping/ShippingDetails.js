@@ -25,6 +25,7 @@ import sellerList from "../../public/filestore/freeShippingSellers.json";
 import CheckoutSteps from "../common/CheckoutSteps";
 import PaymentBanner from "../common/PaymentBanner";
 import moment from "moment";
+let apiCount = 0;
 
 const ShippingDetails = (props) => {
   const router = useRouter();
@@ -161,63 +162,73 @@ const ShippingDetails = (props) => {
           setLoading(false);
         });
     }
-  }, [props.cart, props.app_token]);
+  }, [props.cart]);
 
   useEffect(() => {
-    let { cart = "" } = props;
-    let { subOrders = [], total = 0 } = cart || {};
-
-    if (subOrders && subOrders.length) {
-      let totalAmount = 0;
-      for (let sellers of subOrders) {
-        let { products = "", qalaraSellerMargin = 0, basePrice = 0 } = sellers;
-        for (let items of products) {
-          let {
-            quantity = 0,
-            exfactoryListPrice = 0,
-            productType = "",
-          } = items;
-          basePrice = basePrice + exfactoryListPrice * quantity;
-          if (productType === "ERTM") {
-            setMov(true);
-          }
-        }
-        totalAmount = totalAmount + basePrice;
+    if (
+      Object.keys(airData[shippingTerm]).length === 0 ||
+      Object.keys(seaData[shippingTerm]).length === 0
+    ) {
+      if (
+        Object.keys(airData[shippingTerm]).length === 0 &&
+        Object.keys(seaData[shippingTerm]).length === 0
+      ) {
+        setPayment(true);
+      } else {
+        setPayment(false);
       }
+    } else {
+      if (apiCount === 0) {
+        let { cart = "" } = props;
+        let { subOrders = [], total = 0 } = cart || {};
 
-      if (airData[shippingTerm] && seaData[shippingTerm]) {
-        const seaMax =
-          seaData[shippingTerm]["dutyMax"] +
-          seaData[shippingTerm]["frightCostMax"];
-        const airMax =
-          airData[shippingTerm]["dutyMax"] +
-          airData[shippingTerm]["frightCostMax"];
-        if (
-          Object.keys(airData[shippingTerm]).length === 0 &&
-          Object.keys(seaData[shippingTerm]).length === 0
-        ) {
-          setPayment(true);
-        } else {
-          setPayment(false);
-        }
-        if (airMax > 0 && seaMax > 0) {
-          let landingFactor = "";
-          landingFactor =
-            (total + (seaMax > airMax ? airMax : seaMax)) / totalAmount;
-
-          if (landingFactor > LANDING_LIMITER) {
-            setPayment(true);
+        if (subOrders && subOrders.length) {
+          let totalAmount = 0;
+          for (let sellers of subOrders) {
+            let {
+              products = "",
+              qalaraSellerMargin = 0,
+              basePrice = 0,
+            } = sellers;
+            for (let items of products) {
+              let {
+                quantity = 0,
+                exfactoryListPrice = 0,
+                productType = "",
+              } = items;
+              basePrice = basePrice + exfactoryListPrice * quantity;
+              if (productType === "ERTM") {
+                setMov(true);
+              }
+            }
+            totalAmount = totalAmount + basePrice;
           }
-        }
 
-        if (airMax < seaMax) {
-          selectMode("AIR");
-        } else {
-          selectMode("SEA");
+          const seaMax =
+            seaData[shippingTerm]["dutyMax"] +
+            seaData[shippingTerm]["frightCostMax"];
+          const airMax =
+            airData[shippingTerm]["dutyMax"] +
+            airData[shippingTerm]["frightCostMax"];
+          if (airMax > 0 && seaMax > 0) {
+            let landingFactor = "";
+            landingFactor =
+              (total + (seaMax > airMax ? airMax : seaMax)) / totalAmount;
+
+            if (landingFactor > LANDING_LIMITER) {
+              setPayment(true);
+            }
+          }
+          let mode = "AIR";
+          if (seaMax < airMax) {
+            mode = "SEA";
+          }
+          selectMode(mode);
         }
+        apiCount++;
       }
     }
-  }, [seaData, airData, props.cart, props.app_token]);
+  }, [airData[shippingTerm], seaData[shippingTerm]]);
 
   const checkCommitStatus = () => {
     let cartId = orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
@@ -1009,7 +1020,7 @@ const ShippingDetails = (props) => {
               )}
               {!disablePayment && (
                 <Row className="qa-mar-btm-2">
-                  <Col span={18}>
+                  <Col span={19}>
                     <div className="cart-title qa-mar-btm-1 qa-cursor sen-font font-size-17">
                       <div className="c-left-blk qa-txt-alg-lft font-size-17">
                         Estimated delivery date:
@@ -1050,7 +1061,7 @@ const ShippingDetails = (props) => {
                       </div>
                     </div>
                   </Col>
-                  <Col span={6}></Col>
+                  <Col span={5}></Col>
                 </Row>
               )}
               <Row>
@@ -2225,7 +2236,7 @@ const ShippingDetails = (props) => {
           </div>
           <div>
             <div className="qa-txt-alg-lft qa-mar-btm-1">
-              {shippingTerm === "ddp"
+              {shipTerm === "ddp"
                 ? "In DDP mode Qalara will estimate duties and taxes at the time of checkout. Any applicable duties and taxes are charged to you by Qalara and paid during customs clearance on your behalf."
                 : "In DDU mode our freight/ logistics partner will contact you for the payment of duties and taxes at the time of delivery."}{" "}
             </div>

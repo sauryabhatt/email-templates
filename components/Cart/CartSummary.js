@@ -642,12 +642,12 @@ const CartSummary = (props) => {
       </div>
       <div className="qa-mar-btm-1 cart-ship-pt qa-mar-top-15">
         <div className="c-left-blk qa-mar-btm-05">Base price</div>
-        <div className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05">
+        <div className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
           {getSymbolFromCurrency(convertToCurrency)}
           {basePrice ? getConvertedCurrency(basePrice) : ""}
         </div>
         <div className="c-left-blk qa-mar-btm-05">Qalara margin</div>
-        <div className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05">
+        <div className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
           <span style={{ textDecoration: "line-through", marginRight: "5px" }}>
             {getSymbolFromCurrency(convertToCurrency)}
             {popoverData["qalaraSellerMargin"]
@@ -655,7 +655,7 @@ const CartSummary = (props) => {
               : ""}
           </span>
 
-          <span style={{ color: "#02873A" }}>
+          <span style={{ color: "#02873A" }} className="qa-fw-b">
             {getSymbolFromCurrency(convertToCurrency)}
             {popoverData["qalaraSellerMargin"] ? getConvertedCurrency(0) : ""}
           </span>
@@ -664,7 +664,7 @@ const CartSummary = (props) => {
           <div className="c-left-blk qa-mar-btm-05">Quality testing</div>
         )}
         {qualityPrice > 0 && (
-          <div className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05">
+          <div className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
             {getSymbolFromCurrency(convertToCurrency)}
             {qualityPrice ? getConvertedCurrency(qualityPrice) : ""}
           </div>
@@ -673,13 +673,13 @@ const CartSummary = (props) => {
           <div className="c-left-blk qa-mar-btm-05">Sample required</div>
         )}
         {samplePrice > 0 && (
-          <div className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05">
+          <div className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
             {getSymbolFromCurrency(convertToCurrency)}
             {samplePrice ? getConvertedCurrency(samplePrice) : ""}
           </div>
         )}
         <div className="c-left-blk">Total</div>
-        <div className="c-right-blk qa-txt-alg-rgt">
+        <div className="c-right-blk qa-txt-alg-rgt qa-fw-b">
           {getSymbolFromCurrency(convertToCurrency)}
           {sellerTotalAmount ? getConvertedCurrency(sellerTotalAmount) : ""}
         </div>
@@ -777,7 +777,7 @@ const CartSummary = (props) => {
               </div>
               <div className="cart-ship-pt qa-border-bottom">
                 <div className="c-left-blk">Value of products purchased</div>
-                <div className="c-right-blk qa-txt-alg-rgt">
+                <div className="c-right-blk qa-txt-alg-rgt qa-fw-b">
                   {getSymbolFromCurrency(convertToCurrency)}
                   {parseFloat(totalAmount).toFixed(2)}
                   <div className="qa-txt-alg-rgt">
@@ -823,18 +823,16 @@ const CartSummary = (props) => {
           <div className="c-left-blk">Estimated freight fees</div>
           <div className="c-right-blk qa-txt-alg-rgt">
             {id !== "cart" && frieghtCharge > 0 ? (
-              <span>
-                <span>
-                  {getSymbolFromCurrency(convertToCurrency)}
-                  {getConvertedCurrency(frieghtCharge)}
-                </span>
+              <span className="qa-fw-b">
+                {getSymbolFromCurrency(convertToCurrency)}
+                {getConvertedCurrency(frieghtCharge)}
               </span>
             ) : (
               <span>
                 {id === "cart" || !shippingMode ? (
                   "TBD*"
                 ) : (
-                  <span>
+                  <span className="qa-fw-b">
                     {getSymbolFromCurrency(convertToCurrency)}
                     {getConvertedCurrency(0)}
                   </span>
@@ -922,7 +920,7 @@ const CartSummary = (props) => {
           </div>
           <div className="c-right-blk qa-txt-alg-rgt">
             {id !== "cart" && dutyCharge > 0 ? (
-              <span>
+              <span className="qa-fw-b">
                 {getSymbolFromCurrency(convertToCurrency)}
                 {getConvertedCurrency(dutyCharge)}
               </span>
@@ -935,9 +933,9 @@ const CartSummary = (props) => {
                     {shippingTerm === "ddu" ? (
                       "NA"
                     ) : (
-                      <span>
+                      <span className="qa-fw-b">
                         {getSymbolFromCurrency(convertToCurrency)}
-                        {getConvertedCurrency(0)}
+                        {getConvertedCurrency(dutyCharge)}
                       </span>
                     )}
                   </span>
@@ -976,7 +974,7 @@ const CartSummary = (props) => {
           </div>
           <div className="c-right-blk qa-txt-alg-rgt">
             {id !== "cart" && vatCharge > 0 ? (
-              <span>
+              <span className="qa-fw-b">
                 {getSymbolFromCurrency(convertToCurrency)}
                 {getConvertedCurrency(vatCharge)}
               </span>
@@ -989,7 +987,7 @@ const CartSummary = (props) => {
                     {shippingTerm === "ddu" ? (
                       "NA"
                     ) : (
-                      <span>
+                      <span className="qa-fw-b">
                         {getSymbolFromCurrency(convertToCurrency)}
                         {getConvertedCurrency(vatCharge)}
                       </span>
