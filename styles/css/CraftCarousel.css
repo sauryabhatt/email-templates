@@ -1,231 +1,68 @@
 /** @format */
-
-#craft-carousel {
+.category-carousel.craft-carousel {
+    padding: 30px 28px 50px;
+}
+.craft-carousel .slider-right {
+    text-align: left;
+}
+.craft-carousel .category-heading-section{
+  padding-right: 0;
   position: relative;
-  background-color: #D8D1C2;
-  line-height: 110%;
 }
-
-#craft-carousel .images {
-  /* background-color: #4e4848; */
+.craft-carousel .category-heading-section .button-show-more{
+  right: 0;
+  padding-right: 0;
 }
-
-#craft-carousel .slider-trend-heading {
-  color: #4e4848;
-  font-size: 24px;
-  font-family: Butler;
-  font-weight: 300;
-  line-height: 100%;
+.craft-carousel .category-slider .slick-slide{
+  margin: 0 30px;
+}
+.craft-carousel .category-slider .slick-list{
+  margin: 0 -30px;
+}
+.craft-carousel p.slider-right-heading {
+  font-size: 20px;
+  line-height: 24px;
+  font-family: 'Butler';
+  margin-bottom: 5px;
+}
+.craft-carousel .slider-right-para {
+  font-size: 14px;
+  line-height: 17px;
   letter-spacing: 0.01em;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+  font-family: 'senregular';
+}
+.craft-carousel .qa-rel-pos{
+  margin-bottom: 15px;
+}
+.craft-carousel .craft-action-container{
+  margin-top: 25px;
+  display: flex;
+  justify-content: space-between,
+
+}
+.craft-carousel .explore-text{
+  font-size: 14px;
+    line-height: 17px;
+    font-weight: bold;
+    color: #874439;
+    cursor: pointer;
+    font-family: 'senregular';
+    margin-left: 2px;
 }
 
-/* #craft-carousel .slider-slide {
-  height: 100%;
-} */
-
-@media only screen and (min-width: 768px) {
-  #craft-carousel .slider-left {
-    width: 100%;
-    /* height: 100%; */
-    margin: auto;
-    padding: 60px 60px 60px 80px;
-
-    /* padding: 1% 0; */
-    position: relative;
+@media only screen and (max-width: 765px){
+  .category-carousel.craft-carousel {
+    padding: 20px 23px 28px;
   }
-
-  #craft-carousel .lg {
-    display: block;
+  .craft-carousel .slider-right-para{
+    font-size: 12px;
+    line-height: 14px;
   }
-  #craft-carousel .sm {
-    display: none;
-  }
-
-  #craft-carousel .image-text {
-    background-color: #332f2f;
-    color: #f2f0eb;
-    padding: 3% 5%;
-    text-align: center;
+  .craft-carousel .craft-action-container{
     position: absolute;
     right: 0;
-    left: 0;
-    bottom: 0;
-    /* position: absolute;
-    top: 75%;
-    left: 29%;
-    width: 40%; */
-  }
-
-  #craft-carousel .image-text span {
-    position: relative;
-    font-family: senregular;
-    font-size: 17px;
-    font-weight: 300;
-    line-height: 110%;
-    letter-spacing: 0.01em;
-  }
-
-  #craft-carousel .slider-right {
-    width: 80%;
-    /* height: 100%; */
-    /* margin: auto; */
-    padding: 18% 0 15% 0;
-    /* padding: 1% 0; */
-    position: relative;
-    /* padding: 60px 115px 60px 60px;*/
-  }
-
-  #craft-carousel .slider-right-heading {
-    color: #4e4848;
-    font-size: 44px;
-    font-family: Butler;
-    font-weight: 300;
-    line-height: 100%;
-    letter-spacing: 0.01em;
-    margin-bottom: 30px;
-  }
-
-  #craft-carousel .slider-right-para {
-    color: #4e4848;
-    font-size: 14px;
-    font-family: senregular;
-    line-height: 140%;
-    letter-spacing: 0.01em;
-    text-align: left;
-  }
-
-  #craft-carousel .button-show-more {
-    position: absolute;
-    font-family: senregular;
-    font-size: 12px;
-    color: #191919;
-    bottom: 8%;
-    text-transform: uppercase;
-    right: 9%;
-  }
-
-  #craft-carousel .button-show-more span {
-    margin-left: -3px;
-  }
-
-  #craft-carousel .button-show-more-prev {
-    position: absolute;
-    font-family: senregular;
-    font-size: 12px;
-    color: #191919;
-    bottom: 8%;
-    text-transform: uppercase;
-    left: 48%;
-  }
-
-  #craft-carousel .button-show-more-prev span {
-    margin-left: -3px;
-  }
-  #craft-carousel .ant-btn.ant-btn-link:hover,
-  #craft-carousel .ant-btn:focus {
-    border: 1px solid transparent !important;
+    bottom: -30px;
   }
 }
 
-@media only screen and (max-width: 767px) {
-  #craft-carousel .slider-left {
-    width: 90%;
-    /* height: 100%; */
-    margin: auto;
-    /* padding: 1% 0; */
-    position: relative;
-    /* width: 90%;
-    height: 100%;
-    margin: auto; */
-    padding: 5% 0;
-  }
-
-  #craft-carousel .lg {
-    display: none;
-  }
-  #craft-carousel .sm {
-    display: block;
-  }
-
-  #craft-carousel .image-text {
-    background-color: #332f2f;
-    color: #f2f0eb;
-    position: absolute;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    padding: 3% 5%;
-    text-align: center;
-  }
-
-  #craft-carousel .image-text span {
-    position: relative;
-    font-family: senregular;
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 110%;
-    letter-spacing: 0.01em;
-  }
-
-  #craft-carousel .slider-right {
-    width: 90%;
-    /* height: 100%; */
-    margin: auto;
-    padding: 7% 7% 12% 0;
-    /* padding: 1% 0; */
-    position: relative;
-    /* padding: 60px 115px 60px 60px; */
-    /* padding: 5% 7% 10% 5%;*/
-  }
-
-  #craft-carousel .slider-right-heading {
-    color: #4e4848;
-    font-size: 40px;
-    font-family: Butler;
-    font-weight: 300;
-    line-height: 100%;
-    letter-spacing: 0.01em;
-    margin-bottom: 20px;
-  }
-
-  #craft-carousel .slider-right-para {
-    color: #4e4848;
-    font-size: 14px;
-    font-family: senregular;
-    line-height: 140%;
-    letter-spacing: 0.01em;
-    text-align: left;
-  }
-
-  #craft-carousel .button-show-more {
-    position: absolute;
-    color: #191919;
-    font-family: senregular;
-    font-size: 12px;
-    text-transform: uppercase;
-    bottom: 2%;
-    right: 2%;
-  }
-
-  #craft-carousel .button-show-more span {
-    margin-left: -3px;
-  }
-  #craft-carousel .button-show-more-prev {
-    position: absolute;
-    font-family: senregular;
-    font-size: 12px;
-    color: #191919;
-    bottom: 2%;
-    text-transform: uppercase;
-    left: 2%;
-  }
-
-  #craft-carousel .button-show-more-prev span {
-    margin-left: -3px;
-  }
-  #craft-carousel .ant-btn.ant-btn-link:hover,
-  #craft-carousel .ant-btn:focus {
-    border: 1px solid transparent !important;
-  }
-}

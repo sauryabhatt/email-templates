@@ -30,11 +30,11 @@ export default function PressCrousel(props){
   };
 
   const press_data = [
-    {
+    /*{
       title: "",
       url: "https://yourstory.com/video/how-qalara-is-enabling-small-businesses-aditi-pany",
       linkTo: "https://cdn.qalara.com/images/Img_YS_Logo.png",
-    },
+    },*/
     {
       mobile_height: "35px",
       title: "",
@@ -46,14 +46,14 @@ export default function PressCrousel(props){
       url: "https://futureofsourcing.com/women-in-global-sourcing-aditi-pany",
       linkTo: "https://cdn.qalara.com/images/Img_Logo_Fos.png",
     },
-    {
+    /*{
       mobile_height: "25px",
       title: "",
       url: "https://ideamensch.com/aditi-pany/",
       linkTo: "https://cdn.qalara.com/images/Img_IM_Logo.png",
-    }]
+    }*/]
   let mobile_view = []
-  for(let i = 0; i < 4; i=i+2){
+  for(let i = 0; i < 2; i=i+2){
     let view = (<div className = "mobile-press-crousel-container">
                 <div className = "mobile-img-wrp">
                   <a href={press_data[i].url} target="blank">

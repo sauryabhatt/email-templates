@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import ordered from "../../public/filestore/Landing-page/ordered";
 import ship from "../../public/filestore/Landing-page/ship";
 import expres from "../../public/filestore/Landing-page/express";
+import qalaraBazar from "../../public/filestore/Landing-page/qalaraBazar";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Carousel from "./Carousel";
@@ -387,6 +388,18 @@ export default function CuratedByUsWrapper(props) {
               >
                 {ordered()}
                 <span className="svg-text">Made to order</span>
+              </div>
+              <div
+                onClick={() =>
+                  router.push(
+                    "/products/all-categories?f_product_types=Make%20to%20order"
+                  )
+                }
+                className="image-wrp"
+                style={{ cursor: "pointer" }}
+              >
+                {qalaraBazar()}
+                <span className="svg-text">QALARA BAZAAR</span>
               </div>
             </div>
           </div>
