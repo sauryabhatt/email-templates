@@ -118,7 +118,7 @@ const PaymentFailure = (props) => {
             </Col>
             <Col xs={6} sm={6} md={6} lg={6}>
               {props.order && props.order.orderType == "RTS" ? (
-                <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end">
+                <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end qa-fw-b">
                   {getSymbolFromCurrency(
                     (props.order && props.order.currency) || "USD"
                   )}
@@ -128,7 +128,7 @@ const PaymentFailure = (props) => {
                   ).toFixed(2)}
                 </span>
               ) : (
-                <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end">
+                <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end qa-fw-b">
                   {getSymbolFromCurrency(
                     (props.order && props.order.currency) || "USD"
                   )}
@@ -312,7 +312,7 @@ const PaymentFailure = (props) => {
                 </Col>
                 <Col xs={6} sm={6} md={6} lg={6}>
                   {props.order && props.order.orderType == "RTS" ? (
-                    <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end">
+                    <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end qa-fw-b">
                       {getSymbolFromCurrency(
                         (props.order && props.order.currency) || "USD"
                       )}
@@ -328,7 +328,7 @@ const PaymentFailure = (props) => {
                         ).toFixed(2)}
                     </span>
                   ) : (
-                    <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end">
+                    <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end qa-fw-b">
                       {getSymbolFromCurrency(
                         (props.order && props.order.currency) || "USD"
                       )}
@@ -368,7 +368,7 @@ const PaymentFailure = (props) => {
                     </Col>
                     <Col xs={6} sm={6} md={6} lg={6}>
                       <span
-                        className="qa-font-san qa-fw-b qa-fs-14 qa-col-end"
+                        className="qa-font-san qa-fw-b qa-fs-14 qa-col-end qa-fw-b"
                         style={{ color: "#02873A" }}
                       >
                         -{" "}
@@ -409,7 +409,7 @@ const PaymentFailure = (props) => {
                     <Col xs={6} sm={6} md={6} lg={6}>
                       {props.order && props.order.orderType == "RTS" ? (
                         <span
-                          className="qa-font-san qa-fw-b qa-fs-14 qa-col-end"
+                          className="qa-font-san qa-fw-b qa-fs-14 qa-col-end qa-fw-b"
                           style={{ color: "#02873A" }}
                         >
                           -{" "}
@@ -429,7 +429,7 @@ const PaymentFailure = (props) => {
                         </span>
                       ) : (
                         <span
-                          className="qa-font-san qa-fw-b qa-fs-14 qa-col-end"
+                          className="qa-font-san qa-fw-b qa-fs-14 qa-col-end qa-fw-b"
                           style={{ color: "#02873A" }}
                         >
                           -{" "}
@@ -482,7 +482,7 @@ const PaymentFailure = (props) => {
                   ) : (
                     <span>
                       {props.order && props.order.orderType == "RTS" ? (
-                        <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end">
+                        <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end qa-fw-b">
                           {getSymbolFromCurrency(
                             (props.order && props.order.currency) || "USD"
                           )}
@@ -498,7 +498,7 @@ const PaymentFailure = (props) => {
                             ).toFixed(2)}
                         </span>
                       ) : (
-                        <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end">
+                        <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end qa-fw-b">
                           {getSymbolFromCurrency(
                             (props.order && props.order.currency) || "USD"
                           )}
@@ -633,7 +633,7 @@ const PaymentFailure = (props) => {
                   ) : (
                     <span>
                       {props.order && props.order.orderType == "RTS" ? (
-                        <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end">
+                        <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end qa-fw-b">
                           {getSymbolFromCurrency(
                             (props.order && props.order.currency) || "USD"
                           )}
@@ -649,7 +649,7 @@ const PaymentFailure = (props) => {
                             ).toFixed(2)}
                         </span>
                       ) : (
-                        <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end">
+                        <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end qa-fw-b">
                           {getSymbolFromCurrency(
                             (props.order && props.order.currency) || "USD"
                           )}
@@ -693,7 +693,7 @@ const PaymentFailure = (props) => {
                     </Col>
                     <Col xs={6} sm={6} md={6} lg={6}>
                       <span
-                        className="qa-font-san qa-fw-b qa-fs-14 qa-col-end"
+                        className="qa-font-san qa-fw-b qa-fs-14 qa-col-end qa-fw-b"
                         style={{ color: "#02873A" }}
                       >
                         -{" "}
@@ -739,7 +739,7 @@ const PaymentFailure = (props) => {
                     sm={6}
                     md={6}
                     lg={6}
-                    className="qa-font-san qa-fw-b qa-fs-14 qa-col-end"
+                    className="qa-font-san qa-fw-b qa-fs-14 qa-col-end qa-fw-b"
                   >
                     <span style={{ color: "#02873A" }}>
                       -

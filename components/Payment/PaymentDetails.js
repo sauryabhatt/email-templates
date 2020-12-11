@@ -240,13 +240,13 @@ const PaymentDetails = (props) => {
                           </div>
                         </div>
                         <div className="c-right-blk qa-txt-alg-lft">
-                          <div className="cart-prod-title qa-txt-alg-rgt">
+                          <div className="cart-prod-title qa-txt-alg-rgt qa-fw-b">
                             {data ? (
                               <span>
                                 {getSymbolFromCurrency(convertToCurrency)}
                                 {getConvertedCurrency(
                                   data["frightCostMin"],
-                                  TextTrackCue
+                                  true
                                 )}
                                 -{getSymbolFromCurrency(convertToCurrency)}
                                 {getConvertedCurrency(
@@ -288,7 +288,7 @@ const PaymentDetails = (props) => {
                           </div>
                         </div>
                         <div className="c-right-blk">
-                          <div className="cart-prod-title qa-txt-alg-rgt">
+                          <div className="cart-prod-title qa-txt-alg-rgt qa-fw-b">
                             {data ? (
                               <span>
                                 {data["tat"]
@@ -532,7 +532,7 @@ const PaymentDetails = (props) => {
                                           required
                                         </div>
                                       )}
-                                      <div className="cart-prod-title">
+                                      <div className="cart-prod-title qa-fw-b">
                                         {getSymbolFromCurrency(
                                           convertToCurrency
                                         )}
@@ -563,7 +563,7 @@ const PaymentDetails = (props) => {
                                 md={12}
                                 lg={12}
                                 xl={12}
-                                className="cart-prod-title"
+                                className="cart-prod-title qa-fw-b"
                               >
                                 SELLER CART VALUE
                               </Col>
@@ -573,7 +573,7 @@ const PaymentDetails = (props) => {
                                 md={12}
                                 lg={12}
                                 xl={12}
-                                className="qa-txt-alg-rgt cart-prod-title"
+                                className="qa-txt-alg-rgt cart-prod-title qa-fw-b"
                               >
                                 {getSymbolFromCurrency(convertToCurrency)}
                                 {total ? getConvertedCurrency(total) : ""}
@@ -937,7 +937,7 @@ const PaymentDetails = (props) => {
                             Estimated freight fee*
                           </div>
                         </div>
-                        <div className="c-right-blk qa-txt-alg-lft">
+                        <div className="c-right-blk qa-txt-alg-lft qa-fw-b">
                           <div className="cart-prod-title qa-txt-alg-rgt">
                             {getSymbolFromCurrency(convertToCurrency)}
                             {getConvertedCurrency(data["frightCostMin"], true)}-
@@ -968,7 +968,7 @@ const PaymentDetails = (props) => {
                           </div>
                         </div>
                         <div className="c-right-blk">
-                          <div className="cart-prod-title qa-txt-alg-rgt">
+                          <div className="cart-prod-title qa-txt-alg-rgt qa-fw-b">
                             {data ? (
                               <span>
                                 {data["tat"]
@@ -1181,7 +1181,7 @@ const PaymentDetails = (props) => {
                                 xl={24}
                                 className="qa-mar-top-1"
                               >
-                                <div className="cart-prod-title">
+                                <div className="cart-prod-title qa-fw-b">
                                   {getSymbolFromCurrency(convertToCurrency)}
                                   {total ? getConvertedCurrency(total) : ""}
                                 </div>
@@ -1200,7 +1200,7 @@ const PaymentDetails = (props) => {
                             md={16}
                             lg={16}
                             xl={16}
-                            className="cart-prod-title"
+                            className="cart-prod-title qa-fw-b"
                           >
                             SELLER CART VALUE
                           </Col>
@@ -1210,7 +1210,7 @@ const PaymentDetails = (props) => {
                             md={8}
                             lg={8}
                             xl={8}
-                            className="qa-txt-alg-rgt cart-prod-title"
+                            className="qa-txt-alg-rgt cart-prod-title qa-fw-b"
                           >
                             {getSymbolFromCurrency(convertToCurrency)}
                             {total ? getConvertedCurrency(total) : ""}

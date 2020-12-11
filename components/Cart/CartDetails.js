@@ -1329,7 +1329,7 @@ const CartDetails = (props) => {
                                       <CheckCircleOutlined /> Sample required
                                     </div>
                                   )}
-                                  <div className="cart-prod-title">
+                                  <div className="cart-prod-title qa-fw-b">
                                     {getSymbolFromCurrency(convertToCurrency)}
                                     {total ? getConvertedCurrency(total) : ""}
                                   </div>
@@ -1378,7 +1378,7 @@ const CartDetails = (props) => {
                             md={12}
                             lg={12}
                             xl={12}
-                            className="cart-prod-title"
+                            className="cart-prod-title qa-fw-b"
                           >
                             SELLER CART VALUE
                           </Col>
@@ -1388,7 +1388,7 @@ const CartDetails = (props) => {
                             md={12}
                             lg={12}
                             xl={12}
-                            className="qa-txt-alg-rgt cart-prod-title"
+                            className="qa-txt-alg-rgt cart-prod-title qa-fw-b"
                           >
                             {getSymbolFromCurrency(convertToCurrency)}
                             {total ? getConvertedCurrency(total) : ""}
@@ -1823,7 +1823,7 @@ const CartDetails = (props) => {
                                 )}
                               </Col>
                               <Col xs={24} sm={24} md={10} lg={24} xl={24}>
-                                <div className="cart-prod-title qa-mar-top-05">
+                                <div className="cart-prod-title qa-mar-top-05 qa-fw-b">
                                   {getSymbolFromCurrency(convertToCurrency)}
                                   {total ? getConvertedCurrency(total) : ""}
                                 </div>
@@ -1897,7 +1897,7 @@ const CartDetails = (props) => {
                             md={16}
                             lg={16}
                             xl={16}
-                            className="cart-prod-title"
+                            className="cart-prod-title qa-fw-b"
                           >
                             SELLER CART VALUE
                           </Col>
@@ -1907,7 +1907,7 @@ const CartDetails = (props) => {
                             md={8}
                             lg={8}
                             xl={8}
-                            className="qa-txt-alg-rgt cart-prod-title"
+                            className="qa-txt-alg-rgt cart-prod-title qa-fw-b"
                           >
                             {getSymbolFromCurrency(convertToCurrency)}
                             {total ? getConvertedCurrency(total) : ""}

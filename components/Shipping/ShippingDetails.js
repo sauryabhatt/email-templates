@@ -25,7 +25,6 @@ import sellerList from "../../public/filestore/freeShippingSellers.json";
 import CheckoutSteps from "../common/CheckoutSteps";
 import PaymentBanner from "../common/PaymentBanner";
 import moment from "moment";
-let apiCount = 0;
 
 const ShippingDetails = (props) => {
   const router = useRouter();
@@ -92,6 +91,8 @@ const ShippingDetails = (props) => {
   const [tat, setTat] = useState("");
   const [shippingTerm, setShippingTerm] = useState("ddp");
   const [shipTerm, setShipTerm] = useState("ddp");
+  const [apiCount, setApiCount] = useState(0);
+  const [priceCount, setPriceCount] = useState(0);
 
   useEffect(() => {
     let { cart = "", app_token = "" } = props;
@@ -103,8 +104,7 @@ const ShippingDetails = (props) => {
         setDeliver(true);
       }
     }
-    let count = 0;
-    if (priceQuoteRef && count === 0) {
+    if (priceQuoteRef && priceCount === 0) {
       setCartData(cart);
       fetch(
         `${process.env.NEXT_PUBLIC_REACT_APP_PRICE_QUOTATION_URL}/quotes/rts/${priceQuoteRef}?mode=SEA`,
@@ -118,7 +118,7 @@ const ShippingDetails = (props) => {
       )
         .then((res) => {
           if (res.ok) {
-            count++;
+            setPriceCount(1);
             setSeaData({ ddp: {}, ddu: {} });
             return res.json();
           } else {
@@ -145,7 +145,7 @@ const ShippingDetails = (props) => {
         .then((res) => {
           setAirData({ ddp: {}, ddu: {} });
           if (res.ok) {
-            count++;
+            setPriceCount(1);
             return res.json();
           } else {
             throw res.statusText || "COntent not found";
@@ -181,7 +181,6 @@ const ShippingDetails = (props) => {
       if (apiCount === 0) {
         let { cart = "" } = props;
         let { subOrders = [], total = 0 } = cart || {};
-
         if (subOrders && subOrders.length) {
           let totalAmount = 0;
           for (let sellers of subOrders) {
@@ -225,10 +224,10 @@ const ShippingDetails = (props) => {
           }
           selectMode(mode);
         }
-        apiCount++;
+        setApiCount(1);
       }
     }
-  }, [airData[shippingTerm], seaData[shippingTerm]]);
+  }, [props.cart, airData[shippingTerm], seaData[shippingTerm]]);
 
   const checkCommitStatus = () => {
     let cartId = orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
@@ -649,7 +648,7 @@ const ShippingDetails = (props) => {
                                 </div>
                               </div>
                               <div className="c-right-blk qa-txt-alg-lft">
-                                <div className="cart-prod-title qa-txt-alg-rgt">
+                                <div className="cart-prod-title qa-txt-alg-rgt qa-fw-b">
                                   {airData && airData[shippingTerm] ? (
                                     <span>
                                       {getSymbolFromCurrency(convertToCurrency)}
@@ -717,7 +716,7 @@ const ShippingDetails = (props) => {
                                 </div>
                               </div>
                               <div className="c-right-blk">
-                                <div className="cart-prod-title qa-txt-alg-rgt">
+                                <div className="cart-prod-title qa-txt-alg-rgt qa-fw-b">
                                   {airData && airData[shippingTerm] ? (
                                     <span>
                                       {airData[shippingTerm]["tat"]
@@ -805,7 +804,7 @@ const ShippingDetails = (props) => {
                                 </div>
                               </div>
                               <div className="c-right-blk qa-txt-alg-lft">
-                                <div className="cart-prod-title qa-txt-alg-rgt">
+                                <div className="cart-prod-title qa-txt-alg-rgt qa-fw-b">
                                   {seaData && seaData[shippingTerm] ? (
                                     <span>
                                       {getSymbolFromCurrency(convertToCurrency)}
@@ -873,7 +872,7 @@ const ShippingDetails = (props) => {
                                 </div>
                               </div>
                               <div className="c-right-blk">
-                                <div className="cart-prod-title qa-txt-alg-rgt">
+                                <div className="cart-prod-title qa-txt-alg-rgt qa-fw-b">
                                   {seaData[shippingTerm]["tat"]
                                     ? seaData[shippingTerm]["tat"] - 7
                                     : "0"}
@@ -1204,7 +1203,7 @@ const ShippingDetails = (props) => {
                                           required
                                         </div>
                                       )}
-                                      <div className="cart-prod-title">
+                                      <div className="cart-prod-title qa-fw-b">
                                         {getSymbolFromCurrency(
                                           convertToCurrency
                                         )}
@@ -1235,7 +1234,7 @@ const ShippingDetails = (props) => {
                                 md={12}
                                 lg={12}
                                 xl={12}
-                                className="cart-prod-title"
+                                className="cart-prod-title qa-fw-b"
                               >
                                 SELLER CART VALUE
                               </Col>
@@ -1245,7 +1244,7 @@ const ShippingDetails = (props) => {
                                 md={12}
                                 lg={12}
                                 xl={12}
-                                className="qa-txt-alg-rgt cart-prod-title"
+                                className="qa-txt-alg-rgt cart-prod-title qa-fw-b"
                               >
                                 {getSymbolFromCurrency(convertToCurrency)}
                                 {total ? getConvertedCurrency(total) : ""}
@@ -1534,7 +1533,7 @@ const ShippingDetails = (props) => {
                                 </div>
                               </div>
                               <div className="c-right-blk qa-txt-alg-lft">
-                                <div className="cart-prod-title qa-txt-alg-rgt">
+                                <div className="cart-prod-title qa-txt-alg-rgt qa-fw-b">
                                   {airData && airData[shippingTerm] ? (
                                     <span>
                                       {getSymbolFromCurrency(convertToCurrency)}
@@ -1603,7 +1602,7 @@ const ShippingDetails = (props) => {
                                 </div>
                               </div>
                               <div className="c-right-blk">
-                                <div className="cart-prod-title qa-txt-alg-rgt">
+                                <div className="cart-prod-title qa-txt-alg-rgt qa-fw-b">
                                   {airData && airData[shippingTerm] ? (
                                     <span>
                                       {airData[shippingTerm]["tat"]
@@ -1701,7 +1700,7 @@ const ShippingDetails = (props) => {
                                 </div>
                               </div>
                               <div className="c-right-blk qa-txt-alg-lft">
-                                <div className="cart-prod-title qa-txt-alg-rgt">
+                                <div className="cart-prod-title qa-txt-alg-rgt qa-fw-b">
                                   {seaData && seaData[shippingTerm] ? (
                                     <span>
                                       {getSymbolFromCurrency(convertToCurrency)}
@@ -1770,7 +1769,7 @@ const ShippingDetails = (props) => {
                                 </div>
                               </div>
                               <div className="c-right-blk">
-                                <div className="cart-prod-title qa-txt-alg-rgt">
+                                <div className="cart-prod-title qa-txt-alg-rgt qa-fw-b">
                                   {seaData && seaData[shippingTerm] ? (
                                     <span>
                                       {seaData[shippingTerm]["tat"]
@@ -2139,7 +2138,7 @@ const ShippingDetails = (props) => {
                                   xl={24}
                                   className="qa-mar-top-1"
                                 >
-                                  <div className="cart-prod-title">
+                                  <div className="cart-prod-title qa-fw-b">
                                     {getSymbolFromCurrency(convertToCurrency)}
                                     {total ? getConvertedCurrency(total) : ""}
                                   </div>
@@ -2160,7 +2159,7 @@ const ShippingDetails = (props) => {
                               md={16}
                               lg={16}
                               xl={16}
-                              className="cart-prod-title"
+                              className="cart-prod-title qa-fw-b"
                             >
                               SELLER CART VALUE
                             </Col>
@@ -2170,7 +2169,7 @@ const ShippingDetails = (props) => {
                               md={8}
                               lg={8}
                               xl={8}
-                              className="qa-txt-alg-rgt cart-prod-title"
+                              className="qa-txt-alg-rgt cart-prod-title qa-fw-b"
                             >
                               {getSymbolFromCurrency(convertToCurrency)}
                               {total ? getConvertedCurrency(total) : ""}

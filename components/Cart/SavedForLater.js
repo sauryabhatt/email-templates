@@ -335,7 +335,7 @@ const SavedForLater = (props) => {
                                 className="qa-mar-top-15"
                               >
                                 <div className="qa-disp-table-cell">
-                                  <div className="cart-prod-title qa-txt-alg-rgt">
+                                  <div className="cart-prod-title qa-txt-alg-rgt qa-fw-b">
                                     {getSymbolFromCurrency(convertToCurrency)}
                                     {total ? getConvertedCurrency(total) : ""}
                                   </div>
@@ -368,7 +368,7 @@ const SavedForLater = (props) => {
                             md={14}
                             lg={14}
                             xl={14}
-                            className="cart-prod-title"
+                            className="cart-prod-title qa-fw-b"
                           >
                             SELLER CART VALUE
                           </Col>
@@ -378,7 +378,7 @@ const SavedForLater = (props) => {
                             md={10}
                             lg={10}
                             xl={10}
-                            className="qa-txt-alg-rgt cart-prod-title"
+                            className="qa-txt-alg-rgt cart-prod-title qa-fw-b"
                           >
                             {getSymbolFromCurrency(convertToCurrency)}
                             {totalAmount
@@ -507,7 +507,7 @@ const SavedForLater = (props) => {
                                 xl={24}
                                 className="qa-mar-top-1"
                               >
-                                <div className="cart-prod-title">
+                                <div className="cart-prod-title qa-fw-b">
                                   {getSymbolFromCurrency(convertToCurrency)}
                                   {total ? getConvertedCurrency(total) : ""}
                                 </div>
@@ -571,7 +571,7 @@ const SavedForLater = (props) => {
                             md={14}
                             lg={14}
                             xl={14}
-                            className="cart-prod-title"
+                            className="cart-prod-title qa-fw-b"
                           >
                             SELLER CART VALUE
                           </Col>
@@ -581,7 +581,7 @@ const SavedForLater = (props) => {
                             md={10}
                             lg={10}
                             xl={10}
-                            className="qa-txt-alg-rgt cart-prod-title"
+                            className="qa-txt-alg-rgt cart-prod-title qa-fw-b"
                           >
                             {getSymbolFromCurrency(convertToCurrency)}
                             {totalAmount
