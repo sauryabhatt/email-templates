@@ -726,9 +726,10 @@ const CartSummary = (props) => {
           return (
             <div className="qa-mar-btm-2" key={i}>
               <div className="cart-prod-name qa-mar-btm-1">
-                {brandNames &&
-                  brandNames[sellerCode] &&
-                  brandNames[sellerCode].brandName}
+                <div className="c-left-blk">Seller ID </div>
+                <div className="c-right-blk qa-fw-b qa-txt-alg-rgt qa-fs-14">
+                {sellerCode}
+                </div>
               </div>
               <div className="cart-ship-pt qa-border-bottom">
                 <div className="c-left-blk">Value of products purchased</div>
@@ -1073,7 +1074,7 @@ const CartSummary = (props) => {
             countryCode={
               cart &&
               cart["shippingAddressDetails"] &&
-              countries[cart.shippingAddressDetails["country"]] &&
+              cart.shippingAddressDetails["country"] &&
               countries[
                 cart.shippingAddressDetails["country"].toString().toUpperCase()
               ]

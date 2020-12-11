@@ -1211,10 +1211,7 @@ const CartDetails = (props) => {
                               />
                             </div>
                             <div className="qa-disp-table-cell">
-                              {brandNames &&
-                                brandNames[sellerCode] &&
-                                brandNames[sellerCode].mov &&
-                                brandNames[sellerCode].brandName}
+                              Seller ID: {sellerCode}
                               {total < mov && (
                                 <div className="cart-sub-text">
                                   Add {getSymbolFromCurrency(convertToCurrency)}
@@ -1765,9 +1762,7 @@ const CartDetails = (props) => {
                           />
 
                           <div className="qa-disp-tc" style={{ width: "80%" }}>
-                            {brandNames &&
-                              brandNames[sellerCode] &&
-                              brandNames[sellerCode].brandName}
+                            Seller ID: {sellerCode}
                             {total < mov && (
                               <div className="cart-sub-text">
                                 Add {getSymbolFromCurrency(convertToCurrency)}

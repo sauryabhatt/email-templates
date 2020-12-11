@@ -67,7 +67,7 @@ export default function PromotionCarousel(props) {
       <span onClick={next} className="cart-right-arrow cart-arrow">
         &gt;
       </span>
-      <span className="slider-count cart-arrow">
+      <span className="slider-count ">
         {count}/{promotiolList.length}
       </span>
     </div>
