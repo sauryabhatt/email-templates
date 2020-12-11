@@ -15,8 +15,10 @@ function CraftCarousel(props) {
     infinite: true,
     // autoplay: true,
     speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
+    slidesToShow: isMobile ? 1 : 4,
+    slidesToScroll: isMobile ? 1 : 1,
+    //slidesToShow: 1,
+    //slidesToScroll: 1,
     arrows: false,
     // style: { height: '100%' }
   };
@@ -38,7 +40,7 @@ function CraftCarousel(props) {
     return (
       <div key={i} className="slider-slide">
         <Row>
-          <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+          <Col >
             <Link href={item.path}>
               <div className="slider-left">
                 <div className="qa-rel-pos" style={{ cursor: "pointer" }}>
@@ -48,34 +50,27 @@ function CraftCarousel(props) {
                     width={"100%"}
                     alt={item.imageHeading}
                   />
-                  <div
-                    className="image-text"
-                    style={item.path !== "" ? { cursor: "pointer" } : {}}
+                </div>
+
+                <div className="slider-right">
+                  <Link href={item.path}>
+                    <p
+                      className="slider-right-heading"
+                      style={{ cursor: "pointer" }}
+                    >
+                      {item.imageTitle}
+                    </p>
+                  </Link>
+                  <p
+                    className="slider-right-para"
+                    style={{ whiteSpace: "pre-wrap" }}
                   >
-                    {item.imageHeading}
-                  </div>
+                    {item.slideText}
+                  </p>
+                  <p className = "explore-text">+EXPLORE</p>
                 </div>
               </div>
             </Link>
-          </Col>
-          <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-            <div className="slider-right">
-              <p className="slider-trend-heading">#TrendAlert</p>
-              <Link href={item.path}>
-                <p
-                  className="slider-right-heading"
-                  style={{ cursor: "pointer" }}
-                >
-                  {item.imageTitle}
-                </p>
-              </Link>
-              <p
-                className="slider-right-para"
-                style={{ whiteSpace: "pre-wrap" }}
-              >
-                {item.slideText}
-              </p>
-            </div>
           </Col>
         </Row>
       </div>
@@ -83,28 +78,36 @@ function CraftCarousel(props) {
   });
 
   return (
-    <div id="craft-carousel">
-      {/* <Row>
-                <Col xs={0} sm={0} md={24} lg={24} xl={24}></Col>
-            </Row> */}
+    <div className="category-carousel craft-carousel">
+      <div className="category-heading-section">
+        <div className="category-heading">
+          <h3 style={{ marginBottom: "0" }}>Shop by trends</h3>
 
-      <Slider ref={(c) => (slider = c)} {...settings}>
+          <p style={{ marginBottom: "0" }}>Handpicked on-trend collections from responsible suppliers</p>
+        </div>
+          <div className="craft-action-container" >
+        {!isMobile ? (
+            <Button type="link" className="button-show-prev" onClick={previous}>
+              Prev &nbsp;&nbsp;
+              <MinusOutlined />
+              <MinusOutlined />
+              <MinusOutlined />
+            </Button>
+        ) : null}
+            <Button type="link" className="button-show-more" onClick={next}>
+              <MinusOutlined />
+              <MinusOutlined />
+              <MinusOutlined />
+              &nbsp;&nbsp;Next
+            </Button>
+          </div>
+      </div>
+      <Slider 
+        className="category-slider"
+        ref={(c) => (slider = c)} 
+        {...settings}>
         {slides}
       </Slider>
-      {/* <div className='slider-button'> */}
-      <Button type="link" className="button-show-more-prev" onClick={previous}>
-        Prev &nbsp;&nbsp;
-        <MinusOutlined />
-        <MinusOutlined />
-        <MinusOutlined />
-      </Button>
-      <Button type="link" className="button-show-more" onClick={next}>
-        <MinusOutlined />
-        <MinusOutlined />
-        <MinusOutlined />
-        &nbsp;&nbsp;Next
-      </Button>
-      {/* </div> */}
     </div>
   );
 }
