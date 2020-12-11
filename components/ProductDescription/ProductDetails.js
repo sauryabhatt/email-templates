@@ -1038,7 +1038,7 @@ const ProductDetails = (props) => {
               <div>
                 <div className="qa-fw-sb qa-tc-white qa-fs-14">
                   <Link  href={`/seller/${vanityId}`}>
-                    <span style={{ color: "#874439", fontWeight: "bold" }}>Explore seller profile</span>
+                    <span style={{ color: "#874439", fontWeight: "bold" , cursor: "pointer"}}>Explore seller profile</span>
                   </Link>
                 </div>
               </div>
@@ -2044,7 +2044,7 @@ const ProductDetails = (props) => {
               >
                 <Link href={`/seller/${vanityId}`}>
                   <a target="_blank">
-                    <div style={{color: "#874439", fontWeight: "bold"}} className="qa-tc-white qa-fs-14">Explore seller profile</div>
+                    <div style={{color: "#874439", fontWeight: "bold", cursor: "pointer"}} className="qa-tc-white qa-fs-14">Explore seller profile</div>
                   </a>
                 </Link>
               </div>

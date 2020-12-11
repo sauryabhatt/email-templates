@@ -444,7 +444,7 @@ function SellerProductListingDesktop(props) {
           onCancel={handleCancel}
           centered
           bodyStyle={{ padding: "0px" }}
-          width={750}
+          width={550}
           style={{ top: 5 }}
           className="splp seller-order-query-submission catalog-modal"
         >

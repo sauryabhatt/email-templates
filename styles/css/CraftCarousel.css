@@ -50,7 +50,20 @@
     font-family: 'senregular';
     margin-left: 2px;
 }
-
+.craft-explore-all-wrp{
+  display: flex;
+    justify-content: center;
+    margin-top: 25px;
+}
+.craft-explore-all{
+  font-size: 14px;
+    font-family: 'senregular';
+    font-weight: bold;
+    line-height: 140%;
+    background: #332F2F;
+    color: #F9F7F2;
+    padding: 17px 48px;
+}
 @media only screen and (max-width: 765px){
   .category-carousel.craft-carousel {
     padding: 20px 23px 28px;
@@ -63,6 +76,12 @@
     position: absolute;
     right: 0;
     bottom: -30px;
+  }
+  .craft-explore-all-wrp{
+    margin-top:10px;
+  }
+  .craft-explore-all{
+    padding: 13px 30px;
   }
 }
 

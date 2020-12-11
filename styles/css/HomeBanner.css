@@ -623,7 +623,7 @@ top: 2.48vh; */
     width: 246px;
   }
   .home-signup-btn:not(:root:root) {
-    width: 256px;
+    width: 265px;
   }
   .home-signup-btn a.button {
     padding: 14px 18px;
@@ -815,7 +815,7 @@ top: 2.48vh; */
     font-size: 12px;
     background: #f2f0eb;
     margin: 0px;
-    padding: 20px 5px;
+    padding: 20px 7px;
     line-height: 140%;
   }
   .source-steps.qa-mr-1 {
