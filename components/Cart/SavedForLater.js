@@ -3,11 +3,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Button, Row, Col, message } from "antd";
-import Icon, {
-  CheckCircleOutlined,
-  UpOutlined,
-  DownOutlined,
-} from "@ant-design/icons";
+import Icon, { UpOutlined, DownOutlined } from "@ant-design/icons";
 import deleteIcon from "../../public/filestore/deleteIcon";
 import cartIcon from "../../public/filestore/cartIcon";
 import {
@@ -20,14 +16,13 @@ import {
 import { useKeycloak } from "@react-keycloak/ssr";
 import _ from "lodash";
 import getSymbolFromCurrency from "currency-symbol-map";
-import { QuantityInput } from "./QuantityInput";
 
 const SavedForLater = (props) => {
   const { keycloak } = useKeycloak();
   const mediaMatch = window.matchMedia("(min-width: 1024px)");
   const [error, setError] = useState({});
   const [showRow, setShowRow] = useState(true);
-  let { cart = {}, userProfile = {}, sfl = {}, brandNames = {} } = props;
+  let { cart = {}, userProfile = {}, sfl = {} } = props;
   let { orderId = "" } = cart || {};
   let { products = [] } = sfl || {};
   let subOrders = [];
@@ -58,12 +53,7 @@ const SavedForLater = (props) => {
     ).toFixed(2);
   };
 
-  const enableUpdateQty = (id) => {
-    // console.log(id);
-  };
-
   const addToCart = (order, i = 0) => {
-    let count = 0;
     let { products = [], sellerCode = "" } = order;
     let productIds = [];
 
@@ -251,7 +241,7 @@ const SavedForLater = (props) => {
                         }`}
                         key={i}
                       >
-                        <div className="cart-ship-pt qa-fw-b qa-border-bottom">
+                        <div className="cart-ship-pt qa-border-bottom">
                           <Icon
                             component={cartIcon}
                             className="cart-icon"
@@ -261,9 +251,7 @@ const SavedForLater = (props) => {
                               marginRight: "8px",
                             }}
                           />
-                          {brandNames &&
-                            brandNames[sellerCode] &&
-                            brandNames[sellerCode].brandName}
+                          Seller ID: {sellerCode}
                           <span
                             className="cart-delete qa-cursor"
                             onClick={() => deleteFromSFL(productIds)}
@@ -303,7 +291,7 @@ const SavedForLater = (props) => {
                                 xl={10}
                                 className="qa-pad-0-10"
                               >
-                                <div className="cart-prod-title qa-fw-b">
+                                <div className="cart-prod-title qa-text-2line">
                                   {productName}
                                 </div>
                                 <div className="cart-prod-title">
@@ -347,7 +335,7 @@ const SavedForLater = (props) => {
                                 className="qa-mar-top-15"
                               >
                                 <div className="qa-disp-table-cell">
-                                  <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
+                                  <div className="cart-prod-title qa-txt-alg-rgt">
                                     {getSymbolFromCurrency(convertToCurrency)}
                                     {total ? getConvertedCurrency(total) : ""}
                                   </div>
@@ -380,7 +368,7 @@ const SavedForLater = (props) => {
                             md={14}
                             lg={14}
                             xl={14}
-                            className="cart-prod-title qa-fw-b"
+                            className="cart-prod-title"
                           >
                             SELLER CART VALUE
                           </Col>
@@ -390,7 +378,7 @@ const SavedForLater = (props) => {
                             md={10}
                             lg={10}
                             xl={10}
-                            className="qa-txt-alg-rgt cart-prod-title qa-fw-b"
+                            className="qa-txt-alg-rgt cart-prod-title"
                           >
                             {getSymbolFromCurrency(convertToCurrency)}
                             {totalAmount
@@ -444,7 +432,7 @@ const SavedForLater = (props) => {
 
                     return (
                       <div className="qa-bg-light-theme" key={i}>
-                        <div className="cart-ship-pt qa-fw-b qa-border-bottom">
+                        <div className="cart-ship-pt qa-border-bottom">
                           <Icon
                             component={cartIcon}
                             className="cart-icon qa-disp-tc"
@@ -455,9 +443,7 @@ const SavedForLater = (props) => {
                             }}
                           />
                           <div className="qa-disp-tc" style={{ width: "60%" }}>
-                            {brandNames &&
-                              brandNames[sellerCode] &&
-                              brandNames[sellerCode].brandName}
+                            Seller ID: {sellerCode}
                           </div>
                           <span
                             className="cart-delete qa-disp-tc qa-cursor"
@@ -498,7 +484,7 @@ const SavedForLater = (props) => {
                                 xl={15}
                                 className="qa-pad-0-10"
                               >
-                                <div className="cart-prod-title qa-fw-b">
+                                <div className="cart-prod-title qa-text-2line">
                                   {productName}
                                 </div>
                                 <div className="cart-prod-title">
@@ -521,7 +507,7 @@ const SavedForLater = (props) => {
                                 xl={24}
                                 className="qa-mar-top-1"
                               >
-                                <div className="cart-prod-title qa-fw-b">
+                                <div className="cart-prod-title">
                                   {getSymbolFromCurrency(convertToCurrency)}
                                   {total ? getConvertedCurrency(total) : ""}
                                 </div>
@@ -585,7 +571,7 @@ const SavedForLater = (props) => {
                             md={14}
                             lg={14}
                             xl={14}
-                            className="cart-prod-title qa-fw-b"
+                            className="cart-prod-title"
                           >
                             SELLER CART VALUE
                           </Col>
@@ -595,7 +581,7 @@ const SavedForLater = (props) => {
                             md={10}
                             lg={10}
                             xl={10}
-                            className="qa-txt-alg-rgt cart-prod-title qa-fw-b"
+                            className="qa-txt-alg-rgt cart-prod-title"
                           >
                             {getSymbolFromCurrency(convertToCurrency)}
                             {totalAmount

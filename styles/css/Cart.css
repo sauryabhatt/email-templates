@@ -1,7 +1,7 @@
 /** @format */
 
 .cart-section {
-  padding-top: 50px;
+  padding-top: 40px;
   padding-bottom: 60px;
 }
 .cart-banner {
@@ -9,7 +9,7 @@
   padding: 13px;
   color: #000;
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   position: relative;
 }
 .cart-sildes {
@@ -29,11 +29,8 @@
   color: #332f2f;
 }
 .slider-count {
-  display: flex;
-  justify-content: center;
-  font-size: 12px;
-  color: #332f2f;
-  margin-top: 13px;
+  right: 40px;
+  font-size: 14px;
 }
 .cart-price-block.permot-text {
   color: #191919;
@@ -63,74 +60,6 @@ span.cart-banner-copy {
 .breakup-popup {
   padding: 5px;
   width: 275px;
-}
-.cart-section .qa-cart-steps .ant-steps-icon {
-  width: 32px;
-  height: 32px;
-  font-size: 16px;
-  font-family: senregular;
-  line-height: 32px;
-  text-align: center;
-  margin: 0px 8px 0px 0px;
-  border-width: 1px;
-  border-style: solid;
-  border-color: rgba(0, 0, 0, 0.25);
-  border-image: initial;
-  border-radius: 32px;
-  transition: background-color 0.3s ease 0s, border-color 0.3s ease 0s;
-  display: inline-block;
-  vertical-align: top;
-  margin-top: -10px;
-}
-.cart-section .ant-steps-icon a {
-  color: rgba(0, 0, 0, 0.25);
-}
-.cart-section
-  .qa-cart-steps
-  .ant-steps-item.ant-steps-item-finish
-  .ant-steps-icon,
-.cart-section
-  .qa-cart-steps
-  .ant-steps-item.ant-steps-item-finish
-  .ant-steps-icon
-  a {
-  background: #874439;
-  color: #f9f7f2;
-  border: none;
-}
-.cart-section .qa-cart-steps .ant-steps-label-vertical .ant-steps-item-content {
-  margin-top: 15px;
-  margin-left: 10px;
-}
-.cart-section .qa-cart-steps .ant-steps-dot .ant-steps-item-tail::after,
-.cart-section
-  .qa-cart-steps
-  .ant-steps-dot.ant-steps-small
-  .ant-steps-item-tail::after {
-  width: calc(100% - 31px);
-  height: 3px;
-  margin-left: 21px;
-}
-.cart-section .qa-cart-steps .ant-steps-dot .ant-steps-item-tail,
-.cart-section
-  .qa-cart-steps
-  .ant-steps-dot.ant-steps-small
-  .ant-steps-item-tail {
-  margin: 0 0 0 77px;
-}
-.cart-section
-  .qa-cart-steps
-  .ant-steps-item-process
-  .ant-steps-item-icon
-  > .ant-steps-icon,
-.cart-section
-  .qa-cart-steps
-  .ant-steps-item-process
-  .ant-steps-item-icon
-  > .ant-steps-icon
-  a {
-  color: #fff;
-  background: #332f2f;
 }
 .cart-section .cart-title {
   font-family: Butler;
@@ -240,14 +169,14 @@ span.cart-banner-copy {
 .cart-delete-modal .cart-cancel-delete {
   background: transparent;
   border: 1px solid #191919;
-  width: 48%;
-  margin-right: 2%;
+  width: 47%;
+  margin-right: 3%;
 }
 .cart-section .cart-opt-service,
 .cart-delete-modal .cart-delete {
   background: #d9bb7f;
-  width: 48%;
-  margin-left: 2%;
+  width: 47%;
+  margin-left: 3%;
 }
 
 .cart-section .qa-cart-delete {
@@ -311,10 +240,13 @@ span.cart-banner-copy {
   display: inline-block;
   width: 35%;
   line-height: 110%;
-  color: #191919;
+  vertical-align: top;
+  /* color: #191919; */
 }
 .cart-section .c-breakup,
-.cart-address-modal .c-breakup {
+.cart-address-modal .c-breakup,
+.payment-success-section .c-breakup,
+.payment-failure-section .c-breakup {
   font-family: senregular;
   font-size: 14px;
   line-height: 130%;
@@ -436,7 +368,7 @@ span.cart-banner-copy {
 }
 .cart-section .sfs-title {
   font-family: senregular;
-  font-size: 20px;
+  font-size: 17px;
   line-height: 110%;
   letter-spacing: 0.01em;
   color: #191919;
@@ -477,9 +409,11 @@ span.cart-banner-copy {
     width: 64%;
     padding-right: 10px;
     line-height: 110%;
+    vertical-align: top;
   }
   .cart-section .c-right-blk {
     width: 36%;
+    vertical-align: top;
   }
   .cart-section .cart-sub-text {
     font-family: senregular;
@@ -827,4 +761,90 @@ a.qa-sm-color:hover {
   vertical-align: middle;
   margin-right: 15px;
   margin-top: 6px;
+}
+.cart-section .cart-payment-banner {
+  background: #d8d1c2;
+  border-radius: 30px;
+  padding: 5px;
+  width: 100%;
+}
+.qa-cart-steps .qa-ant-steps-item-title {
+  font-family: Butler;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  position: relative;
+  display: inline-block;
+  padding: 0px 0px 0px 5px;
+  color: rgba(0, 0, 0, 0.45);
+}
+.qa-cart-steps .ant-steps-item-process .qa-ant-steps-item-title {
+  color: #191919;
+}
+.qa-cart-steps .ant-steps-icon {
+  font-family: Butler;
+  font-weight: 500;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.45);
+}
+.qa-cart-steps .ant-steps-item-wait .ant-steps-item-icon {
+  background-color: transparent;
+}
+.qa-cart-steps .ant-steps-item-process .ant-steps-item-icon .ant-steps-icon {
+  color: #f9f7f2;
+  font-weight: bold;
+}
+.qa-cart-steps .ant-steps-item-process .ant-steps-item-icon {
+  background: #382019;
+  border-color: #382019;
+}
+.qa-cart-steps .ant-steps-item-icon {
+  color: rgba(25, 25, 25, 0.65);
+  margin-right: 0px;
+}
+.qa-cart-steps
+  .ant-steps-item-container
+  .ant-steps-item-content
+  .ant-steps-item-title::after {
+  background-color: rgba(25, 25, 25, 0.45);
+}
+.qa-cart-steps .ant-steps-item-content.qa-disp-block {
+  display: block;
+}
+
+@media only screen and (max-width: 768px) {
+  span.slider-count.cart-arrow {
+    top: 80%;
+    font-size: 10px;
+    right: 15px;
+  }
+  .qa-cart-steps .qa-ant-steps-item-title {
+    font-size: 17px;
+    padding: 0px 10px;
+  }
+  .cart-banner {
+    margin-bottom: 20px;
+  }
+}
+.cart-border-bottom {
+  border-bottom: 1px solid #dddddd;
+}
+.payment-success-section .c-left-blk,
+.payment-failure-section .c-left-blk {
+  width: 60%;
+  display: inline-block;
+  vertical-align: top;
+  line-height: 130%;
+}
+.payment-success-section .c-right-blk,
+.payment-failure-section .c-right-blk {
+  width: 40%;
+  display: inline-block;
+  vertical-align: top;
+  line-height: 130%;
+}
+.cart-section li::marker,
+.payment-success-section li::marker,
+.payment-failure-section li::marker {
+  color: #d9bb7f;
 }

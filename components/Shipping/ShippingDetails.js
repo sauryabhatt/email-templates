@@ -3,14 +3,13 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Button, Row, Col, Modal, Checkbox, Form, Input, message } from "antd";
+import { Button, Row, Col, Modal, Form, Input, message, Radio } from "antd";
 import Icon, {
   UpOutlined,
   DownOutlined,
   CheckCircleOutlined,
   CheckOutlined,
 } from "@ant-design/icons";
-import { Steps } from "antd";
 import { connect } from "react-redux";
 import getSymbolFromCurrency from "currency-symbol-map";
 import closeButton from "../../public/filestore/closeButton";
@@ -19,13 +18,14 @@ import cartIcon from "../../public/filestore/cartIcon";
 import Spinner from "../Spinner/Spinner";
 import Air from "../../public/filestore/air";
 import Sea from "../../public/filestore/sea";
-import infoIcon from "../../public/filestore/infoIcon";
 import deliveredCountryList from "../../public/filestore/deliveredCountries.json";
-import _ from "lodash";
-import { getBrandNameByCode } from "../../store/actions";
+import _, { lowerCase } from "lodash";
 import PromotionCarousel from "../PromotionCarousel/PromotionCarousel";
 import sellerList from "../../public/filestore/freeShippingSellers.json";
-const { Step } = Steps;
+import CheckoutSteps from "../common/CheckoutSteps";
+import PaymentBanner from "../common/PaymentBanner";
+import moment from "moment";
+let apiCount = 0;
 
 const ShippingDetails = (props) => {
   const router = useRouter();
@@ -72,13 +72,12 @@ const ShippingDetails = (props) => {
     ", " +
     phoneNumber;
 
-  const [deleteModal, setDeleteModal] = useState(false);
-  const [deleteItem, setDeleteItem] = useState("");
+  const [shippingModeModal, setShippingModeModal] = useState(false);
   const [enable, setEnable] = useState(false);
   const [mode, setMode] = useState("");
   const [showRow, setShowRow] = useState(true);
-  const [airData, setAirData] = useState({});
-  const [seaData, setSeaData] = useState({});
+  const [airData, setAirData] = useState({ ddp: {}, ddu: {} });
+  const [seaData, setSeaData] = useState({ ddp: {}, ddu: {} });
   const [cartData, setCartData] = useState("");
   const [isLoading, setLoading] = useState(true);
   const [deliver, setDeliver] = useState(false);
@@ -91,26 +90,12 @@ const ShippingDetails = (props) => {
   const [promoMessage, setPromoMessage] = useState("");
   const [couponDiscount, setCouponDiscount] = useState(0);
   const [tat, setTat] = useState("");
+  const [shippingTerm, setShippingTerm] = useState("ddp");
+  const [shipTerm, setShipTerm] = useState("ddp");
 
   useEffect(() => {
     let { cart = "", app_token = "" } = props;
-    let { priceQuoteRef = "", shippingAddressDetails = {}, subOrders = [] } =
-      cart || {};
-
-    let sellerCodeList = [];
-    if (subOrders && subOrders.length) {
-      for (let sellers of subOrders) {
-        let { sellerCode = "" } = sellers;
-
-        if (!sellerCodeList.includes(sellerCode)) {
-          sellerCodeList.push(sellerCode);
-        }
-      }
-    }
-    if (sellerCodeList.length) {
-      let codes = sellerCodeList.join();
-      props.getBrandNameByCode(codes, app_token);
-    }
+    let { priceQuoteRef = "", shippingAddressDetails = {} } = cart || {};
 
     if (shippingAddressDetails) {
       let { country = "" } = shippingAddressDetails || {};
@@ -118,7 +103,8 @@ const ShippingDetails = (props) => {
         setDeliver(true);
       }
     }
-    if (priceQuoteRef) {
+    let count = 0;
+    if (priceQuoteRef && count === 0) {
       setCartData(cart);
       fetch(
         `${process.env.NEXT_PUBLIC_REACT_APP_PRICE_QUOTATION_URL}/quotes/rts/${priceQuoteRef}?mode=SEA`,
@@ -132,7 +118,8 @@ const ShippingDetails = (props) => {
       )
         .then((res) => {
           if (res.ok) {
-            setSeaData({});
+            count++;
+            setSeaData({ ddp: {}, ddu: {} });
             return res.json();
           } else {
             throw res.statusText || "COntent not found";
@@ -141,11 +128,8 @@ const ShippingDetails = (props) => {
         .then((res) => {
           setSeaData(res);
           setLoading(false);
-          // let result = Object.values(res).every((o) => o === 0);
-          // setPayment(result);
         })
         .catch((error) => {
-          // message.error(error)
           setLoading(false);
         });
       fetch(
@@ -159,8 +143,9 @@ const ShippingDetails = (props) => {
         }
       )
         .then((res) => {
-          setAirData({});
+          setAirData({ ddp: {}, ddu: {} });
           if (res.ok) {
+            count++;
             return res.json();
           } else {
             throw res.statusText || "COntent not found";
@@ -177,56 +162,79 @@ const ShippingDetails = (props) => {
           setLoading(false);
         });
     }
-  }, [props.cart, props.app_token]);
+  }, [props.cart]);
 
   useEffect(() => {
-    let { cart = "" } = props;
-    let { subOrders = [], total = 0 } = cart || {};
-
-    if (subOrders && subOrders.length) {
-      let totalAmount = 0;
-      for (let sellers of subOrders) {
-        let { products = "", qalaraSellerMargin = 0, basePrice = 0 } = sellers;
-
-        for (let items of products) {
-          let {
-            quantity = 0,
-            exfactoryListPrice = 0,
-            productType = "",
-          } = items;
-          basePrice = basePrice + exfactoryListPrice * quantity;
-          if (productType === "ERTM") {
-            setMov(true);
-          }
-        }
-        totalAmount = totalAmount + basePrice;
-      }
-      const seaMax = seaData["dutyMax"] + seaData["frightCostMax"];
-      const airMax = airData["dutyMax"] + airData["frightCostMax"];
-
+    if (
+      Object.keys(airData[shippingTerm]).length === 0 ||
+      Object.keys(seaData[shippingTerm]).length === 0
+    ) {
       if (
-        Object.keys(airData).length === 0 &&
-        Object.keys(seaData).length === 0
+        Object.keys(airData[shippingTerm]).length === 0 &&
+        Object.keys(seaData[shippingTerm]).length === 0
       ) {
         setPayment(true);
       } else {
         setPayment(false);
       }
-      if (airMax > 0 && seaMax > 0) {
-        let landingFactor = "";
-        landingFactor =
-          (total + (seaMax > airMax ? airMax : seaMax)) / totalAmount;
+    } else {
+      if (apiCount === 0) {
+        let { cart = "" } = props;
+        let { subOrders = [], total = 0 } = cart || {};
 
-        if (landingFactor > LANDING_LIMITER) {
-          setPayment(true);
+        if (subOrders && subOrders.length) {
+          let totalAmount = 0;
+          for (let sellers of subOrders) {
+            let {
+              products = "",
+              qalaraSellerMargin = 0,
+              basePrice = 0,
+            } = sellers;
+            for (let items of products) {
+              let {
+                quantity = 0,
+                exfactoryListPrice = 0,
+                productType = "",
+              } = items;
+              basePrice = basePrice + exfactoryListPrice * quantity;
+              if (productType === "ERTM") {
+                setMov(true);
+              }
+            }
+            totalAmount = totalAmount + basePrice;
+          }
+
+          const seaMax =
+            seaData[shippingTerm]["dutyMax"] +
+            seaData[shippingTerm]["frightCostMax"];
+          const airMax =
+            airData[shippingTerm]["dutyMax"] +
+            airData[shippingTerm]["frightCostMax"];
+          if (airMax > 0 && seaMax > 0) {
+            let landingFactor = "";
+            landingFactor =
+              (total + (seaMax > airMax ? airMax : seaMax)) / totalAmount;
+
+            if (landingFactor > LANDING_LIMITER) {
+              setPayment(true);
+            }
+          }
+          let mode = "AIR";
+          if (seaMax < airMax) {
+            mode = "SEA";
+          }
+          selectMode(mode);
         }
+        apiCount++;
       }
     }
-  }, [seaData, airData, props.cart, props.app_token]);
+  }, [airData[shippingTerm], seaData[shippingTerm]]);
 
   const checkCommitStatus = () => {
     let cartId = orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
-    let url = `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/my/${cartId}/checkout/?mode=${mode}&promoCode=${couponCode}&promoDiscount=${couponDiscount}&tat=${tat}`;
+    let url = `${
+      process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL
+    }/orders/my/${cartId}/checkout/?mode=${mode}&promoCode=${couponCode}&promoDiscount=${couponDiscount}&tat=${tat}&shippingTerms=${shippingTerm.toUpperCase()}`;
 
     fetch(url, {
       method: "PUT",
@@ -304,6 +312,7 @@ const ShippingDetails = (props) => {
       postalCode: postalCode,
       country: s_country,
       shippingMode: mode || "DEFAULT",
+      shippingTerms: shippingTerm.toUpperCase(),
       referralCode: referralCode,
       promoDiscount: couponDiscount,
       promoCode: couponCode,
@@ -370,8 +379,8 @@ const ShippingDetails = (props) => {
   let showError = false;
   let { convertToCurrency = "" } = currencyDetails || {};
 
-  let { frightCostMax: a_frieghtCost = 0 } = airData || {};
-  let { frightCostMax: s_frieghtCost = 0 } = seaData || {};
+  let { frightCostMax: a_frieghtCost = 0 } = airData[shippingTerm] || {};
+  let { frightCostMax: s_frieghtCost = 0 } = seaData[shippingTerm] || {};
   let disableAir = false;
   let disableSea = false;
 
@@ -391,8 +400,8 @@ const ShippingDetails = (props) => {
     }
   }
 
-  let a_result = Object.values(airData).every((o) => o === 0);
-  let s_result = Object.values(seaData).every((o) => o === 0);
+  let a_result = Object.values(airData[shippingTerm]).every((o) => o === 0);
+  let s_result = Object.values(seaData[shippingTerm]).every((o) => o === 0);
 
   if (a_result) {
     disableAir = a_result;
@@ -417,28 +426,16 @@ const ShippingDetails = (props) => {
     ).toFixed(2);
   };
 
-  const customDot = (dot, { status, index }) => (
-    <Link href="/cart">
-      <span className="qa-ant-steps-icon">
-        {status === "finish" ? <CheckOutlined /> : index + 1}
-      </span>
-    </Link>
-  );
-  const mcustomDot = (dot, { status, index }) => (
-    <Link href="/cart">
-      <span className="ant-steps-icon-dot"></span>
-    </Link>
-  );
-
   const handleCancel = () => {
-    setDeleteModal(false);
-    setDeleteItem("");
+    setShippingModeModal(false);
   };
 
   const selectShippingMode = (mode) => {
     if (mode) {
       fetch(
-        `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/my/${orderId}/${mode}`,
+        `${
+          process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL
+        }/orders/my/${orderId}/${mode}?shippingTerms=${shippingTerm.toUpperCase()}`,
         {
           method: "PUT",
           headers: {
@@ -456,12 +453,11 @@ const ShippingDetails = (props) => {
         })
         .then((result) => {
           setCartData(result);
-          console.log(airData, seaData);
           if (mode === "AIR") {
-            let { tat = 0 } = airData || {};
+            let { tat = 0 } = airData[shippingTerm] || {};
             setTat(tat);
           } else {
-            let { tat = 0 } = seaData || {};
+            let { tat = 0 } = seaData[shippingTerm] || {};
             setTat(tat);
           }
           let { miscCharges = [] } = result || {};
@@ -489,51 +485,35 @@ const ShippingDetails = (props) => {
     selectShippingMode(mode);
   };
 
+  let today = new Date();
+  let deliveryDateMin = new Date();
+  let deliveryDateMax = new Date();
+
+  let eddMin = "";
+  let eddMax = "";
+  if (mov) {
+    eddMin = deliveryDateMin.setDate(today.getDate() + 25 + tat);
+    eddMax = deliveryDateMax.setDate(today.getDate() + 35 + tat);
+  } else {
+    eddMin = deliveryDateMin.setDate(today.getDate() + 7 + tat);
+    eddMax = deliveryDateMax.setDate(today.getDate() + 10 + tat);
+  }
+
+  deliveryDateMin = new Date(eddMin);
+  deliveryDateMax = new Date(eddMax);
+
   if (isLoading) {
     return <Spinner />;
   }
 
   return (
     <Row id="cart-details" className="cart-section qa-font-san">
-      {mediaMatch.matches && (
-        <Col xs={0} sm={0} md={24} lg={24} xl={24}>
-          <Row className="qa-mar-btm-2 qa-cart-steps">
-            <Col xs={0} sm={0} md={4} lg={4} xl={4}></Col>
-            <Col xs={24} sm={24} md={16} lg={16} xl={16}>
-              <Steps current={1} progressDot={customDot}>
-                <Step
-                  title={<Link href="/cart">Shopping cart</Link>}
-                  className="qa-cursor"
-                />
-                <Step title="Shipping" />
-                <Step title="Payment" />
-              </Steps>
-            </Col>
-            <Col xs={0} sm={0} md={4} lg={4} xl={4}></Col>
-          </Row>
-        </Col>
-      )}
-      {!mediaMatch.matches && (
-        <Col span={24}>
-          <Row className="qa-mar-2">
-            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-              <Steps current={1} progressDot={mcustomDot} size="small">
-                <Step
-                  title={<Link href="/cart">Shopping cart</Link>}
-                  className="qa-cursor"
-                />
-                <Step title="Shipping" />
-                <Step title="Payment" />
-              </Steps>
-            </Col>
-          </Row>
-        </Col>
-      )}
-      <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>
+      <CheckoutSteps pageId="shipping" />
+      {mediaMatch.matches && <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>}
       {mediaMatch.matches && (
         <Col xs={0} sm={0} md={20} lg={20} xl={20}>
           <Row>
-            <Col
+            {/* <Col
               xs={24}
               sm={24}
               md={24}
@@ -542,7 +522,7 @@ const ShippingDetails = (props) => {
               className="cart-title qa-mar-btm-2"
             >
               Shipping
-            </Col>
+            </Col> */}
             <PromotionCarousel />
             <Col
               xs={24}
@@ -556,7 +536,62 @@ const ShippingDetails = (props) => {
                 <div className="qa-fw-b qa-mar-btm-05">Shipping to:</div>
                 <div>{shippingAddr}</div>
               </div>
-              <div className="cart-title qa-mar-btm-2 qa-cursor sen-font">
+              <div className="cart-title qa-mar-btm-2 qa-cursor sen-font font-size-17">
+                Select shipping term:{" "}
+              </div>
+              <div>
+                <Radio.Group
+                  onChange={(e) => {
+                    setShippingModeModal(true);
+                    setShipTerm(e.target.value);
+                  }}
+                  value={shippingTerm}
+                >
+                  <Radio value="ddp" className="qa-disp-ib">
+                    <span
+                      className={
+                        shippingTerm === "ddp"
+                          ? "cart-prod-title qa-mar-btm-05 qa-fw-b"
+                          : "cart-prod-title qa-mar-btm-05"
+                      }
+                    >
+                      DDP (Delivered Duty Paid)
+                    </span>
+                  </Radio>
+                  <div className="shipment-term-subtitle qa-mar-btm-15">
+                    Any applicable duties and taxes are estimated and charged to
+                    you by Qalara and paid during customs clearance on your
+                    behalf.{" "}
+                    <Link href="/FAQforwholesalebuyers">
+                      <a target="_blank">
+                        <span className="qa-sm-color qa-cursor">Know more</span>
+                      </a>
+                    </Link>
+                  </div>
+                  <Radio value="ddu" className="qa-disp-ib">
+                    <span
+                      className={
+                        shippingTerm === "ddu"
+                          ? "cart-prod-title qa-mar-btm-05 qa-fw-b"
+                          : "cart-prod-title qa-mar-btm-05"
+                      }
+                    >
+                      DDU (Delivered Duty Unpaid)
+                    </span>
+                  </Radio>
+                  <div className="shipment-term-subtitle qa-mar-btm-2">
+                    Any applicable duties and taxes are paid directly by you to
+                    the freight/logistics partner during customs clearance or
+                    delivery as applicable.{" "}
+                    <Link href="/FAQforwholesalebuyers">
+                      <a target="_blank">
+                        <span className="qa-sm-color qa-cursor">Know more</span>
+                      </a>
+                    </Link>
+                  </div>
+                </Radio.Group>
+              </div>
+              <div className="cart-title qa-mar-btm-2 qa-cursor sen-font font-size-17">
                 Select shipping mode:{" "}
               </div>
               <div className="qa-pad-1 c-item-list">
@@ -565,102 +600,105 @@ const ShippingDetails = (props) => {
                     <Col span={24}>
                       <div className="qa-bg-light-theme qa-pad-2 qa-mar-1 qa-no-ship">
                         We will need to generate a custom freight quotation for
-                        this. Please click on <b>'Create Order'</b> and we will
-                        revert with the best freight rates from our delivery
-                        partners.
+                        this. Please click on <b>'Create Order Request'</b> and
+                        we will revert with the best freight rates from our
+                        delivery partners.
                       </div>
                     </Col>
                   </Row>
                 ) : (
-                  <Row>
-                    {!disableAir && (
-                      <Col xs={12} sm={12} md={12} lg={12} xl={12}>
-                        <div
-                          className={`${
-                            mode === "AIR" ? "selected" : ""
-                          } qa-bg-light-theme qa-pad-2 qa-mar-1 qa-box-shadow shipping-mode-section`}
-                        >
-                          <div className="qa-pad-btm-15 qa-border-bottom">
-                            <span>
-                              <Icon
-                                component={Air}
-                                style={{
-                                  width: "28px",
-                                  height: "28px",
-                                  verticalAlign: "middle",
-                                }}
-                                className="air-icon"
-                              />
-                              <span className="qa-va-m qa-tc-white qa-font-san">
-                                Air
-                              </span>
-                            </span>
-                            <span style={{ float: "right" }}>
-                              <Checkbox
-                                className="check-box-tnc"
-                                checked={mode === "AIR"}
-                                onChange={() => {
-                                  if (!mode) {
-                                    selectMode("AIR");
-                                  } else {
-                                    selectMode("");
-                                  }
-                                }}
-                              ></Checkbox>{" "}
-                            </span>
-                          </div>
-                          <div className="qa-pad-015 qa-dashed-border">
-                            <div className="c-left-blk qa-txt-alg-lft">
-                              <div className="cart-info-text">
-                                Estimated freight fees
-                              </div>
-                            </div>
-                            <div className="c-right-blk qa-txt-alg-lft">
-                              <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
-                                {airData ? (
-                                  <span>
-                                    {getSymbolFromCurrency(convertToCurrency)}
-                                    {airData["frightCostMin"]
-                                      ? getConvertedCurrency(
-                                          airData["frightCostMin"],
-                                          true
-                                        )
-                                      : "0"}
-                                    -{getSymbolFromCurrency(convertToCurrency)}
-                                    {airData["frightCostMax"]
-                                      ? getConvertedCurrency(
-                                          airData["frightCostMax"],
-                                          true
-                                        )
-                                      : "0"}
+                  <Radio.Group
+                    onChange={(e) => {
+                      selectMode(e.target.value);
+                    }}
+                    value={mode}
+                    style={{ width: "100%" }}
+                  >
+                    <Row>
+                      {!disableAir && (
+                        <Col xs={12} sm={12} md={12} lg={12} xl={12}>
+                          <div
+                            className={`${
+                              mode === "AIR" ? "selected" : ""
+                            } qa-bg-light-theme qa-pad-2 qa-mar-1 qa-box-shadow shipping-mode-section`}
+                          >
+                            <div className="qa-pad-btm-15 qa-border-bottom">
+                              <span>
+                                <Radio className="check-box-tnc" value="AIR">
+                                  <span className="qa-tc-white qa-font-san">
+                                    Air
                                   </span>
-                                ) : (
-                                  "-"
-                                )}
+                                </Radio>
+                              </span>
+                              <span style={{ float: "right" }}>
+                                <Icon
+                                  component={Air}
+                                  style={{
+                                    width: "28px",
+                                    height: "28px",
+                                    verticalAlign: "middle",
+                                  }}
+                                  className="air-icon"
+                                />
+                              </span>
+                            </div>
+                            <div className="qa-pad-015 qa-dashed-border">
+                              <div className="c-left-blk qa-txt-alg-lft">
+                                <div className="cart-info-text">
+                                  Estimated freight fee*
+                                </div>
+                              </div>
+                              <div className="c-right-blk qa-txt-alg-lft">
+                                <div className="cart-prod-title qa-txt-alg-rgt">
+                                  {airData && airData[shippingTerm] ? (
+                                    <span>
+                                      {getSymbolFromCurrency(convertToCurrency)}
+                                      {airData[shippingTerm]["frightCostMin"]
+                                        ? getConvertedCurrency(
+                                            airData[shippingTerm][
+                                              "frightCostMin"
+                                            ],
+                                            true
+                                          )
+                                        : "0"}
+                                      -
+                                      {getSymbolFromCurrency(convertToCurrency)}
+                                      {airData[shippingTerm]["frightCostMax"]
+                                        ? getConvertedCurrency(
+                                            airData[shippingTerm][
+                                              "frightCostMax"
+                                            ],
+                                            true
+                                          )
+                                        : "0"}
+                                    </span>
+                                  ) : (
+                                    "-"
+                                  )}
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="qa-pad-015 qa-dashed-border">
+                            {/* <div className="qa-pad-015 qa-dashed-border">
                             <div className="c-left-blk qa-txt-alg-lft">
                               <div className="cart-info-text">
                                 Estimated custom duties
                               </div>
                             </div>
                             <div className="c-right-blk">
-                              <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
+                              <div className="cart-prod-title qa-txt-alg-rgt">
                                 {airData ? (
                                   <span>
                                     {getSymbolFromCurrency(convertToCurrency)}
-                                    {airData["dutyMin"]
+                                    {airData[shippingTerm]["dutyMin"]
                                       ? getConvertedCurrency(
-                                          airData["dutyMin"],
+                                          airData[shippingTerm]["dutyMin"],
                                           true
                                         )
                                       : "0"}
                                     -{getSymbolFromCurrency(convertToCurrency)}
-                                    {airData["dutyMax"]
+                                    {airData[shippingTerm]["dutyMax"]
                                       ? getConvertedCurrency(
-                                          airData["dutyMax"],
+                                          airData[shippingTerm]["dutyMax"],
                                           true
                                         )
                                       : "0"}
@@ -671,26 +709,33 @@ const ShippingDetails = (props) => {
                               </div>
                             </div>
                           </div>
-                          <div className="qa-pad-015 qa-dashed-border">
-                            <div className="c-left-blk qa-txt-alg-lft">
-                              <div className="cart-info-text">
-                                Shipping lead time
+                           */}
+                            <div className="qa-mar-top-15">
+                              <div className="c-left-blk qa-txt-alg-lft">
+                                <div className="cart-info-text">
+                                  Shipping lead time
+                                </div>
+                              </div>
+                              <div className="c-right-blk">
+                                <div className="cart-prod-title qa-txt-alg-rgt">
+                                  {airData && airData[shippingTerm] ? (
+                                    <span>
+                                      {airData[shippingTerm]["tat"]
+                                        ? airData[shippingTerm]["tat"] - 3
+                                        : "0"}
+                                      -
+                                      {airData[shippingTerm]["tat"]
+                                        ? airData[shippingTerm]["tat"]
+                                        : "0"}{" "}
+                                      Days
+                                    </span>
+                                  ) : (
+                                    "-"
+                                  )}
+                                </div>
                               </div>
                             </div>
-                            <div className="c-right-blk">
-                              <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
-                                {airData ? (
-                                  <span>
-                                    {airData["tat"] ? airData["tat"] - 3 : "0"}-
-                                    {airData["tat"] ? airData["tat"] : "0"} Days
-                                  </span>
-                                ) : (
-                                  "-"
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                          <div className="qa-pad-015">
+                            {/* <div className="qa-pad-015">
                             <div className="c-left-blk">
                               <div className="qa-fw-b qa-fr-color">
                                 Total estimated charges
@@ -698,20 +743,20 @@ const ShippingDetails = (props) => {
                             </div>
                             <div className="c-right-blk">
                               <div className="cart-prod-name qa-txt-alg-rgt">
-                                {airData &&
-                                airData["frightCostMin"] !== undefined &&
-                                airData["dutyMin"] !== undefined ? (
+                                {airData && airData[shippingTerm] &&
+                                airData[shippingTerm]["frightCostMin"] !== undefined &&
+                                airData[shippingTerm]["dutyMin"] !== undefined ? (
                                   <span>
                                     {getSymbolFromCurrency(convertToCurrency)}
                                     {getConvertedCurrency(
-                                      airData["frightCostMin"] +
-                                        airData["dutyMin"],
+                                      airData[shippingTerm]["frightCostMin"] +
+                                        airData[shippingTerm]["dutyMin"],
                                       true
                                     )}
                                     -{getSymbolFromCurrency(convertToCurrency)}
                                     {getConvertedCurrency(
-                                      airData["frightCostMax"] +
-                                        airData["dutyMax"],
+                                      airData[shippingTerm]["frightCostMax"] +
+                                        airData[shippingTerm]["dutyMax"],
                                       true
                                     )}
                                   </span>
@@ -722,97 +767,94 @@ const ShippingDetails = (props) => {
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </Col>
-                    )}
-                    {!disableSea && (
-                      <Col xs={12} sm={12} md={12} lg={12} xl={12}>
-                        <div
-                          className={`${
-                            mode === "SEA" ? "selected" : ""
-                          } qa-bg-light-theme qa-pad-2 qa-mar-1 qa-box-shadow shipping-mode-section`}
-                        >
-                          <div className="qa-pad-btm-15 qa-border-bottom">
-                            <span>
-                              <Icon
-                                component={Sea}
-                                style={{
-                                  width: "28px",
-                                  height: "28px",
-                                  verticalAlign: "middle",
-                                }}
-                                className="air-icon"
-                              />
-                              <span className="qa-va-m qa-tc-white qa-font-san">
-                                Sea
-                              </span>
-                            </span>
-                            <span style={{ float: "right" }}>
-                              <Checkbox
-                                className="check-box-tnc"
-                                checked={mode === "SEA"}
-                                onChange={() => {
-                                  if (!mode) {
-                                    selectMode("SEA");
-                                  } else {
-                                    selectMode("");
-                                  }
-                                }}
-                              ></Checkbox>{" "}
-                            </span>
+                        */}
                           </div>
-                          <div className="qa-pad-015 qa-dashed-border">
-                            <div className="c-left-blk qa-txt-alg-lft">
-                              <div className="cart-info-text">
-                                Estimated freight fees
-                              </div>
-                            </div>
-                            <div className="c-right-blk qa-txt-alg-lft">
-                              <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
-                                {seaData ? (
-                                  <span>
-                                    {getSymbolFromCurrency(convertToCurrency)}
-                                    {seaData["frightCostMin"]
-                                      ? getConvertedCurrency(
-                                          seaData["frightCostMin"],
-                                          true
-                                        )
-                                      : "0"}
-                                    -{getSymbolFromCurrency(convertToCurrency)}
-                                    {seaData["frightCostMax"]
-                                      ? getConvertedCurrency(
-                                          seaData["frightCostMax"],
-                                          true
-                                        )
-                                      : "0"}
+                        </Col>
+                      )}
+                      {!disableSea && (
+                        <Col xs={12} sm={12} md={12} lg={12} xl={12}>
+                          <div
+                            className={`${
+                              mode === "SEA" ? "selected" : ""
+                            } qa-bg-light-theme qa-pad-2 qa-mar-1 qa-box-shadow shipping-mode-section`}
+                          >
+                            <div className="qa-pad-btm-15 qa-border-bottom">
+                              <span>
+                                <Radio className="check-box-tnc" value="SEA">
+                                  <span className="qa-tc-white qa-font-san">
+                                    Sea
                                   </span>
-                                ) : (
-                                  "-"
-                                )}
+                                </Radio>
+                              </span>
+                              <span style={{ float: "right" }}>
+                                <Icon
+                                  component={Sea}
+                                  style={{
+                                    width: "28px",
+                                    height: "28px",
+                                    verticalAlign: "middle",
+                                  }}
+                                  className="air-icon"
+                                />
+                              </span>
+                            </div>
+                            <div className="qa-pad-015 qa-dashed-border">
+                              <div className="c-left-blk qa-txt-alg-lft">
+                                <div className="cart-info-text">
+                                  Estimated freight fee*
+                                </div>
+                              </div>
+                              <div className="c-right-blk qa-txt-alg-lft">
+                                <div className="cart-prod-title qa-txt-alg-rgt">
+                                  {seaData && seaData[shippingTerm] ? (
+                                    <span>
+                                      {getSymbolFromCurrency(convertToCurrency)}
+                                      {seaData[shippingTerm]["frightCostMin"]
+                                        ? getConvertedCurrency(
+                                            seaData[shippingTerm][
+                                              "frightCostMin"
+                                            ],
+                                            true
+                                          )
+                                        : "0"}
+                                      -
+                                      {getSymbolFromCurrency(convertToCurrency)}
+                                      {seaData[shippingTerm]["frightCostMax"]
+                                        ? getConvertedCurrency(
+                                            seaData[shippingTerm][
+                                              "frightCostMax"
+                                            ],
+                                            true
+                                          )
+                                        : "0"}
+                                    </span>
+                                  ) : (
+                                    "-"
+                                  )}
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="qa-pad-015 qa-dashed-border">
+                            {/* <div className="qa-pad-015 qa-dashed-border">
                             <div className="c-left-blk qa-txt-alg-lft">
                               <div className="cart-info-text">
                                 Estimated custom duties
                               </div>
                             </div>
                             <div className="c-right-blk">
-                              <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
-                                {seaData ? (
+                              <div className="cart-prod-title qa-txt-alg-rgt">
+                                {seaData && seaData[shippingTerm] ? (
                                   <span>
                                     {getSymbolFromCurrency(convertToCurrency)}
-                                    {seaData["dutyMin"]
+                                    {seaData[shippingTerm]["dutyMin"]
                                       ? getConvertedCurrency(
-                                          seaData["dutyMin"],
+                                          seaData[shippingTerm]["dutyMin"],
                                           true
                                         )
                                       : "0"}
                                     -{getSymbolFromCurrency(convertToCurrency)}
-                                    {seaData["dutyMax"]
+                                    {seaData[shippingTerm]["dutyMax"]
                                       ? getConvertedCurrency(
-                                          seaData["dutyMax"],
+                                          seaData[shippingTerm]["dutyMax"],
                                           true
                                         )
                                       : "0"}
@@ -823,20 +865,27 @@ const ShippingDetails = (props) => {
                               </div>
                             </div>
                           </div>
-                          <div className="qa-pad-015 qa-dashed-border">
-                            <div className="c-left-blk qa-txt-alg-lft">
-                              <div className="cart-info-text">
-                                Shipping lead time
+                          */}
+                            <div className="qa-mar-top-15">
+                              <div className="c-left-blk qa-txt-alg-lft">
+                                <div className="cart-info-text">
+                                  Shipping lead time
+                                </div>
+                              </div>
+                              <div className="c-right-blk">
+                                <div className="cart-prod-title qa-txt-alg-rgt">
+                                  {seaData[shippingTerm]["tat"]
+                                    ? seaData[shippingTerm]["tat"] - 7
+                                    : "0"}
+                                  -
+                                  {seaData[shippingTerm]["tat"]
+                                    ? seaData[shippingTerm]["tat"]
+                                    : "0"}{" "}
+                                  Days
+                                </div>
                               </div>
                             </div>
-                            <div className="c-right-blk">
-                              <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
-                                {seaData["tat"] ? seaData["tat"] - 7 : "0"}-
-                                {seaData["tat"] ? seaData["tat"] : "0"} Days
-                              </div>
-                            </div>
-                          </div>
-                          <div className="qa-pad-015">
+                            {/* <div className="qa-pad-015">
                             <div className="c-left-blk">
                               <div className="qa-fw-b qa-fr-color">
                                 Total estimated charges
@@ -844,20 +893,20 @@ const ShippingDetails = (props) => {
                             </div>
                             <div className="c-right-blk">
                               <div className="cart-prod-name qa-txt-alg-rgt">
-                                {seaData &&
-                                seaData["frightCostMin"] !== undefined &&
-                                seaData["dutyMin"] !== undefined ? (
+                                {seaData && seaData[shippingTerm] &&
+                                seaData[shippingTerm]["frightCostMin"] !== undefined &&
+                                seaData[shippingTerm]["dutyMin"] !== undefined ? (
                                   <span>
                                     {getSymbolFromCurrency(convertToCurrency)}
                                     {getConvertedCurrency(
-                                      seaData["frightCostMin"] +
-                                        seaData["dutyMin"],
+                                      seaData[shippingTerm]["frightCostMin"] +
+                                        seaData[shippingTerm]["dutyMin"],
                                       true
                                     )}
                                     -{getSymbolFromCurrency(convertToCurrency)}
                                     {getConvertedCurrency(
-                                      seaData["frightCostMax"] +
-                                        seaData["dutyMax"],
+                                      seaData[shippingTerm]["frightCostMax"] +
+                                        seaData[shippingTerm]["dutyMax"],
                                       true
                                     )}
                                   </span>
@@ -868,10 +917,11 @@ const ShippingDetails = (props) => {
                               </div>
                             </div>
                           </div>
-                        </div>
-                      </Col>
-                    )}
-                    {/* <Col xs={12} sm={12} md={12} lg={12} xl={12}>
+                        */}
+                          </div>
+                        </Col>
+                      )}
+                      {/* <Col xs={12} sm={12} md={12} lg={12} xl={12}>
                   <div className="qa-bg-light-theme qa-pad-2 qa-mar-1 qa-box-shadow shipping-mode-section">
                     <div className="qa-pad-btm-15 qa-border-bottom">
                       <span>
@@ -892,13 +942,13 @@ const ShippingDetails = (props) => {
                         <span className="p-shipBy">Air Express</span>
                       </span>
                       <span style={{ float: "right" }}>
-                        <Checkbox className="check-box-tnc"></Checkbox>{" "}
+                        <Radio className="check-box-tnc"></Radio>{" "}
                       </span>
                     </div>
                     <div className="qa-pad-015 qa-dashed-border">
                       <div className="c-left-blk qa-txt-alg-lft">
                         <div className="cart-info-text">
-                          Estimated freight fees
+                          Estimated freight fee*
                         </div>
                       </div>
                       <div className="c-right-blk qa-txt-alg-lft">
@@ -919,7 +969,7 @@ const ShippingDetails = (props) => {
                         </div>
                       </div>
                     </div>
-                    <div className="qa-pad-015 qa-dashed-border">
+                    <div className="qa-mar-top-15">
                       <div className="c-left-blk qa-txt-alg-lft">
                         <div className="cart-info-text">Shipping lead time</div>
                       </div>
@@ -942,17 +992,19 @@ const ShippingDetails = (props) => {
                   </div>
                 </Col>
                */}
-                  </Row>
+                    </Row>
+                  </Radio.Group>
                 )}
               </div>
               <div
-                className={`qa-tc-white qa-fs-12 qa-lh qa-mar-top-05 ${
-                  disableAir && !disablePayment ? "" : "qa-mar-btm-3"
+                className={`qa-tc-white qa-fs-12 qa-lh qa-mar-top-1 ${
+                  disableAir && !disablePayment ? "" : "qa-mar-btm-2"
                 }`}
               >
-                *Above Freight & Duties are estimates and exact amounts are
+                <b>*Note on freight, taxes & duties:</b> Freight, Taxes & Duties
+                mentioned on this page are estimates and exact amounts are
                 determined only after Customs Clearance. Any differential amount
-                thereon is neither charged extra, nor refunded.{" "}
+                is neither charged extra, nor refunded.{" "}
                 <Link href="/FAQforwholesalebuyers">
                   <a target="_blank" className="qa-sm-color">
                     Learn more
@@ -961,28 +1013,56 @@ const ShippingDetails = (props) => {
               </div>
 
               {disableAir && !disablePayment && (
-                <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-btm-3">
+                <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-btm-2">
                   *Air shipping appears to be very expensive for this order. If
                   you want air shipping please write to us at buyers@qalara.com
                 </div>
               )}
               {!disablePayment && (
-                <div className="display-flex">
-                  <div className="margin-right-1p">
-                    <Icon
-                      component={infoIcon}
-                      className="info-icon"
-                      style={{
-                        width: "15px",
-                        verticalAlign: "top",
-                      }}
-                    />
-                  </div>
-                  <div className="qa-tc-white qa-fs-14 qa-lh qa-mar-btm-3">
-                    Estimated time to prepare and ship your order is{" "}
-                    {mov ? "25-35" : "7-10"} Days
-                  </div>
-                </div>
+                <Row className="qa-mar-btm-2">
+                  <Col span={19}>
+                    <div className="cart-title qa-mar-btm-1 qa-cursor sen-font font-size-17">
+                      <div className="c-left-blk qa-txt-alg-lft font-size-17">
+                        Estimated delivery date:
+                      </div>
+                      <div className="c-right-blk qa-txt-alg-rgt font-size-17 qa-success qa-fw-b">
+                        {tat && mode ? (
+                          <span>
+                            {moment(deliveryDateMin).format("DD MMM YY")} -{" "}
+                            {moment(deliveryDateMax).format("DD MMM YY")}
+                          </span>
+                        ) : (
+                          ""
+                        )}
+                      </div>
+                    </div>
+                    <div>
+                      <div>
+                        <div className="c-left-blk qa-txt-alg-lft qa-stitle">
+                          <li>Estimated production/ dispatch time</li>
+                        </div>
+                        <div className="c-right-blk qa-txt-alg-rgt">
+                          {mov ? "25-35" : "7-10"} days
+                        </div>
+                      </div>
+                      <div>
+                        <div className="c-left-blk qa-txt-alg-lft qa-stitle">
+                          <li>Estimated shipping lead time</li>
+                        </div>
+                        <div className="c-right-blk qa-txt-alg-rgt">
+                          {tat && mode ? (
+                            <span>
+                              {tat - (mode === "AIR" ? 3 : 7)}-{tat} days
+                            </span>
+                          ) : (
+                            "-"
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </Col>
+                  <Col span={5}></Col>
+                </Row>
               )}
               <Row>
                 <Col
@@ -991,7 +1071,7 @@ const ShippingDetails = (props) => {
                   md={24}
                   lg={24}
                   xl={24}
-                  className="cart-title qa-mar-btm-2 qa-cursor sen-font"
+                  className="cart-title qa-mar-btm-2 qa-cursor sen-font font-size-17"
                   onClick={() => setShowRow(!showRow)}
                 >
                   Shopping cart
@@ -1024,7 +1104,7 @@ const ShippingDetails = (props) => {
                             }`}
                             key={i}
                           >
-                            <div className="cart-ship-pt qa-fw-b qa-border-bottom">
+                            <div className="cart-ship-pt qa-border-bottom">
                               <div className="qa-disp-table-cell">
                                 <Icon
                                   component={cartIcon}
@@ -1038,21 +1118,9 @@ const ShippingDetails = (props) => {
                               </div>
                               <div className="qa-disp-table-cell">
                                 <span style={{ fontSize: "17px" }}>
-                                  {brandNames &&
-                                    brandNames[sellerCode] &&
-                                    brandNames[sellerCode].brandName}
+                                  Seller ID: {sellerCode}
                                 </span>
                               </div>
-
-                              {/* <span
-                            className="cart-delete qa-cursor"
-                            onClick={() => {
-                              setDeleteItem(sellerOrgName);
-                              setDeleteModal(true);
-                            }}
-                          >
-                            Delete cart
-                          </span> */}
                             </div>
 
                             {_.map(products, (product, j) => {
@@ -1098,7 +1166,7 @@ const ShippingDetails = (props) => {
                                     xl={9}
                                     className="qa-pad-0-10"
                                   >
-                                    <div className="cart-prod-title qa-fw-b">
+                                    <div className="cart-prod-title qa-text-2line">
                                       {productName}
                                     </div>
                                     <div className="cart-prod-title">
@@ -1136,7 +1204,7 @@ const ShippingDetails = (props) => {
                                           required
                                         </div>
                                       )}
-                                      <div className="cart-prod-title qa-fw-b">
+                                      <div className="cart-prod-title">
                                         {getSymbolFromCurrency(
                                           convertToCurrency
                                         )}
@@ -1167,7 +1235,7 @@ const ShippingDetails = (props) => {
                                 md={12}
                                 lg={12}
                                 xl={12}
-                                className="cart-prod-title qa-fw-b"
+                                className="cart-prod-title"
                               >
                                 SELLER CART VALUE
                               </Col>
@@ -1177,7 +1245,7 @@ const ShippingDetails = (props) => {
                                 md={12}
                                 lg={12}
                                 xl={12}
-                                className="qa-txt-alg-rgt cart-prod-title qa-fw-b"
+                                className="qa-txt-alg-rgt cart-prod-title"
                               >
                                 {getSymbolFromCurrency(convertToCurrency)}
                                 {total ? getConvertedCurrency(total) : ""}
@@ -1208,24 +1276,8 @@ const ShippingDetails = (props) => {
                   Please move out of stock products in order to proceed
                 </div>
               )} */}
-              {/* {disablePayment && (
-                <div className="qa-pad-2 qa-mar-btm-2 cart-error-block display-flex cart-err">
-                  <div className="margin-right-2p">
-                    <Icon
-                      component={alertIcon}
-                      className="alert-icon"
-                      style={{
-                        width: "15px",
-                        verticalAlign: "top",
-                      }}
-                    />
-                  </div>
-                  Freight charges are not available for the Pincode that you
-                  have selected. Please write to us at buyers@qalara.com to
-                  generate a custom quote for your requirements.
-                </div>
-              )} */}
-              <div className="qa-pad-0-20 qa-mar-btm-1 cart-price-block qa-font-san">
+              <PaymentBanner />
+              <div className="qa-pad-0-20 qa-mar-btm-2 cart-price-block qa-font-san">
                 <div className="qa-mar-top-05 cart-price-title qa-mar-btm-1">
                   Apply coupon
                 </div>
@@ -1290,18 +1342,20 @@ const ShippingDetails = (props) => {
                 deliver={deliver}
                 disablePayment={disablePayment}
                 tat={tat}
+                shippingTerm={shippingTerm}
               />
             </Col>
           </Row>
         </Col>
       )}
-      <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>
+      {mediaMatch.matches && <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>}
       {!mediaMatch.matches && (
         <div style={{ width: "100%" }}>
           <PromotionCarousel />
           <Col xs={24} sm={24} md={24} lg={24} xl={24} className="qa-pad-0-20">
             <Row className="shipping-section">
               <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                <PaymentBanner />
                 <div className="qa-pad-0-20 qa-mar-btm-2 cart-price-block qa-font-san">
                   <div className="qa-mar-top-05 cart-price-title qa-mar-btm-1">
                     Apply coupon
@@ -1359,6 +1413,66 @@ const ShippingDetails = (props) => {
                   <div className="qa-fw-b qa-mar-btm-05">Shipping to:</div>
                   <div className="">{shippingAddr}</div>
                 </div>
+                <div className="cart-ship-pt qa-border-bottom qa-fw-b font-bold qa-mar-btm-1">
+                  Select shipping term:{" "}
+                </div>
+                <div>
+                  <Radio.Group
+                    onChange={(e) => {
+                      setShippingModeModal(true);
+                      setShipTerm(e.target.value);
+                    }}
+                    value={shippingTerm}
+                  >
+                    <Radio value="ddp" className="qa-disp-ib">
+                      <span
+                        className={
+                          shippingTerm === "ddp"
+                            ? "cart-prod-title qa-mar-btm-05 qa-fw-b"
+                            : "cart-prod-title qa-mar-btm-05"
+                        }
+                      >
+                        DDP (Delivered Duty Paid)
+                      </span>
+                    </Radio>
+                    <div className="shipment-term-subtitle qa-mar-btm-15">
+                      Any applicable duties and taxes are estimated and charged
+                      to you by Qalara and paid during customs clearance on your
+                      behalf.{" "}
+                      <Link href="/FAQforwholesalebuyers">
+                        <a target="_blank">
+                          <span className="qa-sm-color qa-cursor">
+                            Know more
+                          </span>
+                        </a>
+                      </Link>
+                    </div>
+                    <Radio value="ddu" className="qa-disp-ib">
+                      <span
+                        className={
+                          shippingTerm === "ddu"
+                            ? "cart-prod-title qa-mar-btm-05 qa-fw-b"
+                            : "cart-prod-title qa-mar-btm-05"
+                        }
+                      >
+                        DDU (Delivered Duty Unpaid)
+                      </span>
+                    </Radio>
+                    <div className="shipment-term-subtitle qa-mar-btm-2">
+                      Any applicable duties and taxes are paid directly by you
+                      to the freight/logistics partner during customs clearance
+                      or delivery as applicable.{" "}
+                      <Link href="/FAQforwholesalebuyers">
+                        <a target="_blank">
+                          <span className="qa-sm-color qa-cursor">
+                            Know more
+                          </span>
+                        </a>
+                      </Link>
+                    </div>
+                  </Radio.Group>
+                </div>
+
                 <div className="cart-ship-pt qa-border-bottom qa-fw-b font-bold">
                   Select shipping mode:
                 </div>
@@ -1366,324 +1480,355 @@ const ShippingDetails = (props) => {
                   <div className="qa-pad-2 qa-ship-section qa-mar-top-2">
                     <div className="qa-no-ship">
                       We will need to generate a custom freight quotation for
-                      this. Please click on <b>'Create Order'</b> and we will
-                      revert with the best freight rates from our delivery
+                      this. Please click on <b>'Create Order Request'</b> and we
+                      will revert with the best freight rates from our delivery
                       partners.
                     </div>
                   </div>
                 ) : (
                   <div className="qa-pad-top-2 qa-pad-btm-2 qa-horizontal-scroll">
-                    {!disableAir && (
-                      <div
-                        className="min-width-320px"
-                        style={{ display: "inline-block", marginRight: "20px" }}
-                      >
+                    <Radio.Group
+                      onChange={(e) => {
+                        selectMode(e.target.value);
+                      }}
+                      value={mode}
+                      style={{ width: "100%" }}
+                    >
+                      {!disableAir && (
                         <div
-                          className={`${
-                            mode === "AIR" ? "selected" : ""
-                          } qa-bg-light-theme qa-pad-2 qa-box-shadow shipping-mode-section`}
+                          className="min-width-320px"
+                          style={{
+                            display: "inline-block",
+                            marginRight: "20px",
+                          }}
                         >
-                          <div className="qa-pad-btm-15 qa-border-bottom">
-                            <span>
-                              <Icon
-                                component={Air}
-                                style={{
-                                  width: "28px",
-                                  height: "28px",
-                                  verticalAlign: "middle",
-                                }}
-                                className="air-icon"
-                              />
-                              <span className="qa-va-m qa-tc-white qa-font-san">
-                                Air
+                          <div
+                            className={`${
+                              mode === "AIR" ? "selected" : ""
+                            } qa-bg-light-theme qa-pad-2 qa-box-shadow shipping-mode-section`}
+                          >
+                            <div className="qa-pad-btm-15 qa-border-bottom">
+                              <span>
+                                <Radio className="check-box-tnc" value="AIR">
+                                  <span className="qa-tc-white qa-font-san">
+                                    Air
+                                  </span>
+                                </Radio>
                               </span>
-                            </span>
-                            <span style={{ float: "right" }}>
-                              <Checkbox
-                                className="check-box-tnc"
-                                checked={mode === "AIR"}
-                                onChange={() => {
-                                  if (!mode) {
-                                    selectMode("AIR");
-                                  } else {
-                                    selectMode("");
-                                  }
-                                }}
-                              ></Checkbox>{" "}
-                            </span>
-                          </div>
-                          <div className="qa-pad-015 qa-dashed-border">
-                            <div className="c-left-blk qa-txt-alg-lft">
-                              <div className="cart-info-text">
-                                Estimated freight fees
+                              <span style={{ float: "right" }}>
+                                <Icon
+                                  component={Air}
+                                  style={{
+                                    width: "28px",
+                                    height: "28px",
+                                    verticalAlign: "middle",
+                                  }}
+                                  className="air-icon"
+                                />
+                              </span>
+                            </div>
+                            <div className="qa-pad-015 qa-dashed-border">
+                              <div className="c-left-blk qa-txt-alg-lft">
+                                <div className="cart-info-text">
+                                  Estimated freight fee*
+                                </div>
+                              </div>
+                              <div className="c-right-blk qa-txt-alg-lft">
+                                <div className="cart-prod-title qa-txt-alg-rgt">
+                                  {airData && airData[shippingTerm] ? (
+                                    <span>
+                                      {getSymbolFromCurrency(convertToCurrency)}
+                                      {airData[shippingTerm]["frightCostMin"]
+                                        ? getConvertedCurrency(
+                                            airData[shippingTerm][
+                                              "frightCostMin"
+                                            ],
+                                            true
+                                          )
+                                        : "0"}
+                                      -
+                                      {getSymbolFromCurrency(convertToCurrency)}
+                                      {airData[shippingTerm]["frightCostMax"]
+                                        ? getConvertedCurrency(
+                                            airData[shippingTerm][
+                                              "frightCostMax"
+                                            ],
+                                            true
+                                          )
+                                        : "0"}
+                                    </span>
+                                  ) : (
+                                    "-"
+                                  )}
+                                </div>
                               </div>
                             </div>
-                            <div className="c-right-blk qa-txt-alg-lft">
-                              <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
-                                {airData ? (
-                                  <span>
-                                    {getSymbolFromCurrency(convertToCurrency)}
-                                    {airData["frightCostMin"]
-                                      ? getConvertedCurrency(
-                                          airData["frightCostMin"],
-                                          true
-                                        )
-                                      : "0"}
-                                    -{getSymbolFromCurrency(convertToCurrency)}
-                                    {airData["frightCostMax"]
-                                      ? getConvertedCurrency(
-                                          airData["frightCostMax"],
-                                          true
-                                        )
-                                      : "0"}
-                                  </span>
-                                ) : (
-                                  "-"
-                                )}
+                            {/* <div className="qa-pad-015 qa-dashed-border">
+                              <div className="c-left-blk qa-txt-alg-lft">
+                                <div className="cart-info-text">
+                                  Estimated custom duties
+                                </div>
+                              </div>
+                              <div className="c-right-blk">
+                                <div className="cart-prod-title qa-txt-alg-rgt">
+                                  {airData && airData[shippingTerm] ? (
+                                    <span>
+                                      {getSymbolFromCurrency(convertToCurrency)}
+                                      {airData[shippingTerm]["dutyMin"]
+                                        ? getConvertedCurrency(
+                                            airData[shippingTerm]["dutyMin"],
+                                            true
+                                          )
+                                        : "0"}
+                                      -
+                                      {getSymbolFromCurrency(convertToCurrency)}
+                                      {airData[shippingTerm]["dutyMax"]
+                                        ? getConvertedCurrency(
+                                            airData[shippingTerm]["dutyMax"],
+                                            true
+                                          )
+                                        : "0"}
+                                    </span>
+                                  ) : (
+                                    "-"
+                                  )}
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="qa-pad-015 qa-dashed-border">
-                            <div className="c-left-blk qa-txt-alg-lft">
-                              <div className="cart-info-text">
-                                Estimated custom duties
+                            */}
+                            <div className="qa-mar-top-15">
+                              <div className="c-left-blk qa-txt-alg-lft">
+                                <div className="cart-info-text">
+                                  Shipping lead time
+                                </div>
+                              </div>
+                              <div className="c-right-blk">
+                                <div className="cart-prod-title qa-txt-alg-rgt">
+                                  {airData && airData[shippingTerm] ? (
+                                    <span>
+                                      {airData[shippingTerm]["tat"]
+                                        ? airData[shippingTerm]["tat"] - 3
+                                        : "0"}
+                                      -
+                                      {airData[shippingTerm]["tat"]
+                                        ? airData[shippingTerm]["tat"]
+                                        : "0"}{" "}
+                                      Days
+                                    </span>
+                                  ) : (
+                                    "-"
+                                  )}
+                                </div>
                               </div>
                             </div>
-                            <div className="c-right-blk">
-                              <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
-                                {airData ? (
-                                  <span>
-                                    {getSymbolFromCurrency(convertToCurrency)}
-                                    {airData["dutyMin"]
-                                      ? getConvertedCurrency(
-                                          airData["dutyMin"],
-                                          true
-                                        )
-                                      : "0"}
-                                    -{getSymbolFromCurrency(convertToCurrency)}
-                                    {airData["dutyMax"]
-                                      ? getConvertedCurrency(
-                                          airData["dutyMax"],
-                                          true
-                                        )
-                                      : "0"}
-                                  </span>
-                                ) : (
-                                  "-"
-                                )}
+                            {/* <div className="qa-pad-015">
+                              <div className="c-left-blk">
+                                <div className="qa-fw-b qa-fr-color">
+                                  Total estimated charges
+                                </div>
+                              </div>
+                              <div className="c-right-blk">
+                                <div className="cart-prod-name qa-txt-alg-rgt">
+                                  {airData &&
+                                  airData[shippingTerm] &&
+                                  airData[shippingTerm]["frightCostMin"] !==
+                                    undefined &&
+                                  airData[shippingTerm]["dutyMin"] !==
+                                    undefined ? (
+                                    <span>
+                                      {getSymbolFromCurrency(convertToCurrency)}
+                                      {getConvertedCurrency(
+                                        airData[shippingTerm]["frightCostMin"] +
+                                          airData[shippingTerm]["dutyMin"],
+                                        true
+                                      )}
+                                      -
+                                      {getSymbolFromCurrency(convertToCurrency)}
+                                      {getConvertedCurrency(
+                                        airData[shippingTerm]["frightCostMax"] +
+                                          airData[shippingTerm]["dutyMax"],
+                                        true
+                                      )}
+                                    </span>
+                                  ) : (
+                                    "0"
+                                  )}
+                                  *
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="qa-pad-015 qa-dashed-border">
-                            <div className="c-left-blk qa-txt-alg-lft">
-                              <div className="cart-info-text">
-                                Shipping lead time
-                              </div>
-                            </div>
-                            <div className="c-right-blk">
-                              <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
-                                {airData ? (
-                                  <span>
-                                    {airData["tat"] ? airData["tat"] - 3 : "0"}-
-                                    {airData["tat"] ? airData["tat"] : "0"} Days
-                                  </span>
-                                ) : (
-                                  "-"
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                          <div className="qa-pad-015">
-                            <div className="c-left-blk">
-                              <div className="qa-fw-b qa-fr-color">
-                                Total estimated charges
-                              </div>
-                            </div>
-                            <div className="c-right-blk">
-                              <div className="cart-prod-name qa-txt-alg-rgt">
-                                {airData &&
-                                airData["frightCostMin"] !== undefined &&
-                                airData["dutyMin"] !== undefined ? (
-                                  <span>
-                                    {getSymbolFromCurrency(convertToCurrency)}
-                                    {getConvertedCurrency(
-                                      airData["frightCostMin"] +
-                                        airData["dutyMin"],
-                                      true
-                                    )}
-                                    -{getSymbolFromCurrency(convertToCurrency)}
-                                    {getConvertedCurrency(
-                                      airData["frightCostMax"] +
-                                        airData["dutyMax"],
-                                      true
-                                    )}
-                                  </span>
-                                ) : (
-                                  "0"
-                                )}
-                                *
-                              </div>
-                            </div>
+                          */}
                           </div>
                         </div>
-                      </div>
-                    )}
-                    {!disableSea && (
-                      <div
-                        className="min-width-320px"
-                        style={{ display: "inline-block", marginRight: "20px" }}
-                      >
+                      )}
+                      {!disableSea && (
                         <div
-                          className={`${
-                            mode === "SEA" ? "selected" : ""
-                          } qa-bg-light-theme qa-pad-2 qa-box-shadow shipping-mode-section`}
+                          className="min-width-320px"
+                          style={{
+                            display: "inline-block",
+                            marginRight: "20px",
+                          }}
                         >
-                          <div className="qa-pad-btm-15 qa-border-bottom">
-                            <span>
-                              <Icon
-                                component={Sea}
-                                style={{
-                                  width: "28px",
-                                  height: "28px",
-                                  verticalAlign: "middle",
-                                }}
-                                className="air-icon"
-                              />
-                              <span className="qa-va-m qa-tc-white qa-font-san">
-                                Sea
+                          <div
+                            className={`${
+                              mode === "SEA" ? "selected" : ""
+                            } qa-bg-light-theme qa-pad-2 qa-box-shadow shipping-mode-section`}
+                          >
+                            <div className="qa-pad-btm-15 qa-border-bottom">
+                              <span>
+                                <Radio className="check-box-tnc" value="SEA">
+                                  <span className="qa-tc-white qa-font-san">
+                                    Sea
+                                  </span>
+                                </Radio>
                               </span>
-                            </span>
-                            <span style={{ float: "right" }}>
-                              <Checkbox
-                                className="check-box-tnc"
-                                checked={mode === "SEA"}
-                                onChange={() => {
-                                  if (!mode) {
-                                    selectMode("SEA");
-                                  } else {
-                                    selectMode("");
-                                  }
-                                }}
-                              ></Checkbox>{" "}
-                            </span>
-                          </div>
-                          <div className="qa-pad-015 qa-dashed-border">
-                            <div className="c-left-blk qa-txt-alg-lft">
-                              <div className="cart-info-text">
-                                Estimated freight fees
+                              <span style={{ float: "right" }}>
+                                <Icon
+                                  component={Sea}
+                                  style={{
+                                    width: "28px",
+                                    height: "28px",
+                                    verticalAlign: "middle",
+                                  }}
+                                  className="air-icon"
+                                />
+                              </span>
+                            </div>
+                            <div className="qa-pad-015 qa-dashed-border">
+                              <div className="c-left-blk qa-txt-alg-lft">
+                                <div className="cart-info-text">
+                                  Estimated freight fee*
+                                </div>
+                              </div>
+                              <div className="c-right-blk qa-txt-alg-lft">
+                                <div className="cart-prod-title qa-txt-alg-rgt">
+                                  {seaData && seaData[shippingTerm] ? (
+                                    <span>
+                                      {getSymbolFromCurrency(convertToCurrency)}
+                                      {seaData[shippingTerm]["frightCostMin"]
+                                        ? getConvertedCurrency(
+                                            seaData[shippingTerm][
+                                              "frightCostMin"
+                                            ],
+                                            true
+                                          )
+                                        : "0"}
+                                      -
+                                      {getSymbolFromCurrency(convertToCurrency)}
+                                      {seaData[shippingTerm]["frightCostMax"]
+                                        ? getConvertedCurrency(
+                                            seaData[shippingTerm][
+                                              "frightCostMax"
+                                            ],
+                                            true
+                                          )
+                                        : "0"}
+                                    </span>
+                                  ) : (
+                                    "0"
+                                  )}
+                                </div>
                               </div>
                             </div>
-                            <div className="c-right-blk qa-txt-alg-lft">
-                              <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
-                                {seaData ? (
-                                  <span>
-                                    {getSymbolFromCurrency(convertToCurrency)}
-                                    {seaData["frightCostMin"]
-                                      ? getConvertedCurrency(
-                                          seaData["frightCostMin"],
-                                          true
-                                        )
-                                      : "0"}
-                                    -{getSymbolFromCurrency(convertToCurrency)}
-                                    {seaData["frightCostMax"]
-                                      ? getConvertedCurrency(
-                                          seaData["frightCostMax"],
-                                          true
-                                        )
-                                      : "0"}
-                                  </span>
-                                ) : (
-                                  "0"
-                                )}
+                            {/* <div className="qa-pad-015 qa-dashed-border">
+                              <div className="c-left-blk qa-txt-alg-lft">
+                                <div className="cart-info-text">
+                                  Estimated custom duties
+                                </div>
+                              </div>
+                              <div className="c-right-blk">
+                                <div className="cart-prod-title qa-txt-alg-rgt">
+                                  {seaData && seaData[shippingTerm] ? (
+                                    <span>
+                                      {getSymbolFromCurrency(convertToCurrency)}
+                                      {seaData[shippingTerm]["dutyMin"]
+                                        ? getConvertedCurrency(
+                                            seaData[shippingTerm]["dutyMin"],
+                                            true
+                                          )
+                                        : "0"}
+                                      -
+                                      {getSymbolFromCurrency(convertToCurrency)}
+                                      {seaData[shippingTerm]["dutyMax"]
+                                        ? getConvertedCurrency(
+                                            seaData[shippingTerm]["dutyMax"],
+                                            true
+                                          )
+                                        : "0"}
+                                    </span>
+                                  ) : (
+                                    "0"
+                                  )}
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="qa-pad-015 qa-dashed-border">
-                            <div className="c-left-blk qa-txt-alg-lft">
-                              <div className="cart-info-text">
-                                Estimated custom duties
+                             */}
+                            <div className="qa-mar-top-15">
+                              <div className="c-left-blk qa-txt-alg-lft">
+                                <div className="cart-info-text">
+                                  Shipping lead time
+                                </div>
+                              </div>
+                              <div className="c-right-blk">
+                                <div className="cart-prod-title qa-txt-alg-rgt">
+                                  {seaData && seaData[shippingTerm] ? (
+                                    <span>
+                                      {seaData[shippingTerm]["tat"]
+                                        ? seaData[shippingTerm]["tat"] - 7
+                                        : "0"}
+                                      -
+                                      {seaData[shippingTerm]["tat"]
+                                        ? seaData[shippingTerm]["tat"]
+                                        : "0"}{" "}
+                                      Days
+                                    </span>
+                                  ) : (
+                                    "-"
+                                  )}
+                                </div>
                               </div>
                             </div>
-                            <div className="c-right-blk">
-                              <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
-                                {seaData ? (
-                                  <span>
-                                    {getSymbolFromCurrency(convertToCurrency)}
-                                    {seaData["dutyMin"]
-                                      ? getConvertedCurrency(
-                                          seaData["dutyMin"],
-                                          true
-                                        )
-                                      : "0"}
-                                    -{getSymbolFromCurrency(convertToCurrency)}
-                                    {seaData["dutyMax"]
-                                      ? getConvertedCurrency(
-                                          seaData["dutyMax"],
-                                          true
-                                        )
-                                      : "0"}
-                                  </span>
-                                ) : (
-                                  "0"
-                                )}
+                            {/* <div className="qa-pad-015">
+                              <div className="c-left-blk">
+                                <div className="qa-fw-b qa-fr-color">
+                                  Total estimated charges
+                                </div>
+                              </div>
+                              <div className="c-right-blk">
+                                <div className="cart-prod-name qa-txt-alg-rgt">
+                                  {seaData &&
+                                  seaData[shippingTerm] &&
+                                  seaData[shippingTerm]["frightCostMin"] !==
+                                    undefined &&
+                                  seaData[shippingTerm]["dutyMin"] !==
+                                    undefined ? (
+                                    <span>
+                                      {getSymbolFromCurrency(convertToCurrency)}
+                                      {getConvertedCurrency(
+                                        seaData[shippingTerm]["frightCostMin"] +
+                                          seaData[shippingTerm]["dutyMin"],
+                                        true
+                                      )}
+                                      -
+                                      {getSymbolFromCurrency(convertToCurrency)}
+                                      {getConvertedCurrency(
+                                        seaData[shippingTerm]["frightCostMax"] +
+                                          seaData[shippingTerm]["dutyMax"],
+                                        true
+                                      )}
+                                    </span>
+                                  ) : (
+                                    "0"
+                                  )}
+                                  *
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="qa-pad-015 qa-dashed-border">
-                            <div className="c-left-blk qa-txt-alg-lft">
-                              <div className="cart-info-text">
-                                Shipping lead time
-                              </div>
-                            </div>
-                            <div className="c-right-blk">
-                              <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
-                                {seaData ? (
-                                  <span>
-                                    {seaData["tat"] ? seaData["tat"] - 7 : "0"}-
-                                    {seaData["tat"] ? seaData["tat"] : "0"} Days
-                                  </span>
-                                ) : (
-                                  "-"
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                          <div className="qa-pad-015">
-                            <div className="c-left-blk">
-                              <div className="qa-fw-b qa-fr-color">
-                                Total estimated charges
-                              </div>
-                            </div>
-                            <div className="c-right-blk">
-                              <div className="cart-prod-name qa-txt-alg-rgt">
-                                {seaData &&
-                                seaData["frightCostMin"] !== undefined &&
-                                seaData["dutyMin"] !== undefined ? (
-                                  <span>
-                                    {getSymbolFromCurrency(convertToCurrency)}
-                                    {getConvertedCurrency(
-                                      seaData["frightCostMin"] +
-                                        seaData["dutyMin"],
-                                      true
-                                    )}
-                                    -{getSymbolFromCurrency(convertToCurrency)}
-                                    {getConvertedCurrency(
-                                      seaData["frightCostMax"] +
-                                        seaData["dutyMax"],
-                                      true
-                                    )}
-                                  </span>
-                                ) : (
-                                  "0"
-                                )}
-                                *
-                              </div>
-                            </div>
+                          */}
                           </div>
                         </div>
-                      </div>
-                    )}
-                    {/* <div className="min-width-320px" style={{ display: "inline-block", marginRight: "20px" }}>
+                      )}
+                      {/* <div className="min-width-320px" style={{ display: "inline-block", marginRight: "20px" }}>
                 <div className="qa-bg-dark-theme qa-pad-2 qa-box-shadow shipping-mode-section">
                   <div className="qa-pad-btm-15 qa-border-bottom">
                     <span>
@@ -1704,13 +1849,13 @@ const ShippingDetails = (props) => {
                       <span className="p-shipBy">Air Express</span>
                     </span>
                     <span style={{ float: "right" }}>
-                      <Checkbox className="check-box-tnc"></Checkbox>{" "}
+                      <Radio className="check-box-tnc"></Radio>{" "}
                     </span>
                   </div>
                   <div className="qa-pad-015 qa-dashed-border">
                     <div className="c-left-blk qa-txt-alg-lft">
                       <div className="cart-info-text">
-                        Estimated freight fees
+                        Estimated freight fee*
                       </div>
                     </div>
                     <div className="c-right-blk qa-txt-alg-lft">
@@ -1731,7 +1876,7 @@ const ShippingDetails = (props) => {
                       </div>
                     </div>
                   </div>
-                  <div className="qa-pad-015 qa-dashed-border">
+                  <div className="qa-mar-top-15">
                     <div className="c-left-blk qa-txt-alg-lft">
                       <div className="cart-info-text">Shipping lead time</div>
                     </div>
@@ -1754,16 +1899,18 @@ const ShippingDetails = (props) => {
                 </div>
               </div>
             */}
+                    </Radio.Group>
                   </div>
                 )}
                 <div
-                  className={`qa-tc-white qa-fs-12 qa-lh ${
+                  className={`qa-tc-white qa-fs-12 qa-lh qa-mar-top-1 ${
                     disableAir && !disablePayment ? "" : "qa-mar-btm-3"
                   }`}
                 >
-                  *Above Freight & Duties are estimates and exact amounts are
-                  determined only after Customs Clearance. Any differential
-                  amount thereon is neither charged extra, nor refunded.{" "}
+                  <b>*Note on freight, taxes & duties:</b> Freight, Taxes &
+                  Duties mentioned on this page are estimates and exact amounts
+                  are determined only after Customs Clearance. Any differential
+                  amount is neither charged extra, nor refunded.{" "}
                   <Link href="/FAQforwholesalebuyers" className="qa-sm-color">
                     <a target="_blank" className="qa-sm-color">
                       Refer FAQs here
@@ -1779,19 +1926,47 @@ const ShippingDetails = (props) => {
                   </div>
                 )}
                 {!disablePayment && (
-                  <div className="qa-tc-white qa-fs-14 qa-lh qa-mar-btm-3 display-flex">
-                    <div className="margin-right-1p">
-                      <Icon
-                        component={infoIcon}
-                        className="info-icon"
-                        style={{
-                          width: "15px",
-                          verticalAlign: "top",
-                        }}
-                      />
+                  <div className="qa-mar-btm-3">
+                    <div className="cart-ship-pt">
+                      <div className="c-left-blk qa-txt-alg-lft">
+                        Estimated delivery date:
+                      </div>
+                      <div className="c-right-blk qa-txt-alg-rgt qa-success qa-fw-b">
+                        {tat && mode ? (
+                          <span>
+                            {moment(deliveryDateMin).format("DD MMM YY")} -{" "}
+                            {moment(deliveryDateMax).format("DD MMM YY")}
+                          </span>
+                        ) : (
+                          ""
+                        )}
+                      </div>
                     </div>
-                    Estimated time to prepare and ship your order is{" "}
-                    {mov ? "25-35" : "7-10"} Days
+                    <div>
+                      <div className="qa-fs-12 qa-mar-btm-1">
+                        <div className="c-left-blk qa-txt-alg-lft qa-stitle">
+                          <li>Estimated production/ dispatch time</li>
+                        </div>
+                        <div className="c-right-blk qa-txt-alg-rgt">
+                          {mov ? "25-35" : "7-10"} days
+                        </div>
+                      </div>
+
+                      <div className="qa-fs-12 qa-mar-btm-1">
+                        <div className="c-left-blk qa-txt-alg-lft qa-stitle">
+                          <li>Estimated shipping lead time</li>
+                        </div>
+                        <div className="c-right-blk qa-txt-alg-rgt">
+                          {tat && mode ? (
+                            <span>
+                              {tat - (mode === "AIR" ? 3 : 7)}-{tat} days
+                            </span>
+                          ) : (
+                            "-"
+                          )}
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 )}
               </Col>
@@ -1832,23 +2007,6 @@ const ShippingDetails = (props) => {
                     Please move out of stock products in order to proceed
                   </div>
                 )} */}
-                  {/* {disablePayment && (
-                  <div className="qa-pad-2 qa-mar-btm-2 cart-error-block display-flex cart-err">
-                    <div className="margin-right-2p">
-                      <Icon
-                        component={alertIcon}
-                        className="alert-icon"
-                        style={{
-                          width: "15px",
-                          verticalAlign: "top",
-                        }}
-                      />
-                    </div>
-                    Freight charges are not available for the Pincode that you
-                    have selected. Please write to us at buyers@qalara.com to
-                    generate a custom quote for your requirements.
-                  </div>
-                )} */}
 
                   <CartSummary
                     id="shipping"
@@ -1862,6 +2020,7 @@ const ShippingDetails = (props) => {
                     user={userProfile}
                     disablePayment={disablePayment}
                     tat={tat}
+                    shippingTerm={shippingTerm}
                   />
                 </Col>
               )}
@@ -1889,7 +2048,7 @@ const ShippingDetails = (props) => {
                         total + qalaraSellerMargin + qualityTestingCharge;
                       return (
                         <div className="qa-bg-light-theme qa-mar-btm-2" key={i}>
-                          <div className="cart-ship-pt qa-fw-b qa-border-bottom">
+                          <div className="cart-ship-pt qa-border-bottom">
                             <Icon
                               component={cartIcon}
                               className="cart-icon qa-disp-tc"
@@ -1901,21 +2060,8 @@ const ShippingDetails = (props) => {
                             />
 
                             <div className="qa-disp-tc">
-                              {brandNames &&
-                                brandNames[sellerCode] &&
-                                brandNames[sellerCode].brandName}
+                              Seller ID: {sellerCode}
                             </div>
-                            {/* <div className="qa-txt-alg-cnt qa-pad-top-05 qa-pad-btm-1">
-                        <span
-                          className="cart-delete qa-cursor"
-                          onClick={() => {
-                            setDeleteItem(sellerOrgName);
-                            setDeleteModal(true);
-                          }}
-                        >
-                          Delete cart
-                        </span>
-                      </div> */}
                           </div>
 
                           {_.map(products, (product, j) => {
@@ -1953,7 +2099,7 @@ const ShippingDetails = (props) => {
                                   xl={15}
                                   className="qa-pad-0-10"
                                 >
-                                  <div className="cart-prod-title qa-fw-b">
+                                  <div className="cart-prod-title qa-text-2line">
                                     {productName}
                                   </div>
                                   <div className="cart-prod-title">
@@ -1993,7 +2139,7 @@ const ShippingDetails = (props) => {
                                   xl={24}
                                   className="qa-mar-top-1"
                                 >
-                                  <div className="cart-prod-title qa-fw-b">
+                                  <div className="cart-prod-title">
                                     {getSymbolFromCurrency(convertToCurrency)}
                                     {total ? getConvertedCurrency(total) : ""}
                                   </div>
@@ -2014,7 +2160,7 @@ const ShippingDetails = (props) => {
                               md={16}
                               lg={16}
                               xl={16}
-                              className="cart-prod-title qa-fw-b"
+                              className="cart-prod-title"
                             >
                               SELLER CART VALUE
                             </Col>
@@ -2024,7 +2170,7 @@ const ShippingDetails = (props) => {
                               md={8}
                               lg={8}
                               xl={8}
-                              className="qa-txt-alg-rgt cart-prod-title qa-fw-b"
+                              className="qa-txt-alg-rgt cart-prod-title"
                             >
                               {getSymbolFromCurrency(convertToCurrency)}
                               {total ? getConvertedCurrency(total) : ""}
@@ -2056,20 +2202,20 @@ const ShippingDetails = (props) => {
         </div>
       )}
       <Modal
-        visible={deleteModal}
+        visible={shippingModeModal}
         footer={null}
         closable={false}
         onCancel={handleCancel}
         centered
         bodyStyle={{ padding: "30px", backgroundColor: "#f9f7f2" }}
-        width={450}
+        width={600}
         style={{ top: 5 }}
         className="cart-delete-modal"
       >
         <div className="qa-rel-pos qa-font-san">
-          <div className="qa-pad-btm-2 qa-txt-alg-cnt">
-            <span className="qa-font-butler qa-fs-but-30 qa-tc-white">
-              Delete cart?
+          <div className="qa-mar-btm-3 qa-txt-alg-lft" style={{ width: "90%" }}>
+            <span className="qa-cursor sen-font qa-fs-18 qa-fw-b">
+              PAYMENT MODE CONFIRMATION
             </span>
           </div>
 
@@ -2089,22 +2235,37 @@ const ShippingDetails = (props) => {
             />
           </div>
           <div>
-            <div className="qa-txt-alg-cnt qa-mar-btm-2">
-              Are you sure you want to delete <br></br>
-              <b>{deleteItem}?</b>
+            <div className="qa-txt-alg-lft qa-mar-btm-1">
+              {shipTerm === "ddp"
+                ? "In DDP mode Qalara will estimate duties and taxes at the time of checkout. Any applicable duties and taxes are charged to you by Qalara and paid during customs clearance on your behalf."
+                : "In DDU mode our freight/ logistics partner will contact you for the payment of duties and taxes at the time of delivery."}{" "}
             </div>
-            <Button
-              className="qa-button qa-fs-12 cart-cancel-delete qa-mar-top-2"
-              onClick={() => {}}
-            >
-              Cancel
-            </Button>
-            <Button
-              className="qa-button qa-fs-12 cart-delete qa-mar-top-2"
-              onClick={() => {}}
-            >
-              Delete
-            </Button>
+            <div className="qa-txt-alg-lft qa-mar-btm-2">
+              Please select confirm to proceed
+            </div>
+
+            <Row>
+              <Col xs={24} sm={24} md={3} lg={3} xl={3}></Col>
+              <Col xs={24} sm={24} md={18} lg={18} xl={18}>
+                <Button
+                  className="qa-button qa-fs-12 cart-cancel-delete qa-mar-top-2"
+                  onClick={handleCancel}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  className="qa-button qa-fs-12 cart-delete qa-mar-top-2"
+                  onClick={() => {
+                    setShippingTerm(shipTerm);
+                    setMode("");
+                    setShippingModeModal(false);
+                  }}
+                >
+                  Confirm
+                </Button>
+              </Col>
+              <Col xs={24} sm={24} md={3} lg={3} xl={3}></Col>
+            </Row>
           </div>
         </div>
       </Modal>
@@ -2120,6 +2281,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { getBrandNameByCode })(
-  ShippingDetails
-);
+export default connect(mapStateToProps, null)(ShippingDetails);

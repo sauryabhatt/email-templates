@@ -17,7 +17,6 @@ import {
   Tooltip,
 } from "antd";
 import Icon, { EditOutlined, CheckCircleOutlined } from "@ant-design/icons";
-import { Steps } from "antd";
 import { connect } from "react-redux";
 import { getCountries } from "react-phone-number-input/input";
 import en from "react-phone-number-input/locale/en.json";
@@ -48,8 +47,9 @@ import PromotionCarousel from "../PromotionCarousel/PromotionCarousel";
 import sellerList from "../../public/filestore/freeShippingSellers.json";
 import { loginToApp } from "../AuthWithKeycloak";
 import signUp_icon from "../../public/filestore/Sign_Up";
+import CheckoutSteps from "../common/CheckoutSteps";
+import PaymentBanner from "../common/PaymentBanner";
 
-const { Step } = Steps;
 const { Option } = Select;
 
 const countryList = getCountries().map((country) => {
@@ -232,7 +232,7 @@ const CartDetails = (props) => {
   }
 
   let shippingAddr = "";
-  let pls = phoneNumber.indexOf("+") >=0 ? "" : "+"
+  let pls = phoneNumber.indexOf("+") >= 0 ? "" : "+";
   shippingAddr =
     fullName +
     ", " +
@@ -292,10 +292,6 @@ const CartDetails = (props) => {
     setDialCode(dialCode);
     setSelCountryExpectedLength(length);
   };
-
-  const customDot = (dot, { status, index }) => (
-    <span className="qa-ant-steps-icon">{index + 1}</span>
-  );
 
   const countryCheck = (e) => {
     if (deliveredCountryList.includes(e)) {
@@ -477,7 +473,7 @@ const CartDetails = (props) => {
     setSelCountry(values.country);
     setSelPincode(values.zipCode);
     countryCheck(values.country);
-    let zip= values.zipCode.replace(/[^a-z0-9]/gi,'')
+    let zip = values.zipCode.replace(/[^a-z0-9]/gi, "");
     let data = {
       profileId: profileId,
       fullName: values.fullName,
@@ -524,7 +520,7 @@ const CartDetails = (props) => {
     setSelCountry(values.country);
     setSelPincode(values.zipCode);
     countryCheck(values.country);
-    let zip= values.zipCode.replace(/[^a-z0-9]/gi,'')
+    let zip = values.zipCode.replace(/[^a-z0-9]/gi, "");
     let data = {
       profileId: profileId,
       fullName: values.fullName,
@@ -581,9 +577,9 @@ const CartDetails = (props) => {
     }));*/
 
     if (value.toString().length >= 3) {
-      if(!value.replace(/[^a-z0-9]/gi,'')){
-        setZipcodeList([value])
-        return
+      if (!value.replace(/[^a-z0-9]/gi, "")) {
+        setZipcodeList([value]);
+        return;
       }
       fetch(
         process.env.NEXT_PUBLIC_REACT_APP_DUTY_COST_URL +
@@ -608,11 +604,11 @@ const CartDetails = (props) => {
         })
         .then((res) => {
           if (res.zipcodes && res.zipcodes.length > 0) {
-            let a = res.zipcodes.slice(0)
+            let a = res.zipcodes.slice(0);
             a.push(value);
-            setZipcodeList(a)
-          }else{
-            setZipcodeList([value])
+            setZipcodeList(a);
+          } else {
+            setZipcodeList([value]);
           }
         })
         .catch((err) => {
@@ -1050,49 +1046,11 @@ const CartDetails = (props) => {
 
   return (
     <Row id="cart-details" className="cart-section qa-font-san">
-      {mediaMatch.matches && (
-        <Col xs={0} sm={0} md={24} lg={24} xl={24}>
-          <Row className="qa-mar-btm-2 qa-cart-steps">
-            <Col xs={0} sm={0} md={4} lg={4} xl={4}></Col>
-            <Col xs={24} sm={24} md={16} lg={16} xl={16}>
-              <Steps current={0} progressDot={customDot}>
-                <Step title="Shopping cart" />
-                <Step title="Shipping" />
-                <Step title="Payment" />
-              </Steps>
-            </Col>
-            <Col xs={0} sm={0} md={4} lg={4} xl={4}></Col>
-          </Row>
-        </Col>
-      )}
-      {!mediaMatch.matches && (
-        <Col span={24}>
-          <Row className="qa-mar-2">
-            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-              <Steps current={0} progressDot size="small">
-                <Step title="Shopping cart" />
-                <Step title="Shipping" />
-                <Step title="Payment" />
-              </Steps>
-            </Col>
-          </Row>
-        </Col>
-      )}
-      <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>
-
+      <CheckoutSteps pageId="cart" />
+      {mediaMatch.matches && <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>}
       {mediaMatch.matches && (
         <Col xs={0} sm={0} md={20} lg={20} xl={20}>
           <Row>
-            <Col
-              xs={24}
-              sm={24}
-              md={24}
-              lg={24}
-              xl={24}
-              className="cart-title qa-mar-btm-2"
-            >
-              Shopping cart
-            </Col>
             <PromotionCarousel />
             <Col xs={24} sm={24} md={15} lg={15} xl={15}>
               <div className="qa-dark-theme qa-pad-2 qa-mar-btm-2">
@@ -1120,7 +1078,7 @@ const CartDetails = (props) => {
                   </div>
                 )}
 
-                {!addressFlag && (
+                {/* {!addressFlag && (
                   <div className="qa-disp-table-cell c-edit-address addr-error">
                     <div className="display-flex qa-tc1">
                       <div className="qa-lh qa-fw-b">
@@ -1139,7 +1097,7 @@ const CartDetails = (props) => {
                       </div>
                     </div>
                   </div>
-                )}
+                )} */}
                 {addressFlag && (
                   <div
                     className="qa-disp-table-cell c-edit-address qa-cursor"
@@ -1194,7 +1152,7 @@ const CartDetails = (props) => {
                         } ${i < subOrders.length - 1 ? "qa-mar-btm-2" : ""}`}
                         key={i}
                       >
-                        <div className="cart-ship-pt qa-fw-b qa-border-bottom">
+                        <div className="cart-ship-pt qa-border-bottom">
                           <div
                             style={{ display: "inline-block", width: "50%" }}
                           >
@@ -1211,10 +1169,9 @@ const CartDetails = (props) => {
                               />
                             </div>
                             <div className="qa-disp-table-cell">
-                              {brandNames &&
-                                brandNames[sellerCode] &&
-                                brandNames[sellerCode].mov &&
-                                brandNames[sellerCode].brandName}
+                              <span className="qa-fs-16">
+                                Seller ID: {sellerCode}
+                              </span>
                               {total < mov && (
                                 <div className="cart-sub-text">
                                   Add {getSymbolFromCurrency(convertToCurrency)}
@@ -1321,7 +1278,7 @@ const CartDetails = (props) => {
                                 xl={10}
                                 className="qa-pad-0-10"
                               >
-                                <div className="cart-prod-title qa-fw-b">
+                                <div className="cart-prod-title qa-text-2line">
                                   {productName}
                                 </div>
                                 <div className="cart-prod-title">
@@ -1372,7 +1329,7 @@ const CartDetails = (props) => {
                                       <CheckCircleOutlined /> Sample required
                                     </div>
                                   )}
-                                  <div className="cart-prod-title qa-fw-b">
+                                  <div className="cart-prod-title">
                                     {getSymbolFromCurrency(convertToCurrency)}
                                     {total ? getConvertedCurrency(total) : ""}
                                   </div>
@@ -1421,7 +1378,7 @@ const CartDetails = (props) => {
                             md={12}
                             lg={12}
                             xl={12}
-                            className="cart-prod-title qa-fw-b"
+                            className="cart-prod-title"
                           >
                             SELLER CART VALUE
                           </Col>
@@ -1431,7 +1388,7 @@ const CartDetails = (props) => {
                             md={12}
                             lg={12}
                             xl={12}
-                            className="qa-txt-alg-rgt cart-prod-title qa-fw-b"
+                            className="qa-txt-alg-rgt cart-prod-title"
                           >
                             {getSymbolFromCurrency(convertToCurrency)}
                             {total ? getConvertedCurrency(total) : ""}
@@ -1497,7 +1454,7 @@ const CartDetails = (props) => {
                 </div>
               )}
               {referralCode && (
-                <div className="qa-pad-2 qa-mar-btm-2 cart-price-block">
+                <div className="qa-pad-020 qa-mar-btm-2 cart-price-block">
                   <div className="cart-price-title">Available coupons</div>
                   <div className="margin-right-2p qa-lh">
                     <Icon
@@ -1513,6 +1470,7 @@ const CartDetails = (props) => {
                   </div>
                 </div>
               )}
+              <PaymentBanner />
               {/*<div className="cart-price-block permot-text">
                 <span className="sdf">
                   Black Friday offer discount automatically applied on Shipping page.
@@ -1556,8 +1514,8 @@ const CartDetails = (props) => {
           </Row>
         </Col>
       )}
+      {mediaMatch.matches && <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>}
 
-      <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>
       {!mediaMatch.matches && (
         <div style={{ width: "100%" }}>
           <PromotionCarousel />
@@ -1568,31 +1526,13 @@ const CartDetails = (props) => {
               </span>
             </div>*/}
             <Row>
-              <Col span={24} className="cart-title qa-mar-btm-2">
-                Shopping cart
+              <Col span={24}>
+                <PaymentBanner />
               </Col>
               <Col
                 span={24}
                 className="qa-border-bottom qa-pad-btm-2 qa-mar-btm-2"
               >
-                {!addressFlag && (
-                  <div className="qa-pad-2 qa-mar-btm-2 cart-error-block cart-err display-flex">
-                    <div className="margin-right-2p">
-                      <Icon
-                        component={alertIcon}
-                        className="alert-icon"
-                        style={{
-                          width: "15px",
-                          verticalAlign: "top",
-                        }}
-                      />
-                    </div>
-                    <div className="qa-error qa-fs-14 qa-lh">
-                      Please enter your shipping address in order to proceed to
-                      the next page
-                    </div>
-                  </div>
-                )}
                 {showError && (
                   <div className="qa-pad-2 qa-mar-btm-2 cart-error-block display-flex cart-err">
                     <div className="margin-right-2p">
@@ -1752,7 +1692,7 @@ const CartDetails = (props) => {
                     }
                     return (
                       <div className="qa-bg-light-theme qa-mar-btm-2" key={i}>
-                        <div className="cart-ship-pt qa-fw-b qa-border-bottom">
+                        <div className="cart-ship-pt qa-border-bottom">
                           <Icon
                             component={cartIcon}
                             className="cart-icon qa-disp-tc"
@@ -1765,9 +1705,7 @@ const CartDetails = (props) => {
                           />
 
                           <div className="qa-disp-tc" style={{ width: "80%" }}>
-                            {brandNames &&
-                              brandNames[sellerCode] &&
-                              brandNames[sellerCode].brandName}
+                            Seller ID: {sellerCode}
                             {total < mov && (
                               <div className="cart-sub-text">
                                 Add {getSymbolFromCurrency(convertToCurrency)}
@@ -1860,7 +1798,7 @@ const CartDetails = (props) => {
                                 xl={15}
                                 className="qa-pad-0-10"
                               >
-                                <div className="cart-prod-title qa-fw-b">
+                                <div className="cart-prod-title qa-text-2line">
                                   {productName}
                                 </div>
                                 <div className="cart-prod-title">
@@ -1885,7 +1823,7 @@ const CartDetails = (props) => {
                                 )}
                               </Col>
                               <Col xs={24} sm={24} md={10} lg={24} xl={24}>
-                                <div className="cart-prod-title qa-fw-b qa-mar-top-05">
+                                <div className="cart-prod-title qa-mar-top-05">
                                   {getSymbolFromCurrency(convertToCurrency)}
                                   {total ? getConvertedCurrency(total) : ""}
                                 </div>
@@ -1959,7 +1897,7 @@ const CartDetails = (props) => {
                             md={16}
                             lg={16}
                             xl={16}
-                            className="cart-prod-title qa-fw-b"
+                            className="cart-prod-title"
                           >
                             SELLER CART VALUE
                           </Col>
@@ -1969,7 +1907,7 @@ const CartDetails = (props) => {
                             md={8}
                             lg={8}
                             xl={8}
-                            className="qa-txt-alg-rgt cart-prod-title qa-fw-b"
+                            className="qa-txt-alg-rgt cart-prod-title"
                           >
                             {getSymbolFromCurrency(convertToCurrency)}
                             {total ? getConvertedCurrency(total) : ""}
@@ -2228,7 +2166,7 @@ const CartDetails = (props) => {
                         </Col>
                         <Col
                           span={24}
-                          className="cart-prod-title qa-mar-top-05"
+                          className="cart-prod-title qa-mar-top-05 qa-text-2line"
                         >
                           {productName}
                         </Col>
@@ -2341,7 +2279,10 @@ const CartDetails = (props) => {
                           </Tooltip>
                         </div>
                       </Col>
-                      <Col span={24} className="cart-prod-title qa-mar-top-05">
+                      <Col
+                        span={24}
+                        className="cart-prod-title qa-mar-top-05 qa-text-2line"
+                      >
                         {productName}
                       </Col>
                     </Row>
@@ -2469,7 +2410,7 @@ const CartDetails = (props) => {
                     } = address || {};
 
                     let shippingAddr = "";
-                    let pls = phoneNumber.indexOf("+") >=0 ? "" : "+"
+                    let pls = phoneNumber.indexOf("+") >= 0 ? "" : "+";
                     shippingAddr =
                       addressLine1 +
                       ", " +
@@ -2788,16 +2729,19 @@ const CartDetails = (props) => {
                 >
                   {deliver ? (
                     <Select showSearch onSearch={handleZipCode}>
-                      {zipCodeList && zipCodeList.length > 0
-                        ? zipCodeList.map((e) => {
-                            return (
-                              <Option key={e} value={e}>
-                                {e}
-                              </Option>
-                            );
-                          })
-                        : <Option value="">Enter min 3 digits to view list</Option> 
-                      }
+                      {zipCodeList && zipCodeList.length > 0 ? (
+                        zipCodeList.map((e) => {
+                          return (
+                            <Option key={e} value={e}>
+                              {e}
+                            </Option>
+                          );
+                        })
+                      ) : (
+                        <Option value="">
+                          Enter min 3 digits to view list
+                        </Option>
+                      )}
                     </Select>
                   ) : (
                     <Input />
