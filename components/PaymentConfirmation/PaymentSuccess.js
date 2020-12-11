@@ -102,11 +102,6 @@ const PaymentSuccess = (props) => {
     orderId = "",
   } = order || {};
 
-  let date1 = new Date(expectedDeliveryDateMin);
-  let date2 = new Date(expectedDeliveryDateMax);
-  let diffTime = Math.abs(date2 - date1);
-  let tat = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
   let frieghtCharge = 0;
   let dutyCharge = 0;
   let vatCharge = 0;
@@ -117,6 +112,7 @@ const PaymentSuccess = (props) => {
   let vat = 0;
   let dutyMax = 0;
   let dutyMin = 0;
+  let tat = 0;
 
   for (let charge of miscCharges) {
     let { chargeId = "", amount = 0 } = charge;
@@ -142,6 +138,8 @@ const PaymentSuccess = (props) => {
       dutyMax = amount;
     } else if (chargeId === "DDP_DUTY_MIN") {
       dutyMin = amount;
+    } else if (chargeId === "TAT") {
+      tat = amount;
     }
   }
 

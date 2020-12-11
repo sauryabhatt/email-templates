@@ -6,7 +6,6 @@ import Icon, {
   UpOutlined,
   DownOutlined,
   CheckCircleOutlined,
-  CheckOutlined,
 } from "@ant-design/icons";
 import { connect } from "react-redux";
 import getSymbolFromCurrency from "currency-symbol-map";
@@ -55,7 +54,9 @@ const PaymentDetails = (props) => {
   } = shippingAddressDetails || {};
 
   let tat = 0;
-  tat = data["tat"];
+  if (data && data["tat"]) {
+    tat = data["tat"];
+  }
   let shippingAddr = "";
   shippingAddr =
     fullName +
