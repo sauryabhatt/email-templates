@@ -878,10 +878,6 @@ function SellerLandingMobile(props) {
               xl={24}
               className="qa-mar-btm-15"
             >
-              <div className="qa-scp-text qa-font-butler qa-fs-20 qa-mar-btm-1 qa-titlecase qa-lh">
-                {brandName.toLowerCase() || orgName.toLowerCase()}
-              </div>
-
               <div className="qa-text-4line banner-text-small qa-font-san qa-fs-12 qa-mar-btm-1">
                 {companyDescription}
               </div>

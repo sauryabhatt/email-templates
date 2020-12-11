@@ -271,7 +271,7 @@ const SellerContact = (props) => {
 
   return (
     <Row id="seller-contact-form">
-      <Col className="left-details" span={mediaMatch.matches ? 8 : 0}>
+      {/*<Col className="left-details" span={mediaMatch.matches ? 8 : 0}>
         <Row>
           <Col span={props.sellerDetails ? 24 : 0}>
             <div
@@ -290,7 +290,7 @@ const SellerContact = (props) => {
                     process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
                       props.sellerDetails.brandLogo.media.mediaUrl
                   }
-                ></Avatar> */}
+                ></Avatar> }
                 <span className="text-avatar">
                   {props.sellerDetails && props.sellerDetails.orgName}
                 </span>
@@ -307,20 +307,20 @@ const SellerContact = (props) => {
                 >
                   <Icon component={certifiedIcon} className="certified-icon" />
                 </span> */}
-                {/* )} */}
+                {/* )} }
               </div>
               {/* <p className="para">
                 <span className="label">Organisation type</span>
                 <span className="text">
                   {props.sellerDetails && props.sellerDetails.orgType}
                 </span>
-              </p> */}
+              </p> }
 
               <Row className="para">
                 <Col span={24}>
                   <span className="label">City</span>
                   {/* </Col> */}
-                  {/* <Col span={24} className="qa-txt-alg-lft"> */}
+                  {/* <Col span={24} className="qa-txt-alg-lft"> }
                   <span className="text">
                     {props.sellerDetails && props.sellerDetails.city}
                   </span>
@@ -331,7 +331,7 @@ const SellerContact = (props) => {
                 <Col span={24}>
                   <span className="label">Country</span>
                   {/* </Col> */}
-                  {/* <Col span={24} className="qa-txt-alg-lft"> */}
+                  {/* <Col span={24} className="qa-txt-alg-lft"> }
                   <span className="text">
                     {props.sellerDetails && props.sellerDetails.country}
                   </span>
@@ -349,7 +349,7 @@ const SellerContact = (props) => {
                 <span className="text">
                   {props.sellerDetails && props.sellerDetails.country}
                 </span>
-              </p> */}
+              </p> }
             </div>
           </Col>
           <Col
@@ -442,17 +442,17 @@ const SellerContact = (props) => {
                 </Col>
               </Row>
             </div>
-          </Col> */}
+          </Col> }
         </Row>
-      </Col>
+      </Col>*/}
       <Col
-        span={mediaMatch.matches ? 16 : 24}
+        span={mediaMatch.matches ? 24 : 24}
         style={{ marginBottom: 0, padddinBoBottem: 0 }}
         className="register"
       >
         <Row justify="center">
           <Col span={20}>
-            {keycloak.authenticated ? null : (
+            {/*keycloak.authenticated ? null : (
               <Alert
                 className="alert-info-top"
                 type="info"
@@ -475,7 +475,7 @@ const SellerContact = (props) => {
                   </p>
                 }
               />
-            )}
+            )*/}
             <p className="heading">Send order query</p>
             <p className="paragraph">
               You may share any sourcing requirement relating to this seller's
@@ -532,7 +532,7 @@ const SellerContact = (props) => {
                     >
                         <Input.TextArea
                             value={"value"}
-                            // onChange={onChange}
+// onChange={onChange}
                             placeholder="Greeting"
                             autoSize={{ minRows: 1, maxRows: 5 }} />
                     </Form.Item> */}
@@ -547,7 +547,7 @@ const SellerContact = (props) => {
                 rules={[
                   {
                     type: "string",
-                    message: "The input is not valid!",
+                      message: "The input is not valid!",
                   },
                   {
                     required: true,
@@ -573,7 +573,7 @@ const SellerContact = (props) => {
                         { min: 3, max: 30, message: 'Length should be 3-30 characters!' }]}
                     >
                         <Input
-                            // prefix={<ShopOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
+// prefix={<ShopOutlined style={{ color: 'rgba(0,0,0,.25)' }} />}
                             placeholder="What do you need from the seller?"
                         />
                     </Form.Item> */}
@@ -628,7 +628,7 @@ const SellerContact = (props) => {
                 rules={[
                   {
                     type: "string",
-                    message: "The input is not valid!",
+                      message: "The input is not valid!",
                   },
                   {
                     required: true,
@@ -642,12 +642,12 @@ const SellerContact = (props) => {
                 ]}
               >
                 <Input
-                // style={{
-                //     width: '100%',
-                // }}
-                // min={1}
-                // max={1000}
-                // placeholder="Quantity"
+                  // style={{
+                  //     width: '100%',
+                  // }}
+                  // min={1}
+                  // max={1000}
+                  // placeholder="Quantity"
                 />
               </Form.Item>
               <span className="label-paragraph">
@@ -659,7 +659,7 @@ const SellerContact = (props) => {
                 rules={[
                   {
                     type: "string",
-                    message: "The input is not valid!",
+                      message: "The input is not valid!",
                   },
                   {
                     min: 1,
@@ -669,12 +669,12 @@ const SellerContact = (props) => {
                 ]}
               >
                 <Input
-                // style={{
-                //     width: '100%',
-                // }}
-                // min={1}
-                // max={1000000}
-                // placeholder="Target price per piece (In USD)"
+                  // style={{
+                  //     width: '100%',
+                  // }}
+                  // min={1}
+                  // max={1000000}
+                  // placeholder="Target price per piece (In USD)"
                 />
               </Form.Item>
               <span className="label-paragraph">
@@ -708,8 +708,8 @@ const SellerContact = (props) => {
                 rules={[
                   {
                     required: true,
-                    message: "Please enter your zipcode.",
-                    whitespace: true,
+                      message: "Please enter your zipcode.",
+                      whitespace: true,
                   },
                 ]}
               >
@@ -732,7 +732,7 @@ const SellerContact = (props) => {
                 ]}
               >
                 <Input
-                // placeholder="State, City"
+// placeholder="State, City"
                 />
               </Form.Item> */}
               <br />
@@ -761,7 +761,7 @@ const SellerContact = (props) => {
                 ]}
               >
                 <Input
-                // placeholder="Your Name"
+                  // placeholder="Your Name"
                 />
               </Form.Item>
               <span className="label-paragraph">Company name*</span>
@@ -771,7 +771,7 @@ const SellerContact = (props) => {
                 rules={[
                   {
                     required: true,
-                    message: "Please enter your company name.",
+                      message: "Please enter your company name.",
                   },
                   {
                     min: 3,
@@ -781,7 +781,7 @@ const SellerContact = (props) => {
                 ]}
               >
                 <Input
-                // placeholder="Company Name"
+                  // placeholder="Company Name"
                 />
               </Form.Item>
               <span className="label-paragraph">Email address*</span>
@@ -791,7 +791,7 @@ const SellerContact = (props) => {
                 rules={[
                   {
                     type: "email",
-                    message: "Please enter a correct email address.",
+                      message: "Please enter a correct email address.",
                   },
                   {
                     required: true,
@@ -800,7 +800,7 @@ const SellerContact = (props) => {
                 ]}
               >
                 <Input
-                // placeholder="E-mail ID"
+                  // placeholder="E-mail ID"
                 />
               </Form.Item>
               {/* <span className="label-paragraph">Country*</span>
@@ -827,7 +827,7 @@ const SellerContact = (props) => {
                 ]}
               >
                 <Input
-                // placeholder="State, City"
+// placeholder="State, City"
                 />
               </Form.Item> */}
               <span className="label-paragraph">Phone number</span>
@@ -841,12 +841,12 @@ const SellerContact = (props) => {
                   // },
                   {
                     pattern: new RegExp("^[0-9]{6,15}$"),
-                    message: "Wrong format!",
+                      message: "Wrong format!",
                   },
                 ]}
               >
                 <Input
-                // placeholder="Phone Number"
+                  // placeholder="Phone Number"
                 />
               </Form.Item>
               {/* <Form.Item

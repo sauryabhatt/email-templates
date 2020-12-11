@@ -60,7 +60,7 @@
   background: rgba(0, 0, 0, 0.6);
   color: #f9f7f2;
   height: 100%;
-  padding: 10px 30px;
+  padding: 18px 30px;
   position: absolute;
   top: 0px;
   right: 0px;
@@ -172,7 +172,7 @@
   font-family: senregular;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 110%;
   letter-spacing: 0.01em;
   color: #d9bb7f;

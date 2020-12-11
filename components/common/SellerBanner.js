@@ -32,7 +32,9 @@ function SellerBanner(props) {
         style={{
           backgroundImage: `url(${imageUrl})`,
         }}
-      ></div>
+      >
+        <span className="banner-seller-name">{orgName}</span>
+      </div>
     );
   } else {
     return (
@@ -46,9 +48,6 @@ function SellerBanner(props) {
               height: "100%",
             }}
           >
-            <div className="qa-font-butler qa-fs-16 qa-text-ellipsis qa-tc-f qa-titlecase">
-              {orgName}
-            </div>
             <div className="banner-text-small qa-font-san qa-fs-12 qa-text-3line qa-tc-f">
               {companyDescription}
             </div>

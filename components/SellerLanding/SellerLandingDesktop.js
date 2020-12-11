@@ -805,25 +805,6 @@ const SellerLandingDesktop = (props) => {
             xl={15}
             style={{ paddingRight: "50px" }}
           >
-            <div
-              className="qa-txt-alg-cnt qa-full-width"
-              style={{ display: "inline-block" }}
-            >
-              {logoUrl && (
-                <div
-                  className="qa-disp-tc qa-scp-logo"
-                  style={{ paddingRight: "10px", marginBottom: "10px" }}
-                >
-                  <img src={logoUrl} height="26px" alt="Company logo" />
-                </div>
-              )}
-              <div className="qa-disp-tc qa-scp-text qa-font-butler qa-fs-24 qa-mar-btm-1">
-                <span className="qa-titlecase">
-                  {brandName.toLowerCase() || orgName.toLowerCase()}
-                </span>
-              </div>
-            </div>
-
             <div className="qa-text-2line banner-text-small qa-font-san qa-fs-12 qa-mar-btm-1">
               {companyDescription}
             </div>
@@ -1689,7 +1670,7 @@ const SellerLandingDesktop = (props) => {
         onCancel={handleCancel}
         centered
         bodyStyle={{ padding: "0px" }}
-        width={modalWidth}
+        width={"550px"}
         style={{ top: 5 }}
         className={
           type === "contact-seller"
