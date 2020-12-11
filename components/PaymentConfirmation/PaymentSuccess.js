@@ -244,7 +244,7 @@ const PaymentSuccess = (props) => {
                 </Col>
               </Row>
               <Row className="qa-mar-top-3 qa-font-san">
-                <Col span={23}>
+                <Col span={24}>
                   <div className="cart-title qa-mar-btm-1 qa-cursor sen-font font-size-17 qa-border-bottom">
                     <div className="c-left-blk qa-txt-alg-lft font-size-17">
                       Estimated delivery date:
