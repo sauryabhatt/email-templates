@@ -1278,7 +1278,7 @@ const CartDetails = (props) => {
                                 xl={10}
                                 className="qa-pad-0-10"
                               >
-                                <div className="cart-prod-title">
+                                <div className="cart-prod-title qa-text-2line">
                                   {productName}
                                 </div>
                                 <div className="cart-prod-title">
@@ -1453,9 +1453,8 @@ const CartDetails = (props) => {
                   Please move out of stock products in order to proceed
                 </div>
               )}
-              <PaymentBanner />
               {referralCode && (
-                <div className="qa-pad-2 qa-mar-btm-2 cart-price-block">
+                <div className="qa-pad-020 qa-mar-btm-2 cart-price-block">
                   <div className="cart-price-title">Available coupons</div>
                   <div className="margin-right-2p qa-lh">
                     <Icon
@@ -1471,6 +1470,7 @@ const CartDetails = (props) => {
                   </div>
                 </div>
               )}
+              <PaymentBanner />
               {/*<div className="cart-price-block permot-text">
                 <span className="sdf">
                   Black Friday offer discount automatically applied on Shipping page.
@@ -1798,7 +1798,7 @@ const CartDetails = (props) => {
                                 xl={15}
                                 className="qa-pad-0-10"
                               >
-                                <div className="cart-prod-title">
+                                <div className="cart-prod-title qa-text-2line">
                                   {productName}
                                 </div>
                                 <div className="cart-prod-title">
@@ -2166,7 +2166,7 @@ const CartDetails = (props) => {
                         </Col>
                         <Col
                           span={24}
-                          className="cart-prod-title qa-mar-top-05"
+                          className="cart-prod-title qa-mar-top-05 qa-text-2line"
                         >
                           {productName}
                         </Col>
@@ -2279,7 +2279,10 @@ const CartDetails = (props) => {
                           </Tooltip>
                         </div>
                       </Col>
-                      <Col span={24} className="cart-prod-title qa-mar-top-05">
+                      <Col
+                        span={24}
+                        className="cart-prod-title qa-mar-top-05 qa-text-2line"
+                      >
                         {productName}
                       </Col>
                     </Row>

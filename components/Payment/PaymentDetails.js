@@ -494,7 +494,7 @@ const PaymentDetails = (props) => {
                                     xl={9}
                                     className="qa-pad-0-10"
                                   >
-                                    <div className="cart-prod-title">
+                                    <div className="cart-prod-title qa-text-2line">
                                       {productName}
                                     </div>
                                     <div className="cart-prod-title">
@@ -1141,7 +1141,7 @@ const PaymentDetails = (props) => {
                                 xl={15}
                                 className="qa-pad-0-10"
                               >
-                                <div className="cart-prod-title">
+                                <div className="cart-prod-title qa-text-2line">
                                   {productName}
                                 </div>
                                 <div className="cart-prod-title">

@@ -102,7 +102,8 @@ const ShippingDetails = (props) => {
         setDeliver(true);
       }
     }
-    if (priceQuoteRef) {
+    let count = 0;
+    if (priceQuoteRef && count === 0) {
       setCartData(cart);
       fetch(
         `${process.env.NEXT_PUBLIC_REACT_APP_PRICE_QUOTATION_URL}/quotes/rts/${priceQuoteRef}?mode=SEA`,
@@ -116,6 +117,7 @@ const ShippingDetails = (props) => {
       )
         .then((res) => {
           if (res.ok) {
+            count++;
             setSeaData({ ddp: {}, ddu: {} });
             return res.json();
           } else {
@@ -125,11 +127,8 @@ const ShippingDetails = (props) => {
         .then((res) => {
           setSeaData(res);
           setLoading(false);
-          // let result = Object.values(res).every((o) => o === 0);
-          // setPayment(result);
         })
         .catch((error) => {
-          // message.error(error)
           setLoading(false);
         });
       fetch(
@@ -145,6 +144,7 @@ const ShippingDetails = (props) => {
         .then((res) => {
           setAirData({ ddp: {}, ddu: {} });
           if (res.ok) {
+            count++;
             return res.json();
           } else {
             throw res.statusText || "COntent not found";
@@ -208,6 +208,12 @@ const ShippingDetails = (props) => {
           if (landingFactor > LANDING_LIMITER) {
             setPayment(true);
           }
+        }
+
+        if (airMax < seaMax) {
+          selectMode("AIR");
+        } else {
+          selectMode("SEA");
         }
       }
     }
@@ -1149,7 +1155,7 @@ const ShippingDetails = (props) => {
                                     xl={9}
                                     className="qa-pad-0-10"
                                   >
-                                    <div className="cart-prod-title">
+                                    <div className="cart-prod-title qa-text-2line">
                                       {productName}
                                     </div>
                                     <div className="cart-prod-title">
@@ -2082,7 +2088,7 @@ const ShippingDetails = (props) => {
                                   xl={15}
                                   className="qa-pad-0-10"
                                 >
-                                  <div className="cart-prod-title">
+                                  <div className="cart-prod-title qa-text-2line">
                                     {productName}
                                   </div>
                                   <div className="cart-prod-title">

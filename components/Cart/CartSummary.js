@@ -120,6 +120,10 @@ const CartSummary = (props) => {
     shippingTerm = shippingTerms.toLowerCase();
   }
 
+  if (cart && cart.shippingMode) {
+    shippingMode = cart.shippingMode;
+  }
+
   for (let charge of miscCharges) {
     let { chargeId = "", amount = 0 } = charge;
     if (chargeId === "TOTAL_COST_FREIGHT_MAX") {
@@ -1132,7 +1136,7 @@ const CartSummary = (props) => {
               className="qa-font-san qa-fs-14 termsError qa-error"
               style={{ display: "none" }}
             >
-              Please accept this agreement
+              Please accept T&C
             </span>
           </div>
 
