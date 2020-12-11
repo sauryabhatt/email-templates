@@ -319,7 +319,7 @@ h6 {
 .landing-fifth-fold .image-wrp::after {
   padding: 0;
 }
-.image-wrp:nth-child(2) {
+.image-wrp:nth-child(even) {
   background-color: #f9f7f2;
 }
 .fold-content .category-slider {

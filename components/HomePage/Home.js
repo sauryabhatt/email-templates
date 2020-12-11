@@ -14,6 +14,7 @@ import CraftCarousel from "./../CraftCarousel/CraftCarousel";
 import SellerCarousel from "./../SellerCarousel/SellerCarousel";
 import PressCrousel from "./../PressCrousel/PressCrousel";
 import HotThisWeekCarousel from "./../HotThisWeekCarousel/HotThisWeekCarousel";
+import Tastimonial from "../Tastimonial";
 import closeButton from "../../public/filestore/closeButton";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
@@ -220,62 +221,46 @@ function Home(props) {
     },
   ];
 
-  const imageHeading = "EXPLORE TRENDS";
   const craftItems = [
     {
-      imageTitle: "Urban Jungle",
-      imageHeading: <span>{imageHeading}</span>,
+      imageTitle: "Home office",
       slideText:
-        "As boundaries between the indoors and the outdoors get blurred, eco-friendly products and natural materials surrounded with large patches of green within living spaces, lend much needed oneness with nature. Discover our range of handmade tropical inspiration which includes macrame planters, terracotta pots, sabai baskets, upcycled & bamboo outdoor furniture, dry flowers, marble garden decor and more from wholesale suppliers who care.",
-      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_2_1.jpg",
-      searchText: "UrbanJungle",
-      path: "/trends/urbanjungle",
-    },
-    {
-      imageTitle: "Holiday spirit",
-      imageHeading: <span>{imageHeading}</span>,
-      slideText:
-        "Nothing quite welcomes the holiday season like a well-decorated festive home. Whether its traditional red-and-green decor or modern glitz, we’re certain that you’ll find something at Qalara. Bring in the season to be merry with crewel embroidered pillows, cozy blankets made of recycled yarns, outdoor lights, traditional toy, paper mache gift boxes and handmade décor pieces, thanks to brilliant ideas from some of our favourite sellers. ",
-      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_6.jpg",
-      searchText: "ChristmasSpirit",
-      path: "/trends/christmasspirit",
+        "Curated from responsible sellers, these writing tables, lamps, notepads & table accessories inspire everyday creativity.",
+      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_4_1.jpg",
+      searchText: "HomeOffice",
+      path: "/trends/homeoffice",
     },
     {
       imageTitle: "Global textures",
-      imageHeading: <span>{imageHeading}</span>,
       slideText:
-        "Globally inspired textures, materials and patterns that bring an electric aesthetic to the home. Embrace the adventures of a collector who mixes treasures of different cultures together effortlessly by blending décor items with handcrafted textiles - rugs, cushions, throws and more! \n" +
-        "Our wholesale suppliers offer unique handmade products, combining local crafts and materials with new-age aesthetics, that cater to a global audience. ",
+        "Our wholesale suppliers offer unique decor & textiles, combining local crafts with modern aesthetics, that cater to a global audience. ",
       imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_1_1.jpg",
       searchText: "GlobalTextures",
       path: "/trends/globaltextures",
     },
     {
-      imageTitle: "Earth inspired",
-      imageHeading: <span>{imageHeading}</span>,
+      imageTitle: "Urban Jungle",
       slideText:
-        "The elegance of natural materials and traditional crafts is truly unparalleled. Discover artisan-made handcrafted statement pieces in sustainable mango wood and natural rattan, recycled shelves and rugs, upcycled metal figurines, hand knotted jute planters; that create a  relaxed mood and add a sun-kissed glow to any space. Our wholesale suppliers believe in conscious production, sustainable supply chains, low carbon footprint & giving back.",
+        "Discover our range of tropical inspiration; macrame planters, terracotta pots, sabai baskets & upcycled furniture from sellers who care.",
+      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_2_1.jpg",
+      searchText: "UrbanJungle",
+      path: "/trends/urbanjungle",
+    },
+    {
+      imageTitle: "Earth inspired",
+      slideText:
+        "Our wholesale suppliers believe in conscious production, sustainable supply chains, low carbon footprint & giving back.",
       imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_3_1.jpg",
       searchText: "EarthInspired",
       path: "/trends/earthinspired",
     },
     {
       imageTitle: "Sunlit Spring '21",
-      imageHeading: <span>{imageHeading}</span>,
       slideText:
-        "These dominant trends of the upcoming season showcase a brave new world, that celebrates Joy; a bold mix of warm colours, relaxing fits and conscious use of environment-friendly materials. Snug, comfortable masks will continue to be a part of the ensemble. Our sellers have adapted to these changing times and these curated must-haves will definitely awe your customers, so start stocking for a successful Spring Summer 21",
+        "These curated must-haves from our sellers embody to the dominant trends of the season and a brave new world that celebrates Joy.",
       imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_7.jpg",
       searchText: "sunkissedSpring21",
       path: "/trends/sunkissed-spring21",
-    },
-    {
-      imageTitle: "Home office",
-      imageHeading: <span>{imageHeading}</span>,
-      slideText:
-        "Working from home can be comfortable and convenient with the right tools and set up. Curated from our responsible and conscious wholesale sellers, these writing tables, lighting solutions, notepads & table accessories inspire everyday creativity. Discover the grace of handmade: ajrakh diary covers, recycled wood clipboards, eco-friendly pen stands, cotton printed and bamboo lampshades, hand knotted hanging desks, ceramic coffee mugs and more.",
-      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_4_1.jpg",
-      searchText: "HomeOffice",
-      path: "/trends/homeoffice",
     },
   ];
 
@@ -614,6 +599,7 @@ function Home(props) {
       <CraftCarousel items={craftItems} />
       <HotThisWeekCarousel/>
       <SellerCarousel items={sellerItems} />
+      <Tastimonial/>
       {/* <Button>
           <Link href="/categories">Seller Listing Page</Link>
         </Button>
