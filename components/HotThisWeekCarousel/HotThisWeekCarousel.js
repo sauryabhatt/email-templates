@@ -45,11 +45,6 @@ export default function PressCrousel(props){
       url: "https://cdn.qalara.com/images/Img_Hotoffer1.jpg",
       linkTo: "https://www.qalara.com/seller/SL10789/all-categories",
     },
-    {
-      title: "",
-      url: "https://cdn.qalara.com/images/Img_Hotdeal1.jpg",
-      linkTo: "https://www.qalara.com/sellers/all-categories",
-    }
   ]
   
   return(
