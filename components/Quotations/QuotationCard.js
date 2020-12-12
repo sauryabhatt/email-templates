@@ -161,7 +161,7 @@ const QuotationCard = (props) => {
                             </Col>}
                         <Col xs={24} sm={24} md={2} lg={2}></Col>
                         {props.status == 'received' || props.status == 'closed' ? 
-                            <Col xs={24} sm={24} md={9} lg={9} className="qa-vertical-center" style={{ justifyContent: 'center' , marginTop: '18px'}}>
+                            <Col xs={24} sm={24} md={9} lg={9} className="qa-vertical-center" style={{ justifyContent: 'center' , flexDirection: 'column' }}>
                                 <div style={{fontFamily: 'senregular' }}>Seller ID</div>
                             <Row>
                                 {getBrandName}
