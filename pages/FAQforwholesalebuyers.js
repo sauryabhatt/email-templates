@@ -5,9 +5,10 @@ import FAQ from "../components/FAQ/FAQ";
 export default function TermsOfUse() {
   const meta = {
     title:
-      "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods from South Asia | Qalara",
+      "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods from India | Qalara",
     description:
-      "How to source from India? How to source handmade goods? How to find verified suppliers from India? How to find genuine suppliers? How to source genuine fair trade products from India?",
+      "How to source wholesale from India? How to source handmade goods? How to find verified suppliers from India? How to find genuine suppliers? How to source fair trade products from India?",
+    keywords:"handmade, fair trade, wholesale buying, global sourcing, Indian crafts, Exporters from India, Verified manufacturers and suppliers, B2B platform",
     url: "/faqforwholesalebuyers",
   };
 

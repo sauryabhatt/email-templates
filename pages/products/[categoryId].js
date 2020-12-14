@@ -77,7 +77,13 @@ export default function ProductListingPage({data}) {
   if(data?.error?.status) {
     return <><NotFound /></>;
   } 
-  meta["url"]="/products/"+ categoryId;
+
+  const meta = {
+    title: `Buy ${categoryId?.split("-")?.join(" ")} wholesale from Indian suppliers.Shop thousands of products wholesale | Qalara`,
+    description:`Looking to buy wholesale  ${categoryId?.split("-")?.join(" ")} from Indian manufacturers? Source online with ease from Qalara.com, your reliable partner for ${categoryId?.split("-")?.join(" ")} from India.`,
+    keywords:`${categoryId?.split("-")?.join(" ")} wholesale, ${categoryId?.split("-")?.join(" ")} sourcing, ${categoryId?.split("-")?.join(" ")} manufacturers, ${categoryId?.split("-")?.join(" ")} India, ${categoryId?.split("-")?.join(" ")} exporters`,
+    url: `/products/${categoryId}`
+  } 
   if (router.isFallback) {
     return <Spinner />;
   }

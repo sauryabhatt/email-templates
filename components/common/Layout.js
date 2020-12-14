@@ -97,8 +97,9 @@ export const Layout = ({ children, meta = {} }) => {
     <Fragment>
       <Head>
         <title>{title}</title>
-        <meta name="description" content={description} />
-        <meta property="og:title" content={title} />
+        {description && <meta name="description" content={description} />}
+        {keywords && <meta name="keywords" content={keywords} />}
+        {title && <meta property="og:title" content={title} />}
         {meta?.url && (
           <meta
             property="og:url"
