@@ -403,10 +403,7 @@ const OrderDetails = (props) => {
                             : { lineHeight: "100%" }
                         }
                       >
-                        {props.brandNameList &&
-                          props.brandNameList[props.subOrders.sellerCode] &&
-                          props.brandNameList[props.subOrders.sellerCode]
-                            .brandName}
+                        {props.subOrders.sellerCode}
                       </div>
                       <div
                         className={

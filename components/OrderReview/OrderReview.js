@@ -290,9 +290,7 @@ const OrderReview = (props) => {
             {index == 0 ? (
               <td rowSpan={subOrder.products.length} id="seller-name">
                 <span className="qa-font-san qa-fw-b qa-fs-12">
-                  {props.brandNameList &&
-                    props.brandNameList[subOrder.sellerCode] &&
-                    props.brandNameList[subOrder.sellerCode].brandName}
+                  {subOrder.sellerCode}
                 </span>
               </td>
             ) : (
@@ -411,12 +409,26 @@ const OrderReview = (props) => {
       return (
         <React.Fragment key={index}>
           <Row style={{ paddingTop: "10px" }}>
-            <Col xs={24} sm={24} md={24} lg={24}>
-              <span className="qa-fs-17 qa-font-san qa-fw-b qa-tc-white">
-                {props.brandNameList &&
-                  props.brandNameList[subOrder.sellerCode] &&
-                  props.brandNameList[subOrder.sellerCode].brandName}
-              </span>
+              <Col
+              xs={18}
+              sm={18}
+              md={16}
+              lg={16}
+              style={mediaMatch.matches ? { paddingTop: "10px" } : {}}
+            >
+              <div className="c-left-blk qa-font-san">Seller ID </div>
+            </Col>
+              <Col
+              xs={6}
+              sm={6}
+              md={8}
+              lg={8}
+              className="qa-col-end"
+              style={mediaMatch.matches ? { paddingTop: "10px" } : {}}
+            >
+                <div className="c-right-blk qa-txt-alg-rgt qa-fs-14 qa-fw-b qa-font-san">
+                {subOrder.sellerCode}
+                </div>
             </Col>
             <Col
               xs={18}
@@ -2393,7 +2405,7 @@ const OrderReview = (props) => {
                               className="qa-font-san qa-fs-12"
                               style={{ color: "#f9f7f2" }}
                             >
-                              Seller name
+                              Seller ID
                             </span>{" "}
                             <span
                               className="qa-font-san qa-fs-14"

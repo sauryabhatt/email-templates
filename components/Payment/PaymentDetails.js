@@ -412,9 +412,7 @@ const PaymentDetails = (props) => {
                                 />
                               </div>
                               <div className="qa-disp-table-cell">
-                                {brandNames &&
-                                  brandNames[sellerCode] &&
-                                  brandNames[sellerCode].brandName}
+                              Seller ID: {sellerCode}
                                 {/* <span
                             className="cart-delete qa-cursor"
                             onClick={() => {
@@ -999,9 +997,7 @@ const PaymentDetails = (props) => {
                           />
 
                           <div className="qa-disp-tc">
-                            {brandNames &&
-                              brandNames[sellerCode] &&
-                              brandNames[sellerCode].brandName}
+                              Seller ID: {sellerCode}
                           </div>
                           {/* <div className="qa-txt-alg-cnt qa-pad-top-05 qa-pad-btm-1">
                         <span

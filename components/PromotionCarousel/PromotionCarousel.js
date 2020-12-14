@@ -29,12 +29,17 @@ export default function PromotionCarousel(props) {
   let promotiolList = [
     {
       title: "Free shipping worldwide",
-      copy: "Launching Qalara Bazaar with free shipping."
+      copy: "Launching Qalara Bazaar with free shipping.",
     },
     {
       title: "Holiday offer!",
-      copy:
-        <div> Use coupon code <b>FLAT75OFF</b> to avail <b>$75 off*</b> on all orders. <span style={{fontSize: "12px"}}>*T&C </span></div>,
+      copy: (
+        <div>
+          {" "}
+          Use coupon code <b>HAPPYHOLIDAYS</b> to avail <b>5% off*</b> on total
+          order value. <span style={{ fontSize: "12px" }}>*T&C </span>
+        </div>
+      ),
     },
     {
       title: "Launch offer!",
@@ -54,7 +59,7 @@ export default function PromotionCarousel(props) {
           return (
             <div key={index} className="cart-sildes">
               <span className="cart-banner-title">{p.title}</span>
-              <span className="cart-banner-copy">{p.copy}</span>
+              <span className="cart-banner-copy qa-mar-top-05">{p.copy}</span>
             </div>
           );
         })}
@@ -62,7 +67,7 @@ export default function PromotionCarousel(props) {
       <span onClick={next} className="cart-right-arrow cart-arrow">
         &gt;
       </span>
-      <span className="slider-count">
+      <span className="slider-count ">
         {count}/{promotiolList.length}
       </span>
     </div>

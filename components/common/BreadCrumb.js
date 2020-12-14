@@ -48,7 +48,7 @@ function BreadCrumb(props) {
   let categoryNameSC = getCategoryName(categoryName);
 
   return (
-    <Breadcrumb className="breadcrumb-text">
+    <Breadcrumb className="breadcrumb-text qa-fs-12">
       <Breadcrumb.Item>
         <Link href="/">
           <a>Home</a>

@@ -36,6 +36,34 @@
     justify-content: space-between;
 }
 
+.tastimonial-wrapper{
+  position: relative;
+    background: #332F2F;
+    color: #F9F7F2;
+    padding: 50px 45px;
+}
+.tastimonial-wrapper .cart-banner-title {
+  font-size: 20px;
+    width: 70%;
+    margin-bottom: 10px;
+}
+
+.tastimonial-wrapper span.cart-banner-copy{
+  font-family: 'senregular';
+  color: rgba(249, 247, 242, 0.6);
+}
+.tastimonial-wrapper .cart-arrow{
+  color: #F9F7F2;
+}
+.tastimonial-wrapper .slick-slide > div{
+  display: flex;
+    align-items: center;
+}
+.press-crousel .press-web-wrp a:first-child {
+  margin-left: -135px;
+  margin-right: 250px;
+}
+
 .pointer {
   cursor: pointer;
 }
@@ -516,11 +544,23 @@ top: 2.48vh; */
 .press-web-wrp {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
+  /*justify-content: space-between;*/
 }
 @media only screen and (max-width: 768px) {
   .hot-weel-crousel{
     padding: 26px 0 33px 23px;
+  }
+  .tastimonial-wrapper .cart-banner-title{
+    width: 100%;
+    font-size: 16px;
+  }
+  span.cart-banner-copy{
+    font-size: 12px;
+  }
+  .cart-arrow svg{
+    height: 13px;
+    width: 8px;
   }
 
   .hot-weel-header {
@@ -583,7 +623,7 @@ top: 2.48vh; */
     width: 246px;
   }
   .home-signup-btn:not(:root:root) {
-    width: 246px;
+    width: 265px;
   }
   .home-signup-btn a.button {
     padding: 14px 18px;
@@ -775,7 +815,7 @@ top: 2.48vh; */
     font-size: 12px;
     background: #f2f0eb;
     margin: 0px;
-    padding: 20px 5px;
+    padding: 20px 7px;
     line-height: 140%;
   }
   .source-steps.qa-mr-1 {

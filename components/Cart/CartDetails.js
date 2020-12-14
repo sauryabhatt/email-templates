@@ -108,7 +108,7 @@ const CartDetails = (props) => {
   const [selCountryCode, setSelCountryCode] = useState("us");
   const [dialCode, setDialCode] = useState("+1");
   const [contactId, setContactId] = useState(null);
-  const [selCountryExpectedLength, setSelCountryExpectedLength] = useState(15);
+  const [selCountryExpectedLength, setSelCountryExpectedLength] = useState("success");
   const [deleteModal, setDeleteModal] = useState(false);
   const [deleteItem, setDeleteItem] = useState("");
   const [deleteProduct, setDeleteProduct] = useState("");
@@ -148,7 +148,7 @@ const CartDetails = (props) => {
       } = shippingAddressDetails || {};
       setSelectedShippingId(shippingAddressId);
       setSelCountryCode(countryCode);
-      setSelCountryExpectedLength(phoneNumber.length);
+      setSelCountryExpectedLength("success");
       setSelPincode(zipCode);
       setSelCountry(country);
       handleCountry(country);
@@ -284,13 +284,14 @@ const CartDetails = (props) => {
   };
 
   const handlePhoneNumber = (value, country) => {
-    let dialCode = "+" + country.dialCode;
+
+    /*let dialCode = "+" + country.dialCode;
     let { format = "", countryCode = "" } = country;
     console.log(country, value);
     let length = (format.match(/\./g) || []).length;
     setSelCountryCode(countryCode);
     setDialCode(dialCode);
-    setSelCountryExpectedLength(length);
+    setSelCountryExpectedLength(length);*/
   };
 
   const customDot = (dot, { status, index }) => (
@@ -1211,10 +1212,7 @@ const CartDetails = (props) => {
                               />
                             </div>
                             <div className="qa-disp-table-cell">
-                              {brandNames &&
-                                brandNames[sellerCode] &&
-                                brandNames[sellerCode].mov &&
-                                brandNames[sellerCode].brandName}
+                              Seller ID: {sellerCode}
                               {total < mov && (
                                 <div className="cart-sub-text">
                                   Add {getSymbolFromCurrency(convertToCurrency)}
@@ -1765,9 +1763,7 @@ const CartDetails = (props) => {
                           />
 
                           <div className="qa-disp-tc" style={{ width: "80%" }}>
-                            {brandNames &&
-                              brandNames[sellerCode] &&
-                              brandNames[sellerCode].brandName}
+                              Seller ID: {sellerCode}
                             {total < mov && (
                               <div className="cart-sub-text">
                                 Add {getSymbolFromCurrency(convertToCurrency)}
@@ -2815,6 +2811,8 @@ const CartDetails = (props) => {
                 <div className="address-label">Phone number</div>
                 <Form.Item
                   name="phoneNumber"
+                  //validateStatus={selCountryExpectedLength}
+                  //help={selCountryExpectedLength == "error" ? "Enter valid phone number" : ""}
                   rules={[
                     {
                       required: true,
@@ -2822,17 +2820,21 @@ const CartDetails = (props) => {
                       whitespace: true,
                     },
                     {
-                      min: selCountryExpectedLength,
-                      message: "Enter valid phone number",
-                    },
+                      pattern: new RegExp(/^(?=.*[0-9])[- +()0-9]+$/),//(/^[0-9\s]*$/),
+                      message: "Please enter value phoneNumber",
+                    }
                   ]}
                 >
-                  <PhoneInput
+
+                    <Input 
+                  //onChange={handlePhoneNumber}
+                  />
+                  {/*<PhoneInput
                     country={selCountryCode}
                     onChange={handlePhoneNumber}
                     enableSearch={true}
                     countryCodeEditable={false}
-                  />
+                  />*/}
                 </Form.Item>
               </Col>
 

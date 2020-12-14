@@ -111,8 +111,8 @@ export const Layout = ({ children, meta = {} }) => {
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
         {/*remove the below two lines in production*/}
-        <meta name="robots" content="noindex" />
-        <meta name="googlebot" content="noindex" />
+        {/* <meta name="robots" content="noindex" />
+        <meta name="googlebot" content="noindex" /> */}
         <link
           rel="icon"
           href={`${process.env.NEXT_PUBLIC_REACT_APP_CDN_URL}/images/Img_Favicon_Public.ico`}

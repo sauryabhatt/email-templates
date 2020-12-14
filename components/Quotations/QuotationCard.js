@@ -90,7 +90,7 @@ const QuotationCard = (props) => {
         return (
             <Col key={`brand-name-${index}`} xs={24} sm={24} md={24} lg={24} style={{ display: 'flex', justifyContent: 'center' }}>
                 <span className="qa-font-san qa-fs-14 qa-fw-b qa-sm-color" style={{ lineHeight: '20px', textDecoration: 'underline', cursor: 'pointer' }} onClick={(e) => redirectToSellerCompany(props.brandNames[subOrder.sellerCode].vanityId)}>
-                    {props.brandNames && props.brandNames[subOrder.sellerCode] && props.brandNames[subOrder.sellerCode].brandName}
+                    {subOrder.sellerCode }
                 </span>
             </Col>
         )
@@ -160,12 +160,15 @@ const QuotationCard = (props) => {
                                 </Row>
                             </Col>}
                         <Col xs={24} sm={24} md={2} lg={2}></Col>
-                        {props.status == 'received' || props.status == 'closed' ? <Col xs={24} sm={24} md={9} lg={9} className="qa-vertical-center" style={{ justifyContent: 'center' }}>
+                        {props.status == 'received' || props.status == 'closed' ? 
+                            <Col xs={24} sm={24} md={9} lg={9} className="qa-vertical-center" style={{ justifyContent: 'center' , flexDirection: 'column' }}>
+                                <div style={{fontFamily: 'senregular' }}>Seller ID</div>
                             <Row>
                                 {getBrandName}
                             </Row>
                         </Col> : <Col xs={24} sm={24} md={16} lg={16} className="qa-vertical-center" style={{ justifyContent: 'center' }}>
-                                {props.data.sellerId ? <span className="qa-font-san qa-fs-14 qa-fw-b qa-sm-color" style={{ lineHeight: '20px', textDecoration: 'underline', cursor: 'pointer' }} onClick={(e) => redirectToSellerCompany(props.brandNames && props.brandNames[props.data.sellerId] && props.brandNames[props.data.sellerId].vanityId)}>{props.brandNames && props.brandNames[props.data.sellerId] && props.brandNames[props.data.sellerId].brandName}</span> :
+                                {props.data.sellerId ? 
+                                    <span className="qa-font-san qa-fs-14 qa-fw-b qa-sm-color" style={{ lineHeight: '20px', textDecoration: 'underline', cursor: 'pointer' }} onClick={(e) => redirectToSellerCompany(props.brandNames && props.brandNames[props.data.sellerId] && props.brandNames[props.data.sellerId].vanityId)}>{props.data.sellerId}</span> :
                                 <span className="qa-font-san qa-fs-14 qa-fw-b qa-tc-white">Custom order quote requested</span>}
                             </Col>}
                         {props.status == 'received' || props.status == 'closed' ? <Col xs={24} sm={24} md={7} lg={7} className="qa-vertical-center">

@@ -477,17 +477,12 @@ const Orders = (props) => {
                         <Row className="qa-mar-btm-15">
                           <Col xs={22} sm={20} md={20} lg={20}>
                             <div
-                              className="qa-fs-16 qa-fw-b qa-font-san"
+                              className="qa-fs-16 qa-font-san"
                               style={{
-                                color: "#874439",
-                                textDecoration: "underline",
                                 lineHeight: "20px",
                               }}
                             >
-                              {props.brandNameList &&
-                                props.brandNameList[subOrder.sellerCode] &&
-                                props.brandNameList[subOrder.sellerCode]
-                                  .brandName}
+                              Seller ID: <b>{subOrder.sellerCode }</b>
                             </div>
                             <div
                               className="qa-fs-12 qa-font-san qa-mar-top-05"

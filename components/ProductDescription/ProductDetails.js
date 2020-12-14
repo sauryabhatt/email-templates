@@ -1036,17 +1036,11 @@ const ProductDetails = (props) => {
               style={{ alignItems: "center", display: "flex" }}
             >
               <div>
-                <div className="qa-fw-sb qa-tc-white qa-fs-12">
-                  Explore seller:
+                <div className="qa-fw-sb qa-tc-white qa-fs-14">
+                  <Link  href={`/seller/${vanityId}`}>
+                    <span style={{ color: "#874439", fontWeight: "bold" , cursor: "pointer"}}>Explore seller profile</span>
+                  </Link>
                 </div>
-
-                <Link href={`/seller/${vanityId}`}>
-                  <a target="_blank">
-                    <span className="qa-text-2line qa-p-title qa-cursor qa-fs-12">
-                      {brandNameSC}
-                    </span>
-                  </a>
-                </Link>
               </div>
             </Col>
 
@@ -1104,7 +1098,7 @@ const ProductDetails = (props) => {
               pageId="product-description"
               categoryName={productNameSC}
               vanityId={vanityId}
-              brandName={brandNameSC}
+              brandName={sellerCode}//{brandNameSC}
             />
           </div>
           {showPrice ? (
@@ -2050,23 +2044,22 @@ const ProductDetails = (props) => {
               >
                 <Link href={`/seller/${vanityId}`}>
                   <a target="_blank">
-                    <div className="qa-tc-white qa-fs-14">Explore seller:</div>
-                    <span className="qa-text-ellipsis qa-p-title qa-cursor">
-                      {brandNameSC}
-                    </span>
+                    <div style={{color: "#874439", fontWeight: "bold", cursor: "pointer"}} className="qa-tc-white qa-fs-14">Explore seller profile</div>
                   </a>
                 </Link>
               </div>
               {!showPrice && (
                 <div
                   style={{
-                    display: "inline-block",
-                    verticalAlign: "middle",
+                    position: "absolute",
                     width: "10%",
                     background: "#e6e4df",
                     height: "100%",
-                    paddingRight: "10px",
-                    paddingTop: "12px",
+                    right: 0,
+                    top: 0,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
                 >
                   <span style={{ float: "right" }}>
@@ -2984,8 +2977,7 @@ const ProductDetails = (props) => {
           <Col xs={24} sm={24} md={24} lg={0} xl={0}>
             <Row>
               <Col span={24} className="catalogue-section">
-                <div className="pc-subtitle">More from</div>
-                <div className="pc-title">{brandNameSC}</div>
+                <div className="pc-title">View more products from this seller</div>
                 <Link href={splpLink}>
                   <div className="pc-link qa-cursor">
                     <MinusOutlined />
@@ -3081,8 +3073,7 @@ const ProductDetails = (props) => {
           <Col xs={0} sm={0} md={0} lg={24} xl={24}>
             <Row>
               <Col span={6} className="catalogue-section">
-                <div className="pc-subtitle">More from</div>
-                <div className="pc-title">{brandNameSC}</div>
+                <div className="pc-title">View more products from this seller</div>
                 <Link href={splpLink}>
                   <div className="pc-link qa-cursor">
                     <MinusOutlined />
