@@ -10,17 +10,9 @@ export default function SellerLandingPage({ data }) {
   const router = useRouter();
 
   const meta = {
-    title:
-      `Connect with ${
-        data?.sellerDetails?.brandName
-      } and source quality home & lifestyle products.
-      Manufacturer of ${data?.sellerDetails?.categoryDescs.join(
-        ", "
-      )} | Qalara` ||
-      "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods from South Asia | Qalara",
-    description:
-      data?.sellerDetails?.companyDescription ||
-      "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods - Décor, Rugs and Carpets, Kitchen, Home Furnishings – from India. Digitally. Reliably. Affordably. Responsibly.",
+    title:`Source quality home & lifestyle products from ${data?.sellerDetails?.brandName}. Manufacturer of ${data?.sellerDetails?.categoryDescs.join(", ")} | Qalara` || "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods from South Asia | Qalara",
+    description:"Shop for wholesale online. Explore products with quality and product assurance, and place orders securely.",
+    keywords:`${data?.sellerDetails?.brandName}, Global sourcing, ${data?.sellerDetails?.categoryDescs.join(", ")}, wholesale, bulk, suppliers, exports, handcrafted, handmade, India, South Asia`,
     url: "/seller/" + data?.sellerId,
   };
 

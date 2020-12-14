@@ -4,8 +4,9 @@ import Signup from "../components/Auth/Register"
 export default function AboutUs() {
   
   const meta = {
-    title:"Sign up to connect with buyers and sellers of unique, sustainable, recycled, organic products | Qalara",
-    description:"Join the community of buyers and sellers on Qalara, the best way to trade Indian products, home and kitchen items, handmade products, carpets and textiles.",
+    title:"Sign up for global wholesale buying and selling of unique, artisanal, recycled, organic products | Qalara",
+    description:"Join the community of wholesale buyers and sellers on Qalara, the best global sourcing platform for Indian handmade products, home decor, furniture, jewelry, kitchen, carpets and textiles.",
+    keywords:"Indian exporters, Indian manufacturers, products from India, buy and sell wholesale, sell in USA, Sell in Europe",
     url:"/signup"
   }
   

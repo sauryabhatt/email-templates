@@ -14,8 +14,7 @@ const DynamicPaymentWrapper = dynamic(
 export default function Payment() {
   
   const meta = {
-    title:"Buy online from India for wholesale exports. Source from verified exporters | Qalara",
-    description:"Looking to buy from Indian exporters? Buy wholesale, connect with hundreds of verified manufacturers and trade online!",
+    title:"Cart - Payment | Qalara",
   }
   
   return (
