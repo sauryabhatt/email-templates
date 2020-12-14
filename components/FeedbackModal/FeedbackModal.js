@@ -1,13 +1,13 @@
 import React, {useState, useEffect} from 'react';
 //import Cookies from 'universal-cookie';
-//import { useCookies } from 'react-cookie';
+import { useCookies } from 'react-cookie';
 //import { useBeforeunload } from 'react-beforeunload';
 import { useSelector, connect } from "react-redux";
 import { useKeycloak  } from '@react-keycloak/ssr';
 import {Modal, Button} from 'antd';
 import Icon from "@ant-design/icons";
 import whiteCloseButton from "../../public/filestore/whiteCloseButton";
-//import isMobileTablet from "./../../deviceType";
+import isMobileTablet from "../common/deviceType";
 
 function FeedbackModal(props) {
 	const [visible, setVisible] = useState(false);
@@ -16,8 +16,8 @@ function FeedbackModal(props) {
 	const [selectedOption, setSelectedOption] = useState('no');
   const [userCountry, setUserCountry] = useState('');
   const [userIp, setUserIp] = useState('');
-  //const [cookie, setCookie] = useCookies(['qalaraUser']);
-  const [keycloak] = useKeycloak();
+  const [cookie, setCookie] = useCookies(['qalaraUser']);
+  const {keycloak} = useKeycloak();
   const { userProfile } = props.userProfile;
 
   const appToken = useSelector(
