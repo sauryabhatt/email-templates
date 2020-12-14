@@ -2,8 +2,11 @@
 
 import { Layout } from "../../components/common/Layout";
 import NotFound from "../../components/NotFound/NotFound";
+import { useCookies } from 'react-cookie';
+import FeedbackModal from "../../components/FeedbackModal/FeedbackModal";
 
 export default function TrendDetails({ res, error, trend }) {
+  const [cookie, setCookie] = useCookies(['qalaraUser']);
   const meta = {
     title:
       "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods from South Asia | Qalara",
@@ -22,6 +25,7 @@ export default function TrendDetails({ res, error, trend }) {
   }
   return (
     <Layout meta={meta}>
+       {(cookie.qalaraUser && cookie.qalaraUser !== 'oldUser') && <FeedbackModal />} 
       <div
         dangerouslySetInnerHTML={{
           __html: body,
