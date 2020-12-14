@@ -423,7 +423,7 @@ const OrderReview = (props) => {
               sm={18}
               md={16}
               lg={16}
-              style={mediaMatch.matches ? { paddingTop: "10px" } : {}}
+              style={mediaMatch.matches ? { paddingTop: "10px" } : {} }
             >
               <span
                 className={
