@@ -114,7 +114,7 @@ const QuotationcardMobile = (props) => {
           sm={12}
           md={12}
           lg={12}
-          style={index > 0 ? { marginTop: "10px" } : {}}
+          style={index > 0 ? { marginTop: "5px" } : {}}
         >
           <span
             className="qa-font-san c-right-blk qa-fs-16 qa-fw-b qa-sm-color"
@@ -273,10 +273,10 @@ const QuotationcardMobile = (props) => {
               {props.status == "received" || props.status == "closed" ? (
                 <React.Fragment>
                   <Row>
-                    <Col xs={12} sm={12} md={12} lg={0} >
-                    Seller Id: 
+                    <Col xs={7} sm={7} md={7} lg={0} >
+                      <span className = "qa-font-san"> Seller Id: </span>
                     </Col>
-                    <Col xs={12} sm={12} md={12} lg={0} >
+                    <Col xs={14} sm={14} md={14} lg={0} >
                     {getBrandName}
                     </Col>
                     <Col
