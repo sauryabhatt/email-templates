@@ -110,14 +110,14 @@ const QuotationcardMobile = (props) => {
     props.data.subOrders.map((subOrder, index) => {
       return (
         <Col
-          xs={24}
-          sm={24}
-          md={24}
-          lg={24}
+          xs={12}
+          sm={12}
+          md={12}
+          lg={12}
           style={index > 0 ? { marginTop: "10px" } : {}}
         >
           <span
-            className="qa-font-san qa-fs-16 qa-fw-b qa-sm-color"
+            className="qa-font-san c-right-blk qa-fs-16 qa-fw-b qa-sm-color"
             style={{
               lineHeight: "20px",
               textDecoration: "underline",
@@ -273,7 +273,12 @@ const QuotationcardMobile = (props) => {
               {props.status == "received" || props.status == "closed" ? (
                 <React.Fragment>
                   <Row>
+                    <Col xs={12} sm={12} md={12} lg={0} >
+                    Seller Id: 
+                    </Col>
+                    <Col xs={12} sm={12} md={12} lg={0} >
                     {getBrandName}
+                    </Col>
                     <Col
                       xs={6}
                       sm={6}

@@ -95,7 +95,7 @@
 
 @media only screen and (min-width: 1025px) and (max-width: 1366px) {
   #seller-carousel {
-    height: 88vh !important;
+    height: 580px !important;
   }
   #seller-carousel .slider-button {
     bottom: 40px;

@@ -32,7 +32,7 @@ export default function PressCrousel(props){
   const press_data = [
     {
       title: "",
-      url: "https://cdn.qalara.com/images/Img_Hotoffer1.jpg",
+      url: "https://cdn.qalara.com/images/Img_Hotoffer3.jpg",
       linkTo: "https://www.qalara.com/seller/SL10789/all-categories",
     },
     {

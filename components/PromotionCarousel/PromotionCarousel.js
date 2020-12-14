@@ -28,16 +28,16 @@ export default function PromotionCarousel(props) {
 
   let promotiolList = [
     {
-      title: "Free shipping worldwide",
-      copy: "Launching Qalara Bazaar with free shipping.",
+      title: "Free shipping on select styles",
+      copy: "Introducing Q Bazaar collection with free shipping.",
     },
     {
       title: "Holiday offer!",
       copy: (
         <div>
           {" "}
-          Use coupon code <b>HAPPYHOLIDAYS</b> to avail <b>5% off*</b> on total
-          order value. <span style={{ fontSize: "12px" }}>*T&C </span>
+          <b>5% off </b> on all orders! Use coupon code <b>HAPPYHOLIDAYS</b> at checkout.
+          <span style={{ fontSize: "12px" }}>*T&C </span>
         </div>
       ),
     },

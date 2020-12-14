@@ -137,7 +137,7 @@
 }
 .press-crousel img {
   height: 80px;
-  transform: scale(.7);
+  /*transform: scale(.7);*/
 }
 .home-signup-btn {
   position: absolute;

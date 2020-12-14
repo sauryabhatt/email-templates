@@ -23,7 +23,7 @@ export default function Ribbon(props) {
   let slider = "";
   let t = [
     "FREE SHIPPING with Qalara Bazaar",
-    "Holiday offer! Get  5% OFF on total order value",
+    "Holiday offer! 5% off on all orders",
     "ZERO Commissions. FREE quality inspections",
   ];
 
