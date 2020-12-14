@@ -261,9 +261,7 @@ const SavedForLater = (props) => {
                               marginRight: "8px",
                             }}
                           />
-                          {brandNames &&
-                            brandNames[sellerCode] &&
-                            brandNames[sellerCode].brandName}
+                          {sellerCode}
                           <span
                             className="cart-delete qa-cursor"
                             onClick={() => deleteFromSFL(productIds)}
@@ -455,9 +453,7 @@ const SavedForLater = (props) => {
                             }}
                           />
                           <div className="qa-disp-tc" style={{ width: "60%" }}>
-                            {brandNames &&
-                              brandNames[sellerCode] &&
-                              brandNames[sellerCode].brandName}
+                            {sellerCode}
                           </div>
                           <span
                             className="cart-delete qa-disp-tc qa-cursor"

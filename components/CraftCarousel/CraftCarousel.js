@@ -108,7 +108,7 @@ function CraftCarousel(props) {
         {...settings}>
         {slides}
       </Slider>
-      <div className= "craft-explore-all-wrp"><span className = "craft-explore-all">EXPLORE ALL TRENDS</span></div>
+      <div className= "craft-explore-all-wrp"><Link href="/explore/curatedbyus"><span className = "craft-explore-all">EXPLORE ALL TRENDS</span></Link></div>
     </div>
   );
 }

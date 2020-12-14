@@ -409,10 +409,26 @@ const OrderReview = (props) => {
       return (
         <React.Fragment key={index}>
           <Row style={{ paddingTop: "10px" }}>
-            <Col xs={24} sm={24} md={24} lg={24}>
-              <span className="qa-fs-17 qa-font-san qa-fw-b qa-tc-white">
-                  {subOrder.sellerCode}
-              </span>
+              <Col
+              xs={18}
+              sm={18}
+              md={16}
+              lg={16}
+              style={mediaMatch.matches ? { paddingTop: "10px" } : {}}
+            >
+              <div className="c-left-blk qa-font-san">Seller ID </div>
+            </Col>
+              <Col
+              xs={6}
+              sm={6}
+              md={8}
+              lg={8}
+              className="qa-col-end"
+              style={mediaMatch.matches ? { paddingTop: "10px" } : {}}
+            >
+                <div className="c-right-blk qa-txt-alg-rgt qa-fs-14 qa-fw-b qa-font-san">
+                {subOrder.sellerCode}
+                </div>
             </Col>
             <Col
               xs={18}

@@ -32,18 +32,23 @@ export default function PressCrousel(props){
   const press_data = [
     {
       title: "",
-      url: "https://cdn.qalara.com/images/Img_Hotseller1.jpg",
-      linkTo: "https://www.qalara.com/seller/SL10403/all-categories",
+      url: "https://cdn.qalara.com/images/Img_Hotoffer1.jpg",
+      linkTo: "https://www.qalara.com/seller/SL10789/all-categories",
+    },
+    {
+      title: "",
+      url: "https://cdn.qalara.com/images/Img_Hotdeal2.jpg",
+      linkTo: "https://www.qalara.com/sellers/all-categories",
+    },
+    {
+      title: "",
+        url: "https://cdn.qalara.com/images/Img_Hotseller1.jpg",
+        linkTo: "https://www.qalara.com/seller/SL10403/all-categories",
     },
     {
       title: "",
       url: "https://cdn.qalara.com/images/Img_Hotcollection1.jpg",
       linkTo: "https://www.qalara.com/seller/SL10523/all-categories",
-    },
-    {
-      title: "",
-      url: "https://cdn.qalara.com/images/Img_Hotoffer1.jpg",
-      linkTo: "https://www.qalara.com/seller/SL10789/all-categories",
     },
   ]
   

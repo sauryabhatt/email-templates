@@ -28,7 +28,8 @@ export default function Tastimonial(){
         slidesToShow: 1,
         slidesToScroll: 1,
         arrows: false,
-        autoplaySpeed: 5000,
+        autoplay: true,
+        autoplaySpeed: 4000,
     };
     const tastimonial_data= [
         {
