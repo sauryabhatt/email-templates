@@ -1,5 +1,5 @@
 /** @format */
-
+import {useEffect} from "react";
 import { Layout } from "../../components/common/Layout";
 import NotFound from "../../components/NotFound/NotFound";
 import { useCookies } from 'react-cookie';
@@ -7,6 +7,26 @@ import FeedbackModal from "../../components/FeedbackModal/FeedbackModal";
 
 export default function TrendDetails({ res, error, trend }) {
   const [cookie, setCookie] = useCookies(['qalaraUser']);
+
+  // set cookie to identify if it's new user on site or old user
+  useEffect(() => {
+    if (cookie.qalaraUser && cookie.qalaraUser === "newUser") {
+      setCookie("qalaraUser", "oldUser", {
+        path: "/",
+        maxAge: 60 * 60 * 24 * 30,
+      });
+    } else {
+      !cookie.qalaraUser &&
+        setCookie("qalaraUser", "newUser", {
+          path: "/",
+          maxAge: 60 * 60 * 24 * 30,
+        }); // set to expire in 30
+    }
+    return function cleanup() {
+      console.log("returned");
+    };
+  }, []);
+
   const meta = {
     title:
       "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods from South Asia | Qalara",
@@ -14,6 +34,7 @@ export default function TrendDetails({ res, error, trend }) {
       "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods - Décor, Rugs and Carpets, Kitchen, Home Furnishings – from India. Digitally. Reliably. Affordably. Responsibly.",
     url: "/trends/" + trend,
   };
+
 
   let { body = "" } = res || {};
   if (error?.status || res?.body == null) {
