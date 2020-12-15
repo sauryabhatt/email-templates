@@ -1,5 +1,5 @@
 #add-new-address-form input[type="text"] {
-    padding: 10px 20px;
+    padding: 10px 12px;
     height: 40px;
     border-radius: 3px;
     background: rgb(249, 247, 242);
@@ -73,7 +73,7 @@
 }
 
 #add-new-address-form .ant-select-selector  {
-  padding: 5px 20px;
+  padding: 5px 12px;
   height: 40px;
   border-radius: 3px;
   background: rgb(249, 247, 242);

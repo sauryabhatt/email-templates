@@ -286,9 +286,9 @@ function ProductCard(props) {
                             {getConvertedCurrency(exfactoryListPrice)}
                           </span>
                         </span>
-                        <div style={{ marginTop: "-3px" }}>
+                        {/*<div style={{ marginTop: "-3px" }}>
                           Min order qty {minimumOrderQuantity} {moqUnit}
-                        </div>
+                        </div>*/}
                       </Col>
                       <Col span={10} className="qa-txt-alg-rgt qa-mar-top-05">
                         {sellerList.includes(sellerCode) && (

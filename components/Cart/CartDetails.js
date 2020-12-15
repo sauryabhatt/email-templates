@@ -74,7 +74,8 @@ const countryList = getCountries().map((country) => {
     country !== "SD" &&
     country !== "SY" &&
     country !== "PK" &&
-    country !== "SO"
+    country !== "SO" &&
+    country !== "SS"
   ) {
     return (
       <Option key={country} value={en[country]}>
@@ -610,7 +611,8 @@ const CartDetails = (props) => {
         .then((res) => {
           if (res.zipcodes && res.zipcodes.length > 0) {
             let a = res.zipcodes.slice(0)
-            a.push(value);
+            if(aa.indexOf(value) < 0)
+              a.push(value);
             setZipcodeList(a)
           }else{
             setZipcodeList([value])
@@ -2420,6 +2422,7 @@ const CartDetails = (props) => {
                     setAddressFunc("add");
                     setSelCountryCode("us");
                     setDialCode("+1");
+                    setHCountry([]);
                     form.resetFields();
                   }}
                 >
