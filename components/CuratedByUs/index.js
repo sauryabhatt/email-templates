@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ordered from "../../public/filestore/Landing-page/ordered";
 import ship from "../../public/filestore/Landing-page/ship";
 import expres from "../../public/filestore/Landing-page/express";
@@ -11,11 +11,17 @@ import Carousel from "./Carousel";
 import SendQueryForm from "./../SendQueryForm/SendQueryForm";
 import { Button, Modal } from "antd";
 import { useSelector } from "react-redux";
+import { enquireScreen } from "enquire-js";
 
 export default function CuratedByUsWrapper(props) {
+  const [isMobile, setIsMobile] = useState(false);
   const [visible, setVisible] = useState(false);
   const [successQueryVisible, setSuccessQueryVisible] = useState(false);
   const router = useRouter();
+  useEffect(() => {
+    enquireScreen((status) => setIsMobile(status));
+  }, []);
+
   const token = useSelector(
     (state) => state.appToken.token && state.appToken.token.access_token
   );
@@ -147,43 +153,37 @@ export default function CuratedByUsWrapper(props) {
   const values = [
     {
       url: "/sellers/all-categories?f_values=ORGANIC",
-      img:
-        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Values1.jpg",
+      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Values1.jpg",
       text: "Organic",
       alt: "Explore selection of organic products by Qalara",
     },
     {
       url: "/sellers/all-categories?f_values=ECO_FRIENDLY",
-      img:
-        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Values2.jpg",
+      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Values2.jpg",
       text: "Ecofriendly",
       alt: "Explore selection of eco friendly  products by Qalara",
     },
     {
       url: "/sellers/all-categories?f_values=FAIR_TRADE",
-      img:
-        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Values3.jpg",
+      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Values3.jpg",
       text: "Fair & social",
       alt: "Explore our selection of fair and social products  by Qalara",
     },
     {
       url: "/sellers/all-categories?f_values=RECYCLED",
-      img:
-        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Values4.jpg",
+      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Values4.jpg",
       text: "Recycled",
       alt: " Explore selection of recycled products  by Qalara",
     },
     {
       text: "Sustainable",
-      img:
-        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Values5.jpg",
+      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Values5.jpg",
       url: "/sellers/all-categories?f_values=SUSTAINABLE",
       alt: " Explore selection of sustainable products by Qalara",
     },
     {
       url: "/sellers/all-categories?f_values=ARTISANAL",
-      img:
-        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Values6.jpg",
+      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Values6.jpg",
       text: "Artisanal",
       alt: "Explore our selection of artisanal products  by Qalara",
     },
@@ -353,6 +353,9 @@ export default function CuratedByUsWrapper(props) {
               style={{ display: "flex" }}
               className="hroizontal-img-container"
             >
+              <div 
+                style={{ display: "flex" }}
+                className = {isMobile ? "scroll-container" : "hroizontal-img-container"}>
               <div
                 onClick={() =>
                   router.push(
@@ -400,6 +403,7 @@ export default function CuratedByUsWrapper(props) {
               >
                 {qalaraBazar()}
                 <span className="svg-text">QALARA BAZAAR</span>
+              </div>
               </div>
             </div>
           </div>

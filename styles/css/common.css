@@ -668,3 +668,6 @@
 .ant-select-single.ant-select-open .ant-select-selection-item, .ant-form-item-control-input-content{
   font-family: 'senregular';
 }
+.ant-select-selection-search input{
+  margin-top: 3px !important;
+}

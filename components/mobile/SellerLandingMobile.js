@@ -1219,7 +1219,7 @@ function SellerLandingMobile(props) {
           </Panel>
         </Collapse>
 
-        {!(profileType === "BUYER" && verificationStatus === "VERIFIED") ? (
+        {offerings.length <= 0 ? null : !(profileType === "BUYER" && verificationStatus === "VERIFIED") ? (
           <Row className="qa-fs-14 qa-mar-top-2">
             <Col
               className="qa-pad-rgt-1 qa-mar-btm-1"

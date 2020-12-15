@@ -76,6 +76,15 @@ const Addresses = (props) => {
   });
 
   const addNewAddress = () => {
+
+    setState((prevState) => ({
+        ...prevState,
+        statesByCountry: null,
+        isStatesDropdown: false,
+        country: null,
+        state: null,
+        zipCode: "",
+      }));
     setNewAddress(true);
   };
 
