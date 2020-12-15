@@ -12,6 +12,7 @@ import isMobileTablet from "../common/deviceType";
 function FeedbackModal(props) {
 	const [visible, setVisible] = useState(false);
 	const [thanks, setThanks] = useState(false);
+	const [submitted, setSubmitted] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [selectedOption, setSelectedOption] = useState('no');
   const [userCountry, setUserCountry] = useState('');
@@ -20,11 +21,11 @@ function FeedbackModal(props) {
   const {keycloak} = useKeycloak();
   const { userProfile } = props.userProfile;
 
-  const appToken = useSelector(
-    (state) => state.appToken.token && state.appToken.token.access_token
-  );
+  // const appToken = useSelector(
+  //   (state) => state.appToken.token && state.appToken.token.access_token
+  // );
 
-  const token = keycloak.token || appToken;
+  const token = keycloak.token || process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN;
 
 	const handleSubmit = (status, event) => {
     event.preventDefault();
@@ -77,7 +78,8 @@ function FeedbackModal(props) {
 
   const handleCloseOnSubmit = (status) => {
     setThanks(status);
-    //setCookie('qalaraUser', 'oldUser', {path: '/', maxAge: 60*60*24*30});
+    // setSubmitted(true);
+    setCookie('qalaraUser', 'oldUser', {path: '/', maxAge: 60*60*24*30});
   }
 
   useEffect(() => {
@@ -117,13 +119,18 @@ function FeedbackModal(props) {
             .catch((data, status) => {
             console.log('Request failed:', data);
             });
-        elem.addEventListener('mouseleave', event => {          
+        elem.addEventListener('mouseleave', event => { 
+          
+            if(cookie.qalaraUser === 'oldUser') {
+              showModalWindow(false);
+            } else {         
             if(country!=="IN") {
               showModalWindow(false);
-            }else showModalWindow(true);          
+            }else showModalWindow(true);
+          }          
           // console.log('type of user', cookie.qalaraUser)
         });
-      }, 2000*60); // set time to 2 minutes
+      }, 100 ); // set time to 2 minutes   2000*60
     }
     /* ------ */
     
@@ -133,7 +140,7 @@ function FeedbackModal(props) {
 
 	return(
 		<div className="feedback-modal-container">
-			 <Modal
+			<Modal
         visible={visible}
         footer={null}
         closable={false}
@@ -181,7 +188,7 @@ function FeedbackModal(props) {
               </div>
             </div>
       			{selectedOption === 'no' && <div className='textarea-class'><textarea id='info' name='info' rows='3' cols='50'></textarea></div>}
-	      		<button className='submit-feedback' type='submit'>
+	      		<button className='submit-feedback' style={{cursor:"pointer"}} type='submit'>
 	      			<div>Send feedback</div>
 	      		</button>
       		</form>
