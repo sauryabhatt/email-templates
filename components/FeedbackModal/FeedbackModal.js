@@ -107,20 +107,20 @@ function FeedbackModal(props) {
         } else {
           elem = document.body; // trigger mouse leave on exit from html body
         }
-        elem.addEventListener('mouseleave', event => {
-          fetch('https://ipapi.co/json/')
+        let country;
+        fetch('https://ipapi.co/json/')
             .then( res => res.json())
             .then(response => {
             // console.log("Country is : ", response);
-    
-            if(response.country==="IN") {
-              showModalWindow(false);
-            }else showModalWindow(true);
+              country = response.country;
             })
             .catch((data, status) => {
             console.log('Request failed:', data);
             });
-          
+        elem.addEventListener('mouseleave', event => {          
+            if(country!=="IN") {
+              showModalWindow(false);
+            }else showModalWindow(true);          
           // console.log('type of user', cookie.qalaraUser)
         });
       }, 2000*60); // set time to 2 minutes

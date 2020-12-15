@@ -15,35 +15,18 @@ import { Provider } from "react-redux";
 import cookie from "cookie";
 import TagManager from 'react-gtm-module';
 import Cookies from "js-cookie";
-import { useCookies } from "react-cookie";
+// import { useCookies } from "react-cookie";
 import store from "../store";
 import { setTokenSuccess, setTokenFail } from "../store/actions";
 import { useRouter } from "next/router";
 
 function MyApp(props) {
   const router = useRouter();
-  const [cookie, setCookie] = useCookies(["userID"]);
+  // const [cookie, setCookie] = useCookies(["userID"]);
 
   const { Component, pageProps, cookies } = props;
 
-  // set cookie to identify if it's new user on site or old user
-  useEffect(() => {
-    if (cookie.qalaraUser && cookie.qalaraUser === "newUser") {
-      setCookie("qalaraUser", "oldUser", {
-        path: "/",
-        maxAge: 60 * 60 * 24 * 30,
-      });
-    } else {
-      !cookie.qalaraUser &&
-        setCookie("qalaraUser", "newUser", {
-          path: "/",
-          maxAge: 60 * 60 * 24 * 30,
-        }); // set to expire in 30
-    }
-    return function cleanup() {
-      console.log("returned");
-    };
-  }, []);
+  
 
   // Google Tag Manager
   useEffect(() => {
