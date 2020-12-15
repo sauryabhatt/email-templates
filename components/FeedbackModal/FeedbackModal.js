@@ -129,7 +129,7 @@ function FeedbackModal(props) {
             }          
           // console.log('type of user', cookie.qalaraUser)
         });
-      }, 100 ); // set time to 2 minutes   
+      }, 2000*60 ); // set time to 2 minutes   
     }
     /* ------ */
     
