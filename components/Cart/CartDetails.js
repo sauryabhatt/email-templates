@@ -74,7 +74,8 @@ const countryList = getCountries().map((country) => {
     country !== "SD" &&
     country !== "SY" &&
     country !== "PK" &&
-    country !== "SO"
+    country !== "SO" &&
+    country !== "SS"
   ) {
     return (
       <Option key={country} value={en[country]}>
