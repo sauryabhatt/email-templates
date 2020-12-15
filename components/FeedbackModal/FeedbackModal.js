@@ -81,6 +81,20 @@ function FeedbackModal(props) {
   }
 
   useEffect(() => {
+
+    /*-- get IP address and country of end user --*/
+    fetch('https://ipapi.co/json/')
+    .then( res => res.json())
+    .then(response => {
+        // console.log("Country is : ", response);
+        setUserCountry(response.country);
+        setUserIp(response.ip);
+     })
+     .catch((data, status) => {
+        console.log('Request failed:', data);
+     });
+     /* ------- */
+
     /* -- logic to show modal window on mouseleave event by user --*/
     if(cookie && cookie.qalaraUser === 'oldUser'){
       showModalWindow(false);
@@ -94,26 +108,27 @@ function FeedbackModal(props) {
           elem = document.body; // trigger mouse leave on exit from html body
         }
         elem.addEventListener('mouseleave', event => {
-          showModalWindow(true);
-          console.log('type of user', cookie.qalaraUser)
+          fetch('https://ipapi.co/json/')
+            .then( res => res.json())
+            .then(response => {
+            // console.log("Country is : ", response);
+    
+            if(response.country==="IN") {
+              showModalWindow(false);
+            }else showModalWindow(true);
+            })
+            .catch((data, status) => {
+            console.log('Request failed:', data);
+            });
+          
+          // console.log('type of user', cookie.qalaraUser)
         });
       }, 2000*60); // set time to 2 minutes
     }
     /* ------ */
     
 
-    /*-- get IP address and country of end user --*/
-    fetch('https://ipapi.co/json/')
-    .then( res => res.json())
-    .then(response => {
-        console.log("Country is : ", response);
-        setUserCountry(response.country);
-        setUserIp(response.ip);
-     })
-     .catch((data, status) => {
-        console.log('Request failed:', data);
-     });
-     /* ------- */
+    
   },[]);
 
 	return(
