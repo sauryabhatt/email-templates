@@ -123,7 +123,7 @@ function FeedbackModal(props) {
             if(cookie.qalaraUser === 'oldUser') {
               showModalWindow(false);
             } else {         
-            if(country!=="IN") {
+            if(country==="IN") {
               showModalWindow(false);
             }else showModalWindow(true);
             }          
