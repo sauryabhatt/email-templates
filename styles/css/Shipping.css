@@ -108,3 +108,17 @@
   letter-spacing: 0.28px;
   color: #191919;
 }
+.cart-section .shipping-section .edd-section .c-left-blk,
+.cart-section .shipping-section .edd-section .c-right-blk {
+  font-size: 12px;
+}
+.cart-section .shipping-section .edd-section .c-left-blk {
+  width: 52%;
+}
+.cart-section .shipping-section .edd-section .c-right-blk {
+  width: 40%;
+}
+.edd-section li div {
+  position: relative;
+  left: -8px;
+}

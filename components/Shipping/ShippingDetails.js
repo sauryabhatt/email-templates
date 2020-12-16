@@ -1927,10 +1927,24 @@ const ShippingDetails = (props) => {
                 {!disablePayment && (
                   <div className="qa-mar-btm-3">
                     <div className="cart-ship-pt">
-                      <div className="c-left-blk qa-txt-alg-lft">
+                      <div
+                        className="qa-txt-alg-lft"
+                        style={{
+                          width: "45%",
+                          display: "inline-block",
+                          verticalAlign: "middle",
+                        }}
+                      >
                         Estimated delivery date:
                       </div>
-                      <div className="c-right-blk qa-txt-alg-rgt qa-success qa-fw-b">
+                      <div
+                        className="qa-txt-alg-rgt qa-success qa-fw-b"
+                        style={{
+                          width: "55%",
+                          display: "inline-block",
+                          verticalAlign: "middle",
+                        }}
+                      >
                         {tat && mode ? (
                           <span>
                             {moment(deliveryDateMin).format("DD MMM YY")} -{" "}
@@ -1941,29 +1955,33 @@ const ShippingDetails = (props) => {
                         )}
                       </div>
                     </div>
-                    <div>
+                    <div className="edd-section">
                       <div className="qa-fs-12 qa-mar-btm-1">
-                        <div className="c-left-blk qa-txt-alg-lft qa-stitle">
-                          <li>Estimated production/ dispatch time</li>
-                        </div>
-                        <div className="c-right-blk qa-txt-alg-rgt">
-                          {mov ? "25-35" : "7-10"} days
-                        </div>
+                        <li>
+                          <div className="c-left-blk qa-txt-alg-lft qa-stitle">
+                            Estimated production/ dispatch time
+                          </div>
+                          <div className="c-right-blk qa-txt-alg-rgt">
+                            {mov ? "25-35" : "7-10"} days
+                          </div>
+                        </li>
                       </div>
 
                       <div className="qa-fs-12 qa-mar-btm-1">
-                        <div className="c-left-blk qa-txt-alg-lft qa-stitle">
-                          <li>Estimated shipping lead time</li>
-                        </div>
-                        <div className="c-right-blk qa-txt-alg-rgt">
-                          {tat && mode ? (
-                            <span>
-                              {tat - (mode === "AIR" ? 3 : 7)}-{tat} days
-                            </span>
-                          ) : (
-                            "-"
-                          )}
-                        </div>
+                        <li>
+                          <div className="c-left-blk qa-txt-alg-lft qa-stitle">
+                            Estimated shipping lead time
+                          </div>
+                          <div className="c-right-blk qa-txt-alg-rgt">
+                            {tat && mode ? (
+                              <span>
+                                {tat - (mode === "AIR" ? 3 : 7)}-{tat} days
+                              </span>
+                            ) : (
+                              "-"
+                            )}
+                          </div>{" "}
+                        </li>
                       </div>
                     </div>
                   </div>

@@ -27,19 +27,17 @@ const PaymentSuccess = (props) => {
       return (
         <React.Fragment>
           <Row>
-            <Col
-              xs={24}
-              sm={24}
-              md={24}
-              lg={24}
-              className="qa-mar-top-2"
-              style={{ lineHeight: "100%" }}
-            >
+            <Col xs={18} sm={18} md={18} lg={18}>
               <span
                 className="qa-font-san qa-tc-white qa-fs-16"
                 style={{ letterSpacing: "0.02em" }}
               >
-                Seller ID: {subOrder.sellerCode}
+                Seller ID
+              </span>
+            </Col>
+            <Col xs={6} sm={6} md={6} lg={6}>
+              <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end qa-fw-b">
+                {subOrder.sellerCode}
               </span>
             </Col>
           </Row>
@@ -754,12 +752,12 @@ const PaymentSuccess = (props) => {
                     </Col>
                   </Row>
 
-                  <Row className="qa-mar-top-2">
+                  <Row className="qa-mar-top-15">
                     <Col xs={18} sm={18} md={18} lg={18}>
                       <span className="qa-font-san qa-tc-white qa-fs-14">
                         {shippingTerms === "DDU"
                           ? "VAT/ GST / Taxes excluded*"
-                          : "VAT/ GST"}
+                          : "VAT/ GST / Taxes*"}
                       </span>
                       <div className="qa-fs-14 qa-font-san">
                         Refundable for some countries like UK/AU.{" "}

@@ -747,6 +747,7 @@ const CartSummary = (props) => {
             products = "",
             sellerCode = "",
             qalaraSellerMargin = 0,
+            total = 0,
           } = order;
 
           let totalAmount = 0;
@@ -769,6 +770,20 @@ const CartSummary = (props) => {
           }
 
           totalAmount = basePrice + samplePrice + testingPrice;
+          let mov = 0;
+          for (let product of products) {
+            let { productType = "" } = product || {};
+            let sellerMov =
+              brandNames[sellerCode] &&
+              brandNames[sellerCode].mov &&
+              brandNames[sellerCode].mov.find(
+                (x) => x.productType === productType
+              ).amount;
+
+            if (mov < sellerMov) {
+              mov = sellerMov;
+            }
+          }
 
           return (
             <div className="qa-mar-btm-2" key={i}>
@@ -778,8 +793,19 @@ const CartSummary = (props) => {
                   {sellerCode}
                 </div>
               </div>
+
               <div className="cart-ship-pt qa-border-bottom">
-                <div className="c-left-blk">Value of products purchased</div>
+                <div className="c-left-blk">
+                  {total < mov ? (
+                    <span style={{ color: "#AF0000" }}>
+                      Add {getSymbolFromCurrency(convertToCurrency)}
+                      {getConvertedCurrency(mov - total)} more to reach seller's
+                      minimum order value
+                    </span>
+                  ) : (
+                    <span>Value of products purchased</span>
+                  )}
+                </div>
                 <div className="c-right-blk qa-txt-alg-rgt qa-fw-b">
                   {getSymbolFromCurrency(convertToCurrency)}
                   {parseFloat(totalAmount).toFixed(2)}
@@ -848,7 +874,7 @@ const CartSummary = (props) => {
 
       {id !== "cart" && referralCode && couponDiscount > 0 && (
         <div className="qa-mar-btm-2 qa-fw-b">
-          <div className="cart-ship-pt qa-border-bottom">
+          <div className="cart-ship-pt">
             <div style={{ color: "#02873A" }} className="c-left-blk">
               {referralCode} discount applied
             </div>
@@ -864,7 +890,7 @@ const CartSummary = (props) => {
 
       {id !== "cart" && sellerDiscount > 0 && (
         <div className="qa-mar-btm-2 qa-fw-b">
-          <div className="cart-ship-pt qa-border-bottom">
+          <div className="cart-ship-pt">
             <div style={{ color: "#02873A" }} className="c-left-blk">
               Shipping promotion applied{" "}
               <Tooltip
@@ -960,20 +986,22 @@ const CartSummary = (props) => {
       </div>
       <div
         className={`${
-          (referralCode && couponDiscount > 0) || sellerDiscount > 0
+          (referralCode && couponDiscount > 0) || promoDiscount > 0
             ? ""
             : "qa-mar-btm-2"
         }`}
       >
         <div
           className={`${
-            (referralCode && couponDiscount > 0) || sellerDiscount > 0
+            (referralCode && couponDiscount > 0) || promoDiscount > 0
               ? "cart-ship-pt"
               : "cart-ship-pt qa-border-bottom"
           }`}
         >
           <div className="c-left-blk qa-mar-btm-05">
-            {shippingTerm === "ddu" ? "VAT/ GST / Taxes excluded*" : "VAT/ GST"}
+            {shippingTerm === "ddu"
+              ? "VAT/ GST / Taxes excluded*"
+              : "VAT/ GST / Taxes*"}
           </div>
           <div className="c-right-blk qa-txt-alg-rgt">
             {id !== "cart" && vatCharge > 0 ? (

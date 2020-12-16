@@ -1177,7 +1177,7 @@ const CartDetails = (props) => {
                                 <div className="cart-sub-text">
                                   Add {getSymbolFromCurrency(convertToCurrency)}
                                   {getConvertedCurrency(mov - total)} more to
-                                  reach seller’s minimum order value
+                                  reach seller's minimum order value
                                 </div>
                               )}
                             </div>

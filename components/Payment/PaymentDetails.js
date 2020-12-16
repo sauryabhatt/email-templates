@@ -25,6 +25,7 @@ import sellerList from "../../public/filestore/freeShippingSellers.json";
 import CheckoutSteps from "../common/CheckoutSteps";
 import PaymentBanner from "../common/PaymentBanner";
 import moment from "moment";
+import Link from "next/link";
 
 const PaymentDetails = (props) => {
   let {
@@ -78,7 +79,7 @@ const PaymentDetails = (props) => {
   const [paymentValue, setPaymentValue] = useState("");
   const [showCart, setShowCart] = useState(false);
   const [showShip, setShowShip] = useState(false);
-  const [shippingTerm, setShippingTerm] = useState(true);
+  const [shippingTerm, setShippingTerm] = useState(false);
   const [estimatedDelivery, setEstimatedDelivery] = useState(false);
   const mediaMatch = window.matchMedia("(min-width: 1024px)");
 
@@ -163,13 +164,13 @@ const PaymentDetails = (props) => {
                 <div className="">{shippingAddr}</div>
               </div>
               <div
-                className="cart-prod-title qa-pad-btm-05 qa-mar-btm-1 qa-cursor"
+                className="cart-prod-title qa-pad-btm-05 qa-mar-btm-2 qa-cursor qa-border-bottom"
                 onClick={() => setShippingTerm(!shippingTerm)}
               >
                 Shipping term:{" "}
                 <span className="qa-fw-b qa-tc-white qa-font-san">
                   {shippingTerms.toUpperCase()}{" "}
-                  {shippingTerms === "ddu"
+                  {shippingTerms.toLowerCase() === "ddu"
                     ? "(Delivered Duty Unpaid)"
                     : "(Delivered Duty Paid)"}
                 </span>
@@ -182,10 +183,34 @@ const PaymentDetails = (props) => {
                 </span>
               </div>
               {shippingTerm && (
-                <div className="qa-pad-btm-15 qa-border-bottom qa-mar-btm-15 qa-lh">
-                  {shippingTerms === "ddu"
-                    ? "Duties and taxes will be paid by you at the time of delivery. Qalara will pay the freight fee for the order."
-                    : "Duties and taxes are estimated and charged to you by Qalara and paid during customs clearance on your behalf."}
+                <div className="qa-mar-btm-15 qa-lh">
+                  {shippingTerms.toLowerCase() === "ddu" ? (
+                    <span>
+                      Any applicable duties and taxes are paid directly by you
+                      to the freight/logistics partner during customs clearance
+                      or delivery as applicable.{" "}
+                      <Link href="/FAQforwholesalebuyers">
+                        <a target="_blank">
+                          <span className="qa-sm-color qa-cursor">
+                            Know more
+                          </span>
+                        </a>
+                      </Link>
+                    </span>
+                  ) : (
+                    <span>
+                      Any applicable duties and taxes are estimated and charged
+                      to you by Qalara and paid during customs clearance on your
+                      behalf.{" "}
+                      <Link href="/FAQforwholesalebuyers">
+                        <a target="_blank">
+                          <span className="qa-sm-color qa-cursor">
+                            Know more
+                          </span>
+                        </a>
+                      </Link>
+                    </span>
+                  )}
                 </div>
               )}
               <div
@@ -335,7 +360,7 @@ const PaymentDetails = (props) => {
                 </Row>
               )}
               <div
-                className="cart-prod-title qa-pad-btm-05 qa-border-bottom qa-mar-btm-15 qa-cursor"
+                className="cart-prod-title qa-pad-btm-05 qa-border-bottom qa-mar-btm-2 qa-cursor"
                 onClick={() => setEstimatedDelivery(!estimatedDelivery)}
               >
                 Estimated delivery date:{" "}
@@ -872,13 +897,13 @@ const PaymentDetails = (props) => {
                 </div>
               </div>
               <div
-                className="cart-ship-pt qa-cursor qa-tc-white qa-font-san qa-lh"
+                className="cart-prod-title qa-pad-btm-1 qa-mar-btm-1 qa-border-bottom qa-cursor"
                 onClick={() => setShippingTerm(!shippingTerm)}
               >
                 Shipping term:{" "}
                 <span className="qa-fw-b">
                   {shippingTerms.toUpperCase()}{" "}
-                  {/* {shippingTerms === "ddu"
+                  {/* {shippingTerms.toLowerCase() === "ddu"
                     ? "(Delivered Duty Unpaid)"
                     : "(Delivered Duty Paid)"} */}
                 </span>
@@ -892,13 +917,37 @@ const PaymentDetails = (props) => {
               </div>
               {shippingTerm && (
                 <div className="qa-pad-btm-2 qa-lh">
-                  {shippingTerms === "ddu"
-                    ? "Duties and taxes will be paid by you at the time of delivery. Qalara will pay the freight fee for the order."
-                    : "Duties and taxes are estimated and charged to you by Qalara and paid during customs clearance on your behalf."}
+                  {shippingTerms.toLowerCase() === "ddu" ? (
+                    <span>
+                      Any applicable duties and taxes are paid directly by you
+                      to the freight/logistics partner during customs clearance
+                      or delivery as applicable.{" "}
+                      <Link href="/FAQforwholesalebuyers">
+                        <a target="_blank">
+                          <span className="qa-sm-color qa-cursor">
+                            Know more
+                          </span>
+                        </a>
+                      </Link>
+                    </span>
+                  ) : (
+                    <span>
+                      Any applicable duties and taxes are estimated and charged
+                      to you by Qalara and paid during customs clearance on your
+                      behalf.{" "}
+                      <Link href="/FAQforwholesalebuyers">
+                        <a target="_blank">
+                          <span className="qa-sm-color qa-cursor">
+                            Know more
+                          </span>
+                        </a>
+                      </Link>
+                    </span>
+                  )}
                 </div>
               )}
               <div
-                className="cart-ship-pt qa-border-bottom qa-cursor qa-tc-white qa-font-san"
+                className="cart-prod-title qa-pad-btm-1 qa-border-bottom qa-cursor"
                 onClick={() => setShowShip(!showShip)}
               >
                 Shipping mode: <span className="qa-fw-b">{shippingMode}</span>
@@ -1008,7 +1057,7 @@ const PaymentDetails = (props) => {
                 </div>
               )}
               <div
-                className="cart-ship-pt qa-border-bottom qa-cursor qa-tc-white qa-font-san qa-mar-top-1"
+                className="cart-prod-title qa-pad-btm-1 qa-border-bottom qa-cursor qa-mar-top-1"
                 onClick={() => setEstimatedDelivery(!estimatedDelivery)}
               >
                 Estimated delivery date
@@ -1021,29 +1070,33 @@ const PaymentDetails = (props) => {
                 </span>
               </div>
               {estimatedDelivery && (
-                <div className="qa-pad-top-2 qa-pad-btm-1">
+                <div className="qa-pad-top-2 qa-pad-btm-1 edd-section">
                   <div className="qa-mar-btm-1">
-                    <div className="c-left-blk qa-txt-alg-lft qa-stitle">
-                      <li>Estimated production/ dispatch time</li>
-                    </div>
-                    <div className="c-right-blk qa-txt-alg-rgt">
-                      {typeOfOrder === "ERTM" ? "25-35" : "7-10"} days
-                    </div>
+                    <li>
+                      <div className="c-left-blk qa-txt-alg-lft qa-stitle">
+                        Estimated production/ dispatch time
+                      </div>
+                      <div className="c-right-blk qa-txt-alg-rgt">
+                        {typeOfOrder === "ERTM" ? "25-35" : "7-10"} days
+                      </div>
+                    </li>
                   </div>
 
                   <div className="qa-mar-btm-1">
-                    <div className="c-left-blk qa-txt-alg-lft qa-stitle">
-                      <li>Estimated shipping lead time</li>
-                    </div>
-                    <div className="c-right-blk qa-txt-alg-rgt">
-                      {tat && shippingMode ? (
-                        <span>
-                          {tat - (shippingMode === "AIR" ? 3 : 7)}-{tat} days
-                        </span>
-                      ) : (
-                        "-"
-                      )}
-                    </div>
+                    <li>
+                      <div className="c-left-blk qa-txt-alg-lft qa-stitle">
+                        Estimated shipping lead time
+                      </div>
+                      <div className="c-right-blk qa-txt-alg-rgt">
+                        {tat && shippingMode ? (
+                          <span>
+                            {tat - (shippingMode === "AIR" ? 3 : 7)}-{tat} days
+                          </span>
+                        ) : (
+                          "-"
+                        )}
+                      </div>
+                    </li>
                   </div>
                 </div>
               )}
@@ -1051,7 +1104,7 @@ const PaymentDetails = (props) => {
           </Row>
 
           <div
-            className="cart-prod-title qa-fw-b qa-pad-btm-1 qa-mar-btm-2 qa-border-bottom qa-cursor qa-mar-top-1"
+            className="cart-prod-title qa-pad-btm-1 qa-mar-btm-2 qa-border-bottom qa-cursor qa-mar-top-1"
             onClick={() => setShowCart(!showCart)}
           >
             Shopping cart
