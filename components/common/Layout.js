@@ -118,11 +118,7 @@ export const Layout = ({ children, meta = {} }) => {
           rel="icon"
           href={`${process.env.NEXT_PUBLIC_REACT_APP_CDN_URL}/images/Img_Favicon_Public.ico`}
         />
-        <script
-          src={`https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_REACT_APP_PAYPAL_CLIENT_ID}&currency=USD&intent=order`}
-          id="paypal-script"
-          type="text/javaScript"
-        ></script>
+        
       </Head>
       {isShowRibbon && !url ? (
         <Ribbon
@@ -132,6 +128,12 @@ export const Layout = ({ children, meta = {} }) => {
       ) : null}
       {Header}
       {<main className="main-layout-next">{children}</main>}
+      <script
+          defer
+          src={`https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_REACT_APP_PAYPAL_CLIENT_ID}&currency=USD&intent=order`}
+          id="paypal-script"
+          type="text/javaScript"
+        ></script>
     </Fragment>
   );
 };
