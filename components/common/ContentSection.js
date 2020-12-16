@@ -18,9 +18,8 @@ function ContentSection(props) {
     loadMoreData,
     sellerId = "",
   } = props;
-  // console.log("content===>", content);
-  const [selProductId, setSelProductId] = useState("");
 
+  const [selProductId, setSelProductId] = useState("");
   const [open, setOpen] = useState(false);
 
   const handleClickOutside = (e) => {
@@ -47,7 +46,7 @@ function ContentSection(props) {
 
   if (content && content.length > 0) {
     return (
-      <Content className="site-layout-background">
+      <Content id="scrollableDiv">
         <InfiniteScroll
           dataLength={content.length}
           next={loadMoreData}
@@ -90,6 +89,8 @@ function ContentSection(props) {
               tuned!
             </div>
           }
+          scrollableTarget="scrollableDiv"
+          scrollThreshold="200px"
         >
           <Row>
             {content.map((values, index) => (
