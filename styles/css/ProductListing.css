@@ -153,6 +153,26 @@
   max-height: 24vh;
   padding-top: 0%;
 }
+#seller-product-listing-page .banner::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #191919;
+  opacity: 50%;
+}
+.banner-seller-name{
+  color: #F9F7F2;
+  font-size: 20px;
+  text-transform: capitalize;
+  position: absolute;
+  left: 40px;
+  bottom: 14px;
+  z-index:99;
+  font-family: 'Butler';
+}
 #seller-product-listing-page .banner-text-small {
   font-family: senregular;
   font-size: 14px;
@@ -234,6 +254,10 @@
     button.ant-btn.qa-button.slp-filters {
     margin-top: 0px;
     margin-bottom: 0px;
+  }
+  .banner-seller-name{
+    left: 50%;
+    transform: translateX(-50%);
   }
 }
 

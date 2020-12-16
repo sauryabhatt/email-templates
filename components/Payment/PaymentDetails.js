@@ -359,7 +359,7 @@ const PaymentDetails = (props) => {
               </div>
               {estimatedDelivery && (
                 <div className="qa-pad-btm-2" style={{ width: "70%" }}>
-                  <div className="qa-fs-12 qa-mar-btm-05">
+                  <div className="qa-mar-btm-05">
                     <div className="c-left-blk qa-txt-alg-lft qa-stitle">
                       <li>Estimated production/ dispatch time</li>
                     </div>
@@ -368,7 +368,7 @@ const PaymentDetails = (props) => {
                     </div>
                   </div>
 
-                  <div className="qa-fs-12 qa-mar-btm-05">
+                  <div className="qa-mar-btm-05">
                     <div className="c-left-blk qa-txt-alg-lft qa-stitle">
                       <li>Estimated shipping lead time</li>
                     </div>
@@ -1022,7 +1022,7 @@ const PaymentDetails = (props) => {
               </div>
               {estimatedDelivery && (
                 <div className="qa-pad-top-2 qa-pad-btm-1">
-                  <div className="qa-fs-12 qa-mar-btm-1">
+                  <div className="qa-mar-btm-1">
                     <div className="c-left-blk qa-txt-alg-lft qa-stitle">
                       <li>Estimated production/ dispatch time</li>
                     </div>
@@ -1031,7 +1031,7 @@ const PaymentDetails = (props) => {
                     </div>
                   </div>
 
-                  <div className="qa-fs-12 qa-mar-btm-1">
+                  <div className="qa-mar-btm-1">
                     <div className="c-left-blk qa-txt-alg-lft qa-stitle">
                       <li>Estimated shipping lead time</li>
                     </div>

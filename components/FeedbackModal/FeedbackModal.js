@@ -1,13 +1,13 @@
 import React, {useState, useEffect} from 'react';
 //import Cookies from 'universal-cookie';
-//import { useCookies } from 'react-cookie';
+import { useCookies } from 'react-cookie';
 //import { useBeforeunload } from 'react-beforeunload';
 import { useSelector, connect } from "react-redux";
 import { useKeycloak  } from '@react-keycloak/ssr';
 import {Modal, Button} from 'antd';
 import Icon from "@ant-design/icons";
 import whiteCloseButton from "../../public/filestore/whiteCloseButton";
-//import isMobileTablet from "./../../deviceType";
+import isMobileTablet from "../common/deviceType";
 
 function FeedbackModal(props) {
 	const [visible, setVisible] = useState(false);
@@ -16,15 +16,15 @@ function FeedbackModal(props) {
 	const [selectedOption, setSelectedOption] = useState('no');
   const [userCountry, setUserCountry] = useState('');
   const [userIp, setUserIp] = useState('');
-  //const [cookie, setCookie] = useCookies(['qalaraUser']);
-  const [keycloak] = useKeycloak();
+  const [cookie, setCookie] = useCookies(['qalaraUser']);
+  const {keycloak} = useKeycloak();
   const { userProfile } = props.userProfile;
 
-  const appToken = useSelector(
-    (state) => state.appToken.token && state.appToken.token.access_token
-  );
+  // const appToken = useSelector(
+  //   (state) => state.appToken.token && state.appToken.token.access_token
+  // );
 
-  const token = keycloak.token || appToken;
+  const token = keycloak.token || process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN;
 
 	const handleSubmit = (status, event) => {
     event.preventDefault();
@@ -77,10 +77,25 @@ function FeedbackModal(props) {
 
   const handleCloseOnSubmit = (status) => {
     setThanks(status);
-    //setCookie('qalaraUser', 'oldUser', {path: '/', maxAge: 60*60*24*30});
+    // setSubmitted(true);
+    setCookie('qalaraUser', 'oldUser', {path: '/', maxAge: 60*60*24*30});
   }
 
   useEffect(() => {
+
+    /*-- get IP address and country of end user --*/
+    fetch('https://ipapi.co/json/')
+    .then( res => res.json())
+    .then(response => {
+        // console.log("Country is : ", response);
+        setUserCountry(response.country);
+        setUserIp(response.ip);
+     })
+     .catch((data, status) => {
+        console.log('Request failed:', data);
+     });
+     /* ------- */
+
     /* -- logic to show modal window on mouseleave event by user --*/
     if(cookie && cookie.qalaraUser === 'oldUser'){
       showModalWindow(false);
@@ -93,32 +108,38 @@ function FeedbackModal(props) {
         } else {
           elem = document.body; // trigger mouse leave on exit from html body
         }
-        elem.addEventListener('mouseleave', event => {
-          showModalWindow(true);
-          console.log('type of user', cookie.qalaraUser)
+        let country;
+        fetch('https://ipapi.co/json/')
+            .then( res => res.json())
+            .then(response => {
+            // console.log("Country is : ", response);
+              country = response.country;
+            })
+            .catch((data, status) => {
+            console.log('Request failed:', data);
+            });
+        elem.addEventListener('mouseleave', event => { 
+          
+            if(cookie.qalaraUser === 'oldUser') {
+              showModalWindow(false);
+            } else {         
+            if(country==="IN") {
+              showModalWindow(false);
+            }else showModalWindow(true);
+            }          
+          // console.log('type of user', cookie.qalaraUser)
         });
-      }, 2000*60); // set time to 2 minutes
+      }, 2000*60 ); // set time to 2 minutes   
     }
     /* ------ */
     
 
-    /*-- get IP address and country of end user --*/
-    fetch('https://ipapi.co/json/')
-    .then( res => res.json())
-    .then(response => {
-        console.log("Country is : ", response);
-        setUserCountry(response.country);
-        setUserIp(response.ip);
-     })
-     .catch((data, status) => {
-        console.log('Request failed:', data);
-     });
-     /* ------- */
+    
   },[]);
 
 	return(
 		<div className="feedback-modal-container">
-			 <Modal
+			<Modal
         visible={visible}
         footer={null}
         closable={false}
@@ -166,7 +187,7 @@ function FeedbackModal(props) {
               </div>
             </div>
       			{selectedOption === 'no' && <div className='textarea-class'><textarea id='info' name='info' rows='3' cols='50'></textarea></div>}
-	      		<button className='submit-feedback' type='submit'>
+	      		<button className='submit-feedback' style={{cursor:"pointer"}} type='submit'>
 	      			<div>Send feedback</div>
 	      		</button>
       		</form>

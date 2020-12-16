@@ -295,24 +295,6 @@ function SellerProductListingDesktop(props) {
                 xl={15}
                 style={{ paddingRight: "50px" }}
               >
-                <div
-                  className="qa-txt-alg-cnt qa-full-width"
-                  style={{ display: "inline-block" }}
-                >
-                  {logoUrl && (
-                    <div
-                      className="qa-disp-tc qa-scp-logo"
-                      style={{ paddingRight: "10px", marginBottom: "10px" }}
-                    >
-                      <img src={logoUrl} height="26px" alt="Company logo" />
-                    </div>
-                  )}
-                  <div className="qa-disp-tc qa-scp-text qa-font-butler qa-fs-24 qa-mar-btm-1">
-                    <span className="qa-titlecase">
-                      {brandName.toLowerCase() || orgName.toLowerCase()}
-                    </span>
-                  </div>
-                </div>
 
                 <div className="qa-text-2line banner-text-small qa-font-san qa-fs-12 qa-mar-btm-1">
                   {companyDescription}
@@ -342,6 +324,7 @@ function SellerProductListingDesktop(props) {
                     {city && country && <span>, </span>} {country}
                   </div>
                 )}
+
                 <div
                   className="qa-txt-alg-rgt"
                   style={{
@@ -423,7 +406,7 @@ function SellerProductListingDesktop(props) {
                 pageId="seller-product-listing"
                 categoryName={category}
                 vanityId={vanityId}
-                brandName={brandName}
+                brandName={sellerId}
               />
             </Col>
             <Col span={6} className="qa-txt-alg-rgt qa-mar-top-3">
@@ -461,7 +444,7 @@ function SellerProductListingDesktop(props) {
           onCancel={handleCancel}
           centered
           bodyStyle={{ padding: "0px" }}
-          width={750}
+          width={550}
           style={{ top: 5 }}
           className="splp seller-order-query-submission catalog-modal"
         >

@@ -686,3 +686,6 @@
 .qa-pad-020 {
   padding: 10px 15px 20px;
 }
+.ant-select-selection-search input{
+  margin-top: 3px !important;
+}

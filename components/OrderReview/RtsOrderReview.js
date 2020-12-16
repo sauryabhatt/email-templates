@@ -394,9 +394,8 @@ const RtsOrderReview = (props) => {
                               className="qa-disp-table-cell"
                               style={{ width: "80%" }}
                             >
-                              {brandNames &&
-                                brandNames[sellerCode] &&
-                                brandNames[sellerCode].brandName}
+
+                              Seller ID: {sellerCode}
                               {total < 250 && (
                                 <div className="cart-sub-text">
                                   Add {getSymbolFromCurrency(convertToCurrency)}
@@ -1031,9 +1030,7 @@ const RtsOrderReview = (props) => {
                         />
 
                         <div className="qa-disp-tc" style={{ width: "80%" }}>
-                          {brandNames &&
-                            brandNames[sellerCode] &&
-                            brandNames[sellerCode].brandName}
+                              Seller ID: {sellerCode}
                           {total < 250 && (
                             <div className="cart-sub-text">
                               Add {getSymbolFromCurrency(convertToCurrency)}

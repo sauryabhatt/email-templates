@@ -497,10 +497,7 @@ const OrdersMobile = (props) => {
                                   lineHeight: "20px",
                                 }}
                               >
-                                {props.brandNameList &&
-                                  props.brandNameList[subOrder.sellerCode] &&
-                                  props.brandNameList[subOrder.sellerCode]
-                                    .brandName}
+                              {subOrder.sellerCode }
                               </span>
                             </Col>
                             <Col xs={12} sm={12} md={24} lg={24}>

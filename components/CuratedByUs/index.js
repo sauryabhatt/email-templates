@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ordered from "../../public/filestore/Landing-page/ordered";
 import ship from "../../public/filestore/Landing-page/ship";
 import expres from "../../public/filestore/Landing-page/express";
@@ -11,11 +11,17 @@ import Carousel from "./Carousel";
 import SendQueryForm from "./../SendQueryForm/SendQueryForm";
 import { Button, Modal } from "antd";
 import { useSelector } from "react-redux";
+import { enquireScreen } from "enquire-js";
 
 export default function CuratedByUsWrapper(props) {
+  const [isMobile, setIsMobile] = useState(false);
   const [visible, setVisible] = useState(false);
   const [successQueryVisible, setSuccessQueryVisible] = useState(false);
   const router = useRouter();
+  useEffect(() => {
+    enquireScreen((status) => setIsMobile(status));
+  }, []);
+
   const token = useSelector(
     (state) => state.appToken.token && state.appToken.token.access_token
   );
@@ -354,101 +360,108 @@ export default function CuratedByUsWrapper(props) {
               className="hroizontal-img-container"
             >
               <div
-                onClick={() =>
-                  router.push(
-                    "/products/all-categories?f_product_types=Ready%20to%20ship"
-                  )
+                style={{ display: "flex" }}
+                className={
+                  isMobile ? "scroll-container" : "hroizontal-img-container"
                 }
-                className="image-wrp"
-                style={{ cursor: "pointer" }}
               >
-                {ship()}
-                <span className="svg-text">READY TO SHIP</span>
-              </div>
-              <div
-                onClick={() =>
-                  router.push(
-                    "/products/all-categories?f_product_types=Express%20custom"
-                  )
-                }
-                className="image-wrp"
-                style={{ cursor: "pointer" }}
-              >
-                {expres()}
-                <span className="svg-text">Express custom</span>
-              </div>
-              <div
-                onClick={() =>
-                  router.push(
-                    "/products/all-categories?f_product_types=Make%20to%20order"
-                  )
-                }
-                className="image-wrp"
-                style={{ cursor: "pointer" }}
-              >
-                {ordered()}
-                <span className="svg-text">Made to order</span>
-              </div>
-              <div
-                onClick={() =>
-                  router.push(
-                    "/products/all-categories?f_product_types=Make%20to%20order"
-                  )
-                }
-                className="image-wrp"
-                style={{ cursor: "pointer" }}
-              >
-                {qalaraBazar()}
-                <span className="svg-text">QALARA BAZAAR</span>
+                <div
+                  onClick={() =>
+                    router.push(
+                      "/products/all-categories?f_product_types=Ready%20to%20ship"
+                    )
+                  }
+                  className="image-wrp"
+                  style={{ cursor: "pointer" }}
+                >
+                  {ship()}
+                  <span className="svg-text">READY TO SHIP</span>
+                </div>
+                <div
+                  onClick={() =>
+                    router.push(
+                      "/products/all-categories?f_product_types=Express%20custom"
+                    )
+                  }
+                  className="image-wrp"
+                  style={{ cursor: "pointer" }}
+                >
+                  {expres()}
+                  <span className="svg-text">Express custom</span>
+                </div>
+                <div
+                  onClick={() =>
+                    router.push(
+                      "/products/all-categories?f_product_types=Make%20to%20order"
+                    )
+                  }
+                  className="image-wrp"
+                  style={{ cursor: "pointer" }}
+                >
+                  {ordered()}
+                  <span className="svg-text">Made to order</span>
+                </div>
+                <div
+                  onClick={() =>
+                    router.push(
+                      "/products/all-categories?f_product_types=Make%20to%20order"
+                    )
+                  }
+                  className="image-wrp"
+                  style={{ cursor: "pointer" }}
+                >
+                  {qalaraBazar()}
+                  <span className="svg-text">QALARA BAZAAR</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <Modal
-        visible={visible}
-        footer={null}
-        onCancel={sendQueryCancel}
-        style={{ top: 5 }}
-        bodyStyle={{ padding: "0" }}
-        width={550}
-        className="rfq-submit-modal"
-      >
-        <SendQueryForm
-          sendQueryCancel={sendQueryCancel}
-          token={token || process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN}
-          initialValues={values}
-        />
-      </Modal>
-      <Modal
-        visible={successQueryVisible}
-        footer={null}
-        closable={true}
-        onCancel={successQueryCancel}
-        centered
-        bodyStyle={{ padding: "0" }}
-        width={400}
-        className="rfq-submission-modal"
-      >
-        <div id="send-query-success-modal">
-          <div className="send-query-success-modal-content">
-            <p className="send-query-success-modal-para1">Thank you!</p>
-            <p className="send-query-success-modal-para2">
-              We have received your request for quote and will revert within the
-              next 48 to 72 hours.
-            </p>
+        <Modal
+          visible={visible}
+          footer={null}
+          onCancel={sendQueryCancel}
+          style={{ top: 5 }}
+          bodyStyle={{ padding: "0" }}
+          width={550}
+          className="rfq-submit-modal"
+        >
+          <SendQueryForm
+            sendQueryCancel={sendQueryCancel}
+            token={token || process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN}
+            initialValues={values}
+          />
+        </Modal>
+        <Modal
+          visible={successQueryVisible}
+          footer={null}
+          closable={true}
+          onCancel={successQueryCancel}
+          centered
+          bodyStyle={{ padding: "0" }}
+          width={400}
+          className="rfq-submission-modal"
+        >
+          <div id="send-query-success-modal">
+            <div className="send-query-success-modal-content">
+              <p className="send-query-success-modal-para1">Thank you!</p>
+              <p className="send-query-success-modal-para2">
+                We have received your request for quote and will revert within
+                the next 48 to 72 hours.
+              </p>
+            </div>
+            <Button
+              className="send-query-success-modal-button"
+              onClick={() => {
+                successQueryCancel();
+                router.push("/");
+              }}
+            >
+              Back to home page
+            </Button>
           </div>
-          <Button
-            className="send-query-success-modal-button"
-            onClick={() => {
-              successQueryCancel();
-              router.push("/");
-            }}
-          >
-            Back to home page
-          </Button>
-        </div>
-      </Modal>
+        </Modal>
+      </div>
     </div>
   );
 }

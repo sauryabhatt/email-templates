@@ -21,7 +21,7 @@ export default function HomePageCarousel(props) {
   const [isMobile, setIsMobile] = useState(false);
   const imgs = [
     {
-      img: "https://cdn.qalara.com/images/Img_Homepage_Banner_Qalara_1.jpg",
+      img: "https://cdn.qalara.com/images/Img_Homepage_Banner_Qalara1_1.jpg",
       hading_text: (
         <div style={{ color: "#754222" }}>
           Global wholesale{isMobile ? <br /> : null} buying,{" "}
@@ -46,26 +46,29 @@ export default function HomePageCarousel(props) {
       isSignupbtn: true,
       signinBTNLink: "/sellers/all-categories",
       signinBTNText: "START SHOPPING",
-      mobileImg: "https://cdn.qalara.com/images/Img_Homepage_Banner_Qalara_1-mob.jpg",
+      mobileImg: "https://cdn.qalara.com/images/Img_Homepage_Banner_Qalara1_1-mob.jpg",
+      alt: "Qalara Global wholesale buying reimagined"
     },
     {
-      img: "https://cdn.qalara.com/images/Img_Banner_Qalarabazar.jpg",
+      img: "https://cdn.qalara.com/images/Img_Banner_Qalarabazar2.jpg",
       hading_text: "",//"Global wholesale buying, reimagined.",
       small_text: "",//"Source wholesale products from India and South East Asia. Order digitally, reliably, affordably.Backed by a Fortune 100 company.Verified buyers from 25+ countries.",
       video_link: "",//"https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4",            
       isSignupbtn: false,
       signinBTNLink: "/seller/SL10789/all-categories",
-      mobileImg: "https://cdn.qalara.com/images/Img_Banner_Qalarabazar_mob.jpg",
+      mobileImg: "https://cdn.qalara.com/images/Img_Banner_Qalarabazar1_mob.jpg",
+      alt: "Qalara festive offer get eco-friendly, handmade gifts for the holiday season"
     },
     {
       img: "https://cdn.qalara.com/images/Img_Homepage_Banner_Qalara_2-1.jpg",
       hading_text: <div className = "second-img-head">Eco-friendly,{isMobile ?<br/>: null} handmade gifts for{isMobile ?<br/>: null} the Holiday season.</div>,
-      small_text: <span className = "second-img-subhead" > <div> Use coupon code <b>FLAT75OFF</b> to avail</div><div> <b>$75 off*</b> on all orders.</div></span>,
+      small_text: <span className = "second-img-subhead" > <div><b>5% off</b> on all orders!</div><div>Use coupon code <b>HAPPYHOLIDAYS</b></div></span>,
       //video_link: "",  
       isSignupbtn: true,
       signinBTNLink: "/sellers/all-categories?f_values=ECO_FRIENDLY",
       signinBTNText: "EXPLORE NOW",
       mobileImg: "https://cdn.qalara.com/images/Img_Homepage_Banner_Qalara_2-mob.jpg",
+      alt: "Qalara your one-stop-shop for wholesale"
     },
     {
       img: "https://cdn.qalara.com/images/Img_Homepage_banner_3.jpg",
@@ -74,6 +77,7 @@ export default function HomePageCarousel(props) {
       isSignupbtn: false,
       signinBTNLink: "/sellers/all-categories",
       mobileImg: "https://cdn.qalara.com/images/Img_Homepage_banner_3_mob.jpg",
+      alt: ""
     },
   ];
   const [imgCount, setImgCount] = useState(0);
@@ -272,7 +276,7 @@ function SlideElement(props) {
       {isMobile ? (
         <img
           style={{ width: "100%", maxHeight: "100vh" }}
-          alt=""
+          alt={e.alt}
           src={isMobile ? e.mobileImg : e.img}
         />
       ) : null}

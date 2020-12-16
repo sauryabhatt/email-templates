@@ -76,6 +76,15 @@ const Addresses = (props) => {
   });
 
   const addNewAddress = () => {
+
+    setState((prevState) => ({
+        ...prevState,
+        statesByCountry: null,
+        isStatesDropdown: false,
+        country: null,
+        state: null,
+        zipCode: "",
+      }));
     setNewAddress(true);
   };
 
@@ -151,8 +160,10 @@ const Addresses = (props) => {
       country !== "SD" &&
       country !== "SY" &&
       country !== "PK" &&
-      country !== "SO"
+      country !== "SO" &&
+      country !== "SS"
     ) {
+      //console.log(country, en[country]);
       return (
         <Option key={country} value={en[country]}>
           {en[country]}
@@ -366,6 +377,7 @@ const Addresses = (props) => {
         .then((res) => {
           if(res.zipcodes && res.zipcodes.length > 0){
             let a = res.zipcodes.slice(0)
+            if(a.indexOf(value) < 0)
             a.push(value);
             setZipcodeList(a)
           }else{

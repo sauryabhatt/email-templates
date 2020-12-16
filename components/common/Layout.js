@@ -97,8 +97,9 @@ export const Layout = ({ children, meta = {} }) => {
     <Fragment>
       <Head>
         <title>{title}</title>
-        <meta name="description" content={description} />
-        <meta property="og:title" content={title} />
+        {description && <meta name="description" content={description} />}
+        {keywords && <meta name="keywords" content={keywords} />}
+        {title && <meta property="og:title" content={title} />}
         {meta?.url && (
           <meta
             property="og:url"
@@ -111,17 +112,13 @@ export const Layout = ({ children, meta = {} }) => {
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
         {/*remove the below two lines in production*/}
-        <meta name="robots" content="noindex" />
-        <meta name="googlebot" content="noindex" />
+        {/* <meta name="robots" content="noindex" />
+        <meta name="googlebot" content="noindex" /> */}
         <link
           rel="icon"
           href={`${process.env.NEXT_PUBLIC_REACT_APP_CDN_URL}/images/Img_Favicon_Public.ico`}
         />
-        <script
-          src={`https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_REACT_APP_PAYPAL_CLIENT_ID}&currency=USD&intent=order`}
-          id="paypal-script"
-          type="text/javaScript"
-        ></script>
+        
       </Head>
       {isShowRibbon && !url ? (
         <Ribbon
@@ -131,6 +128,12 @@ export const Layout = ({ children, meta = {} }) => {
       ) : null}
       {Header}
       {<main className="main-layout-next">{children}</main>}
+      <script
+          defer
+          src={`https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_REACT_APP_PAYPAL_CLIENT_ID}&currency=USD&intent=order`}
+          id="paypal-script"
+          type="text/javaScript"
+        ></script>
     </Fragment>
   );
 };

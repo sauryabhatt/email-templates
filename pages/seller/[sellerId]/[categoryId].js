@@ -10,15 +10,11 @@ export default function SellerProductListingPage({ data }) {
   const router = useRouter();
 
   const meta = {
-    title:
-      `Source quality ${data?.sellerDetails?.categoryDescs.join(", ")} from ${
-        data?.sellerDetails?.brandName
-      } for
+    title:`Source quality ${data?.sellerDetails?.categoryDescs.join(", ")} from ${data?.sellerDetails?.brandName} for
       wholesale. | Qalara` ||
       "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods from South Asia | Qalara",
-    description:
-      data?.sellerDetails?.companyDescription ||
-      "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods - Décor, Rugs and Carpets, Kitchen, Home Furnishings – from India. Digitally. Reliably. Affordably. Responsibly.",
+    description: `Buy ${data?.sellerDetails?.categoryDescs.join(", ")} from ${data?.sellerDetails?.brandName} online and get it delivered at your doorstep. Check out all the products, pricing and place your order online, securely.` || "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods - Décor, Rugs and Carpets, Kitchen, Home Furnishings – from India. Digitally. Reliably. Affordably. Responsibly.",
+    keywords:`${data?.sellerDetails?.brandName}, ${data?.sellerDetails?.categoryDescs.join(", ")}, Global sourcing, wholesale, exports, handcrafted, India, bulk, vendors, manufacturer`,
     url: `/seller/${data?.sellerId}/${data?.categoryId}`,
   };
   if (data?.error?.status) {

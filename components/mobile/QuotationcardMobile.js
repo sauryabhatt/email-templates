@@ -110,14 +110,14 @@ const QuotationcardMobile = (props) => {
     props.data.subOrders.map((subOrder, index) => {
       return (
         <Col
-          xs={24}
-          sm={24}
-          md={24}
-          lg={24}
-          style={index > 0 ? { marginTop: "10px" } : {}}
+          xs={12}
+          sm={12}
+          md={12}
+          lg={12}
+          style={index > 0 ? { marginTop: "5px" } : {}}
         >
           <span
-            className="qa-font-san qa-fs-16 qa-fw-b qa-sm-color"
+            className="qa-font-san c-right-blk qa-fs-16 qa-fw-b qa-sm-color"
             style={{
               lineHeight: "20px",
               textDecoration: "underline",
@@ -129,9 +129,7 @@ const QuotationcardMobile = (props) => {
               )
             }
           >
-            {props.brandNames &&
-              props.brandNames[subOrder.sellerCode] &&
-              props.brandNames[subOrder.sellerCode].brandName}
+            {subOrder.sellerCode }
           </span>
         </Col>
       );
@@ -275,7 +273,12 @@ const QuotationcardMobile = (props) => {
               {props.status == "received" || props.status == "closed" ? (
                 <React.Fragment>
                   <Row>
+                    <Col xs={7} sm={7} md={7} lg={0} >
+                      <span className = "qa-font-san"> Seller Id: </span>
+                    </Col>
+                    <Col xs={14} sm={14} md={14} lg={0} >
                     {getBrandName}
+                    </Col>
                     <Col
                       xs={6}
                       sm={6}
@@ -352,9 +355,7 @@ const QuotationcardMobile = (props) => {
                         )
                       }
                     >
-                      {props.brandNames &&
-                        props.brandNames[props.data.sellerId] &&
-                        props.brandNames[props.data.sellerId].brandName}
+                      {props.data.sellerId}
                     </span>
                   ) : (
                     <span className="qa-font-san qa-fs-14 qa-fw-b qa-tc-white">

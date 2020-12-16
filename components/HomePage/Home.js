@@ -226,7 +226,7 @@ function Home(props) {
       imageTitle: "Home office",
       slideText:
         "Curated from responsible sellers, these writing tables, lamps, notepads & table accessories inspire everyday creativity.",
-      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_4_1.jpg",
+      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_4_2.jpg",
       searchText: "HomeOffice",
       path: "/trends/homeoffice",
     },
@@ -241,7 +241,7 @@ function Home(props) {
     {
       imageTitle: "Urban Jungle",
       slideText:
-        "Discover our range of tropical inspiration; macrame planters, terracotta pots, sabai baskets & upcycled furniture from sellers who care.",
+        "Discover our range of tropical inspiration; macrame planters, terracotta pots, sabai baskets, upcycled furniture and more.",
       imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_2_1.jpg",
       searchText: "UrbanJungle",
       path: "/trends/urbanjungle",
@@ -250,7 +250,7 @@ function Home(props) {
       imageTitle: "Earth inspired",
       slideText:
         "Our wholesale suppliers believe in conscious production, sustainable supply chains, low carbon footprint & giving back.",
-      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_3_1.jpg",
+      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_3_2.jpg",
       searchText: "EarthInspired",
       path: "/trends/earthinspired",
     },
@@ -597,9 +597,9 @@ function Home(props) {
       />
       <PressCrousel />
       <CraftCarousel items={craftItems} />
-      <HotThisWeekCarousel/>
+      <HotThisWeekCarousel />
       <SellerCarousel items={sellerItems} />
-      <Tastimonial/>
+      <Tastimonial />
       {/* <Button>
           <Link href="/categories">Seller Listing Page</Link>
         </Button>
