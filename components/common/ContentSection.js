@@ -46,7 +46,7 @@ function ContentSection(props) {
 
   if (content && content.length > 0) {
     return (
-      <Content id="scrollableDiv">
+      <Content>
         <InfiniteScroll
           dataLength={content.length}
           next={loadMoreData}
@@ -89,8 +89,6 @@ function ContentSection(props) {
               tuned!
             </div>
           }
-          scrollableTarget="scrollableDiv"
-          scrollThreshold="200px"
         >
           <Row>
             {content.map((values, index) => (
