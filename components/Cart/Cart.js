@@ -59,7 +59,7 @@ const Cart = (props) => {
         getCartDetails();
       }
     } else {
-      //setLoading(false);
+      setLoading(false);
     }
   }, [props.user]);
 
