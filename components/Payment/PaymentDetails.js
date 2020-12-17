@@ -42,6 +42,8 @@ const PaymentDetails = (props) => {
     shippingMode = "",
     shippingTerms = "",
     typeOfOrder = "",
+    miscCharges = [],
+    promoDiscount = "",
   } = cart || {};
   let {
     fullName = "",
@@ -83,11 +85,39 @@ const PaymentDetails = (props) => {
   const [estimatedDelivery, setEstimatedDelivery] = useState(false);
   const mediaMatch = window.matchMedia("(min-width: 1024px)");
 
-  useEffect(() => {
-    setPaymentValue("payViaPaypal");
-  }, []);
+  let totalCartValue = 0;
+  let frieghtCharge = 0;
+  let dutyCharge = 0;
+  let vatCharge = 0;
+  let couponDiscount = 0;
+  let freightDis = 0;
+  let sellerDiscount = 0;
+  let vat = 0;
+  let dutyMax = 0;
+  let dutyMin = 0;
 
-  let { convertToCurrency = "" } = currencyDetails || {};
+  for (let charge of miscCharges) {
+    let { chargeId = "", amount = 0 } = charge;
+    if (chargeId === "TOTAL_COST_FREIGHT_MAX") {
+      frieghtCharge = amount;
+    } else if (chargeId === "VAT") {
+      vatCharge = amount;
+    } else if (chargeId === "DUTY_MAX") {
+      dutyCharge = amount;
+    } else if (chargeId === "DISCOUNT") {
+      couponDiscount = amount;
+    } else if (chargeId === "FREIGHT_MAX") {
+      freightDis = amount;
+    } else if (chargeId === "SELLER_DISCOUNT") {
+      sellerDiscount = amount;
+    } else if (chargeId === "DDP_VAT") {
+      vat = amount;
+    } else if (chargeId === "DDP_DUTY_MAX") {
+      dutyMax = amount;
+    } else if (chargeId === "DDP_DUTY_MIN") {
+      dutyMin = amount;
+    }
+  }
 
   const getConvertedCurrency = (baseAmount, round = false) => {
     let { convertToCurrency = "", rates = [] } = props.currencyDetails;
@@ -104,6 +134,54 @@ const PaymentDetails = (props) => {
         100
     ).toFixed(2);
   };
+
+  if (couponDiscount > 0 || sellerDiscount > 0) {
+    frieghtCharge = freightDis;
+  }
+
+  if (subOrders && subOrders.length > 0) {
+    for (let order of subOrders) {
+      let { products = "", qalaraSellerMargin = 0 } = order;
+
+      let sellerTotal = 0;
+      let basePrice = 0;
+      let samplePrice = 0;
+      let testingPrice = 0;
+
+      for (let items of products) {
+        let {
+          qualityTestingCharge = 0,
+          sampleCost = 0,
+          quantity = 0,
+          exfactoryListPrice = 0,
+        } = items;
+        samplePrice = samplePrice + sampleCost;
+        testingPrice = testingPrice + qualityTestingCharge;
+        basePrice =
+          basePrice +
+          parseFloat(getConvertedCurrency(exfactoryListPrice)) * quantity;
+      }
+
+      sellerTotal = basePrice + samplePrice + testingPrice;
+
+      totalCartValue = totalCartValue + sellerTotal;
+    }
+  }
+
+  totalCartValue =
+    totalCartValue +
+    parseFloat(getConvertedCurrency(frieghtCharge)) +
+    parseFloat(getConvertedCurrency(dutyCharge)) -
+    parseFloat(getConvertedCurrency(sellerDiscount)) -
+    parseFloat(getConvertedCurrency(couponDiscount)) +
+    parseFloat(getConvertedCurrency(vatCharge)) -
+    parseFloat(getConvertedCurrency(promoDiscount));
+
+  useEffect(() => {
+    setPaymentValue("payViaPaypal");
+  }, []);
+
+  let { convertToCurrency = "" } = currencyDetails || {};
 
   const onChange = (e) => {
     setPaymentValue(e.target.value);
@@ -637,14 +715,26 @@ const PaymentDetails = (props) => {
                         Pay early to avail discounts
                       </div> */}
                         <Radio value="payViaPaypal" className="qa-disp-ib">
-                          <span className="cart-prod-title qa-mar-btm-05">
-                            Pay 20% now and 80% later
+                          <span className="cart-prod-title qa-mar-btm-05 qa-fw-b">
+                            Pay 20% now and 80% on delivery*
                           </span>
                         </Radio>
                         <div className="cart-subtitle payment-subtitle qa-mar-btm-2">
-                          20% advance will be charged now. Balance 80% will be
-                          charged once customs clearance is done at destination,
-                          a few days before delivery.
+                          A charge for{" "}
+                          {getSymbolFromCurrency(convertToCurrency)}
+                          {parseFloat(totalCartValue).toFixed(2)} is created
+                          against your card but the amount debited from your
+                          card is the advance payable amount of{" "}
+                          {getSymbolFromCurrency(convertToCurrency)}
+                          {parseFloat(totalCartValue * 0.2).toFixed(2)}.{" "}
+                          <Link href="/FAQforwholesalebuyers">
+                            <a
+                              target="_blank"
+                              className="qa-sm-color qa-cursor"
+                            >
+                              Refer Payment FAQs
+                            </a>
+                          </Link>
                         </div>
                         {/* <Radio value="net30Terms" className="qa-disp-ib">
                         <span className="cart-prod-title qa-mar-btm-05">Net 30 terms</span>
@@ -774,14 +864,22 @@ const PaymentDetails = (props) => {
                     Pay early to avail discounts
                   </div> */}
                     <Radio value="payViaPaypal" className="qa-disp-ib">
-                      <span className="cart-prod-title qa-mar-btm-05">
-                        Pay 20% now and 80% later
+                      <span className="cart-prod-title qa-mar-btm-05 qa-fw-b">
+                        Pay 20% now and 80% on delivery*
                       </span>
                     </Radio>
                     <div className="cart-subtitle payment-subtitle qa-mar-btm-2">
-                      20% advance will be charged now. Balance 80% will be
-                      charged once customs clearance is done at destination, a
-                      few days before delivery.
+                      A charge for {getSymbolFromCurrency(convertToCurrency)}
+                      {parseFloat(totalCartValue).toFixed(2)} is created against
+                      your card but the amount debited from your card is the
+                      advance payable amount of{" "}
+                      {getSymbolFromCurrency(convertToCurrency)}
+                      {parseFloat(totalCartValue * 0.2).toFixed(2)}.{" "}
+                      <Link href="/FAQforwholesalebuyers">
+                        <a target="_blank" className="qa-sm-color qa-cursor">
+                          Refer Payment FAQs
+                        </a>
+                      </Link>
                     </div>
 
                     {/* <Radio value="net30Terms" className="qa-disp-ib">

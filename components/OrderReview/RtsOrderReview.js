@@ -47,6 +47,7 @@ const RtsOrderReview = (props) => {
     shippingMode = "",
     isFulfillable = false,
     miscCharges = [],
+    promoDiscount = "",
   } = cart || {};
   let {
     fullName = "",
@@ -87,6 +88,98 @@ const RtsOrderReview = (props) => {
   const [data, setData] = useState({});
   const [isLoading, setLoading] = useState(true);
   const [deliver, setDeliver] = useState(false);
+
+  let totalCartValue = 0;
+  let frieghtCharge = 0;
+  let dutyCharge = 0;
+  let vatCharge = 0;
+  let couponDiscount = 0;
+  let freightDis = 0;
+  let sellerDiscount = 0;
+  let vat = 0;
+  let dutyMax = 0;
+  let dutyMin = 0;
+
+  for (let charge of miscCharges) {
+    let { chargeId = "", amount = 0 } = charge;
+    if (chargeId === "TOTAL_COST_FREIGHT_MAX") {
+      frieghtCharge = amount;
+    } else if (chargeId === "VAT") {
+      vatCharge = amount;
+    } else if (chargeId === "DUTY_MAX") {
+      dutyCharge = amount;
+    } else if (chargeId === "DISCOUNT") {
+      couponDiscount = amount;
+    } else if (chargeId === "FREIGHT_MAX") {
+      freightDis = amount;
+    } else if (chargeId === "SELLER_DISCOUNT") {
+      sellerDiscount = amount;
+    } else if (chargeId === "DDP_VAT") {
+      vat = amount;
+    } else if (chargeId === "DDP_DUTY_MAX") {
+      dutyMax = amount;
+    } else if (chargeId === "DDP_DUTY_MIN") {
+      dutyMin = amount;
+    }
+  }
+
+  if (couponDiscount > 0 || sellerDiscount > 0) {
+    frieghtCharge = freightDis;
+  }
+
+  const getConvertedCurrency = (baseAmount, round = false) => {
+    let { convertToCurrency = "", rates = [] } = props.currencyDetails;
+    if (round) {
+      return Number.parseFloat(
+        (baseAmount *
+          Math.round((rates[convertToCurrency] + Number.EPSILON) * 100)) /
+          100
+      ).toFixed(0);
+    }
+    return Number.parseFloat(
+      (baseAmount *
+        Math.round((rates[convertToCurrency] + Number.EPSILON) * 100)) /
+        100
+    ).toFixed(2);
+  };
+
+  if (subOrders && subOrders.length > 0) {
+    for (let order of subOrders) {
+      let { products = "", qalaraSellerMargin = 0 } = order;
+
+      let sellerTotal = 0;
+      let basePrice = 0;
+      let samplePrice = 0;
+      let testingPrice = 0;
+
+      for (let items of products) {
+        let {
+          qualityTestingCharge = 0,
+          sampleCost = 0,
+          quantity = 0,
+          exfactoryListPrice = 0,
+        } = items;
+        samplePrice = samplePrice + sampleCost;
+        testingPrice = testingPrice + qualityTestingCharge;
+        basePrice =
+          basePrice +
+          parseFloat(getConvertedCurrency(exfactoryListPrice)) * quantity;
+      }
+
+      sellerTotal = basePrice + samplePrice + testingPrice;
+
+      totalCartValue = totalCartValue + sellerTotal;
+    }
+  }
+
+  totalCartValue =
+    totalCartValue +
+    parseFloat(getConvertedCurrency(frieghtCharge)) +
+    parseFloat(getConvertedCurrency(dutyCharge)) -
+    parseFloat(getConvertedCurrency(sellerDiscount)) -
+    parseFloat(getConvertedCurrency(couponDiscount)) +
+    parseFloat(getConvertedCurrency(vatCharge)) -
+    parseFloat(getConvertedCurrency(promoDiscount));
 
   useEffect(() => {
     setPaymentValue("payViaPaypal");
@@ -131,37 +224,6 @@ const RtsOrderReview = (props) => {
   }, [keycloak.token, props.cart]);
 
   let { convertToCurrency = "" } = currencyDetails || {};
-  let showError = false;
-  if (subOrders && subOrders.length) {
-    for (let orders of subOrders) {
-      let { total = 0 } = orders;
-      if (total < 250) {
-        showError = true;
-      }
-    }
-  }
-
-  const getConvertedCurrency = (baseAmount, round = false) => {
-    let { convertToCurrency = "", rates = [] } = props.currencyDetails;
-    if (round) {
-      return Number.parseFloat(
-        (baseAmount *
-          Math.round((rates[convertToCurrency] + Number.EPSILON) * 100)) /
-          100
-      ).toFixed(0);
-    }
-    return Number.parseFloat(
-      (baseAmount *
-        Math.round((rates[convertToCurrency] + Number.EPSILON) * 100)) /
-        100
-    ).toFixed(2);
-  };
-
-  const customDot = (dot, { status, index }) => (
-    <span className="qa-ant-steps-icon">
-      {status === "finish" ? <CheckOutlined /> : index + 1}
-    </span>
-  );
 
   const onChange = (e) => {
     setPaymentValue(e.target.value);
@@ -374,8 +436,8 @@ const RtsOrderReview = (props) => {
                       return (
                         <div
                           className={`qa-bg-light-theme qa-pad-3 ${
-                            total < 250 ? " qa-error-border" : ""
-                          } ${i < subOrders.length - 1 ? "qa-mar-btm-2" : ""}`}
+                            i < subOrders.length - 1 ? "qa-mar-btm-2" : ""
+                          }`}
                           key={i}
                         >
                           <div className="cart-ship-pt qa-fw-b qa-border-bottom">
@@ -394,15 +456,7 @@ const RtsOrderReview = (props) => {
                               className="qa-disp-table-cell"
                               style={{ width: "80%" }}
                             >
-
                               Seller ID: {sellerCode}
-                              {total < 250 && (
-                                <div className="cart-sub-text">
-                                  Add {getSymbolFromCurrency(convertToCurrency)}
-                                  {getConvertedCurrency(250 - total)} more to
-                                  reach seller’s minimum order value
-                                </div>
-                              )}
                               {/* <span
                             className="cart-delete qa-cursor"
                             onClick={() => {
@@ -594,14 +648,22 @@ const RtsOrderReview = (props) => {
                         Pay early to avail discounts
                       </div> */}
                       <Radio value="payViaPaypal" className="qa-disp-ib">
-                        <span className="cart-prod-title qa-mar-btm-05">
-                          Pay 20% now and 80% later
+                        <span className="cart-prod-title qa-mar-btm-05 qa-fw-b">
+                          Pay 20% now and 80% on delivery*
                         </span>
                       </Radio>
                       <div className="cart-subtitle payment-subtitle qa-mar-btm-2">
-                        20% advance will be charged now. Balance 80% will be
-                        charged once customs clearance is done at destination, a
-                        few days before delivery.
+                        A charge for {getSymbolFromCurrency(convertToCurrency)}
+                        {parseFloat(totalCartValue).toFixed(2)} is created
+                        against your card but the amount debited from your card
+                        is the advance payable amount of{" "}
+                        {getSymbolFromCurrency(convertToCurrency)}
+                        {parseFloat(totalCartValue * 0.2).toFixed(2)}.{" "}
+                        <Link href="/FAQforwholesalebuyers">
+                          <a target="_blank" className="qa-sm-color qa-cursor">
+                            Refer Payment FAQs
+                          </a>
+                        </Link>
                       </div>
                       {/* <Radio value="net30Terms" className="qa-disp-ib">
                         <span className="cart-prod-title qa-mar-btm-05">Net 30 terms</span>
@@ -668,24 +730,6 @@ const RtsOrderReview = (props) => {
           <Col xs={24} sm={24} md={1} lg={1} xl={1}></Col>
           {mediaMatch.matches && (
             <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-              {showError && (
-                <div className="qa-pad-2 qa-mar-btm-2 cart-error-block display-flex cart-err">
-                  <div>
-                    <Icon
-                      component={alertIcon}
-                      className="alert-icon"
-                      style={{
-                        width: "15px",
-                        verticalAlign: "middle",
-                      }}
-                    />
-                  </div>
-                  Please move the seller cart with value less than{" "}
-                  {getSymbolFromCurrency(convertToCurrency)}
-                  {getConvertedCurrency(250)} to 'Save for later' in order to
-                  proceed
-                </div>
-              )}
               {isFulfillable === false && (
                 <div className="qa-pad-2 qa-mar-btm-2 cart-error-block display-flex cart-err">
                   <div>
@@ -746,14 +790,22 @@ const RtsOrderReview = (props) => {
                     Pay early to avail discounts
                   </div> */}
                   <Radio value="payViaPaypal" className="qa-disp-ib">
-                    <span className="cart-prod-title qa-mar-btm-05">
-                      Pay 20% now and 80% later
+                    <span className="cart-prod-title qa-mar-btm-05 qa-fw-b">
+                      Pay 20% now and 80% on delivery*
                     </span>
                   </Radio>
                   <div className="cart-subtitle payment-subtitle qa-mar-btm-2">
-                    20% advance will be charged now. Balance 80% will be charged
-                    once customs clearance is done at destination, a few days
-                    before delivery.
+                    A charge for {getSymbolFromCurrency(convertToCurrency)}
+                    {parseFloat(totalCartValue).toFixed(2)} is created against
+                    your card but the amount debited from your card is the
+                    advance payable amount of{" "}
+                    {getSymbolFromCurrency(convertToCurrency)}
+                    {parseFloat(totalCartValue * 0.2).toFixed(2)}.{" "}
+                    <Link href="/FAQforwholesalebuyers">
+                      <a target="_blank" className="qa-sm-color qa-cursor">
+                        Refer Payment FAQs
+                      </a>
+                    </Link>
                   </div>
 
                   {/* <Radio value="net30Terms" className="qa-disp-ib">
@@ -829,24 +881,6 @@ const RtsOrderReview = (props) => {
             xl={8}
             className="qa-pad-btm-2 qa-mar-btm-1"
           >
-            {showError && (
-              <div className="qa-pad-2 qa-mar-btm-2 cart-error-block display-flex cart-err">
-                <div>
-                  <Icon
-                    component={alertIcon}
-                    className="alert-icon"
-                    style={{
-                      width: "15px",
-                      verticalAlign: "middle",
-                    }}
-                  />
-                </div>
-                Please move the seller cart with value less than{" "}
-                {getSymbolFromCurrency(convertToCurrency)}
-                {getConvertedCurrency(250)} to 'Save for later' in order to
-                proceed
-              </div>
-            )}
             {isFulfillable === false && (
               <div className="qa-pad-2 qa-mar-btm-2 cart-error-block display-flex cart-err">
                 <div>
@@ -1030,14 +1064,7 @@ const RtsOrderReview = (props) => {
                         />
 
                         <div className="qa-disp-tc" style={{ width: "80%" }}>
-                              Seller ID: {sellerCode}
-                          {total < 250 && (
-                            <div className="cart-sub-text">
-                              Add {getSymbolFromCurrency(convertToCurrency)}
-                              {getConvertedCurrency(250 - total)} more to reach
-                              seller’s minimum order value
-                            </div>
-                          )}
+                          Seller ID: {sellerCode}
                         </div>
                         {/* <div className="qa-txt-alg-cnt qa-pad-top-05 qa-pad-btm-1">
                         <span
