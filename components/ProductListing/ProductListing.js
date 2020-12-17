@@ -18,7 +18,7 @@ const ProductListing = (props) => {
     : props.data;
   const [mobile, setMobile] = useState(false);
   const [offset, setOffset] = useState(0);
-  const [limit, setLimit] = useState(30);
+  const [limit, setLimit] = useState(6);
   const [category, setCategory] = useState(props.data.categoryId);
   const [categoryTitle, setCategoryTitle] = useState("All categories");
   const [subCategoryTitle, setSubCategoryTitle] = useState(
@@ -95,7 +95,6 @@ const ProductListing = (props) => {
         tempObj[key] = queryParams[key];
       }
     }
-    console.log("router", router);
 
     router.push(
       {

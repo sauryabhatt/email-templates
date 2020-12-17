@@ -206,7 +206,7 @@ const SellerLandingDesktop = (props) => {
   const [itemsToShow, setItemsToShow] = useState(2);
   const [videoType, setVideoType] = useState("");
   const [videoName, setVideoName] = useState("");
-  let offerings = []//[...publicOfferings, ...privateOfferings];
+  let offerings = [...publicOfferings, ...privateOfferings];
   if (Object.keys(showRoom).length) {
     if (
       showRoom &&
@@ -1263,7 +1263,9 @@ const SellerLandingDesktop = (props) => {
           </Row>
         </div>
 
-        {offerings.length<=0 ? null : !(profileType === "BUYER" && verificationStatus === "VERIFIED") ? (
+        {offerings.length <= 0 ? null : !(
+            profileType === "BUYER" && verificationStatus === "VERIFIED"
+          ) ? (
           <Row className="qa-pad-24 qa-pad-top-1">
             <Col
               className="qa-pad-rgt-1 qa-mar-btm-2"

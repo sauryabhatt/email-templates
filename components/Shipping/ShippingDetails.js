@@ -89,8 +89,8 @@ const ShippingDetails = (props) => {
   const [promoMessage, setPromoMessage] = useState("");
   const [couponDiscount, setCouponDiscount] = useState(0);
   const [tat, setTat] = useState("");
-  const [shippingTerm, setShippingTerm] = useState("ddp");
-  const [shipTerm, setShipTerm] = useState("ddp");
+  const [shippingTerm, setShippingTerm] = useState("ddu");
+  const [shipTerm, setShipTerm] = useState("ddu");
   const [apiCount, setApiCount] = useState(0);
   const [priceCount, setPriceCount] = useState(0);
 
