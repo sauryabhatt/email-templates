@@ -88,28 +88,6 @@
     "isActive": "TRUE"
   },
   {
-    "id": "SHOPOPTIONS::COLUMN::1::ROW::109",
-    "column": "1",
-    "displayTitle": "View all",
-    "menuOrder": "109",
-    "font": "H2",
-    "action": "URL",
-    "filterType": "",
-    "values": "/products/all-categories",
-    "isActive": "TRUE"
-  },
-  {
-    "id": "SHOPOPTIONS::COLUMN::1::ROW::110",
-    "column": "1",
-    "displayTitle": "View all",
-    "menuOrder": "110",
-    "font": "H2",
-    "action": "URL",
-    "filterType": "",
-    "values": "all-categories",
-    "isActive": "TRUE"
-  },
-  {
     "id": "SHOPOPTIONS::COLUMN::2::ROW::101",
     "column": "2",
     "displayTitle": "CATEGORY EDITS",
@@ -186,28 +164,7 @@
     "values": "/categoryedit/jewelry",
     "isActive": "TRUE"
   },
-  {
-    "id": "SHOPOPTIONS::COLUMN::2::ROW::108",
-    "column": "2",
-    "displayTitle": "DIY kits",
-    "menuOrder": "108",
-    "font": "H2",
-    "action": "URL",
-    "filterType": "",
-    "values": "/seller/SL10566/all-categories",
-    "isActive": "TRUE"
-  },
-  {
-    "id": "SHOPOPTIONS::COLUMN::2::ROW::109",
-    "column": "2",
-    "displayTitle": "Brass decor & bowls",
-    "menuOrder": "109",
-    "font": "H2",
-    "action": "URL",
-    "filterType": "",
-    "values": "/seller/SL10421/all-categories",
-    "isActive": "TRUE"
-  },
+
   {
     "id": "SHOPOPTIONS::COLUMN::3::ROW::101",
     "column": "3",
@@ -274,39 +231,7 @@
     "values": "/trends/earthinspired",
     "isActive": "TRUE"
   },
-  {
-    "id": "SHOPOPTIONS::COLUMN::3::ROW::107",
-    "column": "3",
-    "displayTitle": "Kansa dinnerware",
-    "menuOrder": "107",
-    "font": "H2",
-    "action": "URL",
-    "filterType": "",
-    "values": "/seller/SL10581/all-categories",
-    "isActive": "TRUE"
-  },
-  {
-    "id": "SHOPOPTIONS::COLUMN::3::ROW::108",
-    "column": "3",
-    "displayTitle": "Wooden toys",
-    "menuOrder": "108",
-    "font": "H2",
-    "action": "URL",
-    "filterType": "",
-    "values": "/seller/SL10572/all-categories",
-    "isActive": "TRUE"
-  },
-  {
-    "id": "SHOPOPTIONS::COLUMN::3::ROW::109",
-    "column": "3",
-    "displayTitle": "Bells & chimes",
-    "menuOrder": "109",
-    "font": "H2",
-    "action": "URL",
-    "filterType": "",
-    "values": "/seller/SL10065/all-categories",
-    "isActive": "TRUE"
-  },
+
   {
     "id": "SHOPOPTIONS::COLUMN::4::ROW::101",
     "column": "4",
@@ -360,149 +285,6 @@
     "action": "URL",
     "filterType": "",
     "values": "/artisancrafts/textileweaves",
-    "isActive": "TRUE"
-  },
-  {
-    "id": "SHOPOPTIONS::COLUMN::4::ROW::106",
-    "column": "4",
-    "displayTitle": "Jaipur blue pottery",
-    "menuOrder": "106",
-    "font": "H2",
-    "action": "URL",
-    "filterType": "",
-    "values": "/seller/SL10781/all-categories",
-    "isActive": "TRUE"
-  },
-  {
-    "id": "SHOPOPTIONS::COLUMN::4::ROW::107",
-    "column": "4",
-    "displayTitle": "Kauna grass bags",
-    "menuOrder": "107",
-    "font": "H2",
-    "action": "URL",
-    "filterType": "",
-    "values": "/seller/SL10757/all-categories",
-    "isActive": "TRUE"
-  },
-  {
-    "id": "SHOPOPTIONS::COLUMN::4::ROW::108",
-    "column": "4",
-    "displayTitle": "Kansa dinnerware",
-    "menuOrder": "108",
-    "font": "H2",
-    "action": "URL",
-    "filterType": "",
-    "values": "/seller/SL10581/all-categories",
-    "isActive": "TRUE"
-  },
-  {
-    "id": "SHOPOPTIONS::COLUMN::4::ROW::109",
-    "column": "4",
-    "displayTitle": "Upholstered poufs",
-    "menuOrder": "109",
-    "font": "H2",
-    "action": "URL",
-    "filterType": "",
-    "values": "/seller/SL10385/all-categories",
-    "isActive": "TRUE"
-  },
-  {
-    "id": "SHOPOPTIONS::COLUMN::5::ROW::101",
-    "column": "5",
-    "displayTitle": "#TRENDING",
-    "menuOrder": "101",
-    "font": "H1",
-    "action": "",
-    "filterType": "",
-    "values": "",
-    "isActive": ""
-  },
-  {
-    "id": "SHOPOPTIONS::COLUMN::5::ROW::102",
-    "column": "5",
-    "displayTitle": "Qalara bazaar",
-    "menuOrder": "102",
-    "font": "H2",
-    "action": "URL",
-    "filterType": "",
-    "values": "/seller/SL10789/all-categories",
-    "isActive": "TRUE"
-  },
-  {
-    "id": "SHOPOPTIONS::COLUMN::5::ROW::103",
-    "column": "5",
-    "displayTitle": "Leather bags",
-    "menuOrder": "103",
-    "font": "H2",
-    "action": "URL",
-    "filterType": "",
-    "values": "/seller/SL10237/all-categories",
-    "isActive": "TRUE"
-  },
-  {
-    "id": "SHOPOPTIONS::COLUMN::5::ROW::104",
-    "column": "5",
-    "displayTitle": "Handbound journals",
-    "menuOrder": "104",
-    "font": "H2",
-    "action": "URL",
-    "filterType": "",
-    "values": "/seller/SL10290/all-categories",
-    "isActive": "TRUE"
-  },
-  {
-    "id": "SHOPOPTIONS::COLUMN::5::ROW::105",
-    "column": "5",
-    "displayTitle": "Crochet toys",
-    "menuOrder": "105",
-    "font": "H2",
-    "action": "URL",
-    "filterType": "",
-    "values": "/seller/SL10539/all-categories",
-    "isActive": "TRUE"
-  },
-  {
-    "id": "SHOPOPTIONS::COLUMN::5::ROW::106",
-    "column": "5",
-    "displayTitle": "Glass candle holders",
-    "menuOrder": "106",
-    "font": "H2",
-    "action": "URL",
-    "filterType": "",
-    "values": "/seller/SL10680/all-categories",
-    "isActive": "TRUE"
-  },
-  {
-    "id": "SHOPOPTIONS::COLUMN::5::ROW::107",
-    "column": "5",
-    "displayTitle": "DIY KITS",
-    "menuOrder": "107",
-    "font": "H2",
-    "action": "URL",
-    "filterType": "",
-    "values": "/seller/SL10566/all-categories",
-    "isActive": "TRUE"
-  },
-  {
-    "id": "SHOPOPTIONS::COLUMN::5::ROW::108",
-    "column": "5",
-    "displayTitle": "Wooden toys",
-    "menuOrder": "108",
-    "font": "H2",
-    "action": "URL",
-    "filterType": "",
-    "values": "/seller/SL10572/all-categories",
-    "isActive": "TRUE"
-  },
-  {
-    "id": "SHOPOPTIONS::COLUMN::5::ROW::109",
-    "column": "5",
-    "displayTitle": "Handcarved accents",
-    "menuOrder": "109",
-    "font": "H2",
-    "action": "URL",
-    "filterType": "",
-    "values": "/seller/SL10633/all-categories",
     "isActive": "TRUE"
   }
 ]
