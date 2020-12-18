@@ -1932,7 +1932,7 @@ const ShippingDetails = (props) => {
                         style={{
                           width: "45%",
                           display: "inline-block",
-                          verticalAlign: "middle",
+                          verticalAlign: "top",
                         }}
                       >
                         Estimated delivery date:
@@ -1942,7 +1942,7 @@ const ShippingDetails = (props) => {
                         style={{
                           width: "55%",
                           display: "inline-block",
-                          verticalAlign: "middle",
+                          verticalAlign: "top",
                         }}
                       >
                         {tat && mode ? (
