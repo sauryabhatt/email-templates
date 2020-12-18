@@ -324,7 +324,7 @@ function FAQ(props) {
           transfer.
         </p>
         <p className="faq-body-question">
-          What is DDU (Delivered Duty Paid) mode of shipment?
+          What is DDU (Delivered Duty Unpaid) mode of shipment?
         </p>
         <p className="faq-body-text-para">
           The option to select DDU mode is available in the Shipping page for
@@ -334,7 +334,7 @@ function FAQ(props) {
           duties and taxes to your order total and any{" "}
           <b>
             applicable duties and taxes are directly paid by you to the freight/
-            logistics partner
+            logistics partner{" "}
           </b>
           during customs clearance or delivery as applicable.
         </p>
@@ -347,7 +347,7 @@ function FAQ(props) {
           Ready to Ship or Express custom products during checkout. For custom
           orders you can share your shipment preference with our team during the
           quote creation process. For a DDP shipment any{" "}
-          <b>applicable duties and taxes are paid by Qalara on your behalf</b>
+          <b>applicable duties and taxes are paid by Qalara on your behalf</b>{" "}
           during the custom clearance process. Estimated duties and taxes are
           added to your order total during the order checkout process.
         </p>

@@ -349,15 +349,15 @@ const PaymentFailure = (props) => {
                   .amount > 0 && (
                   <Row className="">
                     <Col xs={18} sm={18} md={18} lg={18}>
-                      <span
-                        className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b"
+                      <div
+                        className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b qa-lh qa-mar-rgt-1"
                         style={{ color: "#02873A" }}
                       >
                         {props.order && props.order.referralCode
                           ? props.order.referralCode
                           : "Coupon"}{" "}
                         discount applied
-                      </span>
+                      </div>
                     </Col>
                     <Col xs={6} sm={6} md={6} lg={6}>
                       <span
@@ -392,12 +392,12 @@ const PaymentFailure = (props) => {
                 ).amount > 0 && (
                   <Row className="">
                     <Col xs={18} sm={18} md={18} lg={18}>
-                      <span
-                        className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b"
+                      <div
+                        className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b qa-lh qa-mar-rgt-1"
                         style={{ color: "#02873A" }}
                       >
                         Shipping promotion applied
-                      </span>
+                      </div>
                     </Col>
                     <Col xs={6} sm={6} md={6} lg={6}>
                       {props.order && props.order.orderType == "RTS" ? (
@@ -674,15 +674,15 @@ const PaymentFailure = (props) => {
                   .amount > 0 && (
                   <Row className="">
                     <Col xs={18} sm={18} md={18} lg={18}>
-                      <span
-                        className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b"
+                      <div
+                        className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b qa-lh qa-mar-rgt-1"
                         style={{ color: "#02873A" }}
                       >
                         {props.order && props.order.referralCode
                           ? props.order.referralCode
                           : "Coupon"}{" "}
                         discount applied
-                      </span>
+                      </div>
                     </Col>
                     <Col xs={6} sm={6} md={6} lg={6}>
                       <span
@@ -716,12 +716,12 @@ const PaymentFailure = (props) => {
                   <Col xs={18} sm={18} md={18} lg={18}>
                     <div
                       style={{ textTransform: "uppercase", color: "#02873A" }}
-                      className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b"
+                      className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b qa-lh qa-mar-rgt-1"
                     >
                       {props.order.promoCode}
                     </div>
                     <div
-                      className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b"
+                      className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b qa-lh qa-mar-rgt-1"
                       style={{ color: "#02873A" }}
                     >
                       discount applied
