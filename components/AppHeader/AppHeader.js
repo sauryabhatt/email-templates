@@ -334,6 +334,7 @@ function AppHeader(props) {
               style={{
                 display: "inline-block",
                 width: 100 / Object.keys(navigationItems).length + "%",
+                verticalAlign: "top",
               }}
               className={
                 key < columns
@@ -399,6 +400,7 @@ function AppHeader(props) {
               style={{
                 display: "inline-block",
                 width: 100 / Object.keys(navigationItems2).length + "%",
+                verticalAlign: "top",
               }}
               className={
                 key < columns2

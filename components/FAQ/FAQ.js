@@ -20,6 +20,7 @@ function FAQ(props) {
           Qalara is a global platform based in India, offering a convenient,
           reliable, digitally-enabled platform for global sourcing from South
           Asia (India, Sri Lanka, Nepal, Thailand, Vietnam, Indonesia, etc.).
+          <br></br>
           <br></br>Specifically, we offer:<br></br>• An ever growing selection
           of artisanal, eco-friendly, organic, recycled products at great
           prices! <br></br>• Verified producers<br></br>• Small-to-mid sized,
@@ -72,19 +73,21 @@ function FAQ(props) {
           You can send us three types of Quote Requests: <br></br>●{" "}
           <b>Get custom Quote</b> - If you like a specific product and wish to
           order specific quantities or want to slightly customize the color or
-          packaging, you can ask for a custom quote.
+          packaging, you can ask for a custom quote.<br></br>
           <br></br>● <b>Send order Query</b> - If you like a seller’s portfolio
           and would like them to manufacture a custom design for you basis their
           skillset. This may require higher MOQs (Minimum Order Quantity) and
-          longer lead times.
+          longer lead times.<br></br>
           <br></br>● <b>Request for Quote</b> - If you're looking to purchase
           something specific but you haven’t been able to find that product on
           our platform, we can create or curate products for you. This may
           require higher MOQs (Minimum Order Quantity) and longer lead times.
+          <br></br>
           <br></br>● <b>Add to Collection</b> - This is a new feature that
           allows you to add multiple products to create moodboards, ranges or
           collections based on a theme (say Fall2020) and you can send a Request
           for Quote for the entire collection at once!<br></br>
+          <br></br>
           Once we receive a query, we will send you a Quotation with all
           required details. If you confirm the same, we send you a payment link
           to process your order!
@@ -94,11 +97,12 @@ function FAQ(props) {
         </p>
         <p className="faq-body-text-para">
           Qalara is designed to meet all kinds of wholesale and sourcing order
-          requirements - <br></br>● <strong>Ready to ship</strong> - These are
-          products for which inventory is readily available with the supplier.
-          Generally ready to ship products are dispatched within 7-10 days of
-          the order confirmation, after being quality inspected by Qalara Many
-          of these products are fast moving and can run out of stock!<br></br>●{" "}
+          requirements - <br></br>
+          <br></br>● <strong>Ready to ship</strong> - These are products for
+          which inventory is readily available with the supplier. Generally
+          ready to ship products are dispatched within 7-10 days of the order
+          confirmation, after being quality inspected by Qalara Many of these
+          products are fast moving and can run out of stock!<br></br>●{" "}
           <strong>Express Custom</strong> - These are products that may not have
           ready inventory, but can be produced in small batches within 3-5
           weeks. These are a great alternative to ready stock that we recommend.
@@ -298,22 +302,23 @@ function FAQ(props) {
         </p>
         <p className="faq-body-text-para">
           We offer multiple payment options for buyers, many of which allow you
-          to pay in your local currency:<br></br>• <b>Paypal</b> - this works as
-          a secure escrow between buyers and our platform and enables you to pay
-          in USD, EUR, GBP or AUD seamlessly via your Paypal account (if you
-          have one) or via any international debit / credit card. While paying
-          through PayPal your statement may reflect an order charge equivalent
-          to the total order amount created against your card. However, the
-          amount deducted is only the Advance amount for the order (currently
-          20% for online checkout orders, and is the advance payment as
-          mentioned during the order quote finalization for custom orders.)
+          to pay in your local currency:<br></br>
+          <br></br>• <b>Paypal</b> - this works as a secure escrow between
+          buyers and our platform and enables you to pay in USD, EUR, GBP or AUD
+          seamlessly via your Paypal account (if you have one) or via any
+          international debit / credit card. While paying through PayPal your
+          statement may reflect an order charge equivalent to the total order
+          amount created against your card. However, the amount deducted is only
+          the Advance amount for the order (currently 20% for online checkout
+          orders, and is the advance payment as mentioned during the order quote
+          finalization for custom orders.)
           <br></br>•
           <b>
             Local Bank Transfer for 10+ countries like the UK, Australia, US,
             Canada, and many more!
           </b>{" "}
           We can share local bank details and you can make a local bank transfer
-          easily from above mentioned countries. •
+          easily from above mentioned countries. •<br></br>
           <b>International Bank Transfer to Citibank, India</b> - we can share
           our Citibank details in India, and you can make an international SWIFT
           transfer.
@@ -363,6 +368,8 @@ function FAQ(props) {
           For Air shipments, it is sometimes only known a week after the
           shipment is delivered depending on the country. Furthermore, taxes and
           duties are only known post customs clearance at destination. <br></br>
+          <br></br>
+          <br></br>
           We will therefore be able to ascertain the final accurate freight,
           duties and taxes only after we receive the invoice from the freight
           company a few weeks post delivery, and there are possibilities of
@@ -381,6 +388,7 @@ function FAQ(props) {
           balance 80% of the order amount is collected once the order is
           delivered to you. This may vary from time to time, but will always be
           mentioned clearly during checkout prior to confirming your order.{" "}
+          <br></br>
           <br></br>For Custom orders the payment schedule varies depending on
           the nature of the product and the order total. The same is
           communicated to you in advance by our team during the process of quote
@@ -420,17 +428,6 @@ function FAQ(props) {
           can reclaim a refund against the VAT while filing your returns. For
           more details, please refer the link https://www.gov.uk/reclaim-vat
         </p>
-        <p className="faq-body-question">
-          I am shipping my order to the U.K.; can I get a refund for the VAT
-          charges?
-        </p>
-        <p className="faq-body-text-para">
-          Yes, you will be eligible for a refund provided you are registered
-          under VAT and you fulfil all criteria as per applicable U.K. laws. You
-          can reclaim a refund against the VAT while filing your returns. For
-          more details, please refer the link https://www.gov.uk/reclaim-vat
-        </p>
-
         <p className="faq-body-question">
           I am shipping my order to Australia; can I get a refund for the GST
           charges?
