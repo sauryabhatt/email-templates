@@ -36,7 +36,7 @@ const PaymentSuccess = (props) => {
               </span>
             </Col>
           </Row>
-          <Row className="qa-mar-top-1">
+          <Row className="qa-mar-top-1 qa-mar-btm-05">
             <Col xs={18} sm={18} md={18} lg={18}>
               <span className="qa-font-san qa-tc-white qa-fs-14">
                 Value of products purchased
@@ -443,7 +443,7 @@ const PaymentSuccess = (props) => {
                     </Col>
                   </Row>
                   {getOrders}
-                  <Row className="qa-mar-top-2">
+                  <Row className="qa-mar-top-1">
                     <Col xs={18} sm={18} md={18} lg={18}>
                       <span className="qa-font-san qa-tc-white qa-fs-14">
                         Estimated freight fees
@@ -677,9 +677,9 @@ const PaymentSuccess = (props) => {
                   </Row>
                   <Row className="qa-mar-top-1">
                     <Col xs={18} sm={18} md={18} lg={18}>
-                      <span className="qa-font-san qa-tc-white qa-fs-17 qa-fw-b">
+                      <div className="qa-font-san qa-tc-white qa-fs-17 qa-fw-b qa-mar-rgt-1 qa-lh">
                         SUBTOTAL
-                      </span>
+                      </div>
                     </Col>
                     <Col xs={6} sm={6} md={6} lg={6}>
                       {props.order && orderType == "RTS" ? (
@@ -902,7 +902,7 @@ const PaymentSuccess = (props) => {
                   </Row>
                   <Row className="qa-mar-top-1">
                     <Col xs={18} sm={18} md={18} lg={18}>
-                      <span className="qa-font-san qa-tc-white qa-fs-17 qa-fw-b">
+                      <div className="qa-font-san qa-tc-white qa-fs-17 qa-fw-b qa-lh qa-mar-rgt-1">
                         TOTAL ORDER VALUE{" "}
                         {shippingTerms === "DDU" ||
                           (shippingTerms === "DDP" && (
@@ -910,7 +910,7 @@ const PaymentSuccess = (props) => {
                               ({shippingTerms.toUpperCase()})
                             </span>
                           ))}
-                      </span>
+                      </div>
                     </Col>
                     <Col xs={6} sm={6} md={6} lg={6}>
                       {props.order && orderType == "RTS" ? (
@@ -944,9 +944,9 @@ const PaymentSuccess = (props) => {
                   </Row>
                   <Row className="qa-mar-top-2 qa-fs-17 qa-blue">
                     <Col xs={18} sm={18} md={18} lg={18}>
-                      <span className="qa-font-san qa-fw-b">
+                      <div className="qa-font-san qa-fw-b qa-mar-rgt-1 qa-lh">
                         ADVANCE RECEIVED
-                      </span>
+                      </div>
                     </Col>
                     <Col xs={6} sm={6} md={6} lg={6}>
                       <span className="qa-font-san qa-fw-b qa-col-end">
@@ -959,7 +959,9 @@ const PaymentSuccess = (props) => {
                   </Row>
                   <Row className="qa-mar-top-1 qa-fs-17">
                     <Col xs={18} sm={18} md={18} lg={18}>
-                      <span className="qa-font-san qa-tc-white">PAY LATER</span>
+                      <div className="qa-font-san qa-tc-white qa-mar-rgt-1 qa-lh">
+                        PAY LATER
+                      </div>
                     </Col>
                     <Col xs={6} sm={6} md={6} lg={6}>
                       <span className="qa-font-san qa-tc-white qa-col-end">

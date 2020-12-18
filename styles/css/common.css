@@ -650,6 +650,9 @@
 .qa-mar-rgt-05 {
   margin-right: 5px;
 }
+.qa-mar-rgt-1 {
+  margin-right: 10px;
+}
 .qa-discount {
   background: #dabbae;
   border-radius: 100px;
@@ -686,6 +689,6 @@
 .qa-pad-020 {
   padding: 10px 15px 20px;
 }
-.ant-select-selection-search input{
+.ant-select-selection-search input {
   margin-top: 3px !important;
 }
