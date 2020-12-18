@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import responseJSONProd from "../../public/data/appHeader.json";
 import responseJSONDev from "../../public/data/appHeaderDev.json";
+import responseJSONFeatured from "../../public/data/appHeaderFeatured.json";
 import {
   Layout,
   Button,
@@ -60,6 +61,11 @@ function UserHeader(props) {
   const [columns, setColumns] = useState();
   const [shopColor, setShopColor] = useState(false);
 
+  const [featureVisible, setFeatureVisible] = useState(false);
+  const [navigationItems2, setNavigationItems2] = useState(nav);
+  const [columns2, setColumns2] = useState();
+  const [featuredColor, setFeaturedColor] = useState(false);
+
   const token = keycloak.token || appToken;
   const [inviteAccess, setInviteAccess] = useState(false);
 
@@ -108,6 +114,16 @@ function UserHeader(props) {
     setColumns(columnLength);
   }
 
+  async function fetchNdjsonFeature(response) {
+    let navigationItems2 = _.mapValues(
+      _.groupBy(responseJSONFeatured, "column"),
+      (clist) => clist.map((navigationDetails) => navigationDetails)
+    );
+    setNavigationItems2(navigationItems2);
+    let columnLength2 = Object.keys(navigationItems2).length;
+    setColumns2(columnLength2);
+  }
+
   const handleVisibleChange = (flag) => {
     setSearchVisible(false);
     setClose(false);
@@ -117,6 +133,13 @@ function UserHeader(props) {
     } else {
       setShopColor(false);
     }
+  };
+
+  const handleVisibleChange2 = (flag) => {
+    setSearchVisible(false);
+    setClose(false);
+    setFeatureVisible(flag);
+    setFeaturedColor(false);
   };
 
   const onSearch = () => {
@@ -246,9 +269,76 @@ function UserHeader(props) {
               style={{
                 display: "inline-block",
                 width: 100 / Object.keys(navigationItems).length + "%",
+                verticalAlign: "top",
               }}
               className={
                 key < columns
+                  ? `navigation-border nav-key-${key}`
+                  : "qa-pad-lft-40"
+              }
+            >
+              {_.map(value, function (details, id) {
+                let link = "";
+                if (details.filterType) {
+                  link =
+                    "/sellers/" +
+                    "all-categories" +
+                    "?" +
+                    details.filterType.toLowerCase() +
+                    "=" +
+                    details.values;
+                } else if (details.action === "L2" && details.values) {
+                  link = "/sellers/" + details.values;
+                }
+                return (
+                  <div
+                    className={
+                      details.font === "H1"
+                        ? "navigation-item navigation-title"
+                        : "navigation-item"
+                    }
+                    key={key + id}
+                  >
+                    {details.action === "URL" ? (
+                      <Link href={details.values}>
+                        {details.displayTitle || ""}
+                      </Link>
+                    ) : link ? (
+                      <Link href={link}>{details.displayTitle || ""}</Link>
+                    ) : (
+                      <span>{details.displayTitle}</span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          );
+        })}
+      </Menu.Item>
+    </Menu>
+  );
+
+  const featuredMenu = (
+    <Menu
+      theme="dark"
+      style={{ cursor: "default" }}
+      onClick={(e) => {
+        handleVisibleChange2(false);
+      }}
+    >
+      <Menu.Divider style={{ height: "0.5px", color: "#ddd" }} />
+      <Menu.Item key="1" style={{ padding: "40px 0px", cursor: "default" }}>
+        {_.map(navigationItems2, function (value, key) {
+          return (
+            <div
+              key={key}
+              style={{
+                display: "inline-block",
+                width: 100 / Object.keys(navigationItems2).length + "%",
+                verticalAlign: "top",
+              }}
+              className={
+                key < columns2
                   ? `navigation-border nav-key-${key}`
                   : "qa-pad-lft-40"
               }
@@ -312,6 +402,7 @@ function UserHeader(props) {
   useEffect(() => {
     searchForm.setFieldsValue({ searchBy: "product" });
     fetchNdjson();
+    fetchNdjsonFeature();
   }, []);
 
   useEffect(() => {
@@ -681,9 +772,34 @@ function UserHeader(props) {
                   SHOP CATEGORIES
                 </div>
               </Dropdown>
-              <a href="/explore/curatedbyus" className="trend-navigation">
+              {/* <a href="/explore/curatedbyus" className="trend-navigation">
                 FEATURED
-              </a>
+              </a> */}
+              <Dropdown
+                overlayClassName="shop-navigation"
+                overlay={featuredMenu}
+                trigger={["hover"]}
+                onVisibleChange={handleVisibleChange2}
+                visible={featureVisible}
+                overlayStyle={{ width: "100%", cursor: "pointer" }}
+              >
+                <div
+                  className={
+                    featuredColor
+                      ? "shop my-account-header qa-cursor qa-hover"
+                      : "shop my-account-header qa-cursor"
+                  }
+                  style={{
+                    verticalAlign: "middle",
+                    marginLeft: "20px",
+                    marginRight: "20px",
+                    height: "40px",
+                    lineHeight: "40px",
+                  }}
+                >
+                  FEATURED
+                </div>
+              </Dropdown>
             </div>
           </Col>
 
@@ -862,6 +978,7 @@ function UserHeader(props) {
                 defaultOpenKeys={[
                   "my-account",
                   "shop",
+                  "featured",
                   "sub0",
                   "sub1",
                   "sub2",
@@ -1043,11 +1160,119 @@ function UserHeader(props) {
                 </SubMenu>
 
                 <Menu.Divider style={{ height: "0.5px" }} />
-                <Menu.Item key="8">
+                {/* <Menu.Item key="8">
                   <a href="/explore/curatedbyus" className="trend-navigation">
                     FEATURED
                   </a>
-                </Menu.Item>
+                </Menu.Item> */}
+                <SubMenu
+                  key="featured"
+                  title="FEATURED"
+                  className="shop-menu-navigation"
+                >
+                  <Menu.Divider style={{ height: "0.5px" }} />
+                  {_.map(navigationItems2, function (value, key) {
+                    let hasSubNav = _.find(value, { font: "H2" });
+                    let header = _.find(value, { font: "H1" });
+                    if (hasSubNav) {
+                      return (
+                        <SubMenu
+                          key={`sub${key}`}
+                          title={header.displayTitle}
+                          className="shop-submenu"
+                        >
+                          {_.map(value, function (details, id) {
+                            let link = "";
+                            if (details.filterType) {
+                              link =
+                                "/sellers/" +
+                                "all-categories" +
+                                "?" +
+                                details.filterType.toLowerCase() +
+                                "=" +
+                                details.values;
+                            } else if (
+                              details.action === "L2" &&
+                              details.values
+                            ) {
+                              link = "/sellers/" + details.values;
+                            }
+                            return (
+                              details.font !== "H1" && (
+                                <Menu.Item key={`key-${id}`}>
+                                  <div
+                                    className={
+                                      details.font === "H1"
+                                        ? "navigation-item navigation-title"
+                                        : "navigation-item "
+                                    }
+                                  >
+                                    {details.action === "URL" ? (
+                                      <Link href={details.values}>
+                                        {details.displayTitle || ""}
+                                      </Link>
+                                    ) : link ? (
+                                      <Link href={link}>
+                                        {details.displayTitle || ""}
+                                      </Link>
+                                    ) : (
+                                      <span>{details.displayTitle}</span>
+                                    )}
+                                  </div>
+                                </Menu.Item>
+                              )
+                            );
+                          })}
+                        </SubMenu>
+                      );
+                    } else {
+                      return (
+                        <div className="qa-border-bottom" key={key}>
+                          {_.map(value, function (details, id) {
+                            let link = "";
+                            if (details.filterType) {
+                              link =
+                                "/sellers/" +
+                                "all-categories" +
+                                "?" +
+                                details.filterType.toLowerCase() +
+                                "=" +
+                                details.values;
+                            } else if (
+                              details.action === "L2" &&
+                              details.values
+                            ) {
+                              link = "/sellers/" + details.values;
+                            }
+                            return (
+                              <Menu.Item key={key + id}>
+                                <div
+                                  className={
+                                    details.font === "H1"
+                                      ? "navigation-item navigation-title"
+                                      : "navigation-item "
+                                  }
+                                >
+                                  {details.action === "URL" ? (
+                                    <Link href={details.values}>
+                                      {details.displayTitle || ""}
+                                    </Link>
+                                  ) : link ? (
+                                    <Link href={link}>
+                                      {details.displayTitle || ""}
+                                    </Link>
+                                  ) : (
+                                    <span>{details.displayTitle}</span>
+                                  )}
+                                </div>
+                              </Menu.Item>
+                            );
+                          })}
+                        </div>
+                      );
+                    }
+                  })}
+                </SubMenu>
 
                 <Menu.Divider style={{ height: "0.5px" }} />
                 {/* <Menu.Item key="blog">BLOG</Menu.Item> */}
