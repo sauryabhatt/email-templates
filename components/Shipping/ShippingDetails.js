@@ -1005,8 +1005,8 @@ const ShippingDetails = (props) => {
                 determined only after Customs Clearance. Any differential amount
                 is neither charged extra, nor refunded.{" "}
                 <Link href="/FAQforwholesalebuyers">
-                  <a target="_blank" className="qa-sm-color">
-                    Learn more
+                  <a target="_blank">
+                    <span className="qa-sm-color qa-cursor">Learn more</span>
                   </a>
                 </Link>
               </div>
@@ -1910,9 +1910,11 @@ const ShippingDetails = (props) => {
                   Duties mentioned on this page are estimates and exact amounts
                   are determined only after Customs Clearance. Any differential
                   amount is neither charged extra, nor refunded.{" "}
-                  <Link href="/FAQforwholesalebuyers" className="qa-sm-color">
-                    <a target="_blank" className="qa-sm-color">
-                      Refer FAQs here
+                  <Link href="/FAQforwholesalebuyers">
+                    <a target="_blank">
+                      <span className="qa-sm-color qa-cursor">
+                        Refer FAQs here
+                      </span>
                     </a>
                   </Link>
                 </div>
@@ -2274,7 +2276,6 @@ const ShippingDetails = (props) => {
                   className="qa-button qa-fs-12 cart-delete qa-mar-top-2"
                   onClick={() => {
                     setShippingTerm(shipTerm);
-                    setMode("");
                     setShippingModeModal(false);
                   }}
                 >

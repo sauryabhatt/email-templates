@@ -788,10 +788,10 @@ const CartSummary = (props) => {
           return (
             <div className="qa-mar-btm-2" key={i}>
               <div className="cart-prod-name qa-mar-btm-1">
-                <div className="c-left-blk">Seller ID </div>
-                <div className="c-right-blk qa-fw-b qa-txt-alg-rgt qa-fs-14">
+                <div className="c-left-blk">Seller ID- {sellerCode} </div>
+                {/* <div className="c-right-blk qa-fw-b qa-txt-alg-rgt qa-fs-14">
                   {sellerCode}
-                </div>
+                </div> */}
               </div>
 
               <div className="cart-ship-pt qa-border-bottom">
@@ -1082,7 +1082,6 @@ const CartSummary = (props) => {
             {getSymbolFromCurrency(convertToCurrency)}
             {parseFloat(totalCartValue * 0.2).toFixed(2)}
           </div>
-          {/* <div className="c-left-blk">With refundable taxes</div> */}
         </div>
       )}
       {id === "payment" && (
@@ -1092,7 +1091,6 @@ const CartSummary = (props) => {
             {getSymbolFromCurrency(convertToCurrency)}
             {parseFloat(totalCartValue * 0.8).toFixed(2)}
           </div>
-          {/* <div className="c-left-blk">With refundable taxes</div> */}
         </div>
       )}
       {id === "cart" && (
@@ -1231,7 +1229,7 @@ const CartSummary = (props) => {
             </span>
           ) : (
             <span>
-              {!disablePayment && id !== "payment" && (
+              {id === "shipping" && (
                 <span>*Proceed to review payment mode</span>
               )}
             </span>

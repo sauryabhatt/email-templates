@@ -94,17 +94,12 @@ const PaymentFailure = (props) => {
       return (
         <React.Fragment>
           <Row>
-            <Col xs={18} sm={18} md={18} lg={18}>
+            <Col span={24}>
               <span
-                className="qa-font-san qa-tc-white qa-fs-16"
+                className="qa-font-san qa-tc-white qa-fs-16 qa-fw-b"
                 style={{ letterSpacing: "0.02em" }}
               >
-                Seller ID
-              </span>
-            </Col>
-            <Col xs={6} sm={6} md={6} lg={6}>
-              <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end qa-fw-b">
-                {subOrder.sellerCode}
+                Seller ID- {subOrder.sellerCode}
               </span>
             </Col>
           </Row>
@@ -541,7 +536,7 @@ const PaymentFailure = (props) => {
                 </Col>
                 <Col xs={6} sm={6} md={6} lg={6}>
                   {props.order && props.order.orderType == "RTS" ? (
-                    <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
+                    <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-17 qa-col-end">
                       {getSymbolFromCurrency(
                         (props.order && props.order.currency) || "USD"
                       )}
@@ -560,7 +555,7 @@ const PaymentFailure = (props) => {
                       ).toFixed(2)}
                     </span>
                   ) : (
-                    <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
+                    <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-17 qa-col-end">
                       {getSymbolFromCurrency(
                         (props.order && props.order.currency) || "USD"
                       )}
@@ -768,7 +763,7 @@ const PaymentFailure = (props) => {
                 </Col>
                 <Col xs={6} sm={6} md={6} lg={6}>
                   {props.order && props.order.orderType == "RTS" ? (
-                    <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
+                    <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-17 qa-col-end">
                       {getSymbolFromCurrency(
                         (props.order && props.order.currency) || "USD"
                       )}
@@ -778,7 +773,7 @@ const PaymentFailure = (props) => {
                         ).toFixed(2)}
                     </span>
                   ) : (
-                    <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-14 qa-col-end">
+                    <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-17 qa-col-end">
                       {getSymbolFromCurrency(
                         (props.order && props.order.currency) || "USD"
                       )}

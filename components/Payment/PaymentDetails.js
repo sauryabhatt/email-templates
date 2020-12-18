@@ -728,11 +728,10 @@ const PaymentDetails = (props) => {
                           {getSymbolFromCurrency(convertToCurrency)}
                           {parseFloat(totalCartValue * 0.2).toFixed(2)}.{" "}
                           <Link href="/FAQforwholesalebuyers">
-                            <a
-                              target="_blank"
-                              className="qa-sm-color qa-cursor"
-                            >
-                              Refer Payment FAQs
+                            <a target="_blank">
+                              <span className="qa-sm-color qa-cursor">
+                                Refer Payment FAQs
+                              </span>
                             </a>
                           </Link>
                         </div>
@@ -876,8 +875,10 @@ const PaymentDetails = (props) => {
                       {getSymbolFromCurrency(convertToCurrency)}
                       {parseFloat(totalCartValue * 0.2).toFixed(2)}.{" "}
                       <Link href="/FAQforwholesalebuyers">
-                        <a target="_blank" className="qa-sm-color qa-cursor">
-                          Refer Payment FAQs
+                        <a target="_blank">
+                          <span className="qa-sm-color qa-cursor">
+                            Refer Payment FAQs
+                          </span>
                         </a>
                       </Link>
                     </div>
