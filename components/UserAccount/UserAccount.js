@@ -14,21 +14,12 @@ import {
   Input,
   message,
   Modal,
-  Layout,
-  Menu,
   Tabs,
   Badge,
   Alert,
   Breadcrumb,
 } from "antd";
-import Icon, {
-  UserOutlined,
-  BellOutlined,
-  MinusOutlined,
-  RightOutlined,
-  LeftOutlined,
-  LoadingOutlined,
-} from "@ant-design/icons";
+import Icon, { RightOutlined, LeftOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 import { useKeycloak } from "@react-keycloak/ssr";
 import {
@@ -157,37 +148,34 @@ const UserAccount = (props) => {
       setCurrentNav(router.query.section);
     }
   }, [router.query.section]);
-  useEffect(() => {
-    if(keycloak.token) {
 
-    setShowOrderDetails(false);
-    setCollectionDetails(false);
-    if (currentNav == "profile") {
-      props.getUserProfile(keycloak.token);
-    } else if (currentNav == "video") {
-      let status = "OPEN";
-      let request_status = "SCHEDULED,ACCEPTED";
-      if (profileType == "BUYER") {
-        status = "OPEN,ACCEPTED";
-        request_status = "SCHEDULED";
-      }
-      props.getOpenRequest(
-        keycloak.token,
-        props.userProfile.userProfile.profileId,
-        status
-      );
-      props.getRequestByStatus(
-        keycloak.token,
-        props.userProfile.userProfile.profileId,
-        request_status
-      );
-    } else {
-      if (currentNav == "addresses") {
+  useEffect(() => {
+    if (keycloak.token) {
+      setShowOrderDetails(false);
+      setCollectionDetails(false);
+      if (currentNav == "profile") {
+        props.getUserProfile(keycloak.token);
+      } else if (currentNav == "video") {
+        let status = "OPEN";
+        let request_status = "SCHEDULED,ACCEPTED";
+        if (profileType == "BUYER") {
+          status = "OPEN,ACCEPTED";
+          request_status = "SCHEDULED";
+        }
+        props.getOpenRequest(
+          keycloak.token,
+          props.userProfile.userProfile.profileId,
+          status
+        );
+        props.getRequestByStatus(
+          keycloak.token,
+          props.userProfile.userProfile.profileId,
+          request_status
+        );
+      } else if (currentNav == "addresses") {
         props.getAddresses(keycloak.token);
       }
     }
-  }
-
   }, [currentNav]);
 
   const formUpdate = (values) => {
@@ -209,17 +197,35 @@ const UserAccount = (props) => {
   };
 
   useEffect(() => {
-    if(keycloak.token) {
-    props.getUserProfile(keycloak.token);
+    if (keycloak.token) {
+      props.getUserProfile(keycloak.token);
     }
   }, [formUpdate(props.userProfile.userProfile)]);
 
-  // useEffect(() => {
-  //   let width = window.innerWidth;
-  //   if (width <= 500) {
-  //     setMobile(true);
-  //   }
-  // })
+  useEffect(() => {
+    if (props.userProfile && props.userProfile.userProfile) {
+      if (currentNav == "video") {
+        let status = "OPEN";
+        let request_status = "SCHEDULED,ACCEPTED";
+        if (profileType == "BUYER") {
+          status = "OPEN,ACCEPTED";
+          request_status = "SCHEDULED";
+        }
+        props.getOpenRequest(
+          keycloak.token,
+          props.userProfile.userProfile.profileId,
+          status
+        );
+        props.getRequestByStatus(
+          keycloak.token,
+          props.userProfile.userProfile.profileId,
+          request_status
+        );
+      } else if (currentNav == "addresses") {
+        props.getAddresses(keycloak.token);
+      }
+    }
+  }, [props.userProfile.userProfile, keycloak.token]);
 
   useEffect(() => {
     setImageUrl(
@@ -1604,7 +1610,7 @@ const UserAccount = (props) => {
                   size="large"
                   onChange={handleTabChange}
                 >
-                  <TabPane  tab="Upcoming" key="1">
+                  <TabPane tab="Upcoming" key="1">
                     {props.meetingByStatus &&
                     props.meetingByStatus.length > 0 ? (
                       meetingCard
