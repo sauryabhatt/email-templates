@@ -26,7 +26,7 @@ function FAQ(props) {
           prices! <br></br>• Verified producers<br></br>• Small-to-mid sized,
           buyer friendly terms - MOQs, lead times and prices<br></br>• One-stop
           sourcing platform from discovery to delivery<br></br>• Account
-          managers so that you don’t have to coordinate with multiple vendors
+          managers so that you don't have to coordinate with multiple vendors
           <br></br>• Secure payments<br></br>• Best freight and shipping costs
           <br></br>• Financial services launching soon
         </p>
@@ -74,12 +74,12 @@ function FAQ(props) {
           <b>Get custom Quote</b> - If you like a specific product and wish to
           order specific quantities or want to slightly customize the color or
           packaging, you can ask for a custom quote.<br></br>
-          <br></br>● <b>Send order Query</b> - If you like a seller’s portfolio
+          <br></br>● <b>Send order Query</b> - If you like a seller's portfolio
           and would like them to manufacture a custom design for you basis their
           skillset. This may require higher MOQs (Minimum Order Quantity) and
           longer lead times.<br></br>
           <br></br>● <b>Request for Quote</b> - If you're looking to purchase
-          something specific but you haven’t been able to find that product on
+          something specific but you haven't been able to find that product on
           our platform, we can create or curate products for you. This may
           require higher MOQs (Minimum Order Quantity) and longer lead times.
           <br></br>
@@ -281,7 +281,7 @@ function FAQ(props) {
           of variance. Please read the disclaimers carefully on the product page
           or in your custom order quotation.<br></br>
           <br></br>Having said that, if yours is a genuine case, we understand
-          and we’ve got your back!
+          and we've got your back!
         </p>
         <p className="faq-body-question">PAYMENTS ON QALARA</p>
         <p className="faq-body-question">Is it safe to transact on Qalara?</p>
@@ -330,7 +330,7 @@ function FAQ(props) {
           The option to select DDU mode is available in the Shipping page for
           Ready to Ship or Express custom products during checkout. For custom
           orders you can share your shipment preference with our team during the
-          quote creation process. For a DDU shipment we don’t add the Estimated
+          quote creation process. For a DDU shipment we don't add the Estimated
           duties and taxes to your order total and any{" "}
           <b>
             applicable duties and taxes are directly paid by you to the freight/
@@ -353,7 +353,7 @@ function FAQ(props) {
         </p>
 
         <p className="faq-body-question">
-          Your checkout mentions that Freight, Taxes and Duties are ‘estimates’.
+          Your checkout mentions that Freight, Taxes and Duties are 'estimates'.
           When will I know the freight, duties and taxes that will be charged?
         </p>
         <p className="faq-body-text-para">
@@ -453,7 +453,7 @@ function FAQ(props) {
         </p>
 
         <p className="faq-body-question">
-          Amount from my card was deducted but I didn’t get an order
+          Amount from my card was deducted but I didn't get an order
           confirmation email?
         </p>
         <p className="faq-body-text-para">
@@ -473,7 +473,7 @@ function FAQ(props) {
         </p>
         <p className="faq-body-text-para">
           For some countries, like the UK, yes we may be able to work via our
-          own / partners’ entities as an ‘Importer on Record’. In some
+          own / partners' entities as an 'Importer on Record'. In some
           countries, it may be permissible to ship goods up till a certain value
           without business details from the buyer, in which case we can still
           fulfil your order. We have to follow the laws of the land into which

@@ -164,7 +164,6 @@
     "values": "/categoryedit/jewelry",
     "isActive": "TRUE"
   },
-
   {
     "id": "SHOPOPTIONS::COLUMN::3::ROW::101",
     "column": "3",
@@ -231,7 +230,6 @@
     "values": "/trends/earthinspired",
     "isActive": "TRUE"
   },
-
   {
     "id": "SHOPOPTIONS::COLUMN::4::ROW::101",
     "column": "4",
