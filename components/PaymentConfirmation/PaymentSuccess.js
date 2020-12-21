@@ -152,7 +152,7 @@ const PaymentSuccess = (props) => {
   if (!balance) {
     if (paymentTerms.find((x) => x.chargeId === "ADVANCE")) {
       advance = paymentTerms.find((x) => x.chargeId === "ADVANCE").amount;
-      balance = total - advance * conversionFactor;
+      balance = total - advance;
     }
   } else {
     balance = balance;
