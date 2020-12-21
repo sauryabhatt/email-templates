@@ -548,12 +548,8 @@
   color: #332f2f;
   opacity: 80%;
 }
-
 .qa-fs-8 {
   font-size: 8px;
-}
-.qa-line-height {
-  line-height: 130%;
 }
 .qa-pad-0-10 {
   padding: 0px 10px;
@@ -691,4 +687,10 @@
 }
 .ant-select-selection-search input {
   margin-top: 3px !important;
+}
+.qa-fs-36 {
+  font-size: 36px;
+}
+.qa-lh-m {
+  line-height: 140%;
 }

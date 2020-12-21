@@ -45,6 +45,7 @@ const CartSummary = (props) => {
   const [orderModal, showOrderModal] = useState(false);
   const [reRender, setReRender] = useState(false);
   const [sellers, setSellers] = useState([]);
+  const [qalaraMargin, setQalaraMargin] = useState(0);
 
   useEffect(() => {
     if (props.cart) {
@@ -73,6 +74,7 @@ const CartSummary = (props) => {
   }, [props]);
 
   useEffect(() => {
+    setPopover("");
     if (reRender) {
       setReRender(false);
     } else {
@@ -601,8 +603,16 @@ const CartSummary = (props) => {
         Estimated custom duties for this order is{" "}
         <b>
           {getSymbolFromCurrency(convertToCurrency)}
-          {dutyMin} to {getSymbolFromCurrency(convertToCurrency)}
-          {dutyMax}.
+          {dutyMin}
+          {dutyMax > 0 ? (
+            <span>
+              {" "}
+              to {getSymbolFromCurrency(convertToCurrency)}
+              {dutyMax}.
+            </span>
+          ) : (
+            "."
+          )}
         </b>
       </div>
       <div className="qa-mar-top-05 qa-lh">
@@ -807,7 +817,7 @@ const CartSummary = (props) => {
                 </div>
                 <div className="c-right-blk qa-txt-alg-rgt qa-fw-b">
                   {getSymbolFromCurrency(convertToCurrency)}
-                  {parseFloat(totalAmount).toFixed(2)}
+                  {getConvertedCurrency(totalAmount)}
                   <div className="qa-txt-alg-rgt">
                     <Popover
                       placement="bottomRight"
@@ -821,12 +831,11 @@ const CartSummary = (props) => {
                         onClick={() => {
                           popupHover(sellerCode);
                           setPopoverData(order);
-                          setSellerTotalAmount(
-                            parseFloat(totalAmount).toFixed(2)
-                          );
+                          setSellerTotalAmount(totalAmount);
                           setSamplePrice(samplePrice);
                           setQualityPrice(testingPrice);
                           setBasePrice(basePrice);
+                          setQalaraMargin(qalaraSellerMargin);
                         }}
                       >
                         See breakup
@@ -888,7 +897,7 @@ const CartSummary = (props) => {
       )}
 
       {id !== "cart" && sellerDiscount > 0 && (
-        <div className="qa-mar-btm-2 qa-fw-b">
+        <div className="qa-fw-b">
           <div className="cart-ship-pt">
             <div style={{ color: "#02873A" }} className="c-left-blk">
               Shipping promotion applied{" "}
