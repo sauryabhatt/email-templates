@@ -769,7 +769,7 @@ function UserHeader(props) {
                     lineHeight: "40px",
                   }}
                 >
-                  SHOP CATEGORIES
+                  CATEGORIES
                 </div>
               </Dropdown>
               {/* <a href="/explore/curatedbyus" className="trend-navigation">
@@ -1284,7 +1284,7 @@ function UserHeader(props) {
                 {/* <Menu.Item key="blog">BLOG</Menu.Item> */}
                 <SubMenu
                   key="shop"
-                  title="SHOP"
+                  title="CATEGORIES"
                   className="shop-menu-navigation"
                   style={{ paddingBottom: "120px" }}
                 >
@@ -1528,7 +1528,7 @@ function UserHeader(props) {
       </Modal>
       {shopColor && (
         <div
-          style={{ top: isShowRibbon ? "120px" : "70px" }}
+          style={{ top: isShowRibbon ? "110px" : "70px" }}
           id="overlay"
         ></div>
       )}

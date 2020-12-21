@@ -162,13 +162,11 @@
 .ant-dropdown-menu-submenu-title:hover {
   background-color: #191919;
 }
-.shop-navigation {
-}
 .shop-navigation
   .ant-dropdown-menu.ant-dropdown-menu-dark.ant-dropdown-menu-root.ant-dropdown-menu-vertical {
-  margin: 0 40px;
+  /* margin: 0 40px; */
   background: #191919;
-  padding: 0px 50px;
+  padding: 0px 30px;
 }
 
 .search-section
@@ -217,14 +215,12 @@
 }
 .shop-navigation .navigation-border {
   border-right: 1px solid rgba(217, 187, 127, 0.2);
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 40px;
+  padding-right: 40px;
 }
 .shop-navigation .qa-pad-lft-40 {
-  padding-left: 20px;
-}
-.shop-navigation .navigation-border.nav-key-1 {
-  padding-left: 0px;
+  padding-left: 40px;
+  padding-right: 40px;
 }
 .mobile-slider-menu.ant-drawer-left .navigation-item.navigation-title {
   padding: 20px 0;
