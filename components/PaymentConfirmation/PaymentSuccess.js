@@ -20,6 +20,24 @@ const PaymentSuccess = (props) => {
     props.getOrderByOrderId(keycloak.token, orderIdParam);
   }, [keycloak.token, router.query.orderId]);
 
+  let { order = {} } = props || {};
+  let {
+    balance = 0,
+    total = 0,
+    paymentTerms = [],
+    conversionFactor = 0,
+    promoDiscount = 0,
+    promoCode = "",
+    miscCharges = [],
+    shippingTerms = "",
+    shippingMode = "",
+    expectedDeliveryDateMax = "",
+    expectedDeliveryDateMin = "",
+    orderType = "",
+    typeOfOrder = "",
+    orderId = "",
+  } = order || {};
+
   const getOrders =
     props.order &&
     props.order.subOrders &&
@@ -76,24 +94,6 @@ const PaymentSuccess = (props) => {
   const redirectToFaq = () => {
     router.push("/FAQforwholesalebuyers");
   };
-
-  let { order = {} } = props || {};
-  let {
-    balance = 0,
-    total = 0,
-    paymentTerms = [],
-    conversionFactor = 0,
-    promoDiscount = 0,
-    promoCode = "",
-    miscCharges = [],
-    shippingTerms = "",
-    shippingMode = "",
-    expectedDeliveryDateMax = "",
-    expectedDeliveryDateMin = "",
-    orderType = "",
-    typeOfOrder = "",
-    orderId = "",
-  } = order || {};
 
   let frieghtCharge = 0;
   let dutyCharge = 0;
@@ -688,17 +688,19 @@ const PaymentSuccess = (props) => {
                             props.order && props.order.currency
                           )}
                           {parseFloat(
-                            props.order &&
-                              props.order.subOrders &&
-                              props.order.subOrders.length > 0 &&
-                              props.order.subOrders.reduce(
-                                (x, y) => x + y["total"],
-                                0
-                              ) +
-                                frieghtCharge +
-                                dutyCharge -
-                                couponDiscount -
-                                sellerDiscount
+                            parseFloat(
+                              props.order &&
+                                props.order.subOrders &&
+                                props.order.subOrders.length > 0 &&
+                                props.order.subOrders.reduce(
+                                  (x, y) => x + y["total"],
+                                  0
+                                ) * conversionFactor
+                            ) +
+                              frieghtCharge * conversionFactor +
+                              dutyCharge * conversionFactor -
+                              couponDiscount * conversionFactor -
+                              sellerDiscount * conversionFactor
                           ).toFixed(2)}
                         </span>
                       ) : (
