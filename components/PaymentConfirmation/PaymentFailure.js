@@ -104,12 +104,12 @@ const PaymentFailure = (props) => {
             </Col>
           </Row>
           <Row className="qa-mar-top-1 qa-mar-btm-05">
-            <Col xs={18} sm={18} md={18} lg={18}>
+            <Col span={16}>
               <div className="qa-font-san qa-tc-white qa-fs-14 qa-mar-rgt-1 qa-lh">
                 Value of products purchased
               </div>
             </Col>
-            <Col xs={6} sm={6} md={6} lg={6}>
+            <Col span={8}>
               {props.order && props.order.orderType == "RTS" ? (
                 <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end qa-fw-b">
                   {getSymbolFromCurrency(
@@ -316,12 +316,12 @@ const PaymentFailure = (props) => {
                 </Col>
               </Row>
               <Row className="qa-mar-top-1">
-                <Col xs={18} sm={18} md={18} lg={18}>
+                <Col span={16}>
                   <div className="qa-font-san qa-tc-white qa-fs-14 qa-lh qa-mar-rgt-1">
                     Estimated freight fees
                   </div>
                 </Col>
-                <Col xs={6} sm={6} md={6} lg={6}>
+                <Col span={8}>
                   {props.order && props.order.orderType == "RTS" ? (
                     <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end qa-fw-b">
                       {getSymbolFromCurrency(
@@ -366,7 +366,7 @@ const PaymentFailure = (props) => {
                 props.order.miscCharges.find((x) => x.chargeId === "DISCOUNT")
                   .amount > 0 && (
                   <Row className="">
-                    <Col xs={18} sm={18} md={18} lg={18}>
+                    <Col span={16}>
                       <div
                         className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b qa-lh qa-mar-rgt-1"
                         style={{ color: "#02873A" }}
@@ -377,7 +377,7 @@ const PaymentFailure = (props) => {
                         discount applied
                       </div>
                     </Col>
-                    <Col xs={6} sm={6} md={6} lg={6}>
+                    <Col span={8}>
                       <span
                         className="qa-font-san qa-fw-b qa-fs-14 qa-col-end qa-fw-b"
                         style={{ color: "#02873A" }}
@@ -409,7 +409,7 @@ const PaymentFailure = (props) => {
                   (x) => x.chargeId === "SELLER_DISCOUNT"
                 ).amount > 0 && (
                   <Row className="">
-                    <Col xs={18} sm={18} md={18} lg={18}>
+                    <Col span={16}>
                       <div
                         className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b qa-lh qa-mar-rgt-1"
                         style={{ color: "#02873A" }}
@@ -417,7 +417,7 @@ const PaymentFailure = (props) => {
                         Shipping promotion applied
                       </div>
                     </Col>
-                    <Col xs={6} sm={6} md={6} lg={6}>
+                    <Col span={8}>
                       {props.order && props.order.orderType == "RTS" ? (
                         <span
                           className="qa-font-san qa-fw-b qa-fs-14 qa-col-end qa-fw-b"
@@ -466,7 +466,7 @@ const PaymentFailure = (props) => {
                   </Row>
                 )}
               <Row className="qa-mar-top-2">
-                <Col xs={18} sm={18} md={18} lg={18}>
+                <Col span={16}>
                   <div className="qa-font-san qa-tc-white qa-fs-14 qa-lh qa-mar-rgt-1">
                     {shippingTerms === "DDU"
                       ? "Customs duties excluded*"
@@ -485,7 +485,7 @@ const PaymentFailure = (props) => {
                     </div>
                   )}
                 </Col>
-                <Col xs={6} sm={6} md={6} lg={6}>
+                <Col span={8}>
                   {shippingTerms === "DDU" ? (
                     <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end">
                       NA
@@ -547,12 +547,12 @@ const PaymentFailure = (props) => {
                 </Col>
               </Row>
               <Row className="qa-mar-top-1">
-                <Col xs={18} sm={18} md={18} lg={18}>
+                <Col span={16}>
                   <div className="qa-font-san qa-tc-white qa-fs-17 qa-fw-b qa-mar-rgt-1 qa-lh">
                     SUBTOTAL
                   </div>
                 </Col>
-                <Col xs={6} sm={6} md={6} lg={6}>
+                <Col span={8}>
                   {props.order && props.order.orderType == "RTS" ? (
                     <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-17 qa-col-end">
                       {getSymbolFromCurrency(
@@ -621,7 +621,7 @@ const PaymentFailure = (props) => {
               </Row>
 
               <Row className="qa-mar-top-15">
-                <Col xs={18} sm={18} md={18} lg={18}>
+                <Col span={16}>
                   <div className="qa-font-san qa-tc-white qa-fs-14 qa-lh qa-mar-rgt-1">
                     {shippingTerms === "DDU"
                       ? "VAT/ GST / Taxes excluded*"
@@ -638,7 +638,7 @@ const PaymentFailure = (props) => {
                     </Link>
                   </div>
                 </Col>
-                <Col xs={6} sm={6} md={6} lg={6}>
+                <Col span={8}>
                   {shippingTerms === "DDU" ? (
                     <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end">
                       NA
@@ -693,7 +693,7 @@ const PaymentFailure = (props) => {
                 props.order.miscCharges.find((x) => x.chargeId === "DISCOUNT")
                   .amount > 0 && (
                   <Row className="">
-                    <Col xs={18} sm={18} md={18} lg={18}>
+                    <Col span={16}>
                       <div
                         className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b qa-lh qa-mar-rgt-1"
                         style={{ color: "#02873A" }}
@@ -704,7 +704,7 @@ const PaymentFailure = (props) => {
                         discount applied
                       </div>
                     </Col>
-                    <Col xs={6} sm={6} md={6} lg={6}>
+                    <Col span={8}>
                       <span
                         className="qa-font-san qa-fw-b qa-fs-14 qa-col-end qa-fw-b"
                         style={{ color: "#02873A" }}
@@ -733,7 +733,7 @@ const PaymentFailure = (props) => {
 
               {props.order && props.order.promoDiscount > 0 && (
                 <Row className="qa-mar-top-2">
-                  <Col xs={18} sm={18} md={18} lg={18}>
+                  <Col span={16}>
                     <div
                       style={{ textTransform: "uppercase", color: "#02873A" }}
                       className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b qa-lh qa-mar-rgt-1"
@@ -748,10 +748,7 @@ const PaymentFailure = (props) => {
                     </div>
                   </Col>
                   <Col
-                    xs={6}
-                    sm={6}
-                    md={6}
-                    lg={6}
+                    span={8}
                     className="qa-font-san qa-fw-b qa-fs-14 qa-col-end qa-fw-b"
                   >
                     <span style={{ color: "#02873A" }}>
@@ -770,7 +767,7 @@ const PaymentFailure = (props) => {
                 </Col>
               </Row>
               <Row className="qa-mar-top-1">
-                <Col xs={18} sm={18} md={18} lg={18}>
+                <Col span={16}>
                   <div className="qa-font-san qa-tc-white qa-fs-17 qa-fw-b qa-mar-rgt-1 qa-lh">
                     TOTAL ORDER VALUE{" "}
                     {shippingTerms === "DDU" ||
@@ -781,7 +778,7 @@ const PaymentFailure = (props) => {
                       ))}
                   </div>
                 </Col>
-                <Col xs={6} sm={6} md={6} lg={6}>
+                <Col span={8}>
                   {props.order && props.order.orderType == "RTS" ? (
                     <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-17 qa-col-end">
                       {getSymbolFromCurrency(
