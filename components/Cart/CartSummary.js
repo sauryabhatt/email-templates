@@ -603,8 +603,15 @@ const CartSummary = (props) => {
         Estimated custom duties for this order is{" "}
         <b>
           {getSymbolFromCurrency(convertToCurrency)}
-          {dutyMin} to {getSymbolFromCurrency(convertToCurrency)}
-          {dutyMax}.
+          {dutyMin}{" "}
+          {dutyMax > 0 ? (
+            <span>
+              to {getSymbolFromCurrency(convertToCurrency)}
+              {dutyMax}.
+            </span>
+          ) : (
+            "."
+          )}
         </b>
       </div>
       <div className="qa-mar-top-05 qa-lh">
@@ -651,12 +658,14 @@ const CartSummary = (props) => {
         <div className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
           <span style={{ textDecoration: "line-through", marginRight: "5px" }}>
             {getSymbolFromCurrency(convertToCurrency)}
-            {qalaraMargin ? getConvertedCurrency(qalaraMargin) : ""}
+            {popoverData["qalaraSellerMargin"]
+              ? getConvertedCurrency(popoverData["qalaraSellerMargin"])
+              : ""}
           </span>
 
           <span style={{ color: "#02873A" }} className="qa-fw-b">
             {getSymbolFromCurrency(convertToCurrency)}
-            {qalaraMargin ? getConvertedCurrency(0) : ""}
+            {popoverData["qalaraSellerMargin"] ? getConvertedCurrency(0) : ""}
           </span>
         </div>
         {qualityPrice > 0 && (
@@ -887,7 +896,7 @@ const CartSummary = (props) => {
       )}
 
       {id !== "cart" && sellerDiscount > 0 && (
-        <div className="qa-mar-btm-2 qa-fw-b">
+        <div className="qa-fw-b">
           <div className="cart-ship-pt">
             <div style={{ color: "#02873A" }} className="c-left-blk">
               Shipping promotion applied{" "}

@@ -56,9 +56,9 @@ const PaymentSuccess = (props) => {
           </Row>
           <Row className="qa-mar-top-1 qa-mar-btm-05">
             <Col xs={18} sm={18} md={18} lg={18}>
-              <span className="qa-font-san qa-tc-white qa-fs-14">
+              <div className="qa-font-san qa-tc-white qa-fs-14 qa-mar-rgt-1 qa-lh">
                 Value of products purchased
-              </span>
+              </div>
             </Col>
             <Col xs={6} sm={6} md={6} lg={6}>
               {props.order && orderType == "RTS" ? (
@@ -169,8 +169,14 @@ const PaymentSuccess = (props) => {
         <b>
           {getSymbolFromCurrency(props.order && props.order.currency)}
           {dutyMin} to{" "}
-          {getSymbolFromCurrency(props.order && props.order.currency)}
-          {dutyMax}.
+          {dutyMax > 0 ? (
+            <span>
+              {getSymbolFromCurrency(props.order && props.order.currency)}
+              {dutyMax}.
+            </span>
+          ) : (
+            "."
+          )}
         </b>
       </div>
       <div className="qa-mar-top-05 qa-lh">
@@ -206,23 +212,29 @@ const PaymentSuccess = (props) => {
             <Col xs={22} sm={22} md={12} lg={12}>
               <Row className="qa-mar-top-2">
                 <Col xs={24} sm={24} md={24} lg={24}>
-                  <span className="qa-font-butler qa-tc-white qa-fs-60">
+                  <div
+                    className={
+                      mediaMatch.matches
+                        ? "qa-font-butler qa-tc-white qa-fs-60"
+                        : "qa-font-butler qa-tc-white qa-fs-36 qa-mar-btm-15"
+                    }
+                  >
                     Thank you!
-                  </span>
+                  </div>
                 </Col>
               </Row>
               <Row>
                 <Col xs={24} sm={24} md={24} lg={24}>
                   {orderType === "RTS" ? (
-                    <span className="qa-font-butler qa-tc-white qa-fs-20">
+                    <div className="qa-font-butler qa-tc-white qa-fs-20 qa-lh-m">
                       You order with ID {orderId} is confirmed. We will monitor
                       your order and keep you updated on your order status till
                       the order is delivered. Please refer to the order
                       confirmation email for more details.
-                    </span>
+                    </div>
                   ) : (
                     <div>
-                      <div className="qa-font-butler qa-tc-white qa-fs-20">
+                      <div className="qa-font-butler qa-tc-white qa-fs-20 qa-lh-m">
                         Your order with {orderId} is confirmed. We will
                         continuously monitor your order and keep you updated on
                         the following:
@@ -239,10 +251,16 @@ const PaymentSuccess = (props) => {
               <Row className="qa-mar-top-3 qa-font-san">
                 <Col span={24}>
                   <div className="cart-title qa-mar-btm-1 qa-cursor sen-font font-size-17 qa-border-bottom">
-                    <div className="c-left-blk qa-txt-alg-lft font-size-17">
+                    <div
+                      className="c-left-blk qa-txt-alg-lft font-size-17"
+                      style={{ width: "45%" }}
+                    >
                       Estimated delivery date:
                     </div>
-                    <div className="c-right-blk qa-txt-alg-rgt font-size-17 qa-success qa-fw-b">
+                    <div
+                      className="c-right-blk qa-txt-alg-rgt font-size-17 qa-success qa-fw-b"
+                      style={{ width: "55%" }}
+                    >
                       {props.order && (
                         <span>
                           {moment(expectedDeliveryDateMin).format("DD MMM YY")}{" "}
@@ -283,16 +301,16 @@ const PaymentSuccess = (props) => {
                 <div>
                   <Row className="qa-mar-top-2">
                     <Col xs={24} sm={24} md={24} lg={24}>
-                      <span className="qa-font-san qa-tc-white qa-fs-17">
+                      <div className="qa-font-san qa-tc-white qa-fs-17 qa-lh-m">
                         If you want to review your order refer to the 'My
                         orders' section within 'My account'.
-                      </span>
+                      </div>
                     </Col>
                   </Row>
 
                   <Row className="qa-mar-top-1">
                     <Col xs={24} sm={24} md={24} lg={24}>
-                      <span
+                      <div
                         className="qa-fs-17 qa-font-san qa-sm-color"
                         style={{
                           letterSpacing: "0.01em",
@@ -301,12 +319,12 @@ const PaymentSuccess = (props) => {
                         onClick={redirectToAccount}
                       >
                         My account
-                      </span>
+                      </div>
                     </Col>
                   </Row>
                   <Row className="qa-mar-top-2">
                     <Col xs={24} sm={24} md={24} lg={24}>
-                      <span className="qa-font-san qa-tc-white qa-fs-17">
+                      <div className="qa-font-san qa-tc-white qa-fs-17 qa-lh-m">
                         In case you have any questions you can refer to our FAQ
                         section or write to us at{" "}
                         <a
@@ -315,7 +333,7 @@ const PaymentSuccess = (props) => {
                         >
                           buyers@qalara.com
                         </a>
-                      </span>
+                      </div>
                     </Col>
                   </Row>
 
@@ -338,22 +356,22 @@ const PaymentSuccess = (props) => {
                 <div>
                   <Row className="qa-mar-top-2">
                     <Col xs={24} sm={24} md={24} lg={24}>
-                      <span className="qa-font-san qa-tc-white qa-fs-17">
+                      <div className="qa-font-san qa-tc-white qa-fs-17 qa-lh-m">
                         At the time of the delivery our logistics partner will
                         contact you for the payment of applicable duties and
                         taxes. Please refer to the order confirmation email for
                         more details.
-                      </span>
+                      </div>
                     </Col>
                   </Row>
                   <Row className="qa-mar-top-2">
                     <Col xs={24} sm={24} md={24} lg={24}>
-                      <span className="qa-font-san qa-tc-white qa-fs-17">
+                      <div className="qa-font-san qa-tc-white qa-fs-17 qa-lh-m">
                         If you want to review your order or if you have any
                         questions you can either write to us at
                         buyers@qalara.com or refer to the 'My account' or 'FAQ'
                         section.
-                      </span>
+                      </div>
                     </Col>
                   </Row>
                   <Row className="qa-mar-top-2">
@@ -435,7 +453,7 @@ const PaymentSuccess = (props) => {
                       </Row>
                     </Col>
                   </Row>
-                  <Row className="qa-mar-top-1">
+                  <Row className="qa-mar-top-05">
                     <Col xs={24} sm={24} md={24} lg={24}>
                       <hr
                         style={{ border: "-1px solid rgba(25, 25, 25, 0.6)" }}
@@ -443,11 +461,18 @@ const PaymentSuccess = (props) => {
                     </Col>
                   </Row>
                   {getOrders}
+                  <Row className="qa-mar-top-05">
+                    <Col xs={24} sm={24} md={24} lg={24}>
+                      <hr
+                        style={{ border: "-1px solid rgba(25, 25, 25, 0.6)" }}
+                      />
+                    </Col>
+                  </Row>
                   <Row className="qa-mar-top-1">
                     <Col xs={18} sm={18} md={18} lg={18}>
-                      <span className="qa-font-san qa-tc-white qa-fs-14">
+                      <div className="qa-font-san qa-tc-white qa-fs-14 qa-lh qa-mar-rgt-1">
                         Estimated freight fees
-                      </span>
+                      </div>
                     </Col>
                     <Col xs={6} sm={6} md={6} lg={6}>
                       {orderType == "RTS" ? (
@@ -507,8 +532,8 @@ const PaymentSuccess = (props) => {
                           </div>
                         </Col>
                         <Col xs={6} sm={6} md={6} lg={6}>
-                          <span
-                            className="qa-font-san qa-fw-b qa-fs-14 qa-col-end qa-fw-b"
+                          <div
+                            className="qa-font-san qa-fw-b qa-fs-14 qa-col-end qa-fw-b qa-lh qa-mar-rgt-1"
                             style={{ color: "#02873A" }}
                           >
                             -{" "}
@@ -525,7 +550,7 @@ const PaymentSuccess = (props) => {
                                   (x) => x.chargeId === "DISCOUNT"
                                 ).amount || 0) * props.order.conversionFactor
                               ).toFixed(2)}
-                          </span>
+                          </div>
                         </Col>
                       </Row>
                     )}
@@ -548,7 +573,7 @@ const PaymentSuccess = (props) => {
                         </Col>
                         <Col xs={6} sm={6} md={6} lg={6}>
                           {props.order && orderType == "RTS" ? (
-                            <span
+                            <div
                               className="qa-font-san qa-fw-b qa-fs-14 qa-col-end qa-fw-b"
                               style={{ color: "#02873A" }}
                             >
@@ -566,9 +591,9 @@ const PaymentSuccess = (props) => {
                                     (x) => x.chargeId === "SELLER_DISCOUNT"
                                   ).amount || 0) * props.order.conversionFactor
                                 ).toFixed(2)}
-                            </span>
+                            </div>
                           ) : (
-                            <span
+                            <div
                               className="qa-font-san qa-fw-b qa-fs-14 qa-col-end qa-fw-b"
                               style={{ color: "#02873A" }}
                             >
@@ -587,18 +612,18 @@ const PaymentSuccess = (props) => {
                                   ).amount) ||
                                   0
                               ).toFixed(2)}
-                            </span>
+                            </div>
                           )}
                         </Col>
                       </Row>
                     )}
-                  <Row className="qa-mar-top-2">
+                  <Row className="qa-mar-top-15">
                     <Col xs={18} sm={18} md={18} lg={18}>
-                      <span className="qa-font-san qa-tc-white qa-fs-14">
+                      <div className="qa-font-san qa-tc-white qa-fs-14 qa-lh qa-mar-rgt-1">
                         {shippingTerms === "DDU"
                           ? "Customs duties excluded*"
                           : "Estimated custom, taxes & duties"}
-                      </span>
+                      </div>
                       {shippingTerms === "DDU" && (
                         <div>
                           <Popover
@@ -614,13 +639,13 @@ const PaymentSuccess = (props) => {
                     </Col>
                     <Col xs={6} sm={6} md={6} lg={6}>
                       {shippingTerms === "DDU" ? (
-                        <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end">
+                        <div className="qa-font-san qa-tc-white qa-fs-14 qa-col-end">
                           NA
-                        </span>
+                        </div>
                       ) : (
-                        <span>
+                        <div>
                           {props.order && orderType == "RTS" ? (
-                            <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end qa-fw-b">
+                            <div className="qa-font-san qa-tc-white qa-fs-14 qa-col-end qa-fw-b">
                               {getSymbolFromCurrency(
                                 props.order && props.order.currency
                               )}
@@ -634,9 +659,9 @@ const PaymentSuccess = (props) => {
                                     (x) => x.chargeId === "DUTY_MAX"
                                   ).amount * props.order.conversionFactor
                                 ).toFixed(2)}
-                            </span>
+                            </div>
                           ) : (
-                            <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end qa-fw-b">
+                            <div className="qa-font-san qa-tc-white qa-fs-14 qa-col-end qa-fw-b">
                               {getSymbolFromCurrency(
                                 props.order && props.order.currency
                               )}
@@ -662,9 +687,9 @@ const PaymentSuccess = (props) => {
                                       ).amount
                                   )
                               ).toFixed(2)}
-                            </span>
+                            </div>
                           )}
-                        </span>
+                        </div>
                       )}
                     </Col>
                   </Row>
@@ -751,12 +776,12 @@ const PaymentSuccess = (props) => {
 
                   <Row className="qa-mar-top-15">
                     <Col xs={18} sm={18} md={18} lg={18}>
-                      <span className="qa-font-san qa-tc-white qa-fs-14">
+                      <div className="qa-font-san qa-tc-white qa-fs-14 qa-lh qa-mar-rgt-1">
                         {shippingTerms === "DDU"
                           ? "VAT/ GST / Taxes excluded*"
                           : "VAT/ GST / Taxes*"}
-                      </span>
-                      <div className="qa-fs-14 qa-font-san">
+                      </div>
+                      <div className="qa-fs-14 qa-font-san qa-lh qa-mar-rgt-1">
                         Refundable for some countries like UK/AU.{" "}
                         <Link href="/FAQforwholesalebuyers">
                           <a target="_blank">
