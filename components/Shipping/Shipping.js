@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import ShippingDetails from "./ShippingDetails";
 import { getCart } from "../../store/actions";
@@ -8,12 +8,7 @@ import { useKeycloak } from "@react-keycloak/ssr";
 
 const Shipping = (props) => {
   let { cart = {} } = props;
-  const {keycloak} = useKeycloak();
-  
-
-  // async function getCartDetails() {
-    // props.getCart(token);
-  // }
+  const { keycloak } = useKeycloak();
 
   useEffect(() => {
     if (props.user) {
@@ -25,9 +20,7 @@ const Shipping = (props) => {
     }
   }, [props.user, keycloak.token]);
 
-  return (
-      <ShippingDetails app_token={keycloak.token} cart={cart} />
-  );
+  return <ShippingDetails app_token={keycloak.token} cart={cart} />;
 };
 
 const mapStateToProps = (state) => {

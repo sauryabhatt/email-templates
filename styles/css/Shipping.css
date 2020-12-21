@@ -59,11 +59,11 @@
     0px 1px 1px rgba(25, 25, 25, 0.2);
 }
 .cart-section .shipping-section .c-left-blk {
-  width: 60%;
+  width: 65%;
   vertical-align: middle;
 }
 .cart-section .shipping-section .c-right-blk {
-  width: 40%;
+  width: 35%;
   vertical-align: middle;
 }
 .cart-price-block .coupon-btn {
@@ -84,7 +84,12 @@
   color: rgba(25, 25, 25, 0.4);
   height: 44px;
 }
-
+@media only screen and (max-width: 768px) {
+  .cart-section .shipping-section .c-left-blk,
+  .cart-section .shipping-section .c-right-blk {
+    vertical-align: top;
+  }
+}
 @media only screen and (min-width: 320px) and (max-width: 360px) {
   .cart-section .min-width-320px {
     width: 230px;
@@ -93,4 +98,27 @@
   .cart-section .shipping-section .c-right-blk {
     white-space: break-spaces;
   }
+}
+.cart-section .shipment-term-subtitle {
+  font-family: senregular;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 130%;
+  letter-spacing: 0.28px;
+  color: #191919;
+}
+.cart-section .shipping-section .edd-section .c-left-blk,
+.cart-section .shipping-section .edd-section .c-right-blk {
+  font-size: 12px;
+}
+.cart-section .shipping-section .edd-section .c-left-blk {
+  width: 52%;
+}
+.cart-section .shipping-section .edd-section .c-right-blk {
+  width: 40%;
+}
+.edd-section li div {
+  position: relative;
+  left: -8px;
 }

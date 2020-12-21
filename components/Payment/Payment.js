@@ -15,8 +15,12 @@ const Payment = (props) => {
 
   async function getCartDetails(token) {
     props.checkCartAPI(token, (result) => {
-      let { orderId = "", priceQuoteRef = "", shippingMode = "" } =
-        result || {};
+      let {
+        orderId = "",
+        priceQuoteRef = "",
+        shippingMode = "",
+        shippingTerms = "",
+      } = result || {};
 
       if (priceQuoteRef && shippingMode !== "DEFAULT") {
         fetch(
@@ -37,7 +41,8 @@ const Payment = (props) => {
             }
           })
           .then((res) => {
-            setData(res);
+            let shippingterm = shippingTerms.toLowerCase();
+            setData(res[shippingterm]);
             setLoading(false);
             props.getOrder(orderId, token);
           })

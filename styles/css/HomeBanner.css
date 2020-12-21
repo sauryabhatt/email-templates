@@ -21,43 +21,43 @@
   }
 }
 .hot-weel-crousel {
-  background: #BCB29C;
+  background: #bcb29c;
   padding: 28px 60px 58px;
 }
 .hot-weel-header {
-    font-size: 36px;
-    text-align: center;
-    margin-bottom: 30px;
-    font-family: 'Butler';
+  font-size: 36px;
+  text-align: center;
+  margin-bottom: 30px;
+  font-family: "Butler";
 }
 .hot-weel-wrp {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-.tastimonial-wrapper{
+.tastimonial-wrapper {
   position: relative;
-    background: #332F2F;
-    color: #F9F7F2;
-    padding: 50px 45px;
+  background: #332f2f;
+  color: #f9f7f2;
+  padding: 50px 45px;
 }
 .tastimonial-wrapper .cart-banner-title {
   font-size: 20px;
-    width: 70%;
-    margin-bottom: 10px;
+  width: 70%;
+  margin-bottom: 10px;
 }
 
-.tastimonial-wrapper span.cart-banner-copy{
-  font-family: 'senregular';
+.tastimonial-wrapper span.cart-banner-copy {
+  font-family: "senregular";
   color: rgba(249, 247, 242, 0.6);
 }
-.tastimonial-wrapper .cart-arrow{
-  color: #F9F7F2;
+.tastimonial-wrapper .cart-arrow {
+  color: #f9f7f2;
 }
-.tastimonial-wrapper .slick-slide > div{
+.tastimonial-wrapper .slick-slide > div {
   display: flex;
-    align-items: center;
+  align-items: center;
 }
 .press-crousel .press-web-wrp a:first-child {
   margin-left: -135px;
@@ -338,13 +338,11 @@ svg.icn-spinner circle {
   .second-img-subhead {
     font-size: 20px !important;
   }
-  
 }
 @media only screen and (max-width: 1100px) {
-  .hot-weel-crousel img{
+  .hot-weel-crousel img {
     width: 200px;
   }
-
 }
 
 @media only screen and (min-width: 768px) {
@@ -548,17 +546,17 @@ top: 2.48vh; */
   /*justify-content: space-between;*/
 }
 @media only screen and (max-width: 768px) {
-  .hot-weel-crousel{
+  .hot-weel-crousel {
     padding: 26px 0 33px 23px;
   }
-  .tastimonial-wrapper .cart-banner-title{
+  .tastimonial-wrapper .cart-banner-title {
     width: 100%;
     font-size: 16px;
   }
-  span.cart-banner-copy{
+  span.cart-banner-copy {
     font-size: 12px;
   }
-  .cart-arrow svg{
+  .cart-arrow svg {
     height: 13px;
     width: 8px;
   }
@@ -567,7 +565,7 @@ top: 2.48vh; */
     font-size: 23px;
     line-height: 38px;
     margin-bottom: 10px;
-}
+  }
   #banner-container {
     height: auto;
   }

@@ -597,9 +597,9 @@ function Home(props) {
       />
       <PressCrousel />
       <CraftCarousel items={craftItems} />
-      <HotThisWeekCarousel/>
+      <HotThisWeekCarousel />
       <SellerCarousel items={sellerItems} />
-      <Tastimonial/>
+      <Tastimonial />
       {/* <Button>
           <Link href="/categories">Seller Listing Page</Link>
         </Button>

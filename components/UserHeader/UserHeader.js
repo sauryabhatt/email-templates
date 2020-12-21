@@ -979,12 +979,18 @@ function UserHeader(props) {
                   "my-account",
                   "shop",
                   "featured",
-                  "sub0",
-                  "sub1",
-                  "sub2",
-                  "sub3",
-                  "sub4",
-                  "sub5",
+                  "shop-0",
+                  "shop-1",
+                  "shop-2",
+                  "shop-3",
+                  "shop-4",
+                  "shop-5",
+                  "featured-0",
+                  "featured-1",
+                  "featured-2",
+                  "featured-3",
+                  "featured-4",
+                  "featured-5",
                 ]}
                 mode="inline"
                 theme="dark"
@@ -1177,7 +1183,7 @@ function UserHeader(props) {
                     if (hasSubNav) {
                       return (
                         <SubMenu
-                          key={`sub${key}`}
+                          key={`featured-${key}`}
                           title={header.displayTitle}
                           className="shop-submenu"
                         >
@@ -1289,7 +1295,7 @@ function UserHeader(props) {
                     if (hasSubNav) {
                       return (
                         <SubMenu
-                          key={`sub${key}`}
+                          key={`shop-${key}`}
                           title={header.displayTitle}
                           className="shop-submenu"
                         >
