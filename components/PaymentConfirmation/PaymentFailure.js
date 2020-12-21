@@ -541,17 +541,19 @@ const PaymentFailure = (props) => {
                         (props.order && props.order.currency) || "USD"
                       )}
                       {parseFloat(
-                        props.order &&
-                          props.order.subOrders &&
-                          props.order.subOrders.length > 0 &&
-                          props.order.subOrders.reduce(
-                            (x, y) => x + y["total"],
-                            0
-                          ) +
-                            frieghtCharge +
-                            dutyCharge -
-                            couponDiscount -
-                            sellerDiscount
+                        parseFloat(
+                          props.order &&
+                            props.order.subOrders &&
+                            props.order.subOrders.length > 0 &&
+                            props.order.subOrders.reduce(
+                              (x, y) => x + y["total"],
+                              0
+                            ) * conversionFactor
+                        ) +
+                          frieghtCharge * conversionFactor +
+                          dutyCharge * conversionFactor -
+                          couponDiscount * conversionFactor -
+                          sellerDiscount * conversionFactor
                       ).toFixed(2)}
                     </span>
                   ) : (
