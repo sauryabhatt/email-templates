@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
 import { Button, Row, Col } from "antd";
 import { LeftOutlined, RightOutlined, MinusOutlined } from "@ant-design/icons";
@@ -25,7 +25,7 @@ function CraftCarousel(props) {
 
   useEffect(() => {
     enquireScreen((status) => setIsMobile(status));
-  }, []); 
+  }, []);
   let slider;
 
   const next = () => {
@@ -40,7 +40,7 @@ function CraftCarousel(props) {
     return (
       <div key={i} className="slider-slide">
         <Row>
-          <Col >
+          <Col>
             <Link href={item.path}>
               <div className="slider-left">
                 <div className="qa-rel-pos" style={{ cursor: "pointer" }}>
@@ -67,7 +67,7 @@ function CraftCarousel(props) {
                   >
                     {item.slideText}
                   </p>
-                  <p className = "explore-text">+EXPLORE</p>
+                  <p className="explore-text">+EXPLORE</p>
                 </div>
               </div>
             </Link>
@@ -83,32 +83,39 @@ function CraftCarousel(props) {
         <div className="category-heading">
           <h3 style={{ marginBottom: "0" }}>Shop by trends</h3>
 
-          <p style={{ marginBottom: "0" }}>Handpicked on-trend collections from responsible suppliers</p>
+          <p style={{ marginBottom: "0" }}>
+            Handpicked on-trend collections from responsible suppliers
+          </p>
         </div>
-          <div className="craft-action-container" >
-        {!isMobile ? (
+        <div className="craft-action-container">
+          {!isMobile ? (
             <Button type="link" className="button-show-prev" onClick={previous}>
               Prev &nbsp;&nbsp;
               <MinusOutlined />
               <MinusOutlined />
               <MinusOutlined />
             </Button>
-        ) : null}
-            <Button type="link" className="button-show-more" onClick={next}>
-              <MinusOutlined />
-              <MinusOutlined />
-              <MinusOutlined />
-              &nbsp;&nbsp;Next
-            </Button>
-          </div>
+          ) : null}
+          <Button type="link" className="button-show-more" onClick={next}>
+            <MinusOutlined />
+            <MinusOutlined />
+            <MinusOutlined />
+            &nbsp;&nbsp;Next
+          </Button>
+        </div>
       </div>
-      <Slider 
+      <Slider
         className="category-slider"
-        ref={(c) => (slider = c)} 
-        {...settings}>
+        ref={(c) => (slider = c)}
+        {...settings}
+      >
         {slides}
       </Slider>
-      <div className= "craft-explore-all-wrp"><Link href="/explore/curatedbyus"><span className = "craft-explore-all">EXPLORE ALL TRENDS</span></Link></div>
+      <div className="craft-explore-all-wrp">
+        <Link href="/explore/curatedbyus">
+          <span className="craft-explore-all">EXPLORE ALL TRENDS</span>
+        </Link>
+      </div>
     </div>
   );
 }

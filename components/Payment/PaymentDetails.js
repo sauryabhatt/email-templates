@@ -1,15 +1,12 @@
 /** @format */
 
 import React, { useState, useEffect } from "react";
-import Link from "next/link";
 import { Row, Col, Radio, Modal } from "antd";
 import Icon, {
   UpOutlined,
   DownOutlined,
   CheckCircleOutlined,
-  CheckOutlined,
 } from "@ant-design/icons";
-import { Steps } from "antd";
 import { connect } from "react-redux";
 import getSymbolFromCurrency from "currency-symbol-map";
 import amexPayment from "../../public/filestore/amexPayment";
@@ -24,9 +21,11 @@ import _ from "lodash";
 import Spinner from "./../Spinner/Spinner";
 import Air from "../../public/filestore/air";
 import Sea from "../../public/filestore/sea";
-import { getBrandNameByCode } from "./../../store/actions";
 import sellerList from "../../public/filestore/freeShippingSellers.json";
-const { Step } = Steps;
+import CheckoutSteps from "../common/CheckoutSteps";
+import PaymentBanner from "../common/PaymentBanner";
+import moment from "moment";
+import Link from "next/link";
 
 const PaymentDetails = (props) => {
   let {
@@ -41,7 +40,10 @@ const PaymentDetails = (props) => {
     subOrders = [],
     shippingAddressDetails = "",
     shippingMode = "",
-    isFulfillable = false,
+    shippingTerms = "",
+    typeOfOrder = "",
+    miscCharges = [],
+    promoDiscount = "",
   } = cart || {};
   let {
     fullName = "",
@@ -54,6 +56,10 @@ const PaymentDetails = (props) => {
     phoneNumber = "",
   } = shippingAddressDetails || {};
 
+  let tat = 0;
+  if (data && data["tat"]) {
+    tat = data["tat"];
+  }
   let shippingAddr = "";
   shippingAddr =
     fullName +
@@ -75,33 +81,43 @@ const PaymentDetails = (props) => {
   const [paymentValue, setPaymentValue] = useState("");
   const [showCart, setShowCart] = useState(false);
   const [showShip, setShowShip] = useState(false);
+  const [shippingTerm, setShippingTerm] = useState(false);
+  const [estimatedDelivery, setEstimatedDelivery] = useState(false);
   const mediaMatch = window.matchMedia("(min-width: 1024px)");
 
-  useEffect(() => {
-    setPaymentValue("payViaPaypal");
-  }, []);
+  let totalCartValue = 0;
+  let frieghtCharge = 0;
+  let dutyCharge = 0;
+  let vatCharge = 0;
+  let couponDiscount = 0;
+  let freightDis = 0;
+  let sellerDiscount = 0;
+  let vat = 0;
+  let dutyMax = 0;
+  let dutyMin = 0;
 
-  useEffect(() => {
-    let { cart = "", app_token = "" } = props;
-    let { subOrders = [] } = cart || {};
-
-    let sellerCodeList = [];
-    if (subOrders && subOrders.length) {
-      for (let sellers of subOrders) {
-        let { sellerCode = "" } = sellers;
-        if (!sellerCodeList.includes(sellerCode)) {
-          sellerCodeList.push(sellerCode);
-        }
-      }
+  for (let charge of miscCharges) {
+    let { chargeId = "", amount = 0 } = charge;
+    if (chargeId === "TOTAL_COST_FREIGHT_MAX") {
+      frieghtCharge = amount;
+    } else if (chargeId === "VAT") {
+      vatCharge = amount;
+    } else if (chargeId === "DUTY_MAX") {
+      dutyCharge = amount;
+    } else if (chargeId === "DISCOUNT") {
+      couponDiscount = amount;
+    } else if (chargeId === "FREIGHT_MAX") {
+      freightDis = amount;
+    } else if (chargeId === "SELLER_DISCOUNT") {
+      sellerDiscount = amount;
+    } else if (chargeId === "DDP_VAT") {
+      vat = amount;
+    } else if (chargeId === "DDP_DUTY_MAX") {
+      dutyMax = amount;
+    } else if (chargeId === "DDP_DUTY_MIN") {
+      dutyMin = amount;
     }
-    if (sellerCodeList.length) {
-      let codes = sellerCodeList.join();
-      props.getBrandNameByCode(codes, app_token);
-    }
-  }, [props.cart]);
-
-  let { convertToCurrency = "" } = currencyDetails || {};
-  let showError = false;
+  }
 
   const getConvertedCurrency = (baseAmount, round = false) => {
     let { convertToCurrency = "", rates = [] } = props.currencyDetails;
@@ -119,18 +135,53 @@ const PaymentDetails = (props) => {
     ).toFixed(2);
   };
 
-  const customDot = (dot, { status, index }) => (
-    <Link href={index === 0 ? "/cart" : "/shipping"}>
-      <span className="qa-ant-steps-icon">
-        {status === "finish" ? <CheckOutlined /> : index + 1}
-      </span>
-    </Link>
-  );
-  const mcustomDot = (dot, { status, index }) => (
-    <Link href={index === 0 ? "/cart" : "/shipping"}>
-      <span className="ant-steps-icon-dot"></span>
-    </Link>
-  );
+  if (couponDiscount > 0 || sellerDiscount > 0) {
+    frieghtCharge = freightDis;
+  }
+
+  if (subOrders && subOrders.length > 0) {
+    for (let order of subOrders) {
+      let { products = "", qalaraSellerMargin = 0 } = order;
+
+      let sellerTotal = 0;
+      let basePrice = 0;
+      let samplePrice = 0;
+      let testingPrice = 0;
+
+      for (let items of products) {
+        let {
+          qualityTestingCharge = 0,
+          sampleCost = 0,
+          quantity = 0,
+          exfactoryListPrice = 0,
+        } = items;
+        samplePrice = samplePrice + sampleCost;
+        testingPrice = testingPrice + qualityTestingCharge;
+        basePrice =
+          basePrice +
+          parseFloat(getConvertedCurrency(exfactoryListPrice)) * quantity;
+      }
+
+      sellerTotal = basePrice + samplePrice + testingPrice;
+
+      totalCartValue = totalCartValue + sellerTotal;
+    }
+  }
+
+  totalCartValue =
+    totalCartValue +
+    parseFloat(getConvertedCurrency(frieghtCharge)) +
+    parseFloat(getConvertedCurrency(dutyCharge)) -
+    parseFloat(getConvertedCurrency(sellerDiscount)) -
+    parseFloat(getConvertedCurrency(couponDiscount)) +
+    parseFloat(getConvertedCurrency(vatCharge)) -
+    parseFloat(getConvertedCurrency(promoDiscount));
+
+  useEffect(() => {
+    setPaymentValue("payViaPaypal");
+  }, []);
+
+  let { convertToCurrency = "" } = currencyDetails || {};
 
   const onChange = (e) => {
     setPaymentValue(e.target.value);
@@ -140,56 +191,35 @@ const PaymentDetails = (props) => {
     showModal(false);
   };
 
+  let today = new Date();
+  let deliveryDateMin = new Date();
+  let deliveryDateMax = new Date();
+
+  let eddMin = "";
+  let eddMax = "";
+  if (typeOfOrder === "ERTM") {
+    eddMin = deliveryDateMin.setDate(today.getDate() + 25 + tat);
+    eddMax = deliveryDateMax.setDate(today.getDate() + 35 + tat);
+  } else {
+    eddMin = deliveryDateMin.setDate(today.getDate() + 7 + tat);
+    eddMax = deliveryDateMax.setDate(today.getDate() + 10 + tat);
+  }
+
+  deliveryDateMin = new Date(eddMin);
+  deliveryDateMax = new Date(eddMax);
+
   if (isLoading) {
     return <Spinner />;
   }
 
   return (
     <Row id="cart-details" className="cart-section qa-font-san">
-      {mediaMatch.matches ? (
-        <Col xs={0} sm={0} md={24} lg={24} xl={24}>
-          <Row className="qa-mar-btm-2 qa-cart-steps">
-            <Col xs={0} sm={0} md={4} lg={4} xl={4}></Col>
-            <Col xs={24} sm={24} md={16} lg={16} xl={16}>
-              <Steps current={2} progressDot={customDot}>
-                <Step
-                  title={<Link href="/cart">Shopping cart</Link>}
-                  className="qa-cursor"
-                />
-                <Step
-                  title={<Link href="/shipping">Shipping</Link>}
-                  className="qa-cursor"
-                />
-                <Step title="Payment" />
-              </Steps>
-            </Col>
-            <Col xs={0} sm={0} md={4} lg={4} xl={4}></Col>
-          </Row>
-        </Col>
-      ) : (
-        <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-          <Row className="qa-mar-2">
-            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-              <Steps current={2} progressDot={mcustomDot} size="small">
-                <Step
-                  title={<Link href="/cart">Shopping cart</Link>}
-                  className="qa-cursor"
-                />
-                <Step
-                  title={<Link href="/shipping">Shopping</Link>}
-                  className="qa-cursor"
-                />
-                <Step title="Payment" />
-              </Steps>
-            </Col>
-          </Row>
-        </Col>
-      )}
-      <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>
+      <CheckoutSteps pageId="payment" />
+      {mediaMatch.matches && <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>}
       {mediaMatch.matches && (
         <Col xs={0} sm={0} md={20} lg={20} xl={20}>
           <Row>
-            <Col
+            {/* <Col
               xs={24}
               sm={24}
               md={24}
@@ -198,7 +228,7 @@ const PaymentDetails = (props) => {
               className="cart-title qa-mar-btm-2"
             >
               Payment
-            </Col>
+            </Col> */}
             <Col
               xs={24}
               sm={24}
@@ -208,9 +238,59 @@ const PaymentDetails = (props) => {
               className="shipping-section"
             >
               <div className="qa-tc-white qa-mar-btm-2 cart-ship-pt qa-border-bottom">
-                <div className="qa-fw-b qa-mar-btm-05">Shipping to:</div>
+                <div className="qa-mar-btm-05">Shipping to:</div>
                 <div className="">{shippingAddr}</div>
               </div>
+              <div
+                className="cart-prod-title qa-pad-btm-05 qa-mar-btm-2 qa-cursor qa-border-bottom"
+                onClick={() => setShippingTerm(!shippingTerm)}
+              >
+                Shipping term:{" "}
+                <span className="qa-fw-b qa-tc-white qa-font-san">
+                  {shippingTerms.toUpperCase()}{" "}
+                  {shippingTerms.toLowerCase() === "ddu"
+                    ? "(Delivered Duty Unpaid)"
+                    : "(Delivered Duty Paid)"}
+                </span>
+                <span style={{ float: "right" }}>
+                  {shippingTerm ? (
+                    <UpOutlined style={{ fontSize: "12px" }} />
+                  ) : (
+                    <DownOutlined style={{ fontSize: "12px" }} />
+                  )}
+                </span>
+              </div>
+              {shippingTerm && (
+                <div className="qa-mar-btm-15 qa-lh">
+                  {shippingTerms.toLowerCase() === "ddu" ? (
+                    <span>
+                      Any applicable duties and taxes are paid directly by you
+                      to the freight/logistics partner during customs clearance
+                      or delivery as applicable.{" "}
+                      <Link href="/FAQforwholesalebuyers">
+                        <a target="_blank">
+                          <span className="qa-sm-color qa-cursor">
+                            Know more
+                          </span>
+                        </a>
+                      </Link>
+                    </span>
+                  ) : (
+                    <span>
+                      Any applicable duties and taxes are estimated and charged
+                      to you by Qalara and paid during customs clearance on your
+                      behalf.{" "}
+                      <Link href="/FAQforwholesalebuyers">
+                        <a target="_blank">
+                          <span className="qa-sm-color qa-cursor">
+                            Know more
+                          </span>
+                        </a>
+                      </Link>
+                    </span>
+                  )}
+                </div>
+              )}
               <div
                 className="cart-prod-title qa-pad-btm-05 qa-border-bottom qa-mar-btm-2 qa-cursor"
                 onClick={() => setShowShip(!showShip)}
@@ -260,17 +340,17 @@ const PaymentDetails = (props) => {
                       <div className="qa-pad-015 qa-dashed-border">
                         <div className="c-left-blk qa-txt-alg-lft">
                           <div className="cart-info-text">
-                            Estimated freight fees
+                            Estimated freight fee*
                           </div>
                         </div>
                         <div className="c-right-blk qa-txt-alg-lft">
-                          <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
+                          <div className="cart-prod-title qa-txt-alg-rgt qa-fw-b">
                             {data ? (
                               <span>
                                 {getSymbolFromCurrency(convertToCurrency)}
                                 {getConvertedCurrency(
                                   data["frightCostMin"],
-                                  TextTrackCue
+                                  true
                                 )}
                                 -{getSymbolFromCurrency(convertToCurrency)}
                                 {getConvertedCurrency(
@@ -284,14 +364,14 @@ const PaymentDetails = (props) => {
                           </div>
                         </div>
                       </div>
-                      <div className="qa-pad-015 qa-dashed-border">
+                      {/* <div className="qa-pad-015 qa-dashed-border">
                         <div className="c-left-blk qa-txt-alg-lft">
                           <div className="cart-info-text">
                             Estimated custom duties
                           </div>
                         </div>
                         <div className="c-right-blk">
-                          <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
+                          <div className="cart-prod-title qa-txt-alg-rgt">
                             {data ? (
                               <span>
                                 {getSymbolFromCurrency(convertToCurrency)}
@@ -304,15 +384,15 @@ const PaymentDetails = (props) => {
                             )}
                           </div>
                         </div>
-                      </div>
-                      <div className="qa-pad-015 qa-dashed-border">
+                      </div> */}
+                      <div className="qa-mar-top-15">
                         <div className="c-left-blk qa-txt-alg-lft">
                           <div className="cart-info-text">
                             Shipping lead time
                           </div>
                         </div>
                         <div className="c-right-blk">
-                          <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
+                          <div className="cart-prod-title qa-txt-alg-rgt qa-fw-b">
                             {data ? (
                               <span>
                                 {data["tat"]
@@ -327,7 +407,7 @@ const PaymentDetails = (props) => {
                           </div>
                         </div>
                       </div>
-                      <div className="qa-pad-015">
+                      {/* <div className="qa-pad-015">
                         <div className="c-left-blk">
                           <div className="qa-fw-b">Total estimated charges</div>
                         </div>
@@ -352,10 +432,60 @@ const PaymentDetails = (props) => {
                             *
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </Col>
                 </Row>
+              )}
+              <div
+                className="cart-prod-title qa-pad-btm-05 qa-border-bottom qa-mar-btm-2 qa-cursor"
+                onClick={() => setEstimatedDelivery(!estimatedDelivery)}
+              >
+                Estimated delivery date:{" "}
+                <span className="qa-fw-b qa-success">
+                  {tat && shippingMode ? (
+                    <span>
+                      {moment(deliveryDateMin).format("DD MMM YY")} -{" "}
+                      {moment(deliveryDateMax).format("DD MMM YY")}
+                    </span>
+                  ) : (
+                    ""
+                  )}
+                </span>
+                <span style={{ float: "right" }}>
+                  {estimatedDelivery ? (
+                    <UpOutlined style={{ fontSize: "12px" }} />
+                  ) : (
+                    <DownOutlined style={{ fontSize: "12px" }} />
+                  )}
+                </span>
+              </div>
+              {estimatedDelivery && (
+                <div className="qa-pad-btm-2" style={{ width: "70%" }}>
+                  <div className="qa-mar-btm-05">
+                    <div className="c-left-blk qa-txt-alg-lft qa-stitle">
+                      <li>Estimated production/ dispatch time</li>
+                    </div>
+                    <div className="c-right-blk qa-txt-alg-rgt">
+                      {typeOfOrder === "ERTM" ? "25-35" : "7-10"} days
+                    </div>
+                  </div>
+
+                  <div className="qa-mar-btm-05">
+                    <div className="c-left-blk qa-txt-alg-lft qa-stitle">
+                      <li>Estimated shipping lead time</li>
+                    </div>
+                    <div className="c-right-blk qa-txt-alg-rgt">
+                      {tat && shippingMode ? (
+                        <span>
+                          {tat - (shippingMode === "AIR" ? 3 : 7)}-{tat} days
+                        </span>
+                      ) : (
+                        "-"
+                      )}
+                    </div>
+                  </div>
+                </div>
               )}
               <Row>
                 <Col
@@ -399,7 +529,7 @@ const PaymentDetails = (props) => {
                             }`}
                             key={i}
                           >
-                            <div className="cart-ship-pt qa-fw-b qa-border-bottom">
+                            <div className="cart-ship-pt qa-border-bottom">
                               <div className="qa-disp-table-cell">
                                 <Icon
                                   component={cartIcon}
@@ -412,7 +542,7 @@ const PaymentDetails = (props) => {
                                 />
                               </div>
                               <div className="qa-disp-table-cell">
-                              Seller ID: {sellerCode}
+                                Seller ID: {sellerCode}
                                 {/* <span
                             className="cart-delete qa-cursor"
                             onClick={() => {
@@ -468,7 +598,7 @@ const PaymentDetails = (props) => {
                                     xl={9}
                                     className="qa-pad-0-10"
                                   >
-                                    <div className="cart-prod-title qa-fw-b">
+                                    <div className="cart-prod-title qa-text-2line">
                                       {productName}
                                     </div>
                                     <div className="cart-prod-title">
@@ -585,14 +715,25 @@ const PaymentDetails = (props) => {
                         Pay early to avail discounts
                       </div> */}
                         <Radio value="payViaPaypal" className="qa-disp-ib">
-                          <span className="cart-prod-title qa-mar-btm-05">
-                            Pay 20% now and 80% later
+                          <span className="cart-prod-title qa-mar-btm-05 qa-fw-b">
+                            Pay 20% now and 80% on delivery*
                           </span>
                         </Radio>
                         <div className="cart-subtitle payment-subtitle qa-mar-btm-2">
-                          20% advance will be charged now. Balance 80% will be
-                          charged once customs clearance is done at destination,
-                          a few days before delivery.
+                          A charge for{" "}
+                          {getSymbolFromCurrency(convertToCurrency)}
+                          {parseFloat(totalCartValue).toFixed(2)} is created
+                          against your card but the amount debited from your
+                          card is the advance payable amount of{" "}
+                          {getSymbolFromCurrency(convertToCurrency)}
+                          {parseFloat(totalCartValue * 0.2).toFixed(2)}.{" "}
+                          <Link href="/FAQforwholesalebuyers">
+                            <a target="_blank">
+                              <span className="qa-sm-color qa-cursor">
+                                Refer Payment FAQs
+                              </span>
+                            </a>
+                          </Link>
                         </div>
                         {/* <Radio value="net30Terms" className="qa-disp-ib">
                         <span className="cart-prod-title qa-mar-btm-05">Net 30 terms</span>
@@ -674,6 +815,7 @@ const PaymentDetails = (props) => {
                     Please move out of stock products in order to proceed
                   </div>
                 )} */}
+                <PaymentBanner />
                 <CartSummary
                   id="payment"
                   // enable={isFulfillable}
@@ -687,12 +829,12 @@ const PaymentDetails = (props) => {
           </Row>
         </Col>
       )}
-      <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>
+      {mediaMatch.matches && <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>}
 
       {!mediaMatch.matches && (
         <Col xs={24} sm={24} md={24} lg={24} xl={24} className="qa-pad-0-20">
           <Row>
-            <Col
+            {/* <Col
               xs={24}
               sm={24}
               md={24}
@@ -701,7 +843,8 @@ const PaymentDetails = (props) => {
               className="cart-title qa-mar-btm-2 "
             >
               Payment mode
-            </Col>
+            </Col> */}
+            <PaymentBanner />
             <Col
               xs={24}
               sm={24}
@@ -720,14 +863,24 @@ const PaymentDetails = (props) => {
                     Pay early to avail discounts
                   </div> */}
                     <Radio value="payViaPaypal" className="qa-disp-ib">
-                      <span className="cart-prod-title qa-mar-btm-05">
-                        Pay 20% now and 80% later
+                      <span className="cart-prod-title qa-mar-btm-05 qa-fw-b">
+                        Pay 20% now and 80% on delivery*
                       </span>
                     </Radio>
                     <div className="cart-subtitle payment-subtitle qa-mar-btm-2">
-                      20% advance will be charged now. Balance 80% will be
-                      charged once customs clearance is done at destination, a
-                      few days before delivery.
+                      A charge for {getSymbolFromCurrency(convertToCurrency)}
+                      {parseFloat(totalCartValue).toFixed(2)} is created against
+                      your card but the amount debited from your card is the
+                      advance payable amount of{" "}
+                      {getSymbolFromCurrency(convertToCurrency)}
+                      {parseFloat(totalCartValue * 0.2).toFixed(2)}.{" "}
+                      <Link href="/FAQforwholesalebuyers">
+                        <a target="_blank">
+                          <span className="qa-sm-color qa-cursor">
+                            Refer Payment FAQs
+                          </span>
+                        </a>
+                      </Link>
                     </div>
 
                     {/* <Radio value="net30Terms" className="qa-disp-ib">
@@ -836,17 +989,67 @@ const PaymentDetails = (props) => {
               xl={24}
               className="shipping-section"
             >
-              <div className="qa-tc-white qa-mar-btm-1 cart-ship-pt">
+              <div className="qa-tc-white cart-ship-pt">
                 <div className="qa-fw-b qa-mar-btm-05">Shipping to:</div>
                 <div className="qa-border-bottom qa-pad-btm-1">
                   {shippingAddr}
                 </div>
               </div>
               <div
-                className="cart-ship-pt qa-border-bottom qa-cursor qa-tc-white qa-font-san"
+                className="cart-prod-title qa-pad-btm-1 qa-mar-btm-1 qa-border-bottom qa-cursor"
+                onClick={() => setShippingTerm(!shippingTerm)}
+              >
+                Shipping term:{" "}
+                <span className="qa-fw-b">
+                  {shippingTerms.toUpperCase()}{" "}
+                  {/* {shippingTerms.toLowerCase() === "ddu"
+                    ? "(Delivered Duty Unpaid)"
+                    : "(Delivered Duty Paid)"} */}
+                </span>
+                <span style={{ float: "right" }}>
+                  {shippingTerm ? (
+                    <UpOutlined style={{ fontSize: "12px" }} />
+                  ) : (
+                    <DownOutlined style={{ fontSize: "12px" }} />
+                  )}
+                </span>
+              </div>
+              {shippingTerm && (
+                <div className="qa-pad-btm-2 qa-lh">
+                  {shippingTerms.toLowerCase() === "ddu" ? (
+                    <span>
+                      Any applicable duties and taxes are paid directly by you
+                      to the freight/logistics partner during customs clearance
+                      or delivery as applicable.{" "}
+                      <Link href="/FAQforwholesalebuyers">
+                        <a target="_blank">
+                          <span className="qa-sm-color qa-cursor">
+                            Know more
+                          </span>
+                        </a>
+                      </Link>
+                    </span>
+                  ) : (
+                    <span>
+                      Any applicable duties and taxes are estimated and charged
+                      to you by Qalara and paid during customs clearance on your
+                      behalf.{" "}
+                      <Link href="/FAQforwholesalebuyers">
+                        <a target="_blank">
+                          <span className="qa-sm-color qa-cursor">
+                            Know more
+                          </span>
+                        </a>
+                      </Link>
+                    </span>
+                  )}
+                </div>
+              )}
+              <div
+                className="cart-prod-title qa-pad-btm-1 qa-border-bottom qa-cursor"
                 onClick={() => setShowShip(!showShip)}
               >
-                <span className="qa-fw-b">Shipping mode:</span> {shippingMode}
+                Shipping mode: <span className="qa-fw-b">{shippingMode}</span>
                 <span style={{ float: "right" }}>
                   {showShip ? (
                     <UpOutlined style={{ fontSize: "12px" }} />
@@ -856,7 +1059,7 @@ const PaymentDetails = (props) => {
                 </span>
               </div>
               {showShip && (
-                <div className="qa-pad-top-2 qa-pad-btm-2 qa-horizontal-scroll">
+                <div className="qa-pad-top-2 qa-pad-btm-2">
                   <div>
                     <div className="qa-bg-dark-theme qa-pad-2 qa-box-shadow">
                       <div className="qa-pad-btm-15 qa-border-bottom">
@@ -880,11 +1083,11 @@ const PaymentDetails = (props) => {
                       <div className="qa-pad-015 qa-dashed-border">
                         <div className="c-left-blk qa-txt-alg-lft">
                           <div className="cart-info-text">
-                            Estimated freight fees
+                            Estimated freight fee*
                           </div>
                         </div>
-                        <div className="c-right-blk qa-txt-alg-lft">
-                          <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
+                        <div className="c-right-blk qa-txt-alg-lft qa-fw-b">
+                          <div className="cart-prod-title qa-txt-alg-rgt">
                             {getSymbolFromCurrency(convertToCurrency)}
                             {getConvertedCurrency(data["frightCostMin"], true)}-
                             {getSymbolFromCurrency(convertToCurrency)}
@@ -892,29 +1095,29 @@ const PaymentDetails = (props) => {
                           </div>
                         </div>
                       </div>
-                      <div className="qa-pad-015 qa-dashed-border">
+                      {/* <div className="qa-pad-015 qa-dashed-border">
                         <div className="c-left-blk qa-txt-alg-lft">
                           <div className="cart-info-text">
                             Estimated custom duties
                           </div>
                         </div>
                         <div className="c-right-blk">
-                          <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
+                          <div className="cart-prod-title qa-txt-alg-rgt">
                             {getSymbolFromCurrency(convertToCurrency)}
                             {getConvertedCurrency(data["dutyMin"], true)}-
                             {getSymbolFromCurrency(convertToCurrency)}
                             {getConvertedCurrency(data["dutyMax"], true)}
                           </div>
                         </div>
-                      </div>
-                      <div className="qa-pad-015 qa-dashed-border">
+                      </div> */}
+                      <div className="qa-mar-top-15">
                         <div className="c-left-blk qa-txt-alg-lft">
                           <div className="cart-info-text">
                             Shipping lead time
                           </div>
                         </div>
                         <div className="c-right-blk">
-                          <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
+                          <div className="cart-prod-title qa-txt-alg-rgt qa-fw-b">
                             {data ? (
                               <span>
                                 {data["tat"]
@@ -929,7 +1132,7 @@ const PaymentDetails = (props) => {
                           </div>
                         </div>
                       </div>
-                      <div className="qa-pad-015">
+                      {/* <div className="qa-pad-015">
                         <div className="c-left-blk">
                           <div className="qa-fw-b">Total estimated charges</div>
                         </div>
@@ -947,8 +1150,52 @@ const PaymentDetails = (props) => {
                             )}
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
+                  </div>
+                </div>
+              )}
+              <div
+                className="cart-prod-title qa-pad-btm-1 qa-border-bottom qa-cursor qa-mar-top-1"
+                onClick={() => setEstimatedDelivery(!estimatedDelivery)}
+              >
+                Estimated delivery date
+                <span style={{ float: "right" }}>
+                  {estimatedDelivery ? (
+                    <UpOutlined style={{ fontSize: "12px" }} />
+                  ) : (
+                    <DownOutlined style={{ fontSize: "12px" }} />
+                  )}
+                </span>
+              </div>
+              {estimatedDelivery && (
+                <div className="qa-pad-top-2 qa-pad-btm-1 edd-section">
+                  <div className="qa-mar-btm-1">
+                    <li>
+                      <div className="c-left-blk qa-txt-alg-lft qa-stitle">
+                        Estimated production/ dispatch time
+                      </div>
+                      <div className="c-right-blk qa-txt-alg-rgt">
+                        {typeOfOrder === "ERTM" ? "25-35" : "7-10"} days
+                      </div>
+                    </li>
+                  </div>
+
+                  <div className="qa-mar-btm-1">
+                    <li>
+                      <div className="c-left-blk qa-txt-alg-lft qa-stitle">
+                        Estimated shipping lead time
+                      </div>
+                      <div className="c-right-blk qa-txt-alg-rgt">
+                        {tat && shippingMode ? (
+                          <span>
+                            {tat - (shippingMode === "AIR" ? 3 : 7)}-{tat} days
+                          </span>
+                        ) : (
+                          "-"
+                        )}
+                      </div>
+                    </li>
                   </div>
                 </div>
               )}
@@ -956,7 +1203,7 @@ const PaymentDetails = (props) => {
           </Row>
 
           <div
-            className="cart-prod-title qa-fw-b qa-pad-btm-1 qa-mar-btm-2 qa-border-bottom qa-cursor qa-mar-top-1"
+            className="cart-prod-title qa-pad-btm-1 qa-mar-btm-2 qa-border-bottom qa-cursor qa-mar-top-1"
             onClick={() => setShowCart(!showCart)}
           >
             Shopping cart
@@ -985,7 +1232,7 @@ const PaymentDetails = (props) => {
                       total + qalaraSellerMargin + qualityTestingCharge;
                     return (
                       <div className="qa-bg-light-theme qa-mar-btm-2" key={i}>
-                        <div className="cart-ship-pt qa-fw-b qa-border-bottom">
+                        <div className="cart-ship-pt qa-border-bottom">
                           <Icon
                             component={cartIcon}
                             className="cart-icon qa-disp-tc"
@@ -997,7 +1244,7 @@ const PaymentDetails = (props) => {
                           />
 
                           <div className="qa-disp-tc">
-                              Seller ID: {sellerCode}
+                            Seller ID: {sellerCode}
                           </div>
                           {/* <div className="qa-txt-alg-cnt qa-pad-top-05 qa-pad-btm-1">
                         <span
@@ -1047,7 +1294,7 @@ const PaymentDetails = (props) => {
                                 xl={15}
                                 className="qa-pad-0-10"
                               >
-                                <div className="cart-prod-title qa-fw-b">
+                                <div className="cart-prod-title qa-text-2line">
                                   {productName}
                                 </div>
                                 <div className="cart-prod-title">
@@ -1153,4 +1400,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { getBrandNameByCode })(PaymentDetails);
+export default connect(mapStateToProps, null)(PaymentDetails);

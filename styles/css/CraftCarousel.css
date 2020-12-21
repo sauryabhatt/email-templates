@@ -1,28 +1,28 @@
 /** @format */
 .category-carousel.craft-carousel {
-    padding: 30px 28px 50px;
+  padding: 30px 28px 50px;
 }
 .craft-carousel .slider-right {
-    text-align: left;
+  text-align: left;
 }
-.craft-carousel .category-heading-section{
+.craft-carousel .category-heading-section {
   padding-right: 0;
   position: relative;
 }
-.craft-carousel .category-heading-section .button-show-more{
+.craft-carousel .category-heading-section .button-show-more {
   right: 0;
   padding-right: 0;
 }
-.craft-carousel .category-slider .slick-slide{
+.craft-carousel .category-slider .slick-slide {
   margin: 0 30px;
 }
-.craft-carousel .category-slider .slick-list{
+.craft-carousel .category-slider .slick-list {
   margin: 0 -30px;
 }
 .craft-carousel p.slider-right-heading {
   font-size: 20px;
   line-height: 24px;
-  font-family: 'Butler';
+  font-family: "Butler";
   margin-bottom: 5px;
 }
 .craft-carousel .slider-right-para {
@@ -30,59 +30,57 @@
   line-height: 17px;
   letter-spacing: 0.01em;
   margin-bottom: 5px;
-  font-family: 'senregular';
+  font-family: "senregular";
 }
-.craft-carousel .qa-rel-pos{
+.craft-carousel .qa-rel-pos {
   margin-bottom: 15px;
 }
-.craft-carousel .craft-action-container{
+.craft-carousel .craft-action-container {
   margin-top: 25px;
   display: flex;
-  justify-content: space-between,
-
+  justify-content: space-between;
 }
-.craft-carousel .explore-text{
+.craft-carousel .explore-text {
   font-size: 14px;
-    line-height: 17px;
-    font-weight: bold;
-    color: #874439;
-    cursor: pointer;
-    font-family: 'senregular';
-    margin-left: 2px;
+  line-height: 17px;
+  font-weight: bold;
+  color: #874439;
+  cursor: pointer;
+  font-family: "senregular";
+  margin-left: 2px;
 }
-.craft-explore-all-wrp{
+.craft-explore-all-wrp {
   display: flex;
-    justify-content: center;
-    margin-top: 25px;
-    cursor:pointer;
+  justify-content: center;
+  margin-top: 25px;
+  cursor: pointer;
 }
-.craft-explore-all{
+.craft-explore-all {
   font-size: 14px;
-    font-family: 'senregular';
-    font-weight: bold;
-    line-height: 140%;
-    background: #332F2F;
-    color: #F9F7F2;
-    padding: 17px 48px;
+  font-family: "senregular";
+  font-weight: bold;
+  line-height: 140%;
+  background: #332f2f;
+  color: #f9f7f2;
+  padding: 17px 48px;
 }
-@media only screen and (max-width: 765px){
+@media only screen and (max-width: 765px) {
   .category-carousel.craft-carousel {
     padding: 20px 23px 28px;
   }
-  .craft-carousel .slider-right-para{
+  .craft-carousel .slider-right-para {
     font-size: 12px;
     line-height: 14px;
   }
-  .craft-carousel .craft-action-container{
+  .craft-carousel .craft-action-container {
     position: absolute;
     right: 0;
     bottom: -30px;
   }
-  .craft-explore-all-wrp{
-    margin-top:10px;
+  .craft-explore-all-wrp {
+    margin-top: 10px;
   }
-  .craft-explore-all{
+  .craft-explore-all {
     padding: 13px 30px;
   }
 }
-

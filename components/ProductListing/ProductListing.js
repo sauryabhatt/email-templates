@@ -95,7 +95,6 @@ const ProductListing = (props) => {
         tempObj[key] = queryParams[key];
       }
     }
-    console.log("router", router);
 
     router.push(
       {
