@@ -252,16 +252,10 @@ const PaymentSuccess = (props) => {
               <Row className="qa-mar-top-3 qa-font-san">
                 <Col span={24}>
                   <div className="cart-title qa-mar-btm-1 qa-cursor sen-font font-size-17 qa-border-bottom">
-                    <div
-                      className="c-left-blk qa-txt-alg-lft font-size-17"
-                      style={{ width: "45%" }}
-                    >
+                    <div className="c-left-blk qa-txt-alg-lft font-size-17 edd-lft">
                       Estimated delivery date:
                     </div>
-                    <div
-                      className="c-right-blk qa-txt-alg-rgt font-size-17 qa-success qa-fw-b"
-                      style={{ width: "55%" }}
-                    >
+                    <div className="c-right-blk qa-txt-alg-rgt font-size-17 qa-success qa-fw-b edd-rgt">
                       {props.order && (
                         <span>
                           {moment(expectedDeliveryDateMin).format("DD MMM YY")}{" "}
