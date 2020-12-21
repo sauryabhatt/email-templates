@@ -168,10 +168,11 @@ const PaymentSuccess = (props) => {
         Estimated custom duties for this order is{" "}
         <b>
           {getSymbolFromCurrency(props.order && props.order.currency)}
-          {dutyMin} to{" "}
+          {dutyMin}
           {dutyMax > 0 ? (
             <span>
-              {getSymbolFromCurrency(props.order && props.order.currency)}
+              {" "}
+              to {getSymbolFromCurrency(props.order && props.order.currency)}
               {dutyMax}.
             </span>
           ) : (

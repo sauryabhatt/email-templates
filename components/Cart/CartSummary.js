@@ -603,9 +603,10 @@ const CartSummary = (props) => {
         Estimated custom duties for this order is{" "}
         <b>
           {getSymbolFromCurrency(convertToCurrency)}
-          {dutyMin}{" "}
+          {dutyMin}
           {dutyMax > 0 ? (
             <span>
+              {" "}
               to {getSymbolFromCurrency(convertToCurrency)}
               {dutyMax}.
             </span>
