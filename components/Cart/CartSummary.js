@@ -333,7 +333,7 @@ const CartSummary = (props) => {
   };
 
   const capturePayment = (authId, orderId, actions) => {
-    let finalValue = getConvertedCurrency(totalCartValue);
+    let finalValue = getConvertedCurrency(cart.total);
     let data = {
       amount: {
         value: parseFloat((finalValue * 20) / 100).toFixed(2),
@@ -342,6 +342,7 @@ const CartSummary = (props) => {
       final_capture: false,
     };
 
+    console.log(finalValue, total, data);
     fetch(
       process.env.NEXT_PUBLIC_REACT_APP_PAYMENTS_URL +
         "/payments/paypal/" +
@@ -454,13 +455,14 @@ const CartSummary = (props) => {
 
   const authorizePayment = (orderId, actions) => {
     setIsProcessing(true);
-    let finalValue = getConvertedCurrency(totalCartValue);
+    let finalValue = getConvertedCurrency(cart.total);
     let data = {
       amount: {
         value: parseFloat((finalValue * 20) / 100).toFixed(2),
         currency_code: currencyDetails.convertToCurrency,
       },
     };
+    console.log(finalValue, total, data);
     fetch(
       process.env.NEXT_PUBLIC_REACT_APP_PAYMENTS_URL +
         "/payments/paypal/" +
