@@ -45,6 +45,7 @@ const CartSummary = (props) => {
   const [orderModal, showOrderModal] = useState(false);
   const [reRender, setReRender] = useState(false);
   const [sellers, setSellers] = useState([]);
+  const [qalaraMargin, setQalaraMargin] = useState(0);
 
   useEffect(() => {
     if (props.cart) {
@@ -73,6 +74,7 @@ const CartSummary = (props) => {
   }, [props]);
 
   useEffect(() => {
+    setPopover("");
     if (reRender) {
       setReRender(false);
     } else {
@@ -649,14 +651,12 @@ const CartSummary = (props) => {
         <div className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
           <span style={{ textDecoration: "line-through", marginRight: "5px" }}>
             {getSymbolFromCurrency(convertToCurrency)}
-            {popoverData["qalaraSellerMargin"]
-              ? getConvertedCurrency(popoverData["qalaraSellerMargin"])
-              : ""}
+            {qalaraMargin ? getConvertedCurrency(qalaraMargin) : ""}
           </span>
 
           <span style={{ color: "#02873A" }} className="qa-fw-b">
             {getSymbolFromCurrency(convertToCurrency)}
-            {popoverData["qalaraSellerMargin"] ? getConvertedCurrency(0) : ""}
+            {qalaraMargin ? getConvertedCurrency(0) : ""}
           </span>
         </div>
         {qualityPrice > 0 && (
@@ -807,7 +807,7 @@ const CartSummary = (props) => {
                 </div>
                 <div className="c-right-blk qa-txt-alg-rgt qa-fw-b">
                   {getSymbolFromCurrency(convertToCurrency)}
-                  {parseFloat(totalAmount).toFixed(2)}
+                  {getConvertedCurrency(totalAmount)}
                   <div className="qa-txt-alg-rgt">
                     <Popover
                       placement="bottomRight"
@@ -821,12 +821,11 @@ const CartSummary = (props) => {
                         onClick={() => {
                           popupHover(sellerCode);
                           setPopoverData(order);
-                          setSellerTotalAmount(
-                            parseFloat(totalAmount).toFixed(2)
-                          );
+                          setSellerTotalAmount(totalAmount);
                           setSamplePrice(samplePrice);
                           setQualityPrice(testingPrice);
                           setBasePrice(basePrice);
+                          setQalaraMargin(qalaraSellerMargin);
                         }}
                       >
                         See breakup
