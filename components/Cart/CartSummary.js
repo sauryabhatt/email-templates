@@ -341,8 +341,6 @@ const CartSummary = (props) => {
       },
       final_capture: false,
     };
-
-    console.log(finalValue, total, data);
     fetch(
       process.env.NEXT_PUBLIC_REACT_APP_PAYMENTS_URL +
         "/payments/paypal/" +
@@ -462,7 +460,6 @@ const CartSummary = (props) => {
         currency_code: currencyDetails.convertToCurrency,
       },
     };
-    console.log(finalValue, total, data);
     fetch(
       process.env.NEXT_PUBLIC_REACT_APP_PAYMENTS_URL +
         "/payments/paypal/" +

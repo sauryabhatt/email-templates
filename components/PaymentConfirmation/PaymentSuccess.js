@@ -155,7 +155,7 @@ const PaymentSuccess = (props) => {
       balance = total - advance * conversionFactor;
     }
   } else {
-    balance = balance * conversionFactor;
+    balance = balance;
   }
   advance = total - balance || 0;
 
