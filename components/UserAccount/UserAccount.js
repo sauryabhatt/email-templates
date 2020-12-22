@@ -52,6 +52,7 @@ import moment from "moment";
 import Quotations from "../Quotations/Quotations";
 import QuotationMobile from "../mobile/QuotationMobile";
 import Orders from "../Orders/Orders";
+import Orderss from "../Orders/Orderss";
 import OrdersMobile from "../mobile/OrdersMobile";
 import Addresses from "../Addresses/Addresses";
 import { logoutFromApp } from "../AuthWithKeycloak";
@@ -1753,6 +1754,22 @@ const UserAccount = (props) => {
               setCollectionName={setCollectionName}
               showCollectionDetails={showCollectionDetails}
             />
+          ) : (
+            ""
+          )}
+
+          {currentNav == "orderss" ? (
+            mediaMatch.matches ? (
+              <Orderss
+                handleShowOrder={handleShowOrder}
+                showOrderDetails={showOrderDetails}
+              />
+            ) : (
+              <OrdersMobile
+                handleShowOrder={handleShowOrder}
+                showOrderDetails={showOrderDetails}
+              />
+            )
           ) : (
             ""
           )}
