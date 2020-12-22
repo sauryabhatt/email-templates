@@ -55,6 +55,11 @@ export default function CategoryEditDetails({ data }) {
         description:
           "Wholesale stationery and novelty products to delight your customers. Shop in bulk for handcrafted journals, DIY kits, wooden table organizers, hand painted ganjifa cards, dice games, vintage binoculars and learning tools.",
       };
+    case "baby-kids":
+      meta = {
+        title: "Wholesale bay and kids products, handpicked to help your customers choose the best for the kids and families. Shop in bulk for eco friendly clothing, teethers, rattles and crib mobiles, early learning games and comforting soft toys.",
+        description: "Wholesale bay and kids products, handpicked to help your customers choose the best for the kids and families. Shop in bulk for eco friendly clothing, teethers, rattles and crib mobiles, early learning games and comforting soft toys.",
+      };
 
     default:
       meta = {
@@ -88,6 +93,7 @@ const categoryObj = {
   homelinen: "HomeLinen",
   jewelry: "Jewelry",
   "stationery-novelty": "Stationery",
+  "baby-kids": "BabyKids",
 };
 
 export async function getStaticPaths() {

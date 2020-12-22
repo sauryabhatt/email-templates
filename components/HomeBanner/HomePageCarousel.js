@@ -71,7 +71,7 @@ export default function HomePageCarousel(props) {
       alt: "Qalara your one-stop-shop for wholesale"
     },
     {
-      img: "https://cdn.qalara.com/images/Img_Homepage_banner_3.jpg",
+      img: "https://cdn.qalara.com/images/Img_Homepage_banner_3-1.gif",
       hading_text: "",
       small_text: "",
       isSignupbtn: false,
