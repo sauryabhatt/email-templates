@@ -1,7 +1,7 @@
 /** @format */
 
-import React, { useEffect } from "react";
-import { Row, Col, Button, Popover } from "antd";
+import React, { useEffect, useState } from "react";
+import { Row, Col, Button, Popover, Tooltip } from "antd";
 import { getOrderByOrderId } from "../../store/actions";
 import { connect } from "react-redux";
 import getSymbolFromCurrency from "currency-symbol-map";
@@ -9,18 +9,47 @@ import { useKeycloak } from "@react-keycloak/ssr";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import moment from "moment";
+import Icon from "@ant-design/icons";
+import infoIcon from "../../public/filestore/infoSuccess";
+import sellerList from "../../public/filestore/freeShippingSellers.json";
 
 const PaymentSuccess = (props) => {
   const { keycloak } = useKeycloak();
   const router = useRouter();
   let { orderId: orderIdParam } = router.query;
   const mediaMatch = window.matchMedia("(min-width: 768px)");
+  const [sellers, setSellers] = useState([]);
+
+  let { order = {}, brandNameList = "" } = props || {};
 
   useEffect(() => {
     props.getOrderByOrderId(keycloak.token, orderIdParam);
   }, [keycloak.token, router.query.orderId]);
 
-  let { order = {} } = props || {};
+  useEffect(() => {
+    if (props.order) {
+      if (
+        props.order.subOrders &&
+        props.order.subOrders.length &&
+        props.brandNameList
+      ) {
+        let sellers = [];
+        for (let orders of props.order.subOrders) {
+          let { sellerCode = "" } = orders;
+          if (sellerList.includes(sellerCode)) {
+            let sellerName = brandNameList[sellerCode]
+              ? brandNameList[sellerCode].brandName
+                ? brandNameList[sellerCode].brandName
+                : ""
+              : "";
+            sellers.push(sellerName);
+          }
+        }
+        setSellers(sellers);
+      }
+    }
+  }, [props]);
+
   let {
     balance = 0,
     total = 0,
@@ -41,7 +70,7 @@ const PaymentSuccess = (props) => {
   const getOrders =
     props.order &&
     props.order.subOrders &&
-    props.order.subOrders.map((subOrder) => {
+    props.order.subOrders.map((subOrder, i) => {
       return (
         <React.Fragment>
           <Row>
@@ -54,7 +83,13 @@ const PaymentSuccess = (props) => {
               </span>
             </Col>
           </Row>
-          <Row className="qa-mar-top-1 qa-mar-btm-05">
+          <Row
+            className={`${
+              i === props.order.subOrders.length - 1
+                ? "qa-mar-top-05 qa-mar-btm-1"
+                : "qa-mar-top-05 qa-mar-btm-2"
+            }`}
+          >
             <Col span={16}>
               <div className="qa-font-san qa-tc-white qa-fs-14 qa-mar-rgt-1 qa-lh">
                 Value of products purchased
@@ -422,7 +457,7 @@ const PaymentSuccess = (props) => {
                     <Col xs={24} sm={24} md={24} lg={24}>
                       <Row>
                         <Col xs={16} sm={16} md={16} lg={16}>
-                          <span className="qa-font-butler qa-fs-20 qa-tc-white">
+                          <span className="qa-font-butler qa-fs-19 qa-tc-white">
                             Order summary
                           </span>
                         </Col>
@@ -439,8 +474,8 @@ const PaymentSuccess = (props) => {
                           style={{ lineHeight: "0%" }}
                         >
                           <span
-                            className="qa-col-end qa-font-san qa-fs-12"
-                            style={{ color: "#332f2f", opacity: "80%" }}
+                            className="qa-col-end qa-font-san"
+                            style={{ color: "#332F2F", fontSize: "11px" }}
                           >
                             {orderId}
                           </span>
@@ -456,7 +491,7 @@ const PaymentSuccess = (props) => {
                     </Col>
                   </Row>
                   {getOrders}
-                  <Row className="qa-mar-top-05">
+                  <Row>
                     <Col xs={24} sm={24} md={24} lg={24}>
                       <hr
                         style={{ border: "-1px solid rgba(25, 25, 25, 0.6)" }}
@@ -563,7 +598,30 @@ const PaymentSuccess = (props) => {
                             className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b qa-lh qa-mar-rgt-1"
                             style={{ color: "#02873A" }}
                           >
-                            Shipping promotion applied
+                            Shipping promotion applied{" "}
+                            <Tooltip
+                              overlayClassName="qa-tooltip"
+                              placement="top"
+                              trigger="hover"
+                              title={`Free shipping promotion applied for seller ${sellers.join(
+                                ", "
+                              )}`}
+                            >
+                              <span
+                                style={{
+                                  cursor: "pointer",
+                                  verticalAlign: "middle",
+                                }}
+                              >
+                                <Icon
+                                  component={infoIcon}
+                                  style={{
+                                    width: "15px",
+                                    height: "15px",
+                                  }}
+                                />
+                              </span>
+                            </Tooltip>
                           </div>
                         </Col>
                         <Col span={8}>
