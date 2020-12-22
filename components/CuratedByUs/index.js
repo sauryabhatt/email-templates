@@ -126,7 +126,7 @@ export default function CuratedByUsWrapper(props) {
       alt: "",
     },
     {
-      text: "",
+      text: "Baby & kids",
       img:
         process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_BabyKids.jpg",
       url: "/categoryedit/baby-kids",
