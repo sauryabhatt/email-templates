@@ -53,19 +53,25 @@ export default function CuratedByUsWrapper(props) {
       alt:
         "Collection of home workspace by our artisanal and responsible sellers fro Qalara",
     },
-    {
+    /*{
       url: "/trends/christmasspirit",
       img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend5.jpg",
       text: "Holiday spirit",
       alt:
         "Explore holiday decorations perfect for any celebration from Qalara",
-    },
+    },*/
     {
       url: "/trends/sunkissed-spring21",
       img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend6.jpg",
       text: "Sunlit Spring '21",
       alt: "Sunlit Spring '21",
     },
+    {
+      url: "/trends/play-and-learn",
+      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Play-learn.jpg",
+      text: "Play and learn",
+      alt: "Play and learn",
+    }
   ];
 
   const category = [
@@ -119,6 +125,13 @@ export default function CuratedByUsWrapper(props) {
       url: "/categoryedit/stationery-novelty",
       alt: "",
     },
+    {
+      text: "",
+      img:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_BabyKids.jpg",
+      url: "/categoryedit/baby-kids",
+      alt: "",
+    }
   ];
 
   const crafts = [

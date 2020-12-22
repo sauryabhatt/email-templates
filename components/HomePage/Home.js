@@ -223,41 +223,48 @@ function Home(props) {
 
   const craftItems = [
     {
-      imageTitle: "Home office",
-      slideText:
-        "Curated from responsible sellers, these writing tables, lamps, notepads & table accessories inspire everyday creativity.",
-      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_4_2.jpg",
-      searchText: "HomeOffice",
-      path: "/trends/homeoffice",
-    },
-    {
       imageTitle: "Global textures",
       slideText:
-        "Our wholesale suppliers offer unique decor & textiles, combining local crafts with modern aesthetics, that cater to a global audience. ",
+      "Our wholesale suppliers offer unique decor & textiles, combining local crafts with modern aesthetics, that cater to a global audience. ",
       imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_1_1.jpg",
       searchText: "GlobalTextures",
       path: "/trends/globaltextures",
     },
     {
-      imageTitle: "Urban Jungle",
-      slideText:
-        "Discover our range of tropical inspiration; macrame planters, terracotta pots, sabai baskets, upcycled furniture and more.",
-      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_2_1.jpg",
-      searchText: "UrbanJungle",
-      path: "/trends/urbanjungle",
+      imageTitle: "Play and learn",
+      slideText: "Discover DIY kits, puzzles, and board games to help kids learn and have fun from the comfort and safety of their homes.",
+      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_8.jpg",
+      searchText: "playandLearn",
+      path: "/trends/play-and-learn",
     },
     {
       imageTitle: "Earth inspired",
       slideText:
-        "Our wholesale suppliers believe in conscious production, sustainable supply chains, low carbon footprint & giving back.",
+      "Our wholesale suppliers believe in conscious production, sustainable supply chains, low carbon footprint & giving back.",
       imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_3_2.jpg",
       searchText: "EarthInspired",
       path: "/trends/earthinspired",
     },
     {
+      imageTitle: "Urban Jungle",
+      slideText:
+      "Discover our range of tropical inspiration; macrame planters, terracotta pots, sabai baskets, upcycled furniture and more.",
+      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_2_1.jpg",
+      searchText: "UrbanJungle",
+      path: "/trends/urbanjungle",
+    },
+    {
+      imageTitle: "Home office",
+      slideText:
+      "Curated from responsible sellers, these writing tables, lamps, notepads & table accessories inspire everyday creativity.",
+      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_4_2.jpg",
+      searchText: "HomeOffice",
+      path: "/trends/homeoffice",
+    },
+    {
       imageTitle: "Sunlit Spring '21",
       slideText:
-        "These curated must-haves from our sellers embody to the dominant trends of the season and a brave new world that celebrates Joy.",
+      "These curated must-haves from our sellers embody to the dominant trends of the season and a brave new world that celebrates Joy.",
       imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_7.jpg",
       searchText: "sunkissedSpring21",
       path: "/trends/sunkissed-spring21",
