@@ -653,20 +653,18 @@ const CartSummary = (props) => {
         <div className="c-left-blk qa-mar-btm-05">Base price</div>
         <div className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
           {getSymbolFromCurrency(convertToCurrency)}
-          {basePrice ? getConvertedCurrency(basePrice) : ""}
+          {basePrice ? basePrice : ""}
         </div>
         <div className="c-left-blk qa-mar-btm-05">Qalara margin</div>
         <div className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
           <span style={{ textDecoration: "line-through", marginRight: "5px" }}>
             {getSymbolFromCurrency(convertToCurrency)}
-            {popoverData["qalaraSellerMargin"]
-              ? getConvertedCurrency(popoverData["qalaraSellerMargin"])
-              : ""}
+            {qalaraMargin ? qalaraMargin : ""}
           </span>
 
           <span style={{ color: "#02873A" }} className="qa-fw-b">
             {getSymbolFromCurrency(convertToCurrency)}
-            {popoverData["qalaraSellerMargin"] ? getConvertedCurrency(0) : ""}
+            {qalaraMargin ? getConvertedCurrency(0) : ""}
           </span>
         </div>
         {qualityPrice > 0 && (
@@ -675,7 +673,7 @@ const CartSummary = (props) => {
         {qualityPrice > 0 && (
           <div className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
             {getSymbolFromCurrency(convertToCurrency)}
-            {qualityPrice ? getConvertedCurrency(qualityPrice) : ""}
+            {qualityPrice ? qualityPrice : ""}
           </div>
         )}
         {samplePrice > 0 && (
@@ -684,13 +682,13 @@ const CartSummary = (props) => {
         {samplePrice > 0 && (
           <div className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
             {getSymbolFromCurrency(convertToCurrency)}
-            {samplePrice ? getConvertedCurrency(samplePrice) : ""}
+            {samplePrice ? samplePrice : ""}
           </div>
         )}
         <div className="c-left-blk">Total</div>
         <div className="c-right-blk qa-txt-alg-rgt qa-fw-b">
           {getSymbolFromCurrency(convertToCurrency)}
-          {sellerTotalAmount ? getConvertedCurrency(sellerTotalAmount) : ""}
+          {sellerTotalAmount ? sellerTotalAmount : ""}
         </div>
       </div>
       <div className="qa-tc-white qa-fs-12 qa-lh qa-txt-alg-cnt">
@@ -771,13 +769,18 @@ const CartSummary = (props) => {
               quantity = 0,
               exfactoryListPrice = 0,
             } = items;
-            samplePrice = samplePrice + sampleCost;
-            testingPrice = testingPrice + qualityTestingCharge;
+            samplePrice =
+              samplePrice + parseFloat(getConvertedCurrency(sampleCost));
+            testingPrice =
+              testingPrice +
+              parseFloat(getConvertedCurrency(qualityTestingCharge));
             basePrice =
               basePrice +
               parseFloat(getConvertedCurrency(exfactoryListPrice)) * quantity;
           }
-
+          qalaraSellerMargin = parseFloat(
+            getConvertedCurrency(qalaraSellerMargin)
+          );
           totalAmount = basePrice + samplePrice + testingPrice;
           let mov = 0;
           for (let product of products) {
@@ -817,7 +820,7 @@ const CartSummary = (props) => {
                 </div>
                 <div className="c-right-blk qa-txt-alg-rgt qa-fw-b">
                   {getSymbolFromCurrency(convertToCurrency)}
-                  {getConvertedCurrency(totalAmount)}
+                  {totalAmount}
                   <div className="qa-txt-alg-rgt">
                     <Popover
                       placement="bottomRight"
