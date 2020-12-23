@@ -15,11 +15,8 @@ const querystring = require("querystring");
 const isServer = () => typeof window == "undefined";
 
 const ProductDescription = (props) => {
-  let {
-    userProfile = {},
-    isLoading,
-  } =  props;
-  let {productDetails, listingPage} = !isServer() ? props : props.data;
+  let { userProfile = {}, isLoading } = props;
+  let { productDetails, listingPage } = !isServer() ? props : props.data;
   const router = useRouter();
   let { articleId } = router.query;
   let { sellerDetails = {} } = productDetails || {};
@@ -43,8 +40,7 @@ const ProductDescription = (props) => {
   }, [token, router.query]);
 
   useEffect(() => {
-    let { productDetails = "", userProfile = "" } = props;
-    let { profileType = "", verificationStatus = "" } = userProfile || {};
+    let { productDetails = "" } = props;
     if (productDetails) {
       let { sellerCode = "" } = productDetails;
       let query = {
@@ -55,19 +51,21 @@ const ProductDescription = (props) => {
         sellerId: sellerCode,
       };
       let queryResult = querystring.stringify(query);
-
       if (count === 1) {
         props.getSPLPDetails(queryResult);
         setCount(2);
       }
     }
+  }, [props.productDetails]);
+
+  useEffect(() => {
+    let { userProfile = "" } = props;
+    let { profileType = "", verificationStatus = "" } = userProfile || {};
     if (profileType === "BUYER" && verificationStatus === "VERIFIED") {
-      // if (profileType) {
       props.checkCart(keycloak.token);
     }
+  }, [props.userProfile]);
 
-    // }
-  }, [props]);
   return (
     <div>
       <ProductDetails
