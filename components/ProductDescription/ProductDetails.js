@@ -1431,7 +1431,7 @@ const ProductDetails = (props) => {
                         </Form.Item>
                       </Col>
                       <Col xs={24} sm={24} md={13} lg={13} xl={13}>
-                        <div className="qa-font-san qa-fs-12 qa-blue qa-mar-lft1 qa-lh qa-mar-top-1">
+                        <div className="qa-font-san qa-fs-12 qa-blue qa-mar-lft1 qa-lh qa-mar-top-2">
                           *For large quantities, please submit the{" "}
                           <b>'get quote'</b> form for unbeatable prices!
                         </div>
