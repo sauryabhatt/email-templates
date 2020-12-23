@@ -71,8 +71,8 @@ function FAQ(props) {
           A Request for Quote (RFQ) / Order Query/ Custom Quote is a simple
           order enquiry form that you can fill out to convey your requirements.
           You can send us three types of Quote Requests: <br></br>●{" "}
-          <b>Get custom Quote</b> - If you like a specific product and wish to
-          order specific quantities or want to slightly customize the color or
+          <b>Get Quote</b> - If you like a specific product and wish to order
+          specific quantities or want to slightly customize the color or
           packaging, you can ask for a custom quote.<br></br>
           <br></br>● <b>Send order Query</b> - If you like a seller's portfolio
           and would like them to manufacture a custom design for you basis their

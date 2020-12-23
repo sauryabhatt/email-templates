@@ -317,9 +317,9 @@ const ProductContact = (props) => {
                 />
                 <span className="custom-quote-atc">Save to collection</span>
                 <div className="custom-quote-text">
-                  If you would like to Get Custom Quote for multiple products,
-                  you can now use our new Save to Collection feature and send a
-                  combined Quote request easily
+                  If you would like to Get Quote for multiple products, you can
+                  now use our new Save to Collection feature and send a combined
+                  Quote request easily
                 </div>
                 <span className="custom-quote-new">
                   <span>NEW</span>
@@ -508,9 +508,9 @@ const ProductContact = (props) => {
                 />
                 <span className="custom-quote-atc">Save to collection</span>
                 <div className="custom-quote-text">
-                  If you would like to Get Custom Quote for multiple products,
-                  you can now use our new Save to Collection feature and send a
-                  combined Quote request easily
+                  If you would like to Get Quote for multiple products, you can
+                  now use our new Save to Collection feature and send a combined
+                  Quote request easily
                 </div>
                 <span className="custom-quote-new">
                   <span>NEW</span>
@@ -544,7 +544,7 @@ const ProductContact = (props) => {
                 }
               />
             )}
-            <p className="heading">Get custom quote</p>
+            <p className="heading">Get quote</p>
 
             <p className="paragraph">
               Please share your order requirement or any customization request
