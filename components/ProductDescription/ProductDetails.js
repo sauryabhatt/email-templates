@@ -1037,8 +1037,16 @@ const ProductDetails = (props) => {
             >
               <div>
                 <div className="qa-fw-sb qa-tc-white qa-fs-14">
-                  <Link  href={`/seller/${vanityId}`}>
-                    <span style={{ color: "#874439", fontWeight: "bold" , cursor: "pointer"}}>Explore seller profile</span>
+                  <Link href={`/seller/${vanityId}`}>
+                    <span
+                      style={{
+                        color: "#874439",
+                        fontWeight: "bold",
+                        cursor: "pointer",
+                      }}
+                    >
+                      Explore seller profile
+                    </span>
                   </Link>
                 </div>
               </div>
@@ -1098,7 +1106,7 @@ const ProductDetails = (props) => {
               pageId="product-description"
               categoryName={productNameSC}
               vanityId={vanityId}
-              brandName={sellerCode}//{brandNameSC}
+              brandName={sellerCode} //{brandNameSC}
             />
           </div>
           {showPrice ? (
@@ -1216,7 +1224,7 @@ const ProductDetails = (props) => {
                         }}
                       >
                         {getSymbolFromCurrency(convertToCurrency)}
-                        {getConvertedCurrency(displayPrice)}
+                        {getConvertedCurrency(displayPrice)}*
                       </span>
                       {/* {priceMin && (
                         <span className="qa-fs-20 qa-font-butler qa-va-m">
@@ -1357,75 +1365,75 @@ const ProductDetails = (props) => {
                 {productType === "RTS" || productType === "ERTM" ? (
                   <div>
                     <Row>
-                      <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                        <div style={{ width: "46%" }}>
-                          <div className="label-paragraph qa-fs-12">
-                            Quantity{" "}
-                            {qtyErr && (
-                              <Icon
-                                component={alertIcon}
-                                className="alert-icon"
-                                style={{
-                                  width: "12px",
-                                  verticalAlign: "sub",
-                                }}
-                              />
-                            )}
-                            {showPrice && (
-                              <span
-                                className="qa-fs-12"
-                                style={{ float: "right" }}
-                              >
-                                Minimum{" "}
-                                {switchMoq && inStock === 0
-                                  ? switchMoq
-                                  : inStock > 0 &&
-                                    inStock < minimumOrderQuantity
-                                  ? inStock
-                                  : minimumOrderQuantity}{" "}
-                                {moqUnit}
-                              </span>
-                            )}
-                          </div>
-                          <Form.Item
-                            name="quantity"
-                            className="form-item"
-                            rules={[
-                              {
-                                required: true,
-                                message: "Please select quantity",
-                              },
-                              {
-                                min:
-                                  inStock > 0 && inStock < minimumOrderQuantity
-                                    ? parseInt(inStock)
-                                    : parseInt(minimumOrderQuantity),
-                                type: "number",
-                                message:
-                                  "Please add quantity equal or greater than the minimum",
-                              },
-                              {
-                                pattern: new RegExp("^[0-9]*$"),
-                                message: "Wrong format!",
-                              },
-                            ]}
-                          >
-                            {showPrice ? (
-                              <InputNumber
-                                type="number"
-                                className="p-text-box"
-                              />
-                            ) : (
-                              <Tooltip
-                                trigger={["focus"]}
-                                title={qtyError}
-                                placement="top"
-                                overlayClassName="qa-tooltip qty-tooltip"
-                              >
-                                <Input value="" className="p-text-box" />
-                              </Tooltip>
-                            )}
-                          </Form.Item>
+                      <Col xs={24} sm={24} md={11} lg={11} xl={11}>
+                        <div className="label-paragraph qa-fs-12">
+                          Quantity{" "}
+                          {qtyErr && (
+                            <Icon
+                              component={alertIcon}
+                              className="alert-icon"
+                              style={{
+                                width: "12px",
+                                verticalAlign: "sub",
+                              }}
+                            />
+                          )}
+                          {showPrice && (
+                            <span
+                              className="qa-fs-12"
+                              style={{ float: "right" }}
+                            >
+                              Minimum{" "}
+                              {switchMoq && inStock === 0
+                                ? switchMoq
+                                : inStock > 0 && inStock < minimumOrderQuantity
+                                ? inStock
+                                : minimumOrderQuantity}{" "}
+                              {moqUnit}
+                            </span>
+                          )}
+                        </div>
+                        <Form.Item
+                          name="quantity"
+                          className="form-item"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please select quantity",
+                            },
+                            {
+                              min:
+                                inStock > 0 && inStock < minimumOrderQuantity
+                                  ? parseInt(inStock)
+                                  : parseInt(minimumOrderQuantity),
+                              type: "number",
+                              message:
+                                "Please add quantity equal or greater than the minimum",
+                            },
+                            {
+                              pattern: new RegExp("^[0-9]*$"),
+                              message: "Wrong format!",
+                            },
+                          ]}
+                        >
+                          {showPrice ? (
+                            <InputNumber type="number" className="p-text-box" />
+                          ) : (
+                            <Tooltip
+                              trigger={["focus"]}
+                              title={qtyError}
+                              placement="top"
+                              overlayClassName="qa-tooltip qty-tooltip"
+                            >
+                              <Input value="" className="p-text-box" />
+                            </Tooltip>
+                          )}
+                        </Form.Item>
+                      </Col>
+                      <Col xs={24} sm={24} md={13} lg={13} xl={13}>
+                        <div className="qa-font-san qa-fs-12 qa-blue qa-mar-lft1 qa-lh qa-mar-top-1">
+                          *For large quantities, please submit the{" "}
+                          <b>'get quote'</b> form for unbeatable prices!
                         </div>
                       </Col>
                     </Row>
@@ -1512,38 +1520,44 @@ const ProductDetails = (props) => {
                 ) : (
                   <div className="custom-section">
                     {showPrice && (
-                      <div className="qa-font-san qa-tc-white qa-font-12">
-                        Minimum order quantity:{" "}
-                        {switchMoq && inStock === 0
-                          ? switchMoq
-                          : minimumOrderQuantity}{" "}
-                        {moqUnit}
-                        <span
-                          style={{
-                            marginRight: "5px",
-                            fontWeight: "bold",
-                            fontFamily: "Butler",
-                          }}
-                        ></span>
-                        <Tooltip
-                          overlayClassName="qa-tooltip"
-                          placement="top"
-                          trigger="hover"
-                          title="If your requirement is below the minimum quantity mentioned please raise a Custom Quote"
-                        >
+                      <div>
+                        <div className="qa-font-san qa-tc-white qa-font-12">
+                          Minimum order quantity:{" "}
+                          {switchMoq && inStock === 0
+                            ? switchMoq
+                            : minimumOrderQuantity}{" "}
+                          {moqUnit}
                           <span
                             style={{
-                              cursor: "pointer",
-                              verticalAlign: "text-top",
+                              marginRight: "5px",
+                              fontWeight: "bold",
+                              fontFamily: "Butler",
                             }}
+                          ></span>
+                          <Tooltip
+                            overlayClassName="qa-tooltip"
+                            placement="top"
+                            trigger="hover"
+                            title="If your requirement is below the minimum quantity mentioned please raise a Custom Quote"
                           >
-                            <Icon
-                              component={infoIcon}
-                              className="info-icon"
-                              style={{ width: "18px" }}
-                            />
-                          </span>
-                        </Tooltip>
+                            <span
+                              style={{
+                                cursor: "pointer",
+                                verticalAlign: "text-top",
+                              }}
+                            >
+                              <Icon
+                                component={infoIcon}
+                                className="info-icon"
+                                style={{ width: "18px" }}
+                              />
+                            </span>
+                          </Tooltip>
+                        </div>
+                        <div className="qa-font-san qa-fs-12 qa-blue qa-mar-top-05 qa-lh qa-mar-btm-1">
+                          *For large quantities, please submit the{" "}
+                          <b>'get quote'</b> form for unbeatable prices!
+                        </div>
                       </div>
                     )}
                     <Row>
@@ -1758,7 +1772,7 @@ const ProductDetails = (props) => {
                       setRfqType("Product RFQ");
                     }}
                   >
-                    <div className="">get custom quote</div>
+                    <div className="">Get Quote</div>
                   </Button>
                   {(productType === "RTS" || productType === "ERTM") && skuId && (
                     <span>
@@ -2044,7 +2058,16 @@ const ProductDetails = (props) => {
               >
                 <Link href={`/seller/${vanityId}`}>
                   <a target="_blank">
-                    <div style={{color: "#874439", fontWeight: "bold", cursor: "pointer"}} className="qa-tc-white qa-fs-14">Explore seller profile</div>
+                    <div
+                      style={{
+                        color: "#874439",
+                        fontWeight: "bold",
+                        cursor: "pointer",
+                      }}
+                      className="qa-tc-white qa-fs-14"
+                    >
+                      Explore seller profile
+                    </div>
                   </a>
                 </Link>
               </div>
@@ -2144,6 +2167,12 @@ const ProductDetails = (props) => {
               lg={24}
               xl={24}
             >
+              <div className="qa-fs-24 qa-font-butler product-title">
+                <span className="qa-mar-rgt-05">{productNameSC}</span>
+                {packType && (
+                  <span className="product-s-title">{packType}</span>
+                )}
+              </div>
               {authenticated ? (
                 <div>
                   {(profileType === "BUYER" &&
@@ -2164,7 +2193,7 @@ const ProductDetails = (props) => {
                             }}
                           >
                             {getSymbolFromCurrency(convertToCurrency)}
-                            {getConvertedCurrency(displayPrice)}
+                            {getConvertedCurrency(displayPrice)}*
                           </span>
                           {/* {priceMin && (
                             <span className="qa-fs-20 qa-font-butler qa-va-m">
@@ -2183,6 +2212,7 @@ const ProductDetails = (props) => {
                           </Col>
                         )}
                       </Row>
+
                       {exFactoryPrice > exfactoryListPrice && (
                         <div>
                           <span
@@ -2302,12 +2332,7 @@ const ProductDetails = (props) => {
                   </span>
                 </div>
               )}
-              <div className="qa-fs-24 qa-font-butler product-title">
-                <span className="qa-mar-rgt-05">{productNameSC}</span>
-                {packType && (
-                  <span className="product-s-title">{packType}</span>
-                )}
-              </div>
+
               <Form
                 name="product_details_form_mobile"
                 form={rtsform}
@@ -2379,6 +2404,10 @@ const ProductDetails = (props) => {
                               <Input value="" className="p-text-box" />
                             </Tooltip>
                           )}
+                          <div className="qa-font-san qa-fs-12 qa-blue qa-mar-top-1 qa-lh">
+                            *For large quantities, please submit the{" "}
+                            <b>'get quote'</b> form for unbeatable prices!
+                          </div>
                         </Form.Item>
                       </Col>
                     </Row>
@@ -2465,38 +2494,44 @@ const ProductDetails = (props) => {
                 ) : (
                   <div>
                     {showPrice && (
-                      <div className="qa-font-san qa-tc-white qa-font-12">
-                        Minimum order quantity:{" "}
-                        {switchMoq && inStock === 0
-                          ? switchMoq
-                          : minimumOrderQuantity}{" "}
-                        {moqUnit}
-                        <span
-                          style={{
-                            marginRight: "5px",
-                            fontWeight: "bold",
-                            fontFamily: "Butler",
-                          }}
-                        ></span>
-                        <Tooltip
-                          overlayClassName="qa-tooltip"
-                          placement="top"
-                          trigger="hover"
-                          title="If your requirement is below the minimum quantity mentioned please raise a Custom Quote"
-                        >
+                      <div>
+                        <div className="qa-font-san qa-tc-white qa-font-12">
+                          Minimum order quantity:{" "}
+                          {switchMoq && inStock === 0
+                            ? switchMoq
+                            : minimumOrderQuantity}{" "}
+                          {moqUnit}
                           <span
                             style={{
-                              cursor: "pointer",
-                              verticalAlign: "text-top",
+                              marginRight: "5px",
+                              fontWeight: "bold",
+                              fontFamily: "Butler",
                             }}
+                          ></span>
+                          <Tooltip
+                            overlayClassName="qa-tooltip"
+                            placement="top"
+                            trigger="hover"
+                            title="If your requirement is below the minimum quantity mentioned please raise a Custom Quote"
                           >
-                            <Icon
-                              component={infoIcon}
-                              className="info-icon"
-                              style={{ width: "18px" }}
-                            />
-                          </span>
-                        </Tooltip>
+                            <span
+                              style={{
+                                cursor: "pointer",
+                                verticalAlign: "text-top",
+                              }}
+                            >
+                              <Icon
+                                component={infoIcon}
+                                className="info-icon"
+                                style={{ width: "18px" }}
+                              />
+                            </span>
+                          </Tooltip>
+                        </div>
+                        <div className="qa-font-san qa-fs-12 qa-blue qa-mar-top-05 qa-lh qa-mar-btm-1">
+                          *For large quantities, please submit the{" "}
+                          <b>'get quote'</b> form for unbeatable prices!
+                        </div>
                       </div>
                     )}
                     {colors.length > 0 && (
@@ -2675,7 +2710,7 @@ const ProductDetails = (props) => {
                       setRfqType("Product RFQ");
                     }}
                   >
-                    <div>Get custom quote</div>
+                    <div>Get Quote</div>
                   </Button>
                   {(productType === "RTS" || productType === "ERTM") && skuId && (
                     <span>
@@ -2977,7 +3012,9 @@ const ProductDetails = (props) => {
           <Col xs={24} sm={24} md={24} lg={0} xl={0}>
             <Row>
               <Col span={24} className="catalogue-section">
-                <div className="pc-title">View more products from this seller</div>
+                <div className="pc-title">
+                  View more products from this seller
+                </div>
                 <Link href={splpLink}>
                   <div className="pc-link qa-cursor">
                     <MinusOutlined />
@@ -3073,7 +3110,9 @@ const ProductDetails = (props) => {
           <Col xs={0} sm={0} md={0} lg={24} xl={24}>
             <Row>
               <Col span={6} className="catalogue-section">
-                <div className="pc-title">View more products from this seller</div>
+                <div className="pc-title">
+                  View more products from this seller
+                </div>
                 <Link href={splpLink}>
                   <div className="pc-link qa-cursor">
                     <MinusOutlined />
@@ -3362,7 +3401,7 @@ const ProductDetails = (props) => {
           </div>
           <div className="qa-mar-btm-2 qa-font-san qa-txt-alg-cnt qa-lh">
             If your country/pincode does not appear in the list below please use
-            'Get custom quote' to send us your order requirements
+            'Get quote' to send us your order requirements
           </div>
 
           <Row className="qa-font-san">
@@ -3442,7 +3481,7 @@ const ProductDetails = (props) => {
                 {nonServiceable && (
                   <div className="qa-text-error">
                     This zipcode/ pincode doesn't appear in our list. Please use
-                    'Get custom quote' to send us your order requirements
+                    'Get quote' to send us your order requirements
                   </div>
                 )}
                 <Button
