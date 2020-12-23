@@ -12,12 +12,15 @@ import { useKeycloak } from "@react-keycloak/ssr";
 import _ from "lodash";
 
 const Cart = (props) => {
-  let { cart = {}, brandNameList = [], isLoading = true } = props;
+  let { cart = {}, brandNameList = [] } = props;
+  const [isLoading, setLoading] = useState(true);
   const { keycloak } = useKeycloak();
   let { token } = keycloak || {};
 
   async function getCartDetails() {
-    let response1 = await props.getCart(token);
+    let response1 = await props.getCart(token, (res) => {
+      setLoading(false);
+    });
     let cartResp = await response1;
     let { cart = {} } =
       cartResp && cartResp["payload"] ? cartResp["payload"] : {};
@@ -50,11 +53,14 @@ const Cart = (props) => {
 
   useEffect(() => {
     if (props.user) {
+      setLoading(true);
       let { user = {} } = props || {};
       let { profileType = "" } = user || {};
       if (profileType === "BUYER") {
         getCartDetails();
       }
+    } else {
+      setLoading(false);
     }
   }, [props.user]);
 
