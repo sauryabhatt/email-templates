@@ -53,6 +53,7 @@ const Cart = (props) => {
 
   useEffect(() => {
     if (props.user) {
+      setLoading(true);
       let { user = {} } = props || {};
       let { profileType = "" } = user || {};
       if (profileType === "BUYER") {
@@ -76,6 +77,7 @@ const Cart = (props) => {
 const mapStateToProps = (state) => {
   return {
     cart: state.checkout.cart,
+    isLoading: state.userProfile.isLoading,
     brandNameList: state.userProfile.brandNameList,
     user: state.userProfile.userProfile,
   };

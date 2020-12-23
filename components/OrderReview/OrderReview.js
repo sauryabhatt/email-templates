@@ -93,7 +93,7 @@ const OrderReview = (props) => {
         }
       })
       .then((res) => {
-        let url = "/order/" + cart.orderId + "/payment-success";
+        let url = "/order/" + props.order.orderId + "/payment-success";
         router.push(url);
       })
       .catch((err) => {
