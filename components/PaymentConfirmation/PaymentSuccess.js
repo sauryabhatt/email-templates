@@ -922,7 +922,7 @@ const PaymentSuccess = (props) => {
                               props.order && props.order.currency
                             )}
                             {parseFloat(
-                              (props.order &&
+                              ((props.order &&
                                 props.order.miscCharges &&
                                 props.order.miscCharges.find(
                                   (x) => x.chargeId === "DISCOUNT"
@@ -930,7 +930,7 @@ const PaymentSuccess = (props) => {
                                 props.order.miscCharges.find(
                                   (x) => x.chargeId === "DISCOUNT"
                                 ).amount) ||
-                                0
+                                0) * props.order.conversionFactor
                             ).toFixed(2)}
                           </span>
                         </Col>
@@ -965,7 +965,9 @@ const PaymentSuccess = (props) => {
                           {getSymbolFromCurrency(
                             props.order && props.order.currency
                           )}
-                          {parseFloat(promoDiscount).toFixed(2)}
+                          {parseFloat(
+                            promoDiscount * props.order.conversionFactor
+                          ).toFixed(2)}
                         </span>
                       </Col>
                     </Row>

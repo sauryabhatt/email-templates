@@ -780,7 +780,7 @@ const PaymentFailure = (props) => {
                             parseFloat(
                               props.order.miscCharges.find(
                                 (x) => x.chargeId === "DISCOUNT"
-                              ).amount
+                              ).amount * props.order.conversionFactor
                             )) ||
                           0
                         ).toFixed(2)}
@@ -814,7 +814,9 @@ const PaymentFailure = (props) => {
                       {getSymbolFromCurrency(
                         (props.order && props.order.currency) || "USD"
                       )}
-                      {parseFloat(props.order.promoDiscount).toFixed(2)}
+                      {parseFloat(
+                        props.order.promoDiscount * props.order.conversionFactor
+                      ).toFixed(2)}
                     </span>
                   </Col>
                 </Row>

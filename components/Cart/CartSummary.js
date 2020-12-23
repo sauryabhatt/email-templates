@@ -903,7 +903,13 @@ const CartSummary = (props) => {
         <div className="qa-fw-b">
           <div className="cart-ship-pt">
             <div style={{ color: "#02873A" }} className="c-left-blk">
-              Shipping promotion applied{" "}
+              <span
+                style={{
+                  verticalAlign: "middle",
+                }}
+              >
+                Shipping promotion applied{" "}
+              </span>
               <Tooltip
                 overlayClassName="qa-tooltip"
                 placement="top"
@@ -915,7 +921,7 @@ const CartSummary = (props) => {
                 <span
                   style={{
                     cursor: "pointer",
-                    verticalAlign: "text-top",
+                    verticalAlign: "middle",
                   }}
                 >
                   <Icon
@@ -923,7 +929,6 @@ const CartSummary = (props) => {
                     style={{
                       width: "15px",
                       height: "15px",
-                      verticalAlign: "middle",
                     }}
                   />
                 </span>
