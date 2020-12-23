@@ -261,6 +261,12 @@ const PaypalButton = (props) => {
                 quantity;
           }
 
+          samplePrice = parseFloat(
+            getConvertedCurrency(samplePrice, conversionFactor)
+          );
+          testingPrice = parseFloat(
+            getConvertedCurrency(testingPrice, conversionFactor)
+          );
           sellerTotal = basePrice + samplePrice + testingPrice;
 
           subTotal = subTotal + sellerTotal;
