@@ -92,6 +92,10 @@ const OrderReview = (props) => {
           throw res.statusText || "Error while updating info.";
         }
       })
+      .then((res) => {
+        let url = "/order/" + cart.orderId + "/payment-success";
+        router.push(url);
+      })
       .catch((err) => {
         console.log(err);
         // setLoading(false);
@@ -139,8 +143,6 @@ const OrderReview = (props) => {
           delete res.qauthorizations[0].requestUUID;
           delete res.currentAuth.requestUUID;
           updateOrder(res, "CHECKED_OUT");
-          let url = "/order/" + props.order.orderId + "/payment-success";
-          router.push(url);
         }
       })
       .catch((err) => {
