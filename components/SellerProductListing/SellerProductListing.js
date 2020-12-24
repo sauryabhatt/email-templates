@@ -89,16 +89,7 @@ const SellerProductListing = (props) => {
   }, [router.query]);
 
   const getFilterData = (queryParams, instanceType) => {
-    if (
-      instanceType === "categories" ||
-      instanceType === "sort" ||
-      instanceType === "filter" ||
-      instanceType === "submit"
-    ) {
-      setOffset(0);
-    }
     setQueryParams(queryParams);
-
     const tempObj = {};
 
     for (const key in queryParams) {
@@ -110,21 +101,39 @@ const SellerProductListing = (props) => {
         tempObj[key] = queryParams[key];
       }
     }
-    router.push(
-      {
-        pathname:
-          window.location.protocol +
-          "//" +
-          window.location.host +
-          "/seller/" +
-          router.query.sellerId +
-          "/" +
-          router.query.categoryId,
-        query: tempObj,
-      },
-      undefined,
-      { shallow: true }
-    );
+
+    if (instanceType === "clear") {
+      router.push(
+        {
+          pathname:
+            window.location.protocol +
+            "//" +
+            window.location.host +
+            "/seller/" +
+            router.query.sellerId +
+            "/" +
+            router.query.categoryId,
+        },
+        undefined,
+        { shallow: true }
+      );
+    } else {
+      router.push(
+        {
+          pathname:
+            window.location.protocol +
+            "//" +
+            window.location.host +
+            "/seller/" +
+            router.query.sellerId +
+            "/" +
+            router.query.categoryId,
+          query: tempObj,
+        },
+        undefined,
+        { shallow: true }
+      );
+    }
   };
 
   const loadMoreData = () => {

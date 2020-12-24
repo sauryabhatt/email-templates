@@ -97,16 +97,7 @@ const SearchListing = (props) => {
   }, [router.query]);
 
   const getFilterData = (queryParams, instanceType) => {
-    if (
-      instanceType === "categories" ||
-      instanceType === "sort" ||
-      instanceType === "filter" ||
-      instanceType === "submit"
-    ) {
-      setOffset(0);
-    }
     setQueryParams(queryParams);
-
     const tempObj = {};
 
     for (const key in queryParams) {
@@ -119,49 +110,24 @@ const SearchListing = (props) => {
       }
     }
 
-    router.push(
-      {
-        pathname: router.asPath.split("?")[0],
-        query: tempObj,
-      },
-      undefined,
-      { shallow: true }
-    );
-
-    // let queryResult = querystring.stringify(queryParams);
-    // let tempQuery = "";
-    // const arr = [];
-    // queryResult.split("&").forEach((element) => {
-    //   if (
-    //     !element.search("f_values") ||
-    //     !element.search("f_key_methods") ||
-    //     !element.search("f_product_types")
-    //   ) {
-    //     arr.push(element);
-    //   }
-    // });
-
-    // if (arr.length > 0) {
-    //   tempQuery =
-    //     arr.length > 2
-    //       ? `?${arr[0]}&${arr[1]}&${arr[2]}`
-    //       : arr.length > 1
-    //       ? `?${arr[0]}&${arr[1]}`
-    //       : `?${arr[0]}`;
-    // }
-    // let newurl =
-    //   window.location.protocol +
-    //   "//" +
-    //   window.location.host +
-    //   window.location.pathname +
-    //   tempQuery;
-    // window.history.pushState({ path: newurl }, "", newurl);
-    // tempQuery = "";
-    // if (searchBy === "product") {
-    //   props.getPLPDetails(queryResult, false);
-    // } else {
-    //   props.getSLPDetails(queryResult, false);
-    // }
+    if (instanceType === "clear") {
+      router.push(
+        {
+          pathname: router.asPath.split("?")[0],
+        },
+        undefined,
+        { shallow: true }
+      );
+    } else {
+      router.push(
+        {
+          pathname: router.asPath.split("?")[0],
+          query: tempObj,
+        },
+        undefined,
+        { shallow: true }
+      );
+    }
   };
 
   const loadMoreData = () => {
