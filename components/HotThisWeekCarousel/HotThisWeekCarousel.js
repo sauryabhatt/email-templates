@@ -35,22 +35,22 @@ export default function PressCrousel(props) {
     {
       title: "",
       url: "https://cdn.qalara.com/images/Img_Hotoffer3.jpg",
-      linkTo: "https://www.qalara.com/seller/SL10789/all-categories",
+      linkTo: "/seller/SL10789/all-categories",
     },
     {
       title: "",
       url: "https://cdn.qalara.com/images/Img_Hotdeal2.jpg",
-      linkTo: "https://www.qalara.com/sellers/all-categories",
+      linkTo: "/sellers/all-categories",
     },
     {
       title: "",
       url: "https://cdn.qalara.com/images/Img_Hotseller1.jpg",
-      linkTo: "https://www.qalara.com/seller/SL10572/baby-and-kids",
+      linkTo: "/seller/SL10572/baby-and-kids",
     },
     {
       title: "",
       url: "https://cdn.qalara.com/images/Img_Hotcollection1.jpg",
-      linkTo: "https://www.qalara.com/seller/SL10697/all-categories",
+      linkTo: "/seller/SL10697/all-categories",
     },
   ];
 
