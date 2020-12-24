@@ -39,36 +39,39 @@ export default function HomePageCarousel(props) {
             Quality certified. Door delivered.
           </div>
           <div>Verified buyers across 40+ countries.</div>
-          <div>Backed by a Fortune 100 company.</div>
+          <div>An entity of a Fortune 100 Indian company.</div>
         </div>
       ),
       video_link: "",
       isSignupbtn: true,
       signinBTNLink: "/sellers/all-categories",
       signinBTNText: "START SHOPPING",
-      mobileImg: "https://cdn.qalara.com/images/Img_Homepage_Banner_Qalara1_1-mob.jpg",
-      alt: "Qalara Global wholesale buying reimagined"
+      mobileImg:
+        "https://cdn.qalara.com/images/Img_Homepage_Banner_Qalara1_1-mob.jpg",
+      alt: "Qalara Global wholesale buying reimagined",
     },
     {
       img: "https://cdn.qalara.com/images/Img_Banner_Qalarabazar3.jpg",
-      hading_text: "",//"Global wholesale buying, reimagined.",
-      small_text: "",//"Source wholesale products from India and South East Asia. Order digitally, reliably, affordably.Backed by a Fortune 100 company.Verified buyers from 25+ countries.",
-      video_link: "",//"https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4",            
+      hading_text: "", //"Global wholesale buying, reimagined.",
+      small_text: "", //"Source wholesale products from India and South East Asia. Order digitally, reliably, affordably.Backed by a Fortune 100 company.Verified buyers from 25+ countries.",
+      video_link: "", //"https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4",
       isSignupbtn: false,
       signinBTNLink: "/seller/SL10789/all-categories",
-      mobileImg: "https://cdn.qalara.com/images/Img_Banner_Qalarabazar3_mob.jpg",
-      alt: "Qalara festive offer get eco-friendly, handmade gifts for the holiday season"
+      mobileImg:
+        "https://cdn.qalara.com/images/Img_Banner_Qalarabazar3_mob.jpg",
+      alt:
+        "Qalara festive offer get eco-friendly, handmade gifts for the holiday season",
     },
     {
       img: "https://cdn.qalara.com/images/Img_Homepage_Banner-1.jpg",
-      hading_text: "",//<div className = "second-img-head">Eco-friendly,{isMobile ?<br/>: null} handmade gifts for{isMobile ?<br/>: null} the Holiday season.</div>,
-      small_text: "",//<span className = "second-img-subhead" > <div><b>5% off</b> on all orders!</div><div>Use coupon code <b>HAPPYHOLIDAYS</b></div></span>,
-      //video_link: "",  
+      hading_text: "", //<div className = "second-img-head">Eco-friendly,{isMobile ?<br/>: null} handmade gifts for{isMobile ?<br/>: null} the Holiday season.</div>,
+      small_text: "", //<span className = "second-img-subhead" > <div><b>5% off</b> on all orders!</div><div>Use coupon code <b>HAPPYHOLIDAYS</b></div></span>,
+      //video_link: "",
       isSignupbtn: false,
       signinBTNLink: "/sellers/all-categories?f_values=ECO_FRIENDLY",
       signinBTNText: "EXPLORE NOW",
       mobileImg: "https://cdn.qalara.com/images/Img_Homepage_Banner-1-mob.jpg",
-      alt: "Qalara your one-stop-shop for wholesale"
+      alt: "Qalara your one-stop-shop for wholesale",
     },
     {
       img: "https://cdn.qalara.com/images/Img_Homepage_banner_3.jpg",
@@ -77,7 +80,7 @@ export default function HomePageCarousel(props) {
       isSignupbtn: false,
       signinBTNLink: "/sellers/all-categories",
       mobileImg: "https://cdn.qalara.com/images/Img_Homepage_banner_3_mob.jpg",
-      alt: ""
+      alt: "",
     },
   ];
   const [imgCount, setImgCount] = useState(0);
@@ -323,8 +326,8 @@ function SlideElement(props) {
             !e.video_link
               ? { top: "17%" }
               : isVideo
-                ? { fontSize: "30px", top: "27px" }
-                : {}
+              ? { fontSize: "30px", top: "27px" }
+              : {}
           }
           className="home-banner-head-text"
         >
