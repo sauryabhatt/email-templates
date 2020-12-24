@@ -98,7 +98,6 @@
     "values": "/products/all-categories",
     "isActive": "TRUE"
   },
-
   {
     "id": "SHOPOPTIONS::COLUMN::2::ROW::101",
     "column": "2",
@@ -286,7 +285,6 @@
     "values": "/explore/curatedbyus",
     "isActive": "TRUE"
   },
-
   {
     "id": "SHOPOPTIONS::COLUMN::4::ROW::101",
     "column": "4",
@@ -304,7 +302,7 @@
     "displayTitle": "Artisanal",
     "menuOrder": "102",
     "font": "H2",
-    "action": "URL",
+    "action": "",
     "filterType": "f_values",
     "values": "ARTISANAL",
     "isActive": "TRUE"
@@ -315,7 +313,7 @@
     "displayTitle": "Eco friendly",
     "menuOrder": "103",
     "font": "H2",
-    "action": "URL",
+    "action": "",
     "filterType": "f_values",
     "values": "ECO_FRIENDLY",
     "isActive": "TRUE"
@@ -326,7 +324,7 @@
     "displayTitle": "Sustainable",
     "menuOrder": "104",
     "font": "H2",
-    "action": "URL",
+    "action": "",
     "filterType": "f_values",
     "values": "SUSTAINABLE",
     "isActive": "TRUE"
@@ -337,7 +335,7 @@
     "displayTitle": "Recycled",
     "menuOrder": "105",
     "font": "H2",
-    "action": "URL",
+    "action": "",
     "filterType": "f_values",
     "values": "RECYCLED",
     "isActive": "TRUE"
@@ -348,7 +346,7 @@
     "displayTitle": "Organic",
     "menuOrder": "106",
     "font": "H2",
-    "action": "URL",
+    "action": "",
     "filterType": "f_values",
     "values": "ORGANIC",
     "isActive": "TRUE"
@@ -359,7 +357,7 @@
     "displayTitle": "Fair & social",
     "menuOrder": "107",
     "font": "H2",
-    "action": "URL",
+    "action": "",
     "filterType": "f_values",
     "values": "FAIR_TRADE",
     "isActive": "TRUE"
