@@ -71,50 +71,42 @@ const SellerListing = (props) => {
   }, [router.query]);
 
   const getFilterData = (queryParams, instanceType) => {
-    if (
-      instanceType === "categories" ||
-      instanceType === "sort" ||
-      instanceType === "filter" ||
-      instanceType === "submit"
-    ) {
-      setOffset(0);
-    }
     setQueryParams(queryParams);
     const tempObj = {};
+
     for (const key in queryParams) {
       if (key == "f_values" || key == "f_key_methods") {
         tempObj[key] = queryParams[key];
       }
     }
-    // let queryResult = querystring.stringify(queryParams);
-    // let tempQuery = "";
-    // const arr = [];
-    // queryResult.split("&").forEach((element) => {
-    //   if (!element.search("f_values") || !element.search("f_key_methods")) {
-    //     arr.push(element);
-    //   }
-    // });
-    // if (arr.length > 0) {
-    //   tempQuery = arr.length > 1 ? `?${arr[0]}&${arr[1]}` : `?${arr[0]}`;
-    // }
-    // let newurl =
-    //   window.location.protocol +
-    //   "//" +
-    //   window.location.host +
-    //   window.location.pathname +
-    //   tempQuery;
-    // window.history.pushState({ path: newurl }, "", newurl);
-    router.push(
-      {
-        pathname: window.location.protocol+"//" +window.location.host + "/sellers/" +router.query.categoryId,
-        query: tempObj,
-      },
-      undefined,
-      { shallow: true }
-    );
-    // router.push(router.asPath + tempObj);
-    // tempQuery = "";
-    // props.getSLPDetails(queryResult, false);
+    if (instanceType === "clear") {
+      router.push(
+        {
+          pathname:
+            window.location.protocol +
+            "//" +
+            window.location.host +
+            "/products/" +
+            router.query.categoryId,
+        },
+        undefined,
+        { shallow: true }
+      );
+    } else {
+      router.push(
+        {
+          pathname:
+            window.location.protocol +
+            "//" +
+            window.location.host +
+            "/sellers/" +
+            router.query.categoryId,
+          query: tempObj,
+        },
+        undefined,
+        { shallow: true }
+      );
+    }
   };
 
   const loadMoreData = () => {

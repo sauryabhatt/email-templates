@@ -104,17 +104,8 @@ export default class SellerFacets extends Component {
     this.setState({ openKeys: [...OPEN_KEYS, ...openKeys] });
 
   clearFilter = () => {
-    this.setState(this.baseState);
-    let { facets = [] } = this.props;
-    for (let list of facets) {
-      if (list["aggregateId"] !== "f_categories") {
-        let { aggregateId = "" } = list;
-        this.setState({ [aggregateId]: [] });
-      } else {
-        this.setState({ selectedCategory: this.state["f_categories"] });
-      }
-    }
-    this.props.getFilterData(this.baseState.query, "categories");
+    this.props.onClose();
+    this.props.getFilterData(this.baseState.query, "clear");
   };
 
   selectCategory = (categoryId) => {

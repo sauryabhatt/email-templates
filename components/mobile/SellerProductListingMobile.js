@@ -123,9 +123,12 @@ function SellerProductListingMobile(props) {
     }
   }, [props.queryParams]);
 
+  useEffect(() => {
+    setDrawer(false);
+  }, [props.categoryTitle]);
+
   const showDrawer = () => {
-    let state = !drawer;
-    setDrawer(state);
+    setDrawer(true);
   };
 
   const onClose = () => {

@@ -9,15 +9,31 @@ import { useRouter } from "next/router";
 export default function SellerListingPage({ data }) {
   const router = useRouter();
   const { categoryId = "" } = data || {};
-  const meta={
-    title:`Source quality ${categoryId?.split("-")?.join(" ")} from verified manufacturers at affordable wholesale prices | Qalara`,
-    description:`Shop ${categoryId?.split("-")?.join(" ")} wholesale from sellers online, pay securely and get it delivered at your doorstep with product assurance.`,
-    keywords:`Global sourcing, ${categoryId?.split("-")?.join(" ")}, wholesale, exports, handcrafted, bulk, suppliers, manufacturers, vendors, India`,
-    url:`/sellers/${categoryId}`
-  }
+  const meta = {
+    title: `Source quality ${categoryId
+      ?.split("-")
+      ?.join(
+        " "
+      )} from verified manufacturers at affordable wholesale prices | Qalara`,
+    description: `Shop ${categoryId
+      ?.split("-")
+      ?.join(
+        " "
+      )} wholesale from sellers online, pay securely and get it delivered at your doorstep with product assurance.`,
+    keywords: `Global sourcing, ${categoryId
+      ?.split("-")
+      ?.join(
+        " "
+      )}, wholesale, exports, handcrafted, bulk, suppliers, manufacturers, vendors, India`,
+    url: `/sellers/${categoryId}`,
+  };
 
-  if(data?.error?.status) {
-    return <><NotFound /></>;
+  if (data?.error?.status) {
+    return (
+      <>
+        <NotFound />
+      </>
+    );
   }
   if (router.isFallback) {
     return <Spinner />;
@@ -50,26 +66,25 @@ const getURL = (category) => {
 };
 
 export const getStaticProps = async ({ params: { categoryId = "" } = {} }) => {
-  
-  let res; 
-  const error={status:false};
+  let res;
+  const error = { status: false };
   try {
-  const response = await fetch(getURL(categoryId), {
-    method: "GET",
-  });
-  res = await response.json();
+    const response = await fetch(getURL(categoryId), {
+      method: "GET",
+    });
+    res = await response.json();
   } catch (error) {
-    error["status"]=true;
+    error["status"] = true;
   }
   return {
     props: {
       data: {
-        slp_count: res.totalHits,
-        slp_content: res.sellerHomeLiteViews,
-        slp_facets: res.aggregates,
-        slp_categories: res.fixedAggregates,
+        slp_count: res?.totalHits,
+        slp_content: res?.sellerHomeLiteViews,
+        slp_facets: res?.aggregates,
+        slp_categories: res?.fixedAggregates,
         categoryId: categoryId.toLowerCase(),
-        error:error
+        error: error,
       },
     },
   };

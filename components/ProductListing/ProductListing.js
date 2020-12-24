@@ -75,14 +75,6 @@ const ProductListing = (props) => {
   }, [router.query]);
 
   const getFilterData = (queryParams, instanceType) => {
-    if (
-      instanceType === "categories" ||
-      instanceType === "sort" ||
-      instanceType === "filter" ||
-      instanceType === "submit"
-    ) {
-      setOffset(0);
-    }
     setQueryParams(queryParams);
     const tempObj = {};
 
@@ -96,19 +88,34 @@ const ProductListing = (props) => {
       }
     }
 
-    router.push(
-      {
-        pathname:
-          window.location.protocol +
-          "//" +
-          window.location.host +
-          "/products/" +
-          router.query.categoryId,
-        query: tempObj,
-      },
-      undefined,
-      { shallow: true }
-    );
+    if (instanceType === "clear") {
+      router.push(
+        {
+          pathname:
+            window.location.protocol +
+            "//" +
+            window.location.host +
+            "/products/" +
+            router.query.categoryId,
+        },
+        undefined,
+        { shallow: true }
+      );
+    } else {
+      router.push(
+        {
+          pathname:
+            window.location.protocol +
+            "//" +
+            window.location.host +
+            "/products/" +
+            router.query.categoryId,
+          query: tempObj,
+        },
+        undefined,
+        { shallow: true }
+      );
+    }
   };
 
   const loadMoreData = () => {
