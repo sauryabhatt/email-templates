@@ -653,20 +653,18 @@ const CartSummary = (props) => {
         <div className="c-left-blk qa-mar-btm-05">Base price</div>
         <div className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
           {getSymbolFromCurrency(convertToCurrency)}
-          {basePrice ? getConvertedCurrency(basePrice) : ""}
+          {basePrice ? parseFloat(basePrice).toFixed(2) : ""}
         </div>
         <div className="c-left-blk qa-mar-btm-05">Qalara margin</div>
         <div className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
           <span style={{ textDecoration: "line-through", marginRight: "5px" }}>
             {getSymbolFromCurrency(convertToCurrency)}
-            {popoverData["qalaraSellerMargin"]
-              ? getConvertedCurrency(popoverData["qalaraSellerMargin"])
-              : ""}
+            {qalaraMargin ? parseFloat(qalaraMargin).toFixed(2) : ""}
           </span>
 
           <span style={{ color: "#02873A" }} className="qa-fw-b">
             {getSymbolFromCurrency(convertToCurrency)}
-            {popoverData["qalaraSellerMargin"] ? getConvertedCurrency(0) : ""}
+            {qalaraMargin ? parseFloat(0).toFixed(2) : ""}
           </span>
         </div>
         {qualityPrice > 0 && (
@@ -675,7 +673,7 @@ const CartSummary = (props) => {
         {qualityPrice > 0 && (
           <div className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
             {getSymbolFromCurrency(convertToCurrency)}
-            {qualityPrice ? getConvertedCurrency(qualityPrice) : ""}
+            {qualityPrice ? parseFloat(qualityPrice).toFixed(2) : ""}
           </div>
         )}
         {samplePrice > 0 && (
@@ -684,13 +682,13 @@ const CartSummary = (props) => {
         {samplePrice > 0 && (
           <div className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
             {getSymbolFromCurrency(convertToCurrency)}
-            {samplePrice ? getConvertedCurrency(samplePrice) : ""}
+            {samplePrice ? parseFloat(samplePrice).toFixed(2) : ""}
           </div>
         )}
         <div className="c-left-blk">Total</div>
         <div className="c-right-blk qa-txt-alg-rgt qa-fw-b">
           {getSymbolFromCurrency(convertToCurrency)}
-          {sellerTotalAmount ? getConvertedCurrency(sellerTotalAmount) : ""}
+          {sellerTotalAmount ? parseFloat(sellerTotalAmount).toFixed(2) : ""}
         </div>
       </div>
       <div className="qa-tc-white qa-fs-12 qa-lh qa-txt-alg-cnt">
@@ -771,13 +769,18 @@ const CartSummary = (props) => {
               quantity = 0,
               exfactoryListPrice = 0,
             } = items;
-            samplePrice = samplePrice + sampleCost;
-            testingPrice = testingPrice + qualityTestingCharge;
+            samplePrice =
+              samplePrice + parseFloat(getConvertedCurrency(sampleCost));
+            testingPrice =
+              testingPrice +
+              parseFloat(getConvertedCurrency(qualityTestingCharge));
             basePrice =
               basePrice +
               parseFloat(getConvertedCurrency(exfactoryListPrice)) * quantity;
           }
-
+          qalaraSellerMargin = parseFloat(
+            getConvertedCurrency(qalaraSellerMargin)
+          );
           totalAmount = basePrice + samplePrice + testingPrice;
           let mov = 0;
           for (let product of products) {
@@ -817,7 +820,7 @@ const CartSummary = (props) => {
                 </div>
                 <div className="c-right-blk qa-txt-alg-rgt qa-fw-b">
                   {getSymbolFromCurrency(convertToCurrency)}
-                  {getConvertedCurrency(totalAmount)}
+                  {parseFloat(totalAmount).toFixed(2)}
                   <div className="qa-txt-alg-rgt">
                     <Popover
                       placement="bottomRight"
@@ -900,7 +903,13 @@ const CartSummary = (props) => {
         <div className="qa-fw-b">
           <div className="cart-ship-pt">
             <div style={{ color: "#02873A" }} className="c-left-blk">
-              Shipping promotion applied{" "}
+              <span
+                style={{
+                  verticalAlign: "middle",
+                }}
+              >
+                Shipping promotion applied{" "}
+              </span>
               <Tooltip
                 overlayClassName="qa-tooltip"
                 placement="top"
@@ -912,7 +921,7 @@ const CartSummary = (props) => {
                 <span
                   style={{
                     cursor: "pointer",
-                    verticalAlign: "text-top",
+                    verticalAlign: "middle",
                   }}
                 >
                   <Icon
@@ -920,7 +929,6 @@ const CartSummary = (props) => {
                     style={{
                       width: "15px",
                       height: "15px",
-                      verticalAlign: "middle",
                     }}
                   />
                 </span>

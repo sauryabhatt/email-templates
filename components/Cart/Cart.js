@@ -53,12 +53,14 @@ const Cart = (props) => {
 
   useEffect(() => {
     if (props.user) {
+      setLoading(true);
       let { user = {} } = props || {};
       let { profileType = "" } = user || {};
       if (profileType === "BUYER") {
         getCartDetails();
       }
     } else {
+      console.log(props.isLoading)
       setLoading(false);
     }
   }, [props.user]);
@@ -76,6 +78,7 @@ const Cart = (props) => {
 const mapStateToProps = (state) => {
   return {
     cart: state.checkout.cart,
+    isLoading: state.userProfile.isLoading,
     brandNameList: state.userProfile.brandNameList,
     user: state.userProfile.userProfile,
   };
