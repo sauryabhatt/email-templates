@@ -41,9 +41,12 @@ function SellerListingMobile(props) {
     }
   }, [props.queryParams]);
 
+  useEffect(() => {
+    setDrawer(false);
+  }, [props.categoryTitle]);
+
   const showDrawer = () => {
-    let state = !drawer;
-    setDrawer(state);
+    setDrawer(true);
   };
 
   const onClose = () => {
@@ -62,7 +65,7 @@ function SellerListingMobile(props) {
   return (
     <div>
       <Layout className="seller-listing-container" id="product-listing-page">
-        <Layout style={{ background: "#f9f7f2", display: "block"}}>
+        <Layout style={{ background: "#f9f7f2", display: "block" }}>
           <BreadCrumb pageId="product-listing" categoryName={category} />
 
           <div className="qa-pad-0-30">

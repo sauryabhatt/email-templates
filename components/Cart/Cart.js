@@ -60,6 +60,7 @@ const Cart = (props) => {
         getCartDetails();
       }
     } else {
+      console.log(props.isLoading)
       setLoading(false);
     }
   }, [props.user]);
