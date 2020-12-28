@@ -586,7 +586,7 @@ function UserHeader(props) {
 
       <Menu.Item key="2" onClick={handleMyAccount}>
         <span style={{ fontFamily: "senregular", fontSize: "14px" }}>
-          <span className="qa-font-san qa-fs-14">Profile</span>
+          <span className="qa-font-san qa-fs-14">My Profile</span>
         </span>
       </Menu.Item>
       <Menu.Item key="3" onClick={handleVideoRequest}>
@@ -1073,7 +1073,7 @@ function UserHeader(props) {
                   )}
                   <Menu.Divider style={{ height: "0px" }} />
                   <Menu.Item key="6" onClick={handleMyAccount}>
-                    <span className="qa-fs-14 qa-font-san">Profile</span>
+                    <span className="qa-fs-14 qa-font-san">My Profile</span>
                   </Menu.Item>
                   <Menu.Item key="7" onClick={handleVideoRequest}>
                     <span className="qa-fs-14 qa-font-san">Video Meetings</span>
