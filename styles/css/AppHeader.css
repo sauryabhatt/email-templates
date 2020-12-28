@@ -88,18 +88,6 @@ and (orientation: portrait){
     border-color: #ffffff !important;
     margin-top: 18px;
   }
-  
-  /* .currency-converter{
-    margin-right: 160px;
-    top:20px;
-  }
-  .cart-icon{
-    margin-right: 50px;
-    margin-top:-25px;
-  }
-  .qa-cursor{
-   bottom: 20px;
-  } */
   .send-query-button-text {
     font-family: senregular;
     font-style: normal;
