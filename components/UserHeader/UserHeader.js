@@ -642,7 +642,7 @@ function UserHeader(props) {
             : {}
         }
       >
-        <span className="qa-fs-14 qa-font-san">Addresses</span>
+        <span className="qa-fs-14 qa-font-san">My Addresses</span>
       </Menu.Item>
       <Menu.Divider
         style={{
@@ -1129,7 +1129,7 @@ function UserHeader(props) {
                         : {}
                     }
                   >
-                    <span className="qa-fs-14 qa-font-san">Addresses</span>
+                    <span className="qa-fs-14 qa-font-san">My Addresses</span>
                   </Menu.Item>
                   <Menu.Divider style={{ height: "0.5px" }} />
                   {verificationStatus === "CREATED" &&

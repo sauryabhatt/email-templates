@@ -1477,7 +1477,7 @@ const UserAccount = (props) => {
                               id="addresses"
                               onClick={() => handleNavClick("addresses")}
                             >
-                              ADDRESSES
+                              MY ADDRESSES
                             </span>
                           </Col>
                         </Row>
