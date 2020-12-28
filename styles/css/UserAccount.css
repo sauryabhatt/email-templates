@@ -1259,5 +1259,5 @@ input:-webkit-autofill:active  {
 }
 .header-popup.ant-popover-placement-bottomRight
   .ant-badge-not-a-wrapper:not(.ant-badge-status) {
-  margin-top: px;
+  margin-top: 0px;
 }
