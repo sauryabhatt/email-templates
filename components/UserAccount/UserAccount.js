@@ -1383,6 +1383,32 @@ const UserAccount = (props) => {
                         sm={24}
                         md={24}
                         lg={24}
+                        className={currentNav == "orders" ? "side-nav-bg" : ""}
+                      >
+                        <Row>
+                          <Col xs={24} sm={24} md={24} lg={24}>
+                            <span
+                              className={
+                                "qa-font-san side-nav-item " +
+                                (currentNav == "orders"
+                                  ? "side-nav-active"
+                                  : "")
+                              }
+                              id="orders"
+                              onClick={() => handleNavClick("orders")}
+                            >
+                              MY ORDERS
+                            </span>
+                          </Col>
+                        </Row>
+                      </Col>
+                    </Row>
+                    <Row justify="space-between">
+                      <Col
+                        xs={24}
+                        sm={24}
+                        md={24}
+                        lg={24}
                         className={currentNav == "quote" ? "side-nav-bg" : ""}
                       >
                         <Row>
@@ -1395,7 +1421,7 @@ const UserAccount = (props) => {
                               id="quote"
                               onClick={() => handleNavClick("quote")}
                             >
-                              MY QUOTATION
+                              MY QUOTATIONS
                             </span>
                           </Col>
                         </Row>
@@ -1424,32 +1450,6 @@ const UserAccount = (props) => {
                               onClick={() => handleNavClick("collections")}
                             >
                               MY COLLECTIONS
-                            </span>
-                          </Col>
-                        </Row>
-                      </Col>
-                    </Row>
-                    <Row justify="space-between">
-                      <Col
-                        xs={24}
-                        sm={24}
-                        md={24}
-                        lg={24}
-                        className={currentNav == "orders" ? "side-nav-bg" : ""}
-                      >
-                        <Row>
-                          <Col xs={24} sm={24} md={24} lg={24}>
-                            <span
-                              className={
-                                "qa-font-san side-nav-item " +
-                                (currentNav == "orders"
-                                  ? "side-nav-active"
-                                  : "")
-                              }
-                              id="orders"
-                              onClick={() => handleNavClick("orders")}
-                            >
-                              MY ORDERS
                             </span>
                           </Col>
                         </Row>
@@ -1816,7 +1816,7 @@ const UserAccount = (props) => {
                 onFinish={onFinish}
                 form={form}
                 scrollToFirstError
-                style={edit ? { opacity: "0.6" } : {}}
+                style={edit ? { opacity: "0.8" } : {}}
               >
                 <p className="label-paragraph">Your first name</p>
                 <Form.Item

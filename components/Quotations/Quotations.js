@@ -161,7 +161,7 @@ const Quotations = (props) => {
                 className="qa-fs-22 qa-font-san qa-fw-b"
                 style={{ color: "#191919", letterSpacing: "0.2px" }}
               >
-                MY QUOTATION
+                MY QUOTATIONS
               </p>
             </div>
           </Col>
