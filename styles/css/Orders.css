@@ -191,7 +191,6 @@
 .order-card-body img {
     height: 78px;
     width: 90px;
-    margin-right: 20px;
 }
 .order-card-details-tile {
     display: flex;
@@ -211,4 +210,26 @@
     line-height: 16px;
     text-decoration: underline;
     font-weight: bold;
+}
+.place-hold{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 17px;
+  color: #fff;
+
+}
+.place-hold:before{
+  content: "";
+  position: absolute;
+  background-color: #191919;
+  opacity: 0.7;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
 }
