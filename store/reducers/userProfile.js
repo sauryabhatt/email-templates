@@ -76,6 +76,7 @@ const userProfile = (state = initialState, action) => {
       return {
         ...state,
         orders: action.payload.orders,
+        typeOrder: action.payload.typeOrder,
         isOrderAvailable: true
       };
 

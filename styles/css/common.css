@@ -149,6 +149,14 @@
 .qa-txt-alg-lft {
   text-align: left;
 }
+.qa-flex-row {
+  display: flex;
+  flex-direction: row;
+}
+.qa-flex-column {
+  display: flex;
+  flex-direction: column;
+}
 .qa-mar-auto-4 {
   margin: 0 40px;
 }
@@ -516,6 +524,12 @@
 .qa-sm-color {
   color: #874439;
   line-height: 130%;
+}
+.qa-green-color{
+  color: #02873A;
+}
+.qa-grey-color{
+  color: #565959;
 }
 .qa-lh {
   line-height: 130%;
