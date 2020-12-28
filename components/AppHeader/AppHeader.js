@@ -714,11 +714,12 @@ function AppHeader(props) {
                 </div>
               </Button>
               <div>
-                <CurrencyConverter mobile={false} />
-                <Link
+                <CurrencyConverter 
+                  mobile={false} />
+                <Link className="currency-converter"
                   href="/cart"
                   style={{
-                    textDecoration: "none",
+                    textDecoration: "none"                    
                   }}
                 >
                   <a>
@@ -727,8 +728,7 @@ function AppHeader(props) {
                       className="cart-icon"
                       style={{
                         width: "32px",
-                        verticalAlign: "middle",
-                        marginRight: "20px",
+                        verticalAlign: "middle",               
                         cursor: "pointer",
                       }}
                     />
@@ -739,6 +739,7 @@ function AppHeader(props) {
                   content={userMenu}
                   trigger="click"
                   overlayClassName="header-popup"
+                 
                 >
                   <div className="my-account-header qa-cursor">My Account</div>
                   <span>
@@ -750,7 +751,7 @@ function AppHeader(props) {
                         verticalAlign: "middle",
                         width: "32px",
                       }}
-                    />
+                    /> 
                   </span>
                 </Popover>
               </div>
