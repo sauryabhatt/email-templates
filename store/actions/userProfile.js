@@ -469,7 +469,7 @@ export const getOrders = (token) => async (dispatch) => {
         }
         if(e.status === "DELIVERED"){
           typeOrder.delivered.push(e)
-        }else if(e.status === "CANCELLED"){
+        }else if(e.status === "CANCELED"){
           typeOrder.cancelled.push(e)
         }else {
           typeOrder.open.push(e)

@@ -11,6 +11,18 @@ const OrderCard = (props) => {
   const {order} = props
   const [popover, setPopover] = useState(false);
 
+  const diff_hours = (dt2, dt1) => {
+    var diff = (dt2.getTime() - dt1.getTime()) / 1000;
+    diff /= 60 * 60;
+    return Math.abs(Math.round(diff));
+  };
+  let {
+    orderedDate = "",
+    subOrders = [],
+    orderConfirmedDate = "",
+    paymentTime = "",
+  } = order;
+  let paymentTimeDiff = diff_hours(new Date(paymentTime), new Date());
   const downloadInvoice = (data) => {
     if (data) {
       var a = document.createElement("a");
@@ -44,7 +56,7 @@ const OrderCard = (props) => {
   };
   let priceBreakup = (
     <div className="breakup-popup qa-font-san">
-      <div className="qa-border-bottom qa-pad-btm-15 cart-prod-name">
+      <div className="qa-border-bottom qa-pad-btm-15 qa-fs-14 qa-fw-b">
         Order value  breakup
         <span
           onClick={() => {
@@ -212,7 +224,7 @@ const OrderCard = (props) => {
           </span>
         )}
         </div>
-        <div className="c-left-blk qa-mar-btm-05">Total order value</div>
+        <div className="c-left-blk qa-mar-btm-05 qa-fw-b">Total order value</div>
         <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
           {getSymbolFromCurrency(order && order.currency)}
           {order.total}
@@ -237,7 +249,7 @@ const OrderCard = (props) => {
             Order DATE
           </div>
           <div className="qa-fs-14 order-header-tile-content">
-            {moment(order.orderedDate).format("DD MMM YY")}
+            {moment(order.orderConfirmedDate).format("DD MMM YY")}
           </div>
         </div>
         <div className="order-card-headr-tile">
@@ -264,9 +276,9 @@ const OrderCard = (props) => {
                 <div className="qa-fs-14 odrer-header-title qa-sm-color qa-fw-b qa-cursor">
                   TRACK ORDER
                 </div>
-                <div className="qa-fs-14 order-header-tile-content qa-green-color">
+                {/*<div className="qa-fs-14 order-header-tile-content qa-green-color">
                   Arriving early.
-                </div>
+                </div>*/}
               </div>
 
             </React.Fragment>
@@ -289,7 +301,10 @@ const OrderCard = (props) => {
                   <div className="order-card-detail">
                     {e.products && e.products.length > 0
                       ? (e.products.map((p, i) => {
-                        return (order.orderType === "RTS" ? (
+                        if(i > 2){return null}
+                        return (
+                          <span style ={{position: "relative", marginRight: "20px"}}>
+                          {order.orderType === "RTS" ? (
                           <img
                             className="images"
                             onError={addDefaultSrc}
@@ -307,7 +322,9 @@ const OrderCard = (props) => {
                             }
                             alt="Order placeholder"
                           ></img>
-                        ))
+                        )}
+                            {i == 2 && e.products.length > 3 ? <span className="place-hold"> +3</span> : null}
+                          </span>)
                       })
 
                       ): null
