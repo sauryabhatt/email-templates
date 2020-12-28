@@ -8,14 +8,19 @@
 .trend-navigation:hover {
   color: #d9bb7f;
 }
-@media only screen and (min-width: 769px) {
+/*---i-pad Pro Only---*/
+@media only screen
+and (min-device-width: 1024px)
+and (max-device-width: 1024px)
+and (orientation: portrait){
+
   .app-header {
     height: 70px;
     padding: 0px 25px;
     background: #191919;
     /* background: transparent; */
     display: flex;
-    line-height: 0;
+    /* line-height: 0; */
     align-items: center;
   }
 
@@ -33,9 +38,15 @@
     background: #ffffff;
     border-radius: 8px;
     border-color: #ffffff !important;
-    margin-right: 15px;
+    margin:18px 0px 0px 20px;
   }
-
+  .user-profile-icon{
+    margin-top: -127px;
+    padding:0px 0px 0px 9px;
+  }
+  .my-account-header{
+    padding-right: 25px;
+  }
   .send-query-button-text {
     font-family: senregular;
     font-style: normal;
@@ -43,17 +54,73 @@
     font-size: 14x;
     text-transform: uppercase;
     color: #191919;
+    margin: 2px 0px 0px 0px;
   }
   .send-query-button.invite-access-button .send-query-button-text {
     color: #d9bb7f;
   }
+  
+}
+@media only screen and (min-width: 769px) {
+  .app-header {
+    height: 70px;
+    padding: 0px 25px;
+    background: #191919;
+    /* background: transparent; */
+    display: flex;
+    /* line-height: 0; */
+    align-items: center;
+  }
+
+  .app-header-home-button {
+    text-decoration: none;
+    color: #ffffff !important;
+    font-family: senregular;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+
+  .send-query-button {
+    background: #ffffff;
+    border-radius: 8px;
+    border-color: #ffffff !important;
+    margin-top: 18px;
+  }
+  
+  /* .currency-converter{
+    margin-right: 160px;
+    top:20px;
+  }
+  .cart-icon{
+    margin-right: 50px;
+    margin-top:-25px;
+  }
+  .qa-cursor{
+   bottom: 20px;
+  } */
+  .send-query-button-text {
+    font-family: senregular;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14x;
+    text-transform: uppercase;
+    color: #191919;
+    margin: 2px 0px 0px 0px;
+  }
+
+  .send-query-button.invite-access-button .send-query-button-text {
+    color: #d9bb7f;
+  }
+  
 }
 
 .my-account-header {
   color: #fff;
   vertical-align: middle;
-  margin: auto 0px;
   font-family: senregular;
+  margin: auto 0px;
   letter-spacing: 0.03em;
   display: inline-block;
 }
