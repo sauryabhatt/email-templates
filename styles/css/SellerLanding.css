@@ -222,6 +222,9 @@
   .seller-landing-container {
     margin-bottom: -10px;
   }
+  .qa-button.book-video-btn{
+    font-size:12px !important;
+  }
 }
 @media only screen and (max-width: 768px) {
   .certification-block .certificate-icon {
