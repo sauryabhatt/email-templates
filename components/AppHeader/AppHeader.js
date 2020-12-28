@@ -703,23 +703,23 @@ function AppHeader(props) {
                 justifyContent: "flex-end",
               }}
             >
-              <Button
-                className="send-query-button"
-                onClick={() => {
-                  setVisible(true);
-                }}
-              >
-                <div className="send-query-button-text qa-rfq-button">
-                  Request for Quote
-                </div>
-              </Button>
               <div>
-                <CurrencyConverter 
-                  mobile={false} />
-                <Link className="currency-converter"
+                <Button
+                  className="send-query-button"
+                  onClick={() => {
+                    setVisible(true);
+                  }}
+                >
+                  <div className="send-query-button-text qa-rfq-button">
+                    Request for Quote
+                  </div>
+                </Button>
+                <CurrencyConverter mobile={false} />
+                <Link
+                  className="currency-converter"
                   href="/cart"
                   style={{
-                    textDecoration: "none"                    
+                    textDecoration: "none",
                   }}
                 >
                   <a>
@@ -728,7 +728,8 @@ function AppHeader(props) {
                       className="cart-icon"
                       style={{
                         width: "32px",
-                        verticalAlign: "middle",               
+                        verticalAlign: "middle",
+                        marginRight: "20px",
                         cursor: "pointer",
                       }}
                     />
@@ -739,7 +740,6 @@ function AppHeader(props) {
                   content={userMenu}
                   trigger="click"
                   overlayClassName="header-popup"
-                 
                 >
                   <div className="my-account-header qa-cursor">My Account</div>
                   <span>
@@ -751,7 +751,7 @@ function AppHeader(props) {
                         verticalAlign: "middle",
                         width: "32px",
                       }}
-                    /> 
+                    />
                   </span>
                 </Popover>
               </div>
@@ -851,7 +851,6 @@ function AppHeader(props) {
                   theme="dark"
                 >
                   <Menu.Item key="rfq">
-                    {" "}
                     <Button
                       className="send-query-button"
                       onClick={() => {

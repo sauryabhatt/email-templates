@@ -9,11 +9,7 @@
   color: #d9bb7f;
 }
 /*---i-pad Pro Only---*/
-@media only screen
-and (min-device-width: 1024px)
-and (max-device-width: 1024px)
-and (orientation: portrait){
-
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1024px) and (orientation: portrait) {
   .app-header {
     height: 70px;
     padding: 0px 25px;
@@ -38,14 +34,9 @@ and (orientation: portrait){
     background: #ffffff;
     border-radius: 8px;
     border-color: #ffffff !important;
-    margin:18px 0px 0px 20px;
   }
-  .user-profile-icon{
-    margin-top: -127px;
-    padding:0px 0px 0px 9px;
-  }
-  .my-account-header{
-    padding-right: 25px;
+  .my-account-header {
+    padding-right: 5px;
   }
   .send-query-button-text {
     font-family: senregular;
@@ -54,12 +45,10 @@ and (orientation: portrait){
     font-size: 14x;
     text-transform: uppercase;
     color: #191919;
-    margin: 2px 0px 0px 0px;
   }
   .send-query-button.invite-access-button .send-query-button-text {
     color: #d9bb7f;
   }
-  
 }
 @media only screen and (min-width: 769px) {
   .app-header {
@@ -68,7 +57,7 @@ and (orientation: portrait){
     background: #191919;
     /* background: transparent; */
     display: flex;
-    /* line-height: 0; */
+    line-height: 0;
     align-items: center;
   }
 
@@ -86,7 +75,6 @@ and (orientation: portrait){
     background: #ffffff;
     border-radius: 8px;
     border-color: #ffffff !important;
-    margin-top: 18px;
   }
   .send-query-button-text {
     font-family: senregular;
@@ -95,13 +83,11 @@ and (orientation: portrait){
     font-size: 14x;
     text-transform: uppercase;
     color: #191919;
-    margin: 2px 0px 0px 0px;
   }
 
   .send-query-button.invite-access-button .send-query-button-text {
     color: #d9bb7f;
   }
-  
 }
 
 .my-account-header {
@@ -468,6 +454,7 @@ and (orientation: portrait){
     margin: auto 0 auto 0;
     height: 40px;
     margin-bottom: 20px;
+    padding: 2px 10px;
   }
 
   .send-query-button-text {
@@ -540,4 +527,15 @@ and (orientation: portrait){
 .header-popup .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
   background-color: transparent;
   color: #f9f7f2;
+}
+@media only screen and (min-width: 1200px) {
+  .app-header .send-query-button {
+    margin-right: 15px;
+  }
+}
+@media only screen and (min-width: 1024px) and (max-width: 1200px) {
+  .app-header .currency-conversion-block,
+  .app-header .anticon.cart-icon {
+    margin-right: 10px !important;
+  }
 }

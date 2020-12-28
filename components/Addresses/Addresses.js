@@ -1272,7 +1272,7 @@ const Addresses = (props) => {
                 </Col>
               </Row>
 
-              <Row className="qa-mar-top-3">
+              <Row>
                 <Col xs={24} sm={24} md={24} lg={24}>
                   <Row>
                     <Col
