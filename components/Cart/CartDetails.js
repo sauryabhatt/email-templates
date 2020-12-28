@@ -198,6 +198,7 @@ const CartDetails = (props) => {
     zipCode = "",
     phoneNumber = "",
     profileId = "",
+    dunsNumber = "",
   } = shippingAddressDetails || {};
   let shippingId = id;
   let mov = 0;
@@ -490,6 +491,7 @@ const CartDetails = (props) => {
       isDefault: values.isDefault === "yes" ? true : false,
       countryCode: selCountryCode,
       dialCode: dialCode,
+      dunsNumber: values.dunsNumber,
     };
     fetch(process.env.NEXT_PUBLIC_REACT_APP_CONTACTS_URL + "/contacts", {
       method: "POST",
@@ -537,6 +539,7 @@ const CartDetails = (props) => {
       isDefault: values.isDefault === "yes" ? true : false,
       countryCode: selCountryCode,
       dialCode: dialCode,
+      dunsNumber: values.dunsNumber,
     };
     fetch(
       process.env.NEXT_PUBLIC_REACT_APP_CONTACTS_URL + "/contacts/" + contactId,
@@ -1118,6 +1121,7 @@ const CartDetails = (props) => {
                         zipCode,
                         phoneNumber,
                         isDefault: "no",
+                        dunsNumber,
                       });
                       if (isDefault) {
                         form.setFieldsValue({ isDefault: "yes" });
@@ -1660,6 +1664,7 @@ const CartDetails = (props) => {
                           zipCode,
                           phoneNumber,
                           isDefault: "no",
+                          dunsNumber,
                         });
                         if (isDefault) {
                           form.setFieldsValue({ isDefault: "yes" });
@@ -2333,7 +2338,7 @@ const CartDetails = (props) => {
         onCancel={handleCancel}
         centered
         bodyStyle={{ padding: "30px", backgroundColor: "#f9f7f2" }}
-        width={550}
+        width={620}
         style={{ top: 5 }}
         className="cart-address-modal"
         forceRender
@@ -2409,6 +2414,7 @@ const CartDetails = (props) => {
                       state = "",
                       zipCode = "",
                       phoneNumber = "",
+                      dunsNumber = "",
                     } = address || {};
 
                     let shippingAddr = "";
@@ -2466,6 +2472,7 @@ const CartDetails = (props) => {
                               zipCode,
                               phoneNumber,
                               isDefault: "no",
+                              dunsNumber,
                             });
                             if (isDefault) {
                               form.setFieldsValue({ isDefault: "yes" });
@@ -2794,6 +2801,21 @@ const CartDetails = (props) => {
                 lg={12}
                 xl={12}
                 className="qa-pad-lft-08"
+              >
+                <div className="address-label">
+                  ABN / VAT / EORI / UEN / Tax Number
+                </div>
+                <Form.Item name="dunsNumber">
+                  <Input />
+                </Form.Item>
+              </Col>
+              <Col
+                xs={24}
+                sm={24}
+                md={12}
+                lg={12}
+                xl={12}
+                className="qa-pad-rgt-08"
               >
                 <div className="address-label">Default address</div>
                 <Form.Item
