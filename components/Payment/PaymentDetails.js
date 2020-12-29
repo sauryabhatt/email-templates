@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { useState, useEffect } from "react";
-import { Row, Col, Radio, Modal } from "antd";
+import { Row, Col, Radio } from "antd";
 import Icon, {
   UpOutlined,
   DownOutlined,
@@ -77,7 +77,6 @@ const PaymentDetails = (props) => {
     zipCode +
     ", " +
     phoneNumber;
-  const [modal, showModal] = useState(false);
   const [paymentValue, setPaymentValue] = useState("");
   const [showCart, setShowCart] = useState(false);
   const [showShip, setShowShip] = useState(false);
@@ -185,10 +184,6 @@ const PaymentDetails = (props) => {
 
   const onChange = (e) => {
     setPaymentValue(e.target.value);
-  };
-
-  const handleCancel = () => {
-    showModal(false);
   };
 
   let today = new Date();
@@ -1378,17 +1373,6 @@ const PaymentDetails = (props) => {
           )}
         </Col>
       )}
-      <Modal
-        visible={modal}
-        footer={null}
-        closable={false}
-        onCancel={handleCancel}
-        centered
-        bodyStyle={{ padding: "20px 30px", backgroundColor: "#f9f7f2" }}
-        width={750}
-        style={{ top: 5 }}
-        className="opt-service-modal"
-      ></Modal>
     </Row>
   );
 };
