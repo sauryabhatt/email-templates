@@ -3573,7 +3573,7 @@ const ProductDetails = (props) => {
                     {airData ? (
                       <span>
                         {airData["tat"] ? airData["tat"] - 3 : "0"}-
-                        {airData["tat"] ? airData["tat"] : "0"} Days
+                        {airData["tat"] ? airData["tat"] : "0"} days
                       </span>
                     ) : (
                       "-"
@@ -3670,7 +3670,7 @@ const ProductDetails = (props) => {
                     {seaData ? (
                       <span>
                         {seaData["tat"] ? seaData["tat"] - 7 : "0"}-
-                        {seaData["tat"] ? seaData["tat"] : "0"} Days
+                        {seaData["tat"] ? seaData["tat"] : "0"} days
                       </span>
                     ) : (
                       "-"

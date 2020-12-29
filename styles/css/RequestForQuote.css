@@ -221,12 +221,6 @@
     font-size: 14px;
   }
 
-  #send_query_form span:first-child {
-    font-weight: bold;
-    display: inline-block;
-    /*padding-bottom: 5px;*/
-  }
-
   #send-query-form .city-state-phone span {
     font-weight: normal;
   }

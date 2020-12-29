@@ -434,7 +434,7 @@ const RtsOrderReview = (props) => {
                                   ? data["tat"] -
                                     (shippingMode === "SEA" ? 7 : 3)
                                   : "0"}
-                                -{data["tat"] ? data["tat"] : "0"} Days
+                                -{data["tat"] ? data["tat"] : "0"} days
                               </span>
                             ) : (
                               "-"
@@ -1159,7 +1159,7 @@ const RtsOrderReview = (props) => {
                                   ? data["tat"] -
                                     (shippingMode === "SEA" ? 7 : 3)
                                   : "0"}
-                                -{data["tat"] ? data["tat"] : "0"} Days
+                                -{data["tat"] ? data["tat"] : "0"} days
                               </span>
                             ) : (
                               "-"

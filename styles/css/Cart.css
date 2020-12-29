@@ -854,3 +854,7 @@ a.qa-sm-color:hover {
 .payment-failure-section li::marker {
   color: #d9bb7f;
 }
+.price-breakup-popup .ant-popover-inner-content,
+.price-breakup-popup .ant-popover-arrow {
+  background-color: #f9f7f2;
+}

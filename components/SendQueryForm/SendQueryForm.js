@@ -275,11 +275,10 @@ const SendQueryForm = (props) => {
                 }
               />
             )}
-            <p className="heading">Request for quote</p>
+            <p className="heading">Sourcing Request</p>
             <p className="paragraph">
-              If you’re a buyer, we can help you source products from any
-              lifestyle category! Share your requirements below and we will get
-              back in 24 hours!
+              We can help you source products from any lifestyle category! Share
+              your requirements below and we will get back in 48 hours!
             </p>
           </Col>
         </Row>
@@ -297,23 +296,37 @@ const SendQueryForm = (props) => {
         >
           <Row justify="center">
             <Col span={20}>
-              <span className="label-heading">
-                What would you like help sourcing from India?
+              {/* <span className="label-heading">               
               </span>
-              <br />
-              <span className="label-paragraph">What are you looking for?</span>
+              <br /> */}
+              <div className="label-paragraph qa-lh">
+                Tell us about your brand / business to help us find the right
+                match.
+              </div>
               <Form.Item
                 name="category"
                 style={{ marginBottom: "1em" }}
                 className="modified-selector"
                 // label='I am looking for'
                 rules={[
-                  { required: true, message: "Please select a category." },
+                  {
+                    required: true,
+                    message: "Please tell us about your brand / business.",
+                  },
+                  {
+                    min: 25,
+                    max: 500,
+                    message: "Please enter message within 25-500 characters",
+                  },
                 ]}
               >
-                <Select placeholder="Select category">
+                {/* <Select placeholder="Select category">
                   {typeOfCategories}
-                </Select>
+                </Select> */}
+                <Input.TextArea
+                  value={"value"}
+                  autoSize={{ minRows: 1, maxRows: 4 }}
+                />
               </Form.Item>
               {/* <Form.Item
                         name="greeting"
@@ -335,11 +348,16 @@ const SendQueryForm = (props) => {
                             placeholder="Greeting"
                             autoSize={{ minRows: 1, maxRows: 5 }} />
                     </Form.Item> */}
-              <span className="label-paragraph">
+              {/* <span className="label-paragraph">
                 Please share product details (include product code with any
                 customization requirements, if available). The more details the
                 better.
-              </span>
+               
+              </span> */}
+              <div className="label-paragraph qa-lh">
+                Share a description of the type of products and styles or
+                services you're looking for.
+              </div>
               <Form.Item
                 name="requirementDetails"
                 style={{ marginBottom: "1em" }}
@@ -353,7 +371,7 @@ const SendQueryForm = (props) => {
                     message: "Please enter your requirement.",
                   },
                   {
-                    min: 5,
+                    min: 25,
                     max: 500,
                     message: "Please enter message within 25-500 characters",
                   },
@@ -384,10 +402,13 @@ const SendQueryForm = (props) => {
                             {children}
                         </Select>
                     </Form.Item> */}
-              <span className="label-paragraph ref-photos">
+              {/* <span className="label-paragraph ref-photos">
                 Please attach reference photos of designs you like.{" "}
                 <b>Highly recommended</b>
-              </span>
+              </span> */}
+              <div className="label-paragraph qa-lh ref-photos">
+                Attach reference images of designs if available.
+              </div>
               <br />
               <Form.Item
                 name="upload"
@@ -395,8 +416,8 @@ const SendQueryForm = (props) => {
                 // rules={[{ required: true, message: 'Please upload atleast one item.' }]}
                 // getValueFromEvent={normFile}
                 extra={
-                  <span className="label-paragraph max-size-upload">
-                    Max Size per attachment: 2Mb
+                  <span className="label-paragraph max-size-upload qa-mar-top-05">
+                    Max size per attachment: 2MB
                   </span>
                 }
                 style={{ marginBottom: "0.2em" }}
@@ -418,9 +439,10 @@ const SendQueryForm = (props) => {
                   {fileList.length >= 10 ? null : <PlusOutlined />}
                 </Upload>
               </Form.Item>
-              <span className="label-paragraph order-quantity">
-                What is the quantity that you're looking to order?*
-              </span>
+              <div className="label-paragraph qa-lh">
+                Share an indication of quantities per product (to find the right
+                price / supplier)*
+              </div>
               <Form.Item
                 name="quantity"
                 style={{ marginBottom: "1em" }}
@@ -449,7 +471,7 @@ const SendQueryForm = (props) => {
                 // placeholder="Quantity"
                 />
               </Form.Item>
-              <span className="label-paragraph">
+              {/* <span className="label-paragraph">
                 What is your target cost (USD)?
               </span>
               <Form.Item
@@ -475,8 +497,8 @@ const SendQueryForm = (props) => {
                 // max={1000000}
                 // placeholder="Target price per piece (In USD)"
                 />
-              </Form.Item>
-              <span className="label-paragraph">
+              </Form.Item> */}
+              {/* <span className="label-paragraph">
                 What is your required delivery date?
               </span>
               <Form.Item
@@ -488,7 +510,7 @@ const SendQueryForm = (props) => {
                   disabledDate={disabledDate}
                   style={{ width: "100%" }}
                 />
-              </Form.Item>
+              </Form.Item> */}
               <span className="label-paragraph">Destination Country*</span>
               <Form.Item
                 name="destinationCountry"
@@ -499,7 +521,9 @@ const SendQueryForm = (props) => {
               >
                 {country}
               </Form.Item>
-              <span className="label-paragraph">Destination Pin Code*</span>
+              <span className="label-paragraph">
+                Destination Pin / Zip Code*
+              </span>
               <Form.Item
                 name="zipcode"
                 style={{ marginBottom: "1em" }}
@@ -567,7 +591,7 @@ const SendQueryForm = (props) => {
                 // placeholder="Your Name"
                 />
               </Form.Item>
-              <span className="label-paragraph">Company name*</span>
+              {/* <span className="label-paragraph">Company name*</span>
               <Form.Item
                 name="companyName"
                 style={{ marginBottom: "1em" }}
@@ -586,7 +610,7 @@ const SendQueryForm = (props) => {
                 <Input
                 // placeholder="Company Name"
                 />
-              </Form.Item>
+              </Form.Item> */}
               <span className="label-paragraph">Email address*</span>
               <Form.Item
                 name="emailId"

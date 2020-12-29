@@ -241,25 +241,18 @@
   background: rgba(217, 187, 127, 0.1);
   border-radius: 15px;
   border: none;
+  height: 75px;
+  width: 75px;
 }
 #send-query-form
   .ant-upload.ant-upload-select-picture-card
   span.anticon.anticon-plus {
   background: #d9bb7f;
-  width: 36px;
-  height: 36px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   color: #fff;
-  padding-top: 11px;
-  margin-top: -2px;
-}
-
-@media only screen and (min-width: 768px){
-  #send-query-form
-  .ant-upload.ant-upload-select-picture-card
-  span.anticon.anticon-plus {
-    margin-top: 27px;
-  }
+  padding-top: 8px;
 }
 
 .country-selector .ant-select-selection-search-input {

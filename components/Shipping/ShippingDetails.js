@@ -726,7 +726,7 @@ const ShippingDetails = (props) => {
                                       {airData[shippingTerm]["tat"]
                                         ? airData[shippingTerm]["tat"]
                                         : "0"}{" "}
-                                      Days
+                                      days
                                     </span>
                                   ) : (
                                     "-"
@@ -880,7 +880,7 @@ const ShippingDetails = (props) => {
                                   {seaData[shippingTerm]["tat"]
                                     ? seaData[shippingTerm]["tat"]
                                     : "0"}{" "}
-                                  Days
+                                  days
                                 </div>
                               </div>
                             </div>
@@ -974,7 +974,7 @@ const ShippingDetails = (props) => {
                       </div>
                       <div className="c-right-blk">
                         <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
-                          7 Days
+                          7 days
                         </div>
                       </div>
                     </div>
@@ -1612,7 +1612,7 @@ const ShippingDetails = (props) => {
                                       {airData[shippingTerm]["tat"]
                                         ? airData[shippingTerm]["tat"]
                                         : "0"}{" "}
-                                      Days
+                                      days
                                     </span>
                                   ) : (
                                     "-"
@@ -1779,7 +1779,7 @@ const ShippingDetails = (props) => {
                                       {seaData[shippingTerm]["tat"]
                                         ? seaData[shippingTerm]["tat"]
                                         : "0"}{" "}
-                                      Days
+                                      days
                                     </span>
                                   ) : (
                                     "-"
@@ -1881,7 +1881,7 @@ const ShippingDetails = (props) => {
                     </div>
                     <div className="c-right-blk">
                       <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
-                        7 Days
+                        7 days
                       </div>
                     </div>
                   </div>
