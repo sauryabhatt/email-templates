@@ -2201,7 +2201,7 @@ const OrderReview = (props) => {
                         >
                           {shippingTerms === "DDU"
                             ? "Customs duties excluded*"
-                            : "Estimated custom, taxes & duties"}
+                            : "Estimated customs & duties*"}
                           {shippingTerms === "DDU" && (
                             <div>
                               <Popover
@@ -2237,7 +2237,7 @@ const OrderReview = (props) => {
                           {shippingTerms === "DDU" ? (
                             "NA"
                           ) : (
-                            <span>
+                            <span className="qa-fw-b">
                               {getSymbolFromCurrency(
                                 props.order && props.order.currency
                               )}
@@ -2384,7 +2384,7 @@ const OrderReview = (props) => {
                           {shippingTerms === "DDU" ? (
                             "NA"
                           ) : (
-                            <span>
+                            <span className="qa-fw-b">
                               {getSymbolFromCurrency(
                                 props.order && props.order.currency
                               )}
