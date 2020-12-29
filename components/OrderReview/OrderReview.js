@@ -549,15 +549,15 @@ const OrderReview = (props) => {
               lg={16}
               style={mediaMatch.matches ? { paddingTop: "5px" } : {}}
             >
-              <span
+              <div
                 className={
                   mediaMatch.matches
-                    ? "qa-font-san qa-tc-white qa-fs-14"
-                    : "qa-font-san qa-tc-white qa-fs-14"
+                    ? "qa-font-san qa-tc-white qa-fs-14 qa-mar-rgt-1 qa-lh"
+                    : "qa-font-san qa-tc-white qa-fs-14 qa-mar-rgt-1 qa-lh"
                 }
               >
                 Value of products purchased
-              </span>
+              </div>
             </Col>
             <Col
               xs={6}
@@ -2539,7 +2539,14 @@ const OrderReview = (props) => {
                     </Row>
 
                     <Row style={{ paddingTop: "10px" }}>
-                      <Col xs={18} sm={18} md={18} lg={16} xl={16}>
+                      <Col
+                        xs={18}
+                        sm={18}
+                        md={18}
+                        lg={16}
+                        xl={16}
+                        className="qa-pad-rgt-1"
+                      >
                         <div
                           className={
                             mediaMatch.matches

@@ -810,7 +810,7 @@ const CartSummary = (props) => {
               </div>
 
               <div className="cart-ship-pt qa-border-bottom">
-                <div className="c-left-blk">
+                <div className="c-left-blk qa-mar-rgt-1">
                   {total < mov ? (
                     <span style={{ color: "#AF0000" }}>
                       Add {getSymbolFromCurrency(convertToCurrency)}
