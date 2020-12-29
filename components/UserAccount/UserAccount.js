@@ -1758,7 +1758,7 @@ const UserAccount = (props) => {
             ""
           )}
 
-          {currentNav == "orderss" ? (
+          {currentNav == "orders" ? (
             mediaMatch.matches ? (
               <Orderss
                 handleShowOrder={handleShowOrder}
@@ -1774,7 +1774,7 @@ const UserAccount = (props) => {
             ""
           )}
 
-          {currentNav == "orders" ? (
+          {currentNav == "orderss" ? (
             mediaMatch.matches ? (
               <Orders
                 handleShowOrder={handleShowOrder}
