@@ -360,7 +360,7 @@ const OrderReview = (props) => {
               </span>
             </td>
             <td>
-              <div className="qa-font-san qa-fw-b qa-fs-12 qa-lh">
+              <div className="qa-font-san qa-fw-b qa-fs-12 qa-lh-m">
                 {product.productName}
               </div>
             </td>
@@ -464,7 +464,7 @@ const OrderReview = (props) => {
             </div>
           )}
         </div>
-        <div className="cart-info-text">
+        <div className=".qa-tc-white qa-fs-12 qa-lh qa-txt-alg-cnt">
           Note: Qalara margin may vary by total cart value{" "}
           <Link href="/FAQforwholesalebuyers">
             <a target="_blank" className="qa-sm-color qa-cursor">
@@ -612,8 +612,8 @@ const OrderReview = (props) => {
           <React.Fragment key={index}>
             <Col xs={18} sm={18} md={18} lg={0} xl={0} className="qa-mar-top-2">
               <div
-                className="qa-font-san qa-fs-12 qa-tc-white qa-lh"
-                style={{ lineHeight: "100%", letterSpacing: ".02em" }}
+                className="qa-font-san qa-fs-12 qa-tc-white qa-lh-m"
+                style={{ letterSpacing: ".02em" }}
               >
                 {product.productName}
               </div>
@@ -657,8 +657,16 @@ const OrderReview = (props) => {
             ) : (
               ""
             )}
-            <Col xs={24} sm={24} md={24} lg={0} className="qa-mar-top-2">
+            {/* <Col xs={24} sm={24} md={24} lg={0} className="qa-mar-top-2">
               <hr />
+            </Col> */}
+            <Col xs={24} sm={24} md={24} lg={0} className="qa-mar-top-05">
+              <span
+                className="qa-font-san qa-fs-14 qa-tc-white"
+                style={{ lineHeight: "100%", letterSpacing: ".02em" }}
+              >
+                Seller ID: {subOrder.sellerCode}
+              </span>
             </Col>
             <Col
               xs={24}
@@ -735,7 +743,7 @@ const OrderReview = (props) => {
                     className="qa-font-san qa-tc-white qa-fs-12"
                     style={{ lineHeight: "130%" }}
                   >
-                    {product.unit}
+                    {product.unitOfMeasure}
                   </span>
                 </Col>
                 <Col xs={18} sm={18} md={18} lg={0}>
@@ -762,13 +770,13 @@ const OrderReview = (props) => {
                   </span>
                 </Col>
                 <Col xs={18} sm={18} md={18} lg={0}>
-                  <span
-                    className="qa-font-san qa-fs-12 qa-tc-white"
-                    style={{ lineHeight: "100%", letterSpacing: ".02em" }}
+                  <div
+                    className="qa-font-san qa-fs-12 qa-tc-white qa-lh qa-mar-top-05"
+                    style={{ letterSpacing: ".02em" }}
                   >
                     Base price excl. margin and other charges (
                     {props.order && props.order.currency})
-                  </span>
+                  </div>
                 </Col>
                 <Col
                   xs={6}
@@ -953,33 +961,35 @@ const OrderReview = (props) => {
                     </span>
                   </Col>
                   <Col xs={22} sm={22} md={22} lg={18} xl={18}>
-                    <span
+                    <div
                       className={
                         mediaMatch.matches
-                          ? "qa-fs-14 qa-font-san qa-tc-white"
-                          : "qa-fs-12 qa-font-san qa-tc-white"
+                          ? "qa-fs-14 qa-font-san qa-tc-white qa-lh-m qa-mar-top-05"
+                          : "qa-fs-12 qa-font-san qa-tc-white qa-lh-m qa-mar-top-05"
                       }
-                      style={{ lineHeight: "100%", letterSpacing: "0.02em" }}
+                      style={{ letterSpacing: "0.02em" }}
                     >
+                      {props.user && props.user.orgName},{" "}
                       {props.order &&
                         props.order.shippingAddressDetails &&
                         props.order.shippingAddressDetails["addressLine1"]}
-                      ,
+                      ,{" "}
                       {props.order &&
                         props.order.shippingAddressDetails &&
                         props.order.shippingAddressDetails["addressLine2"]}
-                      ,
+                      ,{" "}
                       {props.order &&
                         props.order.shippingAddressDetails &&
                         props.order.shippingAddressDetails["city"]}
-                      ,
+                      ,{" "}
                       {props.order &&
                         props.order.shippingAddressDetails &&
-                        props.order.shippingAddressDetails["country"]}{" "}
+                        props.order.shippingAddressDetails["country"]}
+                      ,{" "}
                       {props.order &&
                         props.order.shippingAddressDetails &&
                         props.order.shippingAddressDetails["zipCode"]}
-                    </span>
+                    </div>
                   </Col>
                 </Row>
                 <Row style={{ paddingTop: "20px" }}>
@@ -1467,7 +1477,7 @@ const OrderReview = (props) => {
                             props.order.miscCharges.find(
                               (x) => x.chargeId === "LEAD_TIME"
                             ).amount}{" "}
-                          Days
+                          days
                         </span>
                       </Col>
                     </Row>
