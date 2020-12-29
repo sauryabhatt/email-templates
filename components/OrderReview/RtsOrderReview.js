@@ -1,14 +1,12 @@
 /** @format */
 
 import React, { useState, useEffect } from "react";
-import { Row, Col, Radio, Modal } from "antd";
+import { Row, Col, Radio } from "antd";
 import Icon, {
   UpOutlined,
   DownOutlined,
   CheckCircleOutlined,
-  CheckOutlined,
 } from "@ant-design/icons";
-import { Steps } from "antd";
 import { connect } from "react-redux";
 import getSymbolFromCurrency from "currency-symbol-map";
 import amexPayment from "../../public/filestore/amexPayment";
@@ -23,14 +21,13 @@ import _ from "lodash";
 import Spinner from "./../Spinner/Spinner";
 import Air from "../../public/filestore/air";
 import Sea from "../../public/filestore/sea";
-import alertIcon from "../../public/filestore/alertIcon";
-import deliveredCountryList from "./../../public/filestore/deliveredCountries.json";
 import { useKeycloak } from "@react-keycloak/ssr";
 import { getOrderByOrderId } from "../../store/actions";
 import { useRouter } from "next/router";
 import sellerList from "../../public/filestore/freeShippingSellers.json";
-
-const { Step } = Steps;
+import PaymentBanner from "../common/PaymentBanner";
+import Link from "next/link";
+import moment from "moment";
 
 const RtsOrderReview = (props) => {
   const { keycloak } = useKeycloak();
@@ -45,9 +42,10 @@ const RtsOrderReview = (props) => {
     shippingAddressDetails = "",
     orderId = "",
     shippingMode = "",
-    isFulfillable = false,
     miscCharges = [],
     promoDiscount = "",
+    shippingTerms = "",
+    typeOfOrder = "",
   } = cart || {};
   let {
     fullName = "",
@@ -80,14 +78,14 @@ const RtsOrderReview = (props) => {
     zipCode +
     ", " +
     phoneNumber;
-  const [modal, showModal] = useState(false);
   const [paymentValue, setPaymentValue] = useState("");
   const [showCart, setShowCart] = useState(false);
   const [showShip, setShowShip] = useState(false);
+  const [shippingTerm, setShippingTerm] = useState(false);
+  const [estimatedDelivery, setEstimatedDelivery] = useState(false);
   const mediaMatch = window.matchMedia("(min-width: 1024px)");
   const [data, setData] = useState({});
   const [isLoading, setLoading] = useState(true);
-  const [deliver, setDeliver] = useState(false);
 
   let totalCartValue = 0;
   let frieghtCharge = 0;
@@ -99,6 +97,11 @@ const RtsOrderReview = (props) => {
   let vat = 0;
   let dutyMax = 0;
   let dutyMin = 0;
+
+  let tat = 0;
+  if (data && data["tat"]) {
+    tat = data["tat"];
+  }
 
   for (let charge of miscCharges) {
     let { chargeId = "", amount = 0 } = charge;
@@ -187,14 +190,8 @@ const RtsOrderReview = (props) => {
 
   useEffect(() => {
     let { cart = "" } = props;
-    let { priceQuoteRef = "", shippingMode = "", shippingAddressDetails = {} } =
-      cart || {};
+    let { priceQuoteRef = "", shippingMode = "" } = cart || {};
     if (priceQuoteRef && shippingMode) {
-      let { country = "" } = shippingAddressDetails || {};
-      if (deliveredCountryList.includes(country)) {
-        setDeliver(true);
-      }
-
       fetch(
         `${process.env.NEXT_PUBLIC_REACT_APP_PRICE_QUOTATION_URL}/quotes/rts/${priceQuoteRef}?mode=${shippingMode}`,
         {
@@ -213,7 +210,8 @@ const RtsOrderReview = (props) => {
           }
         })
         .then((res) => {
-          setData(res);
+          let shippingTerm = shippingTerms ? shippingTerms.toLowerCase() : "";
+          setData(res[shippingTerm]);
           setLoading(false);
         })
         .catch((error) => {
@@ -229,9 +227,22 @@ const RtsOrderReview = (props) => {
     setPaymentValue(e.target.value);
   };
 
-  const handleCancel = () => {
-    showModal(false);
-  };
+  let today = new Date();
+  let deliveryDateMin = new Date();
+  let deliveryDateMax = new Date();
+
+  let eddMin = "";
+  let eddMax = "";
+  if (typeOfOrder === "ERTM") {
+    eddMin = deliveryDateMin.setDate(today.getDate() + 25 + tat);
+    eddMax = deliveryDateMax.setDate(today.getDate() + 35 + tat);
+  } else {
+    eddMin = deliveryDateMin.setDate(today.getDate() + 7 + tat);
+    eddMax = deliveryDateMax.setDate(today.getDate() + 10 + tat);
+  }
+
+  deliveryDateMin = new Date(eddMin);
+  deliveryDateMax = new Date(eddMax);
 
   if (isLoading) {
     return <Spinner />;
@@ -239,112 +250,163 @@ const RtsOrderReview = (props) => {
 
   return (
     <Row id="cart-details" className="cart-section qa-font-san">
-      <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>
-      <Col xs={0} sm={0} md={20} lg={20} xl={20}>
-        <Row>
-          <Col
-            xs={24}
-            sm={24}
-            md={24}
-            lg={24}
-            xl={24}
-            className="cart-title qa-mar-btm-2"
-          >
-            Payment
-          </Col>
-          <Col
-            xs={24}
-            sm={24}
-            md={15}
-            lg={15}
-            xl={15}
-            className="shipping-section"
-          >
-            <div className="qa-tc-white qa-mar-btm-2 cart-ship-pt qa-border-bottom">
-              <div className="qa-fw-b qa-mar-btm-05">Shipping to:</div>
-              <div className="">{shippingAddr}</div>
-            </div>
-            <div
-              className="cart-prod-title qa-pad-btm-05 qa-border-bottom qa-mar-btm-2 qa-cursor"
-              onClick={() => setShowShip(!showShip)}
+      {mediaMatch.matches && <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>}
+      {mediaMatch.matches && (
+        <Col xs={0} sm={0} md={20} lg={20} xl={20}>
+          <Row>
+            <Col
+              xs={24}
+              sm={24}
+              md={24}
+              lg={24}
+              xl={24}
+              className="cart-title qa-mar-btm-2"
             >
-              Shipping mode:{" "}
-              <span className="qa-fw-b qa-tc-white qa-font-san">
-                {shippingMode}
-              </span>
-              <span style={{ float: "right" }}>
-                {showShip ? (
-                  <UpOutlined style={{ fontSize: "12px" }} />
-                ) : (
-                  <DownOutlined style={{ fontSize: "12px" }} />
-                )}
-              </span>
-            </div>
+              Payment
+            </Col>
+            <Col
+              xs={24}
+              sm={24}
+              md={15}
+              lg={15}
+              xl={15}
+              className="shipping-section"
+            >
+              <div className="qa-tc-white qa-mar-btm-2 cart-ship-pt qa-border-bottom">
+                <div className="qa-mar-btm-05">Shipping to:</div>
+                <div className="">{shippingAddr}</div>
+              </div>
+              <div
+                className="cart-prod-title qa-pad-btm-05 qa-mar-btm-2 qa-cursor qa-border-bottom"
+                onClick={() => setShippingTerm(!shippingTerm)}
+              >
+                Shipping term:{" "}
+                <span className="qa-fw-b qa-tc-white qa-font-san">
+                  {shippingTerms.toUpperCase()}{" "}
+                  {shippingTerms.toLowerCase() === "ddu"
+                    ? "(Delivered Duty Unpaid)"
+                    : "(Delivered Duty Paid)"}
+                </span>
+                <span style={{ float: "right" }}>
+                  {shippingTerm ? (
+                    <UpOutlined style={{ fontSize: "12px" }} />
+                  ) : (
+                    <DownOutlined style={{ fontSize: "12px" }} />
+                  )}
+                </span>
+              </div>
+              {shippingTerm && (
+                <div className="qa-mar-btm-15 qa-lh">
+                  {shippingTerms.toLowerCase() === "ddu" ? (
+                    <span>
+                      Any applicable duties and taxes are paid directly by you
+                      to the freight/logistics partner during customs clearance
+                      or delivery as applicable.{" "}
+                      <Link href="/FAQforwholesalebuyers">
+                        <a target="_blank">
+                          <span className="qa-sm-color qa-cursor">
+                            Know more
+                          </span>
+                        </a>
+                      </Link>
+                    </span>
+                  ) : (
+                    <span>
+                      Any applicable duties and taxes are estimated and charged
+                      to you by Qalara and paid during customs clearance on your
+                      behalf.{" "}
+                      <Link href="/FAQforwholesalebuyers">
+                        <a target="_blank">
+                          <span className="qa-sm-color qa-cursor">
+                            Know more
+                          </span>
+                        </a>
+                      </Link>
+                    </span>
+                  )}
+                </div>
+              )}
+              <div
+                className="cart-prod-title qa-pad-btm-05 qa-border-bottom qa-mar-btm-2 qa-cursor"
+                onClick={() => setShowShip(!showShip)}
+              >
+                Shipping mode:{" "}
+                <span className="qa-fw-b qa-tc-white qa-font-san">
+                  {shippingMode}
+                </span>
+                <span style={{ float: "right" }}>
+                  {showShip ? (
+                    <UpOutlined style={{ fontSize: "12px" }} />
+                  ) : (
+                    <DownOutlined style={{ fontSize: "12px" }} />
+                  )}
+                </span>
+              </div>
 
-            {showShip && (
-              <Row className="qa-mar-btm-4">
-                <Col
-                  xs={12}
-                  sm={12}
-                  md={12}
-                  lg={12}
-                  xl={12}
-                  className="c-item-list qa-pad-2"
-                >
-                  <div className="qa-bg-light-theme qa-pad-2 qa-box-shadow shipping-mode-section">
-                    <div className="qa-pad-btm-15 qa-border-bottom">
-                      <span>
-                        {shippingMode === "SEA" ? (
-                          <Icon
-                            component={Sea}
-                            style={{ width: "28px", verticalAlign: "middle" }}
-                            className="air-icon"
-                          />
-                        ) : (
-                          <Icon
-                            component={Air}
-                            style={{ width: "28px", verticalAlign: "middle" }}
-                            className="air-icon"
-                          />
-                        )}
-                        <span className="qa-va-m">{shippingMode}</span>
-                      </span>
-                    </div>
-                    <div className="qa-pad-015 qa-dashed-border">
-                      <div className="c-left-blk qa-txt-alg-lft">
-                        <div className="cart-info-text">
-                          Estimated freight fees
-                        </div>
-                      </div>
-                      <div className="c-right-blk qa-txt-alg-lft">
-                        <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
-                          {data ? (
-                            <span>
-                              {getSymbolFromCurrency(convertToCurrency)}
-                              {getConvertedCurrency(
-                                data["frightCostMin"],
-                                true
-                              )}
-                              -{getSymbolFromCurrency(convertToCurrency)}
-                              {getConvertedCurrency(
-                                data["frightCostMax"],
-                                true
-                              )}
-                            </span>
+              {showShip && (
+                <Row className="qa-mar-btm-4">
+                  <Col
+                    xs={12}
+                    sm={12}
+                    md={12}
+                    lg={12}
+                    xl={12}
+                    className="c-item-list qa-pad-2"
+                  >
+                    <div className="qa-bg-light-theme qa-pad-2 qa-box-shadow shipping-mode-section">
+                      <div className="qa-pad-btm-15 qa-border-bottom">
+                        <span>
+                          {shippingMode === "SEA" ? (
+                            <Icon
+                              component={Sea}
+                              style={{ width: "28px", verticalAlign: "middle" }}
+                              className="air-icon"
+                            />
                           ) : (
-                            "-"
+                            <Icon
+                              component={Air}
+                              style={{ width: "28px", verticalAlign: "middle" }}
+                              className="air-icon"
+                            />
                           )}
+                          <span className="qa-va-m">{shippingMode}</span>
+                        </span>
+                      </div>
+                      <div className="qa-pad-015 qa-dashed-border">
+                        <div className="c-left-blk qa-txt-alg-lft">
+                          <div className="cart-info-text">
+                            Estimated freight fee*
+                          </div>
+                        </div>
+                        <div className="c-right-blk qa-txt-alg-lft">
+                          <div className="cart-prod-title qa-txt-alg-rgt qa-fw-b">
+                            {data ? (
+                              <span>
+                                {getSymbolFromCurrency(convertToCurrency)}
+                                {getConvertedCurrency(
+                                  data["frightCostMin"],
+                                  true
+                                )}
+                                -{getSymbolFromCurrency(convertToCurrency)}
+                                {getConvertedCurrency(
+                                  data["frightCostMax"],
+                                  true
+                                )}
+                              </span>
+                            ) : (
+                              "-"
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="qa-pad-015 qa-dashed-border">
+                      {/* <div className="qa-pad-015 qa-dashed-border">
                       <div className="c-left-blk qa-txt-alg-lft">
                         <div className="cart-info-text">
                           Estimated custom duties
                         </div>
                       </div>
                       <div className="c-right-blk">
-                        <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
+                        <div className="cart-prod-title qa-txt-alg-rgt">
                           {data ? (
                             <span>
                               {getSymbolFromCurrency(convertToCurrency)}
@@ -357,18 +419,30 @@ const RtsOrderReview = (props) => {
                           )}
                         </div>
                       </div>
-                    </div>
-                    <div className="qa-pad-015 qa-dashed-border">
-                      <div className="c-left-blk qa-txt-alg-lft">
-                        <div className="cart-info-text">Total lead time</div>
-                      </div>
-                      <div className="c-right-blk">
-                        <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
-                          {data ? <span>{data["tat"]} Days</span> : "-"}
+                    </div> */}
+                      <div className="qa-mar-top-15">
+                        <div className="c-left-blk qa-txt-alg-lft">
+                          <div className="cart-info-text">
+                            Shipping lead time
+                          </div>
+                        </div>
+                        <div className="c-right-blk">
+                          <div className="cart-prod-title qa-txt-alg-rgt qa-fw-b">
+                            {data ? (
+                              <span>
+                                {data["tat"]
+                                  ? data["tat"] -
+                                    (shippingMode === "SEA" ? 7 : 3)
+                                  : "0"}
+                                -{data["tat"] ? data["tat"] : "0"} Days
+                              </span>
+                            ) : (
+                              "-"
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="qa-pad-015">
+                      {/* <div className="qa-pad-015">
                       <div className="c-left-blk">
                         <div className="qa-fw-b">Total estimated charges</div>
                       </div>
@@ -393,344 +467,375 @@ const RtsOrderReview = (props) => {
                           *
                         </div>
                       </div>
+                    </div> */}
+                    </div>
+                  </Col>
+                </Row>
+              )}
+              <div
+                className="cart-prod-title qa-pad-btm-05 qa-border-bottom qa-mar-btm-2 qa-cursor"
+                onClick={() => setEstimatedDelivery(!estimatedDelivery)}
+              >
+                Estimated delivery date:{" "}
+                <span className="qa-fw-b qa-success">
+                  {tat && shippingMode ? (
+                    <span>
+                      {moment(deliveryDateMin).format("DD MMM YY")} -{" "}
+                      {moment(deliveryDateMax).format("DD MMM YY")}
+                    </span>
+                  ) : (
+                    ""
+                  )}
+                </span>
+                <span style={{ float: "right" }}>
+                  {estimatedDelivery ? (
+                    <UpOutlined style={{ fontSize: "12px" }} />
+                  ) : (
+                    <DownOutlined style={{ fontSize: "12px" }} />
+                  )}
+                </span>
+              </div>
+              {estimatedDelivery && (
+                <div className="qa-pad-btm-2" style={{ width: "70%" }}>
+                  <div className="qa-mar-btm-05">
+                    <div className="c-left-blk qa-txt-alg-lft qa-stitle">
+                      <li>Estimated production/ dispatch time</li>
+                    </div>
+                    <div className="c-right-blk qa-txt-alg-rgt">
+                      {typeOfOrder === "ERTM" ? "25-35" : "7-10"} days
                     </div>
                   </div>
-                </Col>
-              </Row>
-            )}
-            <Row>
-              <Col
-                xs={24}
-                sm={24}
-                md={24}
-                lg={24}
-                xl={24}
-                className="qa-mar-btm-2 qa-cursor"
-                onClick={() => setShowCart(!showCart)}
-              >
-                <div className="qa-fw-b cart-prod-title qa-pad-btm-05 qa-border-bottom qa-cursor">
-                  Shopping cart
-                  <span style={{ float: "right" }}>
-                    {showCart ? (
-                      <UpOutlined style={{ fontSize: "12px" }} />
-                    ) : (
-                      <DownOutlined style={{ fontSize: "12px" }} />
-                    )}
-                  </span>
+
+                  <div className="qa-mar-btm-05">
+                    <div className="c-left-blk qa-txt-alg-lft qa-stitle">
+                      <li>Estimated shipping lead time</li>
+                    </div>
+                    <div className="c-right-blk qa-txt-alg-rgt">
+                      {tat && shippingMode ? (
+                        <span>
+                          {tat - (shippingMode === "AIR" ? 3 : 7)}-{tat} days
+                        </span>
+                      ) : (
+                        "-"
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </Col>
-              {showCart && (
-                <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                  <div className="qa-pad-2 c-item-list qa-mar-btm-4">
-                    {_.map(subOrders, (order, i) => {
-                      let {
-                        sellerOrgName = "",
-                        products = "",
-                        sellerCode = "",
-                        total = 0,
-                        qalaraSellerMargin = 0,
-                        qualityTestingCharge = 0,
-                      } = order;
-                      let totalAmount =
-                        total + qalaraSellerMargin + qualityTestingCharge;
-                      return (
-                        <div
-                          className={`qa-bg-light-theme qa-pad-3 ${
-                            i < subOrders.length - 1 ? "qa-mar-btm-2" : ""
-                          }`}
-                          key={i}
-                        >
-                          <div className="cart-ship-pt qa-fw-b qa-border-bottom">
-                            <div className="qa-disp-table-cell">
-                              <Icon
-                                component={cartIcon}
-                                className="cart-icon"
-                                style={{
-                                  width: "20px",
-                                  verticalAlign: "middle",
-                                  marginRight: "8px",
-                                }}
-                              />
-                            </div>
-                            <div
-                              className="qa-disp-table-cell"
-                              style={{ width: "80%" }}
-                            >
-                              Seller ID: {sellerCode}
-                              {/* <span
-                            className="cart-delete qa-cursor"
-                            onClick={() => {
-                              setDeleteItem(sellerOrgName);
-                              setDeleteModal(true);
-                            }}
+              )}
+              <Row>
+                <Col
+                  xs={24}
+                  sm={24}
+                  md={24}
+                  lg={24}
+                  xl={24}
+                  className="qa-mar-btm-2 qa-cursor"
+                  onClick={() => setShowCart(!showCart)}
+                >
+                  <div className="qa-fw-b cart-prod-title qa-pad-btm-05 qa-border-bottom qa-cursor">
+                    Shopping cart
+                    <span style={{ float: "right" }}>
+                      {showCart ? (
+                        <UpOutlined style={{ fontSize: "12px" }} />
+                      ) : (
+                        <DownOutlined style={{ fontSize: "12px" }} />
+                      )}
+                    </span>
+                  </div>
+                </Col>
+                {showCart && (
+                  <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                    <div className="qa-pad-2 c-item-list qa-mar-btm-4">
+                      {_.map(subOrders, (order, i) => {
+                        let {
+                          sellerOrgName = "",
+                          products = "",
+                          sellerCode = "",
+                          total = 0,
+                          qalaraSellerMargin = 0,
+                          qualityTestingCharge = 0,
+                        } = order;
+                        let totalAmount =
+                          total + qalaraSellerMargin + qualityTestingCharge;
+                        return (
+                          <div
+                            className={`qa-bg-light-theme qa-pad-3 ${
+                              i < subOrders.length - 1 ? "qa-mar-btm-2" : ""
+                            }`}
+                            key={i}
                           >
-                            Delete cart
-                          </span> */}
+                            <div className="cart-ship-pt qa-border-bottom">
+                              <div className="qa-disp-table-cell">
+                                <Icon
+                                  component={cartIcon}
+                                  className="cart-icon"
+                                  style={{
+                                    width: "20px",
+                                    verticalAlign: "middle",
+                                    marginRight: "8px",
+                                  }}
+                                />
+                              </div>
+                              <div className="qa-disp-table-cell">
+                                Seller ID: {sellerCode}
+                                {/* <span
+                          className="cart-delete qa-cursor"
+                          onClick={() => {
+                            setDeleteItem(sellerOrgName);
+                            setDeleteModal(true);
+                          }}
+                        >
+                          Delete cart
+                        </span> */}
+                              </div>
                             </div>
-                          </div>
 
-                          {_.map(products, (product, j) => {
-                            let {
-                              articleId = "",
-                              color = "",
-                              image = "",
-                              isQualityTestingRequired = "",
-                              isSampleDeliveryRequired = "",
-                              productId = "",
-                              productName = "",
-                              quantity = "",
-                              size = "",
-                              total = "",
-                              isFulfillable = false,
-                              unitOfMeasure = "",
-                            } = product;
-                            quantity = parseInt(quantity);
+                            {_.map(products, (product, j) => {
+                              let {
+                                articleId = "",
+                                color = "",
+                                image = "",
+                                isQualityTestingRequired = "",
+                                isSampleDeliveryRequired = "",
+                                productId = "",
+                                productName = "",
+                                quantity = "",
+                                size = "",
+                                total = "",
+                                isFulfillable = false,
+                                unitOfMeasure = "",
+                              } = product;
+                              quantity = parseInt(quantity);
 
-                            return (
-                              <Row
-                                className={`${
-                                  isFulfillable === false
-                                    ? "qa-pad-20-0 oos-border qa-mar-btm-1"
-                                    : "qa-pad-20-0"
-                                }`}
-                                key={j}
-                              >
-                                <Col xs={24} sm={24} md={6} lg={6} xl={6}>
-                                  <div className="aspect-ratio-box">
-                                    <img
-                                      className="images"
-                                      src={image}
-                                      alt="Cart item"
-                                    ></img>
-                                  </div>
-                                </Col>
-                                <Col
-                                  xs={24}
-                                  sm={24}
-                                  md={9}
-                                  lg={9}
-                                  xl={9}
-                                  className="qa-pad-0-10"
+                              return (
+                                <Row
+                                  className={`${
+                                    isFulfillable === false
+                                      ? "qa-pad-20-0 oos-border qa-mar-btm-1"
+                                      : "qa-pad-20-0"
+                                  }`}
+                                  key={j}
                                 >
-                                  <div className="cart-prod-title qa-fw-b">
-                                    {productName}
-                                  </div>
-                                  <div className="cart-prod-title">
-                                    Item ID - {articleId}
-                                  </div>
-                                  <div className="cart-subtitle">{color}</div>
-                                  <div className="cart-subtitle">{size}</div>
-                                  <div className="cart-prod-title qa-mar-top-1">
-                                    Units: {quantity} {unitOfMeasure}
-                                  </div>
-                                  {isFulfillable === false && (
-                                    <div className="cart-sub-text p-out-of-stock">
-                                      This product is currently out of stock
+                                  <Col xs={24} sm={24} md={6} lg={6} xl={6}>
+                                    <div className="aspect-ratio-box">
+                                      <img
+                                        className="images"
+                                        src={image}
+                                        alt="Cart item"
+                                      ></img>
                                     </div>
-                                  )}
-                                </Col>
-                                <Col
-                                  xs={24}
-                                  sm={24}
-                                  md={9}
-                                  lg={9}
-                                  xl={9}
-                                  className="qa-mar-top-1"
-                                >
-                                  <div className="qa-txt-alg-rgt">
-                                    {isQualityTestingRequired && (
-                                      <div className="cart-subtitle qa-mar-btm-05">
-                                        <CheckCircleOutlined /> Quality testing
-                                      </div>
-                                    )}
-                                    {isSampleDeliveryRequired && (
-                                      <div className="cart-subtitle qa-mar-btm-2">
-                                        <CheckCircleOutlined /> Sample required
-                                      </div>
-                                    )}
-                                    <div className="cart-prod-title qa-fw-b">
-                                      {getSymbolFromCurrency(convertToCurrency)}
-                                      {total ? getConvertedCurrency(total) : ""}
+                                  </Col>
+                                  <Col
+                                    xs={24}
+                                    sm={24}
+                                    md={9}
+                                    lg={9}
+                                    xl={9}
+                                    className="qa-pad-0-10"
+                                  >
+                                    <div className="cart-prod-title qa-text-2line">
+                                      {productName}
                                     </div>
-                                    {(!sellerList.includes(sellerCode) ||
-                                      !(
-                                        miscCharges.find(
-                                          (x) =>
-                                            x.chargeId === "SELLER_DISCOUNT"
-                                        ) &&
-                                        miscCharges.find(
-                                          (x) =>
-                                            x.chargeId === "SELLER_DISCOUNT"
-                                        ).amount &&
-                                        miscCharges.find(
-                                          (x) =>
-                                            x.chargeId === "SELLER_DISCOUNT"
-                                        ).amount > 0
-                                      )) && (
-                                      <div className="cart-price-text">
-                                        Base price per unit excl. margin and
-                                        other charges
+                                    <div className="cart-prod-title">
+                                      Item ID - {articleId}
+                                    </div>
+                                    <div className="cart-subtitle">{color}</div>
+                                    <div className="cart-subtitle">{size}</div>
+                                    <div className="cart-prod-title qa-mar-top-1">
+                                      Units: {quantity} {unitOfMeasure}
+                                    </div>
+                                    {isFulfillable === false && (
+                                      <div className="cart-sub-text p-out-of-stock qa-mar-top-05">
+                                        This product is currently out of stock
                                       </div>
                                     )}
-                                    {miscCharges &&
-                                      miscCharges.length > 0 &&
-                                      miscCharges.find(
-                                        (x) => x.chargeId === "SELLER_DISCOUNT"
-                                      ) &&
-                                      miscCharges.find(
-                                        (x) => x.chargeId === "SELLER_DISCOUNT"
-                                      ).amount &&
-                                      miscCharges.find(
-                                        (x) => x.chargeId === "SELLER_DISCOUNT"
-                                      ).amount > 0 &&
-                                      sellerList.includes(sellerCode) && (
+                                  </Col>
+                                  <Col
+                                    xs={24}
+                                    sm={24}
+                                    md={9}
+                                    lg={9}
+                                    xl={9}
+                                    className="qa-mar-top-15"
+                                  >
+                                    <div className="qa-txt-alg-rgt">
+                                      {isQualityTestingRequired && (
+                                        <div className="cart-subtitle qa-mar-btm-05">
+                                          <CheckCircleOutlined /> Quality
+                                          testing
+                                        </div>
+                                      )}
+                                      {isSampleDeliveryRequired && (
+                                        <div className="cart-subtitle qa-mar-btm-2">
+                                          <CheckCircleOutlined /> Sample
+                                          required
+                                        </div>
+                                      )}
+                                      <div className="cart-prod-title qa-fw-b">
+                                        {getSymbolFromCurrency(
+                                          convertToCurrency
+                                        )}
+                                        {total
+                                          ? getConvertedCurrency(total)
+                                          : ""}
+                                      </div>
+                                      {!sellerList.includes(sellerCode) && (
+                                        <div className="cart-price-text">
+                                          Base price per unit excl. margin and
+                                          other charges
+                                        </div>
+                                      )}
+                                      {sellerList.includes(sellerCode) && (
                                         <div className="qa-offer-text qa-mar-top-15">
                                           FREE shipping
                                         </div>
                                       )}
-                                  </div>
-                                </Col>
-                              </Row>
-                            );
-                          })}
-                          <Row className="qa-pad-20-0">
-                            <Col
-                              xs={12}
-                              sm={12}
-                              md={12}
-                              lg={12}
-                              xl={12}
-                              className="cart-prod-title qa-fw-b"
-                            >
-                              SELLER CART VALUE
-                            </Col>
-                            <Col
-                              xs={12}
-                              sm={12}
-                              md={12}
-                              lg={12}
-                              xl={12}
-                              className="qa-txt-alg-rgt cart-prod-title qa-fw-b"
-                            >
-                              {getSymbolFromCurrency(convertToCurrency)}
-                              {total ? getConvertedCurrency(total) : ""}
-                            </Col>
-                          </Row>
-                        </div>
-                      );
-                    })}
+                                    </div>
+                                  </Col>
+                                </Row>
+                              );
+                            })}
+                            <Row className="qa-pad-20-0">
+                              <Col
+                                xs={12}
+                                sm={12}
+                                md={12}
+                                lg={12}
+                                xl={12}
+                                className="cart-prod-title qa-fw-b"
+                              >
+                                SELLER CART VALUE
+                              </Col>
+                              <Col
+                                xs={12}
+                                sm={12}
+                                md={12}
+                                lg={12}
+                                xl={12}
+                                className="qa-txt-alg-rgt cart-prod-title qa-fw-b"
+                              >
+                                {getSymbolFromCurrency(convertToCurrency)}
+                                {total ? getConvertedCurrency(total) : ""}
+                              </Col>
+                            </Row>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </Col>
+                )}
+              </Row>
+
+              <Row className="payment-section">
+                <Col
+                  xs={24}
+                  sm={24}
+                  md={24}
+                  lg={24}
+                  xl={24}
+                  className="qa-mar-btm-2"
+                >
+                  <div className="qa-fw-b cart-prod-title qa-pad-btm-05 qa-border-bottom">
+                    Select payment term:
                   </div>
                 </Col>
-              )}
-            </Row>
-
-            <Row className="payment-section">
-              <Col
-                xs={24}
-                sm={24}
-                md={24}
-                lg={24}
-                xl={24}
-                className="qa-mar-btm-2"
-              >
-                <div className="qa-fw-b cart-prod-title qa-pad-btm-05 qa-border-bottom">
-                  Select payment term:
-                </div>
-              </Col>
-              <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-                <div className="qa-pad-2 c-item-list">
-                  <div className="qa-bg-light-theme qa-pad-2">
-                    <Radio.Group onChange={onChange} value={paymentValue}>
-                      {/* <Radio value="payNow" className="qa-disp-ib">
-                        <span className="cart-prod-title qa-mar-btm-05">Pay now</span>
-                      </Radio>
-                      <div className="cart-subtitle payment-subtitle qa-mar-btm-2">
-                        Pay early to avail discounts
-                      </div> */}
-                      <Radio value="payViaPaypal" className="qa-disp-ib">
-                        <span className="cart-prod-title qa-mar-btm-05 qa-fw-b">
-                          Pay 20% now and 80% on delivery*
-                        </span>
-                      </Radio>
-                      <div className="cart-subtitle payment-subtitle qa-mar-btm-2">
-                        A charge for {getSymbolFromCurrency(convertToCurrency)}
-                        {parseFloat(totalCartValue).toFixed(2)} is created
-                        against your card but the amount debited from your card
-                        is the advance payable amount of{" "}
-                        {getSymbolFromCurrency(convertToCurrency)}
-                        {parseFloat(totalCartValue * 0.2).toFixed(2)}.{" "}
-                        <Link href="/FAQforwholesalebuyers">
-                          <a target="_blank" className="qa-sm-color qa-cursor">
-                            Refer Payment FAQs
-                          </a>
-                        </Link>
-                      </div>
-                      {/* <Radio value="net30Terms" className="qa-disp-ib">
-                        <span className="cart-prod-title qa-mar-btm-05">Net 30 terms</span>
-                      </Radio>
-                      <div className="cart-subtitle payment-subtitle qa-mar-btm-2">
-                        You will be charge 30 days after the products are
-                        delivered
-                      </div> */}
-                    </Radio.Group>
+                <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                  <div className="qa-pad-2 c-item-list">
+                    <div className="qa-bg-light-theme qa-pad-2">
+                      <Radio.Group onChange={onChange} value={paymentValue}>
+                        {/* <Radio value="payNow" className="qa-disp-ib">
+                      <span className="cart-prod-title qa-mar-btm-05">Pay now</span>
+                    </Radio>
+                    <div className="cart-subtitle payment-subtitle qa-mar-btm-2">
+                      Pay early to avail discounts
+                    </div> */}
+                        <Radio value="payViaPaypal" className="qa-disp-ib">
+                          <span className="cart-prod-title qa-mar-btm-05 qa-fw-b">
+                            Pay 20% now and 80% on delivery*
+                          </span>
+                        </Radio>
+                        <div className="cart-subtitle payment-subtitle qa-mar-btm-2">
+                          A charge for{" "}
+                          {getSymbolFromCurrency(convertToCurrency)}
+                          {parseFloat(totalCartValue).toFixed(2)} is created
+                          against your card but the amount debited from your
+                          card is the advance payable amount of{" "}
+                          {getSymbolFromCurrency(convertToCurrency)}
+                          {parseFloat(totalCartValue * 0.2).toFixed(2)}.{" "}
+                          <Link href="/FAQforwholesalebuyers">
+                            <a target="_blank">
+                              <span className="qa-sm-color qa-cursor">
+                                Refer Payment FAQs
+                              </span>
+                            </a>
+                          </Link>
+                        </div>
+                        {/* <Radio value="net30Terms" className="qa-disp-ib">
+                      <span className="cart-prod-title qa-mar-btm-05">Net 30 terms</span>
+                    </Radio>
+                    <div className="cart-subtitle payment-subtitle qa-mar-btm-2">
+                      You will be charge 30 days after the products are
+                      delivered
+                    </div> */}
+                      </Radio.Group>
+                    </div>
                   </div>
-                </div>
-                <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-btm-4 qa-mar-top-05">
-                  secure payment by credit cards and other payment modes{" "}
-                  <span style={{ float: "right", marginTop: "-5px" }}>
-                    <Icon
-                      component={paypalPayment}
-                      className="paypal-icon"
-                      style={{
-                        width: "52px",
-                        verticalAlign: "middle",
-                        marginRight: "8px",
-                      }}
-                    />
-                    <Icon
-                      component={mcPayment}
-                      className="mc-icon"
-                      style={{
-                        width: "36px",
-                        verticalAlign: "middle",
-                        marginRight: "8px",
-                      }}
-                    />
-                    <Icon
-                      component={visaPayment}
-                      className="visa-icon"
-                      style={{
-                        width: "42px",
-                        verticalAlign: "middle",
-                        marginRight: "5px",
-                      }}
-                    />
-                    <Icon
-                      component={amexPayment}
-                      className="amex-icon"
-                      style={{
-                        width: "35px",
-                        verticalAlign: "middle",
-                        marginRight: "8px",
-                      }}
-                    />
-                    <Icon
-                      component={discoverPayment}
-                      className="discover-icon"
-                      style={{
-                        width: "29px",
-                        verticalAlign: "middle",
-                      }}
-                    />
-                  </span>
-                </div>
-              </Col>
-            </Row>
-          </Col>
-          <Col xs={24} sm={24} md={1} lg={1} xl={1}></Col>
-          {mediaMatch.matches && (
-            <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-              {isFulfillable === false && (
+                  <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-btm-4 qa-mar-top-05">
+                    secure payment by credit cards and other payment modes{" "}
+                    <span style={{ float: "right", marginTop: "-5px" }}>
+                      <Icon
+                        component={paypalPayment}
+                        className="paypal-icon"
+                        style={{
+                          width: "52px",
+                          verticalAlign: "middle",
+                          marginRight: "8px",
+                        }}
+                      />
+                      <Icon
+                        component={mcPayment}
+                        className="mc-icon"
+                        style={{
+                          width: "36px",
+                          verticalAlign: "middle",
+                          marginRight: "8px",
+                        }}
+                      />
+                      <Icon
+                        component={visaPayment}
+                        className="visa-icon"
+                        style={{
+                          width: "42px",
+                          verticalAlign: "middle",
+                          marginRight: "5px",
+                        }}
+                      />
+                      <Icon
+                        component={amexPayment}
+                        className="amex-icon"
+                        style={{
+                          width: "35px",
+                          verticalAlign: "middle",
+                          marginRight: "8px",
+                        }}
+                      />
+                      <Icon
+                        component={discoverPayment}
+                        className="discover-icon"
+                        style={{
+                          width: "29px",
+                          verticalAlign: "middle",
+                        }}
+                      />
+                    </span>
+                  </div>
+                </Col>
+              </Row>
+            </Col>
+            <Col xs={24} sm={24} md={1} lg={1} xl={1}></Col>
+            {mediaMatch.matches && (
+              <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                {/* {isFulfillable === false && (
                 <div className="qa-pad-2 qa-mar-btm-2 cart-error-block display-flex cart-err">
                   <div>
                     <Icon
@@ -744,144 +849,149 @@ const RtsOrderReview = (props) => {
                   </div>
                   Please move out of stock products in order to proceed
                 </div>
-              )}
-              <CartSummary
-                id="payment"
-                enable={isFulfillable}
-                cart={cart}
-                user={user}
-                brandNames={brandNames}
-                currencyDetails={currencyDetails}
-                deliver={deliver}
-              />
-            </Col>
-          )}
-        </Row>
-      </Col>
-      <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>
+              )} */}
+                <PaymentBanner />
+                <CartSummary
+                  id="payment"
+                  // enable={isFulfillable}
+                  cart={cart}
+                  user={user}
+                  brandNames={brandNames}
+                  currencyDetails={currencyDetails}
+                />
+              </Col>
+            )}
+          </Row>
+        </Col>
+      )}
+      {mediaMatch.matches && <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>}
 
-      <Col xs={24} sm={24} md={0} lg={0} xl={0} className="qa-pad-0-20">
-        <Row>
-          <Col
-            xs={24}
-            sm={24}
-            md={24}
-            lg={24}
-            xl={24}
-            className="cart-title qa-mar-btm-2 "
-          >
-            Payment mode
-          </Col>
-          <Col
-            xs={24}
-            sm={24}
-            md={24}
-            lg={24}
-            xl={24}
-            className="payment-section"
-          >
-            <div className="qa-pad-1 c-item-list">
-              <div className="qa-bg-light-theme qa-pad-1">
-                <Radio.Group onChange={onChange} value={paymentValue}>
-                  {/* <Radio value="payNow" className="qa-disp-ib">
-                    <span className="cart-prod-title qa-mar-btm-05">Pay now</span>
-                  </Radio>
-                  <div className="cart-subtitle payment-subtitle qa-mar-btm-2">
-                    Pay early to avail discounts
-                  </div> */}
-                  <Radio value="payViaPaypal" className="qa-disp-ib">
-                    <span className="cart-prod-title qa-mar-btm-05 qa-fw-b">
-                      Pay 20% now and 80% on delivery*
-                    </span>
-                  </Radio>
-                  <div className="cart-subtitle payment-subtitle qa-mar-btm-2">
-                    A charge for {getSymbolFromCurrency(convertToCurrency)}
-                    {parseFloat(totalCartValue).toFixed(2)} is created against
-                    your card but the amount debited from your card is the
-                    advance payable amount of{" "}
-                    {getSymbolFromCurrency(convertToCurrency)}
-                    {parseFloat(totalCartValue * 0.2).toFixed(2)}.{" "}
-                    <Link href="/FAQforwholesalebuyers">
-                      <a target="_blank" className="qa-sm-color qa-cursor">
-                        Refer Payment FAQs
-                      </a>
-                    </Link>
-                  </div>
+      {!mediaMatch.matches && (
+        <Col xs={24} sm={24} md={24} lg={24} xl={24} className="qa-pad-0-20">
+          <Row>
+            {/* <Col
+              xs={24}
+              sm={24}
+              md={24}
+              lg={24}
+              xl={24}
+              className="cart-title qa-mar-btm-2 "
+            >
+              Payment mode
+            </Col> */}
+            <PaymentBanner />
+            <Col
+              xs={24}
+              sm={24}
+              md={24}
+              lg={24}
+              xl={24}
+              className="payment-section"
+            >
+              <div className="qa-pad-1 c-item-list">
+                <div className="qa-bg-light-theme qa-pad-1">
+                  <Radio.Group onChange={onChange} value={paymentValue}>
+                    {/* <Radio value="payNow" className="qa-disp-ib">
+                  <span className="cart-prod-title qa-mar-btm-05">Pay now</span>
+                </Radio>
+                <div className="cart-subtitle payment-subtitle qa-mar-btm-2">
+                  Pay early to avail discounts
+                </div> */}
+                    <Radio value="payViaPaypal" className="qa-disp-ib">
+                      <span className="cart-prod-title qa-mar-btm-05 qa-fw-b">
+                        Pay 20% now and 80% on delivery*
+                      </span>
+                    </Radio>
+                    <div className="cart-subtitle payment-subtitle qa-mar-btm-2">
+                      A charge for {getSymbolFromCurrency(convertToCurrency)}
+                      {parseFloat(totalCartValue).toFixed(2)} is created against
+                      your card but the amount debited from your card is the
+                      advance payable amount of{" "}
+                      {getSymbolFromCurrency(convertToCurrency)}
+                      {parseFloat(totalCartValue * 0.2).toFixed(2)}.{" "}
+                      <Link href="/FAQforwholesalebuyers">
+                        <a target="_blank">
+                          <span className="qa-sm-color qa-cursor">
+                            Refer Payment FAQs
+                          </span>
+                        </a>
+                      </Link>
+                    </div>
 
-                  {/* <Radio value="net30Terms" className="qa-disp-ib">
-                    <span className="cart-prod-title qa-mar-btm-05">Net 30 terms</span>
-                  </Radio>
-                  <div className="cart-subtitle payment-subtitle qa-mar-btm-2">
-                    You will be charge 30 days after the products are delivered
-                  </div> */}
-                </Radio.Group>
+                    {/* <Radio value="net30Terms" className="qa-disp-ib">
+                  <span className="cart-prod-title qa-mar-btm-05">Net 30 terms</span>
+                </Radio>
+                <div className="cart-subtitle payment-subtitle qa-mar-btm-2">
+                  You will be charge 30 days after the products are delivered
+                </div> */}
+                  </Radio.Group>
+                </div>
               </div>
-            </div>
-            <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-btm-4 qa-mar-top-05">
-              secure payment by credit cards and other payment modes{" "}
-              <span style={{ float: "right", marginTop: "-5px" }}>
-                <Icon
-                  component={paypalPayment}
-                  className="paypal-icon"
-                  style={{
-                    width: "52px",
-                    verticalAlign: "middle",
-                    marginRight: "8px",
-                  }}
-                />
-                <Icon
-                  component={mcPayment}
-                  className="mc-icon"
-                  style={{
-                    width: "32px",
-                    verticalAlign: "middle",
-                    marginRight: "8px",
-                  }}
-                />
-                <Icon
-                  component={visaPayment}
-                  className="visa-icon"
-                  style={{
-                    width: "32px",
-                    verticalAlign: "middle",
-                    marginRight: "5px",
-                  }}
-                />
-                <Icon
-                  component={amexPayment}
-                  className="amex-icon"
-                  style={{
-                    width: "28px",
-                    verticalAlign: "middle",
-                    marginRight: "8px",
-                  }}
-                />
-                <Icon
-                  component={discoverPayment}
-                  className="discover-icon"
-                  style={{
-                    width: "25px",
-                    verticalAlign: "middle",
-                  }}
-                />
-              </span>
-            </div>
-          </Col>
-          {/* <Button className="qa-button qa-fs-12 cart-opt-service qa-mar-top-2">
-            Proceed to checkout
-          </Button>
-          <div className="qa-disp-ib cart-info-text qa-mar-top-05 qa-mar-btm-3">
-            Transactions are secure and encrypted
-          </div> */}
-          <Col
-            xs={24}
-            sm={24}
-            md={8}
-            lg={8}
-            xl={8}
-            className="qa-pad-btm-2 qa-mar-btm-1"
-          >
-            {isFulfillable === false && (
+              <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-btm-4 qa-mar-top-05">
+                secure payment by credit cards and other payment modes{" "}
+                <span style={{ float: "right", marginTop: "-5px" }}>
+                  <Icon
+                    component={paypalPayment}
+                    className="paypal-icon"
+                    style={{
+                      width: "52px",
+                      verticalAlign: "middle",
+                      marginRight: "8px",
+                    }}
+                  />
+                  <Icon
+                    component={mcPayment}
+                    className="mc-icon"
+                    style={{
+                      width: "32px",
+                      verticalAlign: "middle",
+                      marginRight: "8px",
+                    }}
+                  />
+                  <Icon
+                    component={visaPayment}
+                    className="visa-icon"
+                    style={{
+                      width: "32px",
+                      verticalAlign: "middle",
+                      marginRight: "5px",
+                    }}
+                  />
+                  <Icon
+                    component={amexPayment}
+                    className="amex-icon"
+                    style={{
+                      width: "28px",
+                      verticalAlign: "middle",
+                      marginRight: "8px",
+                    }}
+                  />
+                  <Icon
+                    component={discoverPayment}
+                    className="discover-icon"
+                    style={{
+                      width: "25px",
+                      verticalAlign: "middle",
+                    }}
+                  />
+                </span>
+              </div>
+            </Col>
+            {/* <Button className="qa-button qa-fs-12 cart-opt-service qa-mar-top-2">
+          Proceed to checkout
+        </Button>
+        <div className="qa-disp-ib cart-info-text qa-mar-top-05 qa-mar-btm-3">
+          Transactions are secure and encrypted
+        </div> */}
+            <Col
+              xs={24}
+              sm={24}
+              md={24}
+              lg={24}
+              xl={24}
+              className="qa-pad-btm-2 qa-mar-btm-1"
+            >
+              {/* {isFulfillable === false && (
               <div className="qa-pad-2 qa-mar-btm-2 cart-error-block display-flex cart-err">
                 <div>
                   <Icon
@@ -895,108 +1005,169 @@ const RtsOrderReview = (props) => {
                 </div>
                 Please move out of stock products in order to proceed
               </div>
-            )}
-            <CartSummary
-              id="payment"
-              enable={isFulfillable}
-              cart={cart}
-              user={user}
-              brandNames={brandNames}
-              currencyDetails={currencyDetails}
-              deliver={deliver}
-            />
-          </Col>
+            )} */}
+              <CartSummary
+                id="payment"
+                // enable={isFulfillable}
+                cart={cart}
+                user={user}
+                brandNames={brandNames}
+                currencyDetails={currencyDetails}
+              />
+            </Col>
 
-          <Col
-            xs={24}
-            sm={24}
-            md={15}
-            lg={15}
-            xl={15}
-            className="shipping-section"
-          >
-            <div className="qa-tc-white qa-mar-btm-1 cart-ship-pt">
-              <div className="qa-fw-b qa-mar-btm-05">Shipping to:</div>
-              <div className="qa-border-bottom qa-pad-btm-1">
-                {shippingAddr}
-              </div>
-            </div>
-            <div
-              className="cart-ship-pt qa-border-bottom qa-cursor qa-tc-white qa-font-san"
-              onClick={() => setShowShip(!showShip)}
+            <Col
+              xs={24}
+              sm={24}
+              md={24}
+              lg={24}
+              xl={24}
+              className="shipping-section"
             >
-              <span className="qa-fw-b">Shipping mode:</span> {shippingMode}
-              <span style={{ float: "right" }}>
-                {showShip ? (
-                  <UpOutlined style={{ fontSize: "12px" }} />
-                ) : (
-                  <DownOutlined style={{ fontSize: "12px" }} />
-                )}
-              </span>
-            </div>
-            {showShip && (
-              <div className="qa-pad-top-2 qa-pad-btm-2 qa-horizontal-scroll">
-                <div>
-                  <div className="qa-bg-dark-theme qa-pad-2 qa-box-shadow">
-                    <div className="qa-pad-btm-15 qa-border-bottom">
-                      <span>
-                        {shippingMode === "SEA" ? (
-                          <Icon
-                            component={Sea}
-                            style={{ width: "28px", verticalAlign: "middle" }}
-                            className="air-icon"
-                          />
-                        ) : (
-                          <Icon
-                            component={Air}
-                            style={{ width: "28px", verticalAlign: "middle" }}
-                            className="air-icon"
-                          />
-                        )}
-                        <span className="qa-va-m">{shippingMode}</span>
-                      </span>
-                    </div>
-                    <div className="qa-pad-015 qa-dashed-border">
-                      <div className="c-left-blk qa-txt-alg-lft">
-                        <div className="cart-info-text">
-                          Estimated freight fees
+              <div className="qa-tc-white cart-ship-pt">
+                <div className="qa-fw-b qa-mar-btm-05">Shipping to:</div>
+                <div className="qa-border-bottom qa-pad-btm-1">
+                  {shippingAddr}
+                </div>
+              </div>
+              <div
+                className="cart-prod-title qa-pad-btm-1 qa-mar-btm-1 qa-border-bottom qa-cursor"
+                onClick={() => setShippingTerm(!shippingTerm)}
+              >
+                Shipping term:{" "}
+                <span className="qa-fw-b">
+                  {shippingTerms.toUpperCase()}{" "}
+                  {/* {shippingTerms.toLowerCase() === "ddu"
+                  ? "(Delivered Duty Unpaid)"
+                  : "(Delivered Duty Paid)"} */}
+                </span>
+                <span style={{ float: "right" }}>
+                  {shippingTerm ? (
+                    <UpOutlined style={{ fontSize: "12px" }} />
+                  ) : (
+                    <DownOutlined style={{ fontSize: "12px" }} />
+                  )}
+                </span>
+              </div>
+              {shippingTerm && (
+                <div className="qa-pad-btm-2 qa-lh">
+                  {shippingTerms.toLowerCase() === "ddu" ? (
+                    <span>
+                      Any applicable duties and taxes are paid directly by you
+                      to the freight/logistics partner during customs clearance
+                      or delivery as applicable.{" "}
+                      <Link href="/FAQforwholesalebuyers">
+                        <a target="_blank">
+                          <span className="qa-sm-color qa-cursor">
+                            Know more
+                          </span>
+                        </a>
+                      </Link>
+                    </span>
+                  ) : (
+                    <span>
+                      Any applicable duties and taxes are estimated and charged
+                      to you by Qalara and paid during customs clearance on your
+                      behalf.{" "}
+                      <Link href="/FAQforwholesalebuyers">
+                        <a target="_blank">
+                          <span className="qa-sm-color qa-cursor">
+                            Know more
+                          </span>
+                        </a>
+                      </Link>
+                    </span>
+                  )}
+                </div>
+              )}
+              <div
+                className="cart-prod-title qa-pad-btm-1 qa-border-bottom qa-cursor"
+                onClick={() => setShowShip(!showShip)}
+              >
+                Shipping mode: <span className="qa-fw-b">{shippingMode}</span>
+                <span style={{ float: "right" }}>
+                  {showShip ? (
+                    <UpOutlined style={{ fontSize: "12px" }} />
+                  ) : (
+                    <DownOutlined style={{ fontSize: "12px" }} />
+                  )}
+                </span>
+              </div>
+              {showShip && (
+                <div className="qa-pad-top-2 qa-pad-btm-2">
+                  <div>
+                    <div className="qa-bg-dark-theme qa-pad-2 qa-box-shadow">
+                      <div className="qa-pad-btm-15 qa-border-bottom">
+                        <span>
+                          {shippingMode === "SEA" ? (
+                            <Icon
+                              component={Sea}
+                              style={{ width: "28px", verticalAlign: "middle" }}
+                              className="air-icon"
+                            />
+                          ) : (
+                            <Icon
+                              component={Air}
+                              style={{ width: "28px", verticalAlign: "middle" }}
+                              className="air-icon"
+                            />
+                          )}
+                          <span className="qa-va-m">{shippingMode}</span>
+                        </span>
+                      </div>
+                      <div className="qa-pad-015 qa-dashed-border">
+                        <div className="c-left-blk qa-txt-alg-lft">
+                          <div className="cart-info-text">
+                            Estimated freight fee*
+                          </div>
+                        </div>
+                        <div className="c-right-blk qa-txt-alg-lft qa-fw-b">
+                          <div className="cart-prod-title qa-txt-alg-rgt">
+                            {getSymbolFromCurrency(convertToCurrency)}
+                            {getConvertedCurrency(data["frightCostMin"], true)}-
+                            {getSymbolFromCurrency(convertToCurrency)}
+                            {getConvertedCurrency(data["frightCostMax"], true)}
+                          </div>
                         </div>
                       </div>
-                      <div className="c-right-blk qa-txt-alg-lft">
-                        <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
-                          {getSymbolFromCurrency(convertToCurrency)}
-                          {getConvertedCurrency(data["frightCostMin"], true)}-
-                          {getSymbolFromCurrency(convertToCurrency)}
-                          {getConvertedCurrency(data["frightCostMax"], true)}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="qa-pad-015 qa-dashed-border">
+                      {/* <div className="qa-pad-015 qa-dashed-border">
                       <div className="c-left-blk qa-txt-alg-lft">
                         <div className="cart-info-text">
                           Estimated custom duties
                         </div>
                       </div>
                       <div className="c-right-blk">
-                        <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
+                        <div className="cart-prod-title qa-txt-alg-rgt">
                           {getSymbolFromCurrency(convertToCurrency)}
                           {getConvertedCurrency(data["dutyMin"], true)}-
                           {getSymbolFromCurrency(convertToCurrency)}
                           {getConvertedCurrency(data["dutyMax"], true)}
                         </div>
                       </div>
-                    </div>
-                    <div className="qa-pad-015 qa-dashed-border">
-                      <div className="c-left-blk qa-txt-alg-lft">
-                        <div className="cart-info-text">Total lead time</div>
-                      </div>
-                      <div className="c-right-blk">
-                        <div className="cart-prod-title qa-fw-b qa-txt-alg-rgt">
-                          {data ? <span>{data["tat"]} Days</span> : "-"}
+                    </div> */}
+                      <div className="qa-mar-top-15">
+                        <div className="c-left-blk qa-txt-alg-lft">
+                          <div className="cart-info-text">
+                            Shipping lead time
+                          </div>
+                        </div>
+                        <div className="c-right-blk">
+                          <div className="cart-prod-title qa-txt-alg-rgt qa-fw-b">
+                            {data ? (
+                              <span>
+                                {data["tat"]
+                                  ? data["tat"] -
+                                    (shippingMode === "SEA" ? 7 : 3)
+                                  : "0"}
+                                -{data["tat"] ? data["tat"] : "0"} Days
+                              </span>
+                            ) : (
+                              "-"
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="qa-pad-015">
+                      {/* <div className="qa-pad-015">
                       <div className="c-left-blk">
                         <div className="qa-fw-b">Total estimated charges</div>
                       </div>
@@ -1014,225 +1185,234 @@ const RtsOrderReview = (props) => {
                           )}
                         </div>
                       </div>
+                    </div> */}
                     </div>
                   </div>
                 </div>
+              )}
+              <div
+                className="cart-prod-title qa-pad-btm-1 qa-border-bottom qa-cursor qa-mar-top-1"
+                onClick={() => setEstimatedDelivery(!estimatedDelivery)}
+              >
+                Estimated delivery date
+                <span style={{ float: "right" }}>
+                  {estimatedDelivery ? (
+                    <UpOutlined style={{ fontSize: "12px" }} />
+                  ) : (
+                    <DownOutlined style={{ fontSize: "12px" }} />
+                  )}
+                </span>
               </div>
-            )}
-          </Col>
-        </Row>
-
-        <div
-          className="cart-prod-title qa-fw-b qa-pad-btm-1 qa-mar-btm-2 qa-border-bottom qa-cursor qa-mar-top-1"
-          onClick={() => setShowCart(!showCart)}
-        >
-          Shopping cart
-          <span style={{ float: "right" }}>
-            {showCart ? (
-              <UpOutlined style={{ fontSize: "12px" }} />
-            ) : (
-              <DownOutlined style={{ fontSize: "12px" }} />
-            )}
-          </span>
-        </div>
-        {showCart && (
-          <Row>
-            <Col xs={24} sm={24} md={15} lg={15} xl={15}>
-              <div className="qa-mar-btm-2">
-                {_.map(subOrders, (order, i) => {
-                  let {
-                    sellerOrgName = "",
-                    products = "",
-                    sellerCode = "",
-                    total = 0,
-                    qalaraSellerMargin = 0,
-                    qualityTestingCharge = 0,
-                  } = order;
-                  let totalAmount =
-                    total + qalaraSellerMargin + qualityTestingCharge;
-                  return (
-                    <div className="qa-bg-light-theme qa-mar-btm-2" key={i}>
-                      <div className="cart-ship-pt qa-fw-b qa-border-bottom">
-                        <Icon
-                          component={cartIcon}
-                          className="cart-icon qa-disp-tc"
-                          style={{
-                            width: "20px",
-                            verticalAlign: "middle",
-                            marginRight: "8px",
-                          }}
-                        />
-
-                        <div className="qa-disp-tc" style={{ width: "80%" }}>
-                          Seller ID: {sellerCode}
-                        </div>
-                        {/* <div className="qa-txt-alg-cnt qa-pad-top-05 qa-pad-btm-1">
-                        <span
-                          className="cart-delete qa-cursor"
-                          onClick={() => {
-                            setDeleteItem(sellerOrgName);
-                            setDeleteModal(true);
-                          }}
-                        >
-                          Delete cart
-                        </span>
-                      </div> */}
+              {estimatedDelivery && (
+                <div className="qa-pad-top-2 qa-pad-btm-1 edd-section">
+                  <div className="qa-mar-btm-1">
+                    <li>
+                      <div className="c-left-blk qa-txt-alg-lft qa-stitle">
+                        Estimated production/ dispatch time
                       </div>
+                      <div className="c-right-blk qa-txt-alg-rgt">
+                        {typeOfOrder === "ERTM" ? "25-35" : "7-10"} days
+                      </div>
+                    </li>
+                  </div>
 
-                      {_.map(products, (product, j) => {
-                        let {
-                          articleId = "",
-                          color = "",
-                          image = "",
-                          isQualityTestingRequired = "",
-                          isSampleDeliveryRequired = "",
-                          productId = "",
-                          productName = "",
-                          quantity = "",
-                          size = "",
-                          total = "",
-                          isFulfillable = false,
-                          unitOfMeasure = "",
-                        } = product;
-                        quantity = parseInt(quantity);
-                        return (
-                          <Row className="qa-pad-20-0" key={j}>
-                            <Col xs={9} sm={9} md={9} lg={9} xl={9}>
-                              <div className="aspect-ratio-box">
-                                <img
-                                  className="images"
-                                  src={image}
-                                  alt="Cart item"
-                                ></img>
-                              </div>
-                            </Col>
-                            <Col
-                              xs={15}
-                              sm={15}
-                              md={15}
-                              lg={15}
-                              xl={15}
-                              className="qa-pad-0-10"
-                            >
-                              <div className="cart-prod-title qa-fw-b">
-                                {productName}
-                              </div>
-                              <div className="cart-prod-title">
-                                Item ID - {articleId}
-                              </div>
-                              <div className="cart-subtitle">{color}</div>
-                              <div className="cart-subtitle">{size}</div>
-                              {isQualityTestingRequired && (
-                                <div className="cart-subtitle qa-mar-top-05">
-                                  <CheckCircleOutlined /> Quality testing
+                  <div className="qa-mar-btm-1">
+                    <li>
+                      <div className="c-left-blk qa-txt-alg-lft qa-stitle">
+                        Estimated shipping lead time
+                      </div>
+                      <div className="c-right-blk qa-txt-alg-rgt">
+                        {tat && shippingMode ? (
+                          <span>
+                            {tat - (shippingMode === "AIR" ? 3 : 7)}-{tat} days
+                          </span>
+                        ) : (
+                          "-"
+                        )}
+                      </div>
+                    </li>
+                  </div>
+                </div>
+              )}
+            </Col>
+          </Row>
+
+          <div
+            className="cart-prod-title qa-pad-btm-1 qa-mar-btm-2 qa-border-bottom qa-cursor qa-mar-top-1"
+            onClick={() => setShowCart(!showCart)}
+          >
+            Shopping cart
+            <span style={{ float: "right" }}>
+              {showCart ? (
+                <UpOutlined style={{ fontSize: "12px" }} />
+              ) : (
+                <DownOutlined style={{ fontSize: "12px" }} />
+              )}
+            </span>
+          </div>
+          {showCart && (
+            <Row>
+              <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+                <div className="qa-mar-btm-2">
+                  {_.map(subOrders, (order, i) => {
+                    let {
+                      sellerOrgName = "",
+                      products = "",
+                      sellerCode = "",
+                      total = 0,
+                      qalaraSellerMargin = 0,
+                      qualityTestingCharge = 0,
+                    } = order;
+                    let totalAmount =
+                      total + qalaraSellerMargin + qualityTestingCharge;
+                    return (
+                      <div className="qa-bg-light-theme qa-mar-btm-2" key={i}>
+                        <div className="cart-ship-pt qa-border-bottom">
+                          <Icon
+                            component={cartIcon}
+                            className="cart-icon qa-disp-tc"
+                            style={{
+                              width: "20px",
+                              verticalAlign: "middle",
+                              marginRight: "8px",
+                            }}
+                          />
+
+                          <div className="qa-disp-tc">
+                            Seller ID: {sellerCode}
+                          </div>
+                          {/* <div className="qa-txt-alg-cnt qa-pad-top-05 qa-pad-btm-1">
+                      <span
+                        className="cart-delete qa-cursor"
+                        onClick={() => {
+                          setDeleteItem(sellerOrgName);
+                          setDeleteModal(true);
+                        }}
+                      >
+                        Delete cart
+                      </span>
+                    </div> */}
+                        </div>
+
+                        {_.map(products, (product, j) => {
+                          let {
+                            articleId = "",
+                            color = "",
+                            image = "",
+                            isQualityTestingRequired = "",
+                            isSampleDeliveryRequired = "",
+                            productId = "",
+                            productName = "",
+                            quantity = "",
+                            size = "",
+                            total = "",
+                            isFulfillable = false,
+                            unitOfMeasure = "",
+                          } = product;
+                          quantity = parseInt(quantity);
+                          return (
+                            <Row className="qa-pad-20-0" key={j}>
+                              <Col xs={9} sm={9} md={9} lg={9} xl={9}>
+                                <div className="aspect-ratio-box">
+                                  <img
+                                    className="images"
+                                    src={image}
+                                    alt="Cart item"
+                                  ></img>
                                 </div>
-                              )}
-                              {isSampleDeliveryRequired && (
-                                <div className="cart-subtitle">
-                                  <CheckCircleOutlined /> Sample required
+                              </Col>
+                              <Col
+                                xs={15}
+                                sm={15}
+                                md={15}
+                                lg={15}
+                                xl={15}
+                                className="qa-pad-0-10"
+                              >
+                                <div className="cart-prod-title qa-text-2line">
+                                  {productName}
                                 </div>
-                              )}
-                              <div className="cart-prod-title qa-mar-top-1">
-                                Units: {quantity} {unitOfMeasure}
-                              </div>
-                              {isFulfillable === false && (
-                                <div className="cart-sub-text p-out-of-stock qa-pad-0-20">
-                                  This product is currently out of stock
+                                <div className="cart-prod-title">
+                                  Item ID - {articleId}
                                 </div>
-                              )}
-                              {miscCharges &&
-                                miscCharges.length > 0 &&
-                                miscCharges.find(
-                                  (x) => x.chargeId === "SELLER_DISCOUNT"
-                                ) &&
-                                miscCharges.find(
-                                  (x) => x.chargeId === "SELLER_DISCOUNT"
-                                ).amount &&
-                                miscCharges.find(
-                                  (x) => x.chargeId === "SELLER_DISCOUNT"
-                                ).amount > 0 &&
-                                sellerList.includes(sellerCode) && (
-                                  <div className="qa-offer-text qa-mar-top-05">
+                                <div className="cart-subtitle">{color}</div>
+                                <div className="cart-subtitle">{size}</div>
+                                {isQualityTestingRequired && (
+                                  <div className="cart-subtitle qa-mar-top-05">
+                                    <CheckCircleOutlined /> Quality testing
+                                  </div>
+                                )}
+                                {isSampleDeliveryRequired && (
+                                  <div className="cart-subtitle">
+                                    <CheckCircleOutlined /> Sample required
+                                  </div>
+                                )}
+                                {sellerList.includes(sellerCode) && (
+                                  <div className="qa-mar-top-15 qa-offer-text">
                                     FREE shipping
                                   </div>
                                 )}
-                            </Col>
-                            <Col
-                              xs={24}
-                              sm={24}
-                              md={24}
-                              lg={24}
-                              xl={24}
-                              className="qa-mar-top-15"
-                            >
-                              <div className="cart-prod-title qa-fw-b">
-                                {getSymbolFromCurrency(convertToCurrency)}
-                                {total ? getConvertedCurrency(total) : ""}
-                              </div>
-                              {(!sellerList.includes(sellerCode) ||
-                                !(
-                                  miscCharges.find(
-                                    (x) => x.chargeId === "SELLER_DISCOUNT"
-                                  ) &&
-                                  miscCharges.find(
-                                    (x) => x.chargeId === "SELLER_DISCOUNT"
-                                  ).amount &&
-                                  miscCharges.find(
-                                    (x) => x.chargeId === "SELLER_DISCOUNT"
-                                  ).amount > 0
-                                )) && (
+                                <div className="cart-prod-title qa-mar-top-1">
+                                  Units: {quantity} {unitOfMeasure}
+                                </div>
+                                {isFulfillable === false && (
+                                  <div className="cart-sub-text p-out-of-stock qa-mar-top-05">
+                                    This product is currently out of stock
+                                  </div>
+                                )}
+                              </Col>
+                              <Col
+                                xs={24}
+                                sm={24}
+                                md={24}
+                                lg={24}
+                                xl={24}
+                                className="qa-mar-top-1"
+                              >
+                                <div className="cart-prod-title qa-fw-b">
+                                  {getSymbolFromCurrency(convertToCurrency)}
+                                  {total ? getConvertedCurrency(total) : ""}
+                                </div>
                                 <div className="cart-price-text qa-mar-btm-1">
                                   Base price per unit excl. margin and other
                                   charges
                                 </div>
-                              )}
-                            </Col>
-                          </Row>
-                        );
-                      })}
-                      <Row className="qa-pad-top-2 qa-pad-btm-2">
-                        <Col
-                          xs={16}
-                          sm={16}
-                          md={16}
-                          lg={16}
-                          xl={16}
-                          className="cart-prod-title qa-fw-b"
-                        >
-                          SELLER CART VALUE
-                        </Col>
-                        <Col
-                          xs={8}
-                          sm={8}
-                          md={8}
-                          lg={8}
-                          xl={8}
-                          className="qa-txt-alg-rgt cart-prod-title qa-fw-b"
-                        >
-                          {getSymbolFromCurrency(convertToCurrency)}
-                          {total ? getConvertedCurrency(total) : ""}
-                        </Col>
-                      </Row>
-                    </div>
-                  );
-                })}
-              </div>
-            </Col>
-          </Row>
-        )}
-      </Col>
-
-      <Modal
-        visible={modal}
-        footer={null}
-        closable={false}
-        onCancel={handleCancel}
-        centered
-        bodyStyle={{ padding: "20px 30px", backgroundColor: "#f9f7f2" }}
-        width={750}
-        style={{ top: 5 }}
-        className="opt-service-modal"
-      ></Modal>
+                              </Col>
+                            </Row>
+                          );
+                        })}
+                        <Row className="qa-pad-top-2 qa-pad-btm-2">
+                          <Col
+                            xs={16}
+                            sm={16}
+                            md={16}
+                            lg={16}
+                            xl={16}
+                            className="cart-prod-title qa-fw-b"
+                          >
+                            SELLER CART VALUE
+                          </Col>
+                          <Col
+                            xs={8}
+                            sm={8}
+                            md={8}
+                            lg={8}
+                            xl={8}
+                            className="qa-txt-alg-rgt cart-prod-title qa-fw-b"
+                          >
+                            {getSymbolFromCurrency(convertToCurrency)}
+                            {total ? getConvertedCurrency(total) : ""}
+                          </Col>
+                        </Row>
+                      </div>
+                    );
+                  })}
+                </div>
+              </Col>
+            </Row>
+          )}
+        </Col>
+      )}
     </Row>
   );
 };

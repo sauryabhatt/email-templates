@@ -117,6 +117,9 @@
 }
 
 @media only screen and (min-width: 768px) {
+  .order-review-right {
+    padding-left: 70px !important;
+  }
   .order-body #buyer-details {
     border: 15px solid #e6e4df;
   }

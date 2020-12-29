@@ -790,6 +790,9 @@ const CartSummary = (props) => {
               brandNames[sellerCode].mov &&
               brandNames[sellerCode].mov.find(
                 (x) => x.productType === productType
+              ) &&
+              brandNames[sellerCode].mov.find(
+                (x) => x.productType === productType
               ).amount;
 
             if (mov < sellerMov) {
