@@ -401,6 +401,7 @@ const OrderCard = (props) => {
                     order.subIndex = index
                     props.setDetailOrder(order)
                     handleShowOrder(true)
+                    props.setOrderText(order)
                   }}
                   >View details</div>
                 </div>

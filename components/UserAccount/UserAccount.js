@@ -106,9 +106,10 @@ const UserAccount = (props) => {
   const [meetingByStatusList, setMeetingByStatusList] = useState([]);
   const [loadCount, setLoadCount] = useState(1);
   const [showOrderDetails, setShowOrderDetails] = useState(false);
+  const [orderText, setOrderText] = useState("")
   const [collectionName, setCollectionName] = useState("");
   const [showCollectionDetails, setCollectionDetails] = useState(false);
-
+console.log(orderText)
   const settings = {
     infinite: false,
     speed: 500,
@@ -1145,7 +1146,7 @@ const UserAccount = (props) => {
           justify="center"
           style={{ paddingTop: "2%", background: "#f9f7f2" }}
         >
-          <Col xs={0} sm={0} md={5} lg={5} xl={5}>
+          <Col xs={0} sm={0} md={6} lg={6} xl={6}>
             <Row justify="space-between">
               <Col
                 xs={24}
@@ -1161,7 +1162,7 @@ const UserAccount = (props) => {
                     style={{ cursor: "pointer" }}
                   >
                     <span
-                      className="qa-fs-16 qa-font-san"
+                      className="qa-fs-12 qa-font-san"
                       style={{
                         lineHeight: "110%",
                         letterSpacing: "0.01em",
@@ -1173,10 +1174,10 @@ const UserAccount = (props) => {
                   </Breadcrumb.Item>
                   <Breadcrumb.Item>
                     <span
-                      className="qa-fs-16 qa-font-san"
+                      className="qa-fs-12 qa-font-san"
                       style={{ lineHeight: "110%", letterSpacing: "0.01em" }}
                     >
-                      Order details
+                      Order id #{orderText.orderId} / {orderText.subOrders[orderText.subIndex].id}
                     </span>
                   </Breadcrumb.Item>
                 </Breadcrumb>
@@ -1735,6 +1736,7 @@ const UserAccount = (props) => {
               <Orderss
                 handleShowOrder={handleShowOrder}
                 showOrderDetails={showOrderDetails}
+                setOrderText={setOrderText}
               />
             ) : (
               <OrdersMobile
@@ -1751,6 +1753,7 @@ const UserAccount = (props) => {
               <Orders
                 handleShowOrder={handleShowOrder}
                 showOrderDetails={showOrderDetails}
+                setOrderText={setOrderText}
               />
             ) : (
               <OrdersMobile

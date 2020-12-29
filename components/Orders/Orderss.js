@@ -60,7 +60,7 @@ const Orderss = (props) => {
                 className="form-heading qa-fs-22 qa-font-san qa-fw-b"
                 style={{ color: "#191919", letterSpacing: "0.2px" }}
               >
-                MY ORDERS {props.showOrderDetails ? <span>/ ID10004567</span> : null}
+                MY ORDERS {props.showOrderDetails ? <span>/ {detailOrder.subOrders[detailOrder.subIndex].id}</span> : null}
               </p>
             </div>
           </Col>
@@ -173,7 +173,12 @@ const Orderss = (props) => {
         ) 
         :(props.orders && props.orders.length > 0 && props.typeOrder[current].length > 0
           ?(
-            props.typeOrder[current].map(x => <OrderCard setDetailOrder = {setDetailOrder} handleShowOrder = {props.handleShowOrder} order = {x}/>)
+            props.typeOrder[current].map(x => <OrderCard 
+              setDetailOrder = {setDetailOrder} 
+              handleShowOrder = {props.handleShowOrder}
+              setOrderText = {props.setOrderText}
+              order = {x}
+            />)
           ):(
             <Col
               xs={24}
