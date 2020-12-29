@@ -257,7 +257,7 @@ const OrderCard = (props) => {
             ORDER STATUS
           </div>
           <div className="qa-fs-14 order-header-tile-content qa-tc-white">
-            {order.status}
+            {order.status == "DRAFT" ? <span className="qa-error-color">Payment unsuccessful</span> : order.status}
           </div>
         </div>
         {order.status === "DELIVERED" || order.status === "CANCELED" 

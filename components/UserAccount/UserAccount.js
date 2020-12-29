@@ -1489,34 +1489,6 @@ const UserAccount = (props) => {
                 )}
               </div>
             </Col>
-            <Col
-              xs={24}
-              sm={24}
-              md={24}
-              lg={24}
-              xl={24}
-              style={{ marginBottom: "40px" }}
-            >
-              <div className="left-services">
-                <p className="heading">
-                  Services
-                  <br />
-                  launching soon
-                </p>
-                <p className="para1">
-                  Digital Trade Fairs.
-                  <br />
-                  Partner Verifications.
-                  <br />
-                  Financial Services.
-                  <br />
-                  Collaborative Design Tools.
-                  <br />
-                  Intelligent Supply Chain.
-                </p>
-                {/* <p className='para2'>Get early access by sending a “request a quote” with your needs.</p> */}
-              </div>
-            </Col>
           </Row>
         </Col>
         <Col
