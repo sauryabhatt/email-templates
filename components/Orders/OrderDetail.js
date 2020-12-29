@@ -38,8 +38,8 @@ const OrderDetail = (props) => {
       <div className="qa-mar-btm-1 cart-ship-pt qa-mar-top-15">
         <div className="c-left-blk qa-mar-btm-05">Value of products purchased</div>
         <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-          {getSymbolFromCurrency(order && order.currency)}
-          {order.subTotal}
+          {getSymbolFromCurrency(order && order.currency) || "$"}
+          {parseFloat(order.subTotal).toFixed(2)}
         </span>
         <div className="c-left-blk qa-mar-btm-05">Freight fees</div>
         {order && order.orderType == "RTS" ? (
@@ -69,7 +69,7 @@ const OrderDetail = (props) => {
           </span>
         ) : (
           <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-            {getSymbolFromCurrency(order && order.currency)}
+            {getSymbolFromCurrency(order && order.currency) || "$"}
             {order &&
                 order.miscChargesActual &&
                 order.miscChargesActual.find(
@@ -165,7 +165,7 @@ const OrderDetail = (props) => {
           </span>
         ) : (
           <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-            {getSymbolFromCurrency(order && order.currency)}
+            {getSymbolFromCurrency(order && order.currency) || "$"}
             {order &&
                 order.miscChargesActual &&
                 order.miscChargesActual.find(
@@ -188,7 +188,7 @@ const OrderDetail = (props) => {
         <div className="c-left-blk qa-mar-btm-05 qa-fw-b">Total order value</div>
         <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
           {getSymbolFromCurrency(order && order.currency)}
-          {order.total}
+          {parseFloat(order.total).toFixed(2)}
         </span>
       </div>
     </div>
@@ -200,17 +200,17 @@ const OrderDetail = (props) => {
       <div className="order-card-header">
         <div className="order-card-headr-tile">
           <div className="qa-fs-10 odrer-header-title qa-grey-color">
-            Order ID
+            SELLER Order ID
           </div>
-          <div className="qa-fs-14 order-header-tile-content">
+          <div className="qa-fs-14 order-header-tile-content qa-tc-white">
             {order.orderId}
           </div>
         </div>
         <div className="order-card-headr-tile">
           <div className="qa-fs-10 odrer-header-title qa-grey-color">
-            ORDER STATUS
+           SELLER ORDER STATUS
           </div>
-          <div className="qa-fs-14 order-header-tile-content">
+          <div className="qa-fs-14 order-header-tile-content qa-tc-white">
             {order.status}
           </div>
         </div>
@@ -267,8 +267,8 @@ const OrderDetail = (props) => {
           </div>
           <div className="qa-flex-column qa-txt-alg-rgt">
             <span  className = "qa-fw-b qa-fs-17">
-              {getSymbolFromCurrency(order && order.currency)}
-              {subOrders.total}
+              {getSymbolFromCurrency(order && order.currency) || "$"}
+              {parseFloat(subOrders.total).toFixed(2)}
             </span>
             {/*<Popover
                 placement="bottomRight"
@@ -321,8 +321,8 @@ const OrderDetail = (props) => {
                       <div className="qa-flex-row" style={{justifyContent: "space-between" }}>
                         <span>Base price</span>
                         <span className = "qa-fw-b">
-                          {getSymbolFromCurrency(order && order.currency)}
-                          {p.total}
+                          {getSymbolFromCurrency(order && order.currency) || "$"}
+                          {parseFloat(p.total).toFixed(2)}
                         </span>
                       </div>
                       {/*<div className="qa-flex-row" style={{justifyContent: "space-between"}}>
