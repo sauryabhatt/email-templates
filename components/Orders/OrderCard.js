@@ -5,12 +5,16 @@ import moment from "moment";
 import Icon from "@ant-design/icons";
 import closeButton from "../../public/filestore/closeButton";
 import Link from "next/link";
+import { useKeycloak } from "@react-keycloak/ssr";
+import { useRouter } from "next/router";
 
 const OrderCard = (props) => {
+  const router = useRouter();
   const mediaMatch = window.matchMedia("(min-width: 768px)");
   const {order, handleShowOrder} = props
   const [popover, setPopover] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
+  const { keycloak } = useKeycloak();
 
   const diff_hours = (dt2, dt1) => {
     var diff = (dt2.getTime() - dt1.getTime()) / 1000;
@@ -44,7 +48,7 @@ const OrderCard = (props) => {
       let url = "/order-review/" + orderId;
       router.push(url);
     } else {
-      props.getOrderByOrderId(keycloak.token, orderId);
+      //props.getOrderByOrderId(keycloak.token, orderId);
       let url = "/RTS/order-review/" + orderId;
       router.push(url);
     }
@@ -81,6 +85,10 @@ const OrderCard = (props) => {
           {getSymbolFromCurrency(order && order.currency) || "$"}
           {parseFloat(order.subTotal).toFixed(2)}
         </span>
+        {order.shippingTerms === "DDU"
+          ? null
+          :(
+            <div>
         <div className="c-left-blk qa-mar-btm-05">Freight fees</div>
         {order && order.orderType == "RTS" ? (
           <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
@@ -225,11 +233,39 @@ const OrderCard = (props) => {
           </span>
         )}
         </div>
+        </div>
+                      )}
+        <div className="qa-mar-btm-15">
         <div className="c-left-blk qa-mar-btm-05 qa-fw-b">Total order value</div>
         <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
           {getSymbolFromCurrency(order && order.currency)}
           {order.total}
         </span>
+        </div>
+        {order.paymentTerms && order.paymentTerms.length > 0
+          ? order.paymentTerms.map((pm, index) => {
+            return (
+              pm.chargeId === "ADVANCE" 
+                ?(<div className="qa-blue ">
+                  <div className="c-left-blk qa-mar-btm-05 qa-fw-b">PAYMENT RECEIVED</div>
+                  <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
+                    {getSymbolFromCurrency(order && order.currency)}
+                    {pm.amount}
+                  </span>
+                </div>)
+                : pm.chargeId === "POST_DELIVERY"
+                  ?(
+                    <div>
+                      <div className="c-left-blk qa-mar-btm-05 qa-fw-b">PAY LATER</div>
+                      <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
+                        {getSymbolFromCurrency(order && order.currency)}
+                        {pm.amount}
+                      </span>
+                    </div>
+                  ): null
+            )
+          }): null
+        }
       </div>
     </div>
   )
@@ -262,7 +298,30 @@ const OrderCard = (props) => {
           </div>
         </div>
         {order.status === "DELIVERED" || order.status === "CANCELED" || order.status === "DRAFT" 
-          ? null
+          ? order.status === "DRAFT"
+            ?(  
+              <span>
+                {paymentTimeDiff <= 48 && (
+                  <Button
+                    className={
+                      mediaMatch.matches
+                        ? "retry-payment-btn qa-vertical-center"
+                        : "retry-payment-btn-mob qa-vertical-center"
+                    }
+                    size={mediaMatch.matches ? "large" : "small"}
+                    style={{ justifyContent: "center", backgroundColor: "#d9bb7f" }}
+                    onClick={() =>
+                        retryPayment(order.orderId, order.orderType)
+                    }
+                  >
+                    <span className="qa-font-san qa-fs-12 qa-fw-b qa-tc-white">
+                      RETRY PAYMENT
+                    </span>
+                  </Button>
+                )}
+              </span>
+
+            ):null
           : (
             <React.Fragment>
               <div className="order-card-headr-tile">
@@ -405,26 +464,7 @@ const OrderCard = (props) => {
                 </span>
               </Button>
             ) : (
-              <span>
-                {paymentTimeDiff <= 48 && (
-                  <Button
-                    className={
-                      mediaMatch.matches
-                        ? "retry-payment-btn qa-vertical-center"
-                        : "retry-payment-btn-mob qa-vertical-center"
-                    }
-                    size={mediaMatch.matches ? "large" : "small"}
-                    style={{ justifyContent: "center" }}
-                    onClick={() =>
-                        retryPayment(order.orderId, order.orderType)
-                    }
-                  >
-                    <span className="qa-font-san qa-fs-12">
-                      RETRY PAYMENT
-                    </span>
-                  </Button>
-                )}
-              </span>
+              null
             )}
           </div>
         </div>

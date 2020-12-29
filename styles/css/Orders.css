@@ -95,8 +95,8 @@
 }
 
 #user-account .retry-payment-btn:hover {
-  background: #874439 !important;
-  color: #f9f7f2;
+ /* background: #874439 !important;
+  color: #f9f7f2;*/
 }
 
 #user-account .retry-payment-btn-mob {
