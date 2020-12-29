@@ -1854,7 +1854,7 @@ const OrderReview = (props) => {
                                   letterSpacing: ".01em",
                                 }}
                               >
-                                Pay on dispatch
+                                Pay on shipment
                               </span>
                             </Col>
                             <Col
@@ -2741,7 +2741,7 @@ const OrderReview = (props) => {
                     </Row> */}
                   </Col>
                 </Row>
-                <Row style={{ paddingTop: "10px" }}>
+                <Row style={{ paddingTop: "5px" }}>
                   <Col
                     xs={24}
                     sm={24}
@@ -2749,13 +2749,17 @@ const OrderReview = (props) => {
                     lg={24}
                     style={{ lineHeight: "110%" }}
                   >
-                    <span
-                      className="qa-font-san qa-fs-12 qa-tc-white"
-                      style={{ letterSpacing: ".01em" }}
+                    <div
+                      className="qa-font-san qa-fs-12 qa-tc-white qa-lh"
+                      style={
+                        mediaMatch.matches
+                          ? { letterSpacing: ".01em", textAlign: "center" }
+                          : { letterSpacing: ".01em", textAlign: "left" }
+                      }
                     >
                       *This is an estimate, final invoice will be shared at the
                       time of shipping
-                    </span>
+                    </div>
                   </Col>
                 </Row>
                 {/* <Row style={{ paddingTop: '10px' }} gutter={[8, 0]}>
