@@ -586,41 +586,18 @@ function UserHeader(props) {
 
       <Menu.Item key="2" onClick={handleMyAccount}>
         <span style={{ fontFamily: "senregular", fontSize: "14px" }}>
-          <span className="qa-font-san qa-fs-14">Profile</span>
+          <span className="qa-font-san qa-fs-14">My Profile</span>
         </span>
       </Menu.Item>
       <Menu.Item key="3" onClick={handleVideoRequest}>
-        <span className="qa-font-san qa-fs-14">Video Meeting</span>
+        <span className="qa-font-san qa-fs-14">Video Meetings</span>
         <Badge
           count={props.meetingCount}
           style={{
             backgroundColor: "#D9BB7F",
-            marginLeft: "25px",
-            marginTop: "-10px",
+            marginLeft: "20px",
           }}
         ></Badge>
-      </Menu.Item>
-      <Menu.Item
-        key="quotes"
-        onClick={handleQuotesRequest}
-        style={
-          props.profileType === "SELLER" || props.isGuest == "true"
-            ? { display: "none" }
-            : {}
-        }
-      >
-        <span className="qa-font-san qa-fs-14">My Quotation</span>
-      </Menu.Item>
-      <Menu.Item
-        key="collections"
-        onClick={handleMyCollections}
-        style={
-          props.profileType === "SELLER" || props.isGuest == "true"
-            ? { display: "none" }
-            : {}
-        }
-      >
-        <span className="qa-font-san qa-fs-14">My Collections</span>
       </Menu.Item>
       <Menu.Item
         key="orders"
@@ -634,6 +611,29 @@ function UserHeader(props) {
         <span className="qa-font-san qa-fs-14">My Orders</span>
       </Menu.Item>
       <Menu.Item
+        key="quotes"
+        onClick={handleQuotesRequest}
+        style={
+          props.profileType === "SELLER" || props.isGuest == "true"
+            ? { display: "none" }
+            : {}
+        }
+      >
+        <span className="qa-font-san qa-fs-14">My Quotations</span>
+      </Menu.Item>
+      <Menu.Item
+        key="collections"
+        onClick={handleMyCollections}
+        style={
+          props.profileType === "SELLER" || props.isGuest == "true"
+            ? { display: "none" }
+            : {}
+        }
+      >
+        <span className="qa-font-san qa-fs-14">My Collections</span>
+      </Menu.Item>
+
+      <Menu.Item
         key="6"
         onClick={handleAddress}
         style={
@@ -642,7 +642,7 @@ function UserHeader(props) {
             : {}
         }
       >
-        <span className="qa-fs-14 qa-font-san">Addresses</span>
+        <span className="qa-fs-14 qa-font-san">My Addresses</span>
       </Menu.Item>
       <Menu.Divider
         style={{
@@ -841,17 +841,17 @@ function UserHeader(props) {
               justifyContent: "flex-end",
             }}
           >
-            <Button
-              className="send-query-button"
-              onClick={() => {
-                setVisible(true);
-              }}
-            >
-              <div className="send-query-button-text qa-rfq-button">
-                Request for Quote
-              </div>
-            </Button>
             <div>
+              <Button
+                className="send-query-button"
+                onClick={() => {
+                  setVisible(true);
+                }}
+              >
+                <div className="send-query-button-text qa-rfq-button">
+                  Request for Quote
+                </div>
+              </Button>
               <CurrencyConverter />
               <Link
                 href="/cart"
@@ -1073,10 +1073,10 @@ function UserHeader(props) {
                   )}
                   <Menu.Divider style={{ height: "0px" }} />
                   <Menu.Item key="6" onClick={handleMyAccount}>
-                    <span className="qa-fs-14 qa-font-san">Profile</span>
+                    <span className="qa-fs-14 qa-font-san">My Profile</span>
                   </Menu.Item>
                   <Menu.Item key="7" onClick={handleVideoRequest}>
-                    <span className="qa-fs-14 qa-font-san">Video Meeting</span>
+                    <span className="qa-fs-14 qa-font-san">Video Meetings</span>
                     <Badge
                       count={props.meetingCount}
                       style={{
@@ -1085,28 +1085,6 @@ function UserHeader(props) {
                         marginTop: "-10px",
                       }}
                     ></Badge>
-                  </Menu.Item>
-                  <Menu.Item
-                    key="8"
-                    onClick={handleQuotesRequest}
-                    style={
-                      props.profileType === "SELLER" || props.isGuest == "true"
-                        ? { display: "none" }
-                        : {}
-                    }
-                  >
-                    <span className="qa-fs-14 qa-font-san">My Quotation</span>
-                  </Menu.Item>
-                  <Menu.Item
-                    key="collections"
-                    onClick={handleMyCollections}
-                    style={
-                      props.profileType === "SELLER" || props.isGuest == "true"
-                        ? { display: "none" }
-                        : {}
-                    }
-                  >
-                    <span className="qa-fs-14 qa-font-san">My Collections</span>
                   </Menu.Item>
                   <Menu.Item
                     key="9"
@@ -1120,6 +1098,29 @@ function UserHeader(props) {
                     <span className="qa-fs-14 qa-font-san">My Orders</span>
                   </Menu.Item>
                   <Menu.Item
+                    key="8"
+                    onClick={handleQuotesRequest}
+                    style={
+                      props.profileType === "SELLER" || props.isGuest == "true"
+                        ? { display: "none" }
+                        : {}
+                    }
+                  >
+                    <span className="qa-fs-14 qa-font-san">My Quotations</span>
+                  </Menu.Item>
+                  <Menu.Item
+                    key="collections"
+                    onClick={handleMyCollections}
+                    style={
+                      props.profileType === "SELLER" || props.isGuest == "true"
+                        ? { display: "none" }
+                        : {}
+                    }
+                  >
+                    <span className="qa-fs-14 qa-font-san">My Collections</span>
+                  </Menu.Item>
+
+                  <Menu.Item
                     key="10"
                     onClick={handleAddress}
                     style={
@@ -1128,7 +1129,7 @@ function UserHeader(props) {
                         : {}
                     }
                   >
-                    <span className="qa-fs-14 qa-font-san">Addresses</span>
+                    <span className="qa-fs-14 qa-font-san">My Addresses</span>
                   </Menu.Item>
                   <Menu.Divider style={{ height: "0.5px" }} />
                   {verificationStatus === "CREATED" &&

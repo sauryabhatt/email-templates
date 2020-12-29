@@ -630,7 +630,7 @@ input:-webkit-autofill:active  {
   border-radius: 0;
   margin-bottom: 40px;
   box-shadow: none;
-  margin-top: 20px;
+  margin-top: 0px;
 }
 
 #user-register-form

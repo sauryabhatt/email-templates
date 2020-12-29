@@ -102,6 +102,9 @@
 .qa-pad-btm-2 {
   padding-bottom: 20px;
 }
+.qa-pad-btm-3 {
+  padding-bottom: 30px;
+}
 .qa-pad-btm-1 {
   padding-bottom: 10px;
 }
@@ -148,6 +151,14 @@
 }
 .qa-txt-alg-lft {
   text-align: left;
+}
+.qa-flex-row {
+  display: flex;
+  flex-direction: row;
+}
+.qa-flex-column {
+  display: flex;
+  flex-direction: column;
 }
 .qa-mar-auto-4 {
   margin: 0 40px;
@@ -517,6 +528,12 @@
   color: #874439;
   line-height: 130%;
 }
+.qa-green-color {
+  color: #02873a;
+}
+.qa-grey-color {
+  color: #565959;
+}
 .qa-lh {
   line-height: 130%;
 }
@@ -696,4 +713,7 @@
 }
 .qa-lh-m {
   line-height: 140%;
+}
+.qa-mar-top-04 {
+  margin-top: 4px;
 }

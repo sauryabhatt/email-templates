@@ -43,10 +43,10 @@ const Addresses = (props) => {
   const [selCountryExpectedLength, setSelCountryExpectedLength] = useState(15);
   // const [isValid, setIsValid] = useState(true)
   const [isEdit, setIsEdit] = useState(false);
-  const {keycloak} = useKeycloak();
+  const { keycloak } = useKeycloak();
   const [fullName, setFullName] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [zipCodeList, setZipcodeList] = useState([])
+  const [zipCodeList, setZipcodeList] = useState([]);
   const [deliver, setDeliver] = useState(false);
   const [state, setState] = useState({
     fullName: null,
@@ -60,6 +60,7 @@ const Addresses = (props) => {
     isDefault: true,
     statesByCountry: [],
     isStatesDropdown: false,
+    dunsNumber: null,
   });
   const [contactId, setContactId] = useState(null);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
@@ -73,18 +74,18 @@ const Addresses = (props) => {
     zipCode: null,
     phone: "",
     isDefault: true,
+    dunsNumber: null,
   });
 
   const addNewAddress = () => {
-
     setState((prevState) => ({
-        ...prevState,
-        statesByCountry: null,
-        isStatesDropdown: false,
-        country: null,
-        state: null,
-        zipCode: "",
-      }));
+      ...prevState,
+      statesByCountry: null,
+      isStatesDropdown: false,
+      country: null,
+      state: null,
+      zipCode: "",
+    }));
     setNewAddress(true);
   };
 
@@ -100,6 +101,7 @@ const Addresses = (props) => {
       zipCode: null,
       phone: "",
       isDefault: true,
+      dunsNumber: null,
     }));
     setSelCountryCode("us");
     setNewAddress(false);
@@ -204,6 +206,7 @@ const Addresses = (props) => {
           isDefault: response.isDefault,
           statesByCountry: obj ? obj.stateCodes : [],
           isStatesDropdown: obj ? true : false,
+          dunsNumber: response.dunsNumber,
         }));
         if (deliveredCountryList.includes(response.country)) {
           setDeliver(true);
@@ -267,6 +270,14 @@ const Addresses = (props) => {
     }));
   };
 
+  const handleDunsNum = (e) => {
+    let value = e.target.value;
+    setState((prevState) => ({
+      ...prevState,
+      dunsNumber: value,
+    }));
+  };
+
   const handleAddressLine1 = (e) => {
     let value = e.target.value;
     setState((prevState) => ({
@@ -287,8 +298,8 @@ const Addresses = (props) => {
     let value = e;
     if (deliveredCountryList.includes(value)) {
       setDeliver(true);
-    }else{
-      setDeliver(false)
+    } else {
+      setDeliver(false);
     }
 
     let obj = states.find((state) => {
@@ -343,30 +354,41 @@ const Addresses = (props) => {
   };
 
   const handleZipCode = (e) => {
-    if(!state.country){
-      handleError("zipCode", state.zipCode, "Please enter Country name first!!")
-      return
+    if (!state.country) {
+      handleError(
+        "zipCode",
+        state.zipCode,
+        "Please enter Country name first!!"
+      );
+      return;
     }
-    let value = e.target ? e.target.value.toUpperCase() : e.toUpperCase()
+    let value = e.target ? e.target.value.toUpperCase() : e.toUpperCase();
     setState((prevState) => ({
       ...prevState,
       zipCode: value,
     }));
 
-    if(value.toString().length >= 3 && deliver){
-      if(!value.replace(/[^a-z0-9]/gi,'')){
-        setZipcodeList([value])
-        handleError("zipCode", "", "Please enter valid pin code!!")
-        return
+    if (value.toString().length >= 3 && deliver) {
+      if (!value.replace(/[^a-z0-9]/gi, "")) {
+        setZipcodeList([value]);
+        handleError("zipCode", "", "Please enter valid pin code!!");
+        return;
       }
-      let val = value.replace(/[^a-z0-9]/gi,'')
-      fetch(process.env.NEXT_PUBLIC_REACT_APP_DUTY_COST_URL + "/country/" + state.country + "/zipcode/"+val, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + keycloak.token,
+      let val = value.replace(/[^a-z0-9]/gi, "");
+      fetch(
+        process.env.NEXT_PUBLIC_REACT_APP_DUTY_COST_URL +
+          "/country/" +
+          state.country +
+          "/zipcode/" +
+          val,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + keycloak.token,
+          },
         }
-      })
+      )
         .then((res) => {
           if (res.ok) {
             return res.json();
@@ -375,31 +397,30 @@ const Addresses = (props) => {
           }
         })
         .then((res) => {
-          if(res.zipcodes && res.zipcodes.length > 0){
-            let a = res.zipcodes.slice(0)
-            if(a.indexOf(value) < 0)
-            a.push(value);
-            setZipcodeList(a)
-          }else{
-            setZipcodeList([value])
+          if (res.zipcodes && res.zipcodes.length > 0) {
+            let a = res.zipcodes.slice(0);
+            if (a.indexOf(value) < 0) a.push(value);
+            setZipcodeList(a);
+          } else {
+            setZipcodeList([value]);
           }
         })
         .catch((err) => {
           message.error(err.message || err, 5);
           setLoading(false);
         });
-    }else{
-      setZipcodeList([value])
+    } else {
+      setZipcodeList([value]);
     }
   };
 
   const handleZipcodeChange = (e) => {
-    let value = e
+    let value = e;
     setState((prevState) => ({
       ...prevState,
       zipCode: value,
     }));
-  }
+  };
 
   const handleDefault = (e) => {
     let value = e.target.value;
@@ -412,7 +433,7 @@ const Addresses = (props) => {
   const saveAddress = () => {
     if (validateFields()) {
       setLoading(true);
-      let zip= state.zipCode.replace(/[^a-z0-9]/gi,'')
+      let zip = state.zipCode.replace(/[^a-z0-9]/gi, "");
       let data = {
         profileId: props.userProfile.userProfile.profileId,
         fullName: state.fullName,
@@ -427,6 +448,7 @@ const Addresses = (props) => {
         countryCode: selCountryCode,
         phoneNumber: state.phone,
         dialCode: dialCode,
+        dunsNumber: state.dunsNumber,
       };
       fetch(process.env.NEXT_PUBLIC_REACT_APP_CONTACTS_URL + "/contacts", {
         method: "POST",
@@ -456,6 +478,7 @@ const Addresses = (props) => {
             zipCode: null,
             phone: "",
             isDefault: true,
+            dunsNumber: null,
           });
           setNewAddress(false);
           setLoading(false);
@@ -473,7 +496,7 @@ const Addresses = (props) => {
   const updateAddress = () => {
     if (validateFields()) {
       setLoading(true);
-      let zip= state.zipCode.replace(/[^a-z0-9]/gi,'')
+      let zip = state.zipCode.replace(/[^a-z0-9]/gi, "");
       let data = {
         profileId: props.userProfile.userProfile.profileId,
         fullName: state.fullName,
@@ -487,15 +510,21 @@ const Addresses = (props) => {
         isDefault: state.isDefault,
         countryCode: selCountryCode,
         phoneNumber: state.phone,
+        dunsNumber: state.dunsNumber,
       };
-      fetch(process.env.NEXT_PUBLIC_REACT_APP_CONTACTS_URL + "/contacts/" + contactId, {
-        method: "PATCH",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + keycloak.token,
-        },
-      })
+      fetch(
+        process.env.NEXT_PUBLIC_REACT_APP_CONTACTS_URL +
+          "/contacts/" +
+          contactId,
+        {
+          method: "PATCH",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + keycloak.token,
+          },
+        }
+      )
         .then((res) => {
           if (res.ok) {
             return res.json();
@@ -516,6 +545,7 @@ const Addresses = (props) => {
             zipCode: null,
             phone: "",
             isDefault: true,
+            dunsNumber: null,
           });
           handleClose();
           setLoading(false);
@@ -531,13 +561,16 @@ const Addresses = (props) => {
   };
 
   const deleteAccept = () => {
-    fetch(process.env.NEXT_PUBLIC_REACT_APP_CONTACTS_URL + "/contacts/" + contactId, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + keycloak.token,
-      },
-    })
+    fetch(
+      process.env.NEXT_PUBLIC_REACT_APP_CONTACTS_URL + "/contacts/" + contactId,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + keycloak.token,
+        },
+      }
+    )
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -606,10 +639,10 @@ const Addresses = (props) => {
         document.querySelectorAll(
           "#add-new-address-form .ant-select-selector"
         )[0].style.border = "1px solid #ff4d4f";
-      }else if (value == "zipCode" && deliver) {
+      } else if (value == "zipCode" && deliver) {
         let node = document.querySelectorAll(
           "#add-new-address-form .ant-select-selector"
-        )
+        );
         node[node.length - 1].style.border = "1px solid #ff4d4f";
       } else if (value == "phone") {
         checkPhone(value, inputVal);
@@ -621,16 +654,17 @@ const Addresses = (props) => {
         document.getElementById(value).style.border = "1px solid #ff4d4f";
       }
       document.getElementsByClassName(divName)[0].style.display = "block";
-      if(message) document.getElementsByClassName(divName)[0].innerText = message
+      if (message)
+        document.getElementsByClassName(divName)[0].innerText = message;
     } else if (value == "phone") {
       checkPhone(value, inputVal);
     } else if (value == "zipCode" && deliver) {
-        let node = document.querySelectorAll(
-          "#add-new-address-form .ant-select-selector"
-        )
-        node[node.length - 1].style.border = "1px solid #d9d9d9";
+      let node = document.querySelectorAll(
+        "#add-new-address-form .ant-select-selector"
+      );
+      node[node.length - 1].style.border = "1px solid #d9d9d9";
       document.getElementsByClassName(divName)[0].style.display = "none";
-    }else if (value == "state" && state.isStatesDropdown) {
+    } else if (value == "state" && state.isStatesDropdown) {
       document.querySelectorAll(
         "#add-new-address-form .ant-select-selector"
       )[1].style.border = "1px solid #d9d9d9";
@@ -654,11 +688,19 @@ const Addresses = (props) => {
       handleError("fullName");
       isValid = false;
     }
-    if (state.addressLine1 == null || state.addressLine1.trim() === "") {
+    if (
+      state.addressLine1 == null ||
+      state.addressLine1.trim() === "" ||
+      state.addressLine1.trim().length < 3
+    ) {
       handleError("addressLine1");
       isValid = false;
     }
-    if (state.addressLine2 == null || state.addressLine2.trim() === "") {
+    if (
+      state.addressLine2 == null ||
+      state.addressLine2.trim() === "" ||
+      state.addressLine2.trim().length < 3
+    ) {
       handleError("addressLine2");
       isValid = false;
     }
@@ -856,7 +898,7 @@ const Addresses = (props) => {
                       onBlur={(e) => handleError("fullName", state.fullName)}
                     />
                     <span
-                      className="qa-font-san qa-fs-12 qa-error fullName-error-block"
+                      className="qa-font-san qa-fs-12 qa-error fullName-error-block qa-mar-top-05"
                       style={{ display: "none" }}
                     >
                       Field is required
@@ -890,10 +932,10 @@ const Addresses = (props) => {
                           }
                         />
                         <span
-                          className="qa-font-san qa-fs-12 qa-error addressLine1-error-block"
+                          className="qa-font-san qa-fs-12 qa-error addressLine1-error-block qa-mar-top-05"
                           style={{ display: "none" }}
                         >
-                          Field is required
+                          Length should be 3-50 characters!
                         </span>
                       </Form.Item>
                     </Col>
@@ -921,10 +963,10 @@ const Addresses = (props) => {
                           }
                         />
                         <span
-                          className="qa-font-san qa-fs-12 qa-error addressLine2-error-block"
+                          className="qa-font-san qa-fs-12 qa-error addressLine2-error-block qa-mar-top-05"
                           style={{ display: "none" }}
                         >
-                          Field is required
+                          Length should be 3-50 characters!
                         </span>
                       </Form.Item>
                     </Col>
@@ -961,7 +1003,7 @@ const Addresses = (props) => {
                           {country}
                         </Select>
                         <span
-                          className="qa-font-san qa-fs-12 qa-error country-error-block"
+                          className="qa-font-san qa-fs-12 qa-error country-error-block qa-mar-top-05"
                           style={{ display: "none" }}
                         >
                           Field is required
@@ -1005,7 +1047,7 @@ const Addresses = (props) => {
                         )}
 
                         <span
-                          className="qa-font-san qa-fs-12 qa-error state-error-block"
+                          className="qa-font-san qa-fs-12 qa-error state-error-block qa-mar-top-05"
                           style={{ display: "none" }}
                         >
                           Field is required
@@ -1039,7 +1081,7 @@ const Addresses = (props) => {
                           onBlur={(e) => handleError("city", state.city)}
                         />
                         <span
-                          className="qa-font-san qa-fs-12 qa-error city-error-block"
+                          className="qa-font-san qa-fs-12 qa-error city-error-block qa-mar-top-05"
                           style={{ display: "none" }}
                         >
                           Field is required
@@ -1061,38 +1103,48 @@ const Addresses = (props) => {
                           },
                         ]}
                       >
-                        {deliver
-                          ?(
-                            <Select 
-                              showSearch
-                              value={state.zipCode}
-                              onSearch={handleZipCode}
-                              onChange={handleZipcodeChange}
-                              id="zipCode"
-                              onBlur={(e) => handleError("zipCode", state.zipCode)}
-                            >
-                              {zipCodeList && zipCodeList.length > 0 
-                                ?(zipCodeList.map(e => {
-                                    return <Option key= {e} value={e}>{e}</Option> 
-                                  }))
-                                  : <Option value="">Enter min 3 digits to view list</Option> 
-                              }
-                            </Select>)
-                            :(
-                              <Input
-                                value={state.zipCode}
-                                onChange={handleZipCode}
-                                id="zipCode"
-                                className = "testInput"
-                                onBlur={(e) => handleError("zipCode", state.zipCode)}
-                              />
+                        {deliver ? (
+                          <Select
+                            showSearch
+                            value={state.zipCode}
+                            onSearch={handleZipCode}
+                            onChange={handleZipcodeChange}
+                            id="zipCode"
+                            onBlur={(e) =>
+                              handleError("zipCode", state.zipCode)
+                            }
+                          >
+                            {zipCodeList && zipCodeList.length > 0 ? (
+                              zipCodeList.map((e) => {
+                                return (
+                                  <Option key={e} value={e}>
+                                    {e}
+                                  </Option>
+                                );
+                              })
+                            ) : (
+                              <Option value="">
+                                Enter min 3 digits to view list
+                              </Option>
                             )}
-                            <span
-                              className="qa-font-san qa-fs-12 qa-error zipCode-error-block"
-                              style={{ display: "none" }}
-                            >
-                              Field is required
-                            </span>
+                          </Select>
+                        ) : (
+                          <Input
+                            value={state.zipCode}
+                            onChange={handleZipCode}
+                            id="zipCode"
+                            className="testInput"
+                            onBlur={(e) =>
+                              handleError("zipCode", state.zipCode)
+                            }
+                          />
+                        )}
+                        <span
+                          className="qa-font-san qa-fs-12 qa-error zipCode-error-block qa-mar-top-05"
+                          style={{ display: "none" }}
+                        >
+                          Field is required
+                        </span>
                       </Form.Item>
                     </Col>
                   </Row>
@@ -1149,7 +1201,7 @@ const Addresses = (props) => {
                           // onChange={phone => this.setState({ phone })}
                         />
                         <span
-                          className="qa-font-san qa-fs-12 qa-error phone-error-block"
+                          className="qa-font-san qa-fs-12 qa-error phone-error-block qa-mar-top-05"
                           style={{ display: "none" }}
                         >
                           Field is required
@@ -1157,13 +1209,34 @@ const Addresses = (props) => {
                       </Form.Item>
                     </Col>
                     <Col xs={0} sm={0} md={2} lg={2}></Col>
-                    <Col
-                      xs={24}
-                      sm={24}
-                      md={11}
-                      lg={11}
-                      style={{ marginTop: "15px" }}
-                    >
+                    <Col xs={24} sm={24} md={11} lg={11}>
+                      <span className="qa-font-san qa-fs-14 qa-tc-white">
+                        ABN / VAT / EORI / UEN / Tax Number
+                      </span>
+                      <Form.Item
+                      // rules={[
+                      //   {
+                      //     required: true,
+                      //     message: "Field is required.",
+                      //     whitespace: true,
+                      //   },
+                      // ]}
+                      >
+                        <Input
+                          value={state.dunsNumber}
+                          onChange={handleDunsNum}
+                          id="dunsNumber"
+                          // onBlur={(e) => handleError("dunsNumber", state.dunsNumber)}
+                        />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+              <Row>
+                <Col xs={24} sm={24} md={24} lg={24}>
+                  <Row>
+                    <Col xs={24} sm={24} md={11} lg={11}>
                       <span className="qa-font-san qa-fs-14 qa-tc-white">
                         Default address
                       </span>
@@ -1198,7 +1271,8 @@ const Addresses = (props) => {
                   </Row>
                 </Col>
               </Row>
-              <Row className="qa-mar-top-3">
+
+              <Row>
                 <Col xs={24} sm={24} md={24} lg={24}>
                   <Row>
                     <Col

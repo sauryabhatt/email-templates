@@ -703,19 +703,20 @@ function AppHeader(props) {
                 justifyContent: "flex-end",
               }}
             >
-              <Button
-                className="send-query-button"
-                onClick={() => {
-                  setVisible(true);
-                }}
-              >
-                <div className="send-query-button-text qa-rfq-button">
-                  Request for Quote
-                </div>
-              </Button>
               <div>
+                <Button
+                  className="send-query-button"
+                  onClick={() => {
+                    setVisible(true);
+                  }}
+                >
+                  <div className="send-query-button-text qa-rfq-button">
+                    Request for Quote
+                  </div>
+                </Button>
                 <CurrencyConverter mobile={false} />
                 <Link
+                  className="currency-converter"
                   href="/cart"
                   style={{
                     textDecoration: "none",
@@ -850,7 +851,6 @@ function AppHeader(props) {
                   theme="dark"
                 >
                   <Menu.Item key="rfq">
-                    {" "}
                     <Button
                       className="send-query-button"
                       onClick={() => {
