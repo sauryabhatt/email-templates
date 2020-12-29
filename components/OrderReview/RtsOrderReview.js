@@ -27,6 +27,7 @@ import { useRouter } from "next/router";
 import sellerList from "../../public/filestore/freeShippingSellers.json";
 import PaymentBanner from "../common/PaymentBanner";
 import Link from "next/link";
+import moment from "moment";
 
 const RtsOrderReview = (props) => {
   const { keycloak } = useKeycloak();
@@ -209,7 +210,8 @@ const RtsOrderReview = (props) => {
           }
         })
         .then((res) => {
-          setData(res);
+          let shippingTerm = shippingTerms ? shippingTerms.toLowerCase() : "";
+          setData(res[shippingTerm]);
           setLoading(false);
         })
         .catch((error) => {
@@ -224,6 +226,23 @@ const RtsOrderReview = (props) => {
   const onChange = (e) => {
     setPaymentValue(e.target.value);
   };
+
+  let today = new Date();
+  let deliveryDateMin = new Date();
+  let deliveryDateMax = new Date();
+
+  let eddMin = "";
+  let eddMax = "";
+  if (typeOfOrder === "ERTM") {
+    eddMin = deliveryDateMin.setDate(today.getDate() + 25 + tat);
+    eddMax = deliveryDateMax.setDate(today.getDate() + 35 + tat);
+  } else {
+    eddMin = deliveryDateMin.setDate(today.getDate() + 7 + tat);
+    eddMax = deliveryDateMax.setDate(today.getDate() + 10 + tat);
+  }
+
+  deliveryDateMin = new Date(eddMin);
+  deliveryDateMax = new Date(eddMax);
 
   if (isLoading) {
     return <Spinner />;
