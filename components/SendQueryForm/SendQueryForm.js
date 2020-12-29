@@ -277,8 +277,8 @@ const SendQueryForm = (props) => {
             )}
             <p className="heading">Sourcing Request</p>
             <p className="paragraph">
-              We can help you source products from any lifestyle category! 
-              Share your requirements below and we will get back in 48 hours!
+              We can help you source products from any lifestyle category! Share
+              your requirements below and we will get back in 48 hours!
             </p>
           </Col>
         </Row>
@@ -296,18 +296,28 @@ const SendQueryForm = (props) => {
         >
           <Row justify="center">
             <Col span={20}>
-              <span className="label-heading">
-              Tell us about your brand / business to help us find the right match.
+              {/* <span className="label-heading">               
               </span>
-              <br />
-              <span className="label-paragraph">What are you looking for?</span>
+              <br /> */}
+              <div className="label-paragraph qa-lh">
+                Tell us about your brand / business to help us find the right
+                match.
+              </div>
               <Form.Item
                 name="category"
                 style={{ marginBottom: "1em" }}
                 className="modified-selector"
                 // label='I am looking for'
                 rules={[
-                  { required: true, message: "Please select a category." },
+                  {
+                    required: true,
+                    message: "Please tell us about your brand / business.",
+                  },
+                  {
+                    min: 5,
+                    max: 500,
+                    message: "Please enter message within 25-500 characters",
+                  },
                 ]}
               >
                 {/* <Select placeholder="Select category">
@@ -344,10 +354,10 @@ const SendQueryForm = (props) => {
                 better.
                
               </span> */}
-              <span className="label-paragraph">
-                Share a description of the type of products
-                and styles or services you're looking for.
-              </span>
+              <div className="label-paragraph qa-lh">
+                Share a description of the type of products and styles or
+                services you're looking for.
+              </div>
               <Form.Item
                 name="requirementDetails"
                 style={{ marginBottom: "1em" }}
@@ -396,9 +406,9 @@ const SendQueryForm = (props) => {
                 Please attach reference photos of designs you like.{" "}
                 <b>Highly recommended</b>
               </span> */}
-              <span className="label-paragraph ref-photos">
-              Attach reference images of designs if available. 
-              </span>
+              <div className="label-paragraph qa-lh ref-photos">
+                Attach reference images of designs if available.
+              </div>
               <br />
               <Form.Item
                 name="upload"
@@ -406,8 +416,8 @@ const SendQueryForm = (props) => {
                 // rules={[{ required: true, message: 'Please upload atleast one item.' }]}
                 // getValueFromEvent={normFile}
                 extra={
-                  <span className="label-paragraph max-size-upload">
-                    Max Size per attachment: 2Mb
+                  <span className="label-paragraph max-size-upload qa-mar-top-05">
+                    Max size per attachment: 2MB
                   </span>
                 }
                 style={{ marginBottom: "0.2em" }}
@@ -429,9 +439,10 @@ const SendQueryForm = (props) => {
                   {fileList.length >= 10 ? null : <PlusOutlined />}
                 </Upload>
               </Form.Item>
-              <span className="label-paragraph order-quantity">
-                Share an indication of quantities per product (to find the right price / supplier)*       
-              </span>
+              <div className="label-paragraph qa-lh">
+                Share an indication of quantities per product (to find the right
+                price / supplier)*
+              </div>
               <Form.Item
                 name="quantity"
                 style={{ marginBottom: "1em" }}
@@ -510,7 +521,9 @@ const SendQueryForm = (props) => {
               >
                 {country}
               </Form.Item>
-              <span className="label-paragraph">Destination Pin Code*</span>
+              <span className="label-paragraph">
+                Destination Pin / Zip Code*
+              </span>
               <Form.Item
                 name="zipcode"
                 style={{ marginBottom: "1em" }}

@@ -241,8 +241,8 @@
   background: rgba(217, 187, 127, 0.1);
   border-radius: 15px;
   border: none;
-  height:90px;
-  width:90px;
+  height: 75px;
+  width: 75px;
 }
 #send-query-form
   .ant-upload.ant-upload-select-picture-card
@@ -253,14 +253,6 @@
   border-radius: 50%;
   color: #fff;
   padding-top: 8px;
-}
-
-@media only screen and (min-width: 768px){
-  #send-query-form
-  .ant-upload.ant-upload-select-picture-card
-  span.anticon.anticon-plus {
-    margin-top: 27px;
-  }
 }
 
 .country-selector .ant-select-selection-search-input {
