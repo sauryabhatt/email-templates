@@ -45,7 +45,6 @@ const Register = (props) => {
   const [step, setStep] = useState(0);
   const [btnDisabled, setBtnDisabled] = useState(false);
   const [visible, setVisible] = useState(false);
-  const [count, setCounter] = useState(0);
   const [userIP, setUserIP] = useState();
   const [userCountry, setUserCountry] = useState();
   const [linkError, setLinkError] = useState(false);
@@ -55,23 +54,19 @@ const Register = (props) => {
   const [validPromo, setValidPromo] = useState(true);
 
   useEffect(() => {
-    // Update the document title using the browser API
-    if (count === 0) {
-      fetch("https://ipapi.co/json/", {
-        method: "GET",
+    fetch("https://ipapi.co/json/", {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        let { ip = "", country_name = "" } = response;
+        setUserCountry(country_name);
+        setUserIP(ip);
       })
-        .then((response) => response.json())
-        .then((response) => {
-          let { ip = "", country_name = "" } = response;
-          setUserCountry(country_name);
-          setUserIP(ip);
-        })
-        .catch((err) => {
-          // console.log("Error ", err);
-        });
-    }
-    setCounter(1);
-  });
+      .catch((err) => {
+        console.log("Error ", err);
+      });
+  }, []);
 
   const showModal = () => {
     setVisible(true);
@@ -149,9 +144,7 @@ const Register = (props) => {
   ));
 
   const country = getCountries().map((country) => {
-    // console.log(country, en[country]);
     if (country === "US") {
-      // console.log(country);
       return (
         <Option key={country} value={en[country] + " (US)"}>
           {en[country] + " (US)"}
@@ -159,7 +152,6 @@ const Register = (props) => {
       );
     }
     if (country === "GB") {
-      // console.log(country);
       return (
         <Option key={country} value={en[country] + " (UK)"}>
           {en[country] + " (UK)"}
@@ -184,7 +176,6 @@ const Register = (props) => {
   });
 
   const onValuesChange = (changedValues, allValues) => {
-    // console.log(changedValues, allValues);
     if (changedValues.profileType) {
       setBtnDisabled(false);
       setProfileType(changedValues.profileType);
@@ -232,7 +223,6 @@ const Register = (props) => {
     setLinkError(false);
     let data = {
       profileType: profileType,
-      // requiredActions: ["UPDATE_PASSWORD", "VERIFY_EMAIL"],
       username: values.email,
       firstName: values.firstName,
       lastName: values.lastName,
@@ -243,7 +233,6 @@ const Register = (props) => {
       orgType: values.orgType,
       roleInOrganization: values.roleInOrganization,
       receivePromoEmails: agreeToEmail,
-      // "agreement": values.agreement
     };
 
     data.sourceSystemInfo = {
@@ -252,14 +241,12 @@ const Register = (props) => {
     };
 
     if (profileType === "BUYER") {
-      // data.interestsInOrderTypes = values.inOrderTypes;
-      // data.interestsInCategories = values.inCategories;
       data.dealsInOrderTypes = values.inOrderTypes;
       data.dealsInCategories = values.inCategories;
 
       data.brandName = values.brandName;
       data.isHomeBased = values.businessType;
-      data.dunsNumber = values.dunsNum;
+      // data.dunsNumber = values.dunsNumber;
       data.orgPhone = values.orgPhone;
 
       data.userPrivateInfo = {
@@ -296,7 +283,6 @@ const Register = (props) => {
       data.dealsInOrderTypes = values.inOrderTypes;
       data.dealsInCategories = values.inCategories;
     }
-    // console.log(data);
 
     setLoading(true);
     fetch(process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/profiles", {
@@ -309,10 +295,8 @@ const Register = (props) => {
     })
       .then((res) => {
         if (res.ok) {
-          // console.log("inside res ok");
           return res.json();
         } else {
-          // console.log("inside res else");
           setLoading(false);
           let message = res.statusText || "Error while signing up.";
           if (res.statusText === "Conflict") {
@@ -322,17 +306,13 @@ const Register = (props) => {
         }
       })
       .then((res) => {
-        // console.log("inside res");
-        // message.success('User signed up successfully.', 5);
         setLoading(false);
         showModal();
         let now = new Date().getTime();
         localStorage.setItem("newUser", now);
         localStorage.setItem("userName", values.email);
-        // setStep(2);
       })
       .catch((err) => {
-        // console.log("inside err");
         message.error(err.message || err, 5);
         setLoading(false);
       });
@@ -377,7 +357,6 @@ const Register = (props) => {
           }
         })
         .catch((err) => {
-          // console.log("inside err");
           message.error(err.message || err, 5);
         });
     } else {
@@ -440,7 +419,7 @@ const Register = (props) => {
                   xl={22}
                   className="qa-mar-btm-2"
                 >
-                  <p className="signup-heading">Sign up for free!</p>
+                  <p className="signup-heading">Sign up securely</p>
                   {/* <p className="signup-subtitle">in just a few minutes!</p> */}
                   <Row>
                     <Col xs={24} sm={24} md={24} lg={24}>
@@ -543,7 +522,6 @@ const Register = (props) => {
                     </Col>
                   </Row>
                 </Col>
-
                 <Col xs={24} sm={24} md={10} lg={10} xl={10}>
                   <div className="label-paragraph">First name</div>
                   <Form.Item
@@ -580,328 +558,507 @@ const Register = (props) => {
                     <Input disabled={btnDisabled} />
                   </Form.Item>
                 </Col>
-                <Col xs={24} sm={24} md={22} lg={22} xl={22}>
-                  <div className="label-paragraph">
-                    E-mail{" "}
-                    {/* <Tooltip
+
+                {profileType === "SELLER" ? (
+                  <React.Fragment>
+                    <Col xs={24} sm={24} md={22} lg={22} xl={22}>
+                      <div className="label-paragraph">
+                        Email address
+                        {/* <Tooltip
                       overlayClassName="qa-tooltip"
                       title="Please enter your Business email address if available, Eg. John.doe@qalara.com"
                     >
                       <span className="text-right qa-cursor">What's this?</span>
                     </Tooltip> */}
-                  </div>
-                  <Form.Item
-                    name="email"
-                    className="form-item"
-                    rules={[
-                      {
-                        type: "email",
-                        message: "Enter the correct email address.",
-                      },
-                      {
-                        required: true,
-                        message: "Field is required.",
-                      },
-                      {
-                        min: 1,
-                        max: 70,
-                        message: "Length should be 1-70 characters!",
-                      },
-                    ]}
-                  >
-                    <Input
-                      disabled={btnDisabled}
-                      placeholder="@companyname.com"
-                    />
-                  </Form.Item>
-                </Col>
-                <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-                  <div className="label-paragraph">Country</div>
-                  <Form.Item
-                    name="country"
-                    className="form-item modified-selector"
-                    rules={[{ required: true, message: "Field is required." }]}
-                  >
-                    <Select
-                      showSearch
-                      disabled={btnDisabled}
-                      dropdownClassName="qa-dark-menu-theme"
-                      placeholder="Select"
-                    >
-                      {country}
-                    </Select>
-                  </Form.Item>
-                </Col>
-                <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-                  <div className="label-paragraph">Mobile number</div>
-                  <Form.Item
-                    name="personalPhone"
-                    className="form-item"
-                    rules={[
-                      { required: true, message: "Field is required." },
-                      {
-                        pattern: new RegExp("^[0-9]{6,15}$"),
-                        message:
-                          "Only numbers are allowed & length should be 6-15 characters.",
-                      },
-                    ]}
-                  >
-                    {/* <PhoneInput
+                      </div>
+                      <Form.Item
+                        name="email"
+                        className="form-item"
+                        rules={[
+                          {
+                            type: "email",
+                            message: "Enter the correct email address.",
+                          },
+                          {
+                            required: true,
+                            message: "Field is required.",
+                          },
+                          {
+                            min: 1,
+                            max: 70,
+                            message: "Length should be 1-70 characters!",
+                          },
+                        ]}
+                      >
+                        <Input
+                          disabled={btnDisabled}
+                          placeholder="@companyname.com"
+                        />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                      <div className="label-paragraph">Country</div>
+                      <Form.Item
+                        name="country"
+                        className="form-item modified-selector"
+                        rules={[
+                          { required: true, message: "Field is required." },
+                        ]}
+                      >
+                        <Select
+                          showSearch
+                          disabled={btnDisabled}
+                          dropdownClassName="qa-dark-menu-theme"
+                          placeholder="Select"
+                        >
+                          {country}
+                        </Select>
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                      <div className="label-paragraph">Mobile number</div>
+                      <Form.Item
+                        name="personalPhone"
+                        className="form-item"
+                        rules={[
+                          { required: true, message: "Field is required." },
+                          {
+                            pattern: new RegExp("^[0-9]{6,15}$"),
+                            message:
+                              "Only numbers are allowed & length should be 6-15 characters.",
+                          },
+                        ]}
+                      >
+                        {/* <PhoneInput
                       disabled={btnDisabled}
                       country={selCountryCode}
                       enableSearch={true}
                       countryCodeEditable={false}
                     /> */}
-                    <Input disabled={btnDisabled} />
-                  </Form.Item>
-                </Col>
+                        <Input disabled={btnDisabled} />
+                      </Form.Item>
+                    </Col>
 
-                {profileType === "SELLER" && (
-                  <Col xs={24} sm={24} md={22} lg={22} xl={22}>
-                    <div className="label-paragraph">
-                      Organization name
-                      <Tooltip
-                        overlayClassName="qa-tooltip"
-                        title="Enter the legal/registered organization name"
+                    <Col xs={24} sm={24} md={22} lg={22} xl={22}>
+                      <div className="label-paragraph">
+                        Organization name
+                        <Tooltip
+                          overlayClassName="qa-tooltip"
+                          title="Enter the legal/registered organization name"
+                        >
+                          <span className="text-right qa-cursor">
+                            What's this?
+                          </span>
+                        </Tooltip>
+                      </div>
+                      <Form.Item
+                        name="orgName"
+                        rules={[
+                          { required: true, message: "Field is required." },
+                          {
+                            min: 3,
+                            max: 70,
+                            message: "Length should be 3-70 characters!",
+                          },
+                        ]}
                       >
-                        <span className="text-right qa-cursor">
-                          What's this?
-                        </span>
-                      </Tooltip>
-                    </div>
-                    <Form.Item
-                      name="orgName"
-                      rules={[
-                        { required: true, message: "Field is required." },
-                        {
-                          min: 3,
-                          max: 70,
-                          message: "Length should be 3-70 characters!",
-                        },
-                      ]}
-                    >
-                      <Input disabled={btnDisabled} />
-                    </Form.Item>
-                  </Col>
-                )}
-                {profileType === "SELLER" && (
-                  <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-                    <div className="label-paragraph">Organization type</div>
-                    <Form.Item
-                      name="orgType"
-                      rules={[
-                        { required: true, message: "Field is required." },
-                      ]}
-                    >
-                      <Select
-                        disabled={btnDisabled}
-                        dropdownClassName="qa-dark-menu-theme"
+                        <Input disabled={btnDisabled} />
+                      </Form.Item>
+                    </Col>
+
+                    <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                      <div className="label-paragraph">Organization type</div>
+                      <Form.Item
+                        name="orgType"
+                        rules={[
+                          { required: true, message: "Field is required." },
+                        ]}
                       >
-                        {profileType === "BUYER" ? buyerOrgType : sellerOrgType}
-                      </Select>
-                    </Form.Item>
-                  </Col>
-                )}
-                {profileType === "SELLER" && (
-                  <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-                    <div className="label-paragraph">Role in organization</div>
-                    <Form.Item
-                      name="roleInOrganization"
-                      rules={[
-                        { required: true, message: "Field is required." },
-                      ]}
-                    >
-                      <Select
-                        disabled={btnDisabled}
-                        dropdownClassName="qa-dark-menu-theme"
+                        <Select
+                          disabled={btnDisabled}
+                          dropdownClassName="qa-dark-menu-theme"
+                          placeholder="Select"
+                        >
+                          {profileType === "BUYER"
+                            ? buyerOrgType
+                            : sellerOrgType}
+                        </Select>
+                      </Form.Item>
+                    </Col>
+
+                    <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                      <div className="label-paragraph">
+                        Role in organization
+                      </div>
+                      <Form.Item
+                        name="roleInOrganization"
+                        rules={[
+                          { required: true, message: "Field is required." },
+                        ]}
                       >
-                        {roleInOrganization}
-                      </Select>
-                    </Form.Item>
-                  </Col>
-                )}
-                {profileType === "SELLER" && (
-                  <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-                    <div className="label-paragraph">
-                      {profileType === "BUYER"
-                        ? "Order types interested in"
-                        : "Order types you deal in"}
-                    </div>
-                    <Form.Item
-                      name="inOrderTypes"
-                      className="modified-selector"
-                      rules={[
-                        { required: true, message: "Field is required." },
-                      ]}
-                    >
-                      <Select
-                        mode="multiple"
-                        className="qa-dark-menu-theme"
-                        disabled={btnDisabled}
-                        showArrow={true}
-                        dropdownClassName="qa-dark-menu-theme"
-                      >
+                        <Select
+                          disabled={btnDisabled}
+                          dropdownClassName="qa-dark-menu-theme"
+                          placeholder="Select"
+                        >
+                          {roleInOrganization}
+                        </Select>
+                      </Form.Item>
+                    </Col>
+
+                    <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                      <div className="label-paragraph">
                         {profileType === "BUYER"
-                          ? interestsInOrderTypes
-                          : dealsInOrderTypes}
-                      </Select>
-                    </Form.Item>
-                  </Col>
-                )}
-                {profileType === "SELLER" && (
-                  <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-                    <div className="label-paragraph">
-                      {profileType === "BUYER"
-                        ? "Categories interested in"
-                        : "Categories you deal in"}
-                    </div>
-                    <Form.Item
-                      name="inCategories"
-                      className="modified-selector"
-                      rules={[
-                        { required: true, message: "Field is required." },
-                      ]}
-                    >
-                      <Select
-                        mode="multiple"
-                        className="qa-dark-menu-theme"
-                        disabled={btnDisabled}
-                        showArrow={true}
-                        dropdownClassName="qa-dark-menu-theme"
+                          ? "Order types interested in"
+                          : "Order types you deal in"}
+                      </div>
+                      <Form.Item
+                        name="inOrderTypes"
+                        className="modified-selector"
+                        rules={[
+                          { required: true, message: "Field is required." },
+                        ]}
                       >
+                        <Select
+                          mode="multiple"
+                          className="qa-dark-menu-theme"
+                          disabled={btnDisabled}
+                          showArrow={true}
+                          dropdownClassName="qa-dark-menu-theme"
+                          placeholder="Select"
+                        >
+                          {profileType === "BUYER"
+                            ? interestsInOrderTypes
+                            : dealsInOrderTypes}
+                        </Select>
+                      </Form.Item>
+                    </Col>
+
+                    <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                      <div className="label-paragraph">
                         {profileType === "BUYER"
-                          ? interestsInCategories
-                          : dealsInCategories}
-                      </Select>
-                    </Form.Item>
-                  </Col>
-                )}
-                {profileType === "BUYER" && (
-                  <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-                    <div className="label-paragraph">City</div>
-                    <Form.Item
-                      name="city"
-                      rules={[
-                        { required: true, message: "Field is required." },
-                      ]}
+                          ? "Categories interested in"
+                          : "Categories you deal in"}
+                      </div>
+                      <Form.Item
+                        name="inCategories"
+                        className="modified-selector"
+                        rules={[
+                          { required: true, message: "Field is required." },
+                        ]}
+                      >
+                        <Select
+                          mode="multiple"
+                          className="qa-dark-menu-theme"
+                          disabled={btnDisabled}
+                          showArrow={true}
+                          dropdownClassName="qa-dark-menu-theme"
+                          placeholder="Select"
+                        >
+                          {profileType === "BUYER"
+                            ? interestsInCategories
+                            : dealsInCategories}
+                        </Select>
+                      </Form.Item>
+                    </Col>
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                      <div className="label-paragraph">Country</div>
+                      <Form.Item
+                        name="country"
+                        className="form-item modified-selector"
+                        rules={[
+                          { required: true, message: "Field is required." },
+                        ]}
+                      >
+                        <Select
+                          showSearch
+                          disabled={btnDisabled}
+                          dropdownClassName="qa-dark-menu-theme"
+                          placeholder="Select"
+                        >
+                          {country}
+                        </Select>
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                      <div className="label-paragraph">City</div>
+                      <Form.Item
+                        name="city"
+                        rules={[
+                          { required: true, message: "Field is required." },
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                      <div className="label-paragraph">Pin / Zip code</div>
+                      <Form.Item
+                        name="zipcode"
+                        rules={[
+                          { required: true, message: "Field is required." },
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                      <div className="label-paragraph">Mobile number</div>
+                      <Form.Item
+                        name="personalPhone"
+                        className="form-item"
+                        rules={[
+                          { required: true, message: "Field is required." },
+                          {
+                            pattern: new RegExp("^[0-9]{6,15}$"),
+                            message:
+                              "Only numbers are allowed & length should be 6-15 characters.",
+                          },
+                        ]}
+                      >
+                        {/* <PhoneInput
+                      disabled={btnDisabled}
+                      country={selCountryCode}
+                      enableSearch={true}
+                      countryCodeEditable={false}
+                    /> */}
+                        <Input disabled={btnDisabled} />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={22} lg={22} xl={22}>
+                      <div className="label-paragraph">
+                        Email address
+                        {/* <Tooltip
+                      overlayClassName="qa-tooltip"
+                      title="Please enter your Business email address if available, Eg. John.doe@qalara.com"
                     >
-                      <Input />
-                    </Form.Item>
-                  </Col>
+                      <span className="text-right qa-cursor">What's this?</span>
+                    </Tooltip> */}
+                      </div>
+                      <Form.Item
+                        name="email"
+                        className="form-item"
+                        rules={[
+                          {
+                            type: "email",
+                            message: "Enter the correct email address.",
+                          },
+                          {
+                            required: true,
+                            message: "Field is required.",
+                          },
+                          {
+                            min: 1,
+                            max: 70,
+                            message: "Length should be 1-70 characters!",
+                          },
+                        ]}
+                      >
+                        <Input
+                          disabled={btnDisabled}
+                          placeholder="@companyname.com"
+                        />
+                      </Form.Item>
+                    </Col>
+
+                    <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                      <div className="label-paragraph">
+                        Organization name
+                        {/* <Tooltip
+                          overlayClassName="qa-tooltip"
+                          title="Enter the legal/registered organization name"
+                        >
+                          <span className="text-right qa-cursor">
+                            What's this?
+                          </span>
+                        </Tooltip> */}
+                      </div>
+                      <Form.Item
+                        name="orgName"
+                        rules={[
+                          { required: true, message: "Field is required." },
+                          {
+                            min: 3,
+                            max: 70,
+                            message: "Length should be 3-70 characters!",
+                          },
+                        ]}
+                      >
+                        <Input disabled={btnDisabled} />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                      <div className="label-paragraph">
+                        Role in organization
+                      </div>
+                      <Form.Item
+                        name="roleInOrganization"
+                        rules={[
+                          { required: true, message: "Field is required." },
+                        ]}
+                      >
+                        <Select
+                          disabled={btnDisabled}
+                          dropdownClassName="qa-dark-menu-theme"
+                          placeholder="Select"
+                        >
+                          {roleInOrganization}
+                        </Select>
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                      <div className="label-paragraph">Organization type</div>
+                      <Form.Item
+                        name="orgType"
+                        rules={[
+                          { required: true, message: "Field is required." },
+                        ]}
+                      >
+                        <Select
+                          disabled={btnDisabled}
+                          dropdownClassName="qa-dark-menu-theme"
+                          placeholder="Select"
+                        >
+                          {profileType === "BUYER"
+                            ? buyerOrgType
+                            : sellerOrgType}
+                        </Select>
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                      <div className="label-paragraph">
+                        {profileType === "BUYER"
+                          ? "Order types interested in"
+                          : "Order types you deal in"}
+                      </div>
+                      <Form.Item
+                        name="inOrderTypes"
+                        className="modified-selector"
+                        rules={[
+                          { required: true, message: "Field is required." },
+                        ]}
+                      >
+                        <Select
+                          mode="multiple"
+                          className="qa-dark-menu-theme"
+                          disabled={btnDisabled}
+                          showArrow={true}
+                          dropdownClassName="qa-dark-menu-theme"
+                          placeholder="Select"
+                        >
+                          {profileType === "BUYER"
+                            ? interestsInOrderTypes
+                            : dealsInOrderTypes}
+                        </Select>
+                      </Form.Item>
+                    </Col>
+
+                    {process.env.NEXT_PUBLIC_REACT_APP_REFERRAL_REQUIRED ==
+                      "true" && (
+                      <Col
+                        xs={24}
+                        sm={24}
+                        md={22}
+                        lg={22}
+                        xl={22}
+                        style={
+                          profileType == "BUYER" ? {} : { display: "none" }
+                        }
+                      >
+                        <div className="label-paragraph">
+                          Referral code (if available)
+                        </div>
+                        <Row>
+                          <Col xs={16} sm={16} md={16} lg={16} xl={16}>
+                            <Form.Item>
+                              <Input
+                                placeholder="Referral code"
+                                className="referral-box"
+                                onChange={handlePromoCode}
+                              />
+                              <span
+                                className="qa-error referral-error-block qa-font-san qa-fs-12"
+                                id="referral-error-text"
+                                style={{ display: "none" }}
+                              >
+                                This field is mandatory
+                              </span>
+                            </Form.Item>
+                          </Col>
+                          <Col xs={8} sm={8} md={8} lg={8} xl={8}>
+                            <Form.Item>
+                              <Button
+                                className="referral-btn"
+                                onClick={validateCode}
+                              >
+                                <span className="qa-font-san qa-fs-14">
+                                  APPLY
+                                </span>
+                              </Button>
+                            </Form.Item>
+                          </Col>
+                        </Row>
+                      </Col>
+                    )}
+                  </React.Fragment>
                 )}
-                {profileType === "BUYER" && (
-                  <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-                    <div className="label-paragraph">Pin / Zip code</div>
-                    <Form.Item
-                      name="zipcode"
-                      rules={[
-                        { required: true, message: "Field is required." },
-                      ]}
-                    >
-                      <Input />
-                    </Form.Item>
-                  </Col>
-                )}
-                {process.env.NEXT_PUBLIC_REACT_APP_REFERRAL_REQUIRED ==
-                "true" ? (
+
+                <React.Fragment>
                   <Col
                     xs={24}
                     sm={24}
                     md={22}
                     lg={22}
                     xl={22}
-                    style={profileType == "BUYER" ? {} : { display: "none" }}
+                    className="checkbox-grp qa-mar-top-1"
                   >
-                    <div className="label-paragraph">
-                      Referral code (if available)
-                    </div>
-                    <Row>
-                      <Col xs={16} sm={16} md={16} lg={16} xl={16}>
-                        <Form.Item>
-                          <Input
-                            placeholder="Referral code"
-                            className="referral-box"
-                            onChange={handlePromoCode}
-                          />
-                          <span
-                            className="qa-error referral-error-block qa-font-san qa-fs-12"
-                            id="referral-error-text"
-                            style={{ display: "none" }}
-                          >
-                            This field is mandatory
-                          </span>
-                        </Form.Item>
-                      </Col>
-                      <Col xs={8} sm={8} md={8} lg={8} xl={8}>
-                        <Form.Item>
-                          <Button
-                            className="referral-btn"
-                            onClick={validateCode}
-                          >
-                            <span className="qa-font-san qa-fs-14">APPLY</span>
-                          </Button>
-                        </Form.Item>
-                      </Col>
-                    </Row>
-                  </Col>
-                ) : (
-                  ""
-                )}
-                {profileType === "SELLER" && (
-                  <React.Fragment>
-                    <Col
-                      xs={24}
-                      sm={24}
-                      md={22}
-                      lg={22}
-                      xl={22}
-                      className="checkbox-grp"
-                    >
-                      <span className="qa-disp-inline qa-fs-12">
-                        {" "}
-                        <Form.Item
-                          name="agreement"
-                          valuePropName="checked"
-                          rules={[
-                            {
-                              required: true,
-                              message: "Please accept T&C.",
-                              validator: (_, value) =>
-                                value
-                                  ? Promise.resolve()
-                                  : Promise.reject("Please accept T&C."),
-                            },
-                          ]}
+                    <span className="qa-disp-inline qa-fs-12">
+                      <Form.Item
+                        name="agreement"
+                        valuePropName="checked"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please accept T&C.",
+                            validator: (_, value) =>
+                              value
+                                ? Promise.resolve()
+                                : Promise.reject("Please accept T&C."),
+                          },
+                        ]}
+                      >
+                        <Checkbox
+                          className="check-box-tnc"
+                          disabled={btnDisabled}
                         >
-                          <Checkbox
-                            className="check-box-tnc"
-                            disabled={btnDisabled}
-                          >
-                            Standard{" "}
-                            <Link className="link-text" href="/TermsOfUse">
-                              <a target="_blank" className="link-text">
-                                T&C
-                              </a>
-                            </Link>{" "}
-                            apply
-                          </Checkbox>
-                        </Form.Item>
-                      </span>
-                      <span className="qa-disp-inline qa-mar-left-20 qa-fs-12">
-                        <Form.Item>
-                          <Checkbox
-                            className="check-box-tnc"
-                            disabled={btnDisabled}
-                            onChange={handleAgreeToEmail}
-                            value={agreeToEmail}
-                          >
-                            You agree to receive promotional emails
-                          </Checkbox>
-                        </Form.Item>
-                      </span>
-                    </Col>
-                  </React.Fragment>
-                )}
+                          Standard{" "}
+                          <Link className="link-text" href="/TermsOfUse">
+                            <a target="_blank" className="link-text">
+                              T&C
+                            </a>
+                          </Link>{" "}
+                          apply
+                        </Checkbox>
+                      </Form.Item>
+                    </span>
+                    <span className="qa-disp-inline qa-mar-left-20 qa-fs-12">
+                      <Form.Item>
+                        <Checkbox
+                          className="check-box-tnc"
+                          disabled={btnDisabled}
+                          onChange={handleAgreeToEmail}
+                          value={agreeToEmail}
+                        >
+                          You agree to receive promotional emails
+                        </Checkbox>
+                      </Form.Item>
+                    </span>
+                  </Col>
+                </React.Fragment>
+
                 <Col
                   xs={24}
                   sm={24}
@@ -910,7 +1067,7 @@ const Register = (props) => {
                   xl={22}
                   style={{ marginBottom: "60px" }}
                 >
-                  {profileType === "BUYER" ? (
+                  {/* {profileType === "BUYER" ? (
                     <Button
                       type="primary"
                       className="submit-button"
@@ -934,17 +1091,17 @@ const Register = (props) => {
                         </svg>
                       </span>
                     </Button>
-                  ) : (
-                    <Button
-                      type="primary"
-                      loading={loading}
-                      disabled={btnDisabled || loading}
-                      htmlType="submit"
-                      className="submit-button"
-                    >
-                      Submit
-                    </Button>
-                  )}
+                  ) : ( */}
+                  <Button
+                    type="primary"
+                    loading={loading}
+                    disabled={btnDisabled || loading}
+                    htmlType="submit"
+                    className="submit-button"
+                  >
+                    Submit
+                  </Button>
+                  {/* )} */}
                   {/* {profileType === "SELLER" && ( */}
                   {/* <div className="create-account">
                     <div onClick={signIn} className="link-style register">
@@ -956,7 +1113,7 @@ const Register = (props) => {
               </Row>
             </Col>
           </Row>
-          {profileType === "BUYER" && (
+          {/* {profileType === "BUYER" && (
             <div style={step === 1 ? {} : { display: "none" }}>
               <div>
                 <p className="signup-heading">Almost done!</p>
@@ -976,14 +1133,7 @@ const Register = (props) => {
                     <Col xs={24} sm={24} md={10} lg={10} xl={10}>
                       <div className="label-paragraph">
                         Organization name
-                        {/* <Tooltip
-                          overlayClassName="qa-tooltip"
-                          title="Enter the legal/registered organization name"
-                        >
-                          <span className="text-right qa-cursor">
-                            What's this?
-                          </span>
-                        </Tooltip> */}
+                        
                       </div>
                       <Form.Item
                         name="orgName"
@@ -1027,7 +1177,7 @@ const Register = (props) => {
                         </Tooltip>
                       </div>
                       <Form.Item
-                        name="dunsNum"
+                        name="dunsNumber"
                         rules={
                           [
                             // { required: true, message: "Field is required." },
@@ -1221,6 +1371,7 @@ const Register = (props) => {
               </Button>
             </Col>
           </Row>
+         */}
         </Form>
       </div>
       <Modal

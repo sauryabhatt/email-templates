@@ -40,6 +40,7 @@
     /* text-transform: capitalize; */
     color: #ffffff;
     margin-bottom: 10px;
+    margin-left: 40px;
   }
 
   #user-account .banner-para1 {
@@ -50,6 +51,7 @@
     line-height: 110%;
     /* text-transform: capitalize; */
     color: #ffffff;
+    margin-left: 40px;
   }
 
   #user-account .banner-para1-mid {
@@ -65,6 +67,7 @@
     /* text-transform: capitalize; */
     color: #d9bb7f;
     margin-bottom: 2px;
+    margin-left: 40px;
   }
 
   #user-account .banner-verified {
@@ -658,9 +661,7 @@
 #user-account .label-paragraph {
   font-family: senregular;
   font-size: 14px;
-  /* color: rgb(255, 255, 255, 0.3); */
-  color: #332f2f;
-  opacity: 0.5;
+  color: #191919;
   margin-bottom: 10px;
 }
 
@@ -699,7 +700,7 @@ input:-webkit-autofill:active  {
   background-color: #f9f7f2;
   font-family: senregular;
   font-size: 16px;
-  color: rgb(217, 187, 127, 0.9);
+  color: #d9bb7f;
   box-sizing: border-box;
   border: 1px solid #cecbc2;
   border-radius: 4px;
@@ -729,7 +730,7 @@ input:-webkit-autofill:active  {
   background-color: #332f2f;
   font-family: senregular;
   font-size: 12px;
-  color: rgb(217, 187, 127, 0.9);
+  color: #d9bb7f;
   box-sizing: border-box;
   border: 1px solid rgb(255, 255, 255, 0.16);
   border-radius: 4px;
@@ -743,7 +744,7 @@ input:-webkit-autofill:active  {
   background-color: #332f2f;
   font-family: senregular;
   font-size: 12px;
-  color: rgb(217, 187, 127, 0.9);
+  color: #d9bb7f;
   box-sizing: border-box;
   border: 1px solid rgb(255, 255, 255, 0.16);
   border-radius: 4px;
@@ -757,7 +758,7 @@ input:-webkit-autofill:active  {
   background-color: #f9f7f2;
   font-family: senregular;
   font-size: 16px;
-  color: rgb(217, 187, 127, 0.9);
+  color: #d9bb7f;
   box-sizing: border-box;
   border: 1px solid #cecbc2;
   border-radius: 4px;
@@ -776,7 +777,7 @@ input:-webkit-autofill:active  {
 }
 
 #user-account .ant-select-arrow {
-  color: rgb(217, 187, 127, 0.9);
+  color: #d9bb7f;
 }
 
 #user-account .ant-form-item-has-error .ant-form-item-explain,
@@ -1255,4 +1256,11 @@ input:-webkit-autofill:active  {
   > .ant-menu-submenu-active {
   color: #1890ff;
   border-bottom: 2px solid transparent;
+}
+.ant-badge-not-a-wrapper:not(.ant-badge-status) {
+  margin-top: 5px;
+}
+.header-popup.ant-popover-placement-bottomRight
+  .ant-badge-not-a-wrapper:not(.ant-badge-status) {
+  margin-top: 0px;
 }

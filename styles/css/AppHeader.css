@@ -8,6 +8,48 @@
 .trend-navigation:hover {
   color: #d9bb7f;
 }
+/*---i-pad Pro Only---*/
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1024px) and (orientation: portrait) {
+  .app-header {
+    height: 70px;
+    padding: 0px 25px;
+    background: #191919;
+    /* background: transparent; */
+    display: flex;
+    /* line-height: 0; */
+    align-items: center;
+  }
+
+  .app-header-home-button {
+    text-decoration: none;
+    color: #ffffff !important;
+    font-family: senregular;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+
+  .send-query-button {
+    background: #ffffff;
+    border-radius: 8px;
+    border-color: #ffffff !important;
+  }
+  .my-account-header {
+    padding-right: 5px;
+  }
+  .send-query-button-text {
+    font-family: senregular;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14x;
+    text-transform: uppercase;
+    color: #191919;
+  }
+  .send-query-button.invite-access-button .send-query-button-text {
+    color: #d9bb7f;
+  }
+}
 @media only screen and (min-width: 769px) {
   .app-header {
     height: 70px;
@@ -33,9 +75,7 @@
     background: #ffffff;
     border-radius: 8px;
     border-color: #ffffff !important;
-    margin-right: 15px;
   }
-
   .send-query-button-text {
     font-family: senregular;
     font-style: normal;
@@ -44,6 +84,7 @@
     text-transform: uppercase;
     color: #191919;
   }
+
   .send-query-button.invite-access-button .send-query-button-text {
     color: #d9bb7f;
   }
@@ -52,8 +93,8 @@
 .my-account-header {
   color: #fff;
   vertical-align: middle;
-  margin: auto 0px;
   font-family: senregular;
+  margin: auto 0px;
   letter-spacing: 0.03em;
   display: inline-block;
 }
@@ -413,6 +454,7 @@
     margin: auto 0 auto 0;
     height: 40px;
     margin-bottom: 20px;
+    padding: 2px 10px;
   }
 
   .send-query-button-text {
@@ -485,4 +527,15 @@
 .header-popup .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
   background-color: transparent;
   color: #f9f7f2;
+}
+@media only screen and (min-width: 1200px) {
+  .app-header .send-query-button {
+    margin-right: 15px;
+  }
+}
+@media only screen and (min-width: 1024px) and (max-width: 1200px) {
+  .app-header .currency-conversion-block,
+  .app-header .anticon.cart-icon {
+    margin-right: 10px !important;
+  }
 }
