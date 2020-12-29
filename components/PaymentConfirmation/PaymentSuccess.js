@@ -549,7 +549,7 @@ const PaymentSuccess = (props) => {
                     props.order.miscCharges.find(
                       (x) => x.chargeId === "DISCOUNT"
                     ).amount > 0 && (
-                      <Row className="">
+                      <Row className="qa-mar-top-1">
                         <Col span={16}>
                           <div
                             className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b qa-lh qa-mar-rgt-1"
@@ -592,7 +592,7 @@ const PaymentSuccess = (props) => {
                     props.order.miscCharges.find(
                       (x) => x.chargeId === "SELLER_DISCOUNT"
                     ).amount > 0 && (
-                      <Row className="">
+                      <Row className="qa-mar-top-05">
                         <Col span={16}>
                           <div
                             className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b qa-lh qa-mar-rgt-1"
@@ -900,7 +900,7 @@ const PaymentSuccess = (props) => {
                     props.order.miscCharges.find(
                       (x) => x.chargeId === "DISCOUNT"
                     ).amount > 0 && (
-                      <Row className="">
+                      <Row className="qa-mar-top-1">
                         <Col span={16}>
                           <div
                             className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b qa-lh qa-mar-rgt-1"

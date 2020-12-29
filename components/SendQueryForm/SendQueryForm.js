@@ -250,7 +250,7 @@ const SendQueryForm = (props) => {
       >
         <Row justify="center">
           <Col span={20}>
-            {keycloak.authenticated || props.hideHeader ? null : (
+            {/* {keycloak.authenticated || props.hideHeader ? null : (
               <Alert
                 className="alert-info-top"
                 type="info"
@@ -268,17 +268,16 @@ const SendQueryForm = (props) => {
                         });
                       }}
                     >
-                      {" "}
                       SIGN IN/ SIGN UP
                     </Button>
                   </p>
                 }
               />
-            )}
-            <p className="heading">Sourcing Request</p>
+            )} */}
+            <p className="heading">Sourcing request</p>
             <p className="paragraph">
-              We can help you source products from any lifestyle category! Share
-              your requirements below and we will get back in 48 hours!
+              We can help you source products from any lifestyle category in
+              India and South Asia!
             </p>
           </Col>
         </Row>
@@ -325,7 +324,7 @@ const SendQueryForm = (props) => {
                 </Select> */}
                 <Input.TextArea
                   value={"value"}
-                  autoSize={{ minRows: 1, maxRows: 4 }}
+                  autoSize={{ minRows: 2, maxRows: 4 }}
                 />
               </Form.Item>
               {/* <Form.Item
@@ -416,7 +415,7 @@ const SendQueryForm = (props) => {
                 // rules={[{ required: true, message: 'Please upload atleast one item.' }]}
                 // getValueFromEvent={normFile}
                 extra={
-                  <span className="label-paragraph max-size-upload qa-mar-top-05">
+                  <span className="paragraph qa-mar-top-1">
                     Max size per attachment: 2MB
                   </span>
                 }
@@ -640,29 +639,27 @@ const SendQueryForm = (props) => {
               >
                 {country}
               </Form.Item> */}
-              <div className="city-state-phone">
-                <div className="phone">
-                  <span className="label-paragraph">Phone number</span>
-                  <Form.Item
-                    name="mobileNo"
-                    style={{ marginBottom: "1em" }}
-                    rules={[
-                      // {
-                      //     required: true,
-                      //     message: 'Please input contact number!',
-                      // },
-                      {
-                        pattern: new RegExp("^[0-9]{6,15}$"),
-                        message: "Wrong format!",
-                      },
-                    ]}
-                  >
-                    <Input
-                    // placeholder="Phone Number"
-                    />
-                  </Form.Item>
-                </div>
-              </div>
+
+              <span className="label-paragraph">Phone number</span>
+              <Form.Item
+                name="mobileNo"
+                style={{ marginBottom: "1em" }}
+                rules={[
+                  // {
+                  //     required: true,
+                  //     message: 'Please input contact number!',
+                  // },
+                  {
+                    pattern: new RegExp("^[0-9]{6,15}$"),
+                    message: "Wrong format!",
+                  },
+                ]}
+              >
+                <Input
+                // placeholder="Phone Number"
+                />
+              </Form.Item>
+
               {/* <Form.Item
                         name="liveDemoInterest"
                         valuePropName="checked"
