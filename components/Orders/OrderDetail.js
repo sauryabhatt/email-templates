@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, Button, Popover } from "antd";
 import getSymbolFromCurrency from "currency-symbol-map";
-import Icon from "@ant-design/icons";
 import closeButton from "../../public/filestore/closeButton";
 import Link from "next/link";
-import ParentOrderStatuses from "../../public/filestore/ParentOrderStatuses.json";
-import sellerList from "../../public/filestore/freeShippingSellers.json";
 import moment from "moment";
-
+import Icon, {
+  CheckCircleOutlined,
+} from "@ant-design/icons";
 const OrderDetail = (props) => {
   const {order, handleShowOrder} = props
-  const subOrders = order.subOrders[0]
+  const subOrders = order.subOrders[order.subIndex]
   const [popover, setPopover] = useState(false);
-  console.log(subOrders)
+  console.log()
   const addDefaultSrc = (ev) => {
     ev.target.src = process.env.NEXT_PUBLIC_URL + "/placeholder.png";
   };
@@ -196,7 +195,7 @@ const OrderDetail = (props) => {
   )
   return(
     <div className="tst">
-      <div> Order ID #26888999</div>
+      <div className="qa-mar-btm-1"> Order ID #{order.orderId}</div>
     <Col xs={24} sm={24} md={24} lg={24} className="order-card-container qa-mar-btm-2 qa-font-san">
       <div className="order-card-header">
         <div className="order-card-headr-tile">
@@ -228,7 +227,7 @@ const OrderDetail = (props) => {
                 </div>
               </div>
               <div className="order-card-headr-tile">
-                <div className="qa-fs-14 odrer-header-title qa-sm-color qa-fw-b qa-cursor">
+                <div className="qa-fs-14 odrer-header-title qa-sm-color qa-fw-b qa-cursor qa-underline">
                   TRACK SELLER ORDER
                 </div>
                 {/*<div className="qa-fs-14 order-header-tile-content qa-green-color">
@@ -244,15 +243,34 @@ const OrderDetail = (props) => {
         <div className="qa-flex-row" style={{justifyContent: "space-between"}}>
           <div className="qa-flex-column">
             <div className="qa-fs-17 qa-fw-b">TOTAL SELLER ORDER VALUE</div>
-            <div>Seller ID: {subOrders.sellerCode}</div>
-
+            <div className = "qa-mar-btm-05 qa-fs-12">Seller ID: {subOrders.sellerCode}</div>
+            <div className="qa-flex-row qa-mar-btm-15 qa-fs-12">
+              <span className="click-icon-wrp ">
+                <CheckCircleOutlined
+                      style={{
+                        fontSize: "20px",
+                        marginRight: "7px",
+                      }}
+                    />
+                Quality inspection
+              </span>
+              <span className = "click-icon-wrp">
+                <CheckCircleOutlined
+                      style={{
+                        marginRight: "7px",
+                        fontSize: "20px",
+                      }}
+                    />
+                Production monitoring
+              </span>
+            </div>
           </div>
           <div className="qa-flex-column qa-txt-alg-rgt">
-            <span  className = "qa-fw-b">
+            <span  className = "qa-fw-b qa-fs-17">
               {getSymbolFromCurrency(order && order.currency)}
               {subOrders.total}
             </span>
-            <Popover
+            {/*<Popover
                 placement="bottomRight"
                 content={priceBreakup}
                 trigger="click"
@@ -260,7 +278,7 @@ const OrderDetail = (props) => {
                 overlayClassName="price-breakup-popup"
               >
             <span onClick = {() => setPopover(true)} className = "qa-cursor qa-fs-14 qa-sm-color"> See breakup</span>
-            </Popover>
+            </Popover>*/}
           </div>
         </div>
 
@@ -290,27 +308,27 @@ const OrderDetail = (props) => {
                   )}
                   <div className="qa-flex-row" style={{justifyContent: "space-between", width: "100%", marginLeft: "16px"}}>
                     <div className = "qa-flex-column">
-                      <span>{p.productName}</span>
-                      <span>Item ID - <span className = "qa-fw-b">{p.articleId}</span></span>
-                      <span>{p.color} {p.size ? `, ${p.size}` : null}</span>
-                      {p.qualityTestingCharge ? <span>Quality testing</span> : null}
+                      <span className = "qa-fs-14">{p.productName}</span>
+                      <span className="qa-fs-14">Item ID - <span className = "qa-fs-14 qa-tc-white">{p.articleId}</span></span>
+                      <span className="qa-gray">{p.color} {p.size ? `, ${p.size}` : null}</span>
+                      {/*p.qualityTestingCharge ? <span>Quality testing</span> : null*/}
                     </div>
-                    <div className="qa-flex-column">
+                    <div className="qa-flex-column" style={{width: "35%"}}>
                       <div className="qa-flex-row" style={{justifyContent: "space-between"}}>
                         <span>Units</span>
                         <span className = "qa-fw-b">{p.quantity}</span>
                       </div>
-                      <div className="qa-flex-row" style={{justifyContent: "space-between"}}>
+                      <div className="qa-flex-row" style={{justifyContent: "space-between" }}>
                         <span>Base price</span>
                         <span className = "qa-fw-b">
                           {getSymbolFromCurrency(order && order.currency)}
                           {p.total}
                         </span>
                       </div>
-                      <div className="qa-flex-row" style={{justifyContent: "space-between"}}>
+                      {/*<div className="qa-flex-row" style={{justifyContent: "space-between"}}>
                         <span>Apportioned  freight,<br/> customs, duties & taxes</span>
                         <span className = "qa-fw-b">$80.00</span>
-                      </div>
+                      </div>*/}
                     </div>
                   </div>
                   <hr/>

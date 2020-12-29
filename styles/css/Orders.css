@@ -233,3 +233,8 @@
   width: 50px;
   border-radius: 50%;
 }
+.click-icon-wrp{
+  margin-right:10px;
+  display: flex;
+  align-items: center;
+}

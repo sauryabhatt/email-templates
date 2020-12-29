@@ -421,6 +421,9 @@
 .qa-uppercase {
   text-transform: uppercase;
 }
+.qa-underline {
+  text-decoration:underline;
+}
 .qa-fs-18 {
   font-size: 18px;
 }
