@@ -461,7 +461,7 @@ export default function CuratedByUsWrapper(props) {
             <div className="send-query-success-modal-content">
               <p className="send-query-success-modal-para1">Thank you!</p>
               <p className="send-query-success-modal-para2">
-                We have received your Sourcing Request, and will revert within
+                We have received your Sourcing request, and will revert within
                 the next 48-72 hours.
               </p>
             </div>
