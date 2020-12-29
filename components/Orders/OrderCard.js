@@ -261,7 +261,7 @@ const OrderCard = (props) => {
             {order.status == "DRAFT" ? <span className="qa-error-color">Payment unsuccessful</span> : order.status}
           </div>
         </div>
-        {order.status === "DELIVERED" || order.status === "CANCELED" 
+        {order.status === "DELIVERED" || order.status === "CANCELED" || order.status === "DRAFT" 
           ? null
           : (
             <React.Fragment>
