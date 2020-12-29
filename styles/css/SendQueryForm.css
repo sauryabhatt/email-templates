@@ -231,6 +231,7 @@
 }
 #send-query-form .ant-checkbox-inner {
   background: transparent;
+  border: 1px solid #332f2f;
 }
 #send-query-form .ant-form-item-explain {
   font-size: 12px;
@@ -251,12 +252,11 @@
   .ant-upload.ant-upload-select-picture-card
   span.anticon.anticon-plus {
   background: #d9bb7f;
-  width: 15px;
-  height: 15px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   color: #fff;
-  font-size: 7px;
-  padding: 4px;
+  padding: 3px;
 }
 
 .country-selector .ant-select-selection-search-input {
