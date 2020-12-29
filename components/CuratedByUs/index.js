@@ -68,10 +68,12 @@ export default function CuratedByUsWrapper(props) {
     },
     {
       url: "/trends/play-and-learn",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Play-learn.jpg",
+      img:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL +
+        "/images/Img_Play-learn.jpg",
       text: "Play and learn",
       alt: "Play and learn",
-    }
+    },
   ];
 
   const category = [
@@ -131,7 +133,7 @@ export default function CuratedByUsWrapper(props) {
         process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_BabyKids.jpg",
       url: "/categoryedit/baby-kids",
       alt: "",
-    }
+    },
   ];
 
   const crafts = [
@@ -459,8 +461,8 @@ export default function CuratedByUsWrapper(props) {
             <div className="send-query-success-modal-content">
               <p className="send-query-success-modal-para1">Thank you!</p>
               <p className="send-query-success-modal-para2">
-                We have received your request for quote and will revert within
-                the next 48 to 72 hours.
+                We have received your Sourcing Request, and will revert within
+                the next 48-72 hours.
               </p>
             </div>
             <Button

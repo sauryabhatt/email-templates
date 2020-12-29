@@ -416,7 +416,7 @@ const SendQueryForm = (props) => {
                 // rules={[{ required: true, message: 'Please upload atleast one item.' }]}
                 // getValueFromEvent={normFile}
                 extra={
-                  <span className="label-paragraph max-size-upload qa-mar-top-05">
+                  <span className="label-paragraph max-size-upload qa-mar-top-1">
                     Max size per attachment: 2MB
                   </span>
                 }
