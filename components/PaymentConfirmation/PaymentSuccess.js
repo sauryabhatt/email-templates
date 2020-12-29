@@ -983,12 +983,12 @@ const PaymentSuccess = (props) => {
                     <Col span={16}>
                       <div className="qa-font-san qa-tc-white qa-fs-17 qa-fw-b qa-lh qa-mar-rgt-1">
                         TOTAL ORDER VALUE{" "}
-                        {shippingTerms === "DDU" ||
-                          (shippingTerms === "DDP" && (
-                            <span className="qa-fw-n qa-uppercase">
-                              ({shippingTerms.toUpperCase()})
-                            </span>
-                          ))}
+                        {(shippingTerms === "DDU" ||
+                          shippingTerms === "DDP") && (
+                          <span className="qa-fw-n qa-uppercase">
+                            ({shippingTerms.toUpperCase()})
+                          </span>
+                        )}
                       </div>
                     </Col>
                     <Col span={8}>

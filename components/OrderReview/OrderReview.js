@@ -2548,12 +2548,12 @@ const OrderReview = (props) => {
                           }
                         >
                           TOTAL ORDER VALUE{" "}
-                          {shippingTerms === "DDU" ||
-                            (shippingTerms === "DDP" && (
-                              <span className="qa-fw-n qa-uppercase">
-                                ({shippingTerms})
-                              </span>
-                            ))}
+                          {(shippingTerms === "DDU" ||
+                            shippingTerms === "DDP") && (
+                            <span className="qa-fw-n qa-uppercase">
+                              ({shippingTerms})
+                            </span>
+                          )}
                         </div>
                       </Col>
                       <Col
