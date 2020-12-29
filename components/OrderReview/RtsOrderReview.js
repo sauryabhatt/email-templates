@@ -355,7 +355,8 @@ const RtsOrderReview = (props) => {
                   >
                     <div className="qa-bg-light-theme qa-pad-2 qa-box-shadow shipping-mode-section">
                       <div className="qa-pad-btm-15 qa-border-bottom">
-                        <span>
+                        <span className="qa-va-m">{shippingMode}</span>
+                        <span style={{ float: "right" }}>
                           {shippingMode === "SEA" ? (
                             <Icon
                               component={Sea}
@@ -369,7 +370,6 @@ const RtsOrderReview = (props) => {
                               className="air-icon"
                             />
                           )}
-                          <span className="qa-va-m">{shippingMode}</span>
                         </span>
                       </div>
                       <div className="qa-pad-015 qa-dashed-border">
@@ -1098,7 +1098,8 @@ const RtsOrderReview = (props) => {
                   <div>
                     <div className="qa-bg-dark-theme qa-pad-2 qa-box-shadow">
                       <div className="qa-pad-btm-15 qa-border-bottom">
-                        <span>
+                        <span className="qa-va-m">{shippingMode}</span>
+                        <span style={{ float: "right" }}>
                           {shippingMode === "SEA" ? (
                             <Icon
                               component={Sea}
@@ -1112,7 +1113,6 @@ const RtsOrderReview = (props) => {
                               className="air-icon"
                             />
                           )}
-                          <span className="qa-va-m">{shippingMode}</span>
                         </span>
                       </div>
                       <div className="qa-pad-015 qa-dashed-border">
