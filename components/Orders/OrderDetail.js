@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Button, Popover } from "antd";
+import { Row, Col, Menu, Button, Modal, Popover } from "antd";
 import getSymbolFromCurrency from "currency-symbol-map";
 import closeButton from "../../public/filestore/closeButton";
 import Link from "next/link";
@@ -11,7 +11,7 @@ const OrderDetail = (props) => {
   const {order, handleShowOrder} = props
   const subOrders = order.subOrders[order.subIndex]
   const [popover, setPopover] = useState(false);
-  console.log()
+  const [isModalVisible, setModalVisible] = useState(false);
   const addDefaultSrc = (ev) => {
     ev.target.src = process.env.NEXT_PUBLIC_URL + "/placeholder.png";
   };
@@ -227,9 +227,12 @@ const OrderDetail = (props) => {
                 </div>
               </div>
               <div className="order-card-headr-tile">
-                <div className="qa-fs-14 odrer-header-title qa-sm-color qa-fw-b qa-cursor qa-underline">
-                  TRACK SELLER ORDER
-                </div>
+                {order.trackingURL && order.shipperName 
+                  ?(<div onClick={()=> setModalVisible(true)} className="qa-fs-14 odrer-header-title qa-sm-color qa-fw-b qa-cursor qa-underline">
+                      TRACK SELLER ORDER
+                    </div>
+                  ): null
+                }
                 {/*<div className="qa-fs-14 order-header-tile-content qa-green-color">
                   Arriving early.
                 </div>*/}
@@ -337,6 +340,16 @@ const OrderDetail = (props) => {
           ): null}
 
       </div>
+      <Modal 
+        title="Track your order" 
+        visible={isModalVisible} 
+        footer={null}
+        closeIcon = <span className="track-cross" onClick={() => setModalVisible(false)}>X</span>
+      >
+        <p>Logistics partner: {order.shipperName}</p>
+        <span>You will be redirected to the partner website to track your order. </span><br/>
+        <a onClick={() => setModalVisible(false)} target="_blank" href = {order.trackingURL} className = "qa-fs-14 qa-sm-color qa-cursor qa-underline">Please click here to track your order.</a>
+      </Modal>
     </Col>
     </div>
   )

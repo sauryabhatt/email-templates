@@ -10,6 +10,7 @@ const OrderCard = (props) => {
   const mediaMatch = window.matchMedia("(min-width: 768px)");
   const {order, handleShowOrder} = props
   const [popover, setPopover] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
 
   const diff_hours = (dt2, dt1) => {
     var diff = (dt2.getTime() - dt1.getTime()) / 1000;
@@ -273,9 +274,12 @@ const OrderCard = (props) => {
                 </div>
               </div>
               <div className="order-card-headr-tile">
-                <div className="qa-fs-14 odrer-header-title qa-sm-color qa-fw-b qa-cursor">
-                  TRACK ORDER
-                </div>
+                {order.trackingURL && order.shipperName 
+                  ?(<div onClick={()=> setModalVisible(true)} className="qa-fs-14 odrer-header-title qa-sm-color qa-fw-b qa-cursor qa-underline">
+                      TRACK SELLER ORDER
+                    </div>
+                  ): null
+                }
                 {/*<div className="qa-fs-14 order-header-tile-content qa-green-color">
                   Arriving early.
                 </div>*/}
@@ -334,7 +338,7 @@ const OrderCard = (props) => {
                 </div>
                 <div className="order-card-detail qa-fs-14 qa-txt-alg-rgt">
                   <div> Seller order ID: {e.id}</div>
-                  <div className="qa-sm-color qa-fw-b qa-cursor" onClick={()=>{
+                  <div className="qa-sm-color qa-fw-b qa-cursor qa-underline" onClick={()=>{
                     order.subIndex = index
                     props.setDetailOrder(order)
                     handleShowOrder(true)
@@ -425,6 +429,16 @@ const OrderCard = (props) => {
           </div>
         </div>
       </div>
+      <Modal 
+        title="Track your order" 
+        visible={isModalVisible} 
+        footer={null}
+        closeIcon = <span className="track-cross" onClick={() => setModalVisible(false)}>X</span>
+      >
+        <p>Logistics partner: {order.shipperName}</p>
+        <span>You will be redirected to the partner website to track your order. </span><br/>
+        <a onClick={() => setModalVisible(false)} target="_blank" href = {order.trackingURL} className = "qa-fs-14 qa-sm-color qa-cursor qa-underline">Please click here to track your order.</a>
+      </Modal>
     </Col> 
   )
 }
