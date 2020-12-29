@@ -356,13 +356,13 @@ const OrderReview = (props) => {
             </td>
             <td>
               <span className="qa-font-san qa-fw-b qa-fs-12">
-                {product.productId}
+                {product.articleId || product.productId}
               </span>
             </td>
             <td>
-              <span className="qa-font-san qa-fw-b qa-fs-12">
+              <div className="qa-font-san qa-fw-b qa-fs-12 qa-lh">
                 {product.productName}
-              </span>
+              </div>
             </td>
             <td>
               <span className="qa-font-san qa-fw-b qa-fs-12">
@@ -611,12 +611,12 @@ const OrderReview = (props) => {
         return (
           <React.Fragment key={index}>
             <Col xs={18} sm={18} md={18} lg={0} xl={0} className="qa-mar-top-2">
-              <span
-                className="qa-font-san qa-fs-12 qa-tc-white"
+              <div
+                className="qa-font-san qa-fs-12 qa-tc-white qa-lh"
                 style={{ lineHeight: "100%", letterSpacing: ".02em" }}
               >
                 {product.productName}
-              </span>
+              </div>
             </Col>
             {/* <Col xs={4} sm={4} md={0} lg={0} className="qa-col-center qa-mar-top-2" style={{ alignItems: 'center' }}>
                         <span className="qa-font-san qa-fw-b qa-fs-12 qa-tc-white" style={{ lineHeight: '130%' }}>{getSymbolFromCurrency(props.order && props.order.currency)}450</span>
@@ -689,7 +689,7 @@ const OrderReview = (props) => {
                     className="qa-font-san qa-tc-white qa-fs-12"
                     style={{ lineHeight: "130%" }}
                   >
-                    {product.productId}
+                    {product.articleId || product.productId}
                   </span>
                 </Col>
                 <Col xs={18} sm={18} md={18} lg={0}>
@@ -991,7 +991,7 @@ const OrderReview = (props) => {
                   {mediaMatch.matches ? (
                     <Col xs={24} sm={24} md={24} lg={24}>
                       <span
-                        className="qa-fs-16 qa-font-san qa-tc-white"
+                        className="qa-fs-17 qa-font-san qa-tc-white"
                         style={{ lineHeight: "100%", letterSpacing: "0.02em" }}
                       >
                         Shipping term:
@@ -1002,13 +1002,19 @@ const OrderReview = (props) => {
                       <Row>
                         <Col xs={20} sm={20} md={20} lg={20}>
                           <span
-                            className="qa-fs-16 qa-font-san qa-tc-white"
+                            className="qa-fs-17 qa-font-san qa-tc-white"
                             style={{
                               lineHeight: "100%",
                               letterSpacing: "0.02em",
                             }}
                           >
-                            Shipping term: {shippingTerms}
+                            Shipping term:{" "}
+                            {shippingTerms === "DDU" ||
+                              (shippingTerms === "DDP" && (
+                                <span className="qa-fw-n qa-uppercase">
+                                  {shippingTerms}
+                                </span>
+                              ))}
                           </span>
                         </Col>
                         <Col xs={4} sm={4} md={4} lg={4} className="qa-col-end">
@@ -1124,7 +1130,14 @@ const OrderReview = (props) => {
                           props.order.shippingMode.substr(1).toLowerCase()}
                     </span>
                   </Col>
-                  <Col xs={2} sm={2} md={2} lg={2} className="qa-col-end">
+                  <Col
+                    xs={2}
+                    sm={2}
+                    md={2}
+                    lg={2}
+                    className="qa-col-end"
+                    style={mediaMatch.matches ? { display: "none" } : {}}
+                  >
                     {showRow ? (
                       <UpOutlined onClick={() => handleRow(false)} />
                     ) : (
@@ -1624,7 +1637,7 @@ const OrderReview = (props) => {
                                   letterSpacing: ".01em",
                                 }}
                               >
-                                Pay on shipment
+                                Pay on dispatch
                               </span>
                             </Col>
                             <Col
@@ -1854,7 +1867,7 @@ const OrderReview = (props) => {
                                   letterSpacing: ".01em",
                                 }}
                               >
-                                Pay on shipment
+                                Pay on dispatch
                               </span>
                             </Col>
                             <Col
@@ -2116,15 +2129,22 @@ const OrderReview = (props) => {
                     </Row>
                   </Col>
                 </Row>
-                <Row style={{ paddingTop: "20px" }}>
-                  <Col xs={24} sm={24} md={24} lg={24} className="payment-term">
+                <Row style={{ paddingTop: "10px" }}>
+                  <Col
+                    xs={24}
+                    sm={24}
+                    md={24}
+                    lg={24}
+                    className="payment-term"
+                    style={{ padding: "20px 20px 10px" }}
+                  >
                     <Row>
                       <Col xs={24} sm={24} md={24} lg={24}>
                         <span
                           className="qa-font-butler qa-fs-20 qa-tc-white"
                           style={{ lineHeight: "38px", letterSpacing: ".01em" }}
                         >
-                          Order summary
+                          Cart summary
                         </span>
                       </Col>
                       <Col xs={24} sm={24} md={24} lg={24}>
@@ -2518,9 +2538,12 @@ const OrderReview = (props) => {
                           }
                         >
                           TOTAL ORDER VALUE{" "}
-                          <span className="qa-fw-n qa-uppercase">
-                            ({shippingTerms})*
-                          </span>
+                          {shippingTerms === "DDU" ||
+                            (shippingTerms === "DDP" && (
+                              <span className="qa-fw-n qa-uppercase">
+                                ({shippingTerms})
+                              </span>
+                            ))}
                         </div>
                       </Col>
                       <Col
@@ -2662,12 +2685,20 @@ const OrderReview = (props) => {
                         <span
                           className={
                             mediaMatch.matches
-                              ? "qa-font-san qa-fs-14 qa-sm-color"
-                              : "qa-font-san qa-fs-12 qa-sm-color"
+                              ? "qa-font-san qa-fs-14 qa-sm-color qa-cursor"
+                              : "qa-font-san qa-fs-12 qa-sm-color qa-cursor"
                           }
                         >
-                          quotation and specification sheet, and the buyer
-                          agreement
+                          <span
+                            onClick={(e) =>
+                              downloadMedia(props.order.quotationMedia)
+                            }
+                          >
+                            quotation and specification sheet,
+                          </span>{" "}
+                          <span onClick={(e) => downloadBuyerAgreement()}>
+                            and the buyer agreement
+                          </span>
                         </span>
                       </Col>
                       <Col
@@ -2897,7 +2928,7 @@ const OrderReview = (props) => {
                               </Col>
                               <Col xs={0} sm={0} md={22} lg={22}>
                                 <span className="qa-font-san qa-fw-b qa-fs-14 qa-tc-white">
-                                  Qaulity inspection,{" "}
+                                  Quality inspection,{" "}
                                   {getSymbolFromCurrency(
                                     props.order && props.order.currency
                                   )}
