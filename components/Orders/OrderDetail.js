@@ -1,58 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Menu, Button, Modal, Popover } from "antd";
+import { Row, Col, Button, Popover } from "antd";
 import getSymbolFromCurrency from "currency-symbol-map";
-import moment from "moment";
 import Icon from "@ant-design/icons";
 import closeButton from "../../public/filestore/closeButton";
 import Link from "next/link";
+import ParentOrderStatuses from "../../public/filestore/ParentOrderStatuses.json";
+import sellerList from "../../public/filestore/freeShippingSellers.json";
+import moment from "moment";
 
-const OrderCard = (props) => {
-  const mediaMatch = window.matchMedia("(min-width: 768px)");
+const OrderDetail = (props) => {
   const {order, handleShowOrder} = props
+  const subOrders = order.subOrders[0]
   const [popover, setPopover] = useState(false);
-
-  const diff_hours = (dt2, dt1) => {
-    var diff = (dt2.getTime() - dt1.getTime()) / 1000;
-    diff /= 60 * 60;
-    return Math.abs(Math.round(diff));
-  };
-  let {
-    orderedDate = "",
-    subOrders = [],
-    orderConfirmedDate = "",
-    paymentTime = "",
-  } = order;
-  let paymentTimeDiff = diff_hours(new Date(paymentTime), new Date());
-  const downloadInvoice = (data) => {
-    if (data) {
-      var a = document.createElement("a");
-      a.href =
-        process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL + data["mediaUrl"];
-      a.setAttribute("download", "Spec-sheet");
-      a.setAttribute("target", "_blank");
-      a.click();
-    }
-  };
-
+  console.log(subOrders)
   const addDefaultSrc = (ev) => {
     ev.target.src = process.env.NEXT_PUBLIC_URL + "/placeholder.png";
-  };
-
-  const retryPayment = (orderId, type) => {
-    if (type == "CUSTOM") {
-      let url = "/order-review/" + orderId;
-      router.push(url);
-    } else {
-      props.getOrderByOrderId(keycloak.token, orderId);
-      let url = "/RTS/order-review/" + orderId;
-      router.push(url);
-    }
-  };
-
-  const handleClick = (orders, subOrders) => {
-    props.handleShowOrder(true);
-    setOrderDetails(orders);
-    setSubOrders(subOrders);
   };
   let priceBreakup = (
     <div className="breakup-popup qa-font-san">
@@ -232,8 +194,9 @@ const OrderCard = (props) => {
       </div>
     </div>
   )
-
   return(
+    <div className="tst">
+      <div> Order ID #26888999</div>
     <Col xs={24} sm={24} md={24} lg={24} className="order-card-container qa-mar-btm-2 qa-font-san">
       <div className="order-card-header">
         <div className="order-card-headr-tile">
@@ -242,14 +205,6 @@ const OrderCard = (props) => {
           </div>
           <div className="qa-fs-14 order-header-tile-content">
             {order.orderId}
-          </div>
-        </div>
-        <div className="order-card-headr-tile">
-          <div className="qa-fs-10 odrer-header-title qa-grey-color">
-            Order DATE
-          </div>
-          <div className="qa-fs-14 order-header-tile-content">
-            {moment(order.orderConfirmedDate).format("DD MMM YY")}
           </div>
         </div>
         <div className="order-card-headr-tile">
@@ -274,7 +229,7 @@ const OrderCard = (props) => {
               </div>
               <div className="order-card-headr-tile">
                 <div className="qa-fs-14 odrer-header-title qa-sm-color qa-fw-b qa-cursor">
-                  TRACK ORDER
+                  TRACK SELLER ORDER
                 </div>
                 {/*<div className="qa-fs-14 order-header-tile-content qa-green-color">
                   Arriving early.
@@ -282,151 +237,91 @@ const OrderCard = (props) => {
               </div>
 
             </React.Fragment>
-
           )
         }
       </div>
-
-
       <div className="order-card-body">
-        {order.subOrders && order.subOrders.length > 0 
-          ?(order.subOrders.map((e, index) => {
-            return (
-              <div key = {index} className="order-card-details-tile">
-                <div className="qa-flex-row">
-                  <div className="order-card-detail qa-fs-12" style ={{marginRight: "60px"}}>
-                    <div className="qa-grey-color">Seller ID</div>
-                    <div className="a">{e.sellerCode} </div>
-                  </div>
-                  <div className="order-card-detail">
-                    {e.products && e.products.length > 0
-                      ? (e.products.map((p, i) => {
-                        if(i > 2){return null}
-                        return (
-                          <span style ={{position: "relative", marginRight: "20px"}}>
-                          {order.orderType === "RTS" ? (
-                          <img
-                            className="images"
-                            onError={addDefaultSrc}
-                            src={p.image}
-                            alt="Order placeholder"
-                          ></img>
-                        ) : (
-                          <img
-                            className="images"
-                            onError={addDefaultSrc}
-                            src={
-                              process.env
-                                .NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
-                               `${p.thumbnailMedia ? p.thumbnailMedia.mediaUrl : null}`
-                            }
-                            alt="Order placeholder"
-                          ></img>
-                        )}
-                            {i == 2 && e.products.length > 3 ? <span className="place-hold"> +3</span> : null}
-                          </span>)
-                      })
+        <div className="qa-flex-row" style={{justifyContent: "space-between"}}>
+          <div className="qa-flex-column">
+            <div className="qa-fs-17 qa-fw-b">TOTAL SELLER ORDER VALUE</div>
+            <div>Seller ID: {subOrders.sellerCode}</div>
 
-                      ): null
-
-                    }
-                  </div>
-                </div>
-                <div className="order-card-detail qa-fs-14 qa-txt-alg-rgt">
-                  <div> Seller order ID: {e.id}</div>
-                  <div className="qa-sm-color qa-fw-b qa-cursor" onClick={()=>{
-                    order.subIndex = index
-                    props.setDetailOrder(order)
-                    handleShowOrder(true)
-                  }}
-                  >View details</div>
-                </div>
-              </div>
-            )
-          })
-          ): null
-
-        }
-
-        <div className="order-card-bottom">
-          <div className="qa-flex-row qa-fw-b">
-            <span className="qa-fs-17">TOTAL ORDER VALUE ({order.shippingTerms})</span>
-            <div className = "qa-flex-column qa-mar-left-50 qa-txt-alg-rgt">
-              <span className="qa-fs-17">
-                {getSymbolFromCurrency(order && order.currency)}
-                {order && order.total}
-              </span>
-              <Popover
+          </div>
+          <div className="qa-flex-column qa-txt-alg-rgt">
+            <span  className = "qa-fw-b">
+              {getSymbolFromCurrency(order && order.currency)}
+              {subOrders.total}
+            </span>
+            <Popover
                 placement="bottomRight"
                 content={priceBreakup}
                 trigger="click"
                 visible={popover}
                 overlayClassName="price-breakup-popup"
               >
-
-                <span onClick = {() => setPopover(true)} className = "qa-cursor qa-fs-14 qa-sm-color">See breakup</span>
-              </Popover>
-            </div>
-          </div>
-
-          <div>
-            {order.payment_status !== "FAILED" ? (
-              <Button
-                className={
-                  mediaMatch.matches
-                    ? "download-invoice-btn qa-vertical-center"
-                    : "download-invoice-btn-mob qa-vertical-center"
-                }
-                size={mediaMatch.matches ? "large" : "small"}
-                style={{ justifyContent: "center" }}
-                disabled={
-                  (order && order.orderInvoice == undefined) ||
-                    (order &&
-                      order.orderInvoice &&
-                      order.orderInvoice.media == null)
-                }
-                onClick={(e) =>
-                    downloadInvoice(
-                      order &&
-                      order.orderInvoice &&
-                      order.orderInvoice.media
-                    )
-                }
-              >
-                <span
-                  className="qa-font-san qa-fs-12"
-                  style={{ color: "#000000" }}
-                >
-                  Download invoice
-                </span>
-              </Button>
-            ) : (
-              <span>
-                {paymentTimeDiff <= 48 && (
-                  <Button
-                    className={
-                      mediaMatch.matches
-                        ? "retry-payment-btn qa-vertical-center"
-                        : "retry-payment-btn-mob qa-vertical-center"
-                    }
-                    size={mediaMatch.matches ? "large" : "small"}
-                    style={{ justifyContent: "center" }}
-                    onClick={() =>
-                        retryPayment(order.orderId, order.orderType)
-                    }
-                  >
-                    <span className="qa-font-san qa-fs-12">
-                      RETRY PAYMENT
-                    </span>
-                  </Button>
-                )}
-              </span>
-            )}
+            <span onClick = {() => setPopover(true)} className = "qa-cursor qa-fs-14 qa-sm-color"> See breakup</span>
+            </Popover>
           </div>
         </div>
+
+        {subOrders.products && subOrders.products.length > 0 
+          ?(
+            subOrders.products.map((p, i) =>{
+              return (
+                <div key={i} className="qa-flex-row order-card-details-tile">
+                  {order.orderType === "RTS" ? (
+                    <img
+                      className="images"
+                      onError={addDefaultSrc}
+                      src={p.image}
+                      alt="Order placeholder"
+                    ></img>
+                  ) : (
+                    <img
+                      className="images"
+                      onError={addDefaultSrc}
+                      src={
+                        process.env
+                          .NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
+                          `${p.thumbnailMedia ? p.thumbnailMedia.mediaUrl : null}`
+                      }
+                      alt="Order placeholder"
+                    ></img>
+                  )}
+                  <div className="qa-flex-row" style={{justifyContent: "space-between", width: "100%", marginLeft: "16px"}}>
+                    <div className = "qa-flex-column">
+                      <span>{p.productName}</span>
+                      <span>Item ID - <span className = "qa-fw-b">{p.articleId}</span></span>
+                      <span>{p.color} {p.size ? `, ${p.size}` : null}</span>
+                      {p.qualityTestingCharge ? <span>Quality testing</span> : null}
+                    </div>
+                    <div className="qa-flex-column">
+                      <div className="qa-flex-row" style={{justifyContent: "space-between"}}>
+                        <span>Units</span>
+                        <span className = "qa-fw-b">{p.quantity}</span>
+                      </div>
+                      <div className="qa-flex-row" style={{justifyContent: "space-between"}}>
+                        <span>Base price</span>
+                        <span className = "qa-fw-b">
+                          {getSymbolFromCurrency(order && order.currency)}
+                          {p.total}
+                        </span>
+                      </div>
+                      <div className="qa-flex-row" style={{justifyContent: "space-between"}}>
+                        <span>Apportioned  freight,<br/> customs, duties & taxes</span>
+                        <span className = "qa-fw-b">$80.00</span>
+                      </div>
+                    </div>
+                  </div>
+                  <hr/>
+                </div>
+              )})
+          ): null}
+
       </div>
-    </Col> 
+    </Col>
+    </div>
   )
 }
 
-export default OrderCard
+export default OrderDetail;

@@ -9,6 +9,7 @@ import { useRouter } from "next/router";
 import { LoadingOutlined } from "@ant-design/icons";
 import SendQueryForm from "../SendQueryForm/SendQueryForm";
 import OrderCard from "./OrderCard";
+import OrderDetail from "./OrderDetail"
 
 const Orderss = (props) => {
   const { keycloak } = useKeycloak();
@@ -16,6 +17,7 @@ const Orderss = (props) => {
   const [showLoader, setShowLoader] = useState(true);
   const mediaMatch = window.matchMedia("(min-width: 768px)");
   const [visible, setVisible] = useState(false);
+  const [detailOrder, setDetailOrder] = useState("")
 
   const handleClick = (e) => {
     setShowLoader(true);
@@ -58,7 +60,7 @@ const Orderss = (props) => {
                 className="form-heading qa-fs-22 qa-font-san qa-fw-b"
                 style={{ color: "#191919", letterSpacing: "0.2px" }}
               >
-                MY ORDERS
+                MY ORDERS {props.showOrderDetails ? <span>/ ID10004567</span> : null}
               </p>
             </div>
           </Col>
@@ -93,7 +95,8 @@ const Orderss = (props) => {
           </Col>
         </Row>
       </Col>
-      <Col xs={24} sm={24} md={24} lg={24} className="order-menu">
+      {props.showOrderDetails ? null
+      :(<Col xs={24} sm={24} md={24} lg={24} className="order-menu">
         <Row>
           <Col xs={24} sm={24} md={18} lg={18}>
             <Menu
@@ -161,11 +164,16 @@ const Orderss = (props) => {
             ""
           )}
         </Row>
-      </Col>
+      </Col>)}
       <React.Fragment>
-        {props.orders && props.orders.length > 0 && props.typeOrder[current].length > 0
+      {props.showOrderDetails 
+        ? (props.orders && props.orders.length > 0 && props.typeOrder[current].length > 0
+            ? <OrderDetail order={detailOrder}/>
+            : null
+        ) 
+        :(props.orders && props.orders.length > 0 && props.typeOrder[current].length > 0
           ?(
-            props.typeOrder[current].map(x => <OrderCard order = {x}/>)
+            props.typeOrder[current].map(x => <OrderCard setDetailOrder = {setDetailOrder} handleShowOrder = {props.handleShowOrder} order = {x}/>)
           ):(
             <Col
               xs={24}
@@ -219,7 +227,7 @@ const Orderss = (props) => {
                 </Col>
               </Row>
             </Col>
-          )
+          ))
         }
       </React.Fragment>
     </React.Fragment>
