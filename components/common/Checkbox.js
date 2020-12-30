@@ -12,7 +12,6 @@ export default ({
   filterId,
 }) => (
   <Checkbox
-    style={{ display: "block", marginLeft: 0 }}
     disabled={disabled || false}
     label={label}
     filterId={filterId}

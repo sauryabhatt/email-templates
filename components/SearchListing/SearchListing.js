@@ -107,9 +107,12 @@ const SearchListing = (props) => {
 
     for (const key in queryParams) {
       if (
-        key == "f_values" ||
-        key == "f_key_methods" ||
-        key == "f_product_types"
+        key !== "f_categories" &&
+        key !== "from" &&
+        key !== "size" &&
+        key !== "sort_by" &&
+        key !== "sort_order" &&
+        key !== "state"
       ) {
         tempObj[key] = queryParams[key];
       }
