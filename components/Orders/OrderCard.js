@@ -307,7 +307,7 @@ const OrderCard = (props) => {
           </div>
         </div>
         {order.status === "DELIVERED" || order.status === "CANCELED" || order.status === "DRAFT" 
-          ? order.status === "DRAFT"
+          ? order.status === "DRAFT" && !mediaMatch
             ?(  
               <span>
                 {paymentTimeDiff <= 48 && (
@@ -428,39 +428,62 @@ const OrderCard = (props) => {
 
               <div className="qa-flex-row " style ={{justifyContent: "space-between"}}>
                 <div>
-                  {order.payment_status !== "FAILED" && order.status !== "CANCELED" ? (
-                    <Button
-                      className={
-                        mediaMatch.matches
-                          ? "download-invoice-btn qa-vertical-center"
-                          : "download-invoice-btn-mob qa-vertical-center"
-                      }
-                      size={mediaMatch.matches ? "large" : "small"}
-                      style={{ justifyContent: "center" }}
-                      disabled={
-                        (order && order.orderInvoice == undefined) ||
-                          (order &&
-                            order.orderInvoice &&
-                            order.orderInvoice.media == null)
-                      }
-                      onClick={(e) =>
-                          downloadInvoice(
-                            order &&
-                            order.orderInvoice &&
-                            order.orderInvoice.media
-                          )
-                      }
-                    >
-                      <span
-                        className="qa-font-san qa-fs-12"
-                        style={{ color: "#000000" }}
-                      >
-                        Download invoice
+                  {order.status === "DRAFT"
+                    ?(  
+                      <span>
+                        {paymentTimeDiff <= 48 && (
+                          <Button
+                            className={
+                              mediaMatch.matches
+                                ? "retry-payment-btn qa-vertical-center"
+                                : "retry-payment-btn-mob qa-vertical-center"
+                            }
+                            size={mediaMatch.matches ? "large" : "small"}
+                            style={{ justifyContent: "center", backgroundColor: "#d9bb7f" }}
+                            onClick={() =>
+                                retryPayment(order.orderId, order.orderType)
+                            }
+                          >
+                            <span className="qa-font-san qa-fs-12 qa-fw-b qa-tc-white">
+                              RETRY PAYMENT
+                            </span>
+                          </Button>
+                        )}
                       </span>
-                    </Button>
-                  ) : (
-                    null
-                  )}
+                    ):
+                      order.payment_status !== "FAILED" && order.status !== "CANCELED" ? (
+                        <Button
+                          className={
+                            mediaMatch.matches
+                              ? "download-invoice-btn qa-vertical-center"
+                              : "download-invoice-btn-mob qa-vertical-center"
+                          }
+                          size={mediaMatch.matches ? "large" : "small"}
+                          style={{ justifyContent: "center" }}
+                          disabled={
+                            (order && order.orderInvoice == undefined) ||
+                              (order &&
+                                order.orderInvoice &&
+                                order.orderInvoice.media == null)
+                          }
+                          onClick={(e) =>
+                              downloadInvoice(
+                                order &&
+                                order.orderInvoice &&
+                                order.orderInvoice.media
+                              )
+                          }
+                        >
+                          <span
+                            className="qa-font-san qa-fs-12"
+                            style={{ color: "#000000" }}
+                          >
+                            Download invoice
+                          </span>
+                        </Button>
+                      ) : (
+                        null
+                      )}
                 </div>
                 {order.trackingURL && order.shipperName 
                   ?(<div className="order-card-headr-tile">
@@ -472,7 +495,7 @@ const OrderCard = (props) => {
                 </div>*/}
                   </div>
                   ): null
-                  }
+                }
               </div>
             </div>
           </div>
