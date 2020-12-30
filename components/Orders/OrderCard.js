@@ -15,6 +15,15 @@ const OrderCard = (props) => {
   const [popover, setPopover] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const { keycloak } = useKeycloak();
+  
+  const redirectTrackingUrl = () => {
+    let data = order.trackingURL 
+    if (data) {
+      let url = "https://" + data;
+      window.open(url, "_blank");
+      setModalVisible(false)  
+    }
+  };
 
   const diff_hours = (dt2, dt1) => {
     var diff = (dt2.getTime() - dt1.getTime()) / 1000;
@@ -259,7 +268,7 @@ const OrderCard = (props) => {
                       <div className="c-left-blk qa-mar-btm-05 qa-fw-b">PAY LATER</div>
                       <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
                         {getSymbolFromCurrency(order && order.currency) || "$"}
-                        {order.total - order.paymentTerms[0].amount}
+                        {parseFloat(order.total - order.paymentTerms[0].amount).toFixed(2)}
                       </span>
                     </div>
                   ): null
@@ -434,7 +443,7 @@ const OrderCard = (props) => {
           </div>
 
           <div>
-            {order.payment_status !== "FAILED" ? (
+            {order.payment_status !== "FAILED" && order.status !== "CANCELED" ? (
               <Button
                 className={
                   mediaMatch.matches
@@ -478,7 +487,11 @@ const OrderCard = (props) => {
       >
         <p>Logistics partner: {order.shipperName}</p>
         <span>You will be redirected to the partner website to track your order. </span><br/>
-        <a onClick={() => setModalVisible(false)} target="_blank" href = {order.trackingURL} className = "qa-fs-14 qa-sm-color qa-cursor qa-underline">Please click here to track your order.</a>
+        <span 
+          onClick={redirectTrackingUrl}
+          className = "qa-fs-14 qa-sm-color qa-cursor qa-underline">
+            Please click here to track your order.
+        </span>
       </Modal>
     </Col> 
   )

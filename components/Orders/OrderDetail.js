@@ -16,6 +16,7 @@ const OrderDetail = (props) => {
   const [popover, setPopover] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const mediaMatch = window.matchMedia("(min-width: 768px)");
+
   let {
     paymentTime = "",
   } = order;
@@ -26,6 +27,17 @@ const OrderDetail = (props) => {
     return Math.abs(Math.round(diff));
   };
   let paymentTimeDiff = diff_hours(new Date(paymentTime), new Date());
+
+    
+  const redirectTrackingUrl = () => {
+    let data = order.trackingURL 
+    if (data) {
+      let url = "https://" + data;
+      window.open(url, "_blank");
+      setModalVisible(false)  
+    }
+  };
+
   const retryPayment = (orderId, type) => {
     if (type == "CUSTOM") {
       let url = "/order-review/" + orderId;
@@ -394,7 +406,11 @@ const OrderDetail = (props) => {
       >
         <p>Logistics partner: {order.shipperName}</p>
         <span>You will be redirected to the partner website to track your order. </span><br/>
-        <a onClick={() => setModalVisible(false)} target="_blank" href = {order.trackingURL} className = "qa-fs-14 qa-sm-color qa-cursor qa-underline">Please click here to track your order.</a>
+        <span 
+          onClick={redirectTrackingUrl}
+          className = "qa-fs-14 qa-sm-color qa-cursor qa-underline">
+            Please click here to track your order.
+        </span>
       </Modal>
     </Col>
     </div>

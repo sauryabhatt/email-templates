@@ -10,6 +10,10 @@ import { LoadingOutlined } from "@ant-design/icons";
 import SendQueryForm from "../SendQueryForm/SendQueryForm";
 import OrderCard from "./OrderCard";
 import OrderDetail from "./OrderDetail"
+import closeButton from "../../public/filestore/closeButton";
+import Icon, {
+  CheckCircleOutlined,
+} from "@ant-design/icons";
 
 const Orderss = (props) => {
   const { keycloak } = useKeycloak();
@@ -18,10 +22,42 @@ const Orderss = (props) => {
   const mediaMatch = window.matchMedia("(min-width: 768px)");
   const [visible, setVisible] = useState(false);
   const [detailOrder, setDetailOrder] = useState("")
+  const [successQueryVisible, setSuccessQueryVisible] = useState(false);
 
   const handleClick = (e) => {
-    setShowLoader(true);
     setCurrent(e.key);
+  };
+
+  const successQueryCancel = () => {
+    setSuccessQueryVisible(false);
+  };
+
+  let requesterName = "";
+  if (
+    props.userProfile &&
+    props.userProfile.firstName &&
+    props.userProfile &&
+    props.userProfile.lastName
+  ) {
+    requesterName =
+      props.userProfile.firstName + " " + props.userProfile.lastName;
+  }
+
+  let values = {
+    profileId: props.userProfile && props.userProfile.profileId,
+    profileType: props.userProfile && props.userProfile.profileType,
+    category: "",
+    requirementDetails: "",
+    upload: {},
+    quantity: "",
+    pricePerItem: "",
+    deliveryDate: "",
+    requesterName: requesterName,
+    companyName: props.userProfile && props.userProfile.orgName,
+    emailId: props.userProfile && props.userProfile.email,
+    country: props.userProfile && props.userProfile.country,
+    city: "",
+    mobileNo: props.userProfile && props.userProfile.orgPhone,
   };
 
   useEffect(() => {
@@ -42,8 +78,15 @@ const Orderss = (props) => {
     a.setAttribute("target", "_blank");
     a.click();
   };
+  const sendQueryCancel = (status) => {
+    setVisible(false);
+    if (status === "success") {
+      setSuccessQueryVisible(true);
+    } 
+  };
+
   let viewOrder = []
-  if (showLoader && props.orders.length <= 0) {
+  if (showLoader ) {
     return (
       <div className="qa-loader-middle">
         <LoadingOutlined style={{ fontSize: 24 }} spin />
@@ -234,6 +277,68 @@ const Orderss = (props) => {
             </Col>
           ))
         }
+        <Modal
+        visible={visible}
+        footer={null}
+        closable={false}
+        onCancel={sendQueryCancel}
+        style={{ top: 5 }}
+        bodyStyle={{ padding: "0" }}
+        className="rfq-submit-modal"
+        // width={props.buyerDetails || props.sellerDetails ? 775 : 550}
+        className="rfq-submit-modal"
+      >
+        <div>
+          <div
+            onClick={sendQueryCancel}
+            style={{
+              position: "absolute",
+              right: "20px",
+              top: "15px",
+              cursor: "pointer",
+              zIndex: "1",
+            }}
+          >
+            <Icon
+              component={closeButton}
+              style={{ width: "30px", height: "30px" }}
+            />{" "}
+          </div>
+          <SendQueryForm
+            sendQueryCancel={sendQueryCancel}
+            token={keycloak.token}
+            initialValues={values}
+            userId={props.userProfile && props.userProfile.profileId}
+          />
+        </div>
+      </Modal>
+        <Modal
+        visible={successQueryVisible}
+        footer={null}
+        closable={true}
+        onCancel={successQueryCancel}
+        centered
+        bodyStyle={{ padding: "0" }}
+        width={400}
+        className="rfq-submission-modal"
+      >
+        <div id="send-query-success-modal">
+          <div className="send-query-success-modal-content">
+            <p className="send-query-success-modal-para1">Thank you!</p>
+            <p className="send-query-success-modal-para2">
+              We are excited to serve you and will revert within 24-48 hrs.
+            </p>
+          </div>
+          <Button
+            className="send-query-success-modal-button"
+            onClick={() => {
+              successQueryCancel();
+            }}
+          >
+            Back to home page
+          </Button>
+        </div>
+      </Modal>
       </React.Fragment>
     </React.Fragment>
   )
