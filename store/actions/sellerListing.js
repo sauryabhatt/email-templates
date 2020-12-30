@@ -125,7 +125,9 @@ export const getSPLPDetails = (queryResult, prevStateData = false) => {
   return (dispatch) => {
     // dispatch(setListingPageLoading(true));
     return fetch(
-      process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL + "/splpv2?" + queryResult,
+      process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL +
+        "/splpv2?" +
+        queryResult,
       {
         method: "GET",
       }
@@ -140,7 +142,6 @@ export const getSPLPDetails = (queryResult, prevStateData = false) => {
         }
       })
       .then((result) => {
-        
         let {
           totalHits = 0,
           products = [],
@@ -171,7 +172,9 @@ export const getListingPage = (token, queryResult, prevStateData = false) => {
   return (dispatch) => {
     dispatch(setListingPageLoading(true));
     return fetch(
-      process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/seller-homev2/?" + queryResult,
+      process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
+        "/seller-homev2/?" +
+        queryResult,
       {
         method: "GET",
         headers: {
@@ -207,7 +210,8 @@ export const getListingPage = (token, queryResult, prevStateData = false) => {
 
 export const getSellerDetails = (token, sellerId, verificationStatus = "") => {
   return (dispatch) => {
-    let url = process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/" + sellerId;
+    let url =
+      process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/" + sellerId;
     if (verificationStatus) {
       url =
         process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
@@ -220,7 +224,9 @@ export const getSellerDetails = (token, sellerId, verificationStatus = "") => {
     return fetch(url, {
       method: "GET",
       headers: {
-        Authorization: token?`Bearer ${token}`:"Bearer " + process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN,
+        Authorization: token
+          ? `Bearer ${token}`
+          : "Bearer " + process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN,
       },
     })
       .then((res) => {
@@ -255,7 +261,9 @@ export const getProductSellerDetails = (token, sellerId) => {
     return fetch(url, {
       method: "GET",
       headers: {
-        Authorization: token?`Bearer ${token}`:"Bearer " + process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN,
+        Authorization: token
+          ? `Bearer ${token}`
+          : "Bearer " + process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN,
       },
     })
       .then((res) => {
@@ -290,7 +298,9 @@ export const getProductDetails = (token, articleId = "") => {
     return fetch(url, {
       method: "GET",
       headers: {
-        Authorization: token?`Bearer ${token}`:"Bearer " + process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN,
+        Authorization: token
+          ? `Bearer ${token}`
+          : "Bearer " + process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN,
       },
     })
       .then((res) => {
@@ -316,16 +326,24 @@ export const getProductDetails = (token, articleId = "") => {
 export const getPLPDetails = (
   queryResult,
   loader = false,
-  prevStateData = false
+  prevStateData = false,
+  gb = false
 ) => {
   return (dispatch) => {
     if (loader) dispatch(setListingPageLoading(true));
-    return fetch(
-      process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL + "/plpv2?" + queryResult,
-      {
-        method: "GET",
-      }
-    )
+    let url =
+      process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL +
+      "/plpv2?" +
+      queryResult;
+    if (gb) {
+      url =
+        process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL +
+        "/custom/plp?" +
+        queryResult;
+    }
+    return fetch(url, {
+      method: "GET",
+    })
       .then((res) => {
         if (res.ok) {
           return res.json();

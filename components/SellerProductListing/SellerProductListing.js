@@ -94,9 +94,11 @@ const SellerProductListing = (props) => {
 
     for (const key in queryParams) {
       if (
-        key == "f_values" ||
-        key == "f_key_methods" ||
-        key == "f_product_types"
+        key !== "f_categories" &&
+        key !== "from" &&
+        key !== "size" &&
+        key !== "sort_by" &&
+        key !== "sort_order"
       ) {
         tempObj[key] = queryParams[key];
       }
