@@ -1,66 +1,80 @@
-import dynamic from 'next/dynamic';
+/** @format */
+
 import { useRouter } from "next/router";
 import { Layout } from "../../../components/common/Layout";
 import Spinner from "../../../components/Spinner/Spinner";
-const DynamicSearchListingWrapper = dynamic(
-    () => import("../../../components/SearchListing/SearchListing"),
-    { 
-    ssr: false,
-    loading: () => <Spinner/>
-    }
-  )
-export default function SearchListingPage() {
-const router = useRouter();
-const { search, searchBy} = router.query;
-let categoryTitle = `Showing ${searchBy==="products"?"products":"sellers"} related to ${decodeURIComponent(search)}`;
-const meta = {
+import NotFound from "../../../components/NotFound/NotFound";
+import SearchListing from "../../../components/SearchListing/SearchListing";
+
+export default function SearchListingPage({ data }) {
+  const router = useRouter();
+  const { search, searchBy } = router.query;
+  let categoryTitle = `Showing ${
+    searchBy === "products" ? "products" : "sellers"
+  } related to ${decodeURIComponent(search)}`;
+  const meta = {
     title: `Source quality ${categoryTitle} from verified manufacturers at affordable wholesale prices | Qalara`,
-    description:`Buy ${categoryTitle} wholesale from sellers online, pay securely and get it delivered at your doorstep anywhere in the world.`,
-}
+    description: `Buy ${categoryTitle} wholesale from sellers online, pay securely and get it delivered at your doorstep anywhere in the world.`,
+  };
 
-return (
+  if (data?.error?.status) {
+    return (
+      <>
+        <NotFound />
+      </>
+    );
+  }
+
+  if (router.isFallback) {
+    return <Spinner />;
+  }
+
+  return (
     <Layout meta={meta}>
-    <DynamicSearchListingWrapper/>
+      <SearchListing data={data} />
     </Layout>
-);
+  );
 }
 
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
+}
+const getURL = (searchByLC, search) => {
+  if (searchByLC === "product") {
+    return (
+      process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL +
+      `/plpv2?from=0&size=30&sort_by=popularity&sort_order=DESC&searchBy=product&search=${search}`
+    );
+  } else {
+    return (
+      process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL +
+      `/seller-homev2?from=0&size=30&sort_by=publishedTimeStamp&sort_order=DESC&searchBy=seller&search=${search}`
+    );
+  }
+};
 
+export const getStaticProps = async ({ params }) => {
+  const { searchBy, search } = params;
+  let searchByLC = searchBy.toLowerCase();
+  const response = await fetch(getURL(searchByLC, search), {
+    method: "GET",
+  });
+  const res = await response.json();
 
-
-// export async function getStaticPaths() {
-//   return {
-//     paths: [],
-//     fallback: true,
-//   };
-// }
-// const getURL = (searchByLC, search) => {
-//   if(searchByLC==="product") {
-//     return process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL + `/plpv2?from=0&size=30&sort_by=minimumOrderQuantity&sort_order=ASC&search=${search}`;
-//   } else  {
-//     return process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL + `/seller-homev2?from=0&size=30&sort_by=publishedTimeStamp&sort_order=DESC&search=${search}`;
-//   }
-// };
-
-// export const getStaticProps = async ({ params}) => {
-//   const {searchBy, search} = params;
-//   let searchByLC = searchBy.toLowerCase();
-//   const response = await fetch(getURL(searchByLC, search), {
-//     method: "GET",
-//   });
-//   const res1 = await response.json();
-
-//   return {
-//     props: {
-//       data: {
-//         slp_count: res1.totalHits,
-//         slp_content:  searchByLC==="product"?res1.products:res1.sellerHomeLiteViews,
-//         slp_facets: res1.aggregates,
-//         slp_categories: res1.fixedAggregates,
-//         search: search,
-//         searchBy:searchByLC,
-//       }
-//     },
-//   };
-// };
-
+  return {
+    props: {
+      data: {
+        slp_count: res?.totalHits,
+        slp_content:
+          searchByLC === "product" ? res?.products : res?.sellerHomeLiteViews,
+        slp_facets: res?.aggregates,
+        slp_categories: res?.fixedAggregates,
+        search: search,
+        searchBy: searchByLC,
+      },
+    },
+  };
+};
