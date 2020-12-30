@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 
 const OrderDetail = (props) => {
   const router = useRouter();
-  const {order, handleShowOrder} = props
+  const {order, handleShowOrder, mediaMatche} = props
   const subOrders = order.subOrders[order.subIndex]
   const [popover, setPopover] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
@@ -50,184 +50,6 @@ const OrderDetail = (props) => {
   const addDefaultSrc = (ev) => {
     ev.target.src = process.env.NEXT_PUBLIC_URL + "/placeholder.png";
   };
-  let priceBreakup = (
-    <div className="breakup-popup qa-font-san">
-      <div className="qa-border-bottom qa-pad-btm-15 qa-fs-14 qa-fw-b">
-        Order value  breakup
-        <span
-          onClick={() => {
-            setPopover(false);
-          }}
-          style={{
-            float: "right",
-            marginTop: "-8px",
-            cursor: "pointer",
-          }}
-        >
-          <Icon
-            component={closeButton}
-            style={{ width: "30px", height: "30px" }}
-          />
-        </span>
-      </div>
-      <div className="qa-mar-btm-1 cart-ship-pt qa-mar-top-15">
-        <div className="c-left-blk qa-mar-btm-05">Value of products purchased</div>
-        <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-          {getSymbolFromCurrency(order && order.currency) || "$"}
-          {parseFloat(order.subTotal).toFixed(2)}
-        </span>
-        <div className="c-left-blk qa-mar-btm-05">Freight fees</div>
-        {order && order.orderType == "RTS" ? (
-          <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-            {getSymbolFromCurrency(order && order.currency) ||
-                "$"}
-            {order &&
-                order.miscChargesActual &&
-                order.miscChargesActual.find(
-                  (x) => x.chargeId === "FREIGHT_MAX"
-                )
-                  ? parseFloat(
-                    order.miscChargesActual.find(
-                      (x) => x.chargeId === "FREIGHT_MAX"
-                    ).amount * order.conversionFactor
-                  ).toFixed(2)
-                  : order &&
-                order.miscCharges &&
-                order.miscCharges.find(
-                  (x) => x.chargeId === "FREIGHT_MAX"
-                ) &&
-                parseFloat(
-                  order.miscCharges.find(
-                    (x) => x.chargeId === "FREIGHT_MAX"
-                  ).amount * order.conversionFactor
-                ).toFixed(2)}
-          </span>
-        ) : (
-          <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-            {getSymbolFromCurrency(order && order.currency) || "$"}
-            {order &&
-                order.miscChargesActual &&
-                order.miscChargesActual.find(
-                  (x) => x.chargeId === "FREIGHT_CHARGES"
-                )
-                  ? order.miscChargesActual.find(
-                    (x) => x.chargeId === "FREIGHT_CHARGES"
-                  ).amount
-                  : order &&
-                order.miscCharges &&
-                order.miscCharges.find(
-                  (x) => x.chargeId === "FREIGHT_CHARGES"
-                ) &&
-                order.miscCharges.find(
-                  (x) => x.chargeId === "FREIGHT_CHARGES"
-                ).amount}
-          </span>
-        )}
-
-        <div className="c-left-blk qa-mar-btm-05">Custom, taxes & duties</div>
-        {order && order.orderType == "RTS" ? (
-          <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-            {getSymbolFromCurrency(order && order.currency) ||
-                "$"}
-            {order &&
-                order.miscChargesActual &&
-                order.miscChargesActual.find(
-                  (x) => x.chargeId === "DUTY_MAX"
-                )
-                  ? parseFloat(
-                    order.miscChargesActual.find(
-                      (x) => x.chargeId === "DUTY_MAX"
-                    ).amount * order.conversionFactor
-                  ).toFixed(2)
-                  : order &&
-                order.miscCharges &&
-                order.miscCharges.find(
-                  (x) => x.chargeId === "DUTY_MAX"
-                ) &&
-                parseFloat(
-                  order.miscCharges.find(
-                    (x) => x.chargeId === "DUTY_MAX"
-                  ).amount * order.conversionFactor
-                ).toFixed(2)}
-          </span>
-        ) : (
-          <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-            {getSymbolFromCurrency(order && order.currency)}
-            {order &&
-                order.miscChargesActual &&
-                order.miscChargesActual.find(
-                  (x) => x.chargeId === "CUSTOM_CHARGES"
-                )
-                  ? order.miscChargesActual.find(
-                    (x) => x.chargeId === "CUSTOM_CHARGES"
-                  ).amount
-                  : order &&
-                order.miscCharges &&
-                order.miscCharges.find(
-                  (x) => x.chargeId === "CUSTOM_CHARGES"
-                ) &&
-                order.miscCharges.find(
-                  (x) => x.chargeId === "CUSTOM_CHARGES"
-                ).amount}
-          </span>
-        )}
-        <div className = "qa-border-bottom" style={{paddingBottom: "15px", marginBottom: "15px"}}>
-        <div className="c-left-blk qa-mar-btm-05">VAT/ GST / Taxes</div>
-        {order && order.orderType == "RTS" ? (
-          <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-            {getSymbolFromCurrency(order && order.currency) ||
-                "$"}
-            {order &&
-                order.miscChargesActual &&
-                order.miscChargesActual.find(
-                  (x) => x.chargeId === "VAT"
-                )
-                  ? parseFloat(
-                    order.miscChargesActual.find(
-                      (x) => x.chargeId === "VAT"
-                    ).amount * order.conversionFactor
-                  ).toFixed(2)
-                  : order &&
-                order.miscCharges &&
-                order.miscCharges.find(
-                  (x) => x.chargeId === "VAT"
-                ) &&
-                parseFloat(
-                  order.miscCharges.find(
-                    (x) => x.chargeId === "VAT"
-                  ).amount * order.conversionFactor
-                ).toFixed(2)}
-          </span>
-        ) : (
-          <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-            {getSymbolFromCurrency(order && order.currency) || "$"}
-            {order &&
-                order.miscChargesActual &&
-                order.miscChargesActual.find(
-                  (x) => x.chargeId === "VAT"
-                )
-                  ? order.miscChargesActual.find(
-                    (x) => x.chargeId === "VAT"
-                  ).amount
-                  : order &&
-                order.miscCharges &&
-                order.miscCharges.find(
-                  (x) => x.chargeId === "VAT"
-                ) &&
-                order.miscCharges.find(
-                  (x) => x.chargeId === "VAT"
-                ).amount}
-          </span>
-        )}
-        </div>
-        <div className="c-left-blk qa-mar-btm-05 qa-fw-b">Total order value</div>
-        <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-          {getSymbolFromCurrency(order && order.currency)}
-          {parseFloat(order.total).toFixed(2)}
-        </span>
-      </div>
-    </div>
-  )
   return(
     <div className="tst">
       <div className="qa-mar-btm-1"> Order ID #{order.orderId}</div>
@@ -303,9 +125,9 @@ const OrderDetail = (props) => {
       <div className="order-card-body">
         <div className="qa-flex-row" style={{justifyContent: "space-between"}}>
           <div className="qa-flex-column">
-            <div className="qa-fs-17 qa-fw-b">TOTAL SELLER ORDER VALUE</div>
+            <div className="qa-fs-17 qa-fw-b total-text">TOTAL SELLER ORDER VALUE</div>
             <div className = "qa-mar-btm-05 qa-fs-12">Seller ID: {subOrders.sellerCode}</div>
-            <div className="qa-flex-row qa-mar-btm-15 qa-fs-12">
+            <div className="qa-flex-row qa-mar-btm-15 qa-fs-12 order-detail-text">
               <span className="click-icon-wrp ">
                 <CheckCircleOutlined
                       style={{
@@ -348,6 +170,8 @@ const OrderDetail = (props) => {
             subOrders.products.map((p, i) =>{
               return (
                 <div key={i} className="qa-flex-row order-card-details-tile">
+              
+                  <div className="qa-flex-row" style={{width: "100%"}}>
                   {order.orderType === "RTS" ? (
                     <img
                       className="images"
@@ -367,14 +191,14 @@ const OrderDetail = (props) => {
                       alt="Order placeholder"
                     ></img>
                   )}
-                  <div className="qa-flex-row" style={{justifyContent: "space-between", width: "100%", marginLeft: "16px"}}>
-                    <div className = "qa-flex-column">
+                    <div className = "qa-flex-column" style = {{marginLeft: "16px"}}>
                       <span className = "qa-fs-14">{p.productName}</span>
                       <span className="qa-fs-14">Item ID - <span className = "qa-fs-14 qa-tc-white">{p.articleId}</span></span>
                       <span className="qa-gray">{p.color} {p.size ? `, ${p.size}` : null}</span>
                       {/*p.qualityTestingCharge ? <span>Quality testing</span> : null*/}
                     </div>
-                    <div className="qa-flex-column" style={{width: "35%"}}>
+                  </div>
+                    <div className="qa-flex-column order-detail-payment" >
                       <div className="qa-flex-row" style={{justifyContent: "space-between"}}>
                         <span>Units</span>
                         <span className = "qa-fw-b">{p.quantity}</span>
@@ -391,7 +215,6 @@ const OrderDetail = (props) => {
                         <span className = "qa-fw-b">$80.00</span>
                       </div>*/}
                     </div>
-                  </div>
                   <hr/>
                 </div>
               )})

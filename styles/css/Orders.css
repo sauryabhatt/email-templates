@@ -255,6 +255,9 @@
     justify-content: center;
     align-items: center;
 }
+.order-detail-payment{
+  width: 35%;
+}
 @media only screen and (max-width: 780px) {
   .order-menu .ant-menu-item{
     margin: 0 15px !important;
@@ -299,9 +302,25 @@
     padding-bottom: 15px;
     border-bottom: 1px solid rgba(25, 25, 25, 0.3);
   }
+  .order-detail-text{
+    flex-direction: column;
+  }
+  .click-icon-wrp:nth-child(1){
+    margin-bottom: 13px;
+  }
+  .order-card-details-tile{
+    flex-direction: column;
+  }
+  .order-detail-payment{
+    width: 100%;
+    margin-top: 10px;
+  }
+  .total-text{
+    font-size: 14px;
+  }
 }
 @media only screen and (max-width: 330px) {
   .order-menu .ant-menu-item{
-    margin: 0 15px !important;
+    margin: 0 10px !important;
   }
 }

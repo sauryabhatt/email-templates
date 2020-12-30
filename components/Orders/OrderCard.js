@@ -408,7 +408,7 @@ const OrderCard = (props) => {
             <div>
               <div className="qa-flex-row qa-fw-b qa-border-bottom" style ={{justifyContent: "space-between"}}>
                 <span className="qa-fs-14">TOTAL ORDER VALUE ({order.shippingTerms})</span>
-                <div className = "qa-flex-column qa-mar-left-50 qa-txt-alg-rgt">
+                <div className = "qa-flex-column qa-txt-alg-rgt">
                   <span className="qa-fs-14">
                     {getSymbolFromCurrency(order && order.currency) || "$"}
                     {order && parseFloat(order.total).toFixed(2)}

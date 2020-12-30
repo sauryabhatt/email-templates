@@ -11,6 +11,7 @@ import SendQueryForm from "../SendQueryForm/SendQueryForm";
 import OrderCard from "./OrderCard";
 import OrderDetail from "./OrderDetail"
 import closeButton from "../../public/filestore/closeButton";
+import backArrow from "../../public/filestore/CircleOk";
 import Icon, {
   CheckCircleOutlined,
 } from "@ant-design/icons";
@@ -103,7 +104,18 @@ const Orderss = (props) => {
                 className="form-heading qa-fs-22 qa-font-san qa-fw-b"
                 style={{ color: "#191919", letterSpacing: "0.2px" }}
               >
-                MY ORDERS {props.showOrderDetails ? <span>/ {detailOrder.subOrders[detailOrder.subIndex].id}</span> : null}
+                {mediaMatch && props.showOrderDetails 
+                  ? <span style={{fontSize: "17px"}} onClick={() =>props.handleShowOrder(false)}>
+                    <Icon
+                      component={backArrow}
+                      style={{ width: "30px", height: "30px" }}
+                    />
+                    MY ORDERS {props.showOrderDetails ? <span>/ {detailOrder.subOrders[detailOrder.subIndex].id}</span> : null}
+                  </span>
+                  : <span>
+                    MY ORDERS {props.showOrderDetails ? <span>/ {detailOrder.subOrders[detailOrder.subIndex].id}</span> : null}
+                  </span>
+                }
               </p>
             </div>
           </Col>
@@ -211,7 +223,10 @@ const Orderss = (props) => {
       <React.Fragment>
       {props.showOrderDetails 
         ? (props.orders && props.orders.length > 0 && props.typeOrder[current].length > 0
-            ? <OrderDetail order={detailOrder}/>
+            ? <OrderDetail 
+              mediaMatche = {props.mediaMatch}
+              order={detailOrder}
+            />
             : null
         ) 
         :(props.orders && props.orders.length > 0 && props.typeOrder[current].length > 0
