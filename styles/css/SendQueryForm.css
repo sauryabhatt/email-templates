@@ -56,7 +56,8 @@
   margin: 0;
 }
 
-#send-query-form .paragraph {
+#send-query-form .paragraph,
+#send-query-form .max-size-upload {
   font-family: senregular;
   font-weight: normal;
   font-size: 12px;
