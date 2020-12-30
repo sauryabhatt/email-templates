@@ -7,11 +7,34 @@ import moment from "moment";
 import Icon, {
   CheckCircleOutlined,
 } from "@ant-design/icons";
+import { useRouter } from "next/router";
+
 const OrderDetail = (props) => {
+  const router = useRouter();
   const {order, handleShowOrder} = props
   const subOrders = order.subOrders[order.subIndex]
   const [popover, setPopover] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
+  const mediaMatch = window.matchMedia("(min-width: 768px)");
+  let {
+    paymentTime = "",
+  } = order;
+
+  const diff_hours = (dt2, dt1) => {
+    var diff = (dt2.getTime() - dt1.getTime()) / 1000;
+    diff /= 60 * 60;
+    return Math.abs(Math.round(diff));
+  };
+  let paymentTimeDiff = diff_hours(new Date(paymentTime), new Date());
+  const retryPayment = (orderId, type) => {
+    if (type == "CUSTOM") {
+      let url = "/order-review/" + orderId;
+      router.push(url);
+    } else {
+      let url = "/RTS/order-review/" + orderId;
+      router.push(url);
+    }
+  };
   const addDefaultSrc = (ev) => {
     ev.target.src = process.env.NEXT_PUBLIC_URL + "/placeholder.png";
   };
@@ -200,7 +223,7 @@ const OrderDetail = (props) => {
       <div className="order-card-header">
         <div className="order-card-headr-tile">
           <div className="qa-fs-10 odrer-header-title qa-grey-color">
-            SELLER Order ID
+            SELLER ORDER ID
           </div>
           <div className="qa-fs-14 order-header-tile-content qa-tc-white">
             {order.orderId}
@@ -211,11 +234,34 @@ const OrderDetail = (props) => {
            SELLER ORDER STATUS
           </div>
           <div className="qa-fs-14 order-header-tile-content qa-tc-white">
-            {order.status}
+            {order.status == "DRAFT" ? <span className="qa-error-color">Payment unsuccessful</span> : order.status}
           </div>
         </div>
-        {order.status === "DELIVERED" || order.status === "CANCELED" 
-          ? null
+        {order.status === "DELIVERED" || order.status === "CANCELED" || order.status === "DRAFT" 
+          ? order.status === "DRAFT"
+            ?(  
+              <span>
+                {paymentTimeDiff <= 48 && (
+                  <Button
+                    className={
+                      mediaMatch.matches
+                        ? "retry-payment-btn qa-vertical-center"
+                        : "retry-payment-btn-mob qa-vertical-center"
+                    }
+                    size={mediaMatch.matches ? "large" : "small"}
+                    style={{ justifyContent: "center", backgroundColor: "#d9bb7f" }}
+                    onClick={() =>
+                        retryPayment(order.orderId, order.orderType)
+                    }
+                  >
+                    <span className="qa-font-san qa-fs-12 qa-fw-b qa-tc-white">
+                      RETRY PAYMENT
+                    </span>
+                  </Button>
+                )}
+              </span>
+
+            ):null
           : (
             <React.Fragment>
               <div className="order-card-headr-tile">

@@ -165,7 +165,7 @@ const OrderCard = (props) => {
           </span>
         ) : (
           <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-            {getSymbolFromCurrency(order && order.currency)}
+            {getSymbolFromCurrency(order && order.currency) || "$"}
             {order &&
                 order.miscChargesActual &&
                 order.miscChargesActual.find(
@@ -213,7 +213,7 @@ const OrderCard = (props) => {
           </span>
         ) : (
           <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-            {getSymbolFromCurrency(order && order.currency)}
+            {getSymbolFromCurrency(order && order.currency) || "$"}
             {order &&
                 order.miscChargesActual &&
                 order.miscChargesActual.find(
@@ -238,7 +238,7 @@ const OrderCard = (props) => {
         <div className="qa-mar-btm-15">
         <div className="c-left-blk qa-mar-btm-05 qa-fw-b">Total order value</div>
         <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-          {getSymbolFromCurrency(order && order.currency)}
+          {getSymbolFromCurrency(order && order.currency) || "$"}
           {order.total}
         </span>
         </div>
@@ -249,7 +249,7 @@ const OrderCard = (props) => {
                 ?(<div className="qa-blue ">
                   <div className="c-left-blk qa-mar-btm-05 qa-fw-b">PAYMENT RECEIVED</div>
                   <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-                    {getSymbolFromCurrency(order && order.currency)}
+                    {getSymbolFromCurrency(order && order.currency) || "$"}
                     {pm.amount}
                   </span>
                 </div>)
@@ -258,8 +258,8 @@ const OrderCard = (props) => {
                     <div>
                       <div className="c-left-blk qa-mar-btm-05 qa-fw-b">PAY LATER</div>
                       <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-                        {getSymbolFromCurrency(order && order.currency)}
-                        {pm.amount}
+                        {getSymbolFromCurrency(order && order.currency) || "$"}
+                        {order.total - order.paymentTerms[0].amount}
                       </span>
                     </div>
                   ): null
@@ -417,7 +417,7 @@ const OrderCard = (props) => {
             <span className="qa-fs-17">TOTAL ORDER VALUE ({order.shippingTerms})</span>
             <div className = "qa-flex-column qa-mar-left-50 qa-txt-alg-rgt">
               <span className="qa-fs-17">
-                {getSymbolFromCurrency(order && order.currency)}
+                {getSymbolFromCurrency(order && order.currency) || "$"}
                 {order && parseFloat(order.total).toFixed(2)}
               </span>
               <Popover
