@@ -98,7 +98,8 @@ const SellerProductListing = (props) => {
         key !== "from" &&
         key !== "size" &&
         key !== "sort_by" &&
-        key !== "sort_order"
+        key !== "sort_order" &&
+        key !== "state"
       ) {
         tempObj[key] = queryParams[key];
       }
