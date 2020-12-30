@@ -11,11 +11,11 @@ import { useRouter } from "next/router";
 const OrderCard = (props) => {
   const router = useRouter();
   const mediaMatch = window.matchMedia("(min-width: 768px)");
-  const {order, handleShowOrder} = props
+  const {order, handleShowOrder, mediaMatche} = props
   const [popover, setPopover] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const { keycloak } = useKeycloak();
-  
+
   const redirectTrackingUrl = () => {
     let data = order.trackingURL 
     if (data) {
@@ -98,158 +98,158 @@ const OrderCard = (props) => {
           ? null
           :(
             <div>
-        <div className="c-left-blk qa-mar-btm-05">Freight fees</div>
-        {order && order.orderType == "RTS" ? (
-          <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-            {getSymbolFromCurrency(order && order.currency) ||
-                "$"}
-            {order &&
-                order.miscChargesActual &&
-                order.miscChargesActual.find(
-                  (x) => x.chargeId === "FREIGHT_MAX"
-                )
-                  ? parseFloat(
-                    order.miscChargesActual.find(
-                      (x) => x.chargeId === "FREIGHT_MAX"
-                    ).amount * order.conversionFactor
-                  ).toFixed(2)
-                  : order &&
-                order.miscCharges &&
-                order.miscCharges.find(
-                  (x) => x.chargeId === "FREIGHT_MAX"
-                ) &&
-                parseFloat(
-                  order.miscCharges.find(
-                    (x) => x.chargeId === "FREIGHT_MAX"
-                  ).amount * order.conversionFactor
-                ).toFixed(2)}
-          </span>
-        ) : (
-          <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-            {getSymbolFromCurrency(order && order.currency) || "$"}
-            {order &&
-                order.miscChargesActual &&
-                order.miscChargesActual.find(
-                  (x) => x.chargeId === "FREIGHT_CHARGES"
-                )
-                  ? order.miscChargesActual.find(
-                    (x) => x.chargeId === "FREIGHT_CHARGES"
-                  ).amount
-                  : order &&
-                order.miscCharges &&
-                order.miscCharges.find(
-                  (x) => x.chargeId === "FREIGHT_CHARGES"
-                ) &&
-                order.miscCharges.find(
-                  (x) => x.chargeId === "FREIGHT_CHARGES"
-                ).amount}
-          </span>
-        )}
+              <div className="c-left-blk qa-mar-btm-05">Freight fees</div>
+              {order && order.orderType == "RTS" ? (
+                <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
+                  {getSymbolFromCurrency(order && order.currency) ||
+                      "$"}
+                  {order &&
+                      order.miscChargesActual &&
+                      order.miscChargesActual.find(
+                        (x) => x.chargeId === "FREIGHT_MAX"
+                      )
+                        ? parseFloat(
+                          order.miscChargesActual.find(
+                            (x) => x.chargeId === "FREIGHT_MAX"
+                          ).amount * order.conversionFactor
+                        ).toFixed(2)
+                        : order &&
+                      order.miscCharges &&
+                      order.miscCharges.find(
+                        (x) => x.chargeId === "FREIGHT_MAX"
+                      ) &&
+                      parseFloat(
+                        order.miscCharges.find(
+                          (x) => x.chargeId === "FREIGHT_MAX"
+                        ).amount * order.conversionFactor
+                      ).toFixed(2)}
+                </span>
+              ) : (
+                <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
+                  {getSymbolFromCurrency(order && order.currency) || "$"}
+                  {order &&
+                      order.miscChargesActual &&
+                      order.miscChargesActual.find(
+                        (x) => x.chargeId === "FREIGHT_CHARGES"
+                      )
+                        ? order.miscChargesActual.find(
+                          (x) => x.chargeId === "FREIGHT_CHARGES"
+                        ).amount
+                        : order &&
+                      order.miscCharges &&
+                      order.miscCharges.find(
+                        (x) => x.chargeId === "FREIGHT_CHARGES"
+                      ) &&
+                      order.miscCharges.find(
+                        (x) => x.chargeId === "FREIGHT_CHARGES"
+                      ).amount}
+                </span>
+              )}
 
-        <div className="c-left-blk qa-mar-btm-05">Custom, taxes & duties</div>
-        {order && order.orderType == "RTS" ? (
-          <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-            {getSymbolFromCurrency(order && order.currency) ||
-                "$"}
-            {order &&
-                order.miscChargesActual &&
-                order.miscChargesActual.find(
-                  (x) => x.chargeId === "DUTY_MAX"
-                )
-                  ? parseFloat(
-                    order.miscChargesActual.find(
-                      (x) => x.chargeId === "DUTY_MAX"
-                    ).amount * order.conversionFactor
-                  ).toFixed(2)
-                  : order &&
-                order.miscCharges &&
-                order.miscCharges.find(
-                  (x) => x.chargeId === "DUTY_MAX"
-                ) &&
-                parseFloat(
-                  order.miscCharges.find(
-                    (x) => x.chargeId === "DUTY_MAX"
-                  ).amount * order.conversionFactor
-                ).toFixed(2)}
-          </span>
-        ) : (
-          <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-            {getSymbolFromCurrency(order && order.currency) || "$"}
-            {order &&
-                order.miscChargesActual &&
-                order.miscChargesActual.find(
-                  (x) => x.chargeId === "CUSTOM_CHARGES"
-                )
-                  ? order.miscChargesActual.find(
-                    (x) => x.chargeId === "CUSTOM_CHARGES"
-                  ).amount
-                  : order &&
-                order.miscCharges &&
-                order.miscCharges.find(
-                  (x) => x.chargeId === "CUSTOM_CHARGES"
-                ) &&
-                order.miscCharges.find(
-                  (x) => x.chargeId === "CUSTOM_CHARGES"
-                ).amount}
-          </span>
-        )}
-        <div className = "qa-border-bottom" style={{paddingBottom: "15px", marginBottom: "15px"}}>
-        <div className="c-left-blk qa-mar-btm-05">VAT/ GST / Taxes</div>
-        {order && order.orderType == "RTS" ? (
-          <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-            {getSymbolFromCurrency(order && order.currency) ||
-                "$"}
-            {order &&
-                order.miscChargesActual &&
-                order.miscChargesActual.find(
-                  (x) => x.chargeId === "VAT"
-                )
-                  ? parseFloat(
-                    order.miscChargesActual.find(
-                      (x) => x.chargeId === "VAT"
-                    ).amount * order.conversionFactor
-                  ).toFixed(2)
-                  : order &&
-                order.miscCharges &&
-                order.miscCharges.find(
-                  (x) => x.chargeId === "VAT"
-                ) &&
-                parseFloat(
-                  order.miscCharges.find(
-                    (x) => x.chargeId === "VAT"
-                  ).amount * order.conversionFactor
-                ).toFixed(2)}
-          </span>
-        ) : (
-          <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-            {getSymbolFromCurrency(order && order.currency) || "$"}
-            {order &&
-                order.miscChargesActual &&
-                order.miscChargesActual.find(
-                  (x) => x.chargeId === "VAT"
-                )
-                  ? order.miscChargesActual.find(
-                    (x) => x.chargeId === "VAT"
-                  ).amount
-                  : order &&
-                order.miscCharges &&
-                order.miscCharges.find(
-                  (x) => x.chargeId === "VAT"
-                ) &&
-                order.miscCharges.find(
-                  (x) => x.chargeId === "VAT"
-                ).amount}
-          </span>
-        )}
-        </div>
-        </div>
-                      )}
+              <div className="c-left-blk qa-mar-btm-05">Custom, taxes & duties</div>
+              {order && order.orderType == "RTS" ? (
+                <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
+                  {getSymbolFromCurrency(order && order.currency) ||
+                      "$"}
+                  {order &&
+                      order.miscChargesActual &&
+                      order.miscChargesActual.find(
+                        (x) => x.chargeId === "DUTY_MAX"
+                      )
+                        ? parseFloat(
+                          order.miscChargesActual.find(
+                            (x) => x.chargeId === "DUTY_MAX"
+                          ).amount * order.conversionFactor
+                        ).toFixed(2)
+                        : order &&
+                      order.miscCharges &&
+                      order.miscCharges.find(
+                        (x) => x.chargeId === "DUTY_MAX"
+                      ) &&
+                      parseFloat(
+                        order.miscCharges.find(
+                          (x) => x.chargeId === "DUTY_MAX"
+                        ).amount * order.conversionFactor
+                      ).toFixed(2)}
+                </span>
+              ) : (
+                <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
+                  {getSymbolFromCurrency(order && order.currency) || "$"}
+                  {order &&
+                      order.miscChargesActual &&
+                      order.miscChargesActual.find(
+                        (x) => x.chargeId === "CUSTOM_CHARGES"
+                      )
+                        ? order.miscChargesActual.find(
+                          (x) => x.chargeId === "CUSTOM_CHARGES"
+                        ).amount
+                        : order &&
+                      order.miscCharges &&
+                      order.miscCharges.find(
+                        (x) => x.chargeId === "CUSTOM_CHARGES"
+                      ) &&
+                      order.miscCharges.find(
+                        (x) => x.chargeId === "CUSTOM_CHARGES"
+                      ).amount}
+                </span>
+              )}
+              <div className = "qa-border-bottom" style={{paddingBottom: "15px", marginBottom: "15px"}}>
+                <div className="c-left-blk qa-mar-btm-05">VAT/ GST / Taxes</div>
+                {order && order.orderType == "RTS" ? (
+                  <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
+                    {getSymbolFromCurrency(order && order.currency) ||
+                        "$"}
+                    {order &&
+                        order.miscChargesActual &&
+                        order.miscChargesActual.find(
+                          (x) => x.chargeId === "VAT"
+                        )
+                          ? parseFloat(
+                            order.miscChargesActual.find(
+                              (x) => x.chargeId === "VAT"
+                            ).amount * order.conversionFactor
+                          ).toFixed(2)
+                          : order &&
+                        order.miscCharges &&
+                        order.miscCharges.find(
+                          (x) => x.chargeId === "VAT"
+                        ) &&
+                        parseFloat(
+                          order.miscCharges.find(
+                            (x) => x.chargeId === "VAT"
+                          ).amount * order.conversionFactor
+                        ).toFixed(2)}
+                  </span>
+                ) : (
+                  <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
+                    {getSymbolFromCurrency(order && order.currency) || "$"}
+                    {order &&
+                        order.miscChargesActual &&
+                        order.miscChargesActual.find(
+                          (x) => x.chargeId === "VAT"
+                        )
+                          ? order.miscChargesActual.find(
+                            (x) => x.chargeId === "VAT"
+                          ).amount
+                          : order &&
+                        order.miscCharges &&
+                        order.miscCharges.find(
+                          (x) => x.chargeId === "VAT"
+                        ) &&
+                        order.miscCharges.find(
+                          (x) => x.chargeId === "VAT"
+                        ).amount}
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
         <div className="qa-mar-btm-15">
-        <div className="c-left-blk qa-mar-btm-05 qa-fw-b">Total order value</div>
-        <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-          {getSymbolFromCurrency(order && order.currency) || "$"}
-          {order.total}
-        </span>
+          <div className="c-left-blk qa-mar-btm-05 qa-fw-b">Total order value</div>
+          <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
+            {getSymbolFromCurrency(order && order.currency) || "$"}
+            {order.total}
+          </span>
         </div>
         {order.paymentTerms && order.paymentTerms.length > 0
           ? order.paymentTerms.map((pm, index) => {
@@ -331,154 +331,273 @@ const OrderCard = (props) => {
               </span>
 
             ):null
-          : (
-            <React.Fragment>
-              <div className="order-card-headr-tile">
-                <div className="qa-fs-10 odrer-header-title qa-grey-color">
-                  ESTIMATED DELIVERY DATE
+            : (
+              <React.Fragment>
+                <div className="order-card-headr-tile">
+                  <div className="qa-fs-10 odrer-header-title qa-grey-color">
+                    ESTIMATED DELIVERY DATE
+                  </div>
+                  <div className="qa-fs-14 order-header-tile-content qa-green-color">
+                    {moment(order.expectedDeliveryDateMin).format("DD MMM YY")} - {moment(order.expectedDeliveryDateMax).format("DD MMM YY")}
+                  </div>
                 </div>
-                <div className="qa-fs-14 order-header-tile-content qa-green-color">
-                  {moment(order.expectedDeliveryDateMin).format("DD MMM YY")} - {moment(order.expectedDeliveryDateMax).format("DD MMM YY")}
-                </div>
-              </div>
-              <div className="order-card-headr-tile">
-                {order.trackingURL && order.shipperName 
-                  ?(<div onClick={()=> setModalVisible(true)} className="qa-fs-14 odrer-header-title qa-sm-color qa-fw-b qa-cursor qa-underline">
+                {order.trackingURL && order.shipperName && !mediaMatche
+                  ?(<div className="order-card-headr-tile">
+                    <div onClick={()=> setModalVisible(true)} className="qa-fs-14 odrer-header-title qa-sm-color qa-fw-b qa-cursor qa-underline">
                       TRACK SELLER ORDER
                     </div>
-                  ): null
-                }
-                {/*<div className="qa-fs-14 order-header-tile-content qa-green-color">
+                    {/*<div className="qa-fs-14 order-header-tile-content qa-green-color">
                   Arriving early.
                 </div>*/}
-              </div>
-
-            </React.Fragment>
-
-          )
+                  </div>
+                  ): null
+                  }
+              </React.Fragment>
+            )
         }
       </div>
-
-
-      <div className="order-card-body">
-        {order.subOrders && order.subOrders.length > 0 
-          ?(order.subOrders.map((e, index) => {
-            return (
-              <div key = {index} className="order-card-details-tile">
-                <div className="qa-flex-row">
-                  <div className="order-card-detail qa-fs-12" style ={{marginRight: "60px"}}>
-                    <div className="qa-grey-color">Seller ID</div>
-                    <div className="a">{e.sellerCode} </div>
-                  </div>
-                  <div className="order-card-detail">
+      {mediaMatche
+        ? (
+          <div className="order-card-body">
+            {order.subOrders && order.subOrders.length > 0 
+              ?(order.subOrders.map((e, index) => {
+                return (
+                  <div className ="qa-flex-row qa-border-bottom"> 
                     {e.products && e.products.length > 0
-                      ? (e.products.map((p, i) => {
-                        if(i > 2){return null}
-                        return (
-                          <span style ={{position: "relative", marginRight: "20px"}}>
-                          {order.orderType === "RTS" ? (
-                          <img
-                            className="images"
-                            onError={addDefaultSrc}
-                            src={p.image}
-                            alt="Order placeholder"
-                          ></img>
-                        ) : (
-                          <img
-                            className="images"
-                            onError={addDefaultSrc}
-                            src={
-                              process.env
-                                .NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
-                               `${p.thumbnailMedia ? p.thumbnailMedia.mediaUrl : null}`
-                            }
-                            alt="Order placeholder"
-                          ></img>
-                        )}
-                            {i == 2 && e.products.length > 3 ? <span className="place-hold"> +3</span> : null}
-                          </span>)
-                      })
+                    ?(
+                    <span style ={{position: "relative", marginRight: "20px"}}>
+                      {order.orderType === "RTS" ? (
+                      <img
+                        className="images"
+                        onError={addDefaultSrc}
+                        src={e.products[0].image}
+                        alt="Order placeholder"
+                      ></img>
+                      ) : (
+                      <img
+                        className="images"
+                        onError={addDefaultSrc}
+                        src={
+                          process.env
+                            .NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
+                            `${e.products[0].thumbnailMedia ? e.products[0].thumbnailMedia.mediaUrl : null}`
+                        }
+                        alt="Order placeholder"
+                      ></img>
+                      )}
+                      {e.products.length > 1 ? <span className="place-hold"> +{e.products.length - 1}</span> : null}
+                    </span>
+                    ): null}
 
-                      ): null
-
-                    }
+                    <div className="qa-fs-12 qa-flex-column">
+                      <div>
+                        Seller order ID:<br/>
+                        {e.id}
+                      </div>
+                      <div style= {{marginTop: "28px"}} className="qa-sm-color qa-fw-b qa-cursor qa-underline" onClick={()=>{
+                        order.subIndex = index
+                        props.setDetailOrder(order)
+                        handleShowOrder(true)
+                        props.setOrderText(order)
+                      }}
+                      >View details</div>
+                    </div>
                   </div>
-                </div>
-                <div className="order-card-detail qa-fs-14 qa-txt-alg-rgt">
-                  <div> Seller order ID: {e.id}</div>
-                  <div className="qa-sm-color qa-fw-b qa-cursor qa-underline" onClick={()=>{
-                    order.subIndex = index
-                    props.setDetailOrder(order)
-                    handleShowOrder(true)
-                    props.setOrderText(order)
-                  }}
-                  >View details</div>
+                )}
+              )) : null}
+            <div>
+              <div className="qa-flex-row qa-fw-b qa-border-bottom" style ={{justifyContent: "space-between"}}>
+                <span className="qa-fs-14">TOTAL ORDER VALUE ({order.shippingTerms})</span>
+                <div className = "qa-flex-column qa-mar-left-50 qa-txt-alg-rgt">
+                  <span className="qa-fs-14">
+                    {getSymbolFromCurrency(order && order.currency) || "$"}
+                    {order && parseFloat(order.total).toFixed(2)}
+                  </span>
+                  <Popover
+                    placement="bottomRight"
+                    content={priceBreakup}
+                    trigger="click"
+                    visible={popover}
+                    overlayClassName="price-breakup-popup"
+                  >
+
+                    <span onClick = {() => setPopover(true)} className = "qa-cursor qa-fs-14 qa-sm-color">See breakup</span>
+                  </Popover>
                 </div>
               </div>
-            )
-          })
-          ): null
 
-        }
-
-        <div className="order-card-bottom">
-          <div className="qa-flex-row qa-fw-b">
-            <span className="qa-fs-17">TOTAL ORDER VALUE ({order.shippingTerms})</span>
-            <div className = "qa-flex-column qa-mar-left-50 qa-txt-alg-rgt">
-              <span className="qa-fs-17">
-                {getSymbolFromCurrency(order && order.currency) || "$"}
-                {order && parseFloat(order.total).toFixed(2)}
-              </span>
-              <Popover
-                placement="bottomRight"
-                content={priceBreakup}
-                trigger="click"
-                visible={popover}
-                overlayClassName="price-breakup-popup"
-              >
-
-                <span onClick = {() => setPopover(true)} className = "qa-cursor qa-fs-14 qa-sm-color">See breakup</span>
-              </Popover>
+              <div className="qa-flex-row " style ={{justifyContent: "space-between"}}>
+                <div>
+                  {order.payment_status !== "FAILED" && order.status !== "CANCELED" ? (
+                    <Button
+                      className={
+                        mediaMatch.matches
+                          ? "download-invoice-btn qa-vertical-center"
+                          : "download-invoice-btn-mob qa-vertical-center"
+                      }
+                      size={mediaMatch.matches ? "large" : "small"}
+                      style={{ justifyContent: "center" }}
+                      disabled={
+                        (order && order.orderInvoice == undefined) ||
+                          (order &&
+                            order.orderInvoice &&
+                            order.orderInvoice.media == null)
+                      }
+                      onClick={(e) =>
+                          downloadInvoice(
+                            order &&
+                            order.orderInvoice &&
+                            order.orderInvoice.media
+                          )
+                      }
+                    >
+                      <span
+                        className="qa-font-san qa-fs-12"
+                        style={{ color: "#000000" }}
+                      >
+                        Download invoice
+                      </span>
+                    </Button>
+                  ) : (
+                    null
+                  )}
+                </div>
+                {order.trackingURL && order.shipperName 
+                  ?(<div className="order-card-headr-tile">
+                    <div onClick={()=> setModalVisible(true)} className="qa-fs-14 odrer-header-title qa-sm-color qa-fw-b qa-cursor ">
+                      TRACK ORDER
+                    </div>
+                    {/*<div className="qa-fs-14 order-header-tile-content qa-green-color">
+                  Arriving early.
+                </div>*/}
+                  </div>
+                  ): null
+                  }
+              </div>
             </div>
           </div>
+        ):(
+          <div className="order-card-body">
+            {order.subOrders && order.subOrders.length > 0 
+              ?(order.subOrders.map((e, index) => {
+                return (
+                  <div key = {index} className="order-card-details-tile">
+                    <div className="qa-flex-row">
+                      <div className="order-card-detail qa-fs-12" style ={{marginRight: "60px"}}>
+                        <div className="qa-grey-color">Seller ID</div>
+                        <div className="a">{e.sellerCode} </div>
+                      </div>
+                      <div className="order-card-detail">
+                        {e.products && e.products.length > 0
+                          ? (e.products.map((p, i) => {
+                            if(i > 2){return null}
+                            return (
+                              <span style ={{position: "relative", marginRight: "20px"}}>
+                                {order.orderType === "RTS" ? (
+                                  <img
+                                    className="images"
+                                    onError={addDefaultSrc}
+                                    src={p.image}
+                                    alt="Order placeholder"
+                                  ></img>
+                                ) : (
+                                  <img
+                                    className="images"
+                                    onError={addDefaultSrc}
+                                    src={
+                                      process.env
+                                        .NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
+                                        `${p.thumbnailMedia ? p.thumbnailMedia.mediaUrl : null}`
+                                    }
+                                    alt="Order placeholder"
+                                  ></img>
+                                )}
+                                {i == 2 && e.products.length > 3 ? <span className="place-hold"> +3</span> : null}
+                              </span>)
+                          })
 
-          <div>
-            {order.payment_status !== "FAILED" && order.status !== "CANCELED" ? (
-              <Button
-                className={
-                  mediaMatch.matches
-                    ? "download-invoice-btn qa-vertical-center"
-                    : "download-invoice-btn-mob qa-vertical-center"
-                }
-                size={mediaMatch.matches ? "large" : "small"}
-                style={{ justifyContent: "center" }}
-                disabled={
-                  (order && order.orderInvoice == undefined) ||
-                    (order &&
-                      order.orderInvoice &&
-                      order.orderInvoice.media == null)
-                }
-                onClick={(e) =>
-                    downloadInvoice(
-                      order &&
-                      order.orderInvoice &&
-                      order.orderInvoice.media
-                    )
-                }
-              >
-                <span
-                  className="qa-font-san qa-fs-12"
-                  style={{ color: "#000000" }}
-                >
-                  Download invoice
-                </span>
-              </Button>
-            ) : (
-              null
-            )}
+                          ): null
+
+                        }
+                      </div>
+                    </div>
+                    <div className="order-card-detail qa-fs-14 qa-txt-alg-rgt">
+                      <div> Seller order ID: {e.id}</div>
+                      <div className="qa-sm-color qa-fw-b qa-cursor qa-underline" onClick={()=>{
+                        order.subIndex = index
+                        props.setDetailOrder(order)
+                        handleShowOrder(true)
+                        props.setOrderText(order)
+                      }}
+                      >View details</div>
+                    </div>
+                  </div>
+                )
+              })
+              ): null
+
+            }
+
+            <div className="order-card-bottom">
+              <div className="qa-flex-row qa-fw-b">
+                <span className="qa-fs-17">TOTAL ORDER VALUE ({order.shippingTerms})</span>
+                <div className = "qa-flex-column qa-mar-left-50 qa-txt-alg-rgt">
+                  <span className="qa-fs-17">
+                    {getSymbolFromCurrency(order && order.currency) || "$"}
+                    {order && parseFloat(order.total).toFixed(2)}
+                  </span>
+                  <Popover
+                    placement="bottomRight"
+                    content={priceBreakup}
+                    trigger="click"
+                    visible={popover}
+                    overlayClassName="price-breakup-popup"
+                  >
+
+                    <span onClick = {() => setPopover(true)} className = "qa-cursor qa-fs-14 qa-sm-color">See breakup</span>
+                  </Popover>
+                </div>
+              </div>
+
+              <div>
+                {order.payment_status !== "FAILED" && order.status !== "CANCELED" ? (
+                  <Button
+                    className={
+                      mediaMatch.matches
+                        ? "download-invoice-btn qa-vertical-center"
+                        : "download-invoice-btn-mob qa-vertical-center"
+                    }
+                    size={mediaMatch.matches ? "large" : "small"}
+                    style={{ justifyContent: "center" }}
+                    disabled={
+                      (order && order.orderInvoice == undefined) ||
+                        (order &&
+                          order.orderInvoice &&
+                          order.orderInvoice.media == null)
+                    }
+                    onClick={(e) =>
+                        downloadInvoice(
+                          order &&
+                          order.orderInvoice &&
+                          order.orderInvoice.media
+                        )
+                    }
+                  >
+                    <span
+                      className="qa-font-san qa-fs-12"
+                      style={{ color: "#000000" }}
+                    >
+                      Download invoice
+                    </span>
+                  </Button>
+                ) : (
+                  null
+                )}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        )
+      }
       <Modal 
         title="Track your order" 
         visible={isModalVisible} 
@@ -490,9 +609,10 @@ const OrderCard = (props) => {
         <span 
           onClick={redirectTrackingUrl}
           className = "qa-fs-14 qa-sm-color qa-cursor qa-underline">
-            Please click here to track your order.
+          Please click here to track your order.
         </span>
       </Modal>
+
     </Col> 
   )
 }

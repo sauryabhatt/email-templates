@@ -23,7 +23,7 @@ const Orderss = (props) => {
   const [visible, setVisible] = useState(false);
   const [detailOrder, setDetailOrder] = useState("")
   const [successQueryVisible, setSuccessQueryVisible] = useState(false);
-
+  console.log(props.mediaMatch)
   const handleClick = (e) => {
     setCurrent(e.key);
   };
@@ -95,9 +95,9 @@ const Orderss = (props) => {
   }
   return (
     <React.Fragment>
-      <Col xs={24} sm={24} md={22} lg={22}>
+      <Col xs={24} sm={24} md={22} lg={22} className = "order-container">
         <Row>
-          <Col xs={22} sm={22} md={12} lg={12}>
+          <Col xs={24} sm={24} md={12} lg={12}>
             <div className="form-top">
               <p
                 className="form-heading qa-fs-22 qa-font-san qa-fw-b"
@@ -107,7 +107,7 @@ const Orderss = (props) => {
               </p>
             </div>
           </Col>
-          <Col xs={22} sm={22} md={12} lg={12}>
+          <Col xs={24} sm={24} md={12} lg={12} className = "order-faq-section">
             <div style={{ textAlign: "right" }}>
               <Link href="/FAQforwholesalebuyers">
                 <a target="_blank">
@@ -221,6 +221,7 @@ const Orderss = (props) => {
               handleShowOrder = {props.handleShowOrder}
               setOrderText = {props.setOrderText}
               order = {x}
+              mediaMatche = {props.mediaMatch}
             />)
           ):(
             <Col
