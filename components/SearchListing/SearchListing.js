@@ -118,7 +118,14 @@ const SearchListing = (props) => {
     if (instanceType === "clear") {
       router.push(
         {
-          pathname: router.asPath.split("?")[0],
+          pathname:
+            window.location.protocol +
+            "//" +
+            window.location.host +
+            "/search/" +
+            router.query.searchBy +
+            "/" +
+            encodeURIComponent(router.query.search),
         },
         undefined,
         { shallow: true }
@@ -126,7 +133,14 @@ const SearchListing = (props) => {
     } else {
       router.push(
         {
-          pathname: router.asPath.split("?")[0],
+          pathname:
+            window.location.protocol +
+            "//" +
+            window.location.host +
+            "/search/" +
+            router.query.searchBy +
+            "/" +
+            encodeURIComponent(router.query.search),
           query: tempObj,
         },
         undefined,
