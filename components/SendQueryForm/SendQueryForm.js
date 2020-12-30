@@ -275,7 +275,7 @@ const SendQueryForm = (props) => {
               />
             )} */}
             <p className="heading">Sourcing request</p>
-            <p className="paragraph">
+            <p className="paragraph qa-mar-btm-1">
               We can help you source products from any lifestyle category in
               India and South Asia!
             </p>
@@ -310,12 +310,12 @@ const SendQueryForm = (props) => {
                 rules={[
                   {
                     required: true,
-                    message: "Please tell us about your brand / business.",
+                    message: "Please share some details.",
                   },
                   {
                     min: 25,
                     max: 500,
-                    message: "Please enter message within 25-500 characters",
+                    message: "Please enter message within 25-500 characters.",
                   },
                 ]}
               >
@@ -354,8 +354,8 @@ const SendQueryForm = (props) => {
                
               </span> */}
               <div className="label-paragraph qa-lh">
-                Share a description of the type of products and styles or
-                services you're looking for.
+                Please describe the type of products, or services, you're
+                looking for.
               </div>
               <Form.Item
                 name="requirementDetails"
@@ -372,7 +372,7 @@ const SendQueryForm = (props) => {
                   {
                     min: 25,
                     max: 500,
-                    message: "Please enter message within 25-500 characters",
+                    message: "Please enter message within 25-500 characters.",
                   },
                 ]}
               >
@@ -406,7 +406,7 @@ const SendQueryForm = (props) => {
                 <b>Highly recommended</b>
               </span> */}
               <div className="label-paragraph qa-lh ref-photos">
-                Attach reference images of designs if available.
+                Attach reference images of designs, if available.
               </div>
               <br />
               <Form.Item
@@ -415,7 +415,7 @@ const SendQueryForm = (props) => {
                 // rules={[{ required: true, message: 'Please upload atleast one item.' }]}
                 // getValueFromEvent={normFile}
                 extra={
-                  <span className="paragraph qa-mar-top-1">
+                  <span className="qa-mar-top-1 max-size-upload">
                     Max size per attachment: 2MB
                   </span>
                 }
@@ -439,8 +439,8 @@ const SendQueryForm = (props) => {
                 </Upload>
               </Form.Item>
               <div className="label-paragraph qa-lh">
-                Share an indication of quantities per product (to find the right
-                price / supplier)*
+                Please give an indication of quantities required per product (to
+                match the right price and supplier)*
               </div>
               <Form.Item
                 name="quantity"
@@ -452,7 +452,7 @@ const SendQueryForm = (props) => {
                   },
                   {
                     required: true,
-                    message: "Please enter target quantity.",
+                    message: "Please enter quantity range.",
                   },
                   {
                     min: 1,
@@ -560,17 +560,16 @@ const SendQueryForm = (props) => {
                   </Form.Item>
                 </div>
               </div> */}
-              <br />
-              <span className="label-heading" id="user-details">
+              <div className="label-heading" id="user-details">
                 Please share your details so we can respond:
-              </span>
-              <br />
-              <span
+              </div>
+
+              <div
                 className="label-paragraph info-safe"
-                style={{ marginBottom: "0.5em" }}
+                style={{ marginBottom: "0.5em", lineHeight: "100%" }}
               >
                 Your information is safe with us.
-              </span>
+              </div>
               <br />
               {/* <p style={{ fontWeight: 'bold', fontSize: '15px', marginBottom: '0.5em' }}>From,</p> */}
               <span className="label-paragraph">Your name*</span>

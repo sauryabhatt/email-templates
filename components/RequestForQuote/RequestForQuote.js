@@ -1,23 +1,11 @@
 /** @format */
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { loginToApp } from "../AuthWithKeycloak";
-import {
-  Button,
-  Form,
-  Select,
-  Input,
-  message,
-  Upload,
-  DatePicker,
-  Checkbox,
-  Modal,
-} from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { Button, Modal } from "antd";
 import SendQueryForm from "../SendQueryForm/SendQueryForm";
 
 function RequestForQuote(props) {
-  console.log("not authenticated");
   const [visible, setVisible] = useState(false);
   const [inviteAccess, setInviteAccess] = useState(false);
   const [successQueryVisible, setSuccessQueryVisible] = useState(false);
@@ -51,7 +39,6 @@ function RequestForQuote(props) {
   };
 
   const normFile = (e) => {
-    console.log("Upload event:", e);
     if (Array.isArray(e)) {
       return e;
     }
@@ -116,15 +103,15 @@ function RequestForQuote(props) {
         <div className="rfq-why-us">
           <span className="heading">Why us?</span>
           <p className="paragraph-points">
-            Zero commission (launch offer)
+            Zero commission promotional offer
             <br />
-            Over 20,000 products
+            25,000+ products from verified suppliers
             <br />
-            Small buyer friendly terms
+            One-stop-shop from design to delivery
             <br />
-            One-stop-shop across multiple suppliers
+            Secure payments & lowest shipping costs
             <br />
-            Digital secure payment on delivery
+            Based in India, with worldwide reach
           </p>
         </div>
       </div>

@@ -570,7 +570,8 @@ const OrderReview = (props) => {
               <span className="qa-font-san qa-tc-white qa-fw-b qa-fs-14">
                 {getSymbolFromCurrency(props.order && props.order.currency)}
                 {parseFloat(
-                  subOrder.products.reduce((x, y) => x + y["total"], 0)
+                  subOrder.products.reduce((x, y) => x + y["total"], 0) +
+                    subOrder["qalaraSellerMargin"]
                 ).toFixed(2)}
               </span>
             </Col>
