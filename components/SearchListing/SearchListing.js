@@ -7,11 +7,14 @@ import SearchListingMobile from "../mobile/SearchListingMobile";
 import { getPLPDetails, getSLPDetails } from "../../store/actions";
 import queryString from "query-string";
 import { useRouter } from "next/router";
+const isServer = () => typeof window == "undefined";
 const querystring = require("querystring");
 
 const SearchListing = (props) => {
   const router = useRouter();
-  let { slp_content = [], isLoading = true } = props.listingPage;
+  let { slp_content = [], isLoading = true } = !isServer()
+    ? props.listingPage
+    : props.data;
   const [mobile, setMobile] = useState(false);
   const [offset, setOffset] = useState(0);
   const [limit, setLimit] = useState(30);
@@ -150,8 +153,8 @@ const SearchListing = (props) => {
     <>
       {mobile ? (
         <SearchListingMobile
-          data={props.listingPage}
-          isLoading={props.listingPage.isLoading}
+          data={!isServer() ? props.listingPage : props.data}
+          isLoading={!isServer() ? props.listingPage.isLoading : false}
           getFilterData={getFilterData}
           queryParams={queryParams}
           loadMoreData={loadMoreData}
@@ -163,8 +166,8 @@ const SearchListing = (props) => {
         />
       ) : (
         <SearchListingDesktop
-          data={props.listingPage}
-          isLoading={isLoading}
+          data={!isServer() ? props.listingPage : props.data}
+          isLoading={!isServer() ? props.listingPage.isLoading : false}
           getFilterData={getFilterData}
           queryParams={queryParams}
           loadMoreData={loadMoreData}

@@ -739,7 +739,7 @@ const ProductDetails = (props) => {
         {
           hsnCode: hsnCode,
           casePackLength: parseInt(casePackLength),
-          exFactoryPrice: exFactoryPrice,
+          exFactoryPrice: parseInt(exfactoryListPrice),
           casePackBreadth: parseInt(casePackBreadth),
           casePackWeight: parseInt(casePackWeight),
           casePackHeight: parseInt(casePackHeight),
