@@ -49,7 +49,9 @@ const SearchListing = (props) => {
     if (width <= 768) {
       setMobile(true);
     }
-    let { searchBy = "", search: searchFromQuery = "" } = router.query;
+    let { searchBy = "", search: searchFromQuery = "" } =
+      props.data || router.query;
+
     const {
       f_product_types,
       f_categories,

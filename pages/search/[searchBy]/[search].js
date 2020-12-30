@@ -72,6 +72,8 @@ export const getStaticProps = async ({ params }) => {
           searchByLC === "product" ? res?.products : res?.sellerHomeLiteViews,
         slp_facets: res?.aggregates,
         slp_categories: res?.fixedAggregates,
+        search: search,
+        searchBy: searchByLC,
       },
     },
   };
