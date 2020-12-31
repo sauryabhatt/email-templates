@@ -564,8 +564,10 @@ const CartSummary = (props) => {
           quantity = 0,
           exfactoryListPrice = 0,
         } = items;
-        samplePrice = samplePrice + sampleCost;
-        testingPrice = testingPrice + qualityTestingCharge;
+        samplePrice =
+          samplePrice + parseFloat(getConvertedCurrency(sampleCost));
+        testingPrice =
+          testingPrice + parseFloat(getConvertedCurrency(qualityTestingCharge));
         basePrice =
           basePrice +
           parseFloat(getConvertedCurrency(exfactoryListPrice)) * quantity;
@@ -799,7 +801,6 @@ const CartSummary = (props) => {
               mov = sellerMov;
             }
           }
-
           return (
             <div className="qa-mar-btm-2" key={i}>
               <div className="cart-prod-name qa-mar-btm-1">

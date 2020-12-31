@@ -953,3 +953,6 @@
 #product-description .product-list-details .qa-offer-text {
   font-size: 12px;
 }
+#product-description .form-item.m-product-qty .ant-form-item-explain {
+  margin-bottom: 10px;
+}
