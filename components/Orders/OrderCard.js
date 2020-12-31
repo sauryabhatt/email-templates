@@ -413,7 +413,7 @@ const OrderCard = (props) => {
             </div>
         ): null}
         {order.status === "DELIVERED" || order.status === "CANCELED" || order.status === "DRAFT" 
-          ? order.status === "DRAFT" && !mediaMatch
+          ? order.status === "DRAFT" && !mediaMatche
             ?(  
               <span>
                 {paymentTimeDiff <= 48 && (
