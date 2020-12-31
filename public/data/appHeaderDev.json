@@ -403,7 +403,7 @@
     "font": "H2",
     "action": "URL",
     "filterType": "",
-    "values": "/all-categories?f_product_types=Ready+to+ship",
+    "values": "/products/all-categories?f_product_types=Ready+to+ship",
     "isActive": "TRUE"
   },
   {
