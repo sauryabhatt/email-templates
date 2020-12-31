@@ -193,7 +193,12 @@ const OrderDetail = (props) => {
                   )}
                     <div className = "qa-flex-column" style = {{marginLeft: "16px"}}>
                       <span className = "qa-fs-14">{p.productName}</span>
-                      <span className="qa-fs-14">Item ID - <span className = "qa-fs-14 qa-tc-white">{p.articleId}</span></span>
+                      <span className="qa-fs-14">
+                        Item ID - 
+                        <span className = "qa-fs-14 qa-tc-white">
+                          {order.orderType== "CUSTOM" ? p.productId : p.articleId}
+                        </span>
+                      </span>
                       <span className="qa-gray">{p.color} {p.size ? `, ${p.size}` : null}</span>
                       {/*p.qualityTestingCharge ? <span>Quality testing</span> : null*/}
                     </div>
