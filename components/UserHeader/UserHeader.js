@@ -849,7 +849,7 @@ function UserHeader(props) {
                 }}
               >
                 <div className="send-query-button-text qa-rfq-button">
-                  Request for Quote
+                  Help me Source
                 </div>
               </Button>
               <CurrencyConverter />
@@ -1006,7 +1006,7 @@ function UserHeader(props) {
                     }}
                   >
                     <div className="send-query-button-text qa-rfq-button">
-                      Request for Quote
+                      Help me Source
                     </div>
                   </Button>
                 </Menu.Item>
@@ -1451,8 +1451,8 @@ function UserHeader(props) {
           <div className="send-query-success-modal-content">
             <p className="send-query-success-modal-para1">Thank you!</p>
             <p className="send-query-success-modal-para2">
-              We have received your request for quote and will revert within the
-              next 48 to 72 hours.
+              We have received your Sourcing request, and will revert within the
+              next 48-72 hours.
             </p>
           </div>
           <Button

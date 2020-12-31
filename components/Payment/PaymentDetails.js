@@ -1,7 +1,7 @@
 /** @format */
 
 import React, { useState, useEffect } from "react";
-import { Row, Col, Radio, Modal } from "antd";
+import { Row, Col, Radio } from "antd";
 import Icon, {
   UpOutlined,
   DownOutlined,
@@ -77,7 +77,6 @@ const PaymentDetails = (props) => {
     zipCode +
     ", " +
     phoneNumber;
-  const [modal, showModal] = useState(false);
   const [paymentValue, setPaymentValue] = useState("");
   const [showCart, setShowCart] = useState(false);
   const [showShip, setShowShip] = useState(false);
@@ -185,10 +184,6 @@ const PaymentDetails = (props) => {
 
   const onChange = (e) => {
     setPaymentValue(e.target.value);
-  };
-
-  const handleCancel = () => {
-    showModal(false);
   };
 
   let today = new Date();
@@ -320,7 +315,8 @@ const PaymentDetails = (props) => {
                   >
                     <div className="qa-bg-light-theme qa-pad-2 qa-box-shadow shipping-mode-section">
                       <div className="qa-pad-btm-15 qa-border-bottom">
-                        <span>
+                        <span className="qa-va-m">{shippingMode}</span>
+                        <span style={{ float: "right" }}>
                           {shippingMode === "SEA" ? (
                             <Icon
                               component={Sea}
@@ -334,7 +330,6 @@ const PaymentDetails = (props) => {
                               className="air-icon"
                             />
                           )}
-                          <span className="qa-va-m">{shippingMode}</span>
                         </span>
                       </div>
                       <div className="qa-pad-015 qa-dashed-border">
@@ -399,7 +394,7 @@ const PaymentDetails = (props) => {
                                   ? data["tat"] -
                                     (shippingMode === "SEA" ? 7 : 3)
                                   : "0"}
-                                -{data["tat"] ? data["tat"] : "0"} Days
+                                -{data["tat"] ? data["tat"] : "0"} days
                               </span>
                             ) : (
                               "-"
@@ -1063,7 +1058,8 @@ const PaymentDetails = (props) => {
                   <div>
                     <div className="qa-bg-dark-theme qa-pad-2 qa-box-shadow">
                       <div className="qa-pad-btm-15 qa-border-bottom">
-                        <span>
+                        <span className="qa-va-m">{shippingMode}</span>
+                        <span style={{ float: "right" }}>
                           {shippingMode === "SEA" ? (
                             <Icon
                               component={Sea}
@@ -1077,7 +1073,6 @@ const PaymentDetails = (props) => {
                               className="air-icon"
                             />
                           )}
-                          <span className="qa-va-m">{shippingMode}</span>
                         </span>
                       </div>
                       <div className="qa-pad-015 qa-dashed-border">
@@ -1124,7 +1119,7 @@ const PaymentDetails = (props) => {
                                   ? data["tat"] -
                                     (shippingMode === "SEA" ? 7 : 3)
                                   : "0"}
-                                -{data["tat"] ? data["tat"] : "0"} Days
+                                -{data["tat"] ? data["tat"] : "0"} days
                               </span>
                             ) : (
                               "-"
@@ -1378,17 +1373,6 @@ const PaymentDetails = (props) => {
           )}
         </Col>
       )}
-      <Modal
-        visible={modal}
-        footer={null}
-        closable={false}
-        onCancel={handleCancel}
-        centered
-        bodyStyle={{ padding: "20px 30px", backgroundColor: "#f9f7f2" }}
-        width={750}
-        style={{ top: 5 }}
-        className="opt-service-modal"
-      ></Modal>
     </Row>
   );
 };

@@ -16,6 +16,8 @@ const ProductListing = (props) => {
   let { slp_content = [], isLoading = true } = !isServer()
     ? props.listingPage
     : props.data;
+
+  let { gb = false } = props.data;
   const [mobile, setMobile] = useState(false);
   const [offset, setOffset] = useState(0);
   const [limit, setLimit] = useState(30);
@@ -55,11 +57,20 @@ const ProductListing = (props) => {
       f_key_methods,
       f_values,
       f_product_types,
+      f_color,
+      f_l2_names,
+      f_l3_names,
+      f_country,
+      f_style_type,
+      f_material,
+      startPrice,
+      endPrice,
       ...rest
     } = queryParams;
     let defaultQuery = querystring.stringify(rest);
     let query = getQueryParamString();
-    let { categoryId = "" } = router.query;
+    let { categoryId = "all-categories" } = router.query;
+
     if (query) {
       query = defaultQuery + "&" + query.replace("?", "");
     } else {
@@ -71,7 +82,7 @@ const ProductListing = (props) => {
     }
     let jsonQuery = queryString.parse(query);
     setQueryParams(jsonQuery);
-    props.getPLPDetails(query, true);
+    props.getPLPDetails(query, true, false, gb);
   }, [router.query]);
 
   const getFilterData = (queryParams, instanceType) => {
@@ -80,41 +91,67 @@ const ProductListing = (props) => {
 
     for (const key in queryParams) {
       if (
-        key == "f_values" ||
-        key == "f_key_methods" ||
-        key == "f_product_types"
+        key !== "f_categories" &&
+        key !== "from" &&
+        key !== "size" &&
+        key !== "sort_by" &&
+        key !== "sort_order" &&
+        key !== "state"
       ) {
         tempObj[key] = queryParams[key];
       }
     }
 
-    if (instanceType === "clear") {
-      router.push(
-        {
-          pathname:
-            window.location.protocol +
-            "//" +
-            window.location.host +
-            "/products/" +
-            router.query.categoryId,
-        },
-        undefined,
-        { shallow: true }
-      );
+    if (gb) {
+      if (instanceType === "clear") {
+        router.push(
+          {
+            pathname:
+              window.location.protocol + "//" + window.location.host + "/gb",
+          },
+          undefined,
+          { shallow: true }
+        );
+      } else {
+        router.push(
+          {
+            pathname:
+              window.location.protocol + "//" + window.location.host + "/gb",
+            query: tempObj,
+          },
+          undefined,
+          { shallow: true }
+        );
+      }
     } else {
-      router.push(
-        {
-          pathname:
-            window.location.protocol +
-            "//" +
-            window.location.host +
-            "/products/" +
-            router.query.categoryId,
-          query: tempObj,
-        },
-        undefined,
-        { shallow: true }
-      );
+      if (instanceType === "clear") {
+        router.push(
+          {
+            pathname:
+              window.location.protocol +
+              "//" +
+              window.location.host +
+              "/products/" +
+              router.query.categoryId,
+          },
+          undefined,
+          { shallow: true }
+        );
+      } else {
+        router.push(
+          {
+            pathname:
+              window.location.protocol +
+              "//" +
+              window.location.host +
+              "/products/" +
+              router.query.categoryId,
+            query: tempObj,
+          },
+          undefined,
+          { shallow: true }
+        );
+      }
     }
   };
 
@@ -123,7 +160,7 @@ const ProductListing = (props) => {
     setOffset(offsetCount);
     let queryObj = { ...queryParams, size: limit, from: offsetCount };
     let queryResult = querystring.stringify(queryObj);
-    props.getPLPDetails(queryResult, false, slp_content);
+    props.getPLPDetails(queryResult, false, slp_content, gb);
   };
 
   const setCategoryName = (categoryName) => {

@@ -7,11 +7,14 @@ import SearchListingMobile from "../mobile/SearchListingMobile";
 import { getPLPDetails, getSLPDetails } from "../../store/actions";
 import queryString from "query-string";
 import { useRouter } from "next/router";
+const isServer = () => typeof window == "undefined";
 const querystring = require("querystring");
 
 const SearchListing = (props) => {
   const router = useRouter();
-  let { slp_content = [], isLoading = true } = props.listingPage;
+  let { slp_content = [], isLoading = true } = !isServer()
+    ? props.listingPage
+    : props.data;
   const [mobile, setMobile] = useState(false);
   const [offset, setOffset] = useState(0);
   const [limit, setLimit] = useState(30);
@@ -46,7 +49,9 @@ const SearchListing = (props) => {
     if (width <= 768) {
       setMobile(true);
     }
-    let { searchBy = "", search: searchFromQuery = "" } = router.query;
+    let { searchBy = "", search: searchFromQuery = "" } =
+      props.data || router.query;
+
     const {
       f_product_types,
       f_categories,
@@ -102,9 +107,12 @@ const SearchListing = (props) => {
 
     for (const key in queryParams) {
       if (
-        key == "f_values" ||
-        key == "f_key_methods" ||
-        key == "f_product_types"
+        key !== "f_categories" &&
+        key !== "from" &&
+        key !== "size" &&
+        key !== "sort_by" &&
+        key !== "sort_order" &&
+        key !== "state"
       ) {
         tempObj[key] = queryParams[key];
       }
@@ -113,7 +121,14 @@ const SearchListing = (props) => {
     if (instanceType === "clear") {
       router.push(
         {
-          pathname: router.asPath.split("?")[0],
+          pathname:
+            window.location.protocol +
+            "//" +
+            window.location.host +
+            "/search/" +
+            router.query.searchBy +
+            "/" +
+            encodeURIComponent(router.query.search),
         },
         undefined,
         { shallow: true }
@@ -121,7 +136,14 @@ const SearchListing = (props) => {
     } else {
       router.push(
         {
-          pathname: router.asPath.split("?")[0],
+          pathname:
+            window.location.protocol +
+            "//" +
+            window.location.host +
+            "/search/" +
+            router.query.searchBy +
+            "/" +
+            encodeURIComponent(router.query.search),
           query: tempObj,
         },
         undefined,
@@ -150,8 +172,8 @@ const SearchListing = (props) => {
     <>
       {mobile ? (
         <SearchListingMobile
-          data={props.listingPage}
-          isLoading={props.listingPage.isLoading}
+          data={!isServer() ? props.listingPage : props.data}
+          isLoading={!isServer() ? props.listingPage.isLoading : false}
           getFilterData={getFilterData}
           queryParams={queryParams}
           loadMoreData={loadMoreData}
@@ -163,8 +185,8 @@ const SearchListing = (props) => {
         />
       ) : (
         <SearchListingDesktop
-          data={props.listingPage}
-          isLoading={isLoading}
+          data={!isServer() ? props.listingPage : props.data}
+          isLoading={!isServer() ? props.listingPage.isLoading : false}
           getFilterData={getFilterData}
           queryParams={queryParams}
           loadMoreData={loadMoreData}
