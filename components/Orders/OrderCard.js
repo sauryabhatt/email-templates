@@ -146,6 +146,70 @@ const OrderCard = (props) => {
                 </span>
               )}
               {order &&
+                  order.miscCharges &&
+                  order.miscCharges.find(
+                    (x) => x.chargeId === "SELLER_DISCOUNT"
+                  ) &&
+                  order.miscCharges.find((x) => x.chargeId === "SELLER_DISCOUNT")
+                  .amount > 0 && (
+                    <div className="c-left-blk qa-mar-btm-05">
+                      <span
+                        className="qa-fs-14 qa-fw-b qa-font-san"
+                        style={{ color: "#02873A" }}
+                      >
+                        Shipping discount
+                      </span>
+                    </div>
+                  )}
+              {order &&
+                      order.miscCharges &&
+                      order.miscCharges.find(
+                        (x) => x.chargeId === "SELLER_DISCOUNT"
+                      ) &&
+                      order.miscCharges.find((x) => x.chargeId === "SELLER_DISCOUNT")
+                        .amount > 0 && (
+                        <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b"
+                        >
+                          {order && order.orderType == "RTS" ? (
+                            <span
+                              className="qa-fs-16 qa-font-san"
+                              style={{ color: "#02873A" }}
+                            >
+                              -{" "}
+                              {getSymbolFromCurrency(order && order.currency) ||
+                                "$"}
+                              {(order &&
+                                order.miscCharges &&
+                                order.miscCharges.find(
+                                  (x) => x.chargeId === "SELLER_DISCOUNT"
+                                ) &&
+                                parseFloat(
+                                  order.miscCharges.find(
+                                    (x) => x.chargeId === "SELLER_DISCOUNT"
+                                  ).amount * order.conversionFactor
+                                ).toFixed(2)) ||
+                                0}
+                            </span>
+                          ) : (
+                            <span
+                              className="qa-fs-16 qa-font-san"
+                              style={{ color: "#02873A" }}
+                            >
+                              - {getSymbolFromCurrency(order && order.currency)}
+                              {(order &&
+                                order.miscCharges &&
+                                order.miscCharges.find(
+                                  (x) => x.chargeId === "SELLER_DISCOUNT"
+                                ) &&
+                                order.miscCharges.find(
+                                  (x) => x.chargeId === "SELLER_DISCOUNT"
+                                ).amount* order.conversionFactor) ||
+                                0}
+                            </span>
+                          )}
+                        </span>
+                      )}
+              {order &&
                   order.referralCode &&
                   order.miscCharges &&
                   order.miscCharges.find(
@@ -155,10 +219,10 @@ const OrderCard = (props) => {
                   .amount > 0 && (
                     <div className="c-left-blk qa-mar-btm-05">
                       <span
-                            className="qa-fs-14 qa-fw-b qa-font-san"
-                            style={{ color: "#02873A" }}
-                          >
-                      {order && order.referralCode} applied
+                        className="qa-fs-14 qa-fw-b qa-font-san"
+                        style={{ color: "#02873A" }}
+                      >
+                        {order && order.referralCode} applied
                       </span>
                     </div>
                   )}
