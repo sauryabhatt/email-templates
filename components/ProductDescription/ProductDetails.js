@@ -2407,7 +2407,7 @@ const ProductDetails = (props) => {
                         </Form.Item>
                         <div
                           className="qa-font-san qa-fs-12 qa-blue qa-mar-btm-1 qa-lh"
-                          style={{ marginTop: "-10px" }}
+                          style={{ marginTop: "-15px" }}
                         >
                           *For large quantities, please submit the{" "}
                           <b>'get quote'</b> form for unbeatable prices!
