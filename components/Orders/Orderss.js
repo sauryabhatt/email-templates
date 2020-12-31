@@ -96,7 +96,7 @@ const Orderss = (props) => {
   }
   return (
     <React.Fragment>
-      <Col xs={24} sm={24} md={22} lg={22} className = "order-container">
+      <Col xs={24} sm={24} md={24} lg={22} className = "order-container">
         <Row>
           <Col xs={24} sm={24} md={12} lg={12}>
             <div className="form-top">
@@ -105,7 +105,7 @@ const Orderss = (props) => {
                 style={{ color: "#191919", letterSpacing: "0.2px" }}
               >
                 {mediaMatch && props.showOrderDetails 
-                  ? <span style={{fontSize: "17px"}} onClick={() =>props.handleShowOrder(false)}>
+                  ? <span className="qa-cursor" style={{fontSize: "17px"}} onClick={() =>props.handleShowOrder(false)}>
                     <Icon
                       component={backArrow}
                       style={{ width: "30px", height: "30px" }}
@@ -119,7 +119,7 @@ const Orderss = (props) => {
               </p>
             </div>
           </Col>
-          <Col xs={24} sm={24} md={12} lg={12} className = "order-faq-section">
+          <Col xs={24} sm={24} md={24} lg={12} className = "order-faq-section">
             <div style={{ textAlign: "right" }}>
               <Link href="/FAQforwholesalebuyers">
                 <a target="_blank">
@@ -279,7 +279,9 @@ const Orderss = (props) => {
                   className="quote-rfq"
                 >
                   <Button
-                    className="qa-button quote-contact-seller"
+                    className=                            {props.mediaMatch.matches
+                              ? "download-invoice-btn qa-vertical-center"
+                              : "download-invoice-btn-mob qa-vertical-center"}
                     onClick={() => {
                       setVisible(true);
                     }}

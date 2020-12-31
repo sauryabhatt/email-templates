@@ -145,7 +145,72 @@ const OrderCard = (props) => {
                       ).amount}
                 </span>
               )}
-
+              {order &&
+                  order.referralCode &&
+                  order.miscCharges &&
+                  order.miscCharges.find(
+                    (x) => x.chargeId === "DISCOUNT"
+                  ) &&
+                  order.miscCharges.find((x) => x.chargeId === "DISCOUNT")
+                  .amount > 0 && (
+                    <div className="c-left-blk qa-mar-btm-05">
+                      <span
+                            className="qa-fs-14 qa-fw-b qa-font-san"
+                            style={{ color: "#02873A" }}
+                          >
+                      {order && order.referralCode} applied
+                      </span>
+                    </div>
+                  )}
+              {order &&
+                      order.referralCode &&
+                      order.miscCharges &&
+                      order.miscCharges.find(
+                        (x) => x.chargeId === "DISCOUNT"
+                      ) &&
+                      order.miscCharges.find((x) => x.chargeId === "DISCOUNT")
+                        .amount > 0 && (
+                        <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b"
+                        >
+                          {order && order.orderType == "RTS" ? (
+                            <span
+                              className="qa-fs-16 qa-fw-b qa-font-san"
+                              style={{ color: "#02873A" }}
+                            >
+                              -{" "}
+                              {getSymbolFromCurrency(order && order.currency) ||
+                                "$"}
+                              {(order &&
+                                order.miscCharges &&
+                                order.miscCharges.find(
+                                  (x) => x.chargeId === "DISCOUNT"
+                                ) &&
+                                parseFloat(
+                                  order.miscCharges.find(
+                                    (x) => x.chargeId === "DISCOUNT"
+                                  ).amount * order.conversionFactor
+                                ).toFixed(2)) ||
+                                0}
+                            </span>
+                          ) : (
+                            <span
+                              className="qa-fs-16 qa-fw-b qa-font-san"
+                              style={{ color: "#02873A" }}
+                            >
+                              - {getSymbolFromCurrency(order && order.currency)}
+                              {(order &&
+                                order.miscCharges &&
+                                order.miscCharges.find(
+                                  (x) => x.chargeId === "DISCOUNT"
+                                ) &&
+                                order.miscCharges.find(
+                                  (x) => x.chargeId === "DISCOUNT"
+                                ).amount) ||
+                                0}
+                            </span>
+                          )}
+                        </span>
+                      )}
               <div className="c-left-blk qa-mar-btm-05">Custom, taxes & duties</div>
               {order && order.orderType == "RTS" ? (
                 <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
@@ -241,6 +306,36 @@ const OrderCard = (props) => {
                         ).amount}
                   </span>
                 )}
+                {order &&
+                    order.promoDiscount !== undefined &&
+                    order.promoDiscount !== "" &&
+                    order.promoDiscount > 0 &&(
+                      <div className="c-left-blk qa-mar-btm-05">
+                        <span
+                          className="qa-fs-14 qa-fw-b qa-font-san"
+                          style={{ color: "#02873A" }}
+                        >
+                          <span style={{ textTransform: "uppercase" }}>
+                            {order.promoCode}
+                          </span>{" "}
+                          applied
+                        </span>
+                      </div>
+                    )}
+                {order &&
+                      order.promoDiscount !== undefined &&
+                      order.promoDiscount !== "" &&
+                      order.promoDiscount > 0 && (
+                        <span
+                            className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b"
+                            style={{ color: "#02873A" }}
+                          >
+                            -{" "}
+                            {getSymbolFromCurrency(order && order.currency) ||
+                              "$"}
+                            {parseFloat(order.promoDiscount).toFixed(2)}
+                          </span>
+                      )}
               </div>
             </div>
           )}
@@ -306,6 +401,17 @@ const OrderCard = (props) => {
             {order.status == "DRAFT" ? <span className="qa-error-color">Payment unsuccessful</span> : order.status}
           </div>
         </div>
+        {order.status === "DELIVERED" 
+          ?(
+            <div className="order-card-headr-tile">
+              <div className="qa-fs-10 odrer-header-title qa-grey-color">
+                DELIVERED DATE
+              </div>
+              <div className="qa-fs-14 order-header-tile-content qa-tc-white">
+                {moment(order.orderedDate).format("DD MMM YY")}
+              </div>
+            </div>
+        ): null}
         {order.status === "DELIVERED" || order.status === "CANCELED" || order.status === "DRAFT" 
           ? order.status === "DRAFT" && !mediaMatch
             ?(  
