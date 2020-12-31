@@ -655,7 +655,8 @@ const OrderCard = (props) => {
                         null
                       )}
                 </div>
-                {order.trackingURL && order.shipperName 
+                {order.status === "DELIVERED" || order.status === "CANCELED" || order.status === "DRAFT" ? null
+                  : order.trackingURL && order.shipperName && order.status  
                   ?(<div className="order-card-headr-tile">
                     <div onClick={()=> setModalVisible(true)} className="qa-fs-14 odrer-header-title qa-sm-color qa-fw-b qa-cursor ">
                       TRACK ORDER
