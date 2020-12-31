@@ -2371,7 +2371,7 @@ const ProductDetails = (props) => {
                         </div>
                         <Form.Item
                           name="quantity"
-                          className="form-item"
+                          className="form-item m-product-qty"
                           rules={[
                             {
                               required: true,
@@ -2404,11 +2404,14 @@ const ProductDetails = (props) => {
                               <Input value="" className="p-text-box" />
                             </Tooltip>
                           )}
-                          <div className="qa-font-san qa-fs-12 qa-blue qa-mar-top-1 qa-lh">
-                            *For large quantities, please submit the{" "}
-                            <b>'get quote'</b> form for unbeatable prices!
-                          </div>
                         </Form.Item>
+                        <div
+                          className="qa-font-san qa-fs-12 qa-blue qa-mar-btm-1 qa-lh"
+                          style={{ marginTop: "-10px" }}
+                        >
+                          *For large quantities, please submit the{" "}
+                          <b>'get quote'</b> form for unbeatable prices!
+                        </div>
                       </Col>
                     </Row>
                     <Row>
