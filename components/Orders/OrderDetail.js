@@ -151,7 +151,7 @@ const OrderDetail = (props) => {
           <div className="qa-flex-column qa-txt-alg-rgt">
             <span  className = "qa-fw-b qa-fs-17">
               {getSymbolFromCurrency(order && order.currency) || "$"}
-              {parseFloat(subOrders.total).toFixed(2)}
+              {parseFloat(subOrders.total* order.conversionFactor).toFixed(2)}
             </span>
             {/*<Popover
                 placement="bottomRight"
@@ -207,7 +207,7 @@ const OrderDetail = (props) => {
                         <span>Base price</span>
                         <span className = "qa-fw-b">
                           {getSymbolFromCurrency(order && order.currency) || "$"}
-                          {parseFloat(p.total).toFixed(2)}
+                          {parseFloat(p.total* order.conversionFactor).toFixed(2)}
                         </span>
                       </div>
                       {/*<div className="qa-flex-row" style={{justifyContent: "space-between"}}>

@@ -92,7 +92,7 @@ const OrderCard = (props) => {
         <div className="c-left-blk qa-mar-btm-05">Value of products purchased</div>
         <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
           {getSymbolFromCurrency(order && order.currency) || "$"}
-          {parseFloat(order.subTotal).toFixed(2)}
+          {parseFloat(order.subTotal* order.conversionFactor).toFixed(2)}
         </span>
         {order.shippingTerms === "DDU"
           ? null
@@ -134,7 +134,7 @@ const OrderCard = (props) => {
                       )
                         ? order.miscChargesActual.find(
                           (x) => x.chargeId === "FREIGHT_CHARGES"
-                        ).amount
+                        ).amount* order.conversionFactor
                         : order &&
                       order.miscCharges &&
                       order.miscCharges.find(
@@ -142,7 +142,7 @@ const OrderCard = (props) => {
                       ) &&
                       order.miscCharges.find(
                         (x) => x.chargeId === "FREIGHT_CHARGES"
-                      ).amount}
+                      ).amount* order.conversionFactor}
                 </span>
               )}
               {order &&
@@ -205,7 +205,7 @@ const OrderCard = (props) => {
                                 ) &&
                                 order.miscCharges.find(
                                   (x) => x.chargeId === "DISCOUNT"
-                                ).amount) ||
+                                ).amount* order.conversionFactor) ||
                                 0}
                             </span>
                           )}
@@ -247,7 +247,7 @@ const OrderCard = (props) => {
                       )
                         ? order.miscChargesActual.find(
                           (x) => x.chargeId === "CUSTOM_CHARGES"
-                        ).amount
+                        ).amount* order.conversionFactor
                         : order &&
                       order.miscCharges &&
                       order.miscCharges.find(
@@ -255,7 +255,7 @@ const OrderCard = (props) => {
                       ) &&
                       order.miscCharges.find(
                         (x) => x.chargeId === "CUSTOM_CHARGES"
-                      ).amount}
+                      ).amount* order.conversionFactor}
                 </span>
               )}
               <div className = "qa-border-bottom" style={{paddingBottom: "15px", marginBottom: "15px"}}>
@@ -295,7 +295,7 @@ const OrderCard = (props) => {
                         )
                           ? order.miscChargesActual.find(
                             (x) => x.chargeId === "VAT"
-                          ).amount
+                          ).amount* order.conversionFactor
                           : order &&
                         order.miscCharges &&
                         order.miscCharges.find(
@@ -303,7 +303,7 @@ const OrderCard = (props) => {
                         ) &&
                         order.miscCharges.find(
                           (x) => x.chargeId === "VAT"
-                        ).amount}
+                        ).amount* order.conversionFactor}
                   </span>
                 )}
                 {order &&
@@ -333,7 +333,7 @@ const OrderCard = (props) => {
                             -{" "}
                             {getSymbolFromCurrency(order && order.currency) ||
                               "$"}
-                            {parseFloat(order.promoDiscount).toFixed(2)}
+                            {parseFloat(order.promoDiscount* order.conversionFactor).toFixed(2)}
                           </span>
                       )}
               </div>
@@ -343,7 +343,7 @@ const OrderCard = (props) => {
           <div className="c-left-blk qa-mar-btm-05 qa-fw-b">Total order value</div>
           <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
             {getSymbolFromCurrency(order && order.currency) || "$"}
-            {order.total}
+            {parseFloat(order.total* order.conversionFactor).toFixed(2)}
           </span>
         </div>
         {order.paymentTerms && order.paymentTerms.length > 0
@@ -354,7 +354,7 @@ const OrderCard = (props) => {
                   <div className="c-left-blk qa-mar-btm-05 qa-fw-b">PAYMENT RECEIVED</div>
                   <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
                     {getSymbolFromCurrency(order && order.currency) || "$"}
-                    {pm.amount}
+                    {parseFloat(pm.amount* order.conversionFactor).toFixed(2)}
                   </span>
                 </div>)
                 : pm.chargeId === "POST_DELIVERY"
@@ -363,7 +363,7 @@ const OrderCard = (props) => {
                       <div className="c-left-blk qa-mar-btm-05 qa-fw-b">PAY LATER</div>
                       <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
                         {getSymbolFromCurrency(order && order.currency) || "$"}
-                        {parseFloat(order.total - order.paymentTerms[0].amount).toFixed(2)}
+                        {parseFloat((order.total - order.paymentTerms[0].amount)* order.conversionFactor).toFixed(2)}
                       </span>
                     </div>
                   ): null
@@ -517,7 +517,7 @@ const OrderCard = (props) => {
                 <div className = "qa-flex-column qa-txt-alg-rgt">
                   <span className="qa-fs-14">
                     {getSymbolFromCurrency(order && order.currency) || "$"}
-                    {order && parseFloat(order.total).toFixed(2)}
+                    {order && parseFloat(order.total* order.conversionFactor).toFixed(2)}
                   </span>
                   <Popover
                     placement="bottomRight"
@@ -673,7 +673,7 @@ const OrderCard = (props) => {
                 <div className = "qa-flex-column qa-mar-left-50 qa-txt-alg-rgt">
                   <span className="qa-fs-17">
                     {getSymbolFromCurrency(order && order.currency) || "$"}
-                    {order && parseFloat(order.total).toFixed(2)}
+                    {order && parseFloat(order.total* order.conversionFactor).toFixed(2)}
                   </span>
                   <Popover
                     placement="bottomRight"
