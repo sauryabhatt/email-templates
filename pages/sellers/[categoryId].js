@@ -4,8 +4,8 @@ import { Layout } from "../../components/common/Layout";
 import SellerListing from "../../components/SellerListing/SellerListing";
 import Spinner from "../../components/Spinner/Spinner";
 import NotFound from "../../components/NotFound/NotFound";
-
 import { useRouter } from "next/router";
+
 export default function SellerListingPage({ data }) {
   const router = useRouter();
   const { categoryId = "" } = data || {};

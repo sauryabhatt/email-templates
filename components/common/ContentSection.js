@@ -51,7 +51,7 @@ function ContentSection(props) {
           dataLength={content.length}
           next={loadMoreData}
           hasMore={count > content.length}
-          scrollThreshold="0.75"
+          scrollThreshold="80%"
           loader={
             <div
               className="qa-mar-btm-4 qa-mar-top-2 qa-font-san qa-pad-0-30"

@@ -65,12 +65,51 @@ const PaymentSuccess = (props) => {
     orderType = "",
     typeOfOrder = "",
     orderId = "",
+    subOrders = [],
   } = order || {};
 
   const getOrders =
     props.order &&
     props.order.subOrders &&
     props.order.subOrders.map((subOrder, i) => {
+      let {
+        products = "",
+        sellerCode = "",
+        qalaraSellerMargin = 0,
+        total = 0,
+      } = subOrder;
+
+      let totalAmount = 0;
+      let basePrice = 0;
+      let samplePrice = 0;
+      let testingPrice = 0;
+
+      for (let items of products) {
+        let {
+          qualityTestingCharge = 0,
+          sampleCost = 0,
+          quantity = 0,
+          exfactoryListPrice = 0,
+        } = items;
+        samplePrice =
+          samplePrice +
+          parseFloat(parseFloat(sampleCost * conversionFactor).toFixed(2));
+        testingPrice =
+          testingPrice +
+          parseFloat(
+            parseFloat(qualityTestingCharge * conversionFactor).toFixed(2)
+          );
+        basePrice =
+          basePrice +
+          parseFloat(
+            parseFloat(exfactoryListPrice * conversionFactor).toFixed(2)
+          ) *
+            quantity;
+      }
+      qalaraSellerMargin = parseFloat(
+        parseFloat(qalaraSellerMargin * conversionFactor).toFixed(2)
+      );
+      totalAmount = basePrice + samplePrice + testingPrice;
       return (
         <React.Fragment>
           <Row>
@@ -99,10 +138,7 @@ const PaymentSuccess = (props) => {
               {props.order && orderType == "RTS" ? (
                 <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end qa-fw-b">
                   {getSymbolFromCurrency(props.order && props.order.currency)}
-                  {parseFloat(
-                    subOrder.products.reduce((x, y) => x + y["total"], 0) *
-                      props.order.conversionFactor
-                  ).toFixed(2)}
+                  {parseFloat(totalAmount).toFixed(2)}
                 </span>
               ) : (
                 <span className="qa-font-san qa-tc-white qa-fs-14 qa-col-end qa-fw-b">
@@ -179,6 +215,64 @@ const PaymentSuccess = (props) => {
     frieghtCharge = customFreightCharge;
   }
 
+  let subTotal = 0;
+  let totalCartValue = 0;
+
+  if (subOrders && subOrders.length > 0) {
+    for (let order of subOrders) {
+      let { products = "", qalaraSellerMargin = 0 } = order;
+
+      let sellerTotal = 0;
+      let basePrice = 0;
+      let samplePrice = 0;
+      let testingPrice = 0;
+
+      for (let items of products) {
+        let {
+          qualityTestingCharge = 0,
+          sampleCost = 0,
+          quantity = 0,
+          exfactoryListPrice = 0,
+        } = items;
+        samplePrice =
+          samplePrice +
+          parseFloat(parseFloat(sampleCost * conversionFactor).toFixed(2));
+        testingPrice =
+          testingPrice +
+          parseFloat(
+            parseFloat(qualityTestingCharge * conversionFactor).toFixed(2)
+          );
+        basePrice =
+          basePrice +
+          parseFloat(
+            parseFloat(exfactoryListPrice * conversionFactor).toFixed(2)
+          ) *
+            quantity;
+      }
+
+      sellerTotal = basePrice + samplePrice + testingPrice;
+
+      subTotal = subTotal + sellerTotal;
+      totalCartValue = totalCartValue + sellerTotal;
+    }
+  }
+
+  subTotal =
+    subTotal +
+    parseFloat(parseFloat(frieghtCharge * conversionFactor).toFixed(2)) +
+    parseFloat(parseFloat(dutyCharge * conversionFactor).toFixed(2)) -
+    parseFloat(parseFloat(couponDiscount * conversionFactor).toFixed(2)) -
+    parseFloat(parseFloat(sellerDiscount * conversionFactor).toFixed(2));
+
+  totalCartValue =
+    totalCartValue +
+    parseFloat(parseFloat(frieghtCharge * conversionFactor).toFixed(2)) +
+    parseFloat(parseFloat(dutyCharge * conversionFactor).toFixed(2)) -
+    parseFloat(parseFloat(sellerDiscount * conversionFactor).toFixed(2)) -
+    parseFloat(parseFloat(couponDiscount * conversionFactor).toFixed(2)) +
+    parseFloat(parseFloat(vatCharge * conversionFactor).toFixed(2)) -
+    parseFloat(parseFloat(promoDiscount * conversionFactor).toFixed(2));
+
   if (conversionFactor) {
     total = total * conversionFactor;
   }
@@ -192,6 +286,7 @@ const PaymentSuccess = (props) => {
   } else {
     balance = balance;
   }
+
   advance = total - balance || 0;
 
   const dduContent = (
@@ -549,7 +644,7 @@ const PaymentSuccess = (props) => {
                     props.order.miscCharges.find(
                       (x) => x.chargeId === "DISCOUNT"
                     ).amount > 0 && (
-                      <Row className="">
+                      <Row className="qa-mar-top-1">
                         <Col span={16}>
                           <div
                             className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b qa-lh qa-mar-rgt-1"
@@ -592,7 +687,7 @@ const PaymentSuccess = (props) => {
                     props.order.miscCharges.find(
                       (x) => x.chargeId === "SELLER_DISCOUNT"
                     ).amount > 0 && (
-                      <Row className="">
+                      <Row className="qa-mar-top-05">
                         <Col span={16}>
                           <div
                             className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b qa-lh qa-mar-rgt-1"
@@ -765,21 +860,7 @@ const PaymentSuccess = (props) => {
                           {getSymbolFromCurrency(
                             props.order && props.order.currency
                           )}
-                          {parseFloat(
-                            parseFloat(
-                              props.order &&
-                                props.order.subOrders &&
-                                props.order.subOrders.length > 0 &&
-                                props.order.subOrders.reduce(
-                                  (x, y) => x + y["total"],
-                                  0
-                                ) * conversionFactor
-                            ) +
-                              frieghtCharge * conversionFactor +
-                              dutyCharge * conversionFactor -
-                              couponDiscount * conversionFactor -
-                              sellerDiscount * conversionFactor
-                          ).toFixed(2)}
+                          {parseFloat(subTotal).toFixed(2)}
                         </span>
                       ) : (
                         <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-17 qa-col-end qa-fw-b">
@@ -900,7 +981,7 @@ const PaymentSuccess = (props) => {
                     props.order.miscCharges.find(
                       (x) => x.chargeId === "DISCOUNT"
                     ).amount > 0 && (
-                      <Row className="">
+                      <Row className="qa-mar-top-1">
                         <Col span={16}>
                           <div
                             className="qa-font-san qa-tc-white qa-fs-14 qa-fw-b qa-lh qa-mar-rgt-1"
@@ -983,12 +1064,12 @@ const PaymentSuccess = (props) => {
                     <Col span={16}>
                       <div className="qa-font-san qa-tc-white qa-fs-17 qa-fw-b qa-lh qa-mar-rgt-1">
                         TOTAL ORDER VALUE{" "}
-                        {shippingTerms === "DDU" ||
-                          (shippingTerms === "DDP" && (
-                            <span className="qa-fw-n qa-uppercase">
-                              ({shippingTerms.toUpperCase()})
-                            </span>
-                          ))}
+                        {(shippingTerms === "DDU" ||
+                          shippingTerms === "DDP") && (
+                          <span className="qa-fw-n qa-uppercase">
+                            ({shippingTerms.toUpperCase()})
+                          </span>
+                        )}
                       </div>
                     </Col>
                     <Col span={8}>
@@ -997,10 +1078,7 @@ const PaymentSuccess = (props) => {
                           {getSymbolFromCurrency(
                             props.order && props.order.currency
                           )}
-                          {props.order &&
-                            parseFloat(
-                              props.order.total * props.order.conversionFactor
-                            ).toFixed(2)}
+                          {parseFloat(totalCartValue).toFixed(2)}
                         </span>
                       ) : (
                         <span className="qa-font-san qa-fw-b qa-tc-white qa-fs-17 qa-col-end">
@@ -1032,7 +1110,13 @@ const PaymentSuccess = (props) => {
                         {getSymbolFromCurrency(
                           props.order && props.order.currency
                         )}
-                        {parseFloat(advance).toFixed(2)}
+                        {orderType === "RTS" ? (
+                          <span>
+                            {parseFloat(totalCartValue * 0.2).toFixed(2)}
+                          </span>
+                        ) : (
+                          <span>{parseFloat(advance).toFixed(2)}</span>
+                        )}
                       </span>
                     </Col>
                   </Row>
@@ -1047,8 +1131,13 @@ const PaymentSuccess = (props) => {
                         {getSymbolFromCurrency(
                           props.order && props.order.currency
                         )}
-
-                        {parseFloat(balance).toFixed(2)}
+                        {orderType === "RTS" ? (
+                          <span>
+                            {parseFloat(totalCartValue * 0.8).toFixed(2)}
+                          </span>
+                        ) : (
+                          <span>{parseFloat(balance).toFixed(2)}</span>
+                        )}
                       </span>
                     </Col>
                   </Row>

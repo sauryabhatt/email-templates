@@ -52,7 +52,7 @@ import moment from "moment";
 import Quotations from "../Quotations/Quotations";
 import QuotationMobile from "../mobile/QuotationMobile";
 import Orders from "../Orders/Orders";
-// import Orderss from "../Orders/Orderss";
+import Orderss from "../Orders/Orderss";
 import OrdersMobile from "../mobile/OrdersMobile";
 import Addresses from "../Addresses/Addresses";
 import { logoutFromApp } from "../AuthWithKeycloak";
@@ -106,9 +106,10 @@ const UserAccount = (props) => {
   const [meetingByStatusList, setMeetingByStatusList] = useState([]);
   const [loadCount, setLoadCount] = useState(1);
   const [showOrderDetails, setShowOrderDetails] = useState(false);
+  const [orderText, setOrderText] = useState("");
   const [collectionName, setCollectionName] = useState("");
   const [showCollectionDetails, setCollectionDetails] = useState(false);
-
+  console.log(orderText);
   const settings = {
     infinite: false,
     speed: 500,
@@ -1145,7 +1146,14 @@ const UserAccount = (props) => {
           justify="center"
           style={{ paddingTop: "2%", background: "#f9f7f2" }}
         >
-          <Col xs={0} sm={0} md={5} lg={5} xl={5}>
+          <Col
+            xs={0}
+            sm={0}
+            md={5}
+            lg={5}
+            xl={5}
+            style={{ flex: "none", maxWidth: "100%" }}
+          >
             <Row justify="space-between">
               <Col
                 xs={24}
@@ -1161,7 +1169,7 @@ const UserAccount = (props) => {
                     style={{ cursor: "pointer" }}
                   >
                     <span
-                      className="qa-fs-16 qa-font-san"
+                      className="qa-fs-12 qa-font-san"
                       style={{
                         lineHeight: "110%",
                         letterSpacing: "0.01em",
@@ -1173,10 +1181,11 @@ const UserAccount = (props) => {
                   </Breadcrumb.Item>
                   <Breadcrumb.Item>
                     <span
-                      className="qa-fs-16 qa-font-san"
+                      className="qa-fs-12 qa-font-san"
                       style={{ lineHeight: "110%", letterSpacing: "0.01em" }}
                     >
-                      Order details
+                      Order id #{orderText.orderId} /{" "}
+                      {orderText.subOrders[orderText.subIndex].id}
                     </span>
                   </Breadcrumb.Item>
                 </Breadcrumb>
@@ -1489,34 +1498,6 @@ const UserAccount = (props) => {
                 )}
               </div>
             </Col>
-            <Col
-              xs={24}
-              sm={24}
-              md={24}
-              lg={24}
-              xl={24}
-              style={{ marginBottom: "40px" }}
-            >
-              <div className="left-services">
-                <p className="heading">
-                  Services
-                  <br />
-                  launching soon
-                </p>
-                <p className="para1">
-                  Digital Trade Fairs.
-                  <br />
-                  Partner Verifications.
-                  <br />
-                  Financial Services.
-                  <br />
-                  Collaborative Design Tools.
-                  <br />
-                  Intelligent Supply Chain.
-                </p>
-                {/* <p className='para2'>Get early access by sending a “request a quote” with your needs.</p> */}
-              </div>
-            </Col>
           </Row>
         </Col>
         <Col
@@ -1759,10 +1740,22 @@ const UserAccount = (props) => {
           )}
 
           {currentNav == "orders" ? (
+            <Orderss
+              handleShowOrder={handleShowOrder}
+              showOrderDetails={showOrderDetails}
+              setOrderText={setOrderText}
+              mediaMatch={window.matchMedia("(max-width: 780px)").matches}
+            />
+          ) : (
+            ""
+          )}
+
+          {currentNav == "orderss" ? (
             mediaMatch.matches ? (
               <Orders
                 handleShowOrder={handleShowOrder}
                 showOrderDetails={showOrderDetails}
+                setOrderText={setOrderText}
               />
             ) : (
               <OrdersMobile
@@ -2105,27 +2098,6 @@ const UserAccount = (props) => {
                   />,
                 ]
               : null}
-            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-              <div className="left-services">
-                <p className="heading">
-                  Services
-                  <br />
-                  launching soon
-                </p>
-                <p className="para1">
-                  Digital Trade Fairs.
-                  <br />
-                  Partner Verifications.
-                  <br />
-                  Financial Services.
-                  <br />
-                  Collaborative Design Tools.
-                  <br />
-                  Intelligent Supply Chain.
-                </p>
-                {/* <p className='para2'>Get early access by sending a “request a quote” with your needs.</p> */}
-              </div>
-            </Col>
             <Col
               xs={24}
               sm={24}

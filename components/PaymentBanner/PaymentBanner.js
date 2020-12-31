@@ -50,7 +50,7 @@ function PaymentBanner(props) {
             }}
           >
             <div className="send-query-button-text qa-buyer-button qa-payment">
-              REQUEST FOR QUOTE
+              Help me source
             </div>
           </Button>
         </div>

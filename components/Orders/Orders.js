@@ -38,7 +38,7 @@ const Orders = (props) => {
       props.userProfile.firstName + " " + props.userProfile.lastName;
   }
 
-  let values = {
+let values = {
     profileId: props.userProfile && props.userProfile.profileId,
     profileType: props.userProfile && props.userProfile.profileType,
     category: "",

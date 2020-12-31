@@ -1,23 +1,11 @@
 /** @format */
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { loginToApp } from "../AuthWithKeycloak";
-import {
-  Button,
-  Form,
-  Select,
-  Input,
-  message,
-  Upload,
-  DatePicker,
-  Checkbox,
-  Modal,
-} from "antd";
-import { PlusOutlined } from "@ant-design/icons";
+import { Button, Modal } from "antd";
 import SendQueryForm from "../SendQueryForm/SendQueryForm";
 
 function RequestForQuote(props) {
-  console.log("not authenticated");
   const [visible, setVisible] = useState(false);
   const [inviteAccess, setInviteAccess] = useState(false);
   const [successQueryVisible, setSuccessQueryVisible] = useState(false);
@@ -51,7 +39,6 @@ function RequestForQuote(props) {
   };
 
   const normFile = (e) => {
-    console.log("Upload event:", e);
     if (Array.isArray(e)) {
       return e;
     }
@@ -68,11 +55,10 @@ function RequestForQuote(props) {
         </p>
       </div>
       <div className="rfq-body-header">
-        <h1>Request for quote</h1>
+        <h1>Help me source</h1>
         <p>
-          If you’re a buyer, we can help you source products from any lifestyle
-          category! Share your requirements below and we will get back in 48
-          hours!
+          We can help you source products from any lifestyle category in India
+          and South Asia!
         </p>
       </div>
       <div className="rfq-body">
@@ -100,8 +86,8 @@ function RequestForQuote(props) {
             <div className="send-query-success-modal-content">
               <p className="send-query-success-modal-para1">Thank you!</p>
               <p className="send-query-success-modal-para2">
-                We have received your request for quote and will revert within
-                the next 48 to 72 hours.
+                We have received your Sourcing request, and will revert within
+                the next 48-72 hours.
               </p>
             </div>
             <Button
@@ -117,15 +103,15 @@ function RequestForQuote(props) {
         <div className="rfq-why-us">
           <span className="heading">Why us?</span>
           <p className="paragraph-points">
-            Zero commission (launch offer)
+            Zero commission promotional offer
             <br />
-            Over 20,000 products
+            25,000+ products from verified suppliers
             <br />
-            Small buyer friendly terms
+            One-stop-shop from design to delivery
             <br />
-            One-stop-shop across multiple suppliers
+            Secure payments & lowest shipping costs
             <br />
-            Digital secure payment on delivery
+            Based in India, with worldwide reach
           </p>
         </div>
       </div>

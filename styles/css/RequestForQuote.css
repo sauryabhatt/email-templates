@@ -56,9 +56,9 @@
   box-shadow: none;
 }
 
-.rfq-container .ref-photos {
+/* .rfq-container .ref-photos {
   font-weight: bold;
-}
+} */
 
 @media only screen and (max-width: 767px) {
   .rfq-container {
@@ -106,7 +106,6 @@
   .rfq-container .ref-photos,
   .order-quantity {
     display: inline-block;
-    line-height: 110%;
   }
   /*
 	.rfq-container .order-quantity{
@@ -221,19 +220,14 @@
     font-size: 14px;
   }
 
-  #send_query_form span:first-child {
-    font-weight: bold;
-    display: inline-block;
-    /*padding-bottom: 5px;*/
-  }
-
   #send-query-form .city-state-phone span {
     font-weight: normal;
   }
 
   #send-query-form .label-heading {
-    font-size: 17px;
+    font-size: 14px;
     line-height: 130%;
+    font-weight: bold;
   }
 
   #send-query-form .label-paragraph {

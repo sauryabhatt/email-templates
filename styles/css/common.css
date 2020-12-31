@@ -310,6 +310,9 @@
 .ant-input.error-border {
   border: 1px solid #ff4d4f;
 }
+.qa-error-color{
+  color: #AF0000;
+}
 .qa-text-error {
   font-family: senregular;
   font-size: 12px;
@@ -423,6 +426,9 @@
 }
 .qa-uppercase {
   text-transform: uppercase;
+}
+.qa-underline {
+  text-decoration:underline;
 }
 .qa-fs-18 {
   font-size: 18px;
