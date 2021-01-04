@@ -545,19 +545,91 @@
   }
   #product-description .pdp-collection-sec {
     display: inline-block;
-    width: 40%;
-    background-color: #f9f7f2;
+    width: 20%;
     padding: 5px 20px;
+    border-radius: 60px;
+    border-color:rgba(135, 68, 57, 0.6);
+    background: #874439; 
+    margin-left: 30px;   
   }
   #product-description .pdp-collection-sec .pdp-stc {
     display: inline-block;
     vertical-align: middle;
     width: 70%;
+    border-radius: 60px;
+    background: #7e504a;
+    padding: 0px 3px 0px 3px ;
+    color:#f9f7f2;
   }
   #product-description .pdp-collection-sec .pdp-stc-icon {
     display: inline-block;
-    width: 30%;
+    width: 20%;
+    bottom: 5px;
     text-align: right;
+    margin-bottom: 8px;
+    color: #000000;
+    background-color:#F9F7F2;
+  }
+  .pdp-save-to-overlay{
+     position: absolute;
+    border-top-left-radius: 0%;
+    border-top-right-radius: 0%;
+    border-bottom-left-radius: 60%;
+    border-bottom-right-radius: 0%;
+    background: #874439;
+    color:#f9f7f2;
+    /* transform: rotate(180deg);
+    -ms-transform: rotate(180deg);  */
+    margin-left: 250px;
+    border-left: 15px solid rgba(135, 68, 57, 0.6);
+    border-bottom: 15px solid rgba(135, 68, 57, 0.6);
+  }
+  .pdp-overlay-atc-icon{
+    /* position: absolute; */
+    bottom: 5px;
+    text-align: right;
+    margin-bottom: 8px;
+    color: #000000;
+    background-color:#F9F7F2;
+  }
+  .pdp-save-overlay-collection{
+    border-color:rgba(135, 68, 57, 0.6);
+    background: #7e504a;
+    padding: 10px 10px 12px 20px;
+    font-weight: 600;
+    font-size: 14px;
+    border-top-left-radius: 0%;
+    border-top-right-radius: 0%;
+    border-bottom-left-radius: 60%;
+    border-bottom-right-radius: 0%;
+  }
+  .pdp-overlay{
+    position: absolute; 
+    transition: 0.7s ease; 
+    opacity: 0.96; 
+    width: 420px; 
+    z-index: 1;
+    height: 250px; 
+    top:0px;
+    /* -ms-transform: rotate(180deg); 
+    transform: rotate(180deg); */
+    background: #191919 95%;
+    border-top-left-radius: 0%;
+    border-top-right-radius: 0%;
+    border-bottom-left-radius: 60%;
+    border-bottom-right-radius: 60%;
+  }
+  .pdp-save-col-overlay{
+    color: #F9F7F2;
+    /* transform: rotate(180deg);
+    -ms-transform: rotate(180deg);  */
+    margin-top: 60px;
+    font-size: 14px;
+    padding-left: 45px;
+  }  
+  .pdp-overlay-heading{
+    font-size: 16px;
+    font-family: Butler;
   }
   #product-description .product-org-section {
     padding: 0px;
@@ -571,7 +643,7 @@
     font-family: senregular;
     line-height: 100%;
     text-align: right;
-    color: #874439;
+    color: #faf9f9;
     font-weight: bold;
     font-size: 14px;
   }
@@ -680,6 +752,7 @@
     width: 80%;
   }
 }
+
 .pd-pincode-modal .heading {
   font-family: Butler;
   font-weight: 500;
@@ -802,8 +875,122 @@
   font-size: 16px;
   font-family: senregular;
   font-weight: 500;
-  margin-top: 10px;
+  margin-top: 1px;
 }
+.product-login-modal-content .product-login-modal-last-para{
+  text-align: center;
+  font-size: 16px;
+  font-family: senregular;
+  font-weight: 500;
+  margin-top: 80px;
+}
+
+.product-login-modal-content.last-para{
+  line-height: 17px;
+  margin-top: 75px;
+}
+.product-login-modal-para.heading{
+  font-family: Butler;
+  font-size: 20px;
+  line-height: 34px;
+  /* or 34px or 140% */
+  text-align: center;
+  letter-spacing: 0.2px;
+}
+.product-login-modal-para.sub-heading{
+  font-family: Butler;
+  font-size: 24px;
+  line-height: 34px;
+  /* or 34px or 140% */
+  text-align: center;
+  letter-spacing: 0.2px;
+}
+/* Sign up button css in product details page start*/
+.login-modal-signup-btn {
+  position: absolute;
+  z-index: 999;
+  width: 278px;
+  height: 59px;
+  /* left: 174px;
+  top: 190px; */
+  margin-left: 173px;
+  transition: all 0.2s ease-in-out;
+  background: #D9BB75;
+}
+.login-modal-signup-btn a.button {
+  padding: 16px 20px;
+  margin: 0;
+}
+
+.login-modal-signup-btn .login-modal-sign-up-text {
+  font-size: 17px;
+  line-height: 140%;
+}
+.login-modal-signup-btn .login-modal-sign-up-text-icon {
+  line-height: 0;
+  padding-right: 4px;
+}
+/* Sign up Button css in product details page end*/
+/* Sign Up Button Media Queries start */
+@media only screen and (min-width: 700px) and (max-width: 767px) {
+        
+  .login-modal-signup-btn {
+  margin-left: 168px;
+   
+}   
+}
+@media only screen and (min-width: 650px) and (max-width: 698px) {
+        
+  .login-modal-signup-btn {
+  margin-left: 130px;
+  display: flex;
+  justify-self: center;
+  
+}   
+}
+@media only screen and (min-width: 580px) and (max-width: 649px) {
+        
+  .login-modal-signup-btn {
+  margin-left: 100px;
+  display: flex;
+  justify-self: center;
+  
+}   
+}
+@media only screen and (min-width: 500px) and (max-width: 579px) {
+      
+  .login-modal-signup-btn {
+    margin-left: 80px;
+    display: flex;
+    justify-self: center;
+  }   
+}
+@media only screen and (min-width: 480px) and (max-width: 501px) {
+      
+  .login-modal-signup-btn {
+    margin-left: 70px;
+    display: flex;
+    justify-self: center;
+  }   
+}
+@media only screen and (min-width: 400px) and (max-width: 479px) {
+      
+  .login-modal-signup-btn {
+    margin-left: 60px;
+    display: flex;
+    justify-self: center;
+  }   
+}
+@media only screen and (min-width: 300px) and (max-width: 390px) {
+      
+  .login-modal-signup-btn {
+    margin-left: -20px;
+    display: flex;
+    justify-self: center;
+  }   
+}
+
+/* Sign Up Button Media Queries End */
 #product-description .lock-outline-sec {
   position: absolute;
   top: 0px;
@@ -911,6 +1098,7 @@
     .image-gallery-image {
     max-height: calc(60vh - 110px);
   }
+  
 }
 #product-description button.ant-btn.add-to-bag-button.ant-btn-loading {
   background-color: #f9f7f2;
@@ -923,23 +1111,107 @@
 .qa-hover:hover {
   color: #191919;
 }
-#product-description .save-collection {
-  vertical-align: middle;
-  margin-right: 5px;
+#product-description .atc-icon{
+  position: absolute;
+  bottom: 5px;
   text-align: right;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  font-size: 12px;
-  color: #874439;
-  font-family: senregular;
-  font-weight: bold;
-  cursor: pointer;
+  margin-bottom: 8px;
+  color: #000000;
+  background-color:#F9F7F2;
+}
+#product-description .save-collection {
+  border-radius: 60px;
+  background: #7e504a;
+  padding: 0px 3px 0px 3px ;
+  color:#f9f7f2;
 }
 #product-description .atc-section {
   text-align: right;
+  padding-top: 5px;
+  padding-bottom: 5px;
   margin-bottom: 5px;
-  margin-right: 10px;
+  padding-right: 20px;
+  border-radius: 60px;
+  border-color:rgba(135, 68, 57, 0.6);
+  background: #874439;
+  width: 190px;
+  margin-left: 340px;
+  cursor: pointer;
 }
+
+/*Overlay start*/
+.cross-icon{
+  margin:0px 0px 0px 600px;
+  font-weight: 500;
+  font-size: 20px;
+  position: absolute;
+  top:14px;
+}
+.save-to-overlay{
+  position: absolute;
+  border-radius: 60px;
+  background: #874439;
+  color:#f9f7f2;
+  transform: rotate(297deg);
+  -ms-transform: rotate(299deg); 
+  margin-left: -10px;
+  margin-top: 80px;
+  border: 15px solid rgba(135, 68, 57, 0.6);
+}
+.overlay-atc-icon{
+  /* position: absolute; */
+  bottom: 5px;
+  text-align: right;
+  margin-bottom: 8px;
+  color: #000000;
+  background-color:#F9F7F2;
+}
+.save-overlay-collection{
+  border-radius: 60px;
+  border-color:rgba(135, 68, 57, 0.6);
+  background: #7e504a;
+  padding: 10px 10px 5px 15px;
+  font-weight: 600;
+  font-size: 14px;
+}
+.overlay-heading{
+  font-family: Butler;
+  font-style: normal;
+  font-size: 24px;
+}
+.overlay-click{
+  font-family: sen;
+  font-style: normal;
+  font-size: 12px;
+}
+
+.save-col-overlay{
+  color:rgb(252, 248, 248);
+  transform: rotate(297deg);
+  -ms-transform: rotate(299deg); 
+  margin-top: 170px;
+  font-size: 14px;
+  padding-left: 15px;
+}
+.overlay{
+  position: absolute; 
+  transition: 0.7s ease; 
+  opacity: 1; 
+  width: 320px; 
+  z-index: 1;
+  height: 450px; 
+  top: -70px; 
+  margin-left:230px;
+  -ms-transform: rotate(65deg); 
+  transform: rotate(65deg);
+  background: #191919 95%;
+  border-radius:60%; 
+}
+@media only screen and (min-width: 769px) and (max-width: 991px){
+  
+}
+/*Overlay end*/
+
 .qty-tooltip .ant-tooltip-inner {
   width: 208px;
 }
@@ -952,4 +1224,57 @@
 }
 #product-description .product-list-details .qa-offer-text {
   font-size: 12px;
+}
+
+
+
+
+@media only screen and (min-width:401) and (max-width: 435px) {
+  .overlay{
+    position:absolute;
+    opacity: 1; 
+    z-index: 1;
+    left:-250px;
+    /* -ms-transform: rotate(35deg); 
+    transform: rotate(35deg); */
+    /* clip-path: ellipse(52% 28% at 20% 22%); */
+    /* clip-path: ellipse(27% 42% at 30% 74%); */
+    /* clip-path: ellipse(27% 42% at 27% 67%); */
+  }
+  .cross-icon{
+    
+    margin-left: -260px;
+    z-index: 1;
+    /* top:24px; */
+  }
+  .save-col-overlay{ 
+    font-size: 14px;
+    padding-left: 175px;
+  }
+}
+@media only screen and (min-width:350) and (max-width: 400px) {
+  .overlay{
+    position:absolute;
+    opacity: 1; 
+    z-index: 1;
+    /*left:-100px; */
+    /* clip-path: ellipse(52% 28% at 20% 22%); */
+    /* clip-path: ellipse(27% 42% at 30% 74%); */
+    /* clip-path: ellipse(27% 42% at 27% 67%); */
+  }
+  .cross-icon{
+    font-weight: 500;
+    font-size: 10px;
+    /* margin-left: -110px; */
+    z-index: 1;
+    /* top:24px; */
+  }
+  .save-col-overlay{
+    color:rgb(252, 248, 248); 
+   /* transform: rotate(297deg);
+    -ms-transform: rotate(299deg);  */
+    /* margin-top: 170px; */
+    font-size: 14px;
+    padding-left: 175px;
+  }
 }
