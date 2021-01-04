@@ -918,7 +918,6 @@ function AppHeader(props) {
                     key="shop"
                     title="SHOP"
                     className="shop-menu-navigation"
-                    style={{ paddingBottom: "120px" }}
                   >
                     <Menu.Divider style={{ height: "0.5px" }} />
                     {_.map(navigationItems, function (value, key) {
