@@ -277,9 +277,7 @@ const ProductDetails = (props) => {
     let { variants = [], skus = [], deliveryExclusions = [] } = data || {};
     let color = "";
     let variantId = "";
-
     let index = 0;
-
     if (destinationCountry && deliveryExclusions) {
       setUCountry(destinationCountry);
       index = deliveryExclusions.findIndex(
@@ -2167,7 +2165,9 @@ const ProductDetails = (props) => {
                 <div style={{ display: (overlayDiv ? 'block' : 'none') }} className="pdp-overlay-div">
                   
                 <div className="pdp-overlay">
-                 <div className="pdp-save-to-overlay">
+                  
+                  <div className="pdp-save-col-overlay">
+                  <div className="pdp-save-to-overlay">
                     <div className="pdp-save-overlay-collection">Save to collection
                     <Icon
                       component={addToCollectionIcon}
@@ -2180,7 +2180,6 @@ const ProductDetails = (props) => {
                     />
                     </div>
                   </div>
-                  <div className="pdp-save-col-overlay">
                   <div>
                     <h6 className="pdp-overlay-heading">Qalara tips</h6>
                     <p className="pdp-overlay-click">(Click to dismiss)</p>
