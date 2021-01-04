@@ -404,6 +404,8 @@ const Register = (props) => {
           onFinish={onFinish}
           form={form}
           scrollToFirstError
+          autoComplete="dontshow"
+          autofill={false}
         >
           <Row
             justify="space-around"
