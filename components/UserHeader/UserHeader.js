@@ -768,8 +768,11 @@ function UserHeader(props) {
                     height: "40px",
                     lineHeight: "40px",
                   }}
+                  onClick={() => {
+                    router.push("/products/all-categories");
+                  }}
                 >
-                  CATEGORIES
+                  SHOP
                 </div>
               </Dropdown>
               {/* <a href="/explore/curatedbyus" className="trend-navigation">
@@ -795,6 +798,9 @@ function UserHeader(props) {
                     marginRight: "20px",
                     height: "40px",
                     lineHeight: "40px",
+                  }}
+                  onClick={() => {
+                    router.push("/explore/curatedbyus");
                   }}
                 >
                   FEATURED
@@ -979,18 +985,18 @@ function UserHeader(props) {
                   "my-account",
                   "shop",
                   "featured",
-                  "shop-0",
-                  "shop-1",
-                  "shop-2",
-                  "shop-3",
-                  "shop-4",
-                  "shop-5",
-                  "featured-0",
-                  "featured-1",
-                  "featured-2",
-                  "featured-3",
-                  "featured-4",
-                  "featured-5",
+                  // "shop-0",
+                  // "shop-1",
+                  // "shop-2",
+                  // "shop-3",
+                  // "shop-4",
+                  // "shop-5",
+                  // "featured-0",
+                  // "featured-1",
+                  // "featured-2",
+                  // "featured-3",
+                  // "featured-4",
+                  // "featured-5",
                 ]}
                 mode="inline"
                 theme="dark"
@@ -1172,122 +1178,11 @@ function UserHeader(props) {
                     FEATURED
                   </a>
                 </Menu.Item> */}
-                <SubMenu
-                  key="featured"
-                  title="FEATURED"
-                  className="shop-menu-navigation"
-                >
-                  <Menu.Divider style={{ height: "0.5px" }} />
-                  {_.map(navigationItems2, function (value, key) {
-                    let hasSubNav = _.find(value, { font: "H2" });
-                    let header = _.find(value, { font: "H1" });
-                    if (hasSubNav) {
-                      return (
-                        <SubMenu
-                          key={`featured-${key}`}
-                          title={header.displayTitle}
-                          className="shop-submenu"
-                        >
-                          {_.map(value, function (details, id) {
-                            let link = "";
-                            if (details.filterType) {
-                              link =
-                                "/sellers/" +
-                                "all-categories" +
-                                "?" +
-                                details.filterType.toLowerCase() +
-                                "=" +
-                                details.values;
-                            } else if (
-                              details.action === "L2" &&
-                              details.values
-                            ) {
-                              link = "/sellers/" + details.values;
-                            }
-                            return (
-                              details.font !== "H1" && (
-                                <Menu.Item key={`key-${id}`}>
-                                  <div
-                                    className={
-                                      details.font === "H1"
-                                        ? "navigation-item navigation-title"
-                                        : "navigation-item "
-                                    }
-                                  >
-                                    {details.action === "URL" ? (
-                                      <Link href={details.values}>
-                                        {details.displayTitle || ""}
-                                      </Link>
-                                    ) : link ? (
-                                      <Link href={link}>
-                                        {details.displayTitle || ""}
-                                      </Link>
-                                    ) : (
-                                      <span>{details.displayTitle}</span>
-                                    )}
-                                  </div>
-                                </Menu.Item>
-                              )
-                            );
-                          })}
-                        </SubMenu>
-                      );
-                    } else {
-                      return (
-                        <div className="qa-border-bottom" key={key}>
-                          {_.map(value, function (details, id) {
-                            let link = "";
-                            if (details.filterType) {
-                              link =
-                                "/sellers/" +
-                                "all-categories" +
-                                "?" +
-                                details.filterType.toLowerCase() +
-                                "=" +
-                                details.values;
-                            } else if (
-                              details.action === "L2" &&
-                              details.values
-                            ) {
-                              link = "/sellers/" + details.values;
-                            }
-                            return (
-                              <Menu.Item key={key + id}>
-                                <div
-                                  className={
-                                    details.font === "H1"
-                                      ? "navigation-item navigation-title"
-                                      : "navigation-item "
-                                  }
-                                >
-                                  {details.action === "URL" ? (
-                                    <Link href={details.values}>
-                                      {details.displayTitle || ""}
-                                    </Link>
-                                  ) : link ? (
-                                    <Link href={link}>
-                                      {details.displayTitle || ""}
-                                    </Link>
-                                  ) : (
-                                    <span>{details.displayTitle}</span>
-                                  )}
-                                </div>
-                              </Menu.Item>
-                            );
-                          })}
-                        </div>
-                      );
-                    }
-                  })}
-                </SubMenu>
-
-                <Menu.Divider style={{ height: "0.5px" }} />
                 {/* <Menu.Item key="blog">BLOG</Menu.Item> */}
                 <SubMenu
                   key="shop"
-                  title="CATEGORIES"
+                  title="SHOP"
                   className="shop-menu-navigation"
-                  style={{ paddingBottom: "120px" }}
                 >
                   <Menu.Divider style={{ height: "0.5px" }} />
                   {_.map(navigationItems, function (value, key) {
@@ -1379,6 +1274,116 @@ function UserHeader(props) {
                                   ) : link ? (
                                     <Link href={link}>
                                       {details.displayTitle}
+                                    </Link>
+                                  ) : (
+                                    <span>{details.displayTitle}</span>
+                                  )}
+                                </div>
+                              </Menu.Item>
+                            );
+                          })}
+                        </div>
+                      );
+                    }
+                  })}
+                </SubMenu>
+                <Menu.Divider style={{ height: "0.5px" }} />
+                <SubMenu
+                  key="featured"
+                  title="FEATURED"
+                  className="shop-menu-navigation"
+                  style={{ paddingBottom: "120px" }}
+                >
+                  <Menu.Divider style={{ height: "0.5px" }} />
+                  {_.map(navigationItems2, function (value, key) {
+                    let hasSubNav = _.find(value, { font: "H2" });
+                    let header = _.find(value, { font: "H1" });
+                    if (hasSubNav) {
+                      return (
+                        <SubMenu
+                          key={`featured-${key}`}
+                          title={header.displayTitle}
+                          className="shop-submenu"
+                        >
+                          {_.map(value, function (details, id) {
+                            let link = "";
+                            if (details.filterType) {
+                              link =
+                                "/sellers/" +
+                                "all-categories" +
+                                "?" +
+                                details.filterType.toLowerCase() +
+                                "=" +
+                                details.values;
+                            } else if (
+                              details.action === "L2" &&
+                              details.values
+                            ) {
+                              link = "/sellers/" + details.values;
+                            }
+                            return (
+                              details.font !== "H1" && (
+                                <Menu.Item key={`key-${id}`}>
+                                  <div
+                                    className={
+                                      details.font === "H1"
+                                        ? "navigation-item navigation-title"
+                                        : "navigation-item "
+                                    }
+                                  >
+                                    {details.action === "URL" ? (
+                                      <Link href={details.values}>
+                                        {details.displayTitle || ""}
+                                      </Link>
+                                    ) : link ? (
+                                      <Link href={link}>
+                                        {details.displayTitle || ""}
+                                      </Link>
+                                    ) : (
+                                      <span>{details.displayTitle}</span>
+                                    )}
+                                  </div>
+                                </Menu.Item>
+                              )
+                            );
+                          })}
+                        </SubMenu>
+                      );
+                    } else {
+                      return (
+                        <div className="qa-border-bottom" key={key}>
+                          {_.map(value, function (details, id) {
+                            let link = "";
+                            if (details.filterType) {
+                              link =
+                                "/sellers/" +
+                                "all-categories" +
+                                "?" +
+                                details.filterType.toLowerCase() +
+                                "=" +
+                                details.values;
+                            } else if (
+                              details.action === "L2" &&
+                              details.values
+                            ) {
+                              link = "/sellers/" + details.values;
+                            }
+                            return (
+                              <Menu.Item key={key + id}>
+                                <div
+                                  className={
+                                    details.font === "H1"
+                                      ? "navigation-item navigation-title"
+                                      : "navigation-item "
+                                  }
+                                >
+                                  {details.action === "URL" ? (
+                                    <Link href={details.values}>
+                                      {details.displayTitle || ""}
+                                    </Link>
+                                  ) : link ? (
+                                    <Link href={link}>
+                                      {details.displayTitle || ""}
                                     </Link>
                                   ) : (
                                     <span>{details.displayTitle}</span>

@@ -1013,8 +1013,10 @@ const ShippingDetails = (props) => {
 
               {disableAir && !disablePayment && (
                 <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-btm-2">
-                  *Air shipping appears to be very expensive for this order. If
-                  you want air shipping please write to us at buyers@qalara.com
+                  *Above freight fee is for the lowest cost shipping mode (sea)
+                  for your current order. If you want air shipping please write
+                  to us at buyers@qalara.com, and we can generate the air quote
+                  based on your current cart/order information.
                 </div>
               )}
               {!disablePayment && (
@@ -1061,6 +1063,11 @@ const ShippingDetails = (props) => {
                     </div>
                   </Col>
                   <Col span={5}></Col>
+                  <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-top-1">
+                    *Lead times are running slightly longer owing to the
+                    uncertainty related to the pandemic. In case of unforeseen
+                    delays, we will keep you updated till delivery.
+                  </div>
                 </Row>
               )}
               <Row>
@@ -1921,9 +1928,10 @@ const ShippingDetails = (props) => {
 
                 {disableAir && !disablePayment && (
                   <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-btm-3">
-                    *Air shipping appears to be very expensive for this order.
-                    If you want air shipping please write to us at
-                    buyers@qalara.com
+                    *Above freight fee is for the lowest cost shipping mode
+                    (sea) for your current order. If you want air shipping
+                    please write to us at buyers@qalara.com, and we can generate
+                    the air quote based on your current cart/order information.
                   </div>
                 )}
                 {!disablePayment && (
@@ -1982,9 +1990,14 @@ const ShippingDetails = (props) => {
                             ) : (
                               "-"
                             )}
-                          </div>{" "}
+                          </div>
                         </li>
                       </div>
+                    </div>
+                    <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-top-1">
+                      *Lead times are running slightly longer owing to the
+                      uncertainty related to the pandemic. In case of unforeseen
+                      delays, we will keep you updated till delivery.
                     </div>
                   </div>
                 )}
