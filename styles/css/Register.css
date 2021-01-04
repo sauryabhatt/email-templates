@@ -516,14 +516,16 @@
   border: 1px solid rgb(217, 187, 127) !important;
 }
 
-/* #user-register-form  input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active  {
+#user-register-form input:-webkit-autofill,
+#user-register-form input:-webkit-autofill:hover,
+#user-register-form input:-webkit-autofill:focus,
+#user-register-form input:-webkit-autofill:active {
   -webkit-text-fill-color: rgb(217, 187, 127, 0.9) !important;
   -webkit-box-shadow: 0 0 0px 1000px #332f2f inset;
   border: 1px solid rgba(249, 247, 242, 0.6) !important;
-} */
+  background-color: #332f2f !important;
+  box-sizing: border-box;
+}
 
 #user-register-form input[type="text"] {
   background-color: #332f2f;
@@ -535,10 +537,13 @@ input:-webkit-autofill:active  {
   border-radius: 4px;
 }
 
-#user-register-form input[type="text"]:hover {
+#user-register-form input:hover {
   border: 1px solid rgb(217, 187, 127, 0.4);
-  box-shadow: none;
+  -webkit-box-shadow: 0 0 0px 1000px #332f2f inset;
   outline: none;
+}
+#user-register-form input#user_register_form_country:hover {
+  border: 1px solid transparent !important;
 }
 
 #user-register-form .no-border {

@@ -65,6 +65,7 @@ const ProductListing = (props) => {
       f_material,
       startPrice,
       endPrice,
+      cameo,
       ...rest
     } = queryParams;
     let defaultQuery = querystring.stringify(rest);
