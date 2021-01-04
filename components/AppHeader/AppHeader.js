@@ -417,9 +417,9 @@ function AppHeader(props) {
                     "?" +
                     details.filterType.toLowerCase() +
                     "=" +
-                    details.values;
+                    encodeURIComponent(details.values);
                 } else if (details.action === "L2" && details.values) {
-                  link = "/sellers/" + details.values;
+                  link = "/sellers/" + encodeURIComponent(details.values);
                 }
                 return (
                   <div
@@ -629,8 +629,11 @@ function AppHeader(props) {
                       height: "40px",
                       lineHeight: "40px",
                     }}
+                    onClick={() => {
+                      router.push("/products/all-categories");
+                    }}
                   >
-                    CATEGORIES
+                    SHOP
                   </div>
                 </Dropdown>
 
@@ -657,6 +660,9 @@ function AppHeader(props) {
                       marginRight: "20px",
                       height: "40px",
                       lineHeight: "40px",
+                    }}
+                    onClick={() => {
+                      router.push("/explore/curatedbyus");
                     }}
                   >
                     FEATURED
@@ -834,18 +840,18 @@ function AppHeader(props) {
                     "my-account",
                     "shop",
                     "featured",
-                    "shop-0",
-                    "shop-1",
-                    "shop-2",
-                    "shop-3",
-                    "shop-4",
-                    "shop-5",
-                    "featured-0",
-                    "featured-1",
-                    "featured-2",
-                    "featured-3",
-                    "featured-4",
-                    "featured-5",
+                    // "shop-0",
+                    // "shop-1",
+                    // "shop-2",
+                    // "shop-3",
+                    // "shop-4",
+                    // "shop-5",
+                    // "featured-0",
+                    // "featured-1",
+                    // "featured-2",
+                    // "featured-3",
+                    // "featured-4",
+                    // "featured-5",
                   ]}
                   mode="inline"
                   theme="dark"
@@ -907,19 +913,21 @@ function AppHeader(props) {
                       <span className="trend-navigation">FEATURED</span>
                     </Link>
                   </Menu.Item> */}
+                  {/* <Menu.Item key="blog">BLOG</Menu.Item> */}
                   <SubMenu
-                    key="featured"
-                    title="FEATURED"
+                    key="shop"
+                    title="SHOP"
                     className="shop-menu-navigation"
+                    style={{ paddingBottom: "120px" }}
                   >
                     <Menu.Divider style={{ height: "0.5px" }} />
-                    {_.map(navigationItems2, function (value, key) {
+                    {_.map(navigationItems, function (value, key) {
                       let hasSubNav = _.find(value, { font: "H2" });
                       let header = _.find(value, { font: "H1" });
                       if (hasSubNav) {
                         return (
                           <SubMenu
-                            key={`featured-${key}`}
+                            key={`shop-${key}`}
                             title={header.displayTitle}
                             className="shop-submenu"
                           >
@@ -932,12 +940,14 @@ function AppHeader(props) {
                                   "?" +
                                   details.filterType.toLowerCase() +
                                   "=" +
-                                  details.values;
+                                  encodeURIComponent(details.values);
                               } else if (
                                 details.action === "L2" &&
                                 details.values
                               ) {
-                                link = "/sellers/" + details.values;
+                                link =
+                                  "/sellers/" +
+                                  encodeURIComponent(details.values);
                               }
                               return (
                                 details.font !== "H1" && (
@@ -1015,23 +1025,21 @@ function AppHeader(props) {
                       }
                     })}
                   </SubMenu>
-
                   <Menu.Divider style={{ height: "0.5px" }} />
-                  {/* <Menu.Item key="blog">BLOG</Menu.Item> */}
                   <SubMenu
-                    key="shop"
-                    title="CATEGORIES"
+                    key="featured"
+                    title="FEATURED"
                     className="shop-menu-navigation"
                     style={{ paddingBottom: "120px" }}
                   >
                     <Menu.Divider style={{ height: "0.5px" }} />
-                    {_.map(navigationItems, function (value, key) {
+                    {_.map(navigationItems2, function (value, key) {
                       let hasSubNav = _.find(value, { font: "H2" });
                       let header = _.find(value, { font: "H1" });
                       if (hasSubNav) {
                         return (
                           <SubMenu
-                            key={`shop-${key}`}
+                            key={`featured-${key}`}
                             title={header.displayTitle}
                             className="shop-submenu"
                           >
