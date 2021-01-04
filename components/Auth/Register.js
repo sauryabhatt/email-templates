@@ -536,7 +536,7 @@ const Register = (props) => {
                       },
                     ]}
                   >
-                    <Input disabled={btnDisabled} />
+                    <Input disabled={btnDisabled} autoComplete="dontshow" />
                   </Form.Item>
                 </Col>
                 <Col xs={24} sm={24} md={10} lg={10} xl={10}>
@@ -555,7 +555,7 @@ const Register = (props) => {
                       ]
                     }
                   >
-                    <Input disabled={btnDisabled} />
+                    <Input disabled={btnDisabled} autoComplete="dontshow" />
                   </Form.Item>
                 </Col>
 
@@ -593,6 +593,7 @@ const Register = (props) => {
                         <Input
                           disabled={btnDisabled}
                           placeholder="@companyname.com"
+                          autoComplete="dontshow"
                         />
                       </Form.Item>
                     </Col>
@@ -635,7 +636,7 @@ const Register = (props) => {
                       enableSearch={true}
                       countryCodeEditable={false}
                     /> */}
-                        <Input disabled={btnDisabled} />
+                        <Input disabled={btnDisabled} autoComplete="dontshow" />
                       </Form.Item>
                     </Col>
 
@@ -662,7 +663,7 @@ const Register = (props) => {
                           },
                         ]}
                       >
-                        <Input disabled={btnDisabled} />
+                        <Input disabled={btnDisabled} autoComplete="dontshow" />
                       </Form.Item>
                     </Col>
 
@@ -791,7 +792,7 @@ const Register = (props) => {
                           { required: true, message: "Field is required." },
                         ]}
                       >
-                        <Input />
+                        <Input autoComplete="dontshow" />
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={10} lg={10} xl={10}>
@@ -802,7 +803,7 @@ const Register = (props) => {
                           { required: true, message: "Field is required." },
                         ]}
                       >
-                        <Input />
+                        <Input autoComplete="dontshow" />
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={10} lg={10} xl={10}>
@@ -825,7 +826,7 @@ const Register = (props) => {
                       enableSearch={true}
                       countryCodeEditable={false}
                     /> */}
-                        <Input disabled={btnDisabled} />
+                        <Input disabled={btnDisabled} autoComplete="dontshow" />
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={22} lg={22} xl={22}>
@@ -860,6 +861,7 @@ const Register = (props) => {
                         <Input
                           disabled={btnDisabled}
                           placeholder="@companyname.com"
+                          autoComplete="dontshow"
                         />
                       </Form.Item>
                     </Col>
@@ -887,7 +889,7 @@ const Register = (props) => {
                           },
                         ]}
                       >
-                        <Input disabled={btnDisabled} />
+                        <Input disabled={btnDisabled} autoComplete="dontshow" />
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={10} lg={10} xl={10}>
