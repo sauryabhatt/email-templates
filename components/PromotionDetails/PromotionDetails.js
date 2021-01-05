@@ -84,9 +84,9 @@ export default function PromotionDetails() {
           href="https://www.qalara.com/trends/globaltextures"
         />
       </Helmet>*/}
-      {cookie.qalaraUser && cookie.qalaraUser !== "oldUser" && (
+      {/*cookie.qalaraUser && cookie.qalaraUser !== "oldUser" && (
         <FeedbackModal />
-      )}
+      )*/}
       <div dangerouslySetInnerHTML={{ __html: htmlContent }}></div>
     </React.Fragment>
   );

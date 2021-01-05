@@ -9,9 +9,9 @@ function CategoryEditWrapper({ body }) {
 
   return (
     <div>
-      {cookie.qalaraUser && cookie.qalaraUser !== "oldUser" && (
+      {/*cookie.qalaraUser && cookie.qalaraUser !== "oldUser" && (
         <FeedbackModal />
-      )}
+      )*/}
       <div dangerouslySetInnerHTML={{ __html: body }}></div>
     </div>
   );

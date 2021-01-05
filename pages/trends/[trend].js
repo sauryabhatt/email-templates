@@ -46,7 +46,7 @@ export default function TrendDetails({ res, error, trend }) {
   }
   return (
     <Layout meta={meta}>
-       {(cookie.qalaraUser && cookie.qalaraUser !== 'oldUser') && <FeedbackModal />} 
+      {/*(cookie.qalaraUser && cookie.qalaraUser !== 'oldUser') && <FeedbackModal />*/} 
       <div
         dangerouslySetInnerHTML={{
           __html: body,
