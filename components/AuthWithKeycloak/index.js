@@ -40,7 +40,8 @@ export const loginToApp = (keycloak, options) => {
 
 export const logoutFromApp = (keycloak, options) => {
   document.cookie =
-    "appToken" + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+    process.env.NEXT_PUBLIC_COOKIE +
+    "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
   if (options && options.currentPath) {
     keycloak.logout({
       redirectUri:
@@ -58,8 +59,8 @@ function AuthWithKeycloak(props) {
   const { keycloak } = useKeycloak();
   const { cookies } = props;
   const keycloakCfg = {
-    realm: "GoldenBird",
-    url: "https://identity.qalara.com/auth/",
+    realm: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_REALM,
+    url: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_URL,
     clientId: "next",
   };
 
