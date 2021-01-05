@@ -26,6 +26,8 @@ function ProductCard(props) {
   };
 
   const signIn = () => {
+    e.stopPropagation();
+    e.preventDefault();
     loginToApp(keycloak, { currentPath: router.asPath.split("?")[0] });
   };
 
