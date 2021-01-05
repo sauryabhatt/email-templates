@@ -36,17 +36,17 @@ export default function PromotionCarousel(props) {
         </div>
       ),
     },
-    {
-      title: "Holiday offer!",
-      copy: (
-        <div>
-          {" "}
-          <b>5% off </b> on all orders! Use coupon code <b>HAPPYHOLIDAYS</b> at
-          checkout.
-          <span style={{ fontSize: "12px" }}>*T&C </span>
-        </div>
-      ),
-    },
+    // {
+    //   title: "Holiday offer!",
+    //   copy: (
+    //     <div>
+    //       {" "}
+    //       <b>5% off </b> on all orders! Use coupon code <b>HAPPYHOLIDAYS</b> at
+    //       checkout.
+    //       <span style={{ fontSize: "12px" }}>*T&C </span>
+    //     </div>
+    //   ),
+    // },
     {
       title: "Launch offer!",
       copy:
