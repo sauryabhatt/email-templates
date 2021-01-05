@@ -57,25 +57,37 @@
   {
     "id": "SHOPOPTIONS::COLUMN::1::ROW::106",
     "column": "1",
-    "displayTitle": "Kantha Bedcover",
+    "displayTitle": "Blockprinted furnishings",
     "menuOrder": "106",
     "font": "H2",
     "action": "URL",
     "filterType": "",
-    "values": "/seller/SL10741/all-categories",
+    "values": "/seller/SL10519/all-categories",
     "isActive": "TRUE"
   },
   {
     "id": "SHOPOPTIONS::COLUMN::1::ROW::107",
     "column": "1",
-    "displayTitle": "Furnishings edit",
+    "displayTitle": "Upholstered poufs",
     "menuOrder": "107",
+    "font": "H2",
+    "action": "URL",
+    "filterType": "",
+    "values": "/seller/SL10385/all-categories",
+    "isActive": "TRUE"
+  },
+  {
+    "id": "SHOPOPTIONS::COLUMN::1::ROW::108",
+    "column": "1",
+    "displayTitle": "Furnishings edit",
+    "menuOrder": "108",
     "font": "H2",
     "action": "URL",
     "filterType": "",
     "values": "/categoryedit/homelinen",
     "isActive": "TRUE"
   },
+
   {
     "id": "SHOPOPTIONS::COLUMN::2::ROW::101",
     "column": "2",
@@ -101,7 +113,7 @@
   {
     "id": "SHOPOPTIONS::COLUMN::2::ROW::103",
     "column": "2",
-    "displayTitle": "Organic incense",
+    "displayTitle": "Organic incense ",
     "menuOrder": "103",
     "font": "H2",
     "action": "URL",
@@ -145,14 +157,26 @@
   {
     "id": "SHOPOPTIONS::COLUMN::2::ROW::107",
     "column": "2",
-    "displayTitle": "Decor edit",
+    "displayTitle": "Handcrafted decor",
     "menuOrder": "107",
+    "font": "H2",
+    "action": "URL",
+    "filterType": "",
+    "values": "/seller/SL10667/all-categories",
+    "isActive": "TRUE"
+  },
+  {
+    "id": "SHOPOPTIONS::COLUMN::2::ROW::108",
+    "column": "2",
+    "displayTitle": "Decor edit",
+    "menuOrder": "108",
     "font": "H2",
     "action": "URL",
     "filterType": "",
     "values": "/categoryedit/homedecor",
     "isActive": "TRUE"
   },
+
   {
     "id": "SHOPOPTIONS::COLUMN::3::ROW::101",
     "column": "3",
@@ -169,7 +193,7 @@
     "column": "3",
     "displayTitle": "Ceramic Mugs",
     "menuOrder": "102",
-    "font": "H2",
+    "font": "H1",
     "action": "URL",
     "filterType": "",
     "values": "/seller/SL10068/all-categories",
@@ -211,25 +235,37 @@
   {
     "id": "SHOPOPTIONS::COLUMN::3::ROW::106",
     "column": "3",
-    "displayTitle": "Kansa dinnerware",
+    "displayTitle": "Hammered copperware",
     "menuOrder": "106",
     "font": "H2",
     "action": "URL",
     "filterType": "",
-    "values": "/seller/SL10581/all-categories",
+    "values": "/seller/SL10644/Kitchen%20&%20Dining",
     "isActive": "TRUE"
   },
   {
     "id": "SHOPOPTIONS::COLUMN::3::ROW::107",
     "column": "3",
-    "displayTitle": "Kitchen edit",
+    "displayTitle": "Wooden serveware",
     "menuOrder": "107",
+    "font": "H2",
+    "action": "URL",
+    "filterType": "",
+    "values": "/seller/SL10081/all-categories",
+    "isActive": "TRUE"
+  },
+  {
+    "id": "SHOPOPTIONS::COLUMN::3::ROW::108",
+    "column": "3",
+    "displayTitle": "Kitchen edit",
+    "menuOrder": "108",
     "font": "H2",
     "action": "URL",
     "filterType": "",
     "values": "/categoryedit/KitchenDining",
     "isActive": "TRUE"
   },
+
   {
     "id": "SHOPOPTIONS::COLUMN::4::ROW::101",
     "column": "4",
@@ -266,7 +302,7 @@
   {
     "id": "SHOPOPTIONS::COLUMN::4::ROW::104",
     "column": "4",
-    "displayTitle": "DIY KITS",
+    "displayTitle": "DIY kits",
     "menuOrder": "104",
     "font": "H2",
     "action": "URL",
@@ -288,7 +324,7 @@
   {
     "id": "SHOPOPTIONS::COLUMN::4::ROW::106",
     "column": "4",
-    "displayTitle": "Pull toys",
+    "displayTitle": "Eco friendly toys",
     "menuOrder": "106",
     "font": "H2",
     "action": "URL",
@@ -299,12 +335,23 @@
   {
     "id": "SHOPOPTIONS::COLUMN::4::ROW::107",
     "column": "4",
-    "displayTitle": "Stationery edit",
+    "displayTitle": "Handpainted toys",
     "menuOrder": "107",
     "font": "H2",
     "action": "URL",
     "filterType": "",
-    "values": "/categoryedit/stationery-novelty",
+    "values": "/seller/SL10181/all-categories",
+    "isActive": "TRUE"
+  },
+  {
+    "id": "SHOPOPTIONS::COLUMN::4::ROW::108",
+    "column": "4",
+    "displayTitle": "Kids edit",
+    "menuOrder": "108",
+    "font": "H2",
+    "action": "URL",
+    "filterType": "",
+    "values": "/categoryedit/baby-kids",
     "isActive": "TRUE"
   },
 
@@ -377,8 +424,19 @@
   {
     "id": "SHOPOPTIONS::COLUMN::5::ROW::107",
     "column": "5",
-    "displayTitle": "Fashion edit",
+    "displayTitle": "Cotton masks",
     "menuOrder": "107",
+    "font": "H2",
+    "action": "URL",
+    "filterType": "",
+    "values": "/seller/SL10460/all-categories",
+    "isActive": "TRUE"
+  },
+  {
+    "id": "SHOPOPTIONS::COLUMN::5::ROW::108",
+    "column": "5",
+    "displayTitle": "Fashion edit",
+    "menuOrder": "108",
     "font": "H2",
     "action": "URL",
     "filterType": "",
