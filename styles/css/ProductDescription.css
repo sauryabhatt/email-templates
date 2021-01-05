@@ -674,6 +674,10 @@
     background: #874439; 
     margin-left: 30px;   
   }
+  .login-modal-signup-btn a.button {
+    padding:14px 18px;
+    margin: 0;
+  }
   #product-description .pdp-collection-sec .pdp-stc {
     display: inline-block;
     vertical-align: middle;
@@ -700,7 +704,9 @@
     color: #000000;
     background-color:#F9F7F2;
   }
-  
+  .sign-in-account {
+    line-height: 17px;
+  }
   #product-description .product-org-section {
     padding: 0px;
     margin-bottom: 0px;
@@ -942,10 +948,14 @@
 }
 .product-login-modal .product-login-modal-para {
   text-align: center;
-  font-size: 16px;
+  font-size: 14px;
   font-family: senregular;
   font-weight: 500;
   margin-top: 1px;
+  line-height: 130%;
+}
+.sign-in-account{
+  line-height: 17px;
 }
 .product-login-modal-content .product-login-modal-last-para{
   text-align: center;
@@ -962,7 +972,7 @@
 .product-login-modal-para.heading{
   font-family: Butler;
   font-size: 20px;
-  line-height: 34px;
+  line-height: 14px;
   /* or 34px or 140% */
   text-align: center;
   letter-spacing: 0.2px;
@@ -979,16 +989,17 @@
 .login-modal-signup-btn {
   position: absolute;
   z-index: 999;
-  width: 278px;
-  height: 59px;
-  /* left: 174px;
-  top: 190px; */
-  margin-left: 173px;
-  transition: all 0.2s ease-in-out;
   background: #D9BB75;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  left: 50%;
+  top: 65%;
+  z-index: 999;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
 }
 .login-modal-signup-btn a.button {
-  padding: 16px 20px;
+  padding:14px 18px;
   margin: 0;
 }
 
@@ -1002,6 +1013,7 @@
 }
 /* Sign up Button css in product details page end*/
 /* Sign Up Button Media Queries start */
+/* 
 @media only screen and (min-width: 700px) and (max-width: 767px) {
         
   .login-modal-signup-btn {
@@ -1058,7 +1070,7 @@
     display: flex;
     justify-self: center;
   }   
-}
+} */
 
 /* Sign Up Button Media Queries End */
 #product-description .lock-outline-sec {

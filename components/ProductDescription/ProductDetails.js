@@ -1175,7 +1175,6 @@ const ProductDetails = (props) => {
                       }}
                     />
                     </div>
-
                   </div>
                   <div className="save-col-overlay">
                   <div>
@@ -3861,7 +3860,7 @@ const ProductDetails = (props) => {
         closable={false}
         onCancel={handleCancel}
         centered
-        bodyStyle={{ padding: "40px" }}
+        bodyStyle={{ padding: "40px", backgroundColor:"#F9F7F2"}}
         width={700}
         className="product-login-modal"
       >
@@ -3898,8 +3897,8 @@ const ProductDetails = (props) => {
             </div>
             <div  className="product-login-modal-content">
               <p className="product-login-modal-para">
-                If you would like to request for quote for multiple products,
-                you can now use our new Save To Collection feature and send a combined Quote request easily
+                "If you would like to request for quote for multiple products,
+                you can now use our new Save To Collection feature and send a combined Quote request easily"
               </p>
             </div>
             <div  className="product-login-modal-content">
@@ -3916,14 +3915,13 @@ const ProductDetails = (props) => {
             </div>
             
             <div className="product-login-modal-content last-para">
-              <p className="product-login-modal-para">
-                Already have an account? <Link href="/signin"><span style={{textDecoration: "underline"}} className="qa-sm-color qa-cursor">Sign in here</span></Link> 
+              <p className="product-login-modal-para sign-in-account">
+                Already have an account?  <span style={{textDecoration: "underline"}} className="qa-sm-color qa-cursor" onClick={signIn}>Sign in here</span> 
               </p>
             </div>
           </div>
         </div>
       </Modal>
-
       <Drawer
         placement={mobile ? "bottom" : "right"}
         closable={false}
