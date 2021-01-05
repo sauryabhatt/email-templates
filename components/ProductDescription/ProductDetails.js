@@ -46,9 +46,7 @@ import getSymbolFromCurrency from "currency-symbol-map";
 import PDPLoader from "../../public/filestore/PDPLoader";
 import PDPLoaderMobile from "../../public/filestore/PDPLoaderMobile";
 import PDPZoom from "../../public/filestore/PDPZoom";
-import addToCollectionIcon from "../../public/filestore/addToCollection";
 import addToCollection from "../../public/filestore/addToCollectionIcon";
-import savedToCollectionIcon from "../../public/filestore/savedToCollection";
 import savedToCollection from "../../public/filestore/savedToCollectionIcon";
 import Air from "../../public/filestore/air";
 import Sea from "../../public/filestore/sea";
@@ -214,7 +212,7 @@ const ProductDetails = (props) => {
   const [variantId, setVariantId] = useState();
   const [zoomImg, setZoomImg] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
-  const [overlayDiv, setOverlayDiv] = useState(true);
+  const [overlayDiv, setOverlayDiv] = useState(false);
   {
     /**overlay div */
   }
@@ -268,6 +266,11 @@ const ProductDetails = (props) => {
     if (width <= 768) {
       setMobile(true);
     }
+    let stcOverlay = sessionStorage.getItem("saveToCollectionOverlay");
+    if (!stcOverlay) {
+      setOverlayDiv(true);
+      sessionStorage.setItem("saveToCollectionOverlay", true);
+    }
   }, []);
 
   useEffect(() => {
@@ -282,9 +285,7 @@ const ProductDetails = (props) => {
     let { variants = [], skus = [], deliveryExclusions = [] } = data || {};
     let color = "";
     let variantId = "";
-
     let index = 0;
-
     if (destinationCountry && deliveryExclusions) {
       setUCountry(destinationCountry);
       index = deliveryExclusions.findIndex(
@@ -752,7 +753,7 @@ const ProductDetails = (props) => {
         {
           hsnCode: hsnCode,
           casePackLength: parseInt(casePackLength),
-          exFactoryPrice: parseInt(exfactoryListPrice),
+          exFactoryPrice: exFactoryPrice,
           casePackBreadth: parseInt(casePackBreadth),
           casePackWeight: parseInt(casePackWeight),
           casePackHeight: parseInt(casePackHeight),
@@ -1130,7 +1131,7 @@ const ProductDetails = (props) => {
               md={10}
               lg={10}
               xl={10}
-              style={{ paddingRight: "30px" }}
+              style={{ paddingRight: "25px" }}
             >
               <div
                 className="atc-section"
@@ -1143,30 +1144,28 @@ const ProductDetails = (props) => {
                 }}
               >
                 <span className="save-collection">
-                  <span className="qa-va-m">
+                  <span>
                     {selectedCollection ? "SAVED" : "SAVE TO COLLECTION"}
                   </span>
                   {selectedCollection ? (
                     <Icon
                       component={savedToCollection}
-                      className="pdp-atc-icon"
+                      className="atc-icon"
                       style={{
-                        width: "15px",
-                        verticalAlign: "middle",
-                        marginLeft: "8px",
+                        width: "12px",
+                        marginLeft: "6px",
                       }}
                     />
                   ) : (
                     <Icon
                       component={addToCollection}
-                      className="pdp-atc-icon"
+                      className="atc-icon"
                       style={{
-                        width: "15px",
-                        verticalAlign: "middle",
-                        marginLeft: "8px",
+                        width: "12px",
+                        marginLeft: "6px",
                       }}
                     />
-                  )}
+                  )}{" "}
                 </span>
               </div>
               <div
@@ -1179,14 +1178,13 @@ const ProductDetails = (props) => {
                 <div className="overlay">
                   <div className="save-to-overlay">
                     <div className="save-overlay-collection">
-                      <span className="qa-va-m">Save to collection</span>
+                      Save to collection
                       <Icon
                         component={addToCollection}
                         className=""
                         style={{
-                          width: "15px",
-                          height: "15px",
-                          verticalAlign: "middle",
+                          width: "12px",
+                          height: "12px",
                           marginLeft: "6px",
                         }}
                       />
@@ -1195,7 +1193,12 @@ const ProductDetails = (props) => {
                   <div className="save-col-overlay">
                     <div>
                       <h6 className="overlay-heading">Qalara tips</h6>
-                      <p className="overlay-click">(Click to dismiss)</p>
+                      <p
+                        className="overlay-click"
+                        onClick={() => setOverlayDiv(false)}
+                      >
+                        (Click to dismiss)
+                      </p>
                       <p>
                         Easily send a single Request for Quote for multiple
                         products using the new 'save to collection' feature!
@@ -1928,9 +1931,9 @@ const ProductDetails = (props) => {
                   {getConvertedCurrency(sellerMOV)}
                 </span>
                 <div className="qa-font-san qa-tc-white qa-fs-12 qa-mar-top-05">
-                  You need to purchase single or multiple products from this
-                  Seller adding up to this total order value for instant
-                  checkout. If your requirement is lower, please write to us or
+                  You need to purchase single or multiple products from this
+                  Seller adding up to this total order value for instant
+                  checkout. If your requirement is lower, please write to us or
                   raise a custom quote.
                 </div>
               </div>
@@ -2094,10 +2097,17 @@ const ProductDetails = (props) => {
         </Col>
         <Col xs={24} sm={24} md={24} lg={0} xl={0}>
           <Row className="product-org-section">
-            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
+            <Col
+              xs={24}
+              sm={24}
+              md={24}
+              lg={24}
+              xl={24}
+              style={{ background: "#874439" }}
+            >
               <div
                 className={`${
-                  showPrice ? "pdp-explore-sec" : "pdp-explore-sec pdp-fw"
+                  showPrice ? "pdp-explore-sec" : "pdp-explore-sec"
                 }`}
               >
                 <Link href={`/seller/${vanityId}`}>
@@ -2150,27 +2160,28 @@ const ProductDetails = (props) => {
                 }}
               >
                 <div className="pdp-stc">
-                  <div className="pdp-stc-btn">
+                  <div className="pdp-stc-btn qa-va-m">
                     {selectedCollection ? "Saved" : "Save to collection"}
                   </div>
-                </div>
-                <div className="pdp-stc-icon">
+
                   {selectedCollection ? (
                     <Icon
-                      component={savedToCollectionIcon}
+                      component={savedToCollection}
                       className="stc-icon"
                       style={{
                         width: "15px",
                         verticalAlign: "middle",
+                        marginLeft: "8px",
                       }}
                     />
                   ) : (
                     <Icon
-                      component={addToCollectionIcon}
+                      component={addToCollection}
                       className="atc-icon"
                       style={{
-                        width: "15px",
+                        width: "20px",
                         verticalAlign: "middle",
+                        marginLeft: "8px",
                       }}
                     />
                   )}
@@ -2181,25 +2192,30 @@ const ProductDetails = (props) => {
                 className="pdp-overlay-div"
               >
                 <div className="pdp-overlay">
-                  <div className="pdp-save-to-overlay">
-                    <div className="pdp-save-overlay-collection">
-                      Save to collection
-                      <Icon
-                        component={addToCollectionIcon}
-                        className="pdp-overlay-atc-icon"
-                        style={{
-                          width: "15px",
-                          height: "15px",
-                          verticalAlign: "middle",
-                        }}
-                      />
-                    </div>
-                  </div>
                   <div className="pdp-save-col-overlay">
+                    <div className="pdp-save-to-overlay">
+                      <div className="pdp-save-overlay-collection">
+                        <div className="pdp-stc-btn-m">Save to collection</div>
+                        <Icon
+                          component={addToCollection}
+                          className=""
+                          style={{
+                            width: "15px",
+                            height: "15px",
+                            verticalAlign: "middle",
+                          }}
+                        />
+                      </div>
+                    </div>
                     <div>
                       <h6 className="pdp-overlay-heading">Qalara tips</h6>
-                      <p className="pdp-overlay-click">(Click to dismiss)</p>
-                      <p className="pdp-overlay-details">
+                      <p
+                        className="pdp-overlay-click"
+                        onClick={() => setOverlayDiv(false)}
+                      >
+                        (Click to dismiss)
+                      </p>
+                      <p className="pdp-text-sec">
                         Easily send a single Request for Quote for multiple
                         products using the new 'save to collection' feature!
                       </p>
@@ -2452,7 +2468,7 @@ const ProductDetails = (props) => {
                         </div>
                         <Form.Item
                           name="quantity"
-                          className="form-item m-product-qty"
+                          className="form-item"
                           rules={[
                             {
                               required: true,
@@ -2485,14 +2501,11 @@ const ProductDetails = (props) => {
                               <Input value="" className="p-text-box" />
                             </Tooltip>
                           )}
+                          <div className="qa-font-san qa-fs-12 qa-blue qa-mar-top-1 qa-lh">
+                            *For large quantities, please submit the{" "}
+                            <b>'get quote'</b> form for unbeatable prices!
+                          </div>
                         </Form.Item>
-                        <div
-                          className="qa-font-san qa-fs-12 qa-blue qa-mar-btm-1 qa-lh"
-                          style={{ marginTop: "-15px" }}
-                        >
-                          *For large quantities, please submit the{" "}
-                          <b>'get quote'</b> form for unbeatable prices!
-                        </div>
                       </Col>
                     </Row>
                     <Row>
@@ -2906,9 +2919,9 @@ const ProductDetails = (props) => {
                   {getConvertedCurrency(sellerMOV)}
                 </span>
                 <div className="qa-font-san qa-tc-white qa-fs-12 qa-mar-top-05">
-                  You need to purchase single or multiple products from this
-                  Seller adding up to this total order value for instant
-                  checkout. If your requirement is lower, please write to us or
+                  You need to purchase single or multiple products from this
+                  Seller adding up to this total order value for instant
+                  checkout. If your requirement is lower, please write to us or
                   raise a custom quote.
                 </div>
               </div>
