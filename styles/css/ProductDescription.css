@@ -512,16 +512,15 @@
   .pdp-cross-icon{
     position: absolute;
     margin-top: 150px;
-    color: white;
+    color: black;
     margin-left: 30px;
     z-index: 2;
     font-size: 34px;
-    background-color: #874439;
+    /* background-color: #874439; */
   }
   .pdp-save-to-overlay{
-    position: absolute;
     /* border-radius: 60%; */
-    border-radius: 60px;
+    /* border-radius: 60px;
     border: 20px solid rgba(135, 68, 57, 0.6);
    border-top-left-radius: 5%;
    border-top-right-radius: 0%;
@@ -530,10 +529,24 @@
    background: #874439;
    color:#f9f7f2;
    right:0px;
-   margin-top: -50px;
+   margin-top: -50px; */
+   position: absolute;
+   /* border-radius: 60%; */
+   border-radius: 60px;
+   border: 15px solid rgba(135, 68, 57, 0.6);
+   border-top-left-radius: 5%;
+   border-top-right-radius: 0%;
+   border-bottom-left-radius: 100%;
+   border-bottom-right-radius: 0%;
+   background: rgba(135, 68, 57, 0.6);
+   color: #f9f7f2;
+   right: 0px;
+   margin-top: -55px;
+   width: 120px;
+   height: 120px;
  }
   .pdp-save-overlay-collection{
-    border-color:rgba(135, 68, 57, 0.6);
+    /* border-color:rgba(135, 68, 57, 0.6);
     background: #7e504a;
     padding: 10px 10px 12px 20px;
     font-weight: 500;
@@ -542,17 +555,32 @@
     border-top-left-radius: 0%;
     border-top-right-radius: 0%;
     border-bottom-left-radius: 100%;
+    border-bottom-right-radius: 0%; */
+    border-color: rgba(135, 68, 57, 0.6);
+    background: #874439 ;
+    /* padding: 10px 10px 12px 20px; */
+    font-weight: 500;
+    font-size: 14px;
+    border-radius: 60px;
+    border-top-left-radius: 0%;
+    border-top-right-radius: 0%;
+    border-bottom-left-radius: 100%;
     border-bottom-right-radius: 0%;
+    position: absolute;
+    right: -3px;
+    width: 85px;
+    height: 85px;
+    padding-left: 15px;
   }
   .pdp-overlay{
     position: absolute; 
     transition: 0.7s ease; 
-    opacity: 0.96; 
+    opacity: 95%; 
     z-index: 1;
     height: 400px; 
     top:-1px;
     margin-left: 120px;
-    background: #191919 95%;
+    background: #332F2F;
     border-top-left-radius: 0%;
     border-top-right-radius: 0%;
     border-bottom-left-radius: 100%;
@@ -566,9 +594,10 @@
   }  
   .pdp-overlay-heading{
     font-size: 16px;
-    font-family: Butler;
+    font-family: Butler regular;
   }
 }
+
 @media only screen and (max-width:706px){
   .pdp-cross-icon{
     position: absolute;
@@ -584,19 +613,19 @@
     /* border-radius: 60%; */
     border-radius: 60px;
     border: 20px solid rgba(135, 68, 57, 0.6);
-   border-top-left-radius: 5%;
-   border-top-right-radius: 0%;
-   border-bottom-left-radius: 100%;
-   border-bottom-right-radius: 0%;
-   background: #874439;
-   color:#f9f7f2;
-   right:0px;
-   margin-top: -50px;
+    border-top-left-radius: 0%;
+    border-top-right-radius: 0%;
+    border-bottom-left-radius: 100%;
+    border-bottom-right-radius: 0%;
+    background: #874439;
+    color: #f9f7f2;
+    right: 0px;
+    margin-top: -55px;
  }
   .pdp-save-overlay-collection{
     border-color:rgba(135, 68, 57, 0.6);
     background: #7e504a;
-    padding: 10px 10px 12px 20px;
+    padding: 0px 5px 15px 25px;
     font-weight: 500;
     font-size: 14px;
     border-radius: 60px;;
@@ -604,21 +633,34 @@
     border-top-right-radius: 0%;
     border-bottom-left-radius: 100%;
     border-bottom-right-radius: 0%;
+    width: 100px;
+    margin-right: -20px;
+    margin-top: -20px;
   }
-  .pdp-overlay{
+  
+  .pdp-overlay-atc-icon {
+    position: absolute;
+    bottom: 20px;
+    text-align: right;
+    color: #000000;
+    background-color: #F9F7F2;
+    right: 8px;
+    top: 18px;
+  }
+   .pdp-overlay{
     position: absolute; 
     transition: 0.7s ease; 
-    opacity: 0.96; 
+    opacity: 95%; 
     z-index: 1;
     height: 400px; 
     top:-1px;
     /* margin-left: 120px; */
-    background: #191919 95%;
+    background: #332F2F;
     border-top-left-radius: 0%;
     border-top-right-radius: 0%;
     border-bottom-left-radius: 100%;
-    border-bottom-right-radius: 0%;
-  }
+    border-bottom-right-radius: 0%; 
+  } 
   .pdp-save-col-overlay{
     color: #F9F7F2;
     margin-top: 55px;
@@ -628,7 +670,7 @@
   .pdp-overlay-heading{
     font-size: 16px;
     font-family: Butler;
-  }
+  } 
 }
 @media only screen and (max-width: 768px) {
   .custom-quote-new {
@@ -678,12 +720,15 @@
     padding:14px 18px;
     margin: 0;
   }
+  .pdp-fw-arrow{
+    display: none;
+  }
   #product-description .pdp-collection-sec .pdp-stc {
     display: inline-block;
     vertical-align: middle;
     width: 70%;
-    border-radius: 60px;
-    background: #7e504a;
+    /* border-radius: 60px;
+    background: #7e504a; */
     padding: 0px 3px 0px 3px ;
     color:#f9f7f2;
   }
@@ -697,12 +742,15 @@
     background-color:#F9F7F2;
   }
   .pdp-overlay-atc-icon{
-    /* position: absolute; */
-    bottom: 5px;
+    position: absolute;
+    bottom: 20px;
     text-align: right;
-    margin-bottom: 8px;
+    /* margin-bottom: 0px; */
     color: #000000;
-    background-color:#F9F7F2;
+    background-color: #F9F7F2;
+    /* padding-right: 10px; */
+    /* margin-right: 10px; */
+    right: 10px;
   }
   .sign-in-account {
     line-height: 17px;
@@ -1195,18 +1243,18 @@
 }
 #product-description .atc-icon{
   position: absolute;
-  bottom: 5px;
+  bottom: 7px;
   text-align: right;
   margin-bottom: 8px;
-  color: #000000;
   background-color:#F9F7F2;
 }
 #product-description .save-collection {
-  border-radius: 60px;
-  background: #7e504a;
+  /* border-radius: 60px;
+  background: #7e504a;*/
   padding: 0px 3px 0px 3px ;
   color:#f9f7f2;
 }
+
 #product-description .atc-section {
   text-align: right;
   padding-top: 5px;
@@ -1214,7 +1262,6 @@
   margin-bottom: 5px;
   padding-right: 20px;
   border-radius: 60px;
-  border-color:rgba(135, 68, 57, 0.6);
   background: #874439;
   width: 190px;
   margin-left: 340px;
@@ -1223,14 +1270,17 @@
 
 /*Overlay start*/
 .cross-icon{
-  margin:0px 0px 0px 600px;
+  /* margin:0px 0px 0px 600px;
   font-weight: 500;
   font-size: 20px;
   position: absolute;
-  top:14px;
+  top:14px; */
+  margin: -50px 0px 0px 570px;
+  font-weight: 500;
+  font-size: 20px;
 }
 .save-to-overlay{
-  position: absolute;
+  /* position: absolute;
   border-radius: 60px;
   background: #874439;
   color:#f9f7f2;
@@ -1238,6 +1288,16 @@
   -ms-transform: rotate(299deg); 
   margin-left: -10px;
   margin-top: 80px;
+  border: 15px solid rgba(135, 68, 57, 0.6); */
+  position: absolute;
+  border-radius: 60px;
+  background: #874439;
+  color: #f9f7f2;
+  transform: rotate(29deg);
+  -ms-transform: rotate(29deg);
+  margin-top: 10px;
+  left: 240px;
+  top: 40px;
   border: 15px solid rgba(135, 68, 57, 0.6);
 }
 .overlay-atc-icon{
@@ -1268,17 +1328,27 @@
 }
 
 .save-col-overlay{
-  color:rgb(252, 248, 248);
+  /* color:rgb(252, 248, 248);
   transform: rotate(297deg);
   -ms-transform: rotate(299deg); 
   margin-top: 170px;
   font-size: 14px;
-  padding-left: 15px;
+  padding-left: 15px; */
+  color: rgb(252, 248, 248);
+  -webkit-transform: rotate(30deg);
+  transform: rotate(30deg);
+  -ms-transform: rotate(299deg);
+  margin-top: 80px;
+  font-size: 14px;
+  padding: 0px 0px 5px 30px;
+  width: 269px;
+  height: 63px;
+  margin-left: 40px;
 }
 .overlay{
-  position: absolute; 
+  /* position: absolute; 
   transition: 0.7s ease; 
-  opacity: 1; 
+  opacity: 95%; 
   width: 320px; 
   z-index: 1;
   height: 450px; 
@@ -1286,8 +1356,21 @@
   margin-left:230px;
   -ms-transform: rotate(65deg); 
   transform: rotate(65deg);
-  background: #191919 95%;
-  border-radius:60%; 
+  background: #332F2F;
+  border-radius:60%;  */
+  position: absolute;
+  -webkit-transition: 0.7s ease;
+  transition: 0.7s ease;
+  opacity: 95%;
+  width: 461px;
+  z-index: 1;
+  height: 296px;
+  top: -20px;
+  margin-left: 130px;
+  -webkit-transform: rotate(-26.47deg);
+  transform: rotate(-26.47deg);
+  background: #332F2F;
+  border-radius: 60%;
 }
 @media only screen and (min-width: 769px) and (max-width: 991px){
   .cross-icon{
@@ -1321,11 +1404,10 @@
     border-color:rgba(135, 68, 57, 0.6);
     background: #7e504a;
     padding: 10px 10px 5px 15px;
-    font-weight: 600;
     font-size: 14px;
   }
   .overlay-heading{
-    font-family: Butler;
+    font-family: Butler regular;
     font-style: normal;
     font-size: 24px;
   }
@@ -1336,9 +1418,9 @@
   }
   
   .save-col-overlay{
-    color:rgb(252, 248, 248);
-    transform: rotate(297deg);
-    -ms-transform: rotate(299deg); 
+    color:#f9f7f2;
+    /* transform: rotate(297deg);
+    -ms-transform: rotate(299deg);  */
     margin-top: 170px;
     font-size: 14px;
     padding-left: 15px;
@@ -1346,7 +1428,7 @@
   .overlay{
     position: absolute; 
     transition: 0.7s ease; 
-    opacity: 1; 
+    opacity: 95%; 
     width: 320px; 
     z-index: 1;
     height: 450px; 
@@ -1354,7 +1436,7 @@
     margin-left:230px;
     -ms-transform: rotate(65deg); 
     transform: rotate(65deg);
-    background: #191919 95%;
+    background:#332F2F;
     border-radius:60%; 
   }
 }

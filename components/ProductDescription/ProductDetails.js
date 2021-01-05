@@ -1180,9 +1180,9 @@ const ProductDetails = (props) => {
                   <div>
                     <h6 className="overlay-heading">Qalara tips</h6>
                     <p className="overlay-click">(Click to dismiss)</p>
-                    <p>Easily send a single Request for Quote 
+                    <p className="overlay-para">Easily send a single Request for Quote 
                     for multiple products using the new
-                    'save to collection' feature!</p>
+                    <b> 'save to collection'</b> feature!</p>
                   </div>
                   </div>
                 </div>
@@ -2119,6 +2119,7 @@ const ProductDetails = (props) => {
                         fontSize: "15px",
                         verticalAlign: "middle",
                       }}
+                      className="pdp-fw-arrow"
                     />
                   </span>
                 </div>
