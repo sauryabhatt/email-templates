@@ -536,7 +536,7 @@
     vertical-align: middle;
     width: 60%;
     background-color: #e6e4df;
-    padding: 10px 20px;
+    padding: 13px 20px;
   }
   #product-description .pdp-fw.pdp-explore-sec {
     width: 90%;
@@ -544,10 +544,11 @@
     padding-left: 40px;
   }
   #product-description .pdp-collection-sec {
-    display: inline-block;
+    display: inline-flex;
     width: 40%;
-    padding: 5px 20px;
-    background: #874439;
+    padding: 10px 20px;
+    background-color: #874439;
+    vertical-align: middle;
   }
   #product-description .pdp-collection-sec .pdp-stc {
     font-family: senregular;
@@ -581,7 +582,7 @@
     position: absolute;
     top: 0%;
     right: 0%;
-    transform: translate(12%, 0%);
+    /* transform: translate(10%, 0%); */
     height: 90px;
     width: 165px;
     border-radius: 0 0 150px 150px;
@@ -602,7 +603,7 @@
     border-top-left-radius: 0%;
     border-top-right-radius: 0%;
     border-bottom-left-radius: 60%;
-    border-bottom-right-radius: 35%;
+    border-bottom-right-radius: 40%;
   }
   .pdp-stc-btn-m {
     font-family: senregular;
@@ -618,9 +619,11 @@
   }
   .pdp-save-col-overlay {
     color: #f9f7f2;
-    margin-top: 75px;
     font-size: 14px;
     padding-left: 35px;
+  }
+  .qa-mar-top-pdp {
+    margin-top: 75px;
   }
   .pdp-overlay-heading {
     font-size: 28px;

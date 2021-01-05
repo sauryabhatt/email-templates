@@ -18,7 +18,6 @@ import {
 import Icon, {
   MinusOutlined,
   CheckCircleOutlined,
-  RightOutlined,
   CloseOutlined,
 } from "@ant-design/icons";
 import BreadCrumb from "../common/BreadCrumb";
@@ -2105,11 +2104,7 @@ const ProductDetails = (props) => {
               xl={24}
               style={{ background: "#874439" }}
             >
-              <div
-                className={`${
-                  showPrice ? "pdp-explore-sec" : "pdp-explore-sec"
-                }`}
-              >
+              <div className="pdp-explore-sec">
                 <Link href={`/seller/${vanityId}`}>
                   <a target="_blank">
                     <div
@@ -2125,32 +2120,8 @@ const ProductDetails = (props) => {
                   </a>
                 </Link>
               </div>
-              {!showPrice && (
-                <div
-                  style={{
-                    position: "absolute",
-                    width: "10%",
-                    background: "#e6e4df",
-                    height: "100%",
-                    right: 0,
-                    top: 0,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <span style={{ float: "right" }}>
-                    <RightOutlined
-                      style={{
-                        fontSize: "15px",
-                        verticalAlign: "middle",
-                      }}
-                    />
-                  </span>
-                </div>
-              )}
               <div
-                className="pdp-collection-sec"
+                className="pdp-collection-sec pdp-stc"
                 onClick={() => {
                   if (showPrice) {
                     setCollection(true);
@@ -2159,33 +2130,31 @@ const ProductDetails = (props) => {
                   }
                 }}
               >
-                <div className="pdp-stc">
-                  <div className="pdp-stc-btn qa-va-m">
-                    {selectedCollection ? "Saved" : "Save to collection"}
-                  </div>
-
-                  {selectedCollection ? (
-                    <Icon
-                      component={savedToCollection}
-                      className="stc-icon"
-                      style={{
-                        width: "15px",
-                        verticalAlign: "middle",
-                        marginLeft: "8px",
-                      }}
-                    />
-                  ) : (
-                    <Icon
-                      component={addToCollection}
-                      className="atc-icon"
-                      style={{
-                        width: "20px",
-                        verticalAlign: "middle",
-                        marginLeft: "8px",
-                      }}
-                    />
-                  )}
+                <div className="pdp-stc-btn qa-va-m">
+                  {selectedCollection ? "Saved" : "Save to collection"}
                 </div>
+
+                {selectedCollection ? (
+                  <Icon
+                    component={savedToCollection}
+                    className="stc-icon"
+                    style={{
+                      width: "15px",
+                      verticalAlign: "middle",
+                      marginLeft: "8px",
+                    }}
+                  />
+                ) : (
+                  <Icon
+                    component={addToCollection}
+                    className="atc-icon"
+                    style={{
+                      width: "20px",
+                      verticalAlign: "middle",
+                      marginLeft: "8px",
+                    }}
+                  />
+                )}
               </div>
               <div
                 style={{ display: overlayDiv ? "block" : "none" }}
@@ -2207,7 +2176,7 @@ const ProductDetails = (props) => {
                         />
                       </div>
                     </div>
-                    <div>
+                    <div className="qa-mar-top-pdp">
                       <h6 className="pdp-overlay-heading">Qalara tips</h6>
                       <p
                         className="pdp-overlay-click"
