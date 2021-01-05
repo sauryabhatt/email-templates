@@ -421,7 +421,7 @@ const Register = (props) => {
                   xl={22}
                   className="qa-mar-btm-2"
                 >
-                  <p className="signup-heading">Sign up for free!</p>
+                  <p className="signup-heading">Sign up for free</p>
                   {/* <p className="signup-subtitle">in just a few minutes!</p> */}
                   <Row>
                     <Col xs={24} sm={24} md={24} lg={24}>
