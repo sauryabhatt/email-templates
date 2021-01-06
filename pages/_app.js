@@ -18,6 +18,7 @@ import Cookies from "js-cookie";
 import store from "../store";
 import { setTokenSuccess, setTokenFail } from "../store/actions";
 import { useRouter } from "next/router";
+import { getCookie } from "../components/common/Auth";
 
 function MyApp(props) {
   const router = useRouter();
@@ -71,7 +72,11 @@ function parseCookies(req) {
   if (!req || !req.headers) {
     return {};
   }
-  return cookie.parse(req.headers.cookie || "");
+  if (!getCookie("appToken")) {
+    return cookie.parse(req.headers.cookie || "");
+  } else {
+    return {};
+  }
 }
 
 MyApp.getInitialProps = async ({ ctx }) => {
@@ -98,7 +103,7 @@ const generateToken=async ()=>{
   for (let property in details) {
     let encodedKey = encodeURIComponent(property);
     let encodedValue = encodeURIComponent(details[property]);
-    formBody.push(encodedKey + "=" + encodedValue);
+    formBod[y.push(encodedKey + "=" + encodedValue);
   }
   
   formBody = formBody.join("&");
