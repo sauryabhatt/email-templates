@@ -67,7 +67,7 @@ function MyApp(props) {
   );
 }
 function parseCookies(req) {
-  console.log("Parse cookie ", req.headers);
+  console.log("Parse cookie ", req);
   if (!req || !req.headers) {
     return {};
   }
