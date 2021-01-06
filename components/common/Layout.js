@@ -36,7 +36,10 @@ export const Layout = ({ children, meta = {} }) => {
       : false;
 
   useEffect(() => {
+    console.log("Inside use effect ", getCookie("appToken"));
+    console.log("Keycloak token ", keycloak?.token);
     if (!getCookie("appToken")) {
+      console.log("Cookie not found ");
       if (keycloak?.authenticated) {
         keycloak
           .loadUserProfile()
