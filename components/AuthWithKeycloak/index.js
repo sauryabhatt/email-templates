@@ -39,7 +39,8 @@ export const loginToApp = (keycloak, options) => {
 };
 
 export const logoutFromApp = (keycloak, options) => {
-  document.cookie = "appToken" + "=; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+  document.cookie =
+    "appToken" + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
   if (options && options.currentPath) {
     keycloak.logout({
       redirectUri:
