@@ -54,7 +54,7 @@ export const getToken = () => {
     )
       .then((res) => res.json())
       .then((result) => {
-        Cookie.set(process.env.NEXT_PUBLIC_COOKIE, result);
+        Cookie.set("appToken", result);
         return dispatch(setTokenSuccess(result));
       })
       .catch((error) => {

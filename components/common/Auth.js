@@ -26,7 +26,7 @@ function Auth({ children, path }) {
   const [status, setStatus] = useState(undefined);
 
   useEffect(() => {
-    if (getCookie(process.env.NEXT_PUBLIC_COOKIE)) {
+    if (getCookie("appToken")) {
       setStatus("loggedin");
     } else {
       setStatus("loggedout");
