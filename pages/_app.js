@@ -97,7 +97,7 @@ const generateToken=async ()=>{
   for (let property in details) {
     let encodedKey = encodeURIComponent(property);
     let encodedValue = encodeURIComponent(details[property]);
-    formBod[y.push(encodedKey + "=" + encodedValue);
+    formBody.push(encodedKey + "=" + encodedValue);
   }
   
   formBody = formBody.join("&");
