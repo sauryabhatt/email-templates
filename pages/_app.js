@@ -18,7 +18,6 @@ import Cookies from "js-cookie";
 import store from "../store";
 import { setTokenSuccess, setTokenFail } from "../store/actions";
 import { useRouter } from "next/router";
-import { getCookie } from "../components/common/Auth";
 
 function MyApp(props) {
   const router = useRouter();
@@ -68,15 +67,10 @@ function MyApp(props) {
   );
 }
 function parseCookies(req) {
-  console.log("Parse cookie ", req);
   if (!req || !req.headers) {
     return {};
   }
-  if (!getCookie("appToken")) {
-    return cookie.parse(req.headers.cookie || "");
-  } else {
-    return {};
-  }
+  return cookie.parse(req.headers.cookie || "");
 }
 
 MyApp.getInitialProps = async ({ ctx }) => {
