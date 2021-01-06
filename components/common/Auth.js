@@ -26,8 +26,8 @@ function Auth({ children, path }) {
   const [status, setStatus] = useState(undefined);
 
   useEffect(() => {
-    // if (getCookie("appToken")) {
-    if (keycloak.token) {
+    if (getCookie("appToken")) {
+      // if (keycloak.token) {
       setStatus("loggedin");
     } else {
       setStatus("loggedout");
