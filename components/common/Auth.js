@@ -43,7 +43,7 @@ function Auth({ children, path }) {
     } else {
       setStatus("loggedout");
     }
-  }, [keycloak.token]);
+  }, [keycloak.authenticated, keycloak.token]);
 
   if (status === undefined) {
     return <Spinner />;
