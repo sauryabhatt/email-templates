@@ -118,140 +118,84 @@ function ProductCard(props) {
     let sellerLink = `/seller/${sellerCode}/all-categories`;
 
     return (
-      <a href={linkTo} className="product-card">
-        <div
-          onClick={(e) => {
-            if (accessLocked) {
-              selectProduct(id);
-              e.stopPropagation();
-              e.preventDefault();
-            }
-          }}
-          onContextMenu={(e) => {
-            if (accessLocked) {
-              e.preventDefault();
-            }
-          }}
-        >
-          <DynamicCarousel
-            items={1}
-            id={pageId}
-            showArrows={true}
-            data={mediaUrls}
-            productName={productName}
-            userProfile={userProfile}
-            selectedProductId={selectedProductId}
-            productId={id}
-            sellerId={sellerId}
-            visibleTo={visibleTo}
-          />
+      <Link href={linkTo} className="product-card">
+        <a>
           <div
-            className={
-              (id === "product-listing" || id === "seller-product-listing") &&
-              accessLocked &&
-              isAuthenticated
-                ? "product-list-details qa-mar-top-05 qa-font-san qa-fs-12 lock-section"
-                : "product-list-details qa-mar-top-05 qa-font-san qa-fs-12"
-            }
+            onClick={(e) => {
+              if (accessLocked) {
+                selectProduct(id);
+                e.stopPropagation();
+                e.preventDefault();
+              }
+            }}
+            onContextMenu={(e) => {
+              if (accessLocked) {
+                e.preventDefault();
+              }
+            }}
           >
-            {isMobile ? (
-              <Row className="qa-tc-white">
-                <Col span={12} className="qa-txt-alg-lft">
-                  <span className="product-order-type qa-mar-btm-05">
-                    {productTypeDisp}
-                  </span>
-                </Col>
-                {sellerList.includes(sellerCode) && (
-                  <Col span={12} className="qa-txt-alg-rgt qa-mar-top-05">
-                    <div className="qa-offer-text">FREE shipping</div>
+            <DynamicCarousel
+              items={1}
+              id={pageId}
+              showArrows={true}
+              data={mediaUrls}
+              productName={productName}
+              userProfile={userProfile}
+              selectedProductId={selectedProductId}
+              productId={id}
+              sellerId={sellerId}
+              visibleTo={visibleTo}
+            />
+            <div
+              className={
+                (id === "product-listing" || id === "seller-product-listing") &&
+                accessLocked &&
+                isAuthenticated
+                  ? "product-list-details qa-mar-top-05 qa-font-san qa-fs-12 lock-section"
+                  : "product-list-details qa-mar-top-05 qa-font-san qa-fs-12"
+              }
+            >
+              {isMobile ? (
+                <Row className="qa-tc-white">
+                  <Col span={12} className="qa-txt-alg-lft">
+                    <span className="product-order-type qa-mar-btm-05">
+                      {productTypeDisp}
+                    </span>
                   </Col>
-                )}
-              </Row>
-            ) : (
-              <Row className="qa-tc-white">
-                <Col span={12}>
-                  <div className="qa-tc-white qa-fw-b qa-lh qa-text-2line">
-                    {productNameSC}
-                  </div>
-                </Col>
-                <Col span={12} className="qa-txt-alg-rgt">
-                  <span className="product-order-type qa-mar-btm-05">
-                    {productTypeDisp}
-                  </span>
-                </Col>
-              </Row>
-            )}
-            {isMobile ? (
-              <Row className="qa-tc-white">
-                <Col span={24}>
-                  <div className="qa-tc-white qa-fw-b qa-lh qa-text-ellipsis">
-                    {productNameSC}
-                  </div>
-                </Col>
-                {!isAuthenticated && (
-                  <Col span={24}>
-                    <div className="qa-tc-white">
-                      Base price:{" "}
-                      <span className="qa-cursor" onClick={signIn}>
-                        <span className="qa-fs-13 qa-sm-color">Sign in</span>
-
-                        <svg
-                          style={{
-                            marginLeft: "3px",
-                            verticalAlign: "text-bottom",
-                          }}
-                          width="12"
-                          height="15"
-                          viewBox="0 0 19 17"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M8.56437 4.08666L7.34698 5.30405L9.60785 7.56492H0.738281V9.30405H9.60785L7.34698 11.5649L8.56437 12.7823L12.9122 8.43449L8.56437 4.08666ZM16.3905 14.5214H9.43393V16.2606H16.3905C17.347 16.2606 18.1296 15.478 18.1296 14.5214V2.34753C18.1296 1.39101 17.347 0.608398 16.3905 0.608398H9.43393V2.34753H16.3905V14.5214Z"
-                            fill="#D9BB7F"
-                          />
-                        </svg>
-                      </span>
+                  {sellerList.includes(sellerCode) && (
+                    <Col span={12} className="qa-txt-alg-rgt qa-mar-top-05">
+                      <div className="qa-offer-text">FREE shipping</div>
+                    </Col>
+                  )}
+                </Row>
+              ) : (
+                <Row className="qa-tc-white">
+                  <Col span={12}>
+                    <div className="qa-tc-white qa-fw-b qa-lh qa-text-2line">
+                      {productNameSC}
                     </div>
                   </Col>
-                )}
-
-                {!accessLocked && isAuthenticated && showPrice && (
+                  <Col span={12} className="qa-txt-alg-rgt">
+                    <span className="product-order-type qa-mar-btm-05">
+                      {productTypeDisp}
+                    </span>
+                  </Col>
+                </Row>
+              )}
+              {isMobile ? (
+                <Row className="qa-tc-white">
                   <Col span={24}>
-                    <div className="qa-tc-white">
-                      Base price:{" "}
-                      <span className="qa-fw-b qa-fs-14">
-                        {getSymbolFromCurrency(convertToCurrency)}
-                        {getConvertedCurrency(exfactoryListPrice)}
-                      </span>
+                    <div className="qa-tc-white qa-fw-b qa-lh qa-text-ellipsis">
+                      {productNameSC}
                     </div>
                   </Col>
-                )}
-                {!accessLocked && isAuthenticated && showPrice && (
-                  <Col span={24}>
-                    <Row>
-                      <Col span={14}>
-                        <div className="qa-tc-white">
-                          MOQ {minimumOrderQuantity} {moqUnit}
-                        </div>
-                      </Col>
-
-                      <Col span={10} className="qa-txt-alg-rgt">
-                        {colorFamily.length > 1 && <div>+colors available</div>}
-                      </Col>
-                    </Row>
-                  </Col>
-                )}
-              </Row>
-            ) : (
-              <div>
-                {!isAuthenticated && (
-                  <Row className="qa-tc-white">
-                    <Col span={14}>
-                      <span className="qa-tc-white">
+                  {!isAuthenticated && (
+                    <Col span={24}>
+                      <div className="qa-tc-white">
                         Base price:{" "}
                         <span className="qa-cursor" onClick={signIn}>
                           <span className="qa-fs-13 qa-sm-color">Sign in</span>
+
                           <svg
                             style={{
                               marginLeft: "3px",
@@ -269,54 +213,116 @@ function ProductCard(props) {
                             />
                           </svg>
                         </span>
-                      </span>
+                      </div>
                     </Col>
-                    {sellerList.includes(sellerCode) && (
-                      <Col span={10} className="qa-txt-alg-rgt qa-mar-top-05">
-                        <div className="qa-offer-text">FREE shipping</div>
-                      </Col>
-                    )}
-                  </Row>
-                )}
-                {!accessLocked && isAuthenticated && showPrice && (
-                  <Row className="qa-tc-white">
-                    <Col span={14}>
-                      <span className="qa-tc-white">
+                  )}
+
+                  {!accessLocked && isAuthenticated && showPrice && (
+                    <Col span={24}>
+                      <div className="qa-tc-white">
                         Base price:{" "}
                         <span className="qa-fw-b qa-fs-14">
                           {getSymbolFromCurrency(convertToCurrency)}
                           {getConvertedCurrency(exfactoryListPrice)}
                         </span>
-                      </span>
-                      {/*<div style={{ marginTop: "-3px" }}>
+                      </div>
+                    </Col>
+                  )}
+                  {!accessLocked && isAuthenticated && showPrice && (
+                    <Col span={24}>
+                      <Row>
+                        <Col span={14}>
+                          <div className="qa-tc-white">
+                            MOQ {minimumOrderQuantity} {moqUnit}
+                          </div>
+                        </Col>
+
+                        <Col span={10} className="qa-txt-alg-rgt">
+                          {colorFamily.length > 1 && (
+                            <div>+colors available</div>
+                          )}
+                        </Col>
+                      </Row>
+                    </Col>
+                  )}
+                </Row>
+              ) : (
+                <div>
+                  {!isAuthenticated && (
+                    <Row className="qa-tc-white">
+                      <Col span={14}>
+                        <span className="qa-tc-white">
+                          Base price:{" "}
+                          <span className="qa-cursor" onClick={signIn}>
+                            <span className="qa-fs-13 qa-sm-color">
+                              Sign in
+                            </span>
+                            <svg
+                              style={{
+                                marginLeft: "3px",
+                                verticalAlign: "text-bottom",
+                              }}
+                              width="12"
+                              height="15"
+                              viewBox="0 0 19 17"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M8.56437 4.08666L7.34698 5.30405L9.60785 7.56492H0.738281V9.30405H9.60785L7.34698 11.5649L8.56437 12.7823L12.9122 8.43449L8.56437 4.08666ZM16.3905 14.5214H9.43393V16.2606H16.3905C17.347 16.2606 18.1296 15.478 18.1296 14.5214V2.34753C18.1296 1.39101 17.347 0.608398 16.3905 0.608398H9.43393V2.34753H16.3905V14.5214Z"
+                                fill="#D9BB7F"
+                              />
+                            </svg>
+                          </span>
+                        </span>
+                      </Col>
+                      {sellerList.includes(sellerCode) && (
+                        <Col span={10} className="qa-txt-alg-rgt qa-mar-top-05">
+                          <div className="qa-offer-text">FREE shipping</div>
+                        </Col>
+                      )}
+                    </Row>
+                  )}
+                  {!accessLocked && isAuthenticated && showPrice && (
+                    <Row className="qa-tc-white">
+                      <Col span={14}>
+                        <span className="qa-tc-white">
+                          Base price:{" "}
+                          <span className="qa-fw-b qa-fs-14">
+                            {getSymbolFromCurrency(convertToCurrency)}
+                            {getConvertedCurrency(exfactoryListPrice)}
+                          </span>
+                        </span>
+                        {/*<div style={{ marginTop: "-3px" }}>
                           Min order qty {minimumOrderQuantity} {moqUnit}
                         </div>*/}
-                    </Col>
-                    <Col span={10} className="qa-txt-alg-rgt qa-mar-top-05">
-                      {sellerList.includes(sellerCode) && (
-                        <div className="qa-offer-text">FREE shipping</div>
-                      )}
-                      {colorFamily.length > 1 && <div>+colors available</div>}
-                    </Col>
-                  </Row>
-                )}
-              </div>
-            )}
-            {pageId === "product-listing" && (
-              <div
-                className="explore-more-sellers qa-sm-color qa-cursor"
-                onClick={(e) => {
-                  router.push(sellerLink);
-                  e.stopPropagation();
-                  e.preventDefault();
-                }}
-              >
-                Explore more by this seller
-              </div>
-            )}
+                      </Col>
+                      <Col span={10} className="qa-txt-alg-rgt qa-mar-top-05">
+                        {sellerList.includes(sellerCode) && (
+                          <div className="qa-offer-text">FREE shipping</div>
+                        )}
+                        {colorFamily.length > 1 && <div>+colors available</div>}
+                      </Col>
+                    </Row>
+                  )}
+                </div>
+              )}
+              {pageId === "product-listing" && (
+                <div
+                  className="explore-more-sellers qa-sm-color qa-cursor"
+                  onClick={(e) => {
+                    router.push(sellerLink);
+                    e.stopPropagation();
+                    e.preventDefault();
+                  }}
+                >
+                  Explore more by this seller
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      </a>
+        </a>
+      </Link>
     );
   } else {
     let linkTo = `/seller/${vanityId}`;
@@ -326,61 +332,65 @@ function ProductCard(props) {
       linkTo = `/seller/${id}/${categoryName}`;
     }
     return (
-      <a href={linkTo} className="product-card">
-        {pageId === "seller-listing" && (
-          <SellerBanner
-            orgName={brandName || orgName}
-            companyDescription={companyDescription}
-            bannerImage={bannerImage}
-            brandLogo={brandLogo}
+      <Link href={linkTo} className="product-card">
+        <a>
+          {pageId === "seller-listing" && (
+            <SellerBanner
+              orgName={brandName || orgName}
+              companyDescription={companyDescription}
+              bannerImage={bannerImage}
+              brandLogo={brandLogo}
+            />
+          )}
+          <DynamicCarousel
+            items={1}
+            id={pageId}
+            showArrows={true}
+            data={publicCategoryMedias}
+            userProfile={userProfile}
           />
-        )}
-        <DynamicCarousel
-          items={1}
-          id={pageId}
-          showArrows={true}
-          data={publicCategoryMedias}
-          userProfile={userProfile}
-        />
-        <div className="seller-list-details">
-          <div
-            style={{
-              lineHeight: "130%",
-              marginBottom: "5px",
-              height: "31px",
-            }}
-            className="qa-text-2line"
-          >
-            <span className="qa-tc-white">
-              <span className="qa-tc-white qa-fw-sb">Product range: </span>
-            </span>{" "}
-            <span className="qa-text-body">{productTypeDescs.join(", ")}</span>
+          <div className="seller-list-details">
+            <div
+              style={{
+                lineHeight: "130%",
+                marginBottom: "5px",
+                height: "31px",
+              }}
+              className="qa-text-2line"
+            >
+              <span className="qa-tc-white">
+                <span className="qa-tc-white qa-fw-sb">Product range: </span>
+              </span>{" "}
+              <span className="qa-text-body">
+                {productTypeDescs.join(", ")}
+              </span>
+            </div>
+            <div>
+              <span className="qa-tc-white qa-fw-sb">
+                {orderTypes.includes("RTS")
+                  ? "Ready to ship orders"
+                  : "Custom orders"}
+              </span>
+            </div>
+            <div
+              style={{
+                textOverflow: "ellipsis",
+                width: "100%",
+                display: "block",
+                overflow: "hidden",
+              }}
+            >
+              {values.map((list, i) => {
+                return (
+                  <span key={i} className="seller-hash-tag">
+                    #{list.replace(/_/gi, "")}
+                  </span>
+                );
+              })}
+            </div>
           </div>
-          <div>
-            <span className="qa-tc-white qa-fw-sb">
-              {orderTypes.includes("RTS")
-                ? "Ready to ship orders"
-                : "Custom orders"}
-            </span>
-          </div>
-          <div
-            style={{
-              textOverflow: "ellipsis",
-              width: "100%",
-              display: "block",
-              overflow: "hidden",
-            }}
-          >
-            {values.map((list, i) => {
-              return (
-                <span key={i} className="seller-hash-tag">
-                  #{list.replace(/_/gi, "")}
-                </span>
-              );
-            })}
-          </div>
-        </div>
-      </a>
+        </a>
+      </Link>
     );
   }
 }
