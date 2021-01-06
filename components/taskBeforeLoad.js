@@ -55,6 +55,7 @@ export const getToken = (Component) => {
       .then((res) => res.json())
       .then((result) => {
         result["requestedTimestamp"] = Math.floor(Date.now() / 1000);
+        Cookies.remove("appToken");
         Cookies.set("appToken", result);
         store.dispatch(setTokenSuccess(result));
         setTimeout(() => {
