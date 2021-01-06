@@ -79,10 +79,10 @@ export const Layout = ({ children, meta = {} }) => {
     }
 
     if (keycloak?.token) {
-      // document.cookie =
-      //   "appToken" + "=; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+      document.cookie =
+        "appToken" + "=; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
 
-      // document.cookie = `appToken=${keycloak.token}`;
+      document.cookie = `appToken=${keycloak.token}`;
       keycloak
         .loadUserProfile()
         .then((profile) => {
