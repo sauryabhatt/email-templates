@@ -56,11 +56,10 @@ export const logoutFromApp = (keycloak, options) => {
 function AuthWithKeycloak(props) {
   const { keycloak } = useKeycloak();
   const { cookies } = props;
-  console.log("Cookies ", cookies);
   const keycloakCfg = {
     realm: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_REALM,
     url: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_URL,
-    clientId: "next",
+    clientId: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_CLIENT_ID,
   };
 
   // const onKeycloakEvent = (event, error) => {
