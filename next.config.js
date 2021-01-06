@@ -8,4 +8,7 @@ module.exports = {
   async generateBuildId() {
     return execSync(lastCommitCommand).toString().trim();
   },
+  experimental: {
+    modern: false,
+  },
 };
