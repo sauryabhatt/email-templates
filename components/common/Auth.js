@@ -29,12 +29,12 @@ function Auth({ children, path }) {
 
   useEffect(() => {
     if (getCookie("appToken")) {
-      if (cookie && cookie["authStatus"]) {
-        setCookie("authUser", getCookie("appToken"), {
-          path: "/",
-          maxAge: 60 * 60 * 24 * 30,
-        });
-      }
+      // if (cookie && cookie["authStatus"]) {
+      setCookie("authUser", getCookie("appToken"), {
+        path: "/",
+        maxAge: 60 * 60 * 24 * 30,
+      });
+      // }
     }
 
     if (getCookie("appToken")) {
