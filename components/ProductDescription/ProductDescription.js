@@ -9,7 +9,6 @@ import {
   checkCart,
 } from "../../store/actions";
 import { useKeycloak } from "@react-keycloak/ssr";
-import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 const querystring = require("querystring");
 const isServer = () => typeof window == "undefined";
@@ -18,26 +17,24 @@ const ProductDescription = (props) => {
   let { userProfile = {}, isLoading } = props;
   let { productDetails, listingPage } = !isServer() ? props : props.data;
   const router = useRouter();
-  let { articleId } = router.query;
+
   let { sellerDetails = {} } = productDetails || {};
 
   const { keycloak } = useKeycloak();
   let authenticated = keycloak.authenticated;
-  const token = useSelector(
-    (state) => state.appToken.token && state.appToken.token.access_token
-  );
 
   const [count, setCount] = useState(0);
 
-  let app_token = token;
+  let app_token = process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN;
   if (authenticated) {
     app_token = keycloak.token;
   }
 
   useEffect(() => {
+    let { articleId } = router.query;
     props.getProductDetails(app_token, articleId);
     setCount(1);
-  }, [token, router.query]);
+  }, [router.query]);
 
   useEffect(() => {
     let { productDetails = "" } = props;
