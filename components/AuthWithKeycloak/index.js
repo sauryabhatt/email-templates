@@ -19,17 +19,12 @@ const redirectUriForApp = {
 };
 
 export const loginToApp = (keycloak, options) => {
-  console.log(options.currentPath);
   if (options && options.currentPath) {
     if (redirectUriForApp[options.currentPath]) {
       keycloak.login({
         redirectUri: process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN,
       });
     } else {
-      console.log(
-        process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN +
-          options.currentPath
-      );
       keycloak.login({
         redirectUri:
           process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN +
@@ -44,7 +39,7 @@ export const loginToApp = (keycloak, options) => {
 };
 
 export const logoutFromApp = (keycloak, options) => {
-  document.cookie = "appToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+  document.cookie = "appToken" + "=; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
   if (options && options.currentPath) {
     keycloak.logout({
       redirectUri:
@@ -61,6 +56,7 @@ export const logoutFromApp = (keycloak, options) => {
 function AuthWithKeycloak(props) {
   const { keycloak } = useKeycloak();
   const { cookies } = props;
+  console.log("Cookies ", cookies);
   const keycloakCfg = {
     realm: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_REALM,
     url: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_URL,
