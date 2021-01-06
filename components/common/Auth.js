@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useKeycloak } from "@react-keycloak/ssr";
 import { loginToApp } from "../AuthWithKeycloak";
 import Spinner from "../Spinner/Spinner";
+import { useCookies } from "react-cookie";
 
 export const getCookie = (cname) => {
   var name = cname + "=";
@@ -24,13 +25,19 @@ export const getCookie = (cname) => {
 function Auth({ children, path }) {
   const { keycloak } = useKeycloak();
   const [status, setStatus] = useState(undefined);
+  const [cookie, setCookie] = useCookies(["authStatus"]);
 
   useEffect(() => {
     if (getCookie("appToken")) {
-      document.cookie = `authStatus=${getCookie("appToken")}`;
+      if (cookie && cookie["authStatus"]) {
+        setCookie("authUser", getCookie("appToken"), {
+          path: "/",
+          maxAge: 60 * 60 * 24 * 30,
+        });
+      }
     }
 
-    if (getCookie("authStatus")) {
+    if (getCookie("appToken")) {
       // if (keycloak.token) {
       setStatus("loggedin");
     } else {
