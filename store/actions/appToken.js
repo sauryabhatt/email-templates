@@ -54,6 +54,7 @@ export const getToken = () => {
     )
       .then((res) => res.json())
       .then((result) => {
+        Cookie.remove("appToken");
         Cookie.set("appToken", result);
         return dispatch(setTokenSuccess(result));
       })
