@@ -27,24 +27,24 @@ function Auth({ children, path }) {
 
   useEffect(() => {
     // if (getCookie("appToken")) {
-    if (keycloak.authenticated) {
+    if (keycloak.token) {
       setStatus("loggedin");
     } else {
       setStatus("loggedout");
     }
-  }, [keycloak.authenticated, keycloak.token]);
+  }, [keycloak.token]);
 
   if (status === undefined) {
     return <Spinner />;
   } else if (status === "loggedout") {
-    setTimeout(() => {
-      if (status === "loggedin") {
-        return children;
-      } else {
-        loginToApp(keycloak, { currentPath: path });
-      }
-    }, 500);
-    return <Spinner />;
+    // setTimeout(() => {
+    //   if (status === "loggedin") {
+    //     return children;
+    //   } else {
+    loginToApp(keycloak, { currentPath: path });
+    //   }
+    // }, 500);
+    // return <Spinner />;
   } else if (status === "loggedin") {
     return children;
   } else {
