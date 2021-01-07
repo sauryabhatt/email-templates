@@ -6,6 +6,7 @@ import {
   SSRCookies,
   useKeycloak,
   Cookies,
+  ExpressCookies,
 } from "@react-keycloak/ssr";
 // import store from '../../store';
 // import {setAuth, getUserProfile} from '../../store/actions';
@@ -85,9 +86,9 @@ function AuthWithKeycloak(props) {
   return (
     <SSRKeycloakProvider
       keycloakConfig={keycloakCfg}
-      // persistor={SSRCookies(cookies)}
-      persistor={SSRCookies(cookiePersistor)}
-      // keycloak={keycloak}
+      persistor={SSRCookies(cookies)}
+      // persistor={SSRCookies(cookiePersistor)}
+      keycloak={keycloak}
       initConfig={keycloakProviderInitConfig}
       // onEvent={onKeycloakEvent}
       // onTokens={onKeycloakTokens}
