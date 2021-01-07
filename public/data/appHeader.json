@@ -29,7 +29,7 @@
     "font": "H2",
     "action": "URL",
     "filterType": "",
-    "values": "/categoryedit/homedecor",
+    "values": "/products/home-decor-and-accessories",
     "isActive": "TRUE"
   },
   {
@@ -40,13 +40,13 @@
     "font": "H2",
     "action": "URL",
     "filterType": "",
-    "values": "/categoryedit/KitchenDining",
+    "values": "/products/kitchen-and-dining",
     "isActive": "TRUE"
   },
   {
     "id": "SHOPOPTIONS::COLUMN::1::ROW::105",
     "column": "1",
-    "displayTitle": "Fashion ",
+    "displayTitle": "Fashion",
     "menuOrder": "105",
     "font": "H2",
     "action": "URL",
@@ -57,7 +57,7 @@
   {
     "id": "SHOPOPTIONS::COLUMN::1::ROW::106",
     "column": "1",
-    "displayTitle": "Baby & kids ",
+    "displayTitle": "Baby & kids",
     "menuOrder": "106",
     "font": "H2",
     "action": "URL",
@@ -156,7 +156,7 @@
   {
     "id": "SHOPOPTIONS::COLUMN::2::ROW::105",
     "column": "2",
-    "displayTitle": "Fashion ",
+    "displayTitle": "Fashion",
     "menuOrder": "105",
     "font": "H2",
     "action": "URL",
@@ -167,7 +167,7 @@
   {
     "id": "SHOPOPTIONS::COLUMN::2::ROW::106",
     "column": "2",
-    "displayTitle": "Baby & kids ",
+    "displayTitle": "Baby & kids",
     "menuOrder": "106",
     "font": "H2",
     "action": "URL",
@@ -266,7 +266,7 @@
   {
     "id": "SHOPOPTIONS::COLUMN::3::ROW::105",
     "column": "3",
-    "displayTitle": "Global textures",
+    "displayTitle": "Crafted boho",
     "menuOrder": "105",
     "font": "H2",
     "action": "URL",
@@ -277,12 +277,12 @@
   {
     "id": "SHOPOPTIONS::COLUMN::3::ROW::106",
     "column": "3",
-    "displayTitle": "Sunlit spring 21",
+    "displayTitle": "Urban jungle",
     "menuOrder": "106",
     "font": "H2",
     "action": "URL",
     "filterType": "",
-    "values": "/trends/sunkissed-spring21",
+    "values": "/trends/urbanjungle",
     "isActive": "TRUE"
   },
   {
@@ -343,7 +343,7 @@
   {
     "id": "SHOPOPTIONS::COLUMN::4::ROW::103",
     "column": "4",
-    "displayTitle": "Eco friendly ",
+    "displayTitle": "Eco friendly",
     "menuOrder": "103",
     "font": "H2",
     "action": "",
@@ -406,6 +406,7 @@
     "values": "/sellers/all-categories",
     "isActive": "TRUE"
   },
+
   {
     "id": "SHOPOPTIONS::COLUMN::5::ROW::101",
     "column": "5",
@@ -436,7 +437,7 @@
     "font": "H2",
     "action": "URL",
     "filterType": "",
-    "values": "/products/all-categories?f_product_types=Ready+to+ship",
+    "values": "/all-categories?f_product_types=Ready+to+ship",
     "isActive": "TRUE"
   },
   {
