@@ -5,7 +5,7 @@ import {
   SSRKeycloakProvider,
   SSRCookies,
   useKeycloak,
-  ExpressCookies,
+  Cookies,
 } from "@react-keycloak/ssr";
 // import store from '../../store';
 // import {setAuth, getUserProfile} from '../../store/actions';
@@ -63,6 +63,7 @@ function AuthWithKeycloak(props) {
     clientId: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_CLIENT_ID,
   };
 
+  const cookiePersistor = new Cookies(cookies);
   // const onKeycloakEvent = (event, error) => {
   //     if (event === 'onReady') {
   //     } else if (event === 'onAuthSuccess') {
@@ -82,7 +83,7 @@ function AuthWithKeycloak(props) {
   return (
     <SSRKeycloakProvider
       keycloakConfig={keycloakCfg}
-      // persistor={SSRCookies(cookies)}
+      persistor={SSRCookies(cookiePersistor)}
       // keycloak={keycloak}
       initConfig={keycloakProviderInitConfig}
       // onEvent={onKeycloakEvent}
