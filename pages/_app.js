@@ -70,7 +70,17 @@ function parseCookies(req) {
   if (!req || !req.headers) {
     return {};
   }
-  return cookie.parse(req.headers.cookie || "");
+  // console.log(req.headers.cookie);
+  let cookies = cookie.parse(req.headers.cookie || "");
+
+  // Get the visitor name set in the cookie
+  let appToken = cookies.appToken;
+
+  let appTokenCookie = cookie.serialize("appToken", appToken, {
+    path: "/",
+  });
+  // console.log("***", appTokenCookie);
+  return appTokenCookie;
 }
 
 MyApp.getInitialProps = async ({ ctx }) => {
