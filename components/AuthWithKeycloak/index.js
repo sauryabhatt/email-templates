@@ -14,7 +14,6 @@ import {
 const keycloakProviderInitConfig = {
   onLoad: "check-sso",
   flow: "implicit",
-  checkLoginIframe: false,
 };
 const redirectUriForApp = {
   "/": "/check-user-status",
