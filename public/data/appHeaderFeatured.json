@@ -27,7 +27,7 @@
     "displayTitle": "Handwoven cushions",
     "menuOrder": "103",
     "font": "H2",
-    "action": "URL",
+    "actio": "URL",
     "filterType": "",
     "values": "/seller/SL10403/all-categories",
     "isActive": "TRUE"
@@ -87,6 +87,17 @@
     "values": "/categoryedit/homelinen",
     "isActive": "TRUE"
   },
+  {
+    "id": "SHOPOPTIONS::COLUMN::1::ROW::109",
+    "column": "1",
+    "displayTitle": "Furniture edit",
+    "menuOrder": "109",
+    "font": "H2",
+    "action": "URL",
+    "filterType": "",
+    "values": "/categoryedit/furniture",
+    "isActive": "TRUE"
+  },
 
   {
     "id": "SHOPOPTIONS::COLUMN::2::ROW::101",
@@ -113,7 +124,7 @@
   {
     "id": "SHOPOPTIONS::COLUMN::2::ROW::103",
     "column": "2",
-    "displayTitle": "Organic incense ",
+    "displayTitle": "Organic incense",
     "menuOrder": "103",
     "font": "H2",
     "action": "URL",
@@ -176,6 +187,17 @@
     "values": "/categoryedit/homedecor",
     "isActive": "TRUE"
   },
+  {
+    "id": "SHOPOPTIONS::COLUMN::2::ROW::109",
+    "column": "2",
+    "displayTitle": "Novelty edit",
+    "menuOrder": "109",
+    "font": "H2",
+    "action": "URL",
+    "filterType": "",
+    "values": "/categoryedit/stationery-novelty",
+    "isActive": "TRUE"
+  },
 
   {
     "id": "SHOPOPTIONS::COLUMN::3::ROW::101",
@@ -193,7 +215,7 @@
     "column": "3",
     "displayTitle": "Ceramic Mugs",
     "menuOrder": "102",
-    "font": "H1",
+    "font": "H2",
     "action": "URL",
     "filterType": "",
     "values": "/seller/SL10068/all-categories",
@@ -235,12 +257,12 @@
   {
     "id": "SHOPOPTIONS::COLUMN::3::ROW::106",
     "column": "3",
-    "displayTitle": "Hammered copperware",
+    "displayTitle": "Brass glasses",
     "menuOrder": "106",
     "font": "H2",
     "action": "URL",
     "filterType": "",
-    "values": "/seller/SL10644/Kitchen%20&%20Dining",
+    "values": "/seller/SL10945/all-categories",
     "isActive": "TRUE"
   },
   {
@@ -257,15 +279,25 @@
   {
     "id": "SHOPOPTIONS::COLUMN::3::ROW::108",
     "column": "3",
-    "displayTitle": "Kitchen edit",
+    "displayTitle": "Stoneware pottery",
     "menuOrder": "108",
+    "font": "H2",
+    "action": "URL",
+    "filterType": "",
+    "values": "/seller/SL10808/all-categories",
+    "isActive": "TRUE"
+  },
+  {
+    "id": "SHOPOPTIONS::COLUMN::3::ROW::109",
+    "column": "3",
+    "displayTitle": "Kitchen edit",
+    "menuOrder": "109",
     "font": "H2",
     "action": "URL",
     "filterType": "",
     "values": "/categoryedit/KitchenDining",
     "isActive": "TRUE"
   },
-
   {
     "id": "SHOPOPTIONS::COLUMN::4::ROW::101",
     "column": "4",
@@ -346,15 +378,25 @@
   {
     "id": "SHOPOPTIONS::COLUMN::4::ROW::108",
     "column": "4",
-    "displayTitle": "Kids edit",
+    "displayTitle": "Ganjifa cards",
     "menuOrder": "108",
+    "font": "H2",
+    "action": "URL",
+    "filterType": "",
+    "values": "/seller/SL10617/all-categories",
+    "isActive": "TRUE"
+  },
+  {
+    "id": "SHOPOPTIONS::COLUMN::4::ROW::109",
+    "column": "4",
+    "displayTitle": "Kids edit",
+    "menuOrder": "109",
     "font": "H2",
     "action": "URL",
     "filterType": "",
     "values": "/categoryedit/baby-kids",
     "isActive": "TRUE"
   },
-
   {
     "id": "SHOPOPTIONS::COLUMN::5::ROW::101",
     "column": "5",
@@ -441,6 +483,17 @@
     "action": "URL",
     "filterType": "",
     "values": "/categoryedit/fashionaccessories",
+    "isActive": "TRUE"
+  },
+  {
+    "id": "SHOPOPTIONS::COLUMN::5::ROW::109",
+    "column": "5",
+    "displayTitle": "Jewelry edit",
+    "menuOrder": "109",
+    "font": "H2",
+    "action": "URL",
+    "filterType": "",
+    "values": "/categoryedit/jewelry",
     "isActive": "TRUE"
   }
 ]
