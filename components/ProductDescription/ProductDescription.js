@@ -32,7 +32,6 @@ const ProductDescription = (props) => {
 
   useEffect(() => {
     let { articleId } = router.query;
-    document.cookie = `appToken=${keycloak.token}; path=/product/${articleId};`;
     props.getProductDetails(app_token, articleId);
     setCount(1);
   }, [router.query]);
