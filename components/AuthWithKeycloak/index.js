@@ -65,7 +65,7 @@ function AuthWithKeycloak(props) {
   };
 
   // const cookiePersistor = ExpressCookies(cookies);
-  const cookiePersistor = new Cookies();
+  // const cookiePersistor = new Cookies();
 
   // const onKeycloakEvent = (event, error) => {
   //     if (event === 'onReady') {
@@ -86,8 +86,8 @@ function AuthWithKeycloak(props) {
   return (
     <SSRKeycloakProvider
       keycloakConfig={keycloakCfg}
-      // persistor={SSRCookies(cookies)}
-      persistor={SSRCookies(cookiePersistor)}
+      persistor={SSRCookies(cookies)}
+      // persistor={SSRCookies(cookiePersistor)}
       keycloak={keycloak}
       initConfig={keycloakProviderInitConfig}
       // onEvent={onKeycloakEvent}
