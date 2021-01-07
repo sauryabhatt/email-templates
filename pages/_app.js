@@ -9,7 +9,7 @@ import ErrorHandler from "../components/ErrorHandler";
 import AppFooter from "../components/AppFooter/AppFooter";
 import ScrollToTop from "../components/ScrollToTop/ScrollToTop";
 import AuthWithKeycloak from "../components/AuthWithKeycloak";
-import { getToken } from "../components/taskBeforeLoad";
+// import { getToken } from "../components/taskBeforeLoad";
 import Spinner from "../components/Spinner/Spinner";
 import { Provider } from "react-redux";
 import cookie from "cookie";
@@ -39,19 +39,19 @@ function MyApp(props) {
     TagManager.initialize({ gtmId: "GTM-KTVSR8R" });
   }, []);
 
-  useEffect(() => {
-    let Tawk_API = Tawk_API || {},
-      Tawk_LoadStart = new Date();
-    (function () {
-      let s1 = document.createElement("script"),
-        s0 = document.getElementsByTagName("script")[0];
-      s1.async = true;
-      s1.src = "https://embed.tawk.to/5fdb39afdf060f156a8df4ae/1epo5ilog";
-      s1.charset = "UTF-8";
-      s1.setAttribute("crossorigin", "*");
-      s0.parentNode.insertBefore(s1, s0);
-    })();
-  }, []);
+  // useEffect(() => {
+  //   let Tawk_API = Tawk_API || {},
+  //     Tawk_LoadStart = new Date();
+  //   (function () {
+  //     let s1 = document.createElement("script"),
+  //       s0 = document.getElementsByTagName("script")[0];
+  //     s1.async = true;
+  //     s1.src = "https://embed.tawk.to/5fdb39afdf060f156a8df4ae/1epo5ilog";
+  //     s1.charset = "UTF-8";
+  //     s1.setAttribute("crossorigin", "*");
+  //     s0.parentNode.insertBefore(s1, s0);
+  //   })();
+  // }, []);
 
   return (
     <AuthWithKeycloak cookies={cookies}>
