@@ -36,7 +36,7 @@ export const Layout = ({ children, meta = {} }) => {
       : false;
 
   useEffect(() => {
-    if (!getCookie("appToken")) {
+    if (!getCookie("appToken-v1")) {
       if (keycloak?.authenticated) {
         keycloak
           .loadUserProfile()
