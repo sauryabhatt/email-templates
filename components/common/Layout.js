@@ -79,7 +79,7 @@ export const Layout = ({ children, meta = {} }) => {
     }
 
     if (keycloak?.token) {
-      // document.cookie = `appToken=${keycloak.token}; path=/;`;
+      document.cookie = `appToken=${keycloak.token}; path=/;`;
       keycloak
         .loadUserProfile()
         .then((profile) => {
