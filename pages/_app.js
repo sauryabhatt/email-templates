@@ -76,7 +76,7 @@ function parseCookies(req) {
   // Get the visitor name set in the cookie
   let appToken = cookies.appToken;
 
-  let appTokenCookie = cookie.serialize("appToken-v1", appToken, {
+  let appTokenCookie = cookie.serialize("appToken", appToken, {
     path: "/",
   });
   // console.log("***", appTokenCookie);
