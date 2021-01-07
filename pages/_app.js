@@ -71,20 +71,20 @@ function parseCookies(req) {
     return {};
   }
   // console.log(req.headers.cookie);
-  // let cookies = cookie.parse(req.headers.cookie || "");
+  let cookies = cookie.parse(req.headers.cookie || "");
 
-  // // Get the visitor name set in the cookie
-  // let appToken = cookies.appToken;
+  // Get the visitor name set in the cookie
+  let appToken = cookies.appToken;
 
-  // let appTokenCookie = cookie.serialize("appToken", appToken, {
-  //   path: "/",
-  // });
-  // // console.log("***", appTokenCookie);
-  // return appTokenCookie;
+  let appTokenCookie = cookie.serialize("appToken", appToken, {
+    path: "/",
+  });
+  // console.log("***", appTokenCookie);
+  return appTokenCookie;
   // if (!req || !req.headers) {
   //   return {};
   // }
-  return cookie.parse(req.headers.cookie || "");
+  // return cookie.parse(req.headers.cookie || "");
 }
 
 MyApp.getInitialProps = async ({ ctx }) => {
