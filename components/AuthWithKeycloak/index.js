@@ -5,6 +5,7 @@ import {
   SSRKeycloakProvider,
   SSRCookies,
   useKeycloak,
+  ExpressCookies,
 } from "@react-keycloak/ssr";
 // import store from '../../store';
 // import {setAuth, getUserProfile} from '../../store/actions';
@@ -13,6 +14,7 @@ import {
 const keycloakProviderInitConfig = {
   onLoad: "check-sso",
   flow: "implicit",
+  checkLoginIframe: false,
 };
 const redirectUriForApp = {
   "/": "/check-user-status",
@@ -62,6 +64,8 @@ function AuthWithKeycloak(props) {
     clientId: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_CLIENT_ID,
   };
 
+  const cookiePersistor = ExpressCookies(cookies);
+
   // const onKeycloakEvent = (event, error) => {
   //     if (event === 'onReady') {
   //     } else if (event === 'onAuthSuccess') {
@@ -81,7 +85,8 @@ function AuthWithKeycloak(props) {
   return (
     <SSRKeycloakProvider
       keycloakConfig={keycloakCfg}
-      persistor={SSRCookies(cookies)}
+      // persistor={SSRCookies(cookies)}
+      persistor={SSRCookies(cookiePersistor)}
       keycloak={keycloak}
       initConfig={keycloakProviderInitConfig}
       // onEvent={onKeycloakEvent}
