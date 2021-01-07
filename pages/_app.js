@@ -81,6 +81,10 @@ function parseCookies(req) {
   });
   // console.log("***", appTokenCookie);
   return appTokenCookie;
+  // if (!req || !req.headers) {
+  //   return {};
+  // }
+  // return cookie.parse(req.headers.cookie || "");
 }
 
 MyApp.getInitialProps = async ({ ctx }) => {
