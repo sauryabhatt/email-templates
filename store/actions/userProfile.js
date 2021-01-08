@@ -505,7 +505,7 @@ export const getRfqByStatus = (status, token, buyerId) => async (dispatch) => {
     process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL +
       "/forms/queries/status?buyer_id=" +
       buyerId +
-      "&status=OPEN,ASSIGNED,LINKED",
+      "&status=OPEN",
     {
       method: "GET",
       headers: {
