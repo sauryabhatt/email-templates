@@ -404,6 +404,8 @@ const Register = (props) => {
           onFinish={onFinish}
           form={form}
           scrollToFirstError
+          autoComplete="dontshow"
+          autofill={false}
         >
           <Row
             justify="space-around"
@@ -419,7 +421,7 @@ const Register = (props) => {
                   xl={22}
                   className="qa-mar-btm-2"
                 >
-                  <p className="signup-heading">Sign up securely</p>
+                  <p className="signup-heading">Sign up for free</p>
                   {/* <p className="signup-subtitle">in just a few minutes!</p> */}
                   <Row>
                     <Col xs={24} sm={24} md={24} lg={24}>
@@ -536,7 +538,7 @@ const Register = (props) => {
                       },
                     ]}
                   >
-                    <Input disabled={btnDisabled} />
+                    <Input disabled={btnDisabled} autoComplete="dontshow" />
                   </Form.Item>
                 </Col>
                 <Col xs={24} sm={24} md={10} lg={10} xl={10}>
@@ -555,7 +557,7 @@ const Register = (props) => {
                       ]
                     }
                   >
-                    <Input disabled={btnDisabled} />
+                    <Input disabled={btnDisabled} autoComplete="dontshow" />
                   </Form.Item>
                 </Col>
 
@@ -593,6 +595,7 @@ const Register = (props) => {
                         <Input
                           disabled={btnDisabled}
                           placeholder="@companyname.com"
+                          autoComplete="dontshow"
                         />
                       </Form.Item>
                     </Col>
@@ -635,7 +638,7 @@ const Register = (props) => {
                       enableSearch={true}
                       countryCodeEditable={false}
                     /> */}
-                        <Input disabled={btnDisabled} />
+                        <Input disabled={btnDisabled} autoComplete="dontshow" />
                       </Form.Item>
                     </Col>
 
@@ -662,7 +665,7 @@ const Register = (props) => {
                           },
                         ]}
                       >
-                        <Input disabled={btnDisabled} />
+                        <Input disabled={btnDisabled} autoComplete="dontshow" />
                       </Form.Item>
                     </Col>
 
@@ -791,7 +794,7 @@ const Register = (props) => {
                           { required: true, message: "Field is required." },
                         ]}
                       >
-                        <Input />
+                        <Input autoComplete="dontshow" />
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={10} lg={10} xl={10}>
@@ -802,7 +805,7 @@ const Register = (props) => {
                           { required: true, message: "Field is required." },
                         ]}
                       >
-                        <Input />
+                        <Input autoComplete="dontshow" />
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={10} lg={10} xl={10}>
@@ -825,7 +828,7 @@ const Register = (props) => {
                       enableSearch={true}
                       countryCodeEditable={false}
                     /> */}
-                        <Input disabled={btnDisabled} />
+                        <Input disabled={btnDisabled} autoComplete="dontshow" />
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={22} lg={22} xl={22}>
@@ -860,6 +863,7 @@ const Register = (props) => {
                         <Input
                           disabled={btnDisabled}
                           placeholder="@companyname.com"
+                          autoComplete="dontshow"
                         />
                       </Form.Item>
                     </Col>
@@ -887,7 +891,7 @@ const Register = (props) => {
                           },
                         ]}
                       >
-                        <Input disabled={btnDisabled} />
+                        <Input disabled={btnDisabled} autoComplete="dontshow" />
                       </Form.Item>
                     </Col>
                     <Col xs={24} sm={24} md={10} lg={10} xl={10}>

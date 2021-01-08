@@ -1,14 +1,7 @@
 import React from 'react'
 
 export default ()=>(
-  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" >
-    <path d="M0 0H20V20H0V0Z" fill="url(#pattern0)"/>
-    <defs>
-      <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
-        <use  transform="scale(0.00892857)"/>
-      </pattern>
-      <image id="image0" width="112" height="112"/> 
-      </defs>
-    </svg>
-
-  )
+  <svg width="21" height="13" viewBox="0 0 21 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M0.212095 7.12415C-0.0706984 6.77944 -0.0706984 6.22056 0.212095 5.87585L4.82048 0.25853C5.10327 -0.0861767 5.56177 -0.0861767 5.84457 0.25853C6.12736 0.603237 6.12736 1.16212 5.84457 1.50682L2.47236 5.61732H21V7.38268H2.47236L5.84457 11.4932C6.12736 11.8379 6.12736 12.3968 5.84457 12.7415C5.56177 13.0862 5.10327 13.0862 4.82048 12.7415L0.212095 7.12415Z" fill="black"/>
+  </svg>
+)

@@ -255,3 +255,72 @@
     justify-content: center;
     align-items: center;
 }
+.order-detail-payment{
+  width: 35%;
+}
+@media only screen and (max-width: 780px) {
+  .order-menu .ant-menu-item{
+    margin: 0 15px !important;
+  }
+  .order-faq-section{
+    display: flex;
+    order: -1;
+    justify-content: flex-end;
+  }
+  .order-container .form-heading{
+    font-weight: normal !important;
+  }
+  .order-card-container{
+    border-radius: 0;
+  }
+  .order-menu{
+    margin-bottom: 20px;
+  }
+  .order-card-header{
+    padding: 12px 8px;
+  }
+  .order-card-body{
+    padding: 12px 15px;
+  }
+  .order-card-header{
+    flex-wrap: wrap;
+  }
+  .order-card-headr-tile {
+    flex: 0 50%;
+    width: 100%;
+    padding-bottom: 15px;
+  }
+  .order-card-headr-tile:nth-child(even){
+    text-align: right;
+  }
+  .order-header-tile-content{
+    font-size: 12px;
+    font-weight: bold;
+  }
+  .qa-border-bottom{
+    margin-bottom:14px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(25, 25, 25, 0.3);
+  }
+  .order-detail-text{
+    flex-direction: column;
+  }
+  .click-icon-wrp:nth-child(1){
+    margin-bottom: 13px;
+  }
+  .order-card-details-tile{
+    flex-direction: column;
+  }
+  .order-detail-payment{
+    width: 100%;
+    margin-top: 10px;
+  }
+  .total-text{
+    font-size: 14px;
+  }
+}
+@media only screen and (max-width: 330px) {
+  .order-menu .ant-menu-item{
+    margin: 0 10px !important;
+  }
+}

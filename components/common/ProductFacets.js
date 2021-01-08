@@ -26,6 +26,11 @@ const OPEN_KEYS = [
   "key8",
   "key9",
   "key10",
+  "key11",
+  "key12",
+  "key13",
+  "key14",
+  "key15",
 ];
 
 class ProductFacets extends Component {
@@ -135,7 +140,6 @@ class ProductFacets extends Component {
 
   handleChange = (e) => {
     let { filterId, checked, filterType } = e.target;
-
     if (checked) {
       if (this.state[filterType] && this.state[filterType].length) {
         this.setState(
@@ -206,7 +210,6 @@ class ProductFacets extends Component {
     }
 
     this.setState({ query: queryParams });
-
     if (this.props.id !== "mobile") {
       this.props.getFilterData(queryParams, "filter");
     }

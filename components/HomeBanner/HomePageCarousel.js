@@ -70,7 +70,7 @@ export default function HomePageCarousel(props) {
       isSignupbtn: false,
       signinBTNLink: "/sellers/all-categories?f_values=ECO_FRIENDLY",
       signinBTNText: "EXPLORE NOW",
-      mobileImg: "https://cdn.qalara.com/images/Img_Homepage_Banner-1-mob.jpg",
+      mobileImg: "https://cdn.qalara.com/images/Img_Homepage_Banner-mob.jpg",
       alt: "Qalara your one-stop-shop for wholesale",
     },
     {

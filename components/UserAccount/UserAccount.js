@@ -106,10 +106,10 @@ const UserAccount = (props) => {
   const [meetingByStatusList, setMeetingByStatusList] = useState([]);
   const [loadCount, setLoadCount] = useState(1);
   const [showOrderDetails, setShowOrderDetails] = useState(false);
-  const [orderText, setOrderText] = useState("")
+  const [orderText, setOrderText] = useState("");
   const [collectionName, setCollectionName] = useState("");
   const [showCollectionDetails, setCollectionDetails] = useState(false);
-console.log(orderText)
+  console.log(orderText);
   const settings = {
     infinite: false,
     speed: 500,
@@ -1146,7 +1146,14 @@ console.log(orderText)
           justify="center"
           style={{ paddingTop: "2%", background: "#f9f7f2" }}
         >
-          <Col xs={0} sm={0} md={6} lg={6} xl={6}>
+          <Col
+            xs={0}
+            sm={0}
+            md={5}
+            lg={5}
+            xl={5}
+            style={{ flex: "none", maxWidth: "100%" }}
+          >
             <Row justify="space-between">
               <Col
                 xs={24}
@@ -1177,7 +1184,8 @@ console.log(orderText)
                       className="qa-fs-12 qa-font-san"
                       style={{ lineHeight: "110%", letterSpacing: "0.01em" }}
                     >
-                      Order id #{orderText.orderId} / {orderText.subOrders[orderText.subIndex].id}
+                      Order id #{orderText.orderId} /{" "}
+                      {orderText.subOrders[orderText.subIndex].id}
                     </span>
                   </Breadcrumb.Item>
                 </Breadcrumb>
@@ -1732,18 +1740,12 @@ console.log(orderText)
           )}
 
           {currentNav == "orders" ? (
-            mediaMatch.matches ? (
-              <Orderss
-                handleShowOrder={handleShowOrder}
-                showOrderDetails={showOrderDetails}
-                setOrderText={setOrderText}
-              />
-            ) : (
-              <OrdersMobile
-                handleShowOrder={handleShowOrder}
-                showOrderDetails={showOrderDetails}
-              />
-            )
+            <Orderss
+              handleShowOrder={handleShowOrder}
+              showOrderDetails={showOrderDetails}
+              setOrderText={setOrderText}
+              mediaMatch={window.matchMedia("(max-width: 780px)").matches}
+            />
           ) : (
             ""
           )}
@@ -2096,27 +2098,6 @@ console.log(orderText)
                   />,
                 ]
               : null}
-            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-              <div className="left-services">
-                <p className="heading">
-                  Services
-                  <br />
-                  launching soon
-                </p>
-                <p className="para1">
-                  Digital Trade Fairs.
-                  <br />
-                  Partner Verifications.
-                  <br />
-                  Financial Services.
-                  <br />
-                  Collaborative Design Tools.
-                  <br />
-                  Intelligent Supply Chain.
-                </p>
-                {/* <p className='para2'>Get early access by sending a “request a quote” with your needs.</p> */}
-              </div>
-            </Col>
             <Col
               xs={24}
               sm={24}
