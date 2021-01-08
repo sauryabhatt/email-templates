@@ -711,6 +711,10 @@
     display: inline-block;
     /* width: 20%; */
     padding: 5px 20px;
+    border-radius: 60px;
+    border-color:rgba(135, 68, 57, 0.6);
+    background: #874439; 
+    margin-left: 30px;   
   }
   .login-modal-signup-btn a.button {
     padding:14px 18px;
@@ -723,7 +727,6 @@
     display: inline-block;
     vertical-align: middle;
     width: 70%;
-<<<<<<< HEAD
     padding: 0px 3px 0px 3px ;
     color:#f9f7f2;
   }
@@ -749,13 +752,6 @@
   }
   .sign-in-account {
     line-height: 17px;
-=======
-  }
-  #product-description .pdp-collection-sec .pdp-stc-icon {
-    display: inline-block;
-    width: 30%;
-    text-align: right;
->>>>>>> 5e4c9e5a424daf150528dbfefd9026a404abd02c
   }
   #product-description .product-org-section {
     padding: 0px;
@@ -769,13 +765,8 @@
     font-family: senregular;
     line-height: 100%;
     text-align: right;
-<<<<<<< HEAD
     color: #faf9f9;
     /* font-weight: bold; */
-=======
-    color: #874439;
-    font-weight: bold;
->>>>>>> 5e4c9e5a424daf150528dbfefd9026a404abd02c
     font-size: 14px;
   }
   #product-description .acc-sub-title {
@@ -883,6 +874,7 @@
     width: 80%;
   }
 }
+
 .pd-pincode-modal .heading {
   font-family: Butler;
   font-weight: 500;
@@ -1005,7 +997,6 @@
   font-size: 14px;
   font-family: senregular;
   font-weight: 500;
-<<<<<<< HEAD
   margin-top: 1px;
   line-height: 130%;
 }
@@ -1128,10 +1119,6 @@
 } */
 
 /* Sign Up Button Media Queries End */
-=======
-  margin-top: 10px;
-}
->>>>>>> 5e4c9e5a424daf150528dbfefd9026a404abd02c
 #product-description .lock-outline-sec {
   position: absolute;
   top: 0px;
@@ -1239,6 +1226,7 @@
     .image-gallery-image {
     max-height: calc(60vh - 110px);
   }
+  
 }
 #product-description button.ant-btn.add-to-bag-button.ant-btn-loading {
   background-color: #f9f7f2;
@@ -1249,7 +1237,6 @@
   display: none;
 }
 .qa-hover:hover {
-<<<<<<< HEAD
   color: #191919;
 }
 #product-description .atc-icon{
@@ -1453,27 +1440,6 @@
 }
 /*Overlay end*/
 
-=======
-  color: #d9bb7f;
-}
-#product-description .save-collection {
-  vertical-align: middle;
-  margin-right: 5px;
-  text-align: right;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-  font-size: 12px;
-  color: #874439;
-  font-family: senregular;
-  font-weight: bold;
-  cursor: pointer;
-}
-#product-description .atc-section {
-  text-align: right;
-  margin-bottom: 5px;
-  margin-right: 10px;
-}
->>>>>>> 5e4c9e5a424daf150528dbfefd9026a404abd02c
 .qty-tooltip .ant-tooltip-inner {
   width: 208px;
 }
@@ -1487,6 +1453,5 @@
 #product-description .product-list-details .qa-offer-text {
   font-size: 12px;
 }
-#product-description .form-item.m-product-qty .ant-form-item-explain {
-  margin-bottom: 10px;
-}
+
+
