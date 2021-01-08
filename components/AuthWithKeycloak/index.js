@@ -87,8 +87,8 @@ function AuthWithKeycloak(props) {
     <SSRKeycloakProvider
       keycloakConfig={keycloakCfg}
       persistor={SSRCookies(cookies)}
-      keycloak={keycloak}
-      initConfig={keycloakProviderInitConfig}
+      // keycloak={keycloak}
+      // initConfig={keycloakProviderInitConfig}
       // onEvent={onKeycloakEvent}
       // onTokens={onKeycloakTokens}
       // LoadingComponent={<Spinner/>}
