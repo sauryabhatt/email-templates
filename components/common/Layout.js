@@ -79,7 +79,7 @@ export const Layout = ({ children, meta = {} }) => {
     }
 
     if (keycloak?.token) {
-      if (!getCookie("existingUserV3")) {
+      if (!getCookie("existingUserV2")) {
         document.cookie = `existingUserV2=true; Path=/;`;
         document.cookie =
           "appToken=; Expires=Thu, 01 Jan 1970 00:00:01 GMT; Path=/;";
