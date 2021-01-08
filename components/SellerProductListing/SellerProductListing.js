@@ -108,14 +108,7 @@ const SellerProductListing = (props) => {
     if (instanceType === "clear") {
       router.push(
         {
-          pathname:
-            window.location.protocol +
-            "//" +
-            window.location.host +
-            "/seller/" +
-            router.query.sellerId +
-            "/" +
-            router.query.categoryId,
+          pathname: window.location.pathname,
         },
         undefined,
         { shallow: true }
@@ -123,14 +116,7 @@ const SellerProductListing = (props) => {
     } else {
       router.push(
         {
-          pathname:
-            window.location.protocol +
-            "//" +
-            window.location.host +
-            "/seller/" +
-            router.query.sellerId +
-            "/" +
-            router.query.categoryId,
+          pathname: window.location.pathname,
           query: tempObj,
         },
         undefined,

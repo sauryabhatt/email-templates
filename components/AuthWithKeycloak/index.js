@@ -19,17 +19,12 @@ const redirectUriForApp = {
 };
 
 export const loginToApp = (keycloak, options) => {
-  console.log(options.currentPath);
   if (options && options.currentPath) {
     if (redirectUriForApp[options.currentPath]) {
       keycloak.login({
         redirectUri: process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN,
       });
     } else {
-      console.log(
-        process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN +
-          options.currentPath
-      );
       keycloak.login({
         redirectUri:
           process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN +
@@ -87,8 +82,8 @@ function AuthWithKeycloak(props) {
     <SSRKeycloakProvider
       keycloakConfig={keycloakCfg}
       persistor={SSRCookies(cookies)}
-      keycloak={keycloak}
-      initConfig={keycloakProviderInitConfig}
+      // keycloak={keycloak}
+      // initConfig={keycloakProviderInitConfig}
       // onEvent={onKeycloakEvent}
       // onTokens={onKeycloakTokens}
       // LoadingComponent={<Spinner/>}
