@@ -107,8 +107,7 @@ const ProductListing = (props) => {
       if (instanceType === "clear") {
         router.push(
           {
-            pathname:
-              window.location.protocol + "//" + window.location.host + "/gb",
+            pathname: window.location.pathname,
           },
           undefined,
           { shallow: true }
@@ -116,8 +115,7 @@ const ProductListing = (props) => {
       } else {
         router.push(
           {
-            pathname:
-              window.location.protocol + "//" + window.location.host + "/gb",
+            pathname: window.location.pathname,
             query: tempObj,
           },
           undefined,
@@ -128,12 +126,7 @@ const ProductListing = (props) => {
       if (instanceType === "clear") {
         router.push(
           {
-            pathname:
-              window.location.protocol +
-              "//" +
-              window.location.host +
-              "/products/" +
-              router.query.categoryId,
+            pathname: window.location.pathname,
           },
           undefined,
           { shallow: true }
@@ -141,12 +134,7 @@ const ProductListing = (props) => {
       } else {
         router.push(
           {
-            pathname:
-              window.location.protocol +
-              "//" +
-              window.location.host +
-              "/products/" +
-              router.query.categoryId,
+            pathname: window.location.pathname,
             query: tempObj,
           },
           undefined,
