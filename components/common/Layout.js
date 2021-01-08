@@ -11,10 +11,8 @@ import { setAuth, getUserProfile } from "../../store/actions";
 import store from "../../store";
 import _ from "lodash";
 import { getCookie } from "../common/Auth";
-import { useCookies } from "react-cookie";
 
 export const Layout = ({ children, meta = {} }) => {
-  const [cookie, setCookie, removeCookie] = useCookies(["appToken"]);
   const [isShowRibbon, setShowRibbon] = useState(true);
   const { keycloak } = useKeycloak();
   const router = useRouter();
@@ -79,9 +77,7 @@ export const Layout = ({ children, meta = {} }) => {
           });
       }
     }
-    if (cookie.appToken) {
-      removeCookie("appToken");
-    }
+
     if (keycloak?.token) {
       if (!getCookie("appToken")) {
         document.cookie = `appToken=${keycloak.token}; path=/;`;

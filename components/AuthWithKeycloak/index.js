@@ -89,7 +89,7 @@ function AuthWithKeycloak(props) {
     <SSRKeycloakProvider
       keycloakConfig={keycloakCfg}
       persistor={SSRCookies(cookiePersistor)}
-      // keycloak={keycloak}
+      keycloak={keycloak}
       initConfig={keycloakProviderInitConfig}
       // onEvent={onKeycloakEvent}
       // onTokens={onKeycloakTokens}
