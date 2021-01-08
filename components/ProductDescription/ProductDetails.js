@@ -1020,8 +1020,8 @@ const ProductDetails = (props) => {
       );
     }
   }
-
   return (
+    <React.Fragment>
     <div id="product-description" className="product-description qa-font-san">
       <Row>
         <Col xs={0} sm={0} md={0} lg={24} xl={24}>
@@ -1147,6 +1147,35 @@ const ProductDetails = (props) => {
                       }}
                     />
                   )}
+                </div>
+                <div style={{ display: (overlayDiv ? 'block' : 'none') }} className="overlay-div">
+                  <div className="cross-icon">
+                    <CloseOutlined onClick={hideOverlayDiv} />
+                  </div>
+                <div className="overlay">
+                  <div className="save-to-overlay">
+                    <div className="save-overlay-collection">Save to collection
+                    <Icon
+                      component={addToCollectionIcon}
+                      className="overlay-atc-icon"
+                      style={{
+                        width: "15px",
+                        height:"15px",
+                        verticalAlign: "middle",
+                      }}
+                    />
+                    </div>
+                  </div>
+                  <div className="save-col-overlay">
+                  <div>
+                    <h6 className="overlay-heading">Qalara tips</h6>
+                    <p className="overlay-click">(Click to dismiss)</p>
+                    <p className="overlay-para">Easily send a single Request for Quote 
+                    for multiple products using the new
+                    <b> 'save to collection'</b> feature!</p>
+                  </div>
+                  </div>
+                </div>
                 </div>
               </Col>
             </Row>
@@ -2091,6 +2120,7 @@ const ProductDetails = (props) => {
                         fontSize: "15px",
                         verticalAlign: "middle",
                       }}
+                      className="pdp-fw-arrow"
                     />
                   </span>
                 </div>
@@ -3800,8 +3830,8 @@ const ProductDetails = (props) => {
         closable={false}
         onCancel={handleCancel}
         centered
-        bodyStyle={{ padding: "30px" }}
-        width={400}
+        bodyStyle={{ padding: "40px", backgroundColor:"#F9F7F2"}}
+        width={700}
         className="product-login-modal"
       >
         <div className="qa-rel-pos">
@@ -3823,16 +3853,31 @@ const ProductDetails = (props) => {
           <div id="product-login-modal">
             <div className="product-login-modal-content">
               <p className="product-login-modal-para">
-                Please signin/signup to proceed
+                "If you would like to request for quote for multiple products,
+                you can now use our new Save To Collection feature and send a combined Quote request easily"
               </p>
             </div>
-            <Button className="qa-button product-sign-in-btn" onClick={signIn}>
-              Sign in / Sign up
-            </Button>
+            <div  className="product-login-modal-content">
+              <p className="product-login-modal-para">
+                <div class="login-modal-signup-btn">
+                  <a href="/signup" class="button">
+                    <span class="login-modal-sign-up-text-icon">
+                      <svg width="22" height="21" viewBox="0 0 22 21" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.9 5.14855L8.36 6.7041L11.22 9.59299H0V11.8152H11.22L8.36 14.7041L9.9 16.2597L15.4 10.7041L9.9 5.14855ZM19.8 18.4819H11V20.7041H19.8C21.01 20.7041 22 19.7041 22 18.4819V2.92632C22 1.7041 21.01 0.704102 19.8 0.704102H11V2.92632H19.8V18.4819Z" fill="#191919"></path></svg> 
+                    </span>
+                    <span class="login-modal-sign-up-text">Sign Up as a buyer</span>
+                  </a>
+                </div>
+              </p>
+            </div>
+            
+            <div className="product-login-modal-content last-para">
+              <p className="product-login-modal-para sign-in-account">
+                Already have an account?  <span style={{textDecoration: "underline"}} className="qa-sm-color qa-cursor" onClick={signIn}>Sign in here</span> 
+              </p>
+            </div>
           </div>
         </div>
       </Modal>
-
       <Drawer
         placement={mobile ? "bottom" : "right"}
         closable={false}
@@ -3852,10 +3897,10 @@ const ProductDetails = (props) => {
           token={token}
         />
       </Drawer>
-    </div>
+    </div>  
+    </React.Fragment>
   );
 };
-
 const mapStateToProps = (state) => {
   return {
     cart: state.checkout.cart,
@@ -3870,6 +3915,5 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { checkInventory, getCollections })(
-  ProductDetails
-);
+export default connect(mapStateToProps, { checkInventory, getCollections })(ProductDetails);
+ 
