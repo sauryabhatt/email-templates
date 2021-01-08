@@ -114,7 +114,6 @@ function AppHeader(props) {
   };
 
   const handleLogin = () => {
-    console.log(router);
     // loginToApp(keycloak, { currentPath: router.asPath.split("?")[0] });
     loginToApp(keycloak, { currentPath: router.asPath });
   };

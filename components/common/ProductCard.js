@@ -26,9 +26,9 @@ function ProductCard(props) {
   };
 
   const signIn = () => {
+    loginToApp(keycloak, { currentPath: router.asPath });
     e.stopPropagation();
     e.preventDefault();
-    loginToApp(keycloak, { currentPath: router.asPath.split("?")[0] });
   };
 
   let productDetails = props.data;
