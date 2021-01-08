@@ -13,8 +13,8 @@ import {
 // import Spinner from '../Spinner/Spinner';
 
 const keycloakProviderInitConfig = {
-  // onLoad: "check-sso",
-  onLoad: "login-required",
+  onLoad: "check-sso",
+  // onLoad: "login-required",
   flow: "implicit",
   checkLoginIframe: false,
 };
@@ -43,7 +43,7 @@ export const loginToApp = (keycloak, options) => {
 };
 
 export const logoutFromApp = (keycloak, options) => {
-  document.cookie = "appToken=; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+  document.cookie = "appToken=; Expires=Thu, 01 Jan 1970 00:00:01 GMT; Path=/;";
   if (options && options.currentPath) {
     keycloak.logout({
       redirectUri:
@@ -88,7 +88,7 @@ function AuthWithKeycloak(props) {
   return (
     <SSRKeycloakProvider
       keycloakConfig={keycloakCfg}
-      persistor={SSRCookies(cookiePersistor)}
+      persistor={SSRCookies(cookies)}
       keycloak={keycloak}
       initConfig={keycloakProviderInitConfig}
       // onEvent={onKeycloakEvent}
