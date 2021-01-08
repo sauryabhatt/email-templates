@@ -36,21 +36,6 @@ export const Layout = ({ children, meta = {} }) => {
       : false;
 
   useEffect(() => {
-    if (!getCookie("existingUserV2")) {
-      document.cookie = `existingUserV2=true; Path=/;`;
-      document.cookie =
-        "appToken=; Expires=Thu, 01 Jan 1970 00:00:01 GMT; Path=/;";
-      document.cookie =
-        "appToken=; Expires=Thu, 01 Jan 1970 00:00:01 GMT; Path=/product/;";
-      document.cookie =
-        "appToken=; Expires=Thu, 01 Jan 1970 00:00:01 GMT; Path=/products/;";
-      document.cookie =
-        "appToken=; Expires=Thu, 01 Jan 1970 00:00:01 GMT; Path=/seller/;";
-      document.cookie =
-        "appToken=; Expires=Thu, 01 Jan 1970 00:00:01 GMT; Path=/sellers/;";
-    }
-  }, []);
-  useEffect(() => {
     if (!getCookie("appToken")) {
       if (keycloak?.authenticated) {
         keycloak
@@ -94,9 +79,22 @@ export const Layout = ({ children, meta = {} }) => {
     }
 
     if (keycloak?.token) {
-      // if (!getCookie("appToken")) {
-      document.cookie = `appToken=${keycloak.token}; Path=/;`;
-      // }
+      if (!getCookie("existingUserV3")) {
+        document.cookie = `existingUserV2=true; Path=/;`;
+        document.cookie =
+          "appToken=; Expires=Thu, 01 Jan 1970 00:00:01 GMT; Path=/;";
+        document.cookie =
+          "appToken=; Expires=Thu, 01 Jan 1970 00:00:01 GMT; Path=/product/;";
+        document.cookie =
+          "appToken=; Expires=Thu, 01 Jan 1970 00:00:01 GMT; Path=/products/;";
+        document.cookie =
+          "appToken=; Expires=Thu, 01 Jan 1970 00:00:01 GMT; Path=/seller/;";
+        document.cookie =
+          "appToken=; Expires=Thu, 01 Jan 1970 00:00:01 GMT; Path=/sellers/;";
+      }
+      if (!getCookie("appToken")) {
+        document.cookie = `appToken=${keycloak.token}; Path=/;`;
+      }
 
       keycloak
         .loadUserProfile()
