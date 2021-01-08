@@ -19,6 +19,7 @@ import Icon, {
   MinusOutlined,
   CheckCircleOutlined,
   RightOutlined,
+  CloseOutlined
 } from "@ant-design/icons";
 import BreadCrumb from "../common/BreadCrumb";
 import Accordion from "../common/Accordion";
@@ -211,6 +212,7 @@ const ProductDetails = (props) => {
   const [variantId, setVariantId] = useState();
   const [zoomImg, setZoomImg] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
+  const [overlayDiv, setOverlayDiv] = useState(true);{/**overlay div */}
   const [nonServiceableCountry, setNonServiceableCountry] = useState(false);
   const [selProductId, setSelProductId] = useState("");
   const [showCart, setCart] = useState(false);
@@ -275,9 +277,7 @@ const ProductDetails = (props) => {
     let { variants = [], skus = [], deliveryExclusions = [] } = data || {};
     let color = "";
     let variantId = "";
-
     let index = 0;
-
     if (destinationCountry && deliveryExclusions) {
       setUCountry(destinationCountry);
       index = deliveryExclusions.findIndex(
@@ -728,7 +728,11 @@ const ProductDetails = (props) => {
   const hideCalculationModal = () => {
     setCalculationModal(false);
   };
-
+  {/**overlay div */}
+  const hideOverlayDiv = () => {
+    setOverlayDiv(false);
+  };
+  
   const onCalculateCharges = (values) => {
     let { quantity = "", country = "", postalCode = "" } = values || {};
     let a_data = {
@@ -739,7 +743,7 @@ const ProductDetails = (props) => {
         {
           hsnCode: hsnCode,
           casePackLength: parseInt(casePackLength),
-          exFactoryPrice: parseInt(exfactoryListPrice),
+          exFactoryPrice: exFactoryPrice,
           casePackBreadth: parseInt(casePackBreadth),
           casePackWeight: parseInt(casePackWeight),
           casePackHeight: parseInt(casePackHeight),
@@ -1020,8 +1024,8 @@ const ProductDetails = (props) => {
       );
     }
   }
+
   return (
-    <React.Fragment>
     <div id="product-description" className="product-description qa-font-san">
       <Row>
         <Col xs={0} sm={0} md={0} lg={24} xl={24}>
@@ -1108,8 +1112,9 @@ const ProductDetails = (props) => {
               vanityId={vanityId}
               brandName={sellerCode} //{brandNameSC}
             />
+            
           </div>
-          {showPrice ? (
+          
             <Row>
               <Col
                 xs={24}
@@ -1119,15 +1124,20 @@ const ProductDetails = (props) => {
                 xl={10}
                 style={{ paddingRight: "30px" }}
               >
+                       
                 <div
                   className="atc-section"
                   onClick={() => {
-                    setCollection(true);
-                  }}
-                >
-                  <span className="save-collection">
-                    {selectedCollection ? "SAVED" : "SAVE TO COLLECTION"}
-                  </span>
+                    if(showPrice){
+                      setCollection(true);
+                    }else{
+                      setLoginModal(true);
+                    }
+                   }}>
+                   
+                    <span className="save-collection">
+                      {selectedCollection ? "SAVED" : "SAVE TO COLLECTION"}
+                    </span>           
                   {selectedCollection ? (
                     <Icon
                       component={savedToCollectionIcon}
@@ -1179,18 +1189,6 @@ const ProductDetails = (props) => {
                 </div>
               </Col>
             </Row>
-          ) : (
-            <Row>
-              <Col
-                xs={24}
-                sm={24}
-                md={24}
-                lg={24}
-                xl={24}
-                className="qa-mar-top-2"
-              ></Col>
-            </Row>
-          )}
           <Row className="qa-mar-auto-4 qa-mar-btm-4 image-gallery img-section">
             {galleryImages.length > 0 && (
               <Col
@@ -1202,6 +1200,7 @@ const ProductDetails = (props) => {
                 xl={10}
                 style={{ paddingRight: "30px", position: "relative" }}
               >
+               
                 <div className="product-list-details">
                   <span className="product-order-type">
                     {productType === "RTS" && skuId
@@ -2125,11 +2124,15 @@ const ProductDetails = (props) => {
                   </span>
                 </div>
               )}
-              {showPrice && (
                 <div
                   className="pdp-collection-sec"
                   onClick={() => {
-                    setCollection(true);
+                    if(showPrice){
+                      setCollection(true);
+                    }else{
+                      setLoginModal(true);
+                    }
+                    
                   }}
                 >
                   <div className="pdp-stc">
@@ -2159,7 +2162,37 @@ const ProductDetails = (props) => {
                     )}
                   </div>
                 </div>
-              )}
+                <div style={{ display: (overlayDiv ? 'block' : 'none') }} className="pdp-overlay-div">
+                  
+                <div className="pdp-overlay">
+            
+                  <div className="pdp-save-col-overlay">
+                  <div className="pdp-save-to-overlay">
+                    <div className="pdp-save-overlay-collection">Save to collection
+                    <Icon
+                      component={addToCollectionIcon}
+                      className="pdp-overlay-atc-icon"
+                      style={{
+                        width: "15px",
+                        height:"15px",
+                        verticalAlign: "middle",
+                      }}
+                    />
+                    </div>
+                  </div>
+                  <div>
+                    <h6 className="pdp-overlay-heading">Qalara tips</h6>
+                    <p className="pdp-overlay-click">(Click to dismiss)</p>
+                    <p>Easily send a single Request for Quote 
+                    for multiple products using the new
+                    'save to collection' feature!</p>
+                  </div>
+                  </div>
+                </div>
+                <CloseOutlined className="pdp-cross-icon" onClick={hideOverlayDiv} />
+                </div>
+
+              
             </Col>
           </Row>
           <Row className="qa-mar-btm-4">
@@ -2401,7 +2434,7 @@ const ProductDetails = (props) => {
                         </div>
                         <Form.Item
                           name="quantity"
-                          className="form-item m-product-qty"
+                          className="form-item"
                           rules={[
                             {
                               required: true,
@@ -2434,14 +2467,11 @@ const ProductDetails = (props) => {
                               <Input value="" className="p-text-box" />
                             </Tooltip>
                           )}
+                          <div className="qa-font-san qa-fs-12 qa-blue qa-mar-top-1 qa-lh">
+                            *For large quantities, please submit the{" "}
+                            <b>'get quote'</b> form for unbeatable prices!
+                          </div>
                         </Form.Item>
-                        <div
-                          className="qa-font-san qa-fs-12 qa-blue qa-mar-btm-1 qa-lh"
-                          style={{ marginTop: "-15px" }}
-                        >
-                          *For large quantities, please submit the{" "}
-                          <b>'get quote'</b> form for unbeatable prices!
-                        </div>
                       </Col>
                     </Row>
                     <Row>
@@ -3248,6 +3278,7 @@ const ProductDetails = (props) => {
         centered
         bodyStyle={{ padding: "30px", backgroundColor: "#f9f7f2" }}
         width={600}
+        
       >
         <div>
           <div
@@ -3852,6 +3883,20 @@ const ProductDetails = (props) => {
           </div>
           <div id="product-login-modal">
             <div className="product-login-modal-content">
+              <p className="product-login-modal-para" style={{color:"#af0000"}}>
+              To save a product to collection, please sign up as a buyer
+              </p>
+              
+            </div>
+            <div className="product-login-modal-content">
+              <h1 className="product-login-modal-para heading" >Introducing</h1>
+                
+            </div>
+            <div className="product-login-modal-para">
+              <h1 className="product-login-modal-para  sub-heading">Save to collection!</h1>
+                
+            </div>
+            <div  className="product-login-modal-content">
               <p className="product-login-modal-para">
                 "If you would like to request for quote for multiple products,
                 you can now use our new Save To Collection feature and send a combined Quote request easily"
@@ -3897,10 +3942,10 @@ const ProductDetails = (props) => {
           token={token}
         />
       </Drawer>
-    </div>  
-    </React.Fragment>
+    </div>
   );
 };
+
 const mapStateToProps = (state) => {
   return {
     cart: state.checkout.cart,
@@ -3915,5 +3960,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { checkInventory, getCollections })(ProductDetails);
- 
+export default connect(mapStateToProps, { checkInventory, getCollections })(
+  ProductDetails
+);
