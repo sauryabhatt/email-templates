@@ -79,7 +79,14 @@ export const Layout = ({ children, meta = {} }) => {
     }
 
     if (keycloak?.token) {
-      document.cookie = `appToken=${keycloak.token}; path=/;`;
+      if (!getCookie("appToken")) {
+        document.cookie = `appToken=${keycloak.token}; path=/;`;
+      }
+      if (!getCookie("existingUser")) {
+        document.cookie = `existingUser=true; path=/;`;
+        document.cookie =
+          "appToken=; path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+      }
       keycloak
         .loadUserProfile()
         .then((profile) => {
