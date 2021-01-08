@@ -79,9 +79,9 @@ export const Layout = ({ children, meta = {} }) => {
     }
 
     if (keycloak?.token) {
-      if (!getCookie("appToken")) {
-        document.cookie = `appToken=${keycloak.token}; path=/;`;
-      }
+      //   if (!getCookie("appToken")) {
+      document.cookie = `appToken=${keycloak.token}; path=/;`;
+      // }
       if (!getCookie("existingUserV2")) {
         document.cookie = `existingUserV2=true; path=/;`;
         document.cookie =
