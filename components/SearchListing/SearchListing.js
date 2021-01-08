@@ -121,14 +121,7 @@ const SearchListing = (props) => {
     if (instanceType === "clear") {
       router.push(
         {
-          pathname:
-            window.location.protocol +
-            "//" +
-            window.location.host +
-            "/search/" +
-            router.query.searchBy +
-            "/" +
-            encodeURIComponent(router.query.search),
+          pathname: window.location.pathname,
         },
         undefined,
         { shallow: true }
@@ -136,14 +129,7 @@ const SearchListing = (props) => {
     } else {
       router.push(
         {
-          pathname:
-            window.location.protocol +
-            "//" +
-            window.location.host +
-            "/search/" +
-            router.query.searchBy +
-            "/" +
-            encodeURIComponent(router.query.search),
+          pathname: window.location.pathname,
           query: tempObj,
         },
         undefined,
