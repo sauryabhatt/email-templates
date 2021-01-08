@@ -6,17 +6,11 @@ import {
   SSRCookies,
   useKeycloak,
   Cookies,
-  ExpressCookies,
 } from "@react-keycloak/ssr";
-// import store from '../../store';
-// import {setAuth, getUserProfile} from '../../store/actions';
-// import Spinner from '../Spinner/Spinner';
 
 const keycloakProviderInitConfig = {
   onLoad: "check-sso",
-  // onLoad: "login-required",
   flow: "implicit",
-  checkLoginIframe: false,
 };
 const redirectUriForApp = {
   "/": "/check-user-status",
@@ -88,7 +82,7 @@ function AuthWithKeycloak(props) {
   return (
     <SSRKeycloakProvider
       keycloakConfig={keycloakCfg}
-      persistor={SSRCookies(cookiePersistor)}
+      persistor={SSRCookies(cookies)}
       keycloak={keycloak}
       initConfig={keycloakProviderInitConfig}
       // onEvent={onKeycloakEvent}
