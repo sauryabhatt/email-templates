@@ -67,6 +67,7 @@ function MyApp(props) {
   );
 }
 function parseCookies(req) {
+  Cookies.remove("appToken");
   if (!req || !req.headers) {
     return {};
   }
