@@ -5,6 +5,7 @@ import ProductDescription from "../../components/ProductDescription/ProductDescr
 import Spinner from "../../components/Spinner/Spinner";
 import { useRouter } from "next/router";
 import NotFound from "../../components/NotFound/NotFound";
+import Cookies from "js-cookie";
 
 export default function ProductDescriptionPage({ data, articleId }) {
   const router = useRouter();
@@ -16,7 +17,7 @@ export default function ProductDescriptionPage({ data, articleId }) {
     description:
       `Looking to buy ${data?.productDetails?.productName} from Indian exporters? Buy wholesale, connect with hundreds of verified manufacturers and trade online!` ||
       "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods - Décor, Rugs and Carpets, Kitchen, Home Furnishings – from India. Digitally. Reliably. Affordably. Responsibly.",
-    keywords:`${data?.productDetails?.productName} sellers, handcrafted online, Wholesale ${data?.productDetails?.productName} , source ${data?.productDetails?.productName}  online, ${data?.productDetails?.productName}  manufacturers, ${data?.productDetails?.productName}  exporters`,
+    keywords: `${data?.productDetails?.productName} sellers, handcrafted online, Wholesale ${data?.productDetails?.productName} , source ${data?.productDetails?.productName}  online, ${data?.productDetails?.productName}  manufacturers, ${data?.productDetails?.productName}  exporters`,
     url: "/product/" + articleId,
   };
 
@@ -46,8 +47,11 @@ export async function getStaticPaths() {
 }
 
 export const getStaticProps = async ({ params: { articleId = "" } = {} }) => {
-  let res={};
+  let res = {};
   const error = { status: false };
+  let cookieName = Cookies.get("appToken");
+  console.log("Cookie ", cookieName);
+  Cookies.remove("appToken", { path: "" });
   try {
     const response = await fetch(
       process.env.NEXT_PUBLIC_REACT_APP_API_PRODUCT_DESCRIPTION_URL +
@@ -61,9 +65,11 @@ export const getStaticProps = async ({ params: { articleId = "" } = {} }) => {
     );
 
     res["productDetails"] = await response.json();
-    const {sellerCode} = await res.product_details || {};
-    const responseListingPage = await fetch(process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL + 
-      `/splpv2?from=0&size=30&sort_by=minimumOrderQuantity&sort_order=ASC&sellerId=${sellerCode}`);
+    const { sellerCode } = (await res.product_details) || {};
+    const responseListingPage = await fetch(
+      process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL +
+        `/splpv2?from=0&size=30&sort_by=minimumOrderQuantity&sort_order=ASC&sellerId=${sellerCode}`
+    );
     res["listingPage"] = await responseListingPage.json();
   } catch (error) {
     error["status"] = true;

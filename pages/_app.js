@@ -53,7 +53,7 @@ function MyApp(props) {
   );
 }
 function parseCookies(req) {
-  Cookies.remove("appToken");
+  Cookies.remove("appToken", { path: "" });
   if (!req || !req.headers) {
     return {};
   }
