@@ -5,7 +5,6 @@ import ProductDescription from "../../components/ProductDescription/ProductDescr
 import Spinner from "../../components/Spinner/Spinner";
 import { useRouter } from "next/router";
 import NotFound from "../../components/NotFound/NotFound";
-import Cookies from "js-cookie";
 
 export default function ProductDescriptionPage({ data, articleId }) {
   const router = useRouter();
@@ -49,9 +48,6 @@ export async function getStaticPaths() {
 export const getStaticProps = async ({ params: { articleId = "" } = {} }) => {
   let res = {};
   const error = { status: false };
-  let cookieName = Cookies.get("appToken");
-  console.log("Cookie ", cookieName);
-  Cookies.remove("appToken", { path: "" });
   try {
     const response = await fetch(
       process.env.NEXT_PUBLIC_REACT_APP_API_PRODUCT_DESCRIPTION_URL +
