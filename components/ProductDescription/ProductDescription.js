@@ -34,8 +34,8 @@ const ProductDescription = (props) => {
 
   useEffect(() => {
     let { articleId } = router.query;
-    console.log(cookie);
-    removeCookie("appToken");
+    removeCookie("appToken", { path: "" });
+    removeCookie("appToken", { path: "/product" });
     props.getProductDetails(app_token, articleId);
     setCount(1);
   }, [router.query]);
