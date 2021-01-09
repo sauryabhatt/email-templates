@@ -233,7 +233,7 @@ function Home(props) {
     {
       imageTitle: "Crafted Boho",
       slideText:
-        "Boho cushion covers, rugs, throws, bags & decor; crafted by hand picked sellers, combining local crafts with modern aesthetics for the global audience.",
+        "Boho cushion covers, rugs, throws, bags & decor; crafted by hand picked sellers, combining local crafts with modern aesthetics.",
       imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_1_1.jpg",
       searchText: "GlobalTextures",
       path: "/trends/globaltextures",
