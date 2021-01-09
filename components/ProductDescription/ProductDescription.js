@@ -10,10 +10,12 @@ import {
 } from "../../store/actions";
 import { useKeycloak } from "@react-keycloak/ssr";
 import { useRouter } from "next/router";
+import { useCookies } from "react-cookie";
 const querystring = require("querystring");
 const isServer = () => typeof window == "undefined";
 
 const ProductDescription = (props) => {
+  const [cookie, setCookie, removeCookie] = useCookies(["appToken"]);
   let { userProfile = {}, isLoading } = props;
   let { productDetails, listingPage } = !isServer() ? props : props.data;
   const router = useRouter();
@@ -32,6 +34,8 @@ const ProductDescription = (props) => {
 
   useEffect(() => {
     let { articleId } = router.query;
+    console.log(cookie);
+    removeCookie("appToken");
     props.getProductDetails(app_token, articleId);
     setCount(1);
   }, [router.query]);
