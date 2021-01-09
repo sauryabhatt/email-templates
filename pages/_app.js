@@ -53,7 +53,6 @@ function MyApp(props) {
   );
 }
 function parseCookies(req) {
-  Cookies.remove("appToken", { path: "" });
   if (!req || !req.headers) {
     return {};
   }
@@ -74,12 +73,12 @@ function parseCookies(req) {
   // return cookie.parse(req.headers.cookie || "");
 }
 
-// MyApp.getInitialProps = async ({ ctx }) => {
-//   const { req, res } = ctx || {};
+MyApp.getInitialProps = async ({ ctx }) => {
+  const { req, res } = ctx || {};
 
-//   return {
-//     cookies: parseCookies(req),
-//   };
-// };
+  return {
+    cookies: parseCookies(req),
+  };
+};
 
 export default MyApp;
