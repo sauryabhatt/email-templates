@@ -45,12 +45,12 @@ export default function PressCrousel(props) {
     {
       title: "",
       url: "https://cdn.qalara.com/images/Img_Hotseller1.jpg",
-      linkTo: "/seller/SL10572/baby-and-kids",
+      linkTo: "/seller/SL10519/all-categories",
     },
     {
       title: "",
       url: "https://cdn.qalara.com/images/Img_Hotcollection1.jpg",
-      linkTo: "/seller/SL10697/all-categories",
+      linkTo: "/seller/SL10808/all-categories",
     },
   ];
 
