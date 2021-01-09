@@ -65,7 +65,7 @@ function AuthWithKeycloak(props) {
     clientId: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_CLIENT_ID,
   };
 
-  const cookiePersistor = ExpressCookies(cookies);
+  // const cookiePersistor = ExpressCookies(cookies);
   // const cookiePersistor = new Cookies();
 
   // const onKeycloakEvent = (event, error) => {
@@ -87,7 +87,7 @@ function AuthWithKeycloak(props) {
   return (
     <SSRKeycloakProvider
       keycloakConfig={keycloakCfg}
-      persistor={SSRCookies(cookiePersistor)}
+      persistor={SSRCookies(cookies)}
       keycloak={keycloak}
       initConfig={keycloakProviderInitConfig}
       // onEvent={onKeycloakEvent}
