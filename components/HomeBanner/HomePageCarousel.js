@@ -68,7 +68,7 @@ export default function HomePageCarousel(props) {
       small_text: "", //<span className = "second-img-subhead" > <div><b>5% off</b> on all orders!</div><div>Use coupon code <b>HAPPYHOLIDAYS</b></div></span>,
       //video_link: "",
       isSignupbtn: false,
-      signinBTNLink: "/sellers/all-categories?f_values=ECO_FRIENDLY",
+      signinBTNLink: "/explore/curatedbyus",
       signinBTNText: "EXPLORE NOW",
       mobileImg: "https://cdn.qalara.com/images/Img_Homepage_Banner-mob.jpg",
       alt: "Qalara your one-stop-shop for wholesale",

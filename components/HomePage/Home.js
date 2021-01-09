@@ -223,9 +223,17 @@ function Home(props) {
 
   const craftItems = [
     {
-      imageTitle: "Global textures",
+      imageTitle: "Indigo Blues",
       slideText:
-        "Our wholesale suppliers offer unique decor & textiles, combining local crafts with modern aesthetics, that cater to a global audience. ",
+        "A curated handcrafted indigo collection to drive away the summer blues.",
+      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_9.jpg",
+      searchText: "IndigoBlues",
+      path: "/trends/indigoblues",
+    },
+    {
+      imageTitle: "Crafted Boho",
+      slideText:
+        "Boho cushion covers, rugs, throws, bags & decor; crafted by hand picked sellers, combining local crafts with modern aesthetics for the global audience.",
       imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_1_1.jpg",
       searchText: "GlobalTextures",
       path: "/trends/globaltextures",

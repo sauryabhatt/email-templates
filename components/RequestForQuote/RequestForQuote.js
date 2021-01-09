@@ -103,15 +103,17 @@ function RequestForQuote(props) {
         <div className="rfq-why-us">
           <span className="heading">Why us?</span>
           <p className="paragraph-points">
-            Zero commission promotional offer
-            <br />
             25,000+ products from verified suppliers
+            <br />
+            Air and Sea delivery to 100+ countries
+            <br />
+            Secure payments in major global currencies
+            <br />
+            We quality inspect all goods before dispatch
             <br />
             One-stop-shop from design to delivery
             <br />
-            Secure payments & lowest shipping costs
-            <br />
-            Based in India, with worldwide reach
+            Zero commission promotional offer
           </p>
         </div>
       </div>
