@@ -60,11 +60,17 @@ export default function CuratedByUsWrapper(props) {
       alt:
         "Explore holiday decorations perfect for any celebration from Qalara",
     },*/
+    // {
+    //   url: "/trends/sunkissed-spring21",
+    //   img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend6.jpg",
+    //   text: "Sunlit Spring '21",
+    //   alt: "Sunlit Spring '21",
+    // },
     {
-      url: "/trends/sunkissed-spring21",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend6.jpg",
-      text: "Sunlit Spring '21",
-      alt: "Sunlit Spring '21",
+      url: "/trends/indigoblues",
+      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend8.jpg",
+      text: "Indigo Blues",
+      alt: "Indigo Blues",
     },
     {
       url: "/trends/play-and-learn",
