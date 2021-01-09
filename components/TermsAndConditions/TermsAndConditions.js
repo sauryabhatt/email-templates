@@ -78,50 +78,54 @@ export class TermsAndConditions extends Component {
 
     return (
       <>
-      <div>
-        <div id="banner-container-tandc" style={{marginTop:"-70px"}}>
-          <span className="banner-text">
-            Terms of use
-            <p className="banner-text-small">The fine print.</p>
-          </span>
-        </div>
-        <div id="banner-container-tandc-body">
-          <div id="pdfWrapper" ref={(ref) => (this.pdfWrapper = ref)}>
-            <Document
-              className="react-pdf__Page"
-              file="/Terms of Use_Qalara _WD_v2_2509.pdf"
-              onLoadSuccess={this.onDocumentLoadSuccess}
-              // renderMode='svg'
-              loading={<Spinner />}
-              error="Failed to load document please reload the page."
-            >
-              <Page pageNumber={this.state.pageNumber} width={this.state.width} />
-            </Document>
-            <div className="tnc-footer">
-              <p>
-                {this.state.pageNumber} / {this.state.numPages}
-              </p>
-              <div>
-                <Button
-                  style={{ opacity: "0.7" }}
-                  disabled={this.state.disablePrev}
-                  onClick={this.goToPrevPage}
-                >
-                  <ArrowLeftOutlined />
-                </Button>
-                <Button
-                  style={{ opacity: "0.7" }}
-                  disabled={this.state.disableNext}
-                  onClick={this.goToNextPage}
-                >
-                  <ArrowRightOutlined />
-                </Button>
+        <div>
+          <div id="banner-container-tandc" style={{ marginTop: "-70px" }}>
+            <span className="banner-text">
+              Terms of use
+              <p className="banner-text-small">The fine print.</p>
+            </span>
+          </div>
+          <div id="banner-container-tandc-body">
+            <div id="pdfWrapper" ref={(ref) => (this.pdfWrapper = ref)}>
+              <Document
+                className="react-pdf__Page"
+                file="/Mesindus_interim Terms of Use_080121.pdf"
+                onLoadSuccess={this.onDocumentLoadSuccess}
+                // renderMode='svg'
+                loading={<Spinner />}
+                error="Failed to load document please reload the page."
+              >
+                <Page
+                  pageNumber={this.state.pageNumber}
+                  width={this.state.width}
+                />
+              </Document>
+              <div className="tnc-footer">
+                <p>
+                  {this.state.pageNumber} / {this.state.numPages}
+                </p>
+                <div>
+                  <Button
+                    style={{ opacity: "0.7" }}
+                    disabled={this.state.disablePrev}
+                    onClick={this.goToPrevPage}
+                  >
+                    <ArrowLeftOutlined />
+                  </Button>
+                  <Button
+                    style={{ opacity: "0.7" }}
+                    disabled={this.state.disableNext}
+                    onClick={this.goToNextPage}
+                  >
+                    <ArrowRightOutlined />
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </>);
+      </>
+    );
   }
 }
 
