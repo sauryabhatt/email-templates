@@ -79,7 +79,23 @@ export const Layout = ({ children, meta = {} }) => {
     }
 
     if (keycloak?.token) {
-      document.cookie = `appToken=${keycloak.token}`;
+      //   if (!getCookie("appToken")) {
+      document.cookie = `appToken=${keycloak.token}; path=/;`;
+      // }
+      if (!getCookie("existingUserV2")) {
+        document.cookie = `existingUserV2=true; path=/;`;
+        document.cookie =
+          "appToken=; Expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/;";
+        document.cookie =
+          "appToken=; Expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/product/;";
+        document.cookie =
+          "appToken=; Expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/products/;";
+        document.cookie =
+          "appToken=; Expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/seller/;";
+        document.cookie =
+          "appToken=; Expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/sellers/;";
+      }
+
       keycloak
         .loadUserProfile()
         .then((profile) => {

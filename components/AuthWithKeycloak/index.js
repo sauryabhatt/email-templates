@@ -5,6 +5,8 @@ import {
   SSRKeycloakProvider,
   SSRCookies,
   useKeycloak,
+  Cookies,
+  ExpressCookies,
 } from "@react-keycloak/ssr";
 // import store from '../../store';
 // import {setAuth, getUserProfile} from '../../store/actions';
@@ -13,6 +15,7 @@ import {
 const keycloakProviderInitConfig = {
   onLoad: "check-sso",
   flow: "implicit",
+  checkLoginIframe: false,
 };
 const redirectUriForApp = {
   "/": "/check-user-status",
@@ -39,7 +42,7 @@ export const loginToApp = (keycloak, options) => {
 };
 
 export const logoutFromApp = (keycloak, options) => {
-  document.cookie = "appToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+  document.cookie = "appToken=; path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
   if (options && options.currentPath) {
     keycloak.logout({
       redirectUri:
@@ -59,8 +62,11 @@ function AuthWithKeycloak(props) {
   const keycloakCfg = {
     realm: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_REALM,
     url: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_URL,
-    clientId: "next",
+    clientId: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_CLIENT_ID,
   };
+
+  // const cookiePersistor = ExpressCookies(cookies);
+  // const cookiePersistor = new Cookies();
 
   // const onKeycloakEvent = (event, error) => {
   //     if (event === 'onReady') {
