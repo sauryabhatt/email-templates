@@ -63,6 +63,7 @@
   background: #332f2f;
   color: #f9f7f2;
   padding: 17px 48px;
+  letter-spacing: 0.06em;
 }
 @media only screen and (max-width: 765px) {
   .category-carousel.craft-carousel {
