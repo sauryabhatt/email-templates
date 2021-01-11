@@ -2290,6 +2290,7 @@ const ShippingDetails = (props) => {
                   onClick={() => {
                     setShippingTerm(shipTerm);
                     setShippingModeModal(false);
+                    selectShippingMode(mode);
                   }}
                 >
                   Confirm
