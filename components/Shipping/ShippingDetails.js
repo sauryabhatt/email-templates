@@ -429,12 +429,12 @@ const ShippingDetails = (props) => {
     setShippingModeModal(false);
   };
 
-  const selectShippingMode = (mode) => {
+  const selectShippingMode = (mode, term = shippingTerm) => {
     if (mode) {
       fetch(
         `${
           process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL
-        }/orders/my/${orderId}/${mode}?shippingTerms=${shippingTerm.toUpperCase()}`,
+        }/orders/my/${orderId}/${mode}?shippingTerms=${term.toUpperCase()}`,
         {
           method: "PUT",
           headers: {
@@ -2290,6 +2290,7 @@ const ShippingDetails = (props) => {
                   onClick={() => {
                     setShippingTerm(shipTerm);
                     setShippingModeModal(false);
+                    selectShippingMode(mode, shipTerm);
                   }}
                 >
                   Confirm

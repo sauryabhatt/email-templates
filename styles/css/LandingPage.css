@@ -540,9 +540,7 @@ h6 {
     text-transform: uppercase;
   }
   .scroll-container {
-    width: 140%;
-  }
-  .landing-third-fold .slick-slide .image-wrp {
+    width: 150%;
   }
   .curated-fold .previous-btn {
     top: 10px;
