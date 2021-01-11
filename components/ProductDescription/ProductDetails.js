@@ -1109,14 +1109,14 @@ const ProductDetails = (props) => {
               </Button>
             </Col>
           </Row>
-          <div className="p-breadcrumb qa-mar-auto-4">
+          {/* <div className="p-breadcrumb qa-mar-auto-4">
             <BreadCrumb
               pageId="product-description"
               categoryName={productNameSC}
               vanityId={vanityId}
               brandName={sellerCode} //{brandNameSC}
             />
-          </div>
+          </div> */}
 
           <Row>
             <Col
@@ -1125,10 +1125,10 @@ const ProductDetails = (props) => {
               md={10}
               lg={10}
               xl={10}
-              style={{ paddingRight: "30px" }}
+              style={{ paddingRight: "20px", textAlign: "right" }}
             >
               <div
-                style={{ display: overlayDiv ? "none" : "block" }}
+                style={{ display: overlayDiv ? "none" : "inline-block" }}
                 className="atc-section"
                 onClick={() => {
                   if (showPrice) {
@@ -1146,7 +1146,7 @@ const ProductDetails = (props) => {
                     component={savedToCollectionIcon}
                     className="atc-icon"
                     style={{
-                      width: "15px",
+                      width: "12px",
                       verticalAlign: "middle",
                     }}
                   />
@@ -1154,14 +1154,17 @@ const ProductDetails = (props) => {
                   <Icon
                     component={addToCollectionIcon}
                     style={{
-                      width: "15px",
+                      width: "12px",
                       verticalAlign: "middle",
                     }}
                   />
                 )}
               </div>
               <div
-                style={{ display: overlayDiv ? "block" : "none" }}
+                style={{
+                  display: overlayDiv ? "block" : "none",
+                  textAlign: "left",
+                }}
                 className="overlay-div"
               >
                 <div className="cross-icon">
@@ -1170,7 +1173,7 @@ const ProductDetails = (props) => {
                 <div className="overlay">
                   <div className="save-to-overlay">
                     <div className="save-overlay-collection">
-                      Save to collection
+                      <span className="qa-va-m">Save to collection</span>
                       <Icon
                         component={addToCollectionIcon}
                         className="overlay-atc-icon"
@@ -1178,13 +1181,14 @@ const ProductDetails = (props) => {
                           width: "15px",
                           height: "15px",
                           verticalAlign: "middle",
+                          marginLeft: "5px",
                         }}
                       />
                     </div>
                   </div>
                   <div className="save-col-overlay">
                     <div>
-                      <h6 className="overlay-heading">Qalara tips</h6>
+                      <div className="overlay-heading">Qalara tips</div>
                       <p className="overlay-click">(Click to dismiss)</p>
                       <p className="overlay-para">
                         Easily send a single Request for Quote for multiple
@@ -2153,7 +2157,7 @@ const ProductDetails = (props) => {
                   <div className="pdp-save-col-overlay">
                     <div className="pdp-save-to-overlay">
                       <div className="pdp-save-overlay-collection">
-                        Save to collection
+                        <span className="qa-va-m">Save to collection</span>
                         <Icon
                           component={addToCollectionIcon}
                           className="pdp-overlay-atc-icon"
@@ -2166,7 +2170,7 @@ const ProductDetails = (props) => {
                       </div>
                     </div>
                     <div>
-                      <h6 className="pdp-overlay-heading">Qalara tips</h6>
+                      <div className="pdp-overlay-heading">Qalara tips</div>
                       <p className="pdp-overlay-click">(Click to dismiss)</p>
                       <p>
                         Easily send a single Request for Quote for multiple
@@ -2422,7 +2426,7 @@ const ProductDetails = (props) => {
                         </div>
                         <Form.Item
                           name="quantity"
-                          className="form-item"
+                          className="form-item m-product-qty"
                           rules={[
                             {
                               required: true,
@@ -2455,11 +2459,14 @@ const ProductDetails = (props) => {
                               <Input value="" className="p-text-box" />
                             </Tooltip>
                           )}
-                          <div className="qa-font-san qa-fs-12 qa-blue qa-mar-top-1 qa-lh">
-                            *For large quantities, please submit the{" "}
-                            <b>'get quote'</b> form for unbeatable prices!
-                          </div>
                         </Form.Item>
+                        <div
+                          className="qa-font-san qa-fs-12 qa-blue qa-mar-btm-1 qa-lh"
+                          style={{ marginTop: "-15px" }}
+                        >
+                          *For large quantities, please submit the{" "}
+                          <b>'get quote'</b> form for unbeatable prices!
+                        </div>
                       </Col>
                     </Row>
                     <Row>
@@ -3857,8 +3864,8 @@ const ProductDetails = (props) => {
             onClick={handleCancel}
             style={{
               position: "absolute",
-              right: "-5px",
-              top: "-20px",
+              right: "-25px",
+              top: "-25px",
               cursor: "pointer",
               zIndex: "1",
             }}
@@ -3878,47 +3885,45 @@ const ProductDetails = (props) => {
               </p>
             </div>
             <div className="product-login-modal-content">
-              <h1 className="product-login-modal-para heading">Introducing</h1>
+              <div className="product-login-modal-head sub-heading">
+                Introducing
+              </div>
             </div>
             <div className="product-login-modal-para">
-              <h1 className="product-login-modal-para  sub-heading">
+              <div className="product-login-modal-head sub-heading">
                 Save to collection!
-              </h1>
+              </div>
             </div>
             <div className="product-login-modal-content">
               <p className="product-login-modal-para">
-                "If you would like to request for quote for multiple products,
-                you can now use our new Save To Collection feature and send a
-                combined Quote request easily"
-              </p>
-            </div>
-            <div className="product-login-modal-content">
-              <p className="product-login-modal-para">
-                <div class="login-modal-signup-btn">
-                  <a href="/signup" class="button">
-                    <span class="login-modal-sign-up-text-icon">
-                      <svg
-                        width="22"
-                        height="21"
-                        viewBox="0 0 22 21"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M9.9 5.14855L8.36 6.7041L11.22 9.59299H0V11.8152H11.22L8.36 14.7041L9.9 16.2597L15.4 10.7041L9.9 5.14855ZM19.8 18.4819H11V20.7041H19.8C21.01 20.7041 22 19.7041 22 18.4819V2.92632C22 1.7041 21.01 0.704102 19.8 0.704102H11V2.92632H19.8V18.4819Z"
-                          fill="#191919"
-                        ></path>
-                      </svg>
-                    </span>
-                    <span class="login-modal-sign-up-text">
-                      Sign Up as a buyer
-                    </span>
-                  </a>
-                </div>
+                If you would like to request for quote for multiple products,
+                you can now use our new Save to Collection feature and send a
+                combined Quote request easily
               </p>
             </div>
 
-            <div className="product-login-modal-content last-para">
+            <div className="qa-txt-alg-cnt">
+              <div className="login-modal-signup-btn" onClick={signUp}>
+                <span className="login-modal-sign-up-text-icon">
+                  <svg
+                    width="22"
+                    height="20"
+                    viewBox="0 0 22 20"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9.9 5.14855L8.36 6.7041L11.22 9.59299H0V11.8152H11.22L8.36 14.7041L9.9 16.2597L15.4 10.7041L9.9 5.14855ZM19.8 18.4819H11V20.7041H19.8C21.01 20.7041 22 19.7041 22 18.4819V2.92632C22 1.7041 21.01 0.704102 19.8 0.704102H11V2.92632H19.8V18.4819Z"
+                      fill="#191919"
+                    ></path>
+                  </svg>
+                </span>
+                <span className="login-modal-sign-up-text">
+                  Sign Up as a buyer
+                </span>
+              </div>
+            </div>
+            <div className="product-login-modal-content qa-mar-top-1">
               <p className="product-login-modal-para sign-in-account">
                 Already have an account?{" "}
                 <span

@@ -511,27 +511,15 @@
 @media only screen and (min-width: 707px) and (max-width: 768px) {
   .pdp-cross-icon {
     position: absolute;
-    margin-top: 150px;
+    margin-top: 175x;
     color: black;
-    margin-left: 30px;
+    margin-left: 20px;
     z-index: 2;
     font-size: 34px;
     /* background-color: #874439; */
   }
   .pdp-save-to-overlay {
-    /* border-radius: 60%; */
-    /* border-radius: 60px;
-    border: 20px solid rgba(135, 68, 57, 0.6);
-   border-top-left-radius: 5%;
-   border-top-right-radius: 0%;
-   border-bottom-left-radius: 100%;
-   border-bottom-right-radius: 0%;
-   background: #874439;
-   color:#f9f7f2;
-   right:0px;
-   margin-top: -50px; */
     position: absolute;
-    /* border-radius: 60%; */
     border-radius: 60px;
     border: 15px solid rgba(135, 68, 57, 0.6);
     border-top-left-radius: 5%;
@@ -546,19 +534,8 @@
     height: 120px;
   }
   .pdp-save-overlay-collection {
-    /* border-color:rgba(135, 68, 57, 0.6);
-    background: #7e504a;
-    padding: 10px 10px 12px 20px;
-    font-weight: 500;
-    font-size: 14px;
-    border-radius: 60px;;
-    border-top-left-radius: 0%;
-    border-top-right-radius: 0%;
-    border-bottom-left-radius: 100%;
-    border-bottom-right-radius: 0%; */
     border-color: rgba(135, 68, 57, 0.6);
     background: #874439;
-    /* padding: 10px 10px 12px 20px; */
     font-weight: 500;
     font-size: 14px;
     border-radius: 60px;
@@ -576,7 +553,7 @@
     position: absolute;
     transition: 0.7s ease;
     opacity: 95%;
-    z-index: 1;
+    z-index: 8;
     height: 400px;
     top: -1px;
     margin-left: 120px;
@@ -593,17 +570,17 @@
     padding-left: 60px;
   }
   .pdp-overlay-heading {
-    font-size: 16px;
-    font-family: Butler regular;
+    font-size: 28px;
+    font-family: Butler;
   }
 }
 
 @media only screen and (max-width: 706px) {
   .pdp-cross-icon {
     position: absolute;
-    margin-top: 150px;
+    margin-top: 175px;
     color: #000000;
-    margin-left: 30px;
+    margin-left: 20px;
     z-index: 2;
     font-size: 24px;
     /* background-color: #874439; */
@@ -624,7 +601,7 @@
   }
   .pdp-save-overlay-collection {
     border-color: rgba(135, 68, 57, 0.6);
-    background: #7e504a;
+    background: #874439;
     padding: 0px 5px 15px 25px;
     font-weight: 500;
     font-size: 14px;
@@ -637,21 +614,11 @@
     margin-right: -20px;
     margin-top: -20px;
   }
-
-  .pdp-overlay-atc-icon {
-    position: absolute;
-    bottom: 20px;
-    text-align: right;
-    color: #000000;
-    background-color: #f9f7f2;
-    right: 8px;
-    top: 18px;
-  }
   .pdp-overlay {
     position: absolute;
     transition: 0.7s ease;
     opacity: 95%;
-    z-index: 1;
+    z-index: 8;
     height: 400px;
     top: -1px;
     /* margin-left: 120px; */
@@ -668,7 +635,7 @@
     padding-left: 55px;
   }
   .pdp-overlay-heading {
-    font-size: 16px;
+    font-size: 28px;
     font-family: Butler;
   }
 }
@@ -731,17 +698,7 @@
     color: #000000;
     background-color: #f9f7f2;
   }
-  .pdp-overlay-atc-icon {
-    position: absolute;
-    bottom: 20px;
-    text-align: right;
-    /* margin-bottom: 0px; */
-    color: #000000;
-    background-color: #f9f7f2;
-    /* padding-right: 10px; */
-    /* margin-right: 10px; */
-    right: 10px;
-  }
+
   .sign-in-account {
     line-height: 17px;
   }
@@ -1005,8 +962,18 @@
   font-size: 14px;
   font-family: senregular;
   font-weight: 500;
-  margin-top: 1px;
+  margin-bottom: 20px;
   line-height: 130%;
+  color: #191919;
+}
+.product-login-modal .product-login-modal-content {
+  font-family: senregular;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  letter-spacing: 0.2px;
+  color: #191919;
 }
 .sign-in-account {
   line-height: 17px;
@@ -1018,113 +985,54 @@
   font-weight: 500;
   margin-top: 80px;
 }
-
-.product-login-modal-content.last-para {
-  line-height: 17px;
-  margin-top: 75px;
-}
 .product-login-modal-para.heading {
   font-family: Butler;
-  font-size: 20px;
+  font-size: 24px;
   line-height: 14px;
-  /* or 34px or 140% */
+  color: #191919;
   text-align: center;
   letter-spacing: 0.2px;
 }
-.product-login-modal-para.sub-heading {
+.product-login-modal-head.sub-heading {
   font-family: Butler;
   font-size: 24px;
   line-height: 34px;
-  /* or 34px or 140% */
   text-align: center;
   letter-spacing: 0.2px;
 }
 /* Sign up button css in product details page start*/
 .login-modal-signup-btn {
-  position: absolute;
-  z-index: 999;
   background: #d9bb75;
-  -webkit-transform: translateX(-50%);
-  transform: translateX(-50%);
-  left: 50%;
-  top: 65%;
-  z-index: 999;
-  -webkit-transition: all 0.2s ease-in-out;
-  transition: all 0.2s ease-in-out;
-}
-.login-modal-signup-btn a.button {
-  padding: 14px 18px;
-  margin: 0;
+  font-family: senregular;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 17px;
+  line-height: 140%;
+  text-align: center;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #191919;
+  /* width: 280px; */
+  display: inline-block;
+  padding: 10px 20px;
 }
 
 .login-modal-signup-btn .login-modal-sign-up-text {
+  font-family: senregular;
+  font-style: normal;
+  font-weight: bold;
   font-size: 17px;
   line-height: 140%;
+  text-align: center;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #191919;
+  vertical-align: middle;
 }
 .login-modal-signup-btn .login-modal-sign-up-text-icon {
-  line-height: 0;
-  padding-right: 4px;
+  padding-right: 10px;
+  vertical-align: middle;
 }
-/* Sign up Button css in product details page end*/
-/* Sign Up Button Media Queries start */
-/* 
-@media only screen and (min-width: 700px) and (max-width: 767px) {
-        
-  .login-modal-signup-btn {
-  margin-left: 168px;
-   
-}   
-}
-@media only screen and (min-width: 650px) and (max-width: 698px) {
-        
-  .login-modal-signup-btn {
-  margin-left: 130px;
-  display: flex;
-  justify-self: center;
-  
-}   
-}
-@media only screen and (min-width: 580px) and (max-width: 649px) {
-        
-  .login-modal-signup-btn {
-  margin-left: 100px;
-  display: flex;
-  justify-self: center;
-  
-}   
-}
-@media only screen and (min-width: 500px) and (max-width: 579px) {
-      
-  .login-modal-signup-btn {
-    margin-left: 80px;
-    display: flex;
-    justify-self: center;
-  }   
-}
-@media only screen and (min-width: 480px) and (max-width: 501px) {
-      
-  .login-modal-signup-btn {
-    margin-left: 70px;
-    display: flex;
-    justify-self: center;
-  }   
-}
-@media only screen and (min-width: 400px) and (max-width: 479px) {
-      
-  .login-modal-signup-btn {
-    margin-left: 60px;
-    display: flex;
-    justify-self: center;
-  }   
-}
-@media only screen and (min-width: 300px) and (max-width: 390px) {
-      
-  .login-modal-signup-btn {
-    margin-left: -20px;
-    display: flex;
-    justify-self: center;
-  }   
-} */
 
 /* Sign Up Button Media Queries End */
 #product-description .lock-outline-sec {
@@ -1237,32 +1145,22 @@
   margin-bottom: 8px;
 }
 #product-description .save-collection {
-  /* border-radius: 60px;
-  background: #7e504a;*/
-  padding: 0px 3px 0px 3px;
+  vertical-align: middle;
   color: #f9f7f2;
+  margin-right: 5px;
+  font-size: 12px;
+  letter-spacing: 0.2px;
+  font-weight: bold;
 }
-
 #product-description .atc-section {
-  text-align: right;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  margin-bottom: 5px;
-  padding-right: 20px;
   border-radius: 60px;
   background: #874439;
-  width: 190px;
-  margin-left: 340px;
   cursor: pointer;
+  padding: 1px 15px 5px 15px;
+  margin-bottom: 5px;
 }
-
 /*Overlay start*/
 .cross-icon {
-  /* margin:0px 0px 0px 600px;
-  font-weight: 500;
-  font-size: 20px;
-  position: absolute;
-  top:14px; */
   margin: -50px 0px 0px 570px;
   font-weight: 500;
   font-size: 20px;
@@ -1270,54 +1168,62 @@
 .save-to-overlay {
   position: absolute;
   border-radius: 60px;
-  background: #874439;
+  background: rgba(135, 68, 57, 0.6);
+  border: 15px solid rgba(135, 68, 57, 0.6);
   color: #f9f7f2;
   transform: rotate(27deg);
   -ms-transform: rotate(27deg);
   margin-top: 10px;
   left: 240px;
   top: 40px;
-  border: 15px solid rgba(135, 68, 57, 0.6);
 }
-.overlay-atc-icon {
-  /* position: absolute; */
-  bottom: 5px;
-  text-align: right;
-  margin-bottom: 8px;
-  color: #000000;
-  background-color: #f9f7f2;
-}
+
 .save-overlay-collection {
   border-radius: 60px;
-  border-color: rgba(135, 68, 57, 0.6);
-  background: #7e504a;
-  padding: 10px 10px 5px 15px;
-  font-weight: 600;
-  font-size: 14px;
+  background: #874439;
+  padding: 5px 10px;
+  font-family: senregular;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  text-align: right;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+  color: #f9f7f2;
 }
 .overlay-heading {
   font-family: Butler;
   font-style: normal;
   font-size: 24px;
   font-weight: 400;
+  letter-spacing: 0.2px;
+  color: #f9f7f2;
 }
 .overlay-click {
-  font-family: sen;
-  font-style: normal;
+  font-family: senregular;
+  letter-spacing: 0.2px;
+  color: #f9f7f2;
   font-size: 12px;
+  margin-bottom: 15px;
 }
-
+.overlay-para {
+  font-family: senregular;
+  font-size: 14px;
+  line-height: 150%;
+  letter-spacing: 0.2px;
+  color: #f9f7f2;
+}
 .save-col-overlay {
   color: #f9f7f2;
   -webkit-transform: rotate(27deg);
   transform: rotate(27deg);
   -ms-transform: rotate(27deg);
-  margin-top: 80px;
+  margin-top: 90px;
   font-size: 14px;
   padding: 0px 0px 5px 30px;
-  width: 269px;
+  width: 290px;
   height: 63px;
-  margin-left: 40px;
+  margin-left: 50px;
 }
 .overlay {
   position: absolute;
@@ -1325,7 +1231,7 @@
   transition: 0.7s ease;
   opacity: 95%;
   width: 461px;
-  z-index: 1;
+  z-index: 8;
   height: 296px;
   top: -20px;
   margin-left: 130px;
@@ -1354,31 +1260,27 @@
     margin-top: 80px;
     border: 15px solid rgba(135, 68, 57, 0.6);
   }
-  .overlay-atc-icon {
-    /* position: absolute; */
-    bottom: 5px;
-    text-align: right;
-    margin-bottom: 8px;
-    color: #000000;
-    background-color: #f9f7f2;
-  }
   .save-overlay-collection {
     border-radius: 60px;
     border-color: rgba(135, 68, 57, 0.6);
-    background: #7e504a;
+    background: #874439;
     padding: 10px 10px 5px 15px;
     font-size: 14px;
+    border: 15px solid rgba(135, 68, 57, 0.6);
   }
   .overlay-heading {
     font-family: Butler regular;
     font-style: normal;
     font-size: 24px;
     font-weight: 400;
+    letter-spacing: 0.2px;
+    color: #f9f7f2;
   }
   .overlay-click {
-    font-family: sen;
-    font-style: normal;
+    font-family: senregular;
     font-size: 12px;
+    letter-spacing: 0.2px;
+    color: #f9f7f2;
   }
 
   .save-col-overlay {
@@ -1392,7 +1294,7 @@
     transition: 0.7s ease;
     opacity: 95%;
     width: 320px;
-    z-index: 1;
+    z-index: 8;
     height: 450px;
     top: -70px;
     margin-left: 230px;
@@ -1417,4 +1319,11 @@
 }
 #product-description .product-list-details .qa-offer-text {
   font-size: 12px;
+}
+#product-description .form-item.m-product-qty .ant-form-item-explain {
+  margin-bottom: 10px;
+}
+#product-description #product-login-modal {
+  text-align: center;
+  padding: 0px 40px;
 }
