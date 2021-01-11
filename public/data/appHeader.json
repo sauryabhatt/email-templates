@@ -437,7 +437,7 @@
     "font": "H2",
     "action": "URL",
     "filterType": "",
-    "values": "/all-categories?f_product_types=Ready+to+ship",
+    "values": "/products/all-categories?f_product_types=Ready+to+ship",
     "isActive": "TRUE"
   },
   {
@@ -454,19 +454,8 @@
   {
     "id": "SHOPOPTIONS::COLUMN::5::ROW::105",
     "column": "5",
-    "displayTitle": "5% off on all orders",
-    "menuOrder": "105",
-    "font": "H2",
-    "action": "URL",
-    "filterType": "",
-    "values": "/products/all-categories",
-    "isActive": "TRUE"
-  },
-  {
-    "id": "SHOPOPTIONS::COLUMN::5::ROW::106",
-    "column": "5",
     "displayTitle": "All curated trends",
-    "menuOrder": "106",
+    "menuOrder": "105",
     "font": "H2",
     "action": "URL",
     "filterType": "",

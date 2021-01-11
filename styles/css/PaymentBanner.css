@@ -193,3 +193,6 @@
     padding: 2.2vh 8vw 8vh 8vw;
   }
 }
+#payment-banner .send-query-button-text.qa-buyer-button {
+  letter-spacing: 0.06em;
+}
