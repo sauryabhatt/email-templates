@@ -42,9 +42,9 @@ export default function CuratedByUsWrapper(props) {
     {
       url: "/trends/globaltextures",
       img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend3.jpg",
-      text: "Global textures",
+      text: "Crafted Boho",
       alt:
-        "Source beautiful traditional crafts and textures by Indian artisans from Qalara",
+        "Boho cushion covers, rugs, throws, bags & decor; crafted by hand picked sellers, combining local crafts with modern aesthetics",
     },
     {
       url: "/trends/homeoffice",
@@ -60,11 +60,17 @@ export default function CuratedByUsWrapper(props) {
       alt:
         "Explore holiday decorations perfect for any celebration from Qalara",
     },*/
+    // {
+    //   url: "/trends/sunkissed-spring21",
+    //   img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend6.jpg",
+    //   text: "Sunlit Spring '21",
+    //   alt: "Sunlit Spring '21",
+    // },
     {
-      url: "/trends/sunkissed-spring21",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend6.jpg",
-      text: "Sunlit Spring '21",
-      alt: "Sunlit Spring '21",
+      url: "/trends/indigoblues",
+      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend8.jpg",
+      text: "Indigo Blues",
+      alt: "Indigo Blues",
     },
     {
       url: "/trends/play-and-learn",
@@ -417,11 +423,7 @@ export default function CuratedByUsWrapper(props) {
                   <span className="svg-text">Made to order</span>
                 </div>
                 <div
-                  onClick={() =>
-                    router.push(
-                      "/products/all-categories?f_product_types=Make%20to%20order"
-                    )
-                  }
+                  onClick={() => router.push("/seller/SL10789/all-categories")}
                   className="image-wrp"
                   style={{ cursor: "pointer" }}
                 >

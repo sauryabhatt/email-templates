@@ -1,12 +1,12 @@
 /** @format */
-import {useEffect} from "react";
+import { useEffect } from "react";
 import { Layout } from "../../components/common/Layout";
 import NotFound from "../../components/NotFound/NotFound";
-import { useCookies } from 'react-cookie';
+import { useCookies } from "react-cookie";
 import FeedbackModal from "../../components/FeedbackModal/FeedbackModal";
 
 export default function TrendDetails({ res, error, trend }) {
-  const [cookie, setCookie] = useCookies(['qalaraUser']);
+  const [cookie, setCookie] = useCookies(["qalaraUser"]);
 
   // set cookie to identify if it's new user on site or old user
   useEffect(() => {
@@ -35,7 +35,6 @@ export default function TrendDetails({ res, error, trend }) {
     url: "/trends/" + trend,
   };
 
-
   let { body = "" } = res || {};
   if (error?.status || res?.body == null) {
     return (
@@ -46,7 +45,7 @@ export default function TrendDetails({ res, error, trend }) {
   }
   return (
     <Layout meta={meta}>
-      {/*(cookie.qalaraUser && cookie.qalaraUser !== 'oldUser') && <FeedbackModal />*/} 
+      {/*(cookie.qalaraUser && cookie.qalaraUser !== 'oldUser') && <FeedbackModal />*/}
       <div
         dangerouslySetInnerHTML={{
           __html: body,
@@ -62,7 +61,8 @@ const trendsObj = {
   homeoffice: "HomeOffice",
   christmasspirit: "ChristmasSpirit",
   "sunkissed-spring21": "SpringSummer",
-  "play-and-learn": "KidsLearning"
+  "play-and-learn": "KidsLearning",
+  indigoblues: "IndigoBlues",
 };
 export async function getStaticPaths() {
   return {

@@ -25,15 +25,17 @@ function PaymentBanner(props) {
         <h5>Why us?</h5>
 
         <p className="paragraph-points">
-          Zero commission promotional offer
-          <br />
           25,000+ products from verified suppliers
+          <br />
+          Air and Sea delivery to 100+ countries
+          <br />
+          Secure payments in major global currencies
+          <br />
+          We quality inspect all goods before dispatch
           <br />
           One-stop-shop from design to delivery
           <br />
-          Secure payments & lowest shipping costs
-          <br />
-          Based in India, with worldwide reach
+          Zero commission promotional offer
         </p>
         {/*<p className="paragraph">
           Get early access by sending a <b>request for quote</b> for your
