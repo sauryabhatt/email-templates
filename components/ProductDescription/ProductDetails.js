@@ -3736,8 +3736,8 @@ const ProductDetails = (props) => {
               {productType === "RTS"
                 ? "7-10 days"
                 : productType === "ERTM"
-                ? "25-35 days"
-                : "25-35 days"}
+                ? "30-40 days"
+                : "30-40 days"}
             </Col>
             <Col span={24} className="qa-pad-2 qa-mar-top-1">
               <div className="qa-tc-white qa-fs-20">Disclaimer</div>
