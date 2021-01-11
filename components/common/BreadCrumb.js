@@ -58,7 +58,7 @@ function BreadCrumb(props) {
       pageId === "seller-product-listing" ? (
         <Breadcrumb.Item>
           <Link href={`/seller/${vanityId}`}>
-            <a>{brandNameSC}</a>
+            <a>{brandName}</a>
           </Link>
         </Breadcrumb.Item>
       ) : (
