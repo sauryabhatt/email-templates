@@ -212,7 +212,7 @@ const ProductDetails = (props) => {
   const [variantId, setVariantId] = useState();
   const [zoomImg, setZoomImg] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
-  const [overlayDiv, setOverlayDiv] = useState(true);
+  const [overlayDiv, setOverlayDiv] = useState(false);
   const [nonServiceableCountry, setNonServiceableCountry] = useState(false);
   const [selProductId, setSelProductId] = useState("");
   const [showCart, setCart] = useState(false);
@@ -270,10 +270,11 @@ const ProductDetails = (props) => {
     if (pdpOverlay) {
       setOverlayDiv(false);
     } else {
+      setOverlayDiv(true);
       if (overlayDiv) {
         sessionStorage.setItem("pdpOverlay", true);
       }
-      setOverlayDiv(true);
+     
     }
     setSelectedCollection("");
     rtsform.resetFields();
