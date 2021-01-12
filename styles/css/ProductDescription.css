@@ -592,12 +592,12 @@
     vertical-align: middle;
     width: 60%;
     background-color: #e6e4df;
-    padding: 8px 20px;
+    padding: 13px 20px;
   }
   #product-description .pdp-collection-sec {
     display: inline-block;
     width: 40%;
-    padding: 5px 20px;
+    padding: 10px 20px;
     background: #874439;
   }
   .pdp-fw-arrow {
