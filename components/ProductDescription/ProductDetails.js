@@ -212,7 +212,7 @@ const ProductDetails = (props) => {
   const [variantId, setVariantId] = useState();
   const [zoomImg, setZoomImg] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
-  const [overlayDiv, setOverlayDiv] = useState(false);
+  const [overlayDiv, setOverlayDiv] = useState(true);
   const [nonServiceableCountry, setNonServiceableCountry] = useState(false);
   const [selProductId, setSelProductId] = useState("");
   const [showCart, setCart] = useState(false);
@@ -264,8 +264,9 @@ const ProductDetails = (props) => {
       setMobile(true);
     }
     let pdpOverlay = sessionStorage.getItem("pdpOverlay");
-    if (!pdpOverlay) {
-      setOverlayDiv(true);
+    if (pdpOverlay) {
+      setOverlayDiv(false);
+    } else {
       sessionStorage.setItem("pdpOverlay", true);
     }
   }, []);
