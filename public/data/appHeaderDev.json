@@ -244,34 +244,34 @@
   {
     "id": "SHOPOPTIONS::COLUMN::3::ROW::103",
     "column": "3",
-    "displayTitle": "Earth inspired",
+    "displayTitle": "Crafted boho",
     "menuOrder": "103",
     "font": "H2",
     "action": "URL",
     "filterType": "",
-    "values": "/trends/earthinspired",
+    "values": "/trends/globaltextures",
     "isActive": "TRUE"
   },
   {
     "id": "SHOPOPTIONS::COLUMN::3::ROW::104",
     "column": "3",
-    "displayTitle": "Home office",
+    "displayTitle": "Indigo blues",
     "menuOrder": "104",
     "font": "H2",
     "action": "URL",
     "filterType": "",
-    "values": "/trends/homeoffice",
+    "values": "/trends/indigoblues",
     "isActive": "TRUE"
   },
   {
     "id": "SHOPOPTIONS::COLUMN::3::ROW::105",
     "column": "3",
-    "displayTitle": "Crafted boho",
+    "displayTitle": "Earth inspired",
     "menuOrder": "105",
     "font": "H2",
     "action": "URL",
     "filterType": "",
-    "values": "/trends/globaltextures",
+    "values": "/trends/earthinspired",
     "isActive": "TRUE"
   },
   {
@@ -288,23 +288,23 @@
   {
     "id": "SHOPOPTIONS::COLUMN::3::ROW::107",
     "column": "3",
-    "displayTitle": "Basketry",
+    "displayTitle": "Home office",
     "menuOrder": "107",
     "font": "H2",
     "action": "URL",
     "filterType": "",
-    "values": "/artisancrafts/basketry",
+    "values": "/trends/homeoffice",
     "isActive": "TRUE"
   },
   {
     "id": "SHOPOPTIONS::COLUMN::3::ROW::108",
     "column": "3",
-    "displayTitle": "Metal crafts",
+    "displayTitle": "Basketry",
     "menuOrder": "108",
     "font": "H2",
     "action": "URL",
     "filterType": "",
-    "values": "/artisancrafts/metalcrafts",
+    "values": "/artisancrafts/basketry",
     "isActive": "TRUE"
   },
   {
@@ -406,7 +406,17 @@
     "values": "/sellers/all-categories",
     "isActive": "TRUE"
   },
-
+  {
+    "id": "SHOPOPTIONS::COLUMN::4::ROW::109",
+    "column": "4",
+    "displayTitle": "Kids edit",
+    "menuOrder": "109",
+    "font": "H2",
+    "action": "URL",
+    "filterType": "",
+    "values": "/categoryedit/baby-kids",
+    "isActive": "TRUE"
+  },
   {
     "id": "SHOPOPTIONS::COLUMN::5::ROW::101",
     "column": "5",
@@ -460,6 +470,50 @@
     "action": "URL",
     "filterType": "",
     "values": "/explore/curatedbyus",
+    "isActive": "TRUE"
+  },
+  {
+    "id": "SHOPOPTIONS::COLUMN::5::ROW::106",
+    "column": "5",
+    "displayTitle": "Boho jewelry",
+    "menuOrder": "106",
+    "font": "H2",
+    "action": "URL",
+    "filterType": "",
+    "values": "/seller/SL10564/all-categories",
+    "isActive": "TRUE"
+  },
+  {
+    "id": "SHOPOPTIONS::COLUMN::5::ROW::107",
+    "column": "5",
+    "displayTitle": "Cotton masks",
+    "menuOrder": "107",
+    "font": "H2",
+    "action": "URL",
+    "filterType": "",
+    "values": "/seller/SL10460/all-categories",
+    "isActive": "TRUE"
+  },
+  {
+    "id": "SHOPOPTIONS::COLUMN::5::ROW::108",
+    "column": "5",
+    "displayTitle": "Fashion edit",
+    "menuOrder": "108",
+    "font": "H2",
+    "action": "URL",
+    "filterType": "",
+    "values": "/categoryedit/fashionaccessories",
+    "isActive": "TRUE"
+  },
+  {
+    "id": "SHOPOPTIONS::COLUMN::5::ROW::109",
+    "column": "5",
+    "displayTitle": "Jewelry edit",
+    "menuOrder": "109",
+    "font": "H2",
+    "action": "URL",
+    "filterType": "",
+    "values": "/categoryedit/jewelry",
     "isActive": "TRUE"
   }
 ]
