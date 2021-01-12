@@ -263,6 +263,9 @@ const ProductDetails = (props) => {
     if (width <= 768) {
       setMobile(true);
     }
+  }, []);
+
+  useEffect(() => {
     let pdpOverlay = sessionStorage.getItem("pdpOverlay");
     if (pdpOverlay) {
       setOverlayDiv(false);
@@ -270,9 +273,6 @@ const ProductDetails = (props) => {
       setOverlayDiv(true);
       sessionStorage.setItem("pdpOverlay", true);
     }
-  }, []);
-
-  useEffect(() => {
     setSelectedCollection("");
     rtsform.resetFields();
     setCart(false);
