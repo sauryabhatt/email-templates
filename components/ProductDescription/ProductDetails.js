@@ -1128,7 +1128,10 @@ const ProductDetails = (props) => {
               style={{ paddingRight: "20px", textAlign: "right" }}
             >
               <div
-                style={{ display: overlayDiv ? "none" : "inline-block" }}
+                style={{
+                  visibility: overlayDiv ? "hidden" : "visible",
+                  display: "inline-block",
+                }}
                 className="atc-section"
                 onClick={() => {
                   if (showPrice) {
