@@ -212,7 +212,7 @@ const ProductDetails = (props) => {
   const [variantId, setVariantId] = useState();
   const [zoomImg, setZoomImg] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
-  const [overlayDiv, setOverlayDiv] = useState(false);
+  const [overlayDiv, setOverlayDiv] = useState(true);
   const [nonServiceableCountry, setNonServiceableCountry] = useState(false);
   const [selProductId, setSelProductId] = useState("");
   const [showCart, setCart] = useState(false);
@@ -270,8 +270,10 @@ const ProductDetails = (props) => {
     if (pdpOverlay) {
       setOverlayDiv(false);
     } else {
+      if (overlayDiv) {
+        sessionStorage.setItem("pdpOverlay", true);
+      }
       setOverlayDiv(true);
-      sessionStorage.setItem("pdpOverlay", true);
     }
     setSelectedCollection("");
     rtsform.resetFields();
@@ -2129,7 +2131,11 @@ const ProductDetails = (props) => {
               </div>
 
               <div
-                className="pdp-collection-sec"
+                className={
+                  selectedCollection
+                    ? "pdp-collection-sec pdp-save-icon"
+                    : "pdp-collection-sec"
+                }
                 onClick={() => {
                   if (showPrice) {
                     setCollection(true);

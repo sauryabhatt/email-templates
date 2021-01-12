@@ -592,13 +592,19 @@
     vertical-align: middle;
     width: 60%;
     background-color: #e6e4df;
-    padding: 13px 20px;
+    padding: 12px 20px;
+    height: 45px;
   }
   #product-description .pdp-collection-sec {
     display: inline-block;
     width: 40%;
-    padding: 10px 20px;
+    padding: 0px 20px;
     background: #874439;
+    height: 45px;
+    vertical-align: middle;
+  }
+  #product-description .pdp-collection-sec.pdp-save-icon {
+    padding: 8px 20px;
   }
   .pdp-fw-arrow {
     display: none;
@@ -607,7 +613,7 @@
     display: inline-block;
     vertical-align: middle;
     width: 80%;
-    padding: 0px 3px 0px 3px;
+    padding: 7px 0px;
     color: #f9f7f2;
     font-family: senregular;
   }
