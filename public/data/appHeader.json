@@ -407,17 +407,6 @@
     "isActive": "TRUE"
   },
   {
-    "id": "SHOPOPTIONS::COLUMN::4::ROW::109",
-    "column": "4",
-    "displayTitle": "Kids edit",
-    "menuOrder": "109",
-    "font": "H2",
-    "action": "URL",
-    "filterType": "",
-    "values": "/categoryedit/baby-kids",
-    "isActive": "TRUE"
-  },
-  {
     "id": "SHOPOPTIONS::COLUMN::5::ROW::101",
     "column": "5",
     "displayTitle": "OFFERS & MORE",
@@ -470,50 +459,6 @@
     "action": "URL",
     "filterType": "",
     "values": "/explore/curatedbyus",
-    "isActive": "TRUE"
-  },
-  {
-    "id": "SHOPOPTIONS::COLUMN::5::ROW::106",
-    "column": "5",
-    "displayTitle": "Boho jewelry",
-    "menuOrder": "106",
-    "font": "H2",
-    "action": "URL",
-    "filterType": "",
-    "values": "/seller/SL10564/all-categories",
-    "isActive": "TRUE"
-  },
-  {
-    "id": "SHOPOPTIONS::COLUMN::5::ROW::107",
-    "column": "5",
-    "displayTitle": "Cotton masks",
-    "menuOrder": "107",
-    "font": "H2",
-    "action": "URL",
-    "filterType": "",
-    "values": "/seller/SL10460/all-categories",
-    "isActive": "TRUE"
-  },
-  {
-    "id": "SHOPOPTIONS::COLUMN::5::ROW::108",
-    "column": "5",
-    "displayTitle": "Fashion edit",
-    "menuOrder": "108",
-    "font": "H2",
-    "action": "URL",
-    "filterType": "",
-    "values": "/categoryedit/fashionaccessories",
-    "isActive": "TRUE"
-  },
-  {
-    "id": "SHOPOPTIONS::COLUMN::5::ROW::109",
-    "column": "5",
-    "displayTitle": "Jewelry edit",
-    "menuOrder": "109",
-    "font": "H2",
-    "action": "URL",
-    "filterType": "",
-    "values": "/categoryedit/jewelry",
     "isActive": "TRUE"
   }
 ]
