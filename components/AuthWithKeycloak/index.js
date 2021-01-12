@@ -10,8 +10,8 @@ import {
 const keycloakProviderInitConfig = {
   onLoad: "check-sso",
   // onLoad: "login-required",
-  // flow: "implicit",
-  // checkLoginIframe: false,
+  flow: "implicit",
+  checkLoginIframe: false,
   silentCheckSsoRedirectUri:
     process.env.NEXT_PUBLIC_URL + "/silent-check-sso.html",
 };

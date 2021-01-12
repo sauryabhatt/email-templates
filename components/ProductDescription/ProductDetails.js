@@ -56,6 +56,7 @@ import { checkInventory, getCollections } from "../../store/actions";
 import playButton from "./../../public/filestore/playButton";
 import AddToCollection from "../common/AddToCollection";
 import sellerList from "../../public/filestore/freeShippingSellers.json";
+import signUp_icon from "../../public/filestore/Sign_Up";
 
 const { Option } = Select;
 
@@ -211,10 +212,7 @@ const ProductDetails = (props) => {
   const [variantId, setVariantId] = useState();
   const [zoomImg, setZoomImg] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
-  const [overlayDiv, setOverlayDiv] = useState(true);
-  {
-    /**overlay div */
-  }
+  const [overlayDiv, setOverlayDiv] = useState(false);
   const [nonServiceableCountry, setNonServiceableCountry] = useState(false);
   const [selProductId, setSelProductId] = useState("");
   const [showCart, setCart] = useState(false);
@@ -264,6 +262,11 @@ const ProductDetails = (props) => {
     const width = window.screen ? window.screen.width : window.innerWidth;
     if (width <= 768) {
       setMobile(true);
+    }
+    let pdpOverlay = sessionStorage.getItem("pdpOverlay");
+    if (!pdpOverlay) {
+      setOverlayDiv(true);
+      sessionStorage.setItem("pdpOverlay", true);
     }
   }, []);
 
@@ -1129,7 +1132,6 @@ const ProductDetails = (props) => {
             >
               <div
                 style={{
-                  visibility: overlayDiv ? "hidden" : "visible",
                   display: "inline-block",
                 }}
                 className="atc-section"
@@ -1147,7 +1149,6 @@ const ProductDetails = (props) => {
                 {selectedCollection ? (
                   <Icon
                     component={savedToCollectionIcon}
-                    className="atc-icon"
                     style={{
                       width: "12px",
                       verticalAlign: "middle",
@@ -1165,7 +1166,7 @@ const ProductDetails = (props) => {
               </div>
               <div
                 style={{
-                  display: overlayDiv ? "block" : "none",
+                  display: overlayDiv ? "flex" : "none",
                   textAlign: "left",
                 }}
                 className="overlay-div"
@@ -1174,15 +1175,24 @@ const ProductDetails = (props) => {
                   <CloseOutlined onClick={hideOverlayDiv} />
                 </div>
                 <div className="overlay">
-                  <div className="save-to-overlay">
+                  <div
+                    className="save-to-overlay qa-cursor"
+                    onClick={() => {
+                      if (showPrice) {
+                        setCollection(true);
+                      } else {
+                        setLoginModal(true);
+                      }
+                    }}
+                  >
                     <div className="save-overlay-collection">
                       <span className="qa-va-m">Save to collection</span>
                       <Icon
                         component={addToCollectionIcon}
                         className="overlay-atc-icon"
                         style={{
-                          width: "15px",
-                          height: "15px",
+                          width: "12px",
+                          height: "12px",
                           verticalAlign: "middle",
                           marginLeft: "5px",
                         }}
@@ -1192,7 +1202,9 @@ const ProductDetails = (props) => {
                   <div className="save-col-overlay">
                     <div>
                       <div className="overlay-heading">Qalara tips</div>
-                      <p className="overlay-click">(Click to dismiss)</p>
+                      <p className="overlay-click" onClick={hideOverlayDiv}>
+                        (Click to dismiss)
+                      </p>
                       <p className="overlay-para">
                         Easily send a single Request for Quote for multiple
                         products using the new
@@ -2115,7 +2127,6 @@ const ProductDetails = (props) => {
               </div>
 
               <div
-                style={{ display: overlayDiv ? "none" : "inline-block" }}
                 className="pdp-collection-sec"
                 onClick={() => {
                   if (showPrice) {
@@ -2134,7 +2145,6 @@ const ProductDetails = (props) => {
                   {selectedCollection ? (
                     <Icon
                       component={savedToCollectionIcon}
-                      className="stc-icon"
                       style={{
                         width: "15px",
                         verticalAlign: "middle",
@@ -2143,7 +2153,6 @@ const ProductDetails = (props) => {
                   ) : (
                     <Icon
                       component={addToCollectionIcon}
-                      className="atc-icon"
                       style={{
                         width: "15px",
                         verticalAlign: "middle",
@@ -2158,24 +2167,43 @@ const ProductDetails = (props) => {
               >
                 <div className="pdp-overlay">
                   <div className="pdp-save-col-overlay">
-                    <div className="pdp-save-to-overlay">
+                    <div
+                      className="pdp-save-to-overlay"
+                      onClick={() => {
+                        if (showPrice) {
+                          setCollection(true);
+                        } else {
+                          setLoginModal(true);
+                        }
+                      }}
+                    >
                       <div className="pdp-save-overlay-collection">
-                        <span className="qa-va-m">Save to collection</span>
-                        <Icon
-                          component={addToCollectionIcon}
-                          className="pdp-overlay-atc-icon"
-                          style={{
-                            width: "15px",
-                            height: "15px",
-                            verticalAlign: "middle",
-                          }}
-                        />
+                        <div className="pdp-stc">
+                          <div className="pdp-stc-btn">
+                            {selectedCollection
+                              ? "Saved"
+                              : "Save to collection"}
+                          </div>
+                        </div>
+                        <div className="pdp-stc-icon">
+                          <Icon
+                            component={addToCollectionIcon}
+                            className="pdp-overlay-atc-icon"
+                            style={{
+                              width: "15px",
+                              height: "15px",
+                              verticalAlign: "middle",
+                            }}
+                          />
+                        </div>
                       </div>
                     </div>
-                    <div>
+                    <div style={{ paddingRight: "30px" }}>
                       <div className="pdp-overlay-heading">Qalara tips</div>
-                      <p className="pdp-overlay-click">(Click to dismiss)</p>
-                      <p>
+                      <p className="overlay-click" onClick={hideOverlayDiv}>
+                        (Click to dismiss)
+                      </p>
+                      <p className="overlay-para">
                         Easily send a single Request for Quote for multiple
                         products using the new <b>'save to collection'</b>{" "}
                         feature!
@@ -3906,24 +3934,11 @@ const ProductDetails = (props) => {
             </div>
 
             <div className="qa-txt-alg-cnt">
-              <div className="login-modal-signup-btn" onClick={signUp}>
-                <span className="login-modal-sign-up-text-icon">
-                  <svg
-                    width="22"
-                    height="20"
-                    viewBox="0 0 22 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M9.9 5.14855L8.36 6.7041L11.22 9.59299H0V11.8152H11.22L8.36 14.7041L9.9 16.2597L15.4 10.7041L9.9 5.14855ZM19.8 18.4819H11V20.7041H19.8C21.01 20.7041 22 19.7041 22 18.4819V2.92632C22 1.7041 21.01 0.704102 19.8 0.704102H11V2.92632H19.8V18.4819Z"
-                      fill="#191919"
-                    ></path>
-                  </svg>
-                </span>
-                <span className="login-modal-sign-up-text">
-                  Sign Up as a buyer
-                </span>
+              <div className="login-modal-signup-btn">
+                <a href="/signup" className="button">
+                  <span className="sign-up-text-icon">{signUp_icon()} </span>
+                  <span className="sign-up-text">Sign Up as a buyer</span>
+                </a>
               </div>
             </div>
             <div className="product-login-modal-content qa-mar-top-1">

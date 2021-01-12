@@ -508,77 +508,11 @@
   right: 20px;
   display: flex;
 }
-@media only screen and (min-width: 707px) and (max-width: 768px) {
-  .pdp-cross-icon {
-    position: absolute;
-    margin-top: 175x;
-    color: black;
-    margin-left: 20px;
-    z-index: 2;
-    font-size: 34px;
-    /* background-color: #874439; */
-  }
-  .pdp-save-to-overlay {
-    position: absolute;
-    border-radius: 60px;
-    border: 15px solid rgba(135, 68, 57, 0.6);
-    border-top-left-radius: 5%;
-    border-top-right-radius: 0%;
-    border-bottom-left-radius: 100%;
-    border-bottom-right-radius: 0%;
-    background: rgba(135, 68, 57, 0.6);
-    color: #f9f7f2;
-    right: 0px;
-    margin-top: -55px;
-    width: 120px;
-    height: 120px;
-  }
-  .pdp-save-overlay-collection {
-    border-color: rgba(135, 68, 57, 0.6);
-    background: #874439;
-    font-weight: 500;
-    font-size: 14px;
-    border-radius: 60px;
-    border-top-left-radius: 0%;
-    border-top-right-radius: 0%;
-    border-bottom-left-radius: 100%;
-    border-bottom-right-radius: 0%;
-    position: absolute;
-    right: -3px;
-    width: 85px;
-    height: 85px;
-    padding-left: 15px;
-  }
-  .pdp-overlay {
-    position: absolute;
-    transition: 0.7s ease;
-    opacity: 95%;
-    z-index: 8;
-    height: 400px;
-    top: -1px;
-    margin-left: 120px;
-    background: #332f2f;
-    border-top-left-radius: 0%;
-    border-top-right-radius: 0%;
-    border-bottom-left-radius: 100%;
-    border-bottom-right-radius: 0%;
-  }
-  .pdp-save-col-overlay {
-    color: #f9f7f2;
-    margin-top: 55px;
-    font-size: 14px;
-    padding-left: 60px;
-  }
-  .pdp-overlay-heading {
-    font-size: 28px;
-    font-family: Butler;
-  }
-}
 
-@media only screen and (max-width: 706px) {
+@media only screen and (max-width: 768px) {
   .pdp-cross-icon {
     position: absolute;
-    margin-top: 175px;
+    margin-top: 250px;
     color: #000000;
     margin-left: 20px;
     z-index: 2;
@@ -587,46 +521,35 @@
   }
   .pdp-save-to-overlay {
     position: absolute;
-    /* border-radius: 60%; */
-    border-radius: 60px;
-    border: 20px solid rgba(135, 68, 57, 0.6);
-    border-top-left-radius: 0%;
-    border-top-right-radius: 0%;
-    border-bottom-left-radius: 100%;
-    border-bottom-right-radius: 0%;
-    background: #874439;
+    border: 12px solid rgba(135, 68, 57, 0.6);
+    border-radius: 0 0 0 150px;
+    background: rgba(135, 68, 57, 0.6);
     color: #f9f7f2;
     right: 0px;
     margin-top: -55px;
   }
   .pdp-save-overlay-collection {
-    border-color: rgba(135, 68, 57, 0.6);
     background: #874439;
-    padding: 0px 5px 15px 25px;
+    padding: 8px 20px 15px 20px;
     font-weight: 500;
     font-size: 14px;
-    border-radius: 60px;
-    border-top-left-radius: 0%;
-    border-top-right-radius: 0%;
-    border-bottom-left-radius: 100%;
-    border-bottom-right-radius: 0%;
-    width: 100px;
-    margin-right: -20px;
-    margin-top: -20px;
+    border-radius: 0 0 0 150px;
+    width: 150px;
+    margin-right: -12px;
+    margin-top: -12px;
   }
   .pdp-overlay {
     position: absolute;
     transition: 0.7s ease;
     opacity: 95%;
     z-index: 8;
-    height: 400px;
+    height: 380px;
     top: -1px;
-    /* margin-left: 120px; */
     background: #332f2f;
     border-top-left-radius: 0%;
     border-top-right-radius: 0%;
-    border-bottom-left-radius: 100%;
-    border-bottom-right-radius: 0%;
+    border-bottom-left-radius: 55%;
+    border-bottom-right-radius: 30%;
   }
   .pdp-save-col-overlay {
     color: #f9f7f2;
@@ -637,6 +560,8 @@
   .pdp-overlay-heading {
     font-size: 28px;
     font-family: Butler;
+    margin-top: 35px;
+    display: inline-block;
   }
 }
 @media only screen and (max-width: 768px) {
@@ -675,30 +600,22 @@
     padding: 5px 20px;
     background: #874439;
   }
-  .login-modal-signup-btn a.button {
-    padding: 14px 18px;
-    margin: 0;
-  }
   .pdp-fw-arrow {
     display: none;
   }
-  #product-description .pdp-collection-sec .pdp-stc {
+  #product-description .pdp-stc {
     display: inline-block;
     vertical-align: middle;
-    width: 70%;
+    width: 80%;
     padding: 0px 3px 0px 3px;
     color: #f9f7f2;
+    font-family: senregular;
   }
-  #product-description .pdp-collection-sec .pdp-stc-icon {
-    display: inline-block;
+  #product-description .pdp-stc-icon {
     width: 20%;
-    bottom: 5px;
-    text-align: right;
-    margin-bottom: 8px;
-    color: #000000;
-    background-color: #f9f7f2;
+    display: inline-block;
+    padding-left: 10px;
   }
-
   .sign-in-account {
     line-height: 17px;
   }
@@ -714,9 +631,10 @@
     font-family: senregular;
     line-height: 100%;
     text-align: right;
-    color: #faf9f9;
-    /* font-weight: bold; */
+    font-weight: bold;
     font-size: 14px;
+    line-height: 14px;
+    color: #f9f7f2;
   }
   #product-description .acc-sub-title {
     padding: 10px 0px;
@@ -1002,36 +920,21 @@
 }
 /* Sign up button css in product details page start*/
 .login-modal-signup-btn {
-  background: #d9bb75;
-  font-family: senregular;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 17px;
-  line-height: 140%;
-  text-align: center;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #191919;
-  /* width: 280px; */
   display: inline-block;
-  padding: 10px 20px;
 }
-
-.login-modal-signup-btn .login-modal-sign-up-text {
-  font-family: senregular;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 17px;
+.login-modal-signup-btn a.button {
+  padding: 16px 20px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+  margin: 0;
+}
+.login-modal-signup-btn .sign-up-text {
+  font-size: 15px;
   line-height: 140%;
-  text-align: center;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #191919;
-  vertical-align: middle;
+  letter-spacing: 0.06px;
 }
-.login-modal-signup-btn .login-modal-sign-up-text-icon {
-  padding-right: 10px;
-  vertical-align: middle;
+.login-modal-signup-btn .sign-up-text-icon {
+  line-height: 0;
+  margin-right: 12px;
 }
 
 /* Sign Up Button Media Queries End */
@@ -1074,11 +977,6 @@
 #product-description .qa-error-atc {
   color: #191919;
   line-height: 110%;
-}
-#product-description .qa-error-atc {
-  float: right;
-  width: 50%;
-  padding-left: 8px;
 }
 @media only screen and (max-width: 768px) {
 }
@@ -1138,12 +1036,6 @@
 .qa-hover:hover {
   color: #191919;
 }
-#product-description .atc-icon {
-  position: absolute;
-  bottom: 7px;
-  text-align: right;
-  margin-bottom: 8px;
-}
 #product-description .save-collection {
   vertical-align: middle;
   color: #f9f7f2;
@@ -1169,7 +1061,7 @@
   position: absolute;
   border-radius: 60px;
   background: rgba(135, 68, 57, 0.6);
-  border: 15px solid rgba(135, 68, 57, 0.6);
+  border: 8px solid rgba(135, 68, 57, 0.6);
   color: #f9f7f2;
   transform: rotate(27deg);
   -ms-transform: rotate(27deg);
@@ -1181,7 +1073,7 @@
 .save-overlay-collection {
   border-radius: 60px;
   background: #874439;
-  padding: 5px 10px;
+  padding: 2px 14px 5px 14px;
   font-family: senregular;
   font-style: normal;
   font-weight: bold;
@@ -1205,6 +1097,7 @@
   color: #f9f7f2;
   font-size: 12px;
   margin-bottom: 15px;
+  cursor: pointer;
 }
 .overlay-para {
   font-family: senregular;
@@ -1225,7 +1118,7 @@
   height: 63px;
   margin-left: 50px;
 }
-.overlay {
+#product-description .overlay {
   position: absolute;
   -webkit-transition: 0.7s ease;
   transition: 0.7s ease;
@@ -1233,15 +1126,15 @@
   width: 461px;
   z-index: 8;
   height: 296px;
-  top: -20px;
-  margin-left: 130px;
-  -webkit-transform: rotate(-26.47deg);
-  transform: rotate(-26.47deg);
+  top: -17px;
+  margin-left: 123px;
+  -webkit-transform: rotate(-27deg);
+  transform: rotate(-27deg);
   background: #332f2f;
   border-radius: 60%;
   color: #f9f7f2;
 }
-@media only screen and (min-width: 769px) and (max-width: 991px) {
+/* @media only screen and (min-width: 769px) and (max-width: 991px) {
   .cross-icon {
     margin: 0px 0px 0px 600px;
     font-weight: 500;
@@ -1304,7 +1197,7 @@
     border-radius: 60%;
     color: #f9f7f2;
   }
-}
+} */
 /*Overlay end*/
 
 .qty-tooltip .ant-tooltip-inner {
