@@ -6,20 +6,7 @@ import { loginToApp } from "../AuthWithKeycloak";
 import Spinner from "../Spinner/Spinner";
 
 export const getCookie = (cname) => {
-  // var name = cname + "=";
-  // var decodedCookie = decodeURIComponent(document.cookie);
-  // var ca = decodedCookie.split(";");
-  // for (var i = 0; i < ca.length; i++) {
-  //   var c = ca[i];
-  //   while (c.charAt(0) == " ") {
-  //     c = c.substring(1);
-  //   }
-  //   if (c.indexOf(name) == 0) {
-  //     return c.substring(name.length, c.length);
-  //   }
-  // }
-  // return "";
-  var cookies = document.cookie
+  let cookies = document.cookie
     .split(";")
     .map((cookie) => cookie.split("="))
     .reduce(
@@ -30,7 +17,7 @@ export const getCookie = (cname) => {
       {}
     );
 
-  if (cookies["appToken"]) {
+  if (cookies[cname]) {
     return "exist";
   } else {
     return "";

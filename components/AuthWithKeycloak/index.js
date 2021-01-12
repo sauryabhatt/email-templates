@@ -8,9 +8,17 @@ import {
 } from "@react-keycloak/ssr";
 
 const keycloakProviderInitConfig = {
-  onLoad: "check-sso",
+  onLoad: "login-required",
   flow: "implicit",
+  checkLoginIframe: false,
 };
+
+const keycloakCfg = {
+  realm: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_REALM,
+  url: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_URL,
+  clientId: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_CLIENT_ID,
+};
+
 const redirectUriForApp = {
   "/": "/check-user-status",
 };
@@ -53,11 +61,6 @@ export const logoutFromApp = (keycloak, options) => {
 function AuthWithKeycloak(props) {
   const { keycloak } = useKeycloak();
   const { cookies } = props;
-  const keycloakCfg = {
-    realm: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_REALM,
-    url: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_URL,
-    clientId: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_CLIENT_ID,
-  };
 
   // const cookiePersistor = ExpressCookies(cookies);
   // const cookiePersistor = new Cookies();
