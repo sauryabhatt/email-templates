@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { useKeycloak } from "@react-keycloak/ssr";
 import {
@@ -32,7 +32,7 @@ const ApplyToSell = (props) => {
   const router = useRouter();
   const [form] = Form.useForm();
   const { keycloak } = useKeycloak();
-
+  const [isLoading, setIsLoading] = useState(true);
   const [expandProfile, setExpandProfile] = useState(false);
   const [expandLegal, setExpandLegal] = useState(false);
   const [expandCertificate, setExpandCertificate] = useState(false);
@@ -55,7 +55,7 @@ const ApplyToSell = (props) => {
   const assetUrl =
     process.env.REACT_APP_API_ASSETS_URL +
     "/assets?sourceService=profile&userId=" +
-    (props.userProfile.userProfile && props.userProfile.userProfile.profileId);
+    (props.userProfile && props.userProfile.profileId);
 
   const addCertTypes = additionalCertificateTypes.map((v, i) => {
     return (
@@ -106,6 +106,23 @@ const ApplyToSell = (props) => {
       form.setFieldsValue(allValues);
     }
   };
+
+  useEffect(() => {
+    if (props.userProfile) {
+      setIsLoading(false);
+    }
+    if (
+      (props.userProfile &&
+        props.userProfile.profileType &&
+        props.userProfile.profileType === "BUYER") ||
+      (props.userProfile &&
+        props.userProfile.profileType &&
+        props.userProfile.profileType === "SELLER" &&
+        props.userProfile.verificationStatus !== "CREATED")
+    ) {
+      router.push("/");
+    }
+  }, [props.userProfile]);
 
   const nextStep = () => {
     form
@@ -457,306 +474,259 @@ const ApplyToSell = (props) => {
       });
   };
 
-  return props.userProfile.userProfile &&
-    props.userProfile.userProfile.profileType &&
-    props.userProfile.userProfile.profileType === "SELLER" &&
-    props.userProfile.userProfile.verificationStatus === "CREATED" ? (
-    <div id="apply-to-sell-form">
-      <Row justify="space-around">
-        <Col xs={21} sm={21} md={11} lg={11} xl={11}>
-          <p className="signup-heading">Apply to sell on Qalara</p>
-          <Form
-            name="apply_to_sell_form"
-            initialValues={{
-              profileType: profileType,
-              phoneCountryCode: "91",
-            }}
-            onValuesChange={onValuesChange}
-            onFinish={onFinish}
-            // onFinishFailed={() => { nextStatus = false }}
-            form={form}
-            scrollToFirstError
-          >
-            <div style={{ display: "flow-root" }}>
-              <h2 className="section-heading" style={{ float: "left" }}>
-                Company profile:
-              </h2>
-              <Button
-                className="section-button"
-                type="link"
-                onClick={() => setExpandProfile(!expandProfile)}
-                style={{ float: "right" }}
-              >
-                {expandProfile ? <UpOutlined /> : <DownOutlined />}
-              </Button>
-            </div>
-            <div style={expandProfile ? { display: "none" } : {}}>
-              <p className="label-paragraph">Brand name</p>
-              <Form.Item
-                name="brandName"
-                rules={[
-                  // { required: true, message: 'Field is required.' },
-                  {
-                    min: 3,
-                    max: 50,
-                    message: "Length should be 3-50 characters!",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-              <p className="label-paragraph">Organization email address</p>
-              <Form.Item
-                name="orgEmail"
-                rules={[
-                  {
-                    type: "email",
-                    message: "Please enter the correct email address.",
-                  },
-                  // { required: true, message: 'Field is required.' },
-                  {
-                    min: 3,
-                    max: 50,
-                    message: "Length should be 3-50 characters!",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-              <p className="label-paragraph-heading">
-                Please provide the address where your business is registered:
-                <br />
-              </p>
-              <p className="label-paragraph">Zipcode</p>
-              <Form.Item
-                name="registeredPinCode"
-                rules={[
-                  // { required: true, message: 'Field is required.' },
-                  {
-                    min: 3,
-                    max: 50,
-                    message: "Length should be 3-50 characters!",
-                  },
-                ]}
-              >
-                <Input onChange={handleAddChange} />
-              </Form.Item>
-              <p className="label-paragraph">Address</p>
-              <Form.Item
-                name="registeredAddress"
-                rules={[
-                  // { required: true, message: 'Field is required.' },
-                  {
-                    min: 3,
-                    max: 150,
-                    message: "Length should be 3-150 characters!",
-                  },
-                ]}
-              >
-                <Input.TextArea
-                  autoSize={{ minRows: 3, maxRows: 3 }}
-                  onChange={handleAddChange}
-                />
-              </Form.Item>
+  if (isLoading) {
+    return <Spinner />;
+  }
 
-              <p className="label-paragraph">City</p>
-              <Form.Item
-                name="registeredCity"
-                rules={[
-                  // { required: true, message: 'Field is required.' },
-                  {
-                    min: 3,
-                    max: 50,
-                    message: "Length should be 3-50 characters!",
-                  },
-                ]}
-              >
-                <Input onChange={handleAddChange} />
-              </Form.Item>
-              <p className="label-paragraph">State</p>
-              <Form.Item
-                name="registeredState"
-                rules={[
-                  // { required: true, message: 'Field is required.' },
-                  {
-                    min: 3,
-                    max: 50,
-                    message: "Length should be 3-50 characters!",
-                  },
-                ]}
-              >
-                <Input onChange={handleAddChange} />
-              </Form.Item>
-              <p className="label-paragraph">Country</p>
-              <Form.Item
-                name="registeredCountry"
-                className="form-item"
-                rules={[{ required: true, message: "Field is required." }]}
-              >
-                <Select showSearch onChange={handleAddChange}>
-                  {country}
-                </Select>
-              </Form.Item>
-              <Form.Item name="sameAddress" valuePropName="unchecked">
-                <Checkbox checked={disableCommAdd} onChange={handleSameAddress}>
-                  <span className="label-paragraph-heading">
-                    Our communication address is same as the registered address
-                  </span>
-                </Checkbox>
-              </Form.Item>
-              {/* <p className='label-paragraph-heading'>Our communication address is same as the registered address<br /></p> */}
-              <p className="label-paragraph">Zipcode</p>
-              <Form.Item
-                name="communicationPinCode"
-                rules={[
-                  // { required: true, message: 'Field is required.' },
-                  {
-                    min: 3,
-                    max: 50,
-                    message: "Length should be 3-50 characters!",
-                  },
-                ]}
-              >
-                <Input disabled={disableCommAdd} />
-              </Form.Item>
-              <p className="label-paragraph">Address</p>
-              <Form.Item
-                name="communicationAddress"
-                rules={[
-                  // { required: true, message: 'Field is required.' },
-                  {
-                    min: 3,
-                    max: 150,
-                    message: "Length should be 3-150 characters!",
-                  },
-                ]}
-              >
-                <Input.TextArea
-                  autoSize={{ minRows: 3, maxRows: 3 }}
-                  disabled={disableCommAdd}
-                />
-              </Form.Item>
+  if (
+    props.userProfile &&
+    props.userProfile.profileType &&
+    props.userProfile.profileType === "SELLER" &&
+    props.userProfile.verificationStatus === "CREATED"
+  ) {
+    return (
+      <div id="apply-to-sell-form">
+        <Row justify="space-around">
+          <Col xs={21} sm={21} md={11} lg={11} xl={11}>
+            <p className="signup-heading">Apply to sell on Qalara</p>
+            <Form
+              name="apply_to_sell_form"
+              initialValues={{
+                profileType: profileType,
+                phoneCountryCode: "91",
+              }}
+              onValuesChange={onValuesChange}
+              onFinish={onFinish}
+              // onFinishFailed={() => { nextStatus = false }}
+              form={form}
+              scrollToFirstError
+            >
+              <div style={{ display: "flow-root" }}>
+                <h2 className="section-heading" style={{ float: "left" }}>
+                  Company profile:
+                </h2>
+                <Button
+                  className="section-button"
+                  type="link"
+                  onClick={() => setExpandProfile(!expandProfile)}
+                  style={{ float: "right" }}
+                >
+                  {expandProfile ? <UpOutlined /> : <DownOutlined />}
+                </Button>
+              </div>
+              <div style={expandProfile ? { display: "none" } : {}}>
+                <p className="label-paragraph">Brand name</p>
+                <Form.Item
+                  name="brandName"
+                  rules={[
+                    // { required: true, message: 'Field is required.' },
+                    {
+                      min: 3,
+                      max: 50,
+                      message: "Length should be 3-50 characters!",
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+                <p className="label-paragraph">Organization email address</p>
+                <Form.Item
+                  name="orgEmail"
+                  rules={[
+                    {
+                      type: "email",
+                      message: "Please enter the correct email address.",
+                    },
+                    // { required: true, message: 'Field is required.' },
+                    {
+                      min: 3,
+                      max: 50,
+                      message: "Length should be 3-50 characters!",
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+                <p className="label-paragraph-heading">
+                  Please provide the address where your business is registered:
+                  <br />
+                </p>
+                <p className="label-paragraph">Zipcode</p>
+                <Form.Item
+                  name="registeredPinCode"
+                  rules={[
+                    // { required: true, message: 'Field is required.' },
+                    {
+                      min: 3,
+                      max: 50,
+                      message: "Length should be 3-50 characters!",
+                    },
+                  ]}
+                >
+                  <Input onChange={handleAddChange} />
+                </Form.Item>
+                <p className="label-paragraph">Address</p>
+                <Form.Item
+                  name="registeredAddress"
+                  rules={[
+                    // { required: true, message: 'Field is required.' },
+                    {
+                      min: 3,
+                      max: 150,
+                      message: "Length should be 3-150 characters!",
+                    },
+                  ]}
+                >
+                  <Input.TextArea
+                    autoSize={{ minRows: 3, maxRows: 3 }}
+                    onChange={handleAddChange}
+                  />
+                </Form.Item>
 
-              <p className="label-paragraph">City</p>
-              <Form.Item
-                name="communicationCity"
-                rules={[
-                  // { required: true, message: 'Field is required.' },
-                  {
-                    min: 3,
-                    max: 50,
-                    message: "Length should be 3-50 characters!",
-                  },
-                ]}
-              >
-                <Input disabled={disableCommAdd} />
-              </Form.Item>
-              <p className="label-paragraph">State</p>
-              <Form.Item
-                name="communicationState"
-                rules={[
-                  // { required: true, message: 'Field is required.' },
-                  {
-                    min: 3,
-                    max: 50,
-                    message: "Length should be 3-50 characters!",
-                  },
-                ]}
-              >
-                <Input disabled={disableCommAdd} />
-              </Form.Item>
-              <p className="label-paragraph">Country</p>
-              <Form.Item
-                name="communicationCountry"
-                className="form-item"
-                rules={[{ required: true, message: "Field is required." }]}
-              >
-                <Select showSearch disabled={disableCommAdd}>
-                  {country}
-                </Select>
-              </Form.Item>
-              <p className="label-paragraph">Upload registered address proof</p>
-              <Form.Item
-                name="addressProof"
-                normalize={validateFiles}
-                // rules={[{ required: true, message: 'Field is required.' }]}
-              >
-                <Upload
-                  name="files"
-                  fileList={addressProof}
-                  beforeUpload={beforeUpload}
-                  onChange={handleChangeAddressProof}
-                  action={assetUrl}
-                  headers={{
-                    Authorization: "Bearer " + keycloak.token,
-                  }}
-                >
-                  <Button className="upload-button">Attach</Button>
-                </Upload>
-              </Form.Item>
-              <p className="label-paragraph">Organisation website link</p>
-              <Form.Item
-                name="orgWebsite"
-                rules={[
-                  // { required: true, message: 'Field is required.' },
-                  {
-                    min: 3,
-                    max: 50,
-                    message: "Length should be 3-50 characters!",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-              <p className="label-paragraph">Organisation Facebook link</p>
-              <Form.Item
-                name="facebookUrl"
-                rules={[
-                  // { required: true, message: 'Field is required.' },
-                  {
-                    min: 3,
-                    max: 100,
-                    message: "Length should be 3-100 characters!",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-              <p className="label-paragraph">Organisation Instagram link</p>
-              <Form.Item
-                name="instaUrl"
-                rules={[
-                  // { required: true, message: 'Field is required.' },
-                  {
-                    min: 3,
-                    max: 100,
-                    message: "Length should be 3-100 characters!",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-            </div>
-            <div style={{ display: "flow-root" }}>
-              <h2 className="section-heading" style={{ float: "left" }}>
-                Governmental / Legal credentials:
-              </h2>
-              <Button
-                className="section-button"
-                type="link"
-                onClick={() => setExpandLegal(!expandLegal)}
-                style={{ float: "right" }}
-              >
-                {expandLegal ? <UpOutlined /> : <DownOutlined />}
-              </Button>
-            </div>
-            <div style={expandLegal ? { display: "none" } : {}}>
-              <p className="label-paragraph">Pan no</p>
-              <Form.Item style={{ marginBottom: 0 }}>
+                <p className="label-paragraph">City</p>
                 <Form.Item
-                  name="panNo"
-                  className="input-with-upload"
-                  // style={{ display: 'inline-block', width: 'calc(50% - 17px)' }}
+                  name="registeredCity"
+                  rules={[
+                    // { required: true, message: 'Field is required.' },
+                    {
+                      min: 3,
+                      max: 50,
+                      message: "Length should be 3-50 characters!",
+                    },
+                  ]}
+                >
+                  <Input onChange={handleAddChange} />
+                </Form.Item>
+                <p className="label-paragraph">State</p>
+                <Form.Item
+                  name="registeredState"
+                  rules={[
+                    // { required: true, message: 'Field is required.' },
+                    {
+                      min: 3,
+                      max: 50,
+                      message: "Length should be 3-50 characters!",
+                    },
+                  ]}
+                >
+                  <Input onChange={handleAddChange} />
+                </Form.Item>
+                <p className="label-paragraph">Country</p>
+                <Form.Item
+                  name="registeredCountry"
+                  className="form-item"
+                  rules={[{ required: true, message: "Field is required." }]}
+                >
+                  <Select showSearch onChange={handleAddChange}>
+                    {country}
+                  </Select>
+                </Form.Item>
+                <Form.Item name="sameAddress" valuePropName="unchecked">
+                  <Checkbox
+                    checked={disableCommAdd}
+                    onChange={handleSameAddress}
+                  >
+                    <span className="label-paragraph-heading">
+                      Our communication address is same as the registered
+                      address
+                    </span>
+                  </Checkbox>
+                </Form.Item>
+                {/* <p className='label-paragraph-heading'>Our communication address is same as the registered address<br /></p> */}
+                <p className="label-paragraph">Zipcode</p>
+                <Form.Item
+                  name="communicationPinCode"
+                  rules={[
+                    // { required: true, message: 'Field is required.' },
+                    {
+                      min: 3,
+                      max: 50,
+                      message: "Length should be 3-50 characters!",
+                    },
+                  ]}
+                >
+                  <Input disabled={disableCommAdd} />
+                </Form.Item>
+                <p className="label-paragraph">Address</p>
+                <Form.Item
+                  name="communicationAddress"
+                  rules={[
+                    // { required: true, message: 'Field is required.' },
+                    {
+                      min: 3,
+                      max: 150,
+                      message: "Length should be 3-150 characters!",
+                    },
+                  ]}
+                >
+                  <Input.TextArea
+                    autoSize={{ minRows: 3, maxRows: 3 }}
+                    disabled={disableCommAdd}
+                  />
+                </Form.Item>
+
+                <p className="label-paragraph">City</p>
+                <Form.Item
+                  name="communicationCity"
+                  rules={[
+                    // { required: true, message: 'Field is required.' },
+                    {
+                      min: 3,
+                      max: 50,
+                      message: "Length should be 3-50 characters!",
+                    },
+                  ]}
+                >
+                  <Input disabled={disableCommAdd} />
+                </Form.Item>
+                <p className="label-paragraph">State</p>
+                <Form.Item
+                  name="communicationState"
+                  rules={[
+                    // { required: true, message: 'Field is required.' },
+                    {
+                      min: 3,
+                      max: 50,
+                      message: "Length should be 3-50 characters!",
+                    },
+                  ]}
+                >
+                  <Input disabled={disableCommAdd} />
+                </Form.Item>
+                <p className="label-paragraph">Country</p>
+                <Form.Item
+                  name="communicationCountry"
+                  className="form-item"
+                  rules={[{ required: true, message: "Field is required." }]}
+                >
+                  <Select showSearch disabled={disableCommAdd}>
+                    {country}
+                  </Select>
+                </Form.Item>
+                <p className="label-paragraph">
+                  Upload registered address proof
+                </p>
+                <Form.Item
+                  name="addressProof"
+                  normalize={validateFiles}
+                  // rules={[{ required: true, message: 'Field is required.' }]}
+                >
+                  <Upload
+                    name="files"
+                    fileList={addressProof}
+                    beforeUpload={beforeUpload}
+                    onChange={handleChangeAddressProof}
+                    action={assetUrl}
+                    headers={{
+                      Authorization: "Bearer " + keycloak.token,
+                    }}
+                  >
+                    <Button className="upload-button">Attach</Button>
+                  </Upload>
+                </Form.Item>
+                <p className="label-paragraph">Organisation website link</p>
+                <Form.Item
+                  name="orgWebsite"
                   rules={[
                     // { required: true, message: 'Field is required.' },
                     {
@@ -768,125 +738,185 @@ const ApplyToSell = (props) => {
                 >
                   <Input />
                 </Form.Item>
+                <p className="label-paragraph">Organisation Facebook link</p>
                 <Form.Item
-                  name="panAttachment"
-                  className="upload-with-input"
-                  normalize={validateFiles}
-                  // rules={[{ required: true, message: 'Field is required.' }]}
-                >
-                  <Upload
-                    name="files"
-                    className="upload-with-input-item"
-                    fileList={panAttachment}
-                    beforeUpload={beforeUpload}
-                    onChange={handleChangePanAttachment}
-                    action={assetUrl}
-                    headers={{
-                      Authorization: "Bearer " + keycloak.token,
-                    }}
-                  >
-                    <Button className="upload-button">Attach</Button>
-                  </Upload>
-                </Form.Item>
-              </Form.Item>
-              <p className="label-paragraph">GSTIN</p>
-              <Form.Item style={{ marginBottom: 0 }}>
-                <Form.Item
-                  name="gstin"
-                  className="input-with-upload"
+                  name="facebookUrl"
                   rules={[
                     // { required: true, message: 'Field is required.' },
                     {
                       min: 3,
-                      max: 50,
-                      message: "Length should be 3-50 characters!",
+                      max: 100,
+                      message: "Length should be 3-100 characters!",
                     },
                   ]}
                 >
                   <Input />
                 </Form.Item>
+                <p className="label-paragraph">Organisation Instagram link</p>
                 <Form.Item
-                  name="gstinAttachment"
-                  className="upload-with-input"
-                  normalize={validateFiles}
-                  // rules={[{ required: true, message: 'Field is required.' }]}
-                >
-                  <Upload
-                    name="files"
-                    className="upload-with-input-item"
-                    fileList={gstinAttachment}
-                    beforeUpload={beforeUpload}
-                    onChange={handleChangeGstinAttachment}
-                    action={assetUrl}
-                    headers={{
-                      Authorization: "Bearer " + keycloak.token,
-                    }}
-                  >
-                    <Button className="upload-button">Attach</Button>
-                  </Upload>
-                </Form.Item>
-              </Form.Item>
-              <p className="label-paragraph">IEC code</p>
-              <Form.Item style={{ marginBottom: 0 }}>
-                <Form.Item
-                  name="iecCode"
-                  className="input-with-upload"
+                  name="instaUrl"
                   rules={[
                     // { required: true, message: 'Field is required.' },
                     {
                       min: 3,
-                      max: 50,
-                      message: "Length should be 3-50 characters!",
+                      max: 100,
+                      message: "Length should be 3-100 characters!",
                     },
                   ]}
                 >
                   <Input />
                 </Form.Item>
-                <Form.Item
-                  name="iecCodeAttachment"
-                  className="upload-with-input"
-                  normalize={validateFiles}
-                  // rules={[{ required: true, message: 'Field is required.' }]}
+              </div>
+              <div style={{ display: "flow-root" }}>
+                <h2 className="section-heading" style={{ float: "left" }}>
+                  Governmental / Legal credentials:
+                </h2>
+                <Button
+                  className="section-button"
+                  type="link"
+                  onClick={() => setExpandLegal(!expandLegal)}
+                  style={{ float: "right" }}
                 >
-                  <Upload
-                    name="files"
-                    className="upload-with-input-item"
-                    fileList={iecCodeAttachment}
-                    beforeUpload={beforeUpload}
-                    onChange={handleChangeIecCodeAttachment}
-                    action={assetUrl}
-                    headers={{
-                      Authorization: "Bearer " + keycloak.token,
-                    }}
+                  {expandLegal ? <UpOutlined /> : <DownOutlined />}
+                </Button>
+              </div>
+              <div style={expandLegal ? { display: "none" } : {}}>
+                <p className="label-paragraph">Pan no</p>
+                <Form.Item style={{ marginBottom: 0 }}>
+                  <Form.Item
+                    name="panNo"
+                    className="input-with-upload"
+                    // style={{ display: 'inline-block', width: 'calc(50% - 17px)' }}
+                    rules={[
+                      // { required: true, message: 'Field is required.' },
+                      {
+                        min: 3,
+                        max: 50,
+                        message: "Length should be 3-50 characters!",
+                      },
+                    ]}
                   >
-                    <Button className="upload-button">Attach</Button>
-                  </Upload>
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    name="panAttachment"
+                    className="upload-with-input"
+                    normalize={validateFiles}
+                    // rules={[{ required: true, message: 'Field is required.' }]}
+                  >
+                    <Upload
+                      name="files"
+                      className="upload-with-input-item"
+                      fileList={panAttachment}
+                      beforeUpload={beforeUpload}
+                      onChange={handleChangePanAttachment}
+                      action={assetUrl}
+                      headers={{
+                        Authorization: "Bearer " + keycloak.token,
+                      }}
+                    >
+                      <Button className="upload-button">Attach</Button>
+                    </Upload>
+                  </Form.Item>
                 </Form.Item>
-              </Form.Item>
-            </div>
-            <div style={{ display: "flow-root" }}>
-              <h2 className="section-heading" style={{ float: "left" }}>
-                Certifications & compliances:
-              </h2>
-              <Button
-                className="section-button"
-                type="link"
-                onClick={() => setExpandCertificate(!expandCertificate)}
-                style={{ float: "right" }}
-              >
-                {expandCertificate ? <UpOutlined /> : <DownOutlined />}
-              </Button>
-            </div>
-            <div style={expandCertificate ? { display: "none" } : {}}>
-              {/* <h2 className='section-heading' style={{ float: 'left' }}>Certifications & compliances:</h2> */}
-              {/* <p className='label-paragraph'>Certifications & compliances:</p> */}
-              <p className="label-paragraph">
-                We work with responsible suppliers. Certifications help
-                establish the credentials of your company and make you
-                attractive to buyers. (Examples of certificates - Fair Trade
-                Certified, Craftmark, GOTS etc.)
-              </p>
-              {/* <Form.List name="names">
+                <p className="label-paragraph">GSTIN</p>
+                <Form.Item style={{ marginBottom: 0 }}>
+                  <Form.Item
+                    name="gstin"
+                    className="input-with-upload"
+                    rules={[
+                      // { required: true, message: 'Field is required.' },
+                      {
+                        min: 3,
+                        max: 50,
+                        message: "Length should be 3-50 characters!",
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    name="gstinAttachment"
+                    className="upload-with-input"
+                    normalize={validateFiles}
+                    // rules={[{ required: true, message: 'Field is required.' }]}
+                  >
+                    <Upload
+                      name="files"
+                      className="upload-with-input-item"
+                      fileList={gstinAttachment}
+                      beforeUpload={beforeUpload}
+                      onChange={handleChangeGstinAttachment}
+                      action={assetUrl}
+                      headers={{
+                        Authorization: "Bearer " + keycloak.token,
+                      }}
+                    >
+                      <Button className="upload-button">Attach</Button>
+                    </Upload>
+                  </Form.Item>
+                </Form.Item>
+                <p className="label-paragraph">IEC code</p>
+                <Form.Item style={{ marginBottom: 0 }}>
+                  <Form.Item
+                    name="iecCode"
+                    className="input-with-upload"
+                    rules={[
+                      // { required: true, message: 'Field is required.' },
+                      {
+                        min: 3,
+                        max: 50,
+                        message: "Length should be 3-50 characters!",
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+                  <Form.Item
+                    name="iecCodeAttachment"
+                    className="upload-with-input"
+                    normalize={validateFiles}
+                    // rules={[{ required: true, message: 'Field is required.' }]}
+                  >
+                    <Upload
+                      name="files"
+                      className="upload-with-input-item"
+                      fileList={iecCodeAttachment}
+                      beforeUpload={beforeUpload}
+                      onChange={handleChangeIecCodeAttachment}
+                      action={assetUrl}
+                      headers={{
+                        Authorization: "Bearer " + keycloak.token,
+                      }}
+                    >
+                      <Button className="upload-button">Attach</Button>
+                    </Upload>
+                  </Form.Item>
+                </Form.Item>
+              </div>
+              <div style={{ display: "flow-root" }}>
+                <h2 className="section-heading" style={{ float: "left" }}>
+                  Certifications & compliances:
+                </h2>
+                <Button
+                  className="section-button"
+                  type="link"
+                  onClick={() => setExpandCertificate(!expandCertificate)}
+                  style={{ float: "right" }}
+                >
+                  {expandCertificate ? <UpOutlined /> : <DownOutlined />}
+                </Button>
+              </div>
+              <div style={expandCertificate ? { display: "none" } : {}}>
+                {/* <h2 className='section-heading' style={{ float: 'left' }}>Certifications & compliances:</h2> */}
+                {/* <p className='label-paragraph'>Certifications & compliances:</p> */}
+                <p className="label-paragraph">
+                  We work with responsible suppliers. Certifications help
+                  establish the credentials of your company and make you
+                  attractive to buyers. (Examples of certificates - Fair Trade
+                  Certified, Craftmark, GOTS etc.)
+                </p>
+                {/* <Form.List name="names">
                                 {(fields, { add, remove }) => {
                                     return (
                                         <div>
@@ -944,249 +974,240 @@ const ApplyToSell = (props) => {
                                     );
                                 }}
                             </Form.List> */}
-              <Form.Item style={{ marginBottom: 0 }}>
-                <Form.Item
-                  name="certificateType1"
-                  className="input-with-upload"
-                  // rules={[{ required: true, message: 'Please select an certificate type.' }]}
-                >
-                  <Select>{addCertTypes}</Select>
-                </Form.Item>
-                <Form.Item
-                  name="certAttachment1"
-                  className="upload-with-input"
-                  normalize={validateFiles}
-                  // rules={[{ required: true, message: 'Field is required.' }]}
-                >
-                  <Upload
-                    name="files"
-                    className="upload-with-input-item"
-                    fileList={certAttachment1}
-                    beforeUpload={beforeUpload}
-                    onChange={handleChangeCertAttachment1}
-                    action={assetUrl}
-                    headers={{
-                      Authorization: "Bearer " + keycloak.token,
-                    }}
+                <Form.Item style={{ marginBottom: 0 }}>
+                  <Form.Item
+                    name="certificateType1"
+                    className="input-with-upload"
+                    // rules={[{ required: true, message: 'Please select an certificate type.' }]}
                   >
-                    <Button className="upload-button">Attach</Button>
-                  </Upload>
-                </Form.Item>
-              </Form.Item>
-              <Form.Item style={{ marginBottom: 0 }}>
-                <Form.Item
-                  name="certificateType2"
-                  className="input-with-upload"
-                  // rules={[{ required: true, message: 'Please select an certificate type.' }]}
-                >
-                  <Select>{addCertTypes}</Select>
-                </Form.Item>
-                <Form.Item
-                  name="certAttachment2"
-                  className="upload-with-input"
-                  normalize={validateFiles}
-                  // rules={[{ required: true, message: 'Field is required.' }]}
-                >
-                  <Upload
-                    name="files"
-                    className="upload-with-input-item"
-                    fileList={certAttachment2}
-                    beforeUpload={beforeUpload}
-                    onChange={handleChangeCertAttachment2}
-                    action={assetUrl}
-                    headers={{
-                      Authorization: "Bearer " + keycloak.token,
-                    }}
+                    <Select>{addCertTypes}</Select>
+                  </Form.Item>
+                  <Form.Item
+                    name="certAttachment1"
+                    className="upload-with-input"
+                    normalize={validateFiles}
+                    // rules={[{ required: true, message: 'Field is required.' }]}
                   >
-                    <Button className="upload-button">Attach</Button>
-                  </Upload>
+                    <Upload
+                      name="files"
+                      className="upload-with-input-item"
+                      fileList={certAttachment1}
+                      beforeUpload={beforeUpload}
+                      onChange={handleChangeCertAttachment1}
+                      action={assetUrl}
+                      headers={{
+                        Authorization: "Bearer " + keycloak.token,
+                      }}
+                    >
+                      <Button className="upload-button">Attach</Button>
+                    </Upload>
+                  </Form.Item>
                 </Form.Item>
-              </Form.Item>
-              <Form.Item style={{ marginBottom: 0 }}>
-                <Form.Item
-                  name="certificateType3"
-                  className="input-with-upload"
-                  // rules={[{ required: true, message: 'Please select an certificate type.' }]}
-                >
-                  <Select>{addCertTypes}</Select>
-                </Form.Item>
-                <Form.Item
-                  name="certAttachment3"
-                  className="upload-with-input"
-                  normalize={validateFiles}
-                  // rules={[{ required: true, message: 'Field is required.' }]}
-                >
-                  <Upload
-                    name="files"
-                    className="upload-with-input-item"
-                    fileList={certAttachment3}
-                    beforeUpload={beforeUpload}
-                    onChange={handleChangeCertAttachment3}
-                    action={assetUrl}
-                    headers={{
-                      Authorization: "Bearer " + keycloak.token,
-                    }}
+                <Form.Item style={{ marginBottom: 0 }}>
+                  <Form.Item
+                    name="certificateType2"
+                    className="input-with-upload"
+                    // rules={[{ required: true, message: 'Please select an certificate type.' }]}
                   >
-                    <Button className="upload-button">Attach</Button>
-                  </Upload>
-                </Form.Item>
-              </Form.Item>
-              <Form.Item style={{ marginBottom: 0 }}>
-                <Form.Item
-                  name="certificateType4"
-                  className="input-with-upload"
-                  // rules={[{ required: true, message: 'Please select an certificate type.' }]}
-                >
-                  <Select>{addCertTypes}</Select>
-                </Form.Item>
-                <Form.Item
-                  name="certAttachment4"
-                  className="upload-with-input"
-                  normalize={validateFiles}
-                  // rules={[{ required: true, message: 'Field is required.' }]}
-                >
-                  <Upload
-                    name="files"
-                    className="upload-with-input-item"
-                    fileList={certAttachment4}
-                    beforeUpload={beforeUpload}
-                    onChange={handleChangeCertAttachment4}
-                    action={assetUrl}
-                    headers={{
-                      Authorization: "Bearer " + keycloak.token,
-                    }}
+                    <Select>{addCertTypes}</Select>
+                  </Form.Item>
+                  <Form.Item
+                    name="certAttachment2"
+                    className="upload-with-input"
+                    normalize={validateFiles}
+                    // rules={[{ required: true, message: 'Field is required.' }]}
                   >
-                    <Button className="upload-button">Attach</Button>
-                  </Upload>
+                    <Upload
+                      name="files"
+                      className="upload-with-input-item"
+                      fileList={certAttachment2}
+                      beforeUpload={beforeUpload}
+                      onChange={handleChangeCertAttachment2}
+                      action={assetUrl}
+                      headers={{
+                        Authorization: "Bearer " + keycloak.token,
+                      }}
+                    >
+                      <Button className="upload-button">Attach</Button>
+                    </Upload>
+                  </Form.Item>
                 </Form.Item>
-              </Form.Item>
-              <Form.Item style={{ marginBottom: 0 }}>
-                <Form.Item
-                  name="certificateType5"
-                  className="input-with-upload"
-                  // rules={[{ required: true, message: 'Please select an certificate type.' }]}
-                >
-                  <Select>{addCertTypes}</Select>
-                </Form.Item>
-                <Form.Item
-                  name="certAttachment5"
-                  className="upload-with-input"
-                  normalize={validateFiles}
-                  // rules={[{ required: true, message: 'Field is required.' }]}
-                >
-                  <Upload
-                    name="files"
-                    className="upload-with-input-item"
-                    fileList={certAttachment5}
-                    beforeUpload={beforeUpload}
-                    onChange={handleChangeCertAttachment5}
-                    action={assetUrl}
-                    headers={{
-                      Authorization: "Bearer " + keycloak.token,
-                    }}
+                <Form.Item style={{ marginBottom: 0 }}>
+                  <Form.Item
+                    name="certificateType3"
+                    className="input-with-upload"
+                    // rules={[{ required: true, message: 'Please select an certificate type.' }]}
                   >
-                    <Button className="upload-button">Attach</Button>
-                  </Upload>
-                </Form.Item>
-              </Form.Item>
-              <Form.Item style={{ marginBottom: 0 }}>
-                <Form.Item
-                  name="certificateType6"
-                  className="input-with-upload"
-                  // rules={[{ required: true, message: 'Please select an certificate type.' }]}
-                >
-                  <Select>{addCertTypes}</Select>
-                </Form.Item>
-                <Form.Item
-                  name="certAttachment6"
-                  className="upload-with-input"
-                  normalize={validateFiles}
-                  // rules={[{ required: true, message: 'Field is required.' }]}
-                >
-                  <Upload
-                    name="files"
-                    className="upload-with-input-item"
-                    fileList={certAttachment6}
-                    beforeUpload={beforeUpload}
-                    onChange={handleChangeCertAttachment6}
-                    action={assetUrl}
-                    headers={{
-                      Authorization: "Bearer " + keycloak.token,
-                    }}
+                    <Select>{addCertTypes}</Select>
+                  </Form.Item>
+                  <Form.Item
+                    name="certAttachment3"
+                    className="upload-with-input"
+                    normalize={validateFiles}
+                    // rules={[{ required: true, message: 'Field is required.' }]}
                   >
-                    <Button className="upload-button">Attach</Button>
-                  </Upload>
+                    <Upload
+                      name="files"
+                      className="upload-with-input-item"
+                      fileList={certAttachment3}
+                      beforeUpload={beforeUpload}
+                      onChange={handleChangeCertAttachment3}
+                      action={assetUrl}
+                      headers={{
+                        Authorization: "Bearer " + keycloak.token,
+                      }}
+                    >
+                      <Button className="upload-button">Attach</Button>
+                    </Upload>
+                  </Form.Item>
                 </Form.Item>
+                <Form.Item style={{ marginBottom: 0 }}>
+                  <Form.Item
+                    name="certificateType4"
+                    className="input-with-upload"
+                    // rules={[{ required: true, message: 'Please select an certificate type.' }]}
+                  >
+                    <Select>{addCertTypes}</Select>
+                  </Form.Item>
+                  <Form.Item
+                    name="certAttachment4"
+                    className="upload-with-input"
+                    normalize={validateFiles}
+                    // rules={[{ required: true, message: 'Field is required.' }]}
+                  >
+                    <Upload
+                      name="files"
+                      className="upload-with-input-item"
+                      fileList={certAttachment4}
+                      beforeUpload={beforeUpload}
+                      onChange={handleChangeCertAttachment4}
+                      action={assetUrl}
+                      headers={{
+                        Authorization: "Bearer " + keycloak.token,
+                      }}
+                    >
+                      <Button className="upload-button">Attach</Button>
+                    </Upload>
+                  </Form.Item>
+                </Form.Item>
+                <Form.Item style={{ marginBottom: 0 }}>
+                  <Form.Item
+                    name="certificateType5"
+                    className="input-with-upload"
+                    // rules={[{ required: true, message: 'Please select an certificate type.' }]}
+                  >
+                    <Select>{addCertTypes}</Select>
+                  </Form.Item>
+                  <Form.Item
+                    name="certAttachment5"
+                    className="upload-with-input"
+                    normalize={validateFiles}
+                    // rules={[{ required: true, message: 'Field is required.' }]}
+                  >
+                    <Upload
+                      name="files"
+                      className="upload-with-input-item"
+                      fileList={certAttachment5}
+                      beforeUpload={beforeUpload}
+                      onChange={handleChangeCertAttachment5}
+                      action={assetUrl}
+                      headers={{
+                        Authorization: "Bearer " + keycloak.token,
+                      }}
+                    >
+                      <Button className="upload-button">Attach</Button>
+                    </Upload>
+                  </Form.Item>
+                </Form.Item>
+                <Form.Item style={{ marginBottom: 0 }}>
+                  <Form.Item
+                    name="certificateType6"
+                    className="input-with-upload"
+                    // rules={[{ required: true, message: 'Please select an certificate type.' }]}
+                  >
+                    <Select>{addCertTypes}</Select>
+                  </Form.Item>
+                  <Form.Item
+                    name="certAttachment6"
+                    className="upload-with-input"
+                    normalize={validateFiles}
+                    // rules={[{ required: true, message: 'Field is required.' }]}
+                  >
+                    <Upload
+                      name="files"
+                      className="upload-with-input-item"
+                      fileList={certAttachment6}
+                      beforeUpload={beforeUpload}
+                      onChange={handleChangeCertAttachment6}
+                      action={assetUrl}
+                      headers={{
+                        Authorization: "Bearer " + keycloak.token,
+                      }}
+                    >
+                      <Button className="upload-button">Attach</Button>
+                    </Upload>
+                  </Form.Item>
+                </Form.Item>
+              </div>
+              <Form.Item>
+                <Button
+                  type="primary"
+                  loading={loading}
+                  disabled={loading}
+                  htmlType="submit"
+                  className="submit-button"
+                >
+                  Submit
+                </Button>
               </Form.Item>
+            </Form>
+          </Col>
+        </Row>
+        <Modal
+          visible={successUpdateVisible}
+          footer={null}
+          closable={true}
+          onCancel={() => {
+            setSuccessUpdateVisible(false);
+            router.push("/");
+            props.getUserProfile(keycloak.token);
+          }}
+          centered
+          bodyStyle={{ padding: "0" }}
+          width={400}
+        >
+          <div id="apply-to-sell-form-modal">
+            <div className="apply-to-sell-form-modal-content">
+              <p className="apply-to-sell-form-modal-para1">
+                Apply to sell initiated!
+              </p>
+              <p className="apply-to-sell-form-modal-para2">
+                Thanks for showing interest in joining our platform. Our team
+                will get back to you in 48 hours and take care of the rest of
+                the procedure. This is necessary for us to connect you with
+                buyers across the globe.
+              </p>
             </div>
-            <Form.Item>
-              <Button
-                type="primary"
-                loading={loading}
-                disabled={loading}
-                htmlType="submit"
-                className="submit-button"
-              >
-                Submit
-              </Button>
-            </Form.Item>
-          </Form>
-        </Col>
-      </Row>
-      <Modal
-        visible={successUpdateVisible}
-        footer={null}
-        closable={true}
-        onCancel={() => {
-          setSuccessUpdateVisible(false);
-          router.push("/");
-          props.getUserProfile(keycloak.token);
-        }}
-        centered
-        bodyStyle={{ padding: "0" }}
-        width={400}
-      >
-        <div id="apply-to-sell-form-modal">
-          <div className="apply-to-sell-form-modal-content">
-            <p className="apply-to-sell-form-modal-para1">
-              Apply to sell initiated!
-            </p>
-            <p className="apply-to-sell-form-modal-para2">
-              Thanks for showing interest in joining our platform. Our team will
-              get back to you in 48 hours and take care of the rest of the
-              procedure. This is necessary for us to connect you with buyers
-              across the globe.
-            </p>
+            <Button
+              className="apply-to-sell-form-modal-button"
+              onClick={() => {
+                setSuccessUpdateVisible(false);
+                router.push("/");
+                props.getUserProfile(keycloak.token);
+              }}
+            >
+              Close
+            </Button>
           </div>
-          <Button
-            className="apply-to-sell-form-modal-button"
-            onClick={() => {
-              setSuccessUpdateVisible(false);
-              router.push("/");
-              props.getUserProfile(keycloak.token);
-            }}
-          >
-            Close
-          </Button>
-        </div>
-      </Modal>
-    </div>
-  ) : (props.userProfile.userProfile &&
-      props.userProfile.userProfile.profileType &&
-      props.userProfile.userProfile.profileType === "BUYER") ||
-    (props.userProfile.userProfile &&
-      props.userProfile.userProfile.profileType &&
-      props.userProfile.userProfile.profileType === "SELLER" &&
-      props.userProfile.userProfile.verificationStatus !== "CREATED") ? (
-    <Redirect to="/" />
-  ) : (
-    <Spinner />
-  );
+        </Modal>
+      </div>
+    );
+  }
 };
 
 const mapStateToProps = (state) => {
   return {
-    userProfile: state.userProfile,
+    userProfile: state.userProfile.userProfile,
   };
 };
 
