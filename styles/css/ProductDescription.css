@@ -530,13 +530,17 @@
   }
   .pdp-save-overlay-collection {
     background: #874439;
-    padding: 0px 20px 4px 20px;
+    padding: 9px 20px;
     font-weight: 500;
     font-size: 14px;
     border-radius: 0 0 0 150px;
     width: 150px;
     margin-right: -12px;
     margin-top: -12px;
+    vertical-align: middle;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
   }
   .pdp-overlay {
     position: absolute;
