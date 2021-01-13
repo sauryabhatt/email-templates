@@ -89,7 +89,7 @@ export class TermsAndConditions extends Component {
             <div id="pdfWrapper" ref={(ref) => (this.pdfWrapper = ref)}>
               <Document
                 className="react-pdf__Page"
-                file="/Mesindus_interim Terms of Use_080121.pdf"
+                file="/Qalara-Terms of Use-WDV3.pdf"
                 onLoadSuccess={this.onDocumentLoadSuccess}
                 // renderMode='svg'
                 loading={<Spinner />}
