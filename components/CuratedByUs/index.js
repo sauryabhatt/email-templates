@@ -63,8 +63,8 @@ export default function CuratedByUsWrapper(props) {
     // {
     //   url: "/trends/sunkissed-spring21",
     //   img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend6.jpg",
-    //   text: "Sunlit Spring '21",
-    //   alt: "Sunlit Spring '21",
+    //   text: "Summer Pastels",
+    //   alt: "Summer Pastels",
     // },
     {
       url: "/trends/indigoblues",

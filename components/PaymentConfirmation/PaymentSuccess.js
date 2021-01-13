@@ -401,7 +401,7 @@ const PaymentSuccess = (props) => {
                         <li>Estimated production/ dispatch time</li>
                       </div>
                       <div className="c-right-blk qa-txt-alg-rgt">
-                        {typeOfOrder === "ERTM" ? "25-35" : "7-10"} days
+                        {typeOfOrder === "ERTM" ? "30-40" : "7-10"} days
                       </div>
                     </div>
                     <div>

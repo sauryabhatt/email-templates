@@ -11,7 +11,6 @@ import AuthWithKeycloak from "../components/AuthWithKeycloak";
 import { Provider } from "react-redux";
 import cookie from "cookie";
 import TagManager from "react-gtm-module";
-import Cookies from "js-cookie";
 import store from "../store";
 import { useRouter } from "next/router";
 

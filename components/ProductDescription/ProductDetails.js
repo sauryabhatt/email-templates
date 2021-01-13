@@ -18,7 +18,7 @@ import {
 import Icon, {
   MinusOutlined,
   CheckCircleOutlined,
-  RightOutlined,
+  CloseOutlined,
 } from "@ant-design/icons";
 import BreadCrumb from "../common/BreadCrumb";
 import Accordion from "../common/Accordion";
@@ -45,8 +45,8 @@ import getSymbolFromCurrency from "currency-symbol-map";
 import PDPLoader from "../../public/filestore/PDPLoader";
 import PDPLoaderMobile from "../../public/filestore/PDPLoaderMobile";
 import PDPZoom from "../../public/filestore/PDPZoom";
-import addToCollectionIcon from "../../public/filestore/addToCollection";
-import savedToCollectionIcon from "../../public/filestore/savedToCollection";
+import addToCollectionIcon from "../../public/filestore/addToCollectionIcon";
+import savedToCollectionIcon from "../../public/filestore/savedToCollectionIcon";
 import Air from "../../public/filestore/air";
 import Sea from "../../public/filestore/sea";
 import alertIcon from "../../public/filestore/alertIcon";
@@ -56,6 +56,7 @@ import { checkInventory, getCollections } from "../../store/actions";
 import playButton from "./../../public/filestore/playButton";
 import AddToCollection from "../common/AddToCollection";
 import sellerList from "../../public/filestore/freeShippingSellers.json";
+import signUp_icon from "../../public/filestore/Sign_Up";
 
 const { Option } = Select;
 
@@ -211,6 +212,7 @@ const ProductDetails = (props) => {
   const [variantId, setVariantId] = useState();
   const [zoomImg, setZoomImg] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
+  const [overlayDiv, setOverlayDiv] = useState(false);
   const [nonServiceableCountry, setNonServiceableCountry] = useState(false);
   const [selProductId, setSelProductId] = useState("");
   const [showCart, setCart] = useState(false);
@@ -264,6 +266,15 @@ const ProductDetails = (props) => {
   }, []);
 
   useEffect(() => {
+    let pdpOverlay = sessionStorage.getItem("pdpOverlay");
+    if (pdpOverlay) {
+      setOverlayDiv(false);
+    } else {
+      setOverlayDiv(true);
+      if (overlayDiv) {
+        sessionStorage.setItem("pdpOverlay", true);
+      }
+    }
     setSelectedCollection("");
     rtsform.resetFields();
     setCart(false);
@@ -275,9 +286,7 @@ const ProductDetails = (props) => {
     let { variants = [], skus = [], deliveryExclusions = [] } = data || {};
     let color = "";
     let variantId = "";
-
     let index = 0;
-
     if (destinationCountry && deliveryExclusions) {
       setUCountry(destinationCountry);
       index = deliveryExclusions.findIndex(
@@ -728,6 +737,12 @@ const ProductDetails = (props) => {
   const hideCalculationModal = () => {
     setCalculationModal(false);
   };
+  {
+    /**overlay div */
+  }
+  const hideOverlayDiv = () => {
+    setOverlayDiv(false);
+  };
 
   const onCalculateCharges = (values) => {
     let { quantity = "", country = "", postalCode = "" } = values || {};
@@ -739,7 +754,7 @@ const ProductDetails = (props) => {
         {
           hsnCode: hsnCode,
           casePackLength: parseInt(casePackLength),
-          exFactoryPrice: parseInt(exfactoryListPrice),
+          exFactoryPrice: exFactoryPrice,
           casePackBreadth: parseInt(casePackBreadth),
           casePackWeight: parseInt(casePackWeight),
           casePackHeight: parseInt(casePackHeight),
@@ -1101,67 +1116,111 @@ const ProductDetails = (props) => {
               </Button>
             </Col>
           </Row>
-          <div className="p-breadcrumb qa-mar-auto-4">
+          {/* <div className="p-breadcrumb qa-mar-auto-4">
             <BreadCrumb
               pageId="product-description"
               categoryName={productNameSC}
               vanityId={vanityId}
               brandName={sellerCode} //{brandNameSC}
             />
-          </div>
-          {showPrice ? (
-            <Row>
-              <Col
-                xs={24}
-                sm={24}
-                md={10}
-                lg={10}
-                xl={10}
-                style={{ paddingRight: "30px" }}
-              >
-                <div
-                  className="atc-section"
-                  onClick={() => {
+          </div> */}
+
+          <Row>
+            <Col
+              xs={24}
+              sm={24}
+              md={10}
+              lg={10}
+              xl={10}
+              style={{ paddingRight: "20px", textAlign: "right" }}
+            >
+              <div
+                style={{
+                  display: "inline-block",
+                  visibility: overlayDiv ? "hidden" : "visible",
+                }}
+                className="atc-section"
+                onClick={() => {
+                  if (showPrice) {
                     setCollection(true);
-                  }}
-                >
-                  <span className="save-collection">
-                    {selectedCollection ? "SAVED" : "SAVE TO COLLECTION"}
-                  </span>
-                  {selectedCollection ? (
-                    <Icon
-                      component={savedToCollectionIcon}
-                      className="atc-icon"
-                      style={{
-                        width: "15px",
-                        verticalAlign: "middle",
-                      }}
-                    />
-                  ) : (
-                    <Icon
-                      component={addToCollectionIcon}
-                      className="atc-icon"
-                      style={{
-                        width: "15px",
-                        verticalAlign: "middle",
-                      }}
-                    />
-                  )}
+                  } else {
+                    setLoginModal(true);
+                  }
+                }}
+              >
+                <span className="save-collection">
+                  {selectedCollection ? "SAVED" : "SAVE TO COLLECTION"}
+                </span>
+                {selectedCollection ? (
+                  <Icon
+                    component={savedToCollectionIcon}
+                    style={{
+                      width: "12px",
+                      verticalAlign: "middle",
+                    }}
+                  />
+                ) : (
+                  <Icon
+                    component={addToCollectionIcon}
+                    style={{
+                      width: "12px",
+                      verticalAlign: "middle",
+                    }}
+                  />
+                )}
+              </div>
+              <div
+                style={{
+                  display: overlayDiv ? "flex" : "none",
+                  textAlign: "left",
+                }}
+                className="overlay-div"
+              >
+                <div className="cross-icon">
+                  <CloseOutlined onClick={hideOverlayDiv} />
                 </div>
-              </Col>
-            </Row>
-          ) : (
-            <Row>
-              <Col
-                xs={24}
-                sm={24}
-                md={24}
-                lg={24}
-                xl={24}
-                className="qa-mar-top-2"
-              ></Col>
-            </Row>
-          )}
+                <div className="overlay" onClick={hideOverlayDiv}>
+                  <div
+                    className="save-to-overlay qa-cursor"
+                    onClick={() => {
+                      if (showPrice) {
+                        setCollection(true);
+                      } else {
+                        setLoginModal(true);
+                      }
+                    }}
+                  >
+                    <div className="save-overlay-collection">
+                      <span className="qa-va-m">Save to collection</span>
+                      <Icon
+                        component={addToCollectionIcon}
+                        className="overlay-atc-icon"
+                        style={{
+                          width: "12px",
+                          height: "12px",
+                          verticalAlign: "middle",
+                          marginLeft: "5px",
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="save-col-overlay">
+                    <div>
+                      <div className="overlay-heading">Qalara tips</div>
+                      <p className="overlay-click" onClick={hideOverlayDiv}>
+                        (Click to dismiss)
+                      </p>
+                      <p className="overlay-para">
+                        Easily send a single Request for Quote for multiple
+                        products using the new
+                        <b> 'save to collection'</b> feature!
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Col>
+          </Row>
           <Row className="qa-mar-auto-4 qa-mar-btm-4 image-gallery img-section">
             {galleryImages.length > 0 && (
               <Col
@@ -2071,65 +2130,99 @@ const ProductDetails = (props) => {
                   </a>
                 </Link>
               </div>
-              {!showPrice && (
-                <div
-                  style={{
-                    position: "absolute",
-                    width: "10%",
-                    background: "#e6e4df",
-                    height: "100%",
-                    right: 0,
-                    top: 0,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <span style={{ float: "right" }}>
-                    <RightOutlined
+
+              <div
+                style={{ visibility: overlayDiv ? "hidden" : "visible" }}
+                className={
+                  selectedCollection
+                    ? "pdp-collection-sec pdp-save-icon"
+                    : "pdp-collection-sec"
+                }
+                onClick={() => {
+                  if (showPrice) {
+                    setCollection(true);
+                  } else {
+                    setLoginModal(true);
+                  }
+                }}
+              >
+                <div className="pdp-stc">
+                  <div className="pdp-stc-btn">
+                    {selectedCollection ? "Saved" : "Save to collection"}
+                  </div>
+                </div>
+                <div className="pdp-stc-icon">
+                  {selectedCollection ? (
+                    <Icon
+                      component={savedToCollectionIcon}
                       style={{
-                        fontSize: "15px",
-                        verticalAlign: "middle",
+                        width: "15px",
                       }}
                     />
-                  </span>
+                  ) : (
+                    <Icon
+                      component={addToCollectionIcon}
+                      style={{
+                        width: "15px",
+                      }}
+                    />
+                  )}
                 </div>
-              )}
-              {showPrice && (
-                <div
-                  className="pdp-collection-sec"
-                  onClick={() => {
-                    setCollection(true);
-                  }}
-                >
-                  <div className="pdp-stc">
-                    <div className="pdp-stc-btn">
-                      {selectedCollection ? "Saved" : "Save to collection"}
+              </div>
+              <div
+                style={{ display: overlayDiv ? "block" : "none" }}
+                className="pdp-overlay-div"
+              >
+                <div className="pdp-overlay" onClick={hideOverlayDiv}>
+                  <div className="pdp-save-col-overlay">
+                    <div
+                      className="pdp-save-to-overlay"
+                      onClick={() => {
+                        if (showPrice) {
+                          setCollection(true);
+                        } else {
+                          setLoginModal(true);
+                        }
+                      }}
+                    >
+                      <div className="pdp-save-overlay-collection">
+                        <div className="pdp-stc">
+                          <div className="pdp-stc-btn">
+                            {selectedCollection
+                              ? "Saved"
+                              : "Save to collection"}
+                          </div>
+                        </div>
+                        <div className="pdp-stc-icon">
+                          <Icon
+                            component={addToCollectionIcon}
+                            className="pdp-overlay-atc-icon"
+                            style={{
+                              width: "15px",
+                              height: "15px",
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div style={{ paddingRight: "30px" }}>
+                      <div className="pdp-overlay-heading">Qalara tips</div>
+                      <p className="overlay-click" onClick={hideOverlayDiv}>
+                        (Click to dismiss)
+                      </p>
+                      <p className="overlay-para">
+                        Easily send a single Request for Quote for multiple
+                        products using the new <b>'save to collection'</b>{" "}
+                        feature!
+                      </p>
                     </div>
                   </div>
-                  <div className="pdp-stc-icon">
-                    {selectedCollection ? (
-                      <Icon
-                        component={savedToCollectionIcon}
-                        className="stc-icon"
-                        style={{
-                          width: "15px",
-                          verticalAlign: "middle",
-                        }}
-                      />
-                    ) : (
-                      <Icon
-                        component={addToCollectionIcon}
-                        className="atc-icon"
-                        style={{
-                          width: "15px",
-                          verticalAlign: "middle",
-                        }}
-                      />
-                    )}
-                  </div>
                 </div>
-              )}
+                <CloseOutlined
+                  className="pdp-cross-icon"
+                  onClick={hideOverlayDiv}
+                />
+              </div>
             </Col>
           </Row>
           <Row className="qa-mar-btm-4">
@@ -3688,8 +3781,8 @@ const ProductDetails = (props) => {
               {productType === "RTS"
                 ? "7-10 days"
                 : productType === "ERTM"
-                ? "25-35 days"
-                : "25-35 days"}
+                ? "30-40 days"
+                : "30-40 days"}
             </Col>
             <Col span={24} className="qa-pad-2 qa-mar-top-1">
               <div className="qa-tc-white qa-fs-20">Disclaimer</div>
@@ -3800,8 +3893,8 @@ const ProductDetails = (props) => {
         closable={false}
         onCancel={handleCancel}
         centered
-        bodyStyle={{ padding: "30px" }}
-        width={400}
+        bodyStyle={{ padding: "40px", backgroundColor: "#F9F7F2" }}
+        width={700}
         className="product-login-modal"
       >
         <div className="qa-rel-pos">
@@ -3809,8 +3902,8 @@ const ProductDetails = (props) => {
             onClick={handleCancel}
             style={{
               position: "absolute",
-              right: "-5px",
-              top: "-20px",
+              right: "-25px",
+              top: "-25px",
               cursor: "pointer",
               zIndex: "1",
             }}
@@ -3822,17 +3915,54 @@ const ProductDetails = (props) => {
           </div>
           <div id="product-login-modal">
             <div className="product-login-modal-content">
-              <p className="product-login-modal-para">
-                Please signin/signup to proceed
+              <p
+                className="product-login-modal-para"
+                style={{ color: "#af0000" }}
+              >
+                To save a product to collection, please sign up as a buyer
               </p>
             </div>
-            <Button className="qa-button product-sign-in-btn" onClick={signIn}>
-              Sign in / Sign up
-            </Button>
+            <div className="product-login-modal-content">
+              <div className="product-login-modal-head sub-heading">
+                Introducing
+              </div>
+            </div>
+            <div className="product-login-modal-para">
+              <div className="product-login-modal-head sub-heading">
+                Save to collection!
+              </div>
+            </div>
+            <div className="product-login-modal-content">
+              <p className="product-login-modal-para">
+                If you would like to request for quote for multiple products,
+                you can now use our new Save to Collection feature and send a
+                combined Quote request easily
+              </p>
+            </div>
+
+            <div className="qa-txt-alg-cnt">
+              <div className="login-modal-signup-btn">
+                <a href="/signup" className="button">
+                  <span className="sign-up-text-icon">{signUp_icon()} </span>
+                  <span className="sign-up-text">Sign Up as a buyer</span>
+                </a>
+              </div>
+            </div>
+            <div className="product-login-modal-content qa-mar-top-1">
+              <p className="product-login-modal-para sign-in-account">
+                Already have an account?{" "}
+                <span
+                  style={{ textDecoration: "underline" }}
+                  className="qa-sm-color qa-cursor"
+                  onClick={signIn}
+                >
+                  Sign in here
+                </span>
+              </p>
+            </div>
           </div>
         </div>
       </Modal>
-
       <Drawer
         placement={mobile ? "bottom" : "right"}
         closable={false}
