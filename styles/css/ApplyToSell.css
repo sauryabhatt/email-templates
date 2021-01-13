@@ -7,7 +7,7 @@
   background-repeat: no-repeat;
   background-position: top left;
   min-height: 100vh;
-  padding-top: calc(4% + 81px);
+  padding-top: 60px;
 }
 
 @media only screen and (min-width: 768px) {
@@ -308,7 +308,11 @@
   font-size: 24px;
   color: rgb(255, 255, 255);
 }
-
+#apply-to-sell-form .section-button:hover,
+#apply-to-sell-form .section-button:focus,
+#apply-to-sell-form .section-button:active {
+  border: none !important;
+}
 #apply-to-sell-form .label-paragraph-heading {
   font-family: senregular;
   font-size: 14px;
