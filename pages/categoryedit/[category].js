@@ -57,8 +57,10 @@ export default function CategoryEditDetails({ data }) {
       };
     case "baby-kids":
       meta = {
-        title: "Wholesale bay and kids products, handpicked to help your customers choose the best for the kids and families. Shop in bulk for eco friendly clothing, teethers, rattles and crib mobiles, early learning games and comforting soft toys.",
-        description: "Wholesale bay and kids products, handpicked to help your customers choose the best for the kids and families. Shop in bulk for eco friendly clothing, teethers, rattles and crib mobiles, early learning games and comforting soft toys.",
+        title:
+          "Wholesale bay and kids products, handpicked to help your customers choose the best for the kids and families. Shop in bulk for eco friendly clothing, teethers, rattles and crib mobiles, early learning games and comforting soft toys.",
+        description:
+          "Wholesale bay and kids products, handpicked to help your customers choose the best for the kids and families. Shop in bulk for eco friendly clothing, teethers, rattles and crib mobiles, early learning games and comforting soft toys.",
       };
 
     default:
@@ -88,7 +90,7 @@ export default function CategoryEditDetails({ data }) {
 const categoryObj = {
   kitchendining: "KitchenDining",
   homedecor: "HomeDecor",
-  fashionaccessories: "FashionAccessories",
+  fashionaccessories: "fashionaccessories",
   furniture: "Furniture",
   homelinen: "HomeLinen",
   jewelry: "Jewelry",

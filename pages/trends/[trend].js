@@ -55,7 +55,7 @@ export default function TrendDetails({ res, error, trend }) {
   );
 }
 const trendsObj = {
-  earthinspired: "EarthInspired",
+  earthinspired: "earthinspired",
   globaltextures: "GlobalTextures",
   urbanjungle: "UrbanJungle",
   homeoffice: "HomeOffice",
