@@ -2,8 +2,8 @@
 
 import dynamic from "next/dynamic";
 import { Layout } from "../components/common/Layout";
-import Auth from "../components/common/Auth";
 import Spinner from "../components/Spinner/Spinner";
+
 const DynamicCartWrapper = dynamic(() => import("../components/Cart/Cart"), {
   ssr: false,
   loading: () => <Spinner />,

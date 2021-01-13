@@ -234,8 +234,8 @@ const RtsOrderReview = (props) => {
   let eddMin = "";
   let eddMax = "";
   if (typeOfOrder === "ERTM") {
-    eddMin = deliveryDateMin.setDate(today.getDate() + 25 + tat);
-    eddMax = deliveryDateMax.setDate(today.getDate() + 35 + tat);
+    eddMin = deliveryDateMin.setDate(today.getDate() + 30 + tat);
+    eddMax = deliveryDateMax.setDate(today.getDate() + 40 + tat);
   } else {
     eddMin = deliveryDateMin.setDate(today.getDate() + 7 + tat);
     eddMax = deliveryDateMax.setDate(today.getDate() + 10 + tat);
@@ -502,7 +502,7 @@ const RtsOrderReview = (props) => {
                       <li>Estimated production/ dispatch time</li>
                     </div>
                     <div className="c-right-blk qa-txt-alg-rgt">
-                      {typeOfOrder === "ERTM" ? "25-35" : "7-10"} days
+                      {typeOfOrder === "ERTM" ? "30-40" : "7-10"} days
                     </div>
                   </div>
 
@@ -1211,7 +1211,7 @@ const RtsOrderReview = (props) => {
                         Estimated production/ dispatch time
                       </div>
                       <div className="c-right-blk qa-txt-alg-rgt">
-                        {typeOfOrder === "ERTM" ? "25-35" : "7-10"} days
+                        {typeOfOrder === "ERTM" ? "30-40" : "7-10"} days
                       </div>
                     </li>
                   </div>

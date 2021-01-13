@@ -239,12 +239,12 @@ function Home(props) {
       path: "/trends/globaltextures",
     },
     {
-      imageTitle: "Play and learn",
+      imageTitle: "Summer Pastels",
       slideText:
-        "Discover DIY kits, puzzles, and board games to help kids learn and have fun from the comfort and safety of their homes.",
-      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_8.jpg",
-      searchText: "playandLearn",
-      path: "/trends/play-and-learn",
+        "Curated summer must haves that celebrate joy; cotton scarves, tassel earrings, crochet cushions, eclectic tumblers & more.",
+      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_7.jpg",
+      searchText: "sunkissedSpring21",
+      path: "/trends/sunkissed-spring21",
     },
     {
       imageTitle: "Earth inspired",
@@ -253,6 +253,14 @@ function Home(props) {
       imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_3_2.jpg",
       searchText: "EarthInspired",
       path: "/trends/earthinspired",
+    },
+    {
+      imageTitle: "Play and learn",
+      slideText:
+        "Discover DIY kits, puzzles, and board games to help kids learn and have fun from the comfort and safety of their homes.",
+      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_8.jpg",
+      searchText: "playandLearn",
+      path: "/trends/play-and-learn",
     },
     {
       imageTitle: "Urban Jungle",
@@ -269,14 +277,6 @@ function Home(props) {
       imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_4_2.jpg",
       searchText: "HomeOffice",
       path: "/trends/homeoffice",
-    },
-    {
-      imageTitle: "Sunlit Spring '21",
-      slideText:
-        "These curated must-haves from our sellers embody to the dominant trends of the season and a brave new world that celebrates Joy.",
-      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_7.jpg",
-      searchText: "sunkissedSpring21",
-      path: "/trends/sunkissed-spring21",
     },
   ];
 
