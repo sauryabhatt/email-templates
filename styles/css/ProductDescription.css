@@ -1062,7 +1062,9 @@
 }
 /*Overlay start*/
 .cross-icon {
-  margin: -50px 0px 0px 570px;
+  position: absolute;
+  right: -80px;
+  top: -15px;
   font-weight: 500;
   font-size: 20px;
 }
@@ -1135,8 +1137,9 @@
   width: 461px;
   z-index: 8;
   height: 296px;
-  top: -17px;
-  margin-left: 123px;
+  top: -25px;
+  right: -40px;
+  /* margin-left: 123px; */
   -webkit-transform: rotate(-27deg);
   transform: rotate(-27deg);
   background: #332f2f;
