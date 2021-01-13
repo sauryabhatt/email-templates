@@ -53,7 +53,7 @@ const ApplyToSell = (props) => {
   const [step, setStep] = useState(0);
 
   const assetUrl =
-    process.env.REACT_APP_API_ASSETS_URL +
+    process.env.NEXT_PUBLIC_REACT_APP_API_ASSETS_URL +
     "/assets?sourceService=profile&userId=" +
     (props.userProfile && props.userProfile.profileId);
 
@@ -184,7 +184,8 @@ const ApplyToSell = (props) => {
       if (file.response) {
         // Component will show file.url as link
         file.url =
-          process.env.REACT_APP_ASSETS_FILE_URL + file.response.mediaUrl;
+          process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
+          file.response.mediaUrl;
         let tmp = file.name.split(".");
         file.name = tmp[0].slice(0, 30) + "." + tmp.slice(-1);
       }
@@ -448,7 +449,7 @@ const ApplyToSell = (props) => {
     // console.log(data);
 
     setLoading(true);
-    fetch(process.env.REACT_APP_API_PROFILE_URL + "/profiles/my", {
+    fetch(process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/profiles/my", {
       method: "PATCH",
       body: JSON.stringify(data),
       headers: {

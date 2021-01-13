@@ -2200,7 +2200,6 @@ const ProductDetails = (props) => {
                             style={{
                               width: "15px",
                               height: "15px",
-                              verticalAlign: "middle",
                             }}
                           />
                         </div>
