@@ -530,7 +530,7 @@
   }
   .pdp-save-overlay-collection {
     background: #874439;
-    padding: 8px 20px 15px 20px;
+    padding: 0px 20px 4px 20px;
     font-weight: 500;
     font-size: 14px;
     border-radius: 0 0 0 150px;
@@ -543,13 +543,13 @@
     transition: 0.7s ease;
     opacity: 95%;
     z-index: 8;
-    height: 380px;
+    height: 340px;
     top: -1px;
     background: #332f2f;
     border-top-left-radius: 0%;
     border-top-right-radius: 0%;
-    border-bottom-left-radius: 55%;
-    border-bottom-right-radius: 30%;
+    border-bottom-left-radius: 70%;
+    border-bottom-right-radius: 0%;
   }
   .pdp-save-col-overlay {
     color: #f9f7f2;
@@ -560,7 +560,7 @@
   .pdp-overlay-heading {
     font-size: 28px;
     font-family: Butler;
-    margin-top: 35px;
+    margin-top: 20px;
     display: inline-block;
   }
 }
@@ -596,12 +596,14 @@
     height: 45px;
   }
   #product-description .pdp-collection-sec {
-    display: inline-block;
     width: 40%;
     padding: 0px 20px;
     background: #874439;
     height: 45px;
     vertical-align: middle;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
   }
   #product-description .pdp-collection-sec.pdp-save-icon {
     padding: 8px 20px;
@@ -612,15 +614,12 @@
   #product-description .pdp-stc {
     display: inline-block;
     vertical-align: middle;
-    width: 80%;
-    padding: 7px 0px;
     color: #f9f7f2;
     font-family: senregular;
   }
   #product-description .pdp-stc-icon {
-    width: 20%;
-    display: inline-block;
     padding-left: 10px;
+    vertical-align: middle;
   }
   .sign-in-account {
     line-height: 17px;
@@ -1225,4 +1224,9 @@
 #product-description #product-login-modal {
   text-align: center;
   padding: 0px 40px;
+}
+@media only screen and (max-width: 320px) {
+  .login-modal-signup-btn .sign-up-text {
+    font-size: 14px;
+  }
 }

@@ -274,7 +274,6 @@ const ProductDetails = (props) => {
       if (overlayDiv) {
         sessionStorage.setItem("pdpOverlay", true);
       }
-     
     }
     setSelectedCollection("");
     rtsform.resetFields();
@@ -1138,6 +1137,7 @@ const ProductDetails = (props) => {
               <div
                 style={{
                   display: "inline-block",
+                  visibility: overlayDiv ? "hidden" : "visible",
                 }}
                 className="atc-section"
                 onClick={() => {
@@ -1179,7 +1179,7 @@ const ProductDetails = (props) => {
                 <div className="cross-icon">
                   <CloseOutlined onClick={hideOverlayDiv} />
                 </div>
-                <div className="overlay">
+                <div className="overlay" onClick={hideOverlayDiv}>
                   <div
                     className="save-to-overlay qa-cursor"
                     onClick={() => {
@@ -2132,6 +2132,7 @@ const ProductDetails = (props) => {
               </div>
 
               <div
+                style={{ visibility: overlayDiv ? "hidden" : "visible" }}
                 className={
                   selectedCollection
                     ? "pdp-collection-sec pdp-save-icon"
@@ -2156,7 +2157,6 @@ const ProductDetails = (props) => {
                       component={savedToCollectionIcon}
                       style={{
                         width: "15px",
-                        verticalAlign: "middle",
                       }}
                     />
                   ) : (
@@ -2164,7 +2164,6 @@ const ProductDetails = (props) => {
                       component={addToCollectionIcon}
                       style={{
                         width: "15px",
-                        verticalAlign: "middle",
                       }}
                     />
                   )}
@@ -2174,7 +2173,7 @@ const ProductDetails = (props) => {
                 style={{ display: overlayDiv ? "block" : "none" }}
                 className="pdp-overlay-div"
               >
-                <div className="pdp-overlay">
+                <div className="pdp-overlay" onClick={hideOverlayDiv}>
                   <div className="pdp-save-col-overlay">
                     <div
                       className="pdp-save-to-overlay"
