@@ -1,3 +1,5 @@
+/** @format */
+
 #apply-to-sell-form {
   background-color: #332f2f;
   background-image: url("https://cdn.qalara.com/images/Img_ApplyToSell_Bird_Outline.png");
@@ -324,13 +326,12 @@
 }
 
 #apply-to-sell-form .upload-button {
-    border: none;
-    border-radius: 0;
-    color: #000000;
-    background-color: rgb(217, 187, 127);
-    height: 43.66px;
+  border: none;
+  border-radius: 0;
+  color: #000000;
+  background-color: rgb(217, 187, 127);
+  height: 43.66px;
 }
-
 
 #apply-to-sell-form-modal {
   background-color: #f9f7f2;
@@ -537,29 +538,30 @@
   margin-bottom: 40px;
 }
 
-#apply-to-sell-form .ant-upload-list-item-list-type-text a{
+#apply-to-sell-form .ant-upload-list-item-list-type-text a {
   color: #d9bb7f !important;
 }
 
-#apply-to-sell-form .ant-upload-list-item-info .anticon-loading .anticon, .ant-upload-list-item-info .ant-upload-text-icon .anticon{
+#apply-to-sell-form .ant-upload-list-item-info .anticon-loading .anticon,
+.ant-upload-list-item-info .ant-upload-text-icon .anticon {
   color: #d9bb7f;
 }
 
-#apply-to-sell-form .ant-upload-list-item-card-actions .anticon{
+#apply-to-sell-form .ant-upload-list-item-card-actions .anticon {
   color: #ffffff;
 }
 
-#apply-to-sell-form .ant-upload-list{
+#apply-to-sell-form .ant-upload-list {
   display: inline-block;
   vertical-align: middle;
 }
 
-#apply-to-sell-form .ant-upload-list-item{
+#apply-to-sell-form .ant-upload-list-item {
   margin: auto;
 }
 
-#apply-to-sell-form .ant-upload-list-item:hover .ant-upload-list-item-info{
-  background-color: rgb(207, 178, 122, 0.2);;
+#apply-to-sell-form .ant-upload-list-item:hover .ant-upload-list-item-info {
+  background-color: rgb(207, 178, 122, 0.2);
 }
 
 #apply-to-sell-form
@@ -615,10 +617,3 @@
   color: #332f2f;
   background: rgb(217, 187, 127);
 }
-
-/* #apply-to-sell-form .ant-radio-button-wrapper:hover {
-    color: #332f2f;
-    background: rgb(217, 187, 127);
-    opacity: 0.4;
-    border: 1.5px solid rgb(217, 187, 127, 0.4);
-  } */
