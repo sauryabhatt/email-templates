@@ -2,7 +2,6 @@
 
 import dynamic from "next/dynamic";
 import { Layout } from "../components/common/Layout";
-import ApplyToSell from "../components/ApplyToSell/ApplyToSell";
 import Spinner from "../components/Spinner/Spinner";
 import Auth from "../components/common/Auth";
 
@@ -14,10 +13,9 @@ const DynamicApplyToSellWrapper = dynamic(
   }
 );
 
-export default function ApplyToSell() {
+export default function ApplyToSellWrapper() {
   const meta = {
-    title:
-      "Discover verified global buyers digitally | Export Handicrafts, Textiles, Furniture, Décor & more | Qalara",
+    title: "Apply to Sell | Qalara",
     description:
       "Discover verified global buyers digitally. Export Handicrafts, Textiles, Furniture, Décor & more digitally.",
     keywords:
