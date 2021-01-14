@@ -25,7 +25,7 @@ export default function HomePageCarousel(props) {
       hading_text: (
         <div style={{ color: "#754222" }}>
           Global wholesale{isMobile ? <br /> : null} buying,{" "}
-          {isMobile ? <br /> : null}reimagined.
+          {isMobile ? "" : null}reimagined.
         </div>
       ),
       small_text: (
@@ -157,6 +157,7 @@ export default function HomePageCarousel(props) {
               imgCount={imgCount}
               isMobile={isMobile}
               isAuthenticated={props.isAuthenticated}
+              showRFQ={props.showRFQ}
             />
           );
         })}
@@ -263,6 +264,12 @@ function SlideElement(props) {
   function signupAction() {
     router.push(e.signinBTNLink);
   }
+
+  const handleRFQAction = (e) => {
+    e.preventDefault();
+    props.showRFQ();
+  };
+
   return (
     <div
       onClick={!e.isSignupbtn ? signupAction : () => {}}
@@ -283,17 +290,34 @@ function SlideElement(props) {
           src={isMobile ? e.mobileImg : e.img}
         />
       ) : null}
-      <div className="home-signup-btn">
+      <div
+        className={
+          isMobile ? "home-signup-btn" : "home-signup-btn qa-vertical-center"
+        }
+      >
+        {e.isSignupbtn && (
+          <Link
+            href="/products/all-categories"
+            className="button qa-primary-btn"
+          >
+            <span className="sign-up-text">Shop now</span>
+          </Link>
+        )}
         {e.isSignupbtn ? (
           !isAuthenticated ? (
-            <a href="/signup" className="button">
+            <Link href="/signup" className="button qa-secondary-btn">
               <span className="sign-up-text-icon">{signUp_icon()} </span>
               <span className="sign-up-text">Sign Up as a buyer</span>
-            </a>
+            </Link>
           ) : (
-            <a href={e.signinBTNLink} className="button">
-              <span className="sign-up-text">{e.signinBTNText}</span>
-            </a>
+            <Link
+              className="button"
+              onClick={(e) => {
+                handleRFQAction(e);
+              }}
+            >
+              <span className="sign-up-text">Help me Source</span>
+            </Link>
           )
         ) : null}
       </div>

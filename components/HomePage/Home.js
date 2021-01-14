@@ -294,7 +294,12 @@ function Home(props) {
   )}`;
   return (
     <>
-      <HomeBanner isAuthenticated={isAuthenticated} />
+      <HomeBanner
+        isAuthenticated={isAuthenticated}
+        showRFQ={() => {
+          setVisible(true);
+        }}
+      />
       <Row id="q-source-banner">
         <div className="q-source-title">
           <div className="banner-text">

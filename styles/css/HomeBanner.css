@@ -150,7 +150,14 @@
 .home-signup-btn a.button {
   padding: 16px 20px;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
-  margin: 0;
+  margin: 0px 15px;
+  width: 280px;
+}
+.home-signup-btn a.button.qa-primary-btn {
+  background: #d9bb7f;
+}
+.home-signup-btn a.button.qa-secondary-btn {
+  background-color: #f2f0eb;
 }
 .home-signup-btn .sign-up-text {
   font-size: 17px;
@@ -617,8 +624,8 @@ top: 2.48vh; */
     top: 60%;
   }
   .home-signup-btn {
-    top: 46%;
-    width: 246px;
+    top: 30%;
+    /* width: 246px; */
   }
   .home-signup-btn:not(:root:root) {
     width: 265px;
@@ -626,6 +633,13 @@ top: 2.48vh; */
   .home-signup-btn a.button {
     padding: 14px 18px;
     margin-top: 0;
+  }
+  .home-signup-btn a.button {
+    width: 250px;
+    margin: 0px;
+  }
+  .home-signup-btn a.button.qa-primary-btn {
+    margin-bottom: 20px;
   }
   /*.home-signup-btn .sign-up-text{
     font-size: 14px;
@@ -1133,3 +1147,8 @@ position: absolute;
 bottom: 20px;
 right: 25%;
 } */
+@media only screen and (max-width: 280px) {
+  .home-banner-head-text {
+    font-size: 28px !important;
+  }
+}
