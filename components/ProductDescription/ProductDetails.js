@@ -266,13 +266,13 @@ const ProductDetails = (props) => {
   }, []);
 
   useEffect(() => {
-    let pdpOverlay = sessionStorage.getItem("pdpOverlay");
+    let pdpOverlay = localStorage.getItem("pdpOverlay");
     if (pdpOverlay) {
       setOverlayDiv(false);
     } else {
       setOverlayDiv(true);
       if (overlayDiv) {
-        sessionStorage.setItem("pdpOverlay", true);
+        localStorage.setItem("pdpOverlay", true);
       }
     }
     setSelectedCollection("");
