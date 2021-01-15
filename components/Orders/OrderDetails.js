@@ -492,6 +492,7 @@ const OrderDetails = (props) => {
                   size = "",
                   isQualityTestingRequired = false,
                   isSampleDeliveryRequired = false,
+                  freeShippingEligible = false,
                 } = product;
                 let productNameSC =
                   productName.toLowerCase().charAt(0).toUpperCase() +
@@ -795,8 +796,9 @@ const OrderDetails = (props) => {
                                   miscCharges.find(
                                     (x) => x.chargeId === "SELLER_DISCOUNT"
                                   ).amount > 0 &&
-                                  sellerList.length &&
-                                  sellerList.includes(sellerCode) && (
+                                  ((sellerList.length &&
+                                    sellerList.includes(sellerCode)) ||
+                                    freeShippingEligible) && (
                                     <div className="qa-offer-text qa-mar-top-05 qa-disp-inline">
                                       FREE shipping
                                     </div>
@@ -855,13 +857,15 @@ const OrderDetails = (props) => {
                                   miscCharges.find(
                                     (x) => x.chargeId === "SELLER_DISCOUNT"
                                   ).amount > 0 &&
-                                  sellerList.length &&
-                                  sellerList.includes(sellerCode) && (
+                                  ((sellerList.length &&
+                                    sellerList.includes(sellerCode)) ||
+                                    freeShippingEligible) && (
                                     <div className="qa-offer-text qa-mar-top-1 qa-disp-inline">
                                       FREE shipping
                                     </div>
                                   )}
                                 {(!sellerList.includes(sellerCode) ||
+                                  !freeShippingEligible ||
                                   !(
                                     miscCharges.find(
                                       (x) => x.chargeId === "SELLER_DISCOUNT"
@@ -889,6 +893,7 @@ const OrderDetails = (props) => {
                             style={{ lineHeight: "110%" }}
                           >
                             {(!sellerList.includes(sellerCode) ||
+                              !freeShippingEligible ||
                               !(
                                 miscCharges.find(
                                   (x) => x.chargeId === "SELLER_DISCOUNT"

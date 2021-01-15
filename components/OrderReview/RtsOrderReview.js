@@ -604,6 +604,7 @@ const RtsOrderReview = (props) => {
                                 total = "",
                                 isFulfillable = false,
                                 unitOfMeasure = "",
+                                freeShippingEligible = false,
                               } = product;
                               quantity = parseInt(quantity);
 
@@ -679,13 +680,15 @@ const RtsOrderReview = (props) => {
                                           ? getConvertedCurrency(total)
                                           : ""}
                                       </div>
-                                      {!sellerList.includes(sellerCode) && (
+                                      {(!sellerList.includes(sellerCode) ||
+                                        !freeShippingEligible) && (
                                         <div className="cart-price-text">
                                           Base price per unit excl. margin and
                                           other charges
                                         </div>
                                       )}
-                                      {sellerList.includes(sellerCode) && (
+                                      {(sellerList.includes(sellerCode) ||
+                                        freeShippingEligible) && (
                                         <div className="qa-offer-text qa-mar-top-15">
                                           FREE shipping
                                         </div>
@@ -1308,6 +1311,7 @@ const RtsOrderReview = (props) => {
                             total = "",
                             isFulfillable = false,
                             unitOfMeasure = "",
+                            freeShippingEligible = false,
                           } = product;
                           quantity = parseInt(quantity);
                           return (
@@ -1347,7 +1351,8 @@ const RtsOrderReview = (props) => {
                                     <CheckCircleOutlined /> Sample required
                                   </div>
                                 )}
-                                {sellerList.includes(sellerCode) && (
+                                {(sellerList.includes(sellerCode) ||
+                                  freeShippingEligible) && (
                                   <div className="qa-mar-top-15 qa-offer-text">
                                     FREE shipping
                                   </div>
@@ -1373,10 +1378,13 @@ const RtsOrderReview = (props) => {
                                   {getSymbolFromCurrency(convertToCurrency)}
                                   {total ? getConvertedCurrency(total) : ""}
                                 </div>
-                                <div className="cart-price-text qa-mar-btm-1">
-                                  Base price per unit excl. margin and other
-                                  charges
-                                </div>
+                                {(!sellerList.includes(sellerCode) ||
+                                  !freeShippingEligible) && (
+                                  <div className="cart-price-text qa-mar-btm-1">
+                                    Base price per unit excl. margin and other
+                                    charges
+                                  </div>
+                                )}
                               </Col>
                             </Row>
                           );
