@@ -213,6 +213,7 @@ const PaypalButton = (props) => {
       let couponDiscount = 0;
       let freightDis = 0;
       let sellerDiscount = 0;
+      let productDiscount = 0;
 
       for (let charge of miscCharges) {
         let { chargeId = "", amount = 0 } = charge;
@@ -228,10 +229,12 @@ const PaypalButton = (props) => {
           freightDis = amount;
         } else if (chargeId === "SELLER_DISCOUNT") {
           sellerDiscount = amount;
+        } else if (chargeId === "PRODUCT_DISCOUNT") {
+          productDiscount = amount;
         }
       }
 
-      if (couponDiscount > 0 || sellerDiscount > 0) {
+      if (couponDiscount > 0 || sellerDiscount > 0 || productDiscount > 0) {
         frieghtCharge = freightDis;
       }
 
@@ -279,6 +282,7 @@ const PaypalButton = (props) => {
         parseFloat(getConvertedCurrency(frieghtCharge, conversionFactor)) +
         parseFloat(getConvertedCurrency(dutyCharge, conversionFactor)) -
         parseFloat(getConvertedCurrency(sellerDiscount, conversionFactor)) -
+        parseFloat(getConvertedCurrency(productDiscount, conversionFactor)) -
         parseFloat(getConvertedCurrency(couponDiscount, conversionFactor)) +
         parseFloat(getConvertedCurrency(vatCharge, conversionFactor)) -
         parseFloat(getConvertedCurrency(promoDiscount, conversionFactor));

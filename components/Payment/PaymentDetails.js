@@ -91,6 +91,7 @@ const PaymentDetails = (props) => {
   let couponDiscount = 0;
   let freightDis = 0;
   let sellerDiscount = 0;
+  let productDiscount = 0;
   let vat = 0;
   let dutyMax = 0;
   let dutyMin = 0;
@@ -109,6 +110,8 @@ const PaymentDetails = (props) => {
       freightDis = amount;
     } else if (chargeId === "SELLER_DISCOUNT") {
       sellerDiscount = amount;
+    } else if (chargeId === "PRODUCT_DISCOUNT") {
+      productDiscount = amount;
     } else if (chargeId === "DDP_VAT") {
       vat = amount;
     } else if (chargeId === "DDP_DUTY_MAX") {
@@ -134,7 +137,7 @@ const PaymentDetails = (props) => {
     ).toFixed(2);
   };
 
-  if (couponDiscount > 0 || sellerDiscount > 0) {
+  if (couponDiscount > 0 || sellerDiscount > 0 || productDiscount > 0) {
     frieghtCharge = freightDis;
   }
 
@@ -172,6 +175,7 @@ const PaymentDetails = (props) => {
     parseFloat(getConvertedCurrency(frieghtCharge)) +
     parseFloat(getConvertedCurrency(dutyCharge)) -
     parseFloat(getConvertedCurrency(sellerDiscount)) -
+    parseFloat(getConvertedCurrency(productDiscount)) -
     parseFloat(getConvertedCurrency(couponDiscount)) +
     parseFloat(getConvertedCurrency(vatCharge)) -
     parseFloat(getConvertedCurrency(promoDiscount));

@@ -1347,6 +1347,99 @@ const OrderReview = (props) => {
                           </Col>
                         )}
                     </Row>
+
+                    <Row>
+                      {props.order &&
+                        props.order.miscCharges &&
+                        props.order.miscCharges.find(
+                          (x) => x.chargeId === "PRODUCT_DISCOUNT"
+                        ) &&
+                        props.order.miscCharges.find(
+                          (x) => x.chargeId === "PRODUCT_DISCOUNT"
+                        ).amount &&
+                        props.order.miscCharges.find(
+                          (x) => x.chargeId === "PRODUCT_DISCOUNT"
+                        ).amount > 0 && (
+                          <Col xs={18} sm={18} md={18} lg={16} xl={16}>
+                            <span
+                              style={{
+                                verticalAlign: "middle",
+                                color: "#02873A",
+                              }}
+                              className={
+                                mediaMatch.matches
+                                  ? "qa-font-san qa-fs-14 qa-fw-b"
+                                  : "qa-font-san qa-fs-14 qa-fw-b"
+                              }
+                            >
+                              Shipping promotion applied{" "}
+                            </span>
+                            <Tooltip
+                              overlayClassName="qa-tooltip"
+                              placement="top"
+                              trigger="hover"
+                              title="Free shipping promotion applied"
+                            >
+                              <span
+                                style={{
+                                  cursor: "pointer",
+                                  verticalAlign: "middle",
+                                }}
+                              >
+                                <Icon
+                                  component={infoIcon}
+                                  style={{
+                                    width: "15px",
+                                    height: "15px",
+                                  }}
+                                />
+                              </span>
+                            </Tooltip>
+                          </Col>
+                        )}
+                      {props.order &&
+                        props.order.miscCharges &&
+                        props.order.miscCharges.find(
+                          (x) => x.chargeId === "PRODUCT_DISCOUNT"
+                        ) &&
+                        props.order.miscCharges.find(
+                          (x) => x.chargeId === "PRODUCT_DISCOUNT"
+                        ).amount &&
+                        props.order.miscCharges.find(
+                          (x) => x.chargeId === "PRODUCT_DISCOUNT"
+                        ).amount > 0 && (
+                          <Col
+                            xs={6}
+                            sm={6}
+                            md={6}
+                            lg={8}
+                            xl={8}
+                            className="qa-col-end"
+                          >
+                            <span
+                              className="qa-font-san qa-fw-b qa-fs-12"
+                              style={{ color: "#02873A" }}
+                            >
+                              -{" "}
+                              {getSymbolFromCurrency(
+                                props.order && props.order.currency
+                              )}
+                              {parseFloat(
+                                (props.order &&
+                                  props.order.miscCharges &&
+                                  props.order.miscCharges.find(
+                                    (x) => x.chargeId === "PRODUCT_DISCOUNT"
+                                  ) &&
+                                  props.order.miscCharges.find(
+                                    (x) => x.chargeId === "PRODUCT_DISCOUNT"
+                                  ).amount) ||
+                                  0
+                              ).toFixed(2)}
+                            </span>
+                          </Col>
+                        )}
+                    </Row>
+
                     <Row>
                       {promoDiscount > 0 && (
                         <Col xs={18} sm={18} md={18} lg={16} xl={16}>
@@ -2368,6 +2461,17 @@ const OrderReview = (props) => {
                                     ) &&
                                     props.order.miscCharges.find(
                                       (x) => x.chargeId === "SELLER_DISCOUNT"
+                                    ).amount) ||
+                                    0
+                                ) +
+                                parseFloat(
+                                  (props.order &&
+                                    props.order.miscCharges &&
+                                    props.order.miscCharges.find(
+                                      (x) => x.chargeId === "PRODUCT_DISCOUNT"
+                                    ) &&
+                                    props.order.miscCharges.find(
+                                      (x) => x.chargeId === "PRODUCT_DISCOUNT"
                                     ).amount) ||
                                     0
                                 ) -
