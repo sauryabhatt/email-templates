@@ -1,32 +1,4 @@
 /** @format */
-@media only screen and (min-width: 1300px) {
-  .home-signup-btn a.button {
-    width: 285px;
-  }
-}
-@media only screen and (min-width: 1600px) {
-  .home-signup-btn a.button {
-    width: 320px;
-  }
-  .home-signup-btn .sign-up-text {
-    font-size: 20px !important;
-  }
-  .home-banner-head-text {
-    font-size: 65px !important;
-  }
-  .home-banner-small-text {
-    font-size: 22px !important;
-    line-height: 30px !important;
-  }
-  .second-img-head {
-    font-size: 55px !important;
-    line-height: 130% !important;
-  }
-  .second-img-subhead {
-    font-size: 28px !important;
-    line-height: 140% !important;
-  }
-}
 .hot-weel-crousel {
   background: #bcb29c;
   padding: 28px 60px 58px;
@@ -1157,5 +1129,41 @@ right: 25%;
 @media only screen and (max-width: 280px) {
   .home-banner-head-text {
     font-size: 28px !important;
+  }
+}
+@media only screen and (min-width: 1300px) {
+  .home-signup-btn a.button {
+    width: 285px;
+  }
+}
+@media only screen and (min-width: 1600px) {
+  .home-signup-btn .sign-up-text-icon {
+    margin-top: 2px;
+  }
+  .home-signup-btn a.button {
+    width: 320px;
+  }
+  .home-signup-btn .sign-up-text {
+    font-size: 20px !important;
+  }
+  .home-banner-head-text {
+    font-size: 65px !important;
+  }
+  .home-banner-small-text {
+    font-size: 22px !important;
+    line-height: 30px !important;
+  }
+  .second-img-head {
+    font-size: 55px !important;
+    line-height: 130% !important;
+  }
+  .second-img-subhead {
+    font-size: 28px !important;
+    line-height: 140% !important;
+  }
+}
+@media only screen and (min-width: 1900px) {
+  .home-signup-btn .sign-up-text-icon {
+    margin-top: 3px;
   }
 }
