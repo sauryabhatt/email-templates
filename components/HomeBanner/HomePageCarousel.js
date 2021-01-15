@@ -296,28 +296,25 @@ function SlideElement(props) {
         }
       >
         {e.isSignupbtn && (
-          <Link
-            href="/products/all-categories"
-            className="button qa-primary-btn"
-          >
+          <a href="/products/all-categories" className="button qa-primary-btn">
             <span className="sign-up-text">Shop now</span>
-          </Link>
+          </a>
         )}
         {e.isSignupbtn ? (
           !isAuthenticated ? (
-            <Link href="/signup" className="button qa-secondary-btn">
+            <a href="/signup" className="button qa-secondary-btn">
               <span className="sign-up-text-icon">{signUp_icon()} </span>
               <span className="sign-up-text">Sign Up as a buyer</span>
-            </Link>
+            </a>
           ) : (
-            <Link
+            <a
               className="button"
               onClick={(e) => {
                 handleRFQAction(e);
               }}
             >
               <span className="sign-up-text">Help me Source</span>
-            </Link>
+            </a>
           )
         ) : null}
       </div>
