@@ -271,9 +271,7 @@ const ProductDetails = (props) => {
       setOverlayDiv(false);
     } else {
       setOverlayDiv(true);
-      if (overlayDiv) {
-        localStorage.setItem("pdpOverlay", true);
-      }
+      localStorage.setItem("pdpOverlay", true);
     }
     setSelectedCollection("");
     rtsform.resetFields();
@@ -742,6 +740,7 @@ const ProductDetails = (props) => {
   }
   const hideOverlayDiv = () => {
     setOverlayDiv(false);
+    localStorage.setItem("pdpOverlay", true);
   };
 
   const onCalculateCharges = (values) => {
