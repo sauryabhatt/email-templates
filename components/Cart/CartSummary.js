@@ -240,12 +240,14 @@ const CartSummary = (props) => {
           quantity = "",
           priceMin = "",
           articleId = "",
+          exfactoryListPrice = "",
         } = product;
         let obj = {
           productId: productId,
           productName: productName,
           quantity: quantity,
           priceMin: currencyFormat + priceMin,
+          exfactoryListPrice: exfactoryListPrice,
           linkOfProduct: url + articleId,
         };
         productList.push(obj);
