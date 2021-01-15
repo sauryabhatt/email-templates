@@ -24,8 +24,7 @@ export default function HomePageCarousel(props) {
       img: "https://cdn.qalara.com/images/Img_Homepage_Banner_Qalara1_1.jpg",
       hading_text: (
         <div style={{ color: "#754222" }}>
-          Global wholesale{isMobile ? <br /> : null} buying,{" "}
-          {isMobile ? <br /> : null}reimagined.
+          Global wholesale{isMobile ? <br /> : null} buying, reimagined.
         </div>
       ),
       small_text: (
@@ -157,6 +156,7 @@ export default function HomePageCarousel(props) {
               imgCount={imgCount}
               isMobile={isMobile}
               isAuthenticated={props.isAuthenticated}
+              showRFQ={props.showRFQ}
             />
           );
         })}
@@ -263,6 +263,12 @@ function SlideElement(props) {
   function signupAction() {
     router.push(e.signinBTNLink);
   }
+
+  const handleRFQAction = (e) => {
+    e.preventDefault();
+    props.showRFQ();
+  };
+
   return (
     <div
       onClick={!e.isSignupbtn ? signupAction : () => {}}
@@ -283,16 +289,30 @@ function SlideElement(props) {
           src={isMobile ? e.mobileImg : e.img}
         />
       ) : null}
-      <div className="home-signup-btn">
+      <div
+        className={
+          isMobile ? "home-signup-btn" : "home-signup-btn qa-vertical-center"
+        }
+      >
+        {e.isSignupbtn && (
+          <a href="/products/all-categories" className="button qa-primary-btn">
+            <span className="sign-up-text">Shop now</span>
+          </a>
+        )}
         {e.isSignupbtn ? (
           !isAuthenticated ? (
-            <a href="/signup" className="button">
+            <a href="/signup" className="button qa-secondary-btn">
               <span className="sign-up-text-icon">{signUp_icon()} </span>
               <span className="sign-up-text">Sign Up as a buyer</span>
             </a>
           ) : (
-            <a href={e.signinBTNLink} className="button">
-              <span className="sign-up-text">{e.signinBTNText}</span>
+            <a
+              className="button qa-secondary-btn"
+              onClick={(e) => {
+                handleRFQAction(e);
+              }}
+            >
+              <span className="sign-up-text">Help me Source</span>
             </a>
           )
         ) : null}
