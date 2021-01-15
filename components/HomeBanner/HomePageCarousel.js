@@ -308,7 +308,7 @@ function SlideElement(props) {
             </a>
           ) : (
             <a
-              className="button"
+              className="button qa-secondary-btn"
               onClick={(e) => {
                 handleRFQAction(e);
               }}
