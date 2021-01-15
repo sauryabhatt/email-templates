@@ -139,7 +139,7 @@
   background-color: #f2f0eb;
 }
 .home-signup-btn .sign-up-text {
-  font-size: 17px;
+  font-size: 16px;
   line-height: 140%;
 }
 .home-signup-btn .sign-up-text-icon {
@@ -620,10 +620,10 @@ top: 2.48vh; */
   .home-signup-btn a.button.qa-primary-btn {
     margin-bottom: 20px;
   }
-  /*.home-signup-btn .sign-up-text{
+  .home-signup-btn .sign-up-text {
     font-size: 14px;
     letter-spacing: 0.06px;
-  }*/
+  }
   .scroller-container {
     margin: 0 0 10px 0 !important;
     width: 100% !important;
