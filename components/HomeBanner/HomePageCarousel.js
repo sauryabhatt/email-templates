@@ -24,8 +24,7 @@ export default function HomePageCarousel(props) {
       img: "https://cdn.qalara.com/images/Img_Homepage_Banner_Qalara1_1.jpg",
       hading_text: (
         <div style={{ color: "#754222" }}>
-          Global wholesale{isMobile ? <br /> : null} buying,{" "}
-          {isMobile ? "" : null}reimagined.
+          Global wholesale{isMobile ? <br /> : null} buying, reimagined.
         </div>
       ),
       small_text: (

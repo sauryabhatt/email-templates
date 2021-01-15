@@ -1068,7 +1068,7 @@ top: 2.48vh; */
   line-height: 140%;
   text-align: center;
 }
-@media only screen and (max-width: 414px) {
+@media only screen and (max-width: 768px) {
   .home-banner-head-text {
     font-size: 32px !important;
     line-height: 130%;
