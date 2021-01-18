@@ -701,7 +701,6 @@ function Home(props) {
         visible={confirmationModal}
         footer={null}
         closable={false}
-        onCancel={closeConfimationModal}
         bodyStyle={{
           background: "#332F2F",
           boxShadow: "0px 2px 2px rgba(0, 0, 0, 0.25)",
@@ -747,7 +746,9 @@ function Home(props) {
                 <br />
                 <br /> If you face any issues, please write to us at{" "}
                 <span className="qa-underline qa-primary-c">
-                  help@qalara.com
+                  {uProfile === "BUYER"
+                    ? "buyers@qalara.com"
+                    : "help@qalara.com"}
                 </span>
               </p>
             ) : (
