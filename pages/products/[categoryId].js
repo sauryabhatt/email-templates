@@ -30,7 +30,7 @@ export default function ProductListingPage({ data }) {
         " "
       )} from Indian manufacturers? Source online with ease from Qalara.com, your reliable partner for ${categoryId
       ?.split("-")
-      ?.join(" ")} from India.`,
+      ?.join(" ")} from South East Asia.`,
     keywords: `${categoryId
       ?.split("-")
       ?.join(" ")} wholesale, ${categoryId
@@ -39,7 +39,9 @@ export default function ProductListingPage({ data }) {
       ?.split("-")
       ?.join(" ")} manufacturers, ${categoryId
       ?.split("-")
-      ?.join(" ")} India, ${categoryId?.split("-")?.join(" ")} exporters`,
+      ?.join(" ")} South East Asia, ${categoryId
+      ?.split("-")
+      ?.join(" ")} exporters`,
     url: `/products/${categoryId}`,
   };
   if (router.isFallback) {
