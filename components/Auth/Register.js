@@ -74,7 +74,10 @@ const Register = (props) => {
 
   const handleCancel = (status) => {
     setVisible(false);
-    router.push("/");
+    router.push({
+      pathname: "/",
+      query: { new_user: profileType },
+    });
   };
 
   const signIn = () => {
