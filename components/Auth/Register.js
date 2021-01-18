@@ -69,7 +69,11 @@ const Register = (props) => {
   }, []);
 
   const showModal = () => {
-    setVisible(true);
+    router.push({
+      pathname: "/",
+      query: { new_user: profileType },
+    });
+    // setVisible(true);
   };
 
   const handleCancel = (status) => {
@@ -1378,63 +1382,6 @@ const Register = (props) => {
          */}
         </Form>
       </div>
-      <Modal
-        className="confirmation-modal"
-        visible={visible}
-        footer={null}
-        closable={true}
-        onCancel={handleCancel}
-        bodyStyle={{ padding: "30" }}
-        width={profileType === "BUYER" ? 750 : 500}
-        centered
-      >
-        {profileType === "BUYER" ? (
-          <p
-            className="qa-font-butler qa-fs-30 qa-fw-b qa-tc-white"
-            style={{
-              textAlign: "center",
-              lineHeight: "120%",
-              marginTop: "20px",
-            }}
-          >
-            Please set your password to <br />
-            complete the sign-up process!
-          </p>
-        ) : (
-          <p className="verification-heading">Sign up complete</p>
-        )}
-        {profileType === "BUYER" ? (
-          <p
-            className="qa-font-san qa-tc-white qa-fs-14"
-            style={{ lineHeight: "130%" }}
-          >
-            Please go to your email account and look for an email from{" "}
-            <b>'Qalara Global'</b> (check in the{" "}
-            <b>
-              <i>spam folder</i>
-            </b>{" "}
-            if you dont find it in your inbox). Click on the link in that email
-            to set your password, and then proceed to sign in with your new
-            password to start browsing our wide range of products.
-            <br />
-            <br /> If you face any issues, please write to us at
-            buyers@qalara.com.
-          </p>
-        ) : (
-          <p className="verification-text">
-            Thanks for showing interest in joining our platform. Please set the
-            password for your account using the link sent to your registered
-            email address. To continue your registration process, select the
-            'Apply to be a seller' option from your profile page
-          </p>
-        )}
-        <Button
-          className="send-query-success-modal-button congratulation-button"
-          onClick={handleCancel}
-        >
-          Back to home page
-        </Button>
-      </Modal>
     </div>
   );
 };
