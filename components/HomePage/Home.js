@@ -15,7 +15,7 @@ import SellerCarousel from "./../SellerCarousel/SellerCarousel";
 import PressCrousel from "./../PressCrousel/PressCrousel";
 import HotThisWeekCarousel from "./../HotThisWeekCarousel/HotThisWeekCarousel";
 import Tastimonial from "../Tastimonial";
-import closeButton from "../../public/filestore/closeButton";
+import closeButton from "../../public/filestore/closeButtonLite";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -36,10 +36,27 @@ function Home(props) {
   const [inProgressMsg, setInProgressMsg] = useState("");
   const [newUser, setNewUser] = useState(false);
   const [previousUrl, setPreviousUrl] = useState("");
+  const [confirmationModal, setConfirmationModal] = useState(false);
+  const [uProfile, setUProfile] = useState("BUYER");
 
   const token = useSelector(
     (state) => state.appToken.token && state.appToken.token.access_token
   );
+
+  useEffect(() => {
+    let { new_user = "" } = router.query;
+    if (new_user) {
+      setConfirmationModal(true);
+      setUProfile(new_user);
+      router.push(
+        {
+          pathname: "/",
+        },
+        undefined,
+        { shallow: true }
+      );
+    }
+  }, [router.query]);
 
   useEffect(() => {
     let hours = 2; // Reset when storage is more than 2 hours
@@ -127,6 +144,10 @@ function Home(props) {
     setInviteAccess(false);
     setSubmitted(false);
     form.resetFields();
+  };
+
+  const closeConfimationModal = () => {
+    setConfirmationModal(false);
   };
 
   const signIn = () => {
@@ -675,6 +696,79 @@ function Home(props) {
           </Button>
         </div>
       </Modal>
+      <Modal
+        className="confirmation-modal"
+        visible={confirmationModal}
+        footer={null}
+        closable={false}
+        bodyStyle={{
+          background: "#332F2F",
+          boxShadow: "0px 2px 2px rgba(0, 0, 0, 0.25)",
+          color: "#F9F7F2",
+        }}
+        width={750}
+        centered
+      >
+        <div className="qa-rel-pos qa-pad-1">
+          <div
+            onClick={closeConfimationModal}
+            style={{
+              position: "absolute",
+              right: "0px",
+              top: "0px",
+              cursor: "pointer",
+              zIndex: "2",
+            }}
+          >
+            <Icon
+              component={closeButton}
+              style={{ width: "30px", height: "30px" }}
+            />
+          </div>
+          <div>
+            {uProfile === "BUYER" ? (
+              <p className="verification-heading">
+                Please set your password to complete the sign-up process
+              </p>
+            ) : (
+              <p className="verification-heading">Sign up complete</p>
+            )}
+            {uProfile === "BUYER" ? (
+              <p className="verification-text">
+                Please go to your email account and look for an email from{" "}
+                <b>'Qalara Global'</b> (check in the{" "}
+                <b>
+                  <i>spam folder</i>
+                </b>{" "}
+                if you dont find it in your inbox). Click on the link in that
+                email to set your password, and then proceed to sign in with
+                your new password to start browsing our wide range of products.
+                <br />
+                <br /> If you face any issues, please write to us at{" "}
+                <span className="qa-underline qa-primary-c">
+                  {uProfile === "BUYER"
+                    ? "buyers@qalara.com"
+                    : "help@qalara.com"}
+                </span>
+              </p>
+            ) : (
+              <p className="verification-text">
+                Thanks for showing interest in joining our platform. Please set
+                the password for your account using the link sent to your
+                registered email address. To continue your registration process,
+                select the 'Apply to be a seller' option from your profile page
+              </p>
+            )}
+            {/* <Button
+          className="send-query-success-modal-button congratulation-button"
+          onClick={handleCancel}
+        >
+          Back to home page
+        </Button> */}
+          </div>
+        </div>
+      </Modal>
+
       {/* <Modal
         visible={inviteAccess}
         footer={null}
