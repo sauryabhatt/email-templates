@@ -97,346 +97,332 @@ const OrderCard = (props) => {
           {getSymbolFromCurrency(order && order.currency) || "$"}
           {parseFloat(order.subTotal * order.conversionFactor).toFixed(2)}
         </span>
-        {order.shippingTerms === "DDU" ? null : (
-          <div>
-            <div className="c-left-blk qa-mar-btm-05">Freight fees</div>
-            {order && order.orderType == "RTS" ? (
-              <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-                {getSymbolFromCurrency(order && order.currency) || "$"}
-                {order &&
-                order.miscChargesActual &&
-                order.miscChargesActual.find(
-                  (x) => x.chargeId === "FREIGHT_MAX"
-                )
-                  ? parseFloat(
-                      order.miscChargesActual.find(
-                        (x) => x.chargeId === "FREIGHT_MAX"
-                      ).amount * order.conversionFactor
-                    ).toFixed(2)
-                  : order &&
-                    order.miscCharges &&
-                    order.miscCharges.find(
+        {/* {order.shippingTerms === "DDU" ? null : ( */}
+        <div>
+          <div className="c-left-blk qa-mar-btm-05">Freight fees</div>
+          {order && order.orderType == "RTS" ? (
+            <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
+              {getSymbolFromCurrency(order && order.currency) || "$"}
+              {order &&
+              order.miscChargesActual &&
+              order.miscChargesActual.find((x) => x.chargeId === "FREIGHT_MAX")
+                ? parseFloat(
+                    order.miscChargesActual.find(
                       (x) => x.chargeId === "FREIGHT_MAX"
-                    ) &&
-                    parseFloat(
-                      order.miscCharges.find(
-                        (x) => x.chargeId === "FREIGHT_MAX"
-                      ).amount * order.conversionFactor
-                    ).toFixed(2)}
-              </span>
-            ) : (
-              <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-                {getSymbolFromCurrency(order && order.currency) || "$"}
-                {order &&
-                order.miscChargesActual &&
-                order.miscChargesActual.find(
-                  (x) => x.chargeId === "FREIGHT_CHARGES"
-                )
-                  ? order.miscChargesActual.find(
-                      (x) => x.chargeId === "FREIGHT_CHARGES"
                     ).amount * order.conversionFactor
-                  : order &&
-                    order.miscCharges &&
-                    order.miscCharges.find(
-                      (x) => x.chargeId === "FREIGHT_CHARGES"
-                    ) &&
-                    order.miscCharges.find(
-                      (x) => x.chargeId === "FREIGHT_CHARGES"
-                    ).amount * order.conversionFactor}
-              </span>
-            )}
-            {order &&
-              order.miscCharges &&
-              order.miscCharges.find((x) => x.chargeId === "SELLER_DISCOUNT") &&
-              order.miscCharges.find((x) => x.chargeId === "SELLER_DISCOUNT")
-                .amount > 0 && (
-                <div className="c-left-blk qa-mar-btm-05">
-                  <span
-                    className="qa-fs-14 qa-fw-b qa-font-san"
-                    style={{ color: "#02873A" }}
-                  >
-                    Shipping discount
-                  </span>
-                </div>
-              )}
-            {order &&
-              order.miscCharges &&
-              order.miscCharges.find((x) => x.chargeId === "SELLER_DISCOUNT") &&
-              order.miscCharges.find((x) => x.chargeId === "SELLER_DISCOUNT")
-                .amount > 0 && (
-                <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-                  {order && order.orderType == "RTS" ? (
-                    <span
-                      className="qa-fs-16 qa-font-san"
-                      style={{ color: "#02873A" }}
-                    >
-                      - {getSymbolFromCurrency(order && order.currency) || "$"}
-                      {(order &&
-                        order.miscCharges &&
-                        order.miscCharges.find(
-                          (x) => x.chargeId === "SELLER_DISCOUNT"
-                        ) &&
-                        parseFloat(
-                          order.miscCharges.find(
-                            (x) => x.chargeId === "SELLER_DISCOUNT"
-                          ).amount * order.conversionFactor
-                        ).toFixed(2)) ||
-                        0}
-                    </span>
-                  ) : (
-                    <span
-                      className="qa-fs-16 qa-font-san"
-                      style={{ color: "#02873A" }}
-                    >
-                      - {getSymbolFromCurrency(order && order.currency)}
-                      {(order &&
-                        order.miscCharges &&
-                        order.miscCharges.find(
-                          (x) => x.chargeId === "SELLER_DISCOUNT"
-                        ) &&
-                        order.miscCharges.find(
-                          (x) => x.chargeId === "SELLER_DISCOUNT"
-                        ).amount * order.conversionFactor) ||
-                        0}
-                    </span>
-                  )}
-                </span>
-              )}
-
-            {order &&
-              order.miscCharges &&
-              order.miscCharges.find(
-                (x) => x.chargeId === "PRODUCT_DISCOUNT"
-              ) &&
-              order.miscCharges.find((x) => x.chargeId === "PRODUCT_DISCOUNT")
-                .amount > 0 && (
-                <div className="c-left-blk qa-mar-btm-05">
-                  <span
-                    className="qa-fs-14 qa-fw-b qa-font-san"
-                    style={{ color: "#02873A" }}
-                  >
-                    Shipping discount
-                  </span>
-                </div>
-              )}
-            {order &&
-              order.miscCharges &&
-              order.miscCharges.find(
-                (x) => x.chargeId === "PRODUCT_DISCOUNT"
-              ) &&
-              order.miscCharges.find((x) => x.chargeId === "PRODUCT_DISCOUNT")
-                .amount > 0 && (
-                <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-                  {order && order.orderType == "RTS" ? (
-                    <span
-                      className="qa-fs-16 qa-font-san"
-                      style={{ color: "#02873A" }}
-                    >
-                      - {getSymbolFromCurrency(order && order.currency) || "$"}
-                      {(order &&
-                        order.miscCharges &&
-                        order.miscCharges.find(
-                          (x) => x.chargeId === "PRODUCT_DISCOUNT"
-                        ) &&
-                        parseFloat(
-                          order.miscCharges.find(
-                            (x) => x.chargeId === "PRODUCT_DISCOUNT"
-                          ).amount * order.conversionFactor
-                        ).toFixed(2)) ||
-                        0}
-                    </span>
-                  ) : (
-                    <span
-                      className="qa-fs-16 qa-font-san"
-                      style={{ color: "#02873A" }}
-                    >
-                      - {getSymbolFromCurrency(order && order.currency)}
-                      {(order &&
-                        order.miscCharges &&
-                        order.miscCharges.find(
-                          (x) => x.chargeId === "PRODUCT_DISCOUNT"
-                        ) &&
-                        order.miscCharges.find(
-                          (x) => x.chargeId === "PRODUCT_DISCOUNT"
-                        ).amount * order.conversionFactor) ||
-                        0}
-                    </span>
-                  )}
-                </span>
-              )}
-            {order &&
-              order.referralCode &&
-              order.miscCharges &&
-              order.miscCharges.find((x) => x.chargeId === "DISCOUNT") &&
-              order.miscCharges.find((x) => x.chargeId === "DISCOUNT").amount >
-                0 && (
-                <div className="c-left-blk qa-mar-btm-05">
-                  <span
-                    className="qa-fs-14 qa-fw-b qa-font-san"
-                    style={{ color: "#02873A" }}
-                  >
-                    {order && order.referralCode} applied
-                  </span>
-                </div>
-              )}
-            {order &&
-              order.referralCode &&
-              order.miscCharges &&
-              order.miscCharges.find((x) => x.chargeId === "DISCOUNT") &&
-              order.miscCharges.find((x) => x.chargeId === "DISCOUNT").amount >
-                0 && (
-                <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-                  {order && order.orderType == "RTS" ? (
-                    <span
-                      className="qa-fs-16 qa-fw-b qa-font-san"
-                      style={{ color: "#02873A" }}
-                    >
-                      - {getSymbolFromCurrency(order && order.currency) || "$"}
-                      {(order &&
-                        order.miscCharges &&
-                        order.miscCharges.find(
-                          (x) => x.chargeId === "DISCOUNT"
-                        ) &&
-                        parseFloat(
-                          order.miscCharges.find(
-                            (x) => x.chargeId === "DISCOUNT"
-                          ).amount * order.conversionFactor
-                        ).toFixed(2)) ||
-                        0}
-                    </span>
-                  ) : (
-                    <span
-                      className="qa-fs-16 qa-fw-b qa-font-san"
-                      style={{ color: "#02873A" }}
-                    >
-                      - {getSymbolFromCurrency(order && order.currency)}
-                      {(order &&
-                        order.miscCharges &&
-                        order.miscCharges.find(
-                          (x) => x.chargeId === "DISCOUNT"
-                        ) &&
-                        order.miscCharges.find((x) => x.chargeId === "DISCOUNT")
-                          .amount * order.conversionFactor) ||
-                        0}
-                    </span>
-                  )}
-                </span>
-              )}
-            <div className="c-left-blk qa-mar-btm-05">
-              Custom, taxes & duties
-            </div>
-            {order && order.orderType == "RTS" ? (
-              <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-                {getSymbolFromCurrency(order && order.currency) || "$"}
-                {order &&
-                order.miscChargesActual &&
-                order.miscChargesActual.find((x) => x.chargeId === "DUTY_MAX")
-                  ? parseFloat(
-                      order.miscChargesActual.find(
-                        (x) => x.chargeId === "DUTY_MAX"
-                      ).amount * order.conversionFactor
-                    ).toFixed(2)
-                  : order &&
-                    order.miscCharges &&
-                    order.miscCharges.find((x) => x.chargeId === "DUTY_MAX") &&
-                    parseFloat(
-                      order.miscCharges.find((x) => x.chargeId === "DUTY_MAX")
-                        .amount * order.conversionFactor
-                    ).toFixed(2)}
-              </span>
-            ) : (
-              <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-                {getSymbolFromCurrency(order && order.currency) || "$"}
-                {order &&
-                order.miscChargesActual &&
-                order.miscChargesActual.find(
-                  (x) => x.chargeId === "CUSTOM_CHARGES"
-                )
-                  ? order.miscChargesActual.find(
-                      (x) => x.chargeId === "CUSTOM_CHARGES"
-                    ).amount * order.conversionFactor
-                  : order &&
-                    order.miscCharges &&
-                    order.miscCharges.find(
-                      (x) => x.chargeId === "CUSTOM_CHARGES"
-                    ) &&
-                    order.miscCharges.find(
-                      (x) => x.chargeId === "CUSTOM_CHARGES"
-                    ).amount * order.conversionFactor}
-              </span>
-            )}
-            <div
-              className="qa-border-bottom"
-              style={{ paddingBottom: "15px", marginBottom: "15px" }}
-            >
-              <div className="c-left-blk qa-mar-btm-05">VAT/ GST / Taxes</div>
-              {order && order.orderType == "RTS" ? (
-                <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-                  {getSymbolFromCurrency(order && order.currency) || "$"}
-                  {order &&
-                  order.miscChargesActual &&
-                  order.miscChargesActual.find((x) => x.chargeId === "VAT")
-                    ? parseFloat(
-                        order.miscChargesActual.find(
-                          (x) => x.chargeId === "VAT"
-                        ).amount * order.conversionFactor
-                      ).toFixed(2)
-                    : order &&
-                      order.miscCharges &&
-                      order.miscCharges.find((x) => x.chargeId === "VAT") &&
-                      parseFloat(
-                        order.miscCharges.find((x) => x.chargeId === "VAT")
-                          .amount * order.conversionFactor
-                      ).toFixed(2)}
-                </span>
-              ) : (
-                <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
-                  {getSymbolFromCurrency(order && order.currency) || "$"}
-                  {order &&
-                  order.miscChargesActual &&
-                  order.miscChargesActual.find((x) => x.chargeId === "VAT")
-                    ? order.miscChargesActual.find((x) => x.chargeId === "VAT")
-                        .amount * order.conversionFactor
-                    : order &&
-                      order.miscCharges &&
-                      order.miscCharges.find((x) => x.chargeId === "VAT") &&
-                      order.miscCharges.find((x) => x.chargeId === "VAT")
-                        .amount * order.conversionFactor}
-                </span>
-              )}
+                  ).toFixed(2)
+                : order &&
+                  order.miscCharges &&
+                  order.miscCharges.find((x) => x.chargeId === "FREIGHT_MAX") &&
+                  parseFloat(
+                    order.miscCharges.find((x) => x.chargeId === "FREIGHT_MAX")
+                      .amount * order.conversionFactor
+                  ).toFixed(2)}
+            </span>
+          ) : (
+            <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
+              {getSymbolFromCurrency(order && order.currency) || "$"}
               {order &&
-                order.promoDiscount !== undefined &&
-                order.promoDiscount !== "" &&
-                order.promoDiscount > 0 && (
-                  <div className="c-left-blk qa-mar-btm-05">
-                    <span
-                      className="qa-fs-14 qa-fw-b qa-font-san"
-                      style={{ color: "#02873A" }}
-                    >
-                      <span style={{ textTransform: "uppercase" }}>
-                        {order.promoCode}
-                      </span>{" "}
-                      applied
-                    </span>
-                  </div>
-                )}
-              {order &&
-                order.promoDiscount !== undefined &&
-                order.promoDiscount !== "" &&
-                order.promoDiscount > 0 && (
+              order.miscChargesActual &&
+              order.miscChargesActual.find(
+                (x) => x.chargeId === "FREIGHT_CHARGES"
+              )
+                ? order.miscChargesActual.find(
+                    (x) => x.chargeId === "FREIGHT_CHARGES"
+                  ).amount * order.conversionFactor
+                : order &&
+                  order.miscCharges &&
+                  order.miscCharges.find(
+                    (x) => x.chargeId === "FREIGHT_CHARGES"
+                  ) &&
+                  order.miscCharges.find(
+                    (x) => x.chargeId === "FREIGHT_CHARGES"
+                  ).amount * order.conversionFactor}
+            </span>
+          )}
+          {order &&
+            order.miscCharges &&
+            order.miscCharges.find((x) => x.chargeId === "SELLER_DISCOUNT") &&
+            order.miscCharges.find((x) => x.chargeId === "SELLER_DISCOUNT")
+              .amount > 0 && (
+              <div className="c-left-blk qa-mar-btm-05">
+                <span
+                  className="qa-fs-14 qa-fw-b qa-font-san"
+                  style={{ color: "#02873A" }}
+                >
+                  Shipping discount
+                </span>
+              </div>
+            )}
+          {order &&
+            order.miscCharges &&
+            order.miscCharges.find((x) => x.chargeId === "SELLER_DISCOUNT") &&
+            order.miscCharges.find((x) => x.chargeId === "SELLER_DISCOUNT")
+              .amount > 0 && (
+              <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
+                {order && order.orderType == "RTS" ? (
                   <span
-                    className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b"
+                    className="qa-fs-16 qa-font-san"
                     style={{ color: "#02873A" }}
                   >
                     - {getSymbolFromCurrency(order && order.currency) || "$"}
-                    {parseFloat(
-                      order.promoDiscount * order.conversionFactor
-                    ).toFixed(2)}
+                    {(order &&
+                      order.miscCharges &&
+                      order.miscCharges.find(
+                        (x) => x.chargeId === "SELLER_DISCOUNT"
+                      ) &&
+                      parseFloat(
+                        order.miscCharges.find(
+                          (x) => x.chargeId === "SELLER_DISCOUNT"
+                        ).amount * order.conversionFactor
+                      ).toFixed(2)) ||
+                      0}
+                  </span>
+                ) : (
+                  <span
+                    className="qa-fs-16 qa-font-san"
+                    style={{ color: "#02873A" }}
+                  >
+                    - {getSymbolFromCurrency(order && order.currency)}
+                    {(order &&
+                      order.miscCharges &&
+                      order.miscCharges.find(
+                        (x) => x.chargeId === "SELLER_DISCOUNT"
+                      ) &&
+                      order.miscCharges.find(
+                        (x) => x.chargeId === "SELLER_DISCOUNT"
+                      ).amount * order.conversionFactor) ||
+                      0}
                   </span>
                 )}
-            </div>
+              </span>
+            )}
+
+          {order &&
+            order.miscCharges &&
+            order.miscCharges.find((x) => x.chargeId === "PRODUCT_DISCOUNT") &&
+            order.miscCharges.find((x) => x.chargeId === "PRODUCT_DISCOUNT")
+              .amount > 0 && (
+              <div className="c-left-blk qa-mar-btm-05">
+                <span
+                  className="qa-fs-14 qa-fw-b qa-font-san"
+                  style={{ color: "#02873A" }}
+                >
+                  Shipping discount
+                </span>
+              </div>
+            )}
+          {order &&
+            order.miscCharges &&
+            order.miscCharges.find((x) => x.chargeId === "PRODUCT_DISCOUNT") &&
+            order.miscCharges.find((x) => x.chargeId === "PRODUCT_DISCOUNT")
+              .amount > 0 && (
+              <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
+                {order && order.orderType == "RTS" ? (
+                  <span
+                    className="qa-fs-16 qa-font-san"
+                    style={{ color: "#02873A" }}
+                  >
+                    - {getSymbolFromCurrency(order && order.currency) || "$"}
+                    {(order &&
+                      order.miscCharges &&
+                      order.miscCharges.find(
+                        (x) => x.chargeId === "PRODUCT_DISCOUNT"
+                      ) &&
+                      parseFloat(
+                        order.miscCharges.find(
+                          (x) => x.chargeId === "PRODUCT_DISCOUNT"
+                        ).amount * order.conversionFactor
+                      ).toFixed(2)) ||
+                      0}
+                  </span>
+                ) : (
+                  <span
+                    className="qa-fs-16 qa-font-san"
+                    style={{ color: "#02873A" }}
+                  >
+                    - {getSymbolFromCurrency(order && order.currency)}
+                    {(order &&
+                      order.miscCharges &&
+                      order.miscCharges.find(
+                        (x) => x.chargeId === "PRODUCT_DISCOUNT"
+                      ) &&
+                      order.miscCharges.find(
+                        (x) => x.chargeId === "PRODUCT_DISCOUNT"
+                      ).amount * order.conversionFactor) ||
+                      0}
+                  </span>
+                )}
+              </span>
+            )}
+          {order &&
+            order.referralCode &&
+            order.miscCharges &&
+            order.miscCharges.find((x) => x.chargeId === "DISCOUNT") &&
+            order.miscCharges.find((x) => x.chargeId === "DISCOUNT").amount >
+              0 && (
+              <div className="c-left-blk qa-mar-btm-05">
+                <span
+                  className="qa-fs-14 qa-fw-b qa-font-san"
+                  style={{ color: "#02873A" }}
+                >
+                  {order && order.referralCode} applied
+                </span>
+              </div>
+            )}
+          {order &&
+            order.referralCode &&
+            order.miscCharges &&
+            order.miscCharges.find((x) => x.chargeId === "DISCOUNT") &&
+            order.miscCharges.find((x) => x.chargeId === "DISCOUNT").amount >
+              0 && (
+              <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
+                {order && order.orderType == "RTS" ? (
+                  <span
+                    className="qa-fs-16 qa-fw-b qa-font-san"
+                    style={{ color: "#02873A" }}
+                  >
+                    - {getSymbolFromCurrency(order && order.currency) || "$"}
+                    {(order &&
+                      order.miscCharges &&
+                      order.miscCharges.find(
+                        (x) => x.chargeId === "DISCOUNT"
+                      ) &&
+                      parseFloat(
+                        order.miscCharges.find((x) => x.chargeId === "DISCOUNT")
+                          .amount * order.conversionFactor
+                      ).toFixed(2)) ||
+                      0}
+                  </span>
+                ) : (
+                  <span
+                    className="qa-fs-16 qa-fw-b qa-font-san"
+                    style={{ color: "#02873A" }}
+                  >
+                    - {getSymbolFromCurrency(order && order.currency)}
+                    {(order &&
+                      order.miscCharges &&
+                      order.miscCharges.find(
+                        (x) => x.chargeId === "DISCOUNT"
+                      ) &&
+                      order.miscCharges.find((x) => x.chargeId === "DISCOUNT")
+                        .amount * order.conversionFactor) ||
+                      0}
+                  </span>
+                )}
+              </span>
+            )}
+          <div className="c-left-blk qa-mar-btm-05">Custom, taxes & duties</div>
+          {order && order.orderType == "RTS" ? (
+            <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
+              {getSymbolFromCurrency(order && order.currency) || "$"}
+              {order &&
+              order.miscChargesActual &&
+              order.miscChargesActual.find((x) => x.chargeId === "DUTY_MAX")
+                ? parseFloat(
+                    order.miscChargesActual.find(
+                      (x) => x.chargeId === "DUTY_MAX"
+                    ).amount * order.conversionFactor
+                  ).toFixed(2)
+                : order &&
+                  order.miscCharges &&
+                  order.miscCharges.find((x) => x.chargeId === "DUTY_MAX") &&
+                  parseFloat(
+                    order.miscCharges.find((x) => x.chargeId === "DUTY_MAX")
+                      .amount * order.conversionFactor
+                  ).toFixed(2)}
+            </span>
+          ) : (
+            <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
+              {getSymbolFromCurrency(order && order.currency) || "$"}
+              {order &&
+              order.miscChargesActual &&
+              order.miscChargesActual.find(
+                (x) => x.chargeId === "CUSTOM_CHARGES"
+              )
+                ? order.miscChargesActual.find(
+                    (x) => x.chargeId === "CUSTOM_CHARGES"
+                  ).amount * order.conversionFactor
+                : order &&
+                  order.miscCharges &&
+                  order.miscCharges.find(
+                    (x) => x.chargeId === "CUSTOM_CHARGES"
+                  ) &&
+                  order.miscCharges.find((x) => x.chargeId === "CUSTOM_CHARGES")
+                    .amount * order.conversionFactor}
+            </span>
+          )}
+          <div
+            className="qa-border-bottom"
+            style={{ paddingBottom: "15px", marginBottom: "15px" }}
+          >
+            <div className="c-left-blk qa-mar-btm-05">VAT/ GST / Taxes</div>
+            {order && order.orderType == "RTS" ? (
+              <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
+                {getSymbolFromCurrency(order && order.currency) || "$"}
+                {order &&
+                order.miscChargesActual &&
+                order.miscChargesActual.find((x) => x.chargeId === "VAT")
+                  ? parseFloat(
+                      order.miscChargesActual.find((x) => x.chargeId === "VAT")
+                        .amount * order.conversionFactor
+                    ).toFixed(2)
+                  : order &&
+                    order.miscCharges &&
+                    order.miscCharges.find((x) => x.chargeId === "VAT") &&
+                    parseFloat(
+                      order.miscCharges.find((x) => x.chargeId === "VAT")
+                        .amount * order.conversionFactor
+                    ).toFixed(2)}
+              </span>
+            ) : (
+              <span className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
+                {getSymbolFromCurrency(order && order.currency) || "$"}
+                {order &&
+                order.miscChargesActual &&
+                order.miscChargesActual.find((x) => x.chargeId === "VAT")
+                  ? order.miscChargesActual.find((x) => x.chargeId === "VAT")
+                      .amount * order.conversionFactor
+                  : order &&
+                    order.miscCharges &&
+                    order.miscCharges.find((x) => x.chargeId === "VAT") &&
+                    order.miscCharges.find((x) => x.chargeId === "VAT").amount *
+                      order.conversionFactor}
+              </span>
+            )}
+            {order &&
+              order.promoDiscount !== undefined &&
+              order.promoDiscount !== "" &&
+              order.promoDiscount > 0 && (
+                <div className="c-left-blk qa-mar-btm-05">
+                  <span
+                    className="qa-fs-14 qa-fw-b qa-font-san"
+                    style={{ color: "#02873A" }}
+                  >
+                    <span style={{ textTransform: "uppercase" }}>
+                      {order.promoCode}
+                    </span>{" "}
+                    applied
+                  </span>
+                </div>
+              )}
+            {order &&
+              order.promoDiscount !== undefined &&
+              order.promoDiscount !== "" &&
+              order.promoDiscount > 0 && (
+                <span
+                  className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b"
+                  style={{ color: "#02873A" }}
+                >
+                  - {getSymbolFromCurrency(order && order.currency) || "$"}
+                  {parseFloat(
+                    order.promoDiscount * order.conversionFactor
+                  ).toFixed(2)}
+                </span>
+              )}
           </div>
-        )}
+        </div>
+        {/* )} */}
         <div className="qa-mar-btm-15">
           <div className="c-left-blk qa-mar-btm-05 qa-fw-b">
             Total order value
