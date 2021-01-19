@@ -27,7 +27,7 @@
     "displayTitle": "Handwoven cushions",
     "menuOrder": "103",
     "font": "H2",
-    "actio": "URL",
+    "action": "URL",
     "filterType": "",
     "values": "/seller/SL10403/all-categories",
     "isActive": "TRUE"
