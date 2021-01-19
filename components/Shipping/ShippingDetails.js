@@ -1143,6 +1143,7 @@ const ShippingDetails = (props) => {
                                 total = "",
                                 isFulfillable = false,
                                 unitOfMeasure = "",
+                                freeShippingEligible = false,
                               } = product;
                               quantity = parseInt(quantity);
 
@@ -1218,13 +1219,15 @@ const ShippingDetails = (props) => {
                                           ? getConvertedCurrency(total)
                                           : ""}
                                       </div>
-                                      {!sellerList.includes(sellerCode) && (
+                                      {(!sellerList.includes(sellerCode) ||
+                                        !freeShippingEligible) && (
                                         <div className="cart-price-text">
                                           Base price per unit excl. margin and
                                           other charges
                                         </div>
                                       )}
-                                      {sellerList.includes(sellerCode) && (
+                                      {(sellerList.includes(sellerCode) ||
+                                        freeShippingEligible) && (
                                         <div className="qa-offer-text qa-mar-top-15">
                                           FREE shipping
                                         </div>
@@ -2110,6 +2113,7 @@ const ShippingDetails = (props) => {
                               total = "",
                               isFulfillable = false,
                               unitOfMeasure = "",
+                              freeShippingEligible = false,
                             } = product;
                             quantity = parseInt(quantity);
                             return (
@@ -2149,7 +2153,8 @@ const ShippingDetails = (props) => {
                                       <CheckCircleOutlined /> Sample required
                                     </div>
                                   )}
-                                  {sellerList.includes(sellerCode) && (
+                                  {(sellerList.includes(sellerCode) ||
+                                    freeShippingEligible) && (
                                     <div className="qa-mar-top-1 qa-offer-text">
                                       FREE shipping
                                     </div>
@@ -2175,7 +2180,8 @@ const ShippingDetails = (props) => {
                                     {getSymbolFromCurrency(convertToCurrency)}
                                     {total ? getConvertedCurrency(total) : ""}
                                   </div>
-                                  {!sellerList.includes(sellerCode) && (
+                                  {(!sellerList.includes(sellerCode) ||
+                                    !freeShippingEligible) && (
                                     <div className="cart-price-text">
                                       Base price per unit excl. margin and other
                                       charges

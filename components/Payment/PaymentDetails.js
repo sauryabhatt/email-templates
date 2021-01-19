@@ -91,6 +91,7 @@ const PaymentDetails = (props) => {
   let couponDiscount = 0;
   let freightDis = 0;
   let sellerDiscount = 0;
+  let productDiscount = 0;
   let vat = 0;
   let dutyMax = 0;
   let dutyMin = 0;
@@ -109,6 +110,8 @@ const PaymentDetails = (props) => {
       freightDis = amount;
     } else if (chargeId === "SELLER_DISCOUNT") {
       sellerDiscount = amount;
+    } else if (chargeId === "PRODUCT_DISCOUNT") {
+      productDiscount = amount;
     } else if (chargeId === "DDP_VAT") {
       vat = amount;
     } else if (chargeId === "DDP_DUTY_MAX") {
@@ -134,7 +137,7 @@ const PaymentDetails = (props) => {
     ).toFixed(2);
   };
 
-  if (couponDiscount > 0 || sellerDiscount > 0) {
+  if (couponDiscount > 0 || sellerDiscount > 0 || productDiscount > 0) {
     frieghtCharge = freightDis;
   }
 
@@ -172,6 +175,7 @@ const PaymentDetails = (props) => {
     parseFloat(getConvertedCurrency(frieghtCharge)) +
     parseFloat(getConvertedCurrency(dutyCharge)) -
     parseFloat(getConvertedCurrency(sellerDiscount)) -
+    parseFloat(getConvertedCurrency(productDiscount)) -
     parseFloat(getConvertedCurrency(couponDiscount)) +
     parseFloat(getConvertedCurrency(vatCharge)) -
     parseFloat(getConvertedCurrency(promoDiscount));
@@ -564,6 +568,7 @@ const PaymentDetails = (props) => {
                                 total = "",
                                 isFulfillable = false,
                                 unitOfMeasure = "",
+                                freeShippingEligible = false,
                               } = product;
                               quantity = parseInt(quantity);
 
@@ -639,13 +644,15 @@ const PaymentDetails = (props) => {
                                           ? getConvertedCurrency(total)
                                           : ""}
                                       </div>
-                                      {!sellerList.includes(sellerCode) && (
+                                      {(!sellerList.includes(sellerCode) ||
+                                        !freeShippingEligible) && (
                                         <div className="cart-price-text">
                                           Base price per unit excl. margin and
                                           other charges
                                         </div>
                                       )}
-                                      {sellerList.includes(sellerCode) && (
+                                      {(sellerList.includes(sellerCode) ||
+                                        freeShippingEligible) && (
                                         <div className="qa-offer-text qa-mar-top-15">
                                           FREE shipping
                                         </div>
@@ -1268,6 +1275,7 @@ const PaymentDetails = (props) => {
                             total = "",
                             isFulfillable = false,
                             unitOfMeasure = "",
+                            freeShippingEligible = false,
                           } = product;
                           quantity = parseInt(quantity);
                           return (
@@ -1307,7 +1315,8 @@ const PaymentDetails = (props) => {
                                     <CheckCircleOutlined /> Sample required
                                   </div>
                                 )}
-                                {sellerList.includes(sellerCode) && (
+                                {(sellerList.includes(sellerCode) ||
+                                  freeShippingEligible) && (
                                   <div className="qa-mar-top-15 qa-offer-text">
                                     FREE shipping
                                   </div>
@@ -1333,10 +1342,13 @@ const PaymentDetails = (props) => {
                                   {getSymbolFromCurrency(convertToCurrency)}
                                   {total ? getConvertedCurrency(total) : ""}
                                 </div>
-                                <div className="cart-price-text qa-mar-btm-1">
-                                  Base price per unit excl. margin and other
-                                  charges
-                                </div>
+                                {(!sellerList.includes(sellerCode) ||
+                                  !freeShippingEligible) && (
+                                  <div className="cart-price-text qa-mar-btm-1">
+                                    Base price per unit excl. margin and other
+                                    charges
+                                  </div>
+                                )}
                               </Col>
                             </Row>
                           );

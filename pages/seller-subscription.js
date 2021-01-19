@@ -1,17 +1,21 @@
-import {Layout} from "../components/common/Layout" 
-import BecomeASeller from "../components/BecomeASeller/BecomeASeller"
+/** @format */
+
+import { Layout } from "../components/common/Layout";
+import BecomeASeller from "../components/BecomeASeller/BecomeASeller";
 export default function BecomeASellerWrapper() {
   const meta = {
-    title:"Discover verified global buyers digitally | Export Handicrafts, Textiles, Furniture, Décor & more | Qalara",
-    description:"Discover verified global buyers digitally. Export Handicrafts, Textiles, Furniture, Décor & more digitally.",
-    keywords:"Export from India, Export handicrafts, Find global buyers, Wholesale exports, Export home décor and textiles",
-    url:"/seller-subscription"
-  }
-  
-  return (
-    <Layout meta={meta} >
-      <BecomeASeller/>
-    </Layout>  
-  )
+    title:
+      "Discover verified global buyers digitally | Export Handicrafts, Textiles, Furniture, Décor & more | Qalara",
+    description:
+      "Discover verified global buyers digitally. Export Handicrafts, Textiles, Furniture, Décor & more digitally.",
+    keywords:
+      "Export from South East Asia, Export handicrafts, Find global buyers, Wholesale exports, Export home décor and textiles",
+    url: "/seller-subscription",
+  };
 
+  return (
+    <Layout meta={meta}>
+      <BecomeASeller />
+    </Layout>
+  );
 }

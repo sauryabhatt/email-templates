@@ -24,7 +24,7 @@ export default function SellerListingPage({ data }) {
       ?.split("-")
       ?.join(
         " "
-      )}, wholesale, exports, handcrafted, bulk, suppliers, manufacturers, vendors, India`,
+      )}, wholesale, exports, handcrafted, bulk, suppliers, manufacturers, vendors, South East Asia`,
     url: `/sellers/${categoryId}`,
   };
 

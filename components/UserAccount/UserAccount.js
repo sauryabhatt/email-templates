@@ -51,9 +51,7 @@ import Spinner from "../Spinner/Spinner";
 import moment from "moment";
 import Quotations from "../Quotations/Quotations";
 import QuotationMobile from "../mobile/QuotationMobile";
-import Orders from "../Orders/Orders";
 import Orderss from "../Orders/Orderss";
-import OrdersMobile from "../mobile/OrdersMobile";
 import Addresses from "../Addresses/Addresses";
 import { logoutFromApp } from "../AuthWithKeycloak";
 import Collections from "./../Collections/Collections";
@@ -1746,23 +1744,6 @@ const UserAccount = (props) => {
               setOrderText={setOrderText}
               mediaMatch={window.matchMedia("(max-width: 780px)").matches}
             />
-          ) : (
-            ""
-          )}
-
-          {currentNav == "orderss" ? (
-            mediaMatch.matches ? (
-              <Orders
-                handleShowOrder={handleShowOrder}
-                showOrderDetails={showOrderDetails}
-                setOrderText={setOrderText}
-              />
-            ) : (
-              <OrdersMobile
-                handleShowOrder={handleShowOrder}
-                showOrderDetails={showOrderDetails}
-              />
-            )
           ) : (
             ""
           )}
