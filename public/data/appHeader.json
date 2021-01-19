@@ -233,34 +233,34 @@
   {
     "id": "SHOPOPTIONS::COLUMN::3::ROW::102",
     "column": "3",
-    "displayTitle": "Curated by us",
+    "displayTitle": "Crafted boho",
     "menuOrder": "102",
     "font": "H2",
     "action": "URL",
     "filterType": "",
-    "values": "/explore/curatedbyus",
+    "values": "/trends/globaltextures",
     "isActive": ""
   },
   {
     "id": "SHOPOPTIONS::COLUMN::3::ROW::103",
     "column": "3",
-    "displayTitle": "Crafted boho",
+    "displayTitle": "Indigo blues",
     "menuOrder": "103",
     "font": "H2",
     "action": "URL",
     "filterType": "",
-    "values": "/trends/globaltextures",
+    "values": "/trends/indigoblues",
     "isActive": "TRUE"
   },
   {
     "id": "SHOPOPTIONS::COLUMN::3::ROW::104",
     "column": "3",
-    "displayTitle": "Indigo blues",
+    "displayTitle": "Summer pastels",
     "menuOrder": "104",
     "font": "H2",
     "action": "URL",
     "filterType": "",
-    "values": "/trends/indigoblues",
+    "values": "/trends/sunkissed-spring21",
     "isActive": "TRUE"
   },
   {

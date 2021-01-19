@@ -420,6 +420,7 @@ const ProductDetails = (props) => {
     breadth = "",
     height = "",
     lbhUnit = "",
+    freeShippingEligible = false,
   } = data || {};
   let sizes = [];
   let standardSize = "Standard (l*b*h)";
@@ -1291,7 +1292,8 @@ const ProductDetails = (props) => {
                           {getConvertedCurrency(exfactoryListPrice)}
                         </span>
                       )} */}
-                      {sellerList.includes(sellerCode) && (
+                      {(sellerList.includes(sellerCode) ||
+                        freeShippingEligible) && (
                         <div className="qa-offer-text qa-pad-0-10 qa-disp-inline">
                           FREE shipping
                         </div>
@@ -1316,7 +1318,8 @@ const ProductDetails = (props) => {
                           </span>
                         </div>
                       )}
-                      {!sellerList.includes(sellerCode) && (
+                      {(!sellerList.includes(sellerCode) ||
+                        !freeShippingEligible) && (
                         <div className="qa-font-san qa-fs-12 qa-lh">
                           Base price per unit excl. margin, freight and other
                           charges
@@ -2295,7 +2298,8 @@ const ProductDetails = (props) => {
                             </span>
                           )} */}
                         </Col>
-                        {sellerList.includes(sellerCode) && (
+                        {(sellerList.includes(sellerCode) ||
+                          freeShippingEligible) && (
                           <Col
                             span={12}
                             className="qa-txt-alg-rgt qa-mar-top-1"
@@ -2325,7 +2329,8 @@ const ProductDetails = (props) => {
                           </span>
                         </div>
                       )}
-                      {!sellerList.includes(sellerCode) && (
+                      {(!sellerList.includes(sellerCode) ||
+                        !freeShippingEligible) && (
                         <div className="qa-font-san qa-fs-12 qa-lh">
                           Base price per unit excl. margin, freight and other
                           charges

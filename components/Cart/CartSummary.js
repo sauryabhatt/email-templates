@@ -115,6 +115,7 @@ const CartSummary = (props) => {
   let couponDiscount = 0;
   let freightDis = 0;
   let sellerDiscount = 0;
+  let productDiscount = 0;
   let vat = 0;
   let dutyMax = 0;
   let dutyMin = 0;
@@ -140,6 +141,8 @@ const CartSummary = (props) => {
       freightDis = amount;
     } else if (chargeId === "SELLER_DISCOUNT") {
       sellerDiscount = amount;
+    } else if (chargeId === "PRODUCT_DISCOUNT") {
+      productDiscount = amount;
     } else if (chargeId === "DDP_VAT") {
       vat = amount;
     } else if (chargeId === "DDP_DUTY_MAX") {
@@ -149,7 +152,7 @@ const CartSummary = (props) => {
     }
   }
 
-  if (couponDiscount > 0 || sellerDiscount > 0) {
+  if (couponDiscount > 0 || sellerDiscount > 0 || productDiscount > 0) {
     frieghtCharge = freightDis;
   }
 
@@ -587,13 +590,15 @@ const CartSummary = (props) => {
     parseFloat(getConvertedCurrency(frieghtCharge)) +
     parseFloat(getConvertedCurrency(dutyCharge)) -
     parseFloat(getConvertedCurrency(couponDiscount)) -
-    parseFloat(getConvertedCurrency(sellerDiscount));
+    parseFloat(getConvertedCurrency(sellerDiscount)) -
+    parseFloat(getConvertedCurrency(productDiscount));
 
   totalCartValue =
     totalCartValue +
     parseFloat(getConvertedCurrency(frieghtCharge)) +
     parseFloat(getConvertedCurrency(dutyCharge)) -
     parseFloat(getConvertedCurrency(sellerDiscount)) -
+    parseFloat(getConvertedCurrency(productDiscount)) -
     parseFloat(getConvertedCurrency(couponDiscount)) +
     parseFloat(getConvertedCurrency(vatCharge)) -
     parseFloat(getConvertedCurrency(promoDiscount));
@@ -861,7 +866,9 @@ const CartSummary = (props) => {
       <div className="qa-mar-btm-05">
         <div
           className={`${
-            (referralCode && couponDiscount > 0) || sellerDiscount > 0
+            (referralCode && couponDiscount > 0) ||
+            sellerDiscount > 0 ||
+            productDiscount > 0
               ? "cart-ship-pt qa-pd-0"
               : "cart-ship-pt"
           }`}
@@ -944,6 +951,49 @@ const CartSummary = (props) => {
               <span style={{ color: "#02873A" }}>
                 -{getSymbolFromCurrency(convertToCurrency)}
                 {getConvertedCurrency(sellerDiscount)}
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {id !== "cart" && productDiscount > 0 && (
+        <div className="qa-fw-b">
+          <div className="cart-ship-pt">
+            <div style={{ color: "#02873A" }} className="c-left-blk">
+              <span
+                style={{
+                  verticalAlign: "middle",
+                }}
+              >
+                Shipping promotion applied{" "}
+              </span>
+              <Tooltip
+                overlayClassName="qa-tooltip"
+                placement="top"
+                trigger="hover"
+                title="Free shipping promotion applied"
+              >
+                <span
+                  style={{
+                    cursor: "pointer",
+                    verticalAlign: "middle",
+                  }}
+                >
+                  <Icon
+                    component={infoIcon}
+                    style={{
+                      width: "15px",
+                      height: "15px",
+                    }}
+                  />
+                </span>
+              </Tooltip>
+            </div>
+            <div className="c-right-blk qa-txt-alg-rgt">
+              <span style={{ color: "#02873A" }}>
+                -{getSymbolFromCurrency(convertToCurrency)}
+                {getConvertedCurrency(productDiscount)}
               </span>
             </div>
           </div>

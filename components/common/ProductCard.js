@@ -63,6 +63,7 @@ function ProductCard(props) {
     showSPLP = "",
     visibleTo = "",
     sellerCode = "",
+    freeShippingEligible = false,
   } = productDetails;
 
   let { convertToCurrency = "" } = currencyDetails || {};
@@ -162,7 +163,8 @@ function ProductCard(props) {
                       {productTypeDisp}
                     </span>
                   </Col>
-                  {sellerList.includes(sellerCode) && (
+                  {(sellerList.includes(sellerCode) ||
+                    freeShippingEligible) && (
                     <Col span={12} className="qa-txt-alg-rgt qa-mar-top-05">
                       <div className="qa-offer-text">FREE shipping</div>
                     </Col>
@@ -276,7 +278,8 @@ function ProductCard(props) {
                           </span>
                         </span>
                       </Col>
-                      {sellerList.includes(sellerCode) && (
+                      {(sellerList.includes(sellerCode) ||
+                        freeShippingEligible) && (
                         <Col span={10} className="qa-txt-alg-rgt qa-mar-top-05">
                           <div className="qa-offer-text">FREE shipping</div>
                         </Col>
@@ -298,7 +301,8 @@ function ProductCard(props) {
                         </div>*/}
                       </Col>
                       <Col span={10} className="qa-txt-alg-rgt qa-mar-top-05">
-                        {sellerList.includes(sellerCode) && (
+                        {(sellerList.includes(sellerCode) ||
+                          freeShippingEligible) && (
                           <div className="qa-offer-text">FREE shipping</div>
                         )}
                         {colorFamily.length > 1 && <div>+colors available</div>}

@@ -295,7 +295,6 @@ function SellerProductListingDesktop(props) {
                 xl={15}
                 style={{ paddingRight: "50px" }}
               >
-
                 <div className="qa-text-2line banner-text-small qa-font-san qa-fs-12 qa-mar-btm-1">
                   {companyDescription}
                 </div>
@@ -388,13 +387,13 @@ function SellerProductListingDesktop(props) {
                     <div style={{ padding: "3px 0px" }}>Product listing</div>
                   </div>
                 </Menu.Item>
-                {sellerList.includes(sellerId) && (
+                {/* {sellerList.includes(sellerId) && (
                   <div style={{ float: "right", marginTop: "12px" }}>
                     <div className="qa-offer-text" style={{ fontSize: "14px" }}>
                       FREE shipping
                     </div>
                   </div>
-                )}
+                )} */}
               </Menu>
             </Content>
           </div>
