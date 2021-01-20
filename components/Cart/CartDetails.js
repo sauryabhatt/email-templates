@@ -892,6 +892,8 @@ const CartDetails = (props) => {
               articleId = "",
               image = "",
               productType = "",
+              sellerCategory = "",
+              smallBatchesAvailable = false,
             } = product;
             if (productId === skuid) {
               p_data = {
@@ -908,6 +910,8 @@ const CartDetails = (props) => {
                 image: image,
                 productType: productType,
                 typeOfOrder: productType,
+                sellerCategory: sellerCategory,
+                smallBatchesAvailable: smallBatchesAvailable,
               };
             }
           }
