@@ -1511,7 +1511,7 @@ const ProductDetails = (props) => {
                 form={rtsform}
                 scrollToFirstError
               >
-                {productType === "RTS" || productType === "ERTM" ? (
+                {(productType === "RTS" || productType === "ERTM") && skuId ? (
                   <div>
                     <Row>
                       <Col xs={24} sm={24} md={11} lg={11} xl={11}>
@@ -1787,7 +1787,7 @@ const ProductDetails = (props) => {
                 >
                   Available shipping modes
                 </div>
-                {(productType === "RTS" || productType === "ERTM") && (
+                {(productType === "RTS" || productType === "ERTM") && skuId && (
                   <div
                     style={{
                       display: "inline-block",
@@ -2556,7 +2556,7 @@ const ProductDetails = (props) => {
                 form={rtsform}
                 scrollToFirstError
               >
-                {productType === "RTS" || productType === "ERTM" ? (
+                {(productType === "RTS" || productType === "ERTM") && skuId ? (
                   <div>
                     <Row>
                       <Col xs={24} sm={24} md={11} lg={11} xl={11}>
@@ -2849,7 +2849,7 @@ const ProductDetails = (props) => {
                   </div> */}
                 </div>
                 <div>
-                  {(productType === "RTS" || productType === "ERTM") && (
+                  {(productType === "RTS" || productType === "ERTM") && skuId && (
                     <div className="qa-mar-btm-2 qa-font-san">
                       <span
                         style={{
