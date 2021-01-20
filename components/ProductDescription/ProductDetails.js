@@ -1455,7 +1455,7 @@ const ProductDetails = (props) => {
               {showPrice &&
                 moqList.length > 0 &&
                 smallBatchesAvailable &&
-                sellerCategory === "B2C" &&
+                sellerCategory === "B2B" &&
                 productType !== "RTS" && (
                   <div>
                     <div className="qa-font-san qa-tc-white qa-fs-12 qa-fw-b">
@@ -1574,7 +1574,7 @@ const ProductDetails = (props) => {
                                   productType !== "RTS" &&
                                   moqList.length > 0 &&
                                   smallBatchesAvailable &&
-                                  sellerCategory === "B2C"
+                                  sellerCategory === "B2B"
                                 ) {
                                   changeMOQQty(value);
                                 }
@@ -2500,7 +2500,7 @@ const ProductDetails = (props) => {
               {showPrice &&
                 moqList.length > 0 &&
                 smallBatchesAvailable &&
-                sellerCategory === "B2C" &&
+                sellerCategory === "B2B" &&
                 productType !== "RTS" && (
                   <div>
                     <div className="qa-font-san qa-tc-white qa-fs-12 qa-fw-b">
@@ -2619,7 +2619,7 @@ const ProductDetails = (props) => {
                                   productType !== "RTS" &&
                                   moqList.length &&
                                   smallBatchesAvailable &&
-                                  sellerCategory === "B2C"
+                                  sellerCategory === "B2B"
                                 ) {
                                   changeMOQQty(value);
                                 }
