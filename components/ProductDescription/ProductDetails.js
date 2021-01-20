@@ -388,6 +388,9 @@ const ProductDetails = (props) => {
       setGalleryImages(imageList);
       rtsform.setFieldsValue({ color: variants[0].color });
     }
+    if (productMOQPriceDetail.length > 0) {
+      setDisplayPrice(productMOQPriceDetail[0]["price"]);
+    }
 
     setSelectedColor(color);
     setVariantId(variantId);
