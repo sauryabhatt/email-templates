@@ -1456,7 +1456,7 @@ const ProductDetails = (props) => {
                 moqList.length > 0 &&
                 smallBatchesAvailable &&
                 sellerCategory === "B2C" &&
-                productType === "ERTM" && (
+                productType !== "RTS" && (
                   <div>
                     <div className="qa-font-san qa-tc-white qa-fs-12 qa-fw-b">
                       Select quantity range to view applicable price (units):{" "}
@@ -1571,7 +1571,7 @@ const ProductDetails = (props) => {
                               className="p-text-box"
                               onChange={(value) => {
                                 if (
-                                  productType === "ERTM" &&
+                                  productType !== "RTS" &&
                                   moqList.length > 0 &&
                                   smallBatchesAvailable &&
                                   sellerCategory === "B2C"
@@ -2497,7 +2497,60 @@ const ProductDetails = (props) => {
                   </span>
                 </div>
               )}
-
+              {showPrice &&
+                moqList.length > 0 &&
+                smallBatchesAvailable &&
+                sellerCategory === "B2C" &&
+                productType !== "RTS" && (
+                  <div>
+                    <div className="qa-font-san qa-tc-white qa-fs-12 qa-fw-b">
+                      Select quantity range to view applicable price (units):{" "}
+                      <Tooltip
+                        overlayClassName="qa-tooltip"
+                        placement="top"
+                        trigger="hover"
+                        title="If your requirement is below the minimum quantity mentioned please raise a Custom Quote"
+                      >
+                        <span
+                          style={{
+                            cursor: "pointer",
+                            verticalAlign: "middle",
+                          }}
+                        >
+                          <Icon
+                            component={infoIcon}
+                            className="info-icon"
+                            style={{ width: "18px" }}
+                          />
+                        </span>
+                      </Tooltip>
+                    </div>
+                    {moqList.map((moq, i) => (
+                      <div
+                        className={
+                          selectedQty === i
+                            ? "pdp-moq-range qa-mar-rgt-1 selected"
+                            : "pdp-moq-range qa-mar-rgt-1"
+                        }
+                        key={i}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          e.preventDefault();
+                          setSelectedQty(i);
+                          setDisplayPrice(moq.price);
+                          rtsform.setFieldsValue({ quantity: "" });
+                        }}
+                      >
+                        {moq.qtyMin}{" "}
+                        {moq.qtyMax > 0 ? (
+                          <span>- {moq.qtyMax}</span>
+                        ) : (
+                          <span> +</span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
               <Form
                 name="product_details_form_mobile"
                 form={rtsform}
@@ -2505,61 +2558,6 @@ const ProductDetails = (props) => {
               >
                 {productType === "RTS" || productType === "ERTM" ? (
                   <div>
-                    {showPrice &&
-                      moqList.length > 0 &&
-                      smallBatchesAvailable &&
-                      sellerCategory === "B2C" &&
-                      productType === "ERTM" && (
-                        <div>
-                          <div className="qa-font-san qa-tc-white qa-fs-12 qa-fw-b">
-                            Select quantity range to view applicable price
-                            (units):{" "}
-                            <Tooltip
-                              overlayClassName="qa-tooltip"
-                              placement="top"
-                              trigger="hover"
-                              title="If your requirement is below the minimum quantity mentioned please raise a Custom Quote"
-                            >
-                              <span
-                                style={{
-                                  cursor: "pointer",
-                                  verticalAlign: "middle",
-                                }}
-                              >
-                                <Icon
-                                  component={infoIcon}
-                                  className="info-icon"
-                                  style={{ width: "18px" }}
-                                />
-                              </span>
-                            </Tooltip>
-                          </div>
-                          {moqList.map((moq, i) => (
-                            <div
-                              className={
-                                selectedQty === i
-                                  ? "pdp-moq-range qa-mar-rgt-1 selected"
-                                  : "pdp-moq-range qa-mar-rgt-1"
-                              }
-                              key={i}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                e.preventDefault();
-                                setSelectedQty(i);
-                                setDisplayPrice(moq.price);
-                                rtsform.setFieldsValue({ quantity: "" });
-                              }}
-                            >
-                              {moq.qtyMin}{" "}
-                              {moq.qtyMax > 0 ? (
-                                <span>- {moq.qtyMax}</span>
-                              ) : (
-                                <span> +</span>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      )}
                     <Row>
                       <Col xs={24} sm={24} md={11} lg={11} xl={11}>
                         <div className="label-paragraph qa-fs-12">
@@ -2618,7 +2616,7 @@ const ProductDetails = (props) => {
                               className="p-text-box"
                               onChange={(value) => {
                                 if (
-                                  productType === "ERTM" &&
+                                  productType !== "RTS" &&
                                   moqList.length &&
                                   smallBatchesAvailable &&
                                   sellerCategory === "B2C"
@@ -2807,11 +2805,13 @@ const ProductDetails = (props) => {
                   </div>
                 )}
                 <div className="p-custom">
-                  <span onClick={() => {
+                  <span
+                    onClick={() => {
                       e.preventDefault();
                       e.stopPropagation();
                       setAccordion("custom");
-                    }}>
+                    }}
+                  >
                     More customization available
                   </span>
                 </div>
