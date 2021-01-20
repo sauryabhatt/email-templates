@@ -1766,7 +1766,9 @@ const ProductDetails = (props) => {
                 <div>
                   <span
                     className="p-custom qa-cursor"
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
                       setAccordion("custom");
                     }}
                   >
@@ -2805,7 +2807,11 @@ const ProductDetails = (props) => {
                   </div>
                 )}
                 <div className="p-custom">
-                  <span onClick={() => setAccordion("custom")}>
+                  <span onClick={() => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setAccordion("custom");
+                    }}>
                     More customization available
                   </span>
                 </div>
