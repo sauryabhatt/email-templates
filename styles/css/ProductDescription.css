@@ -1237,3 +1237,23 @@
     font-size: 14px;
   }
 }
+#product-description .pdp-moq-range {
+  display: inline-block;
+  width: 100px;
+  height: 30px;
+  background: #f9f7f2;
+  border-radius: 16px;
+  text-align: center;
+  font-size: 14px;
+  color: rgba(25, 25, 25, 0.65);
+  font-family: senregular;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  margin-bottom: 10px;
+  line-height: 29px;
+  cursor: pointer;
+}
+#product-description .pdp-moq-range.selected {
+  color: #191919;
+  background: #c2b7a2;
+  border: 1px solid #c2b7a2;
+}

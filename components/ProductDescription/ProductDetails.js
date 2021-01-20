@@ -178,7 +178,10 @@ const ProductDetails = (props) => {
     valueCertifications = [],
     vanityId = "",
     brandName = "",
+    sellerCategory = "",
+    smallBatchesAvailable = false,
   } = sellerDetails || {};
+
   let { orderId = "" } = cart;
   const router = useRouter();
   const { keycloak } = useKeycloak();
@@ -223,6 +226,9 @@ const ProductDetails = (props) => {
   const [showCollection, setCollection] = useState(false);
   const [selectedCollection, setSelectedCollection] = useState("");
   const [collections, setCollections] = useState([]);
+  const [moqList, setMoqList] = useState([]);
+  const [selectedQty, setSelectedQty] = useState(0);
+  const [displayPrice, setDisplayPrice] = useState("");
 
   const url = process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL;
 
@@ -266,6 +272,7 @@ const ProductDetails = (props) => {
   }, []);
 
   useEffect(() => {
+    setSelectedQty(0);
     let pdpOverlay = localStorage.getItem("pdpOverlay");
     if (pdpOverlay) {
       setOverlayDiv(false);
@@ -281,7 +288,14 @@ const ProductDetails = (props) => {
       userProfile || {};
     let destinationCountry = sessionStorage.getItem("destinationCountry");
 
-    let { variants = [], skus = [], deliveryExclusions = [] } = data || {};
+    let {
+      variants = [],
+      skus = [],
+      deliveryExclusions = [],
+      productMOQPriceDetail = [],
+      exfactoryListPrice = "",
+    } = data || {};
+    setDisplayPrice(exfactoryListPrice);
     let color = "";
     let variantId = "";
     let index = 0;
@@ -377,6 +391,7 @@ const ProductDetails = (props) => {
 
     setSelectedColor(color);
     setVariantId(variantId);
+    setMoqList(productMOQPriceDetail);
   }, [props.data]);
 
   let {
@@ -454,7 +469,6 @@ const ProductDetails = (props) => {
 
   let splpLink = "/seller/" + sellerCode + "/all-categories";
   // let displayPrice = priceMin || exfactoryListPrice;
-  let displayPrice = exfactoryListPrice;
 
   let discount = 0;
   if (exFactoryPrice > exfactoryListPrice) {
@@ -1016,6 +1030,26 @@ const ProductDetails = (props) => {
     }
   };
 
+  const inRangeQty = (x, min, max) => {
+    if (max === -1) {
+      max = Infinity;
+    }
+    return x >= min && x <= max;
+  };
+
+  const changeMOQQty = (value) => {
+    let priceList = moqList;
+    let index = 0;
+    for (let details of priceList) {
+      let { qtyMin = "", qtyMax = "", price = "" } = details;
+      if (inRangeQty(value, qtyMin, qtyMax)) {
+        setDisplayPrice(price);
+        setSelectedQty(index);
+      }
+      index++;
+    }
+  };
+
   if (isLoading) {
     if (mobile) {
       return (
@@ -1273,7 +1307,7 @@ const ProductDetails = (props) => {
                     verificationStatus === "IN_PROGRESS") ||
                   (profileType === "SELLER" && profileId === sellerCode) ||
                   showPrice ? (
-                    <div style={{ marginBottom: "10px" }}>
+                    <div className="qa-mar-btm-05">
                       <span
                         style={{
                           fontSize: "26px",
@@ -1418,6 +1452,60 @@ const ProductDetails = (props) => {
                   </span>
                 </div>
               )}
+              {showPrice &&
+                moqList.length > 0 &&
+                smallBatchesAvailable &&
+                sellerCategory === "B2C" &&
+                productType === "ERTM" && (
+                  <div>
+                    <div className="qa-font-san qa-tc-white qa-fs-12 qa-fw-b">
+                      Select quantity range to view applicable price (units):{" "}
+                      <Tooltip
+                        overlayClassName="qa-tooltip"
+                        placement="top"
+                        trigger="hover"
+                        title="If your requirement is below the minimum quantity mentioned please raise a Custom Quote"
+                      >
+                        <span
+                          style={{
+                            cursor: "pointer",
+                            verticalAlign: "text-top",
+                          }}
+                        >
+                          <Icon
+                            component={infoIcon}
+                            className="info-icon"
+                            style={{ width: "18px" }}
+                          />
+                        </span>
+                      </Tooltip>
+                    </div>
+                    {moqList.map((moq, i) => (
+                      <div
+                        className={
+                          selectedQty === i
+                            ? "pdp-moq-range qa-mar-rgt-1 selected"
+                            : "pdp-moq-range qa-mar-rgt-1"
+                        }
+                        key={i}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          e.preventDefault();
+                          setSelectedQty(i);
+                          setDisplayPrice(moq.price);
+                          rtsform.setFieldsValue({ quantity: "" });
+                        }}
+                      >
+                        {moq.qtyMin}{" "}
+                        {moq.qtyMax > 0 ? (
+                          <span>- {moq.qtyMax}</span>
+                        ) : (
+                          <span> +</span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
               <Form
                 name="product_details_form_large"
                 form={rtsform}
@@ -1478,7 +1566,20 @@ const ProductDetails = (props) => {
                           ]}
                         >
                           {showPrice ? (
-                            <InputNumber type="number" className="p-text-box" />
+                            <InputNumber
+                              type="number"
+                              className="p-text-box"
+                              onChange={(value) => {
+                                if (
+                                  productType === "ERTM" &&
+                                  moqList.length > 0 &&
+                                  smallBatchesAvailable &&
+                                  sellerCategory === "B2C"
+                                ) {
+                                  changeMOQQty(value);
+                                }
+                              }}
+                            />
                           ) : (
                             <Tooltip
                               trigger={["focus"]}
@@ -1581,20 +1682,19 @@ const ProductDetails = (props) => {
                 ) : (
                   <div className="custom-section">
                     {showPrice && (
-                      <div>
-                        <div className="qa-font-san qa-tc-white qa-font-12">
-                          Minimum order quantity:{" "}
-                          {switchMoq && inStock === 0
-                            ? switchMoq
-                            : minimumOrderQuantity}{" "}
-                          {moqUnit}
-                          <span
-                            style={{
-                              marginRight: "5px",
-                              fontWeight: "bold",
-                              fontFamily: "Butler",
-                            }}
-                          ></span>
+                      <div className="qa-font-san qa-tc-white">
+                        Minimum order quantity:{" "}
+                        {switchMoq && inStock === 0
+                          ? switchMoq
+                          : minimumOrderQuantity}{" "}
+                        {moqUnit}
+                        <span
+                          style={{
+                            marginRight: "5px",
+                            fontWeight: "bold",
+                            fontFamily: "Butler",
+                          }}
+                        >
                           <Tooltip
                             overlayClassName="qa-tooltip"
                             placement="top"
@@ -1614,13 +1714,14 @@ const ProductDetails = (props) => {
                               />
                             </span>
                           </Tooltip>
-                        </div>
+                        </span>
                         <div className="qa-font-san qa-fs-12 qa-blue qa-mar-top-05 qa-lh qa-mar-btm-1">
                           *For large quantities, please submit the{" "}
                           <b>'get quote'</b> form for unbeatable prices!
                         </div>
                       </div>
                     )}
+
                     <Row>
                       {colors.length > 0 && (
                         <Col xs={24} sm={24} md={11} lg={11} xl={11}>
@@ -1659,55 +1760,20 @@ const ProductDetails = (props) => {
                         </Col>
                       )}
                     </Row>
-                    {colorCustomizationAvailable && (
-                      <div className="p-custom-size-stitle">
-                        Customization options
-                      </div>
-                    )}
-                    {colorCustomizationAvailable && (
-                      <div className="qa-pad-top-1">
-                        <span
-                          className="p-custom"
-                          onClick={() => setAccordion("color")}
-                        >
-                          Colors/Prints
-                        </span>
-                      </div>
-                    )}
-                    {sizeCustomizationAvailable && (
-                      <div className="qa-pad-top-1">
-                        <span
-                          className="p-custom"
-                          onClick={() => setAccordion("size")}
-                        >
-                          Sizes
-                        </span>
-                      </div>
-                    )}
-                    {packagingCustomizationAvailable && (
-                      <div className="qa-pad-top-1">
-                        <span
-                          className="p-custom"
-                          onClick={() => setAccordion("packaging")}
-                        >
-                          Packaging
-                        </span>
-                      </div>
-                    )}
                   </div>
                 )}
-                {(productType === "RTS" || productType === "ERTM") && (
-                  <div>
-                    <span
-                      className="p-custom qa-cursor"
-                      onClick={() => {
-                        setAccordion("custom");
-                      }}
-                    >
-                      More customization available
-                    </span>
-                  </div>
-                )}
+
+                <div>
+                  <span
+                    className="p-custom qa-cursor"
+                    onClick={() => {
+                      setAccordion("custom");
+                    }}
+                  >
+                    More customization available
+                  </span>
+                </div>
+
                 <div
                   style={{
                     display: "inline-block",
@@ -2437,6 +2503,61 @@ const ProductDetails = (props) => {
               >
                 {productType === "RTS" || productType === "ERTM" ? (
                   <div>
+                    {showPrice &&
+                      moqList.length > 0 &&
+                      smallBatchesAvailable &&
+                      sellerCategory === "B2C" &&
+                      productType === "ERTM" && (
+                        <div>
+                          <div className="qa-font-san qa-tc-white qa-fs-12 qa-fw-b">
+                            Select quantity range to view applicable price
+                            (units):{" "}
+                            <Tooltip
+                              overlayClassName="qa-tooltip"
+                              placement="top"
+                              trigger="hover"
+                              title="If your requirement is below the minimum quantity mentioned please raise a Custom Quote"
+                            >
+                              <span
+                                style={{
+                                  cursor: "pointer",
+                                  verticalAlign: "middle",
+                                }}
+                              >
+                                <Icon
+                                  component={infoIcon}
+                                  className="info-icon"
+                                  style={{ width: "18px" }}
+                                />
+                              </span>
+                            </Tooltip>
+                          </div>
+                          {moqList.map((moq, i) => (
+                            <div
+                              className={
+                                selectedQty === i
+                                  ? "pdp-moq-range qa-mar-rgt-1 selected"
+                                  : "pdp-moq-range qa-mar-rgt-1"
+                              }
+                              key={i}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                e.preventDefault();
+                                setSelectedQty(i);
+                                setDisplayPrice(moq.price);
+                                rtsform.setFieldsValue({ quantity: "" });
+                              }}
+                            >
+                              {moq.qtyMin}{" "}
+                              {moq.qtyMax > 0 ? (
+                                <span>- {moq.qtyMax}</span>
+                              ) : (
+                                <span> +</span>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     <Row>
                       <Col xs={24} sm={24} md={11} lg={11} xl={11}>
                         <div className="label-paragraph qa-fs-12">
@@ -2490,7 +2611,20 @@ const ProductDetails = (props) => {
                           ]}
                         >
                           {showPrice ? (
-                            <InputNumber type="number" className="p-text-box" />
+                            <InputNumber
+                              type="number"
+                              className="p-text-box"
+                              onChange={(value) => {
+                                if (
+                                  productType === "ERTM" &&
+                                  moqList.length &&
+                                  smallBatchesAvailable &&
+                                  sellerCategory === "B2C"
+                                ) {
+                                  changeMOQQty(value);
+                                }
+                              }}
+                            />
                           ) : (
                             <Tooltip
                               trigger={["focus"]}
@@ -2594,20 +2728,19 @@ const ProductDetails = (props) => {
                 ) : (
                   <div>
                     {showPrice && (
-                      <div>
-                        <div className="qa-font-san qa-tc-white qa-font-12">
-                          Minimum order quantity:{" "}
-                          {switchMoq && inStock === 0
-                            ? switchMoq
-                            : minimumOrderQuantity}{" "}
-                          {moqUnit}
-                          <span
-                            style={{
-                              marginRight: "5px",
-                              fontWeight: "bold",
-                              fontFamily: "Butler",
-                            }}
-                          ></span>
+                      <div className="qa-font-san qa-tc-white">
+                        Minimum order quantity:{" "}
+                        {switchMoq && inStock === 0
+                          ? switchMoq
+                          : minimumOrderQuantity}{" "}
+                        {moqUnit}
+                        <span
+                          style={{
+                            marginRight: "5px",
+                            fontWeight: "bold",
+                            fontFamily: "Butler",
+                          }}
+                        >
                           <Tooltip
                             overlayClassName="qa-tooltip"
                             placement="top"
@@ -2627,7 +2760,7 @@ const ProductDetails = (props) => {
                               />
                             </span>
                           </Tooltip>
-                        </div>
+                        </span>
                         <div className="qa-font-san qa-fs-12 qa-blue qa-mar-top-05 qa-lh qa-mar-btm-1">
                           *For large quantities, please submit the{" "}
                           <b>'get quote'</b> form for unbeatable prices!
@@ -2669,50 +2802,14 @@ const ProductDetails = (props) => {
                         <Input disabled={true} value={standardSize} />
                       </Col>
                     )}
-                    {colorCustomizationAvailable && (
-                      <div className="p-custom-size-stitle">
-                        Customization options
-                      </div>
-                    )}
-                    {colorCustomizationAvailable && (
-                      <div className="qa-pad-top-1">
-                        <span
-                          className="p-custom"
-                          onClick={() => setAccordion("color")}
-                        >
-                          Colors/Prints
-                        </span>
-                      </div>
-                    )}
-                    {sizeCustomizationAvailable && (
-                      <div className="qa-pad-top-1">
-                        <span
-                          className="p-custom"
-                          onClick={() => setAccordion("size")}
-                        >
-                          Sizes
-                        </span>
-                      </div>
-                    )}
-                    {packagingCustomizationAvailable && (
-                      <div className="qa-pad-top-1">
-                        <span
-                          className="p-custom"
-                          onClick={() => setAccordion("packaging")}
-                        >
-                          Packaging
-                        </span>
-                      </div>
-                    )}
                   </div>
                 )}
-                {(productType === "RTS" || productType === "ERTM") && (
-                  <div className="p-custom">
-                    <span onClick={() => setAccordion("custom")}>
-                      More customization available
-                    </span>
-                  </div>
-                )}
+                <div className="p-custom">
+                  <span onClick={() => setAccordion("custom")}>
+                    More customization available
+                  </span>
+                </div>
+
                 <div className="qa-font-san qa-fs-14 qa-tc-white qa-mar-top-2 qa-mar-btm-05">
                   Available shipping modes
                 </div>
