@@ -72,7 +72,19 @@ function AppFooter(props) {
                 <a>Promotions FAQ</a>
               </Link>
             </Col>
-            <Col xs={24} sm={24} md={9} lg={9} xl={9} className="footer-links">
+            <Col
+              className="app-footer-text"
+              xs={24}
+              sm={24}
+              md={3}
+              lg={3}
+              xl={3}
+            >
+              <Link href="/shippingFAQ">
+                <a>Shipping FAQ</a>
+              </Link>
+            </Col>
+            <Col xs={24} sm={24} md={6} lg={6} xl={6} className="footer-links">
               <span style={{ padding: "0px 5px" }}>
                 <a href="https://facebook.com/QalaraGlobal/" target="_blank">
                   <svg

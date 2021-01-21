@@ -178,6 +178,32 @@ function FAQ(props) {
           charge a premium for samples.
         </p>
         <p className="faq-body-question">
+          Can I order quantities below the stated minimum order quantity on the
+          product page?
+        </p>
+        <p className="faq-body-text-para">
+          Minimums mentioned on the product page generally represent the minimum
+          quantity viable for the seller to produce. If you need quantities
+          below the minimum stated, we will try on a best effort basis to
+          procure the same as per your requirements. However, if the selected
+          supplier is not able to fulfill the request, we may recommend or reach
+          out to alternate suppliers and try to procure the required quantity of
+          similar products. This may take additional time to arrange, and may
+          sometimes come at a price premium.
+        </p>
+        <p className="faq-body-question">
+          Can we get better prices for quantities well above the minimum order
+          quantities?
+        </p>
+        <p className="faq-body-text-para">
+          In most cases, absolutely! For very large quantities, we recommend
+          that you send us a custom quote request, especially because both
+          product price and freight costs can be optimized for large quantities.
+          We strive to offer the most competitive delivered prices for you -
+          compared to any alternatives you may be evaluating. We can also work
+          backwards from a target cost you are aiming for.
+        </p>
+        <p className="faq-body-question">
           Can Qalara help me source products specific to my designs?
         </p>
         <p className="faq-body-text-para">
