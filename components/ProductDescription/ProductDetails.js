@@ -394,6 +394,7 @@ const ProductDetails = (props) => {
     if (
       sellerCategory === "B2B" &&
       smallBatchesAvailable &&
+      productMOQPriceDetail &&
       productMOQPriceDetail.length > 0 &&
       (productType !== "RTS" || (productType === "RTS" && inStock === 0))
     ) {
@@ -447,6 +448,7 @@ const ProductDetails = (props) => {
     height = "",
     lbhUnit = "",
     freeShippingEligible = false,
+    productMOQPriceDetail = [],
   } = data || {};
   let sizes = [];
   let standardSize = "Standard (l*b*h)";
@@ -559,7 +561,6 @@ const ProductDetails = (props) => {
   }
   let notificationMsg = "";
   let showPrice = true;
-  authenticated = true;
 
   if (
     !authenticated ||
@@ -585,6 +586,17 @@ const ProductDetails = (props) => {
   } else if (profileType === "SELLER" && profileId !== sellerCode) {
     notificationMsg =
       "You will be able to view the price if you signup as a buyer";
+  }
+
+  if (
+    productMOQPriceDetail &&
+    productMOQPriceDetail.length > 0 &&
+    smallBatchesAvailable &&
+    sellerCategory === "B2B" &&
+    (productType !== "RTS" || (productType === "RTS" && inStock === 0))
+  ) {
+    minimumOrderQuantity =
+      productMOQPriceDetail[productMOQPriceDetail.length - 1]["qtyMin"];
   }
 
   const hidePincodeModal = () => {
@@ -1482,7 +1494,7 @@ const ProductDetails = (props) => {
                   <div>
                     <div className="qa-font-san qa-tc-white qa-fs-12 qa-fw-b qa-mar-top-1 qa-mar-btm-05">
                       Select quantity range to view applicable price (units):{" "}
-                      <Tooltip
+                      {/* <Tooltip
                         overlayClassName="qa-tooltip"
                         placement="top"
                         trigger="hover"
@@ -1501,7 +1513,7 @@ const ProductDetails = (props) => {
                             style={{ width: "18px" }}
                           />
                         </span>
-                      </Tooltip>
+                      </Tooltip> */}
                     </div>
                     {moqList.map((moq, i) => (
                       <div
@@ -1550,20 +1562,28 @@ const ProductDetails = (props) => {
                               }}
                             />
                           )}
-                          {showPrice && (
-                            <span
-                              className="qa-fs-12"
-                              style={{ float: "right" }}
-                            >
-                              Minimum{" "}
-                              {switchMoq && inStock === 0
-                                ? switchMoq
-                                : inStock > 0 && inStock < minimumOrderQuantity
-                                ? inStock
-                                : minimumOrderQuantity}{" "}
-                              {moqUnit}
-                            </span>
-                          )}
+                          {showPrice &&
+                            !(
+                              moqList.length > 0 &&
+                              smallBatchesAvailable &&
+                              sellerCategory === "B2B" &&
+                              (productType !== "RTS" ||
+                                (productType === "RTS" && inStock === 0))
+                            ) && (
+                              <span
+                                className="qa-fs-12"
+                                style={{ float: "right" }}
+                              >
+                                Minimum{" "}
+                                {switchMoq && inStock === 0
+                                  ? switchMoq
+                                  : inStock > 0 &&
+                                    inStock < minimumOrderQuantity
+                                  ? inStock
+                                  : minimumOrderQuantity}{" "}
+                                {moqUnit}
+                              </span>
+                            )}
                         </div>
                         <Form.Item
                           name="quantity"
@@ -2364,7 +2384,7 @@ const ProductDetails = (props) => {
               lg={24}
               xl={24}
             >
-              <div className="qa-fs-20 qa-font-butler product-title">
+              <div className="qa-fs-24 qa-font-butler product-title">
                 <span className="qa-mar-rgt-05">{productNameSC}</span>
                 {packType && (
                   <span className="product-s-title">{packType}</span>
@@ -2383,7 +2403,7 @@ const ProductDetails = (props) => {
                         <Col span={12}>
                           <span
                             style={{
-                              fontSize: "20px",
+                              fontSize: "24px",
                               fontFamily: "Butler",
                               color: "#191919",
                               verticalAlign: "middle",
@@ -2547,7 +2567,7 @@ const ProductDetails = (props) => {
                   <div>
                     <div className="qa-font-san qa-tc-white qa-fs-12 qa-fw-b qa-mar-top-15 qa-mar-btm-05">
                       Select quantity range to view applicable price (units):{" "}
-                      <Tooltip
+                      {/* <Tooltip
                         overlayClassName="qa-tooltip"
                         placement="top"
                         trigger="hover"
@@ -2566,7 +2586,7 @@ const ProductDetails = (props) => {
                             style={{ width: "18px" }}
                           />
                         </span>
-                      </Tooltip>
+                      </Tooltip> */}
                     </div>
                     {moqList.map((moq, i) => (
                       <div
@@ -2615,20 +2635,28 @@ const ProductDetails = (props) => {
                               }}
                             />
                           )}
-                          {showPrice && (
-                            <span
-                              className="qa-fs-12"
-                              style={{ float: "right" }}
-                            >
-                              Minimum{" "}
-                              {switchMoq && inStock === 0
-                                ? switchMoq
-                                : inStock > 0 && inStock < minimumOrderQuantity
-                                ? inStock
-                                : minimumOrderQuantity}{" "}
-                              {moqUnit}
-                            </span>
-                          )}
+                          {showPrice &&
+                            !(
+                              moqList.length > 0 &&
+                              smallBatchesAvailable &&
+                              sellerCategory === "B2B" &&
+                              (productType !== "RTS" ||
+                                (productType === "RTS" && inStock === 0))
+                            ) && (
+                              <span
+                                className="qa-fs-12"
+                                style={{ float: "right" }}
+                              >
+                                Minimum{" "}
+                                {switchMoq && inStock === 0
+                                  ? switchMoq
+                                  : inStock > 0 &&
+                                    inStock < minimumOrderQuantity
+                                  ? inStock
+                                  : minimumOrderQuantity}{" "}
+                                {moqUnit}
+                              </span>
+                            )}
                         </div>
                         <Form.Item
                           name="quantity"
@@ -3672,17 +3700,24 @@ const ProductDetails = (props) => {
                 <div>
                   <div className="label-paragraph">
                     Quantity
-                    {showPrice && (
-                      <span style={{ float: "right" }}>
-                        Minimum{" "}
-                        {switchMoq && inStock === 0
-                          ? switchMoq
-                          : inStock > 0 && inStock < minimumOrderQuantity
-                          ? inStock
-                          : minimumOrderQuantity}{" "}
-                        {moqUnit}
-                      </span>
-                    )}
+                    {showPrice &&
+                      !(
+                        moqList.length > 0 &&
+                        smallBatchesAvailable &&
+                        sellerCategory === "B2B" &&
+                        (productType !== "RTS" ||
+                          (productType === "RTS" && inStock === 0))
+                      ) && (
+                        <span style={{ float: "right" }}>
+                          Minimum{" "}
+                          {switchMoq && inStock === 0
+                            ? switchMoq
+                            : inStock > 0 && inStock < minimumOrderQuantity
+                            ? inStock
+                            : minimumOrderQuantity}{" "}
+                          {moqUnit}
+                        </span>
+                      )}
                   </div>
                   <Form.Item
                     name="quantity"

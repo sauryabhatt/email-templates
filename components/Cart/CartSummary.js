@@ -668,13 +668,17 @@ const CartSummary = (props) => {
         <div className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
           <span style={{ textDecoration: "line-through", marginRight: "5px" }}>
             {getSymbolFromCurrency(convertToCurrency)}
-            {qalaraMargin ? parseFloat(qalaraMargin).toFixed(2) : ""}
+            {qalaraMargin
+              ? parseFloat(qalaraMargin).toFixed(2)
+              : parseFloat(0).toFixed(2)}
           </span>
 
-          <span style={{ color: "#02873A" }} className="qa-fw-b">
-            {getSymbolFromCurrency(convertToCurrency)}
-            {qalaraMargin ? parseFloat(0).toFixed(2) : ""}
-          </span>
+          {qalaraMargin > 0 && (
+            <span style={{ color: "#02873A" }} className="qa-fw-b">
+              {getSymbolFromCurrency(convertToCurrency)}
+              {parseFloat(0).toFixed(2)}
+            </span>
+          )}
         </div>
         {qualityPrice > 0 && (
           <div className="c-left-blk qa-mar-btm-05">Quality testing</div>
