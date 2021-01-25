@@ -59,6 +59,7 @@ const CollectionDetails = (props) => {
   const [RFQ, setRFQ] = useState(false);
   const [successQueryVisible, setSuccessQueryVisible] = useState(false);
   const [formVal, setFormval] = useState();
+  const [confirmModal, setConfirmModal] = useState(false);
 
   const mediaMatch = window.matchMedia("(min-width: 768px)");
   const monthNames = [
@@ -344,7 +345,11 @@ const CollectionDetails = (props) => {
     form
       .validateFields()
       .then((values) => {
-        setRFQ(true);
+        if (rfqSubmitted) {
+          setConfirmModal(true);
+        } else {
+          setRFQ(true);
+        }
         setFormval(values);
       })
       .catch((err) => {
@@ -393,7 +398,8 @@ const CollectionDetails = (props) => {
                   )}
 
                   <Button
-                    disabled={rfqSubmitted || products.length === 0}
+                    // disabled={rfqSubmitted || products.length === 0}
+                    disabled={products.length === 0}
                     htmlType="submit"
                     onClick={onCheck}
                     className="c-request-for-quote-button"
@@ -404,7 +410,7 @@ const CollectionDetails = (props) => {
                   {!mediaMatch.matches && (
                     <div className="rfq-text-mob">
                       {rfqSubmitted
-                        ? "Request for quote submitted"
+                        ? "Request for quote submitted!"
                         : "This collection gets automatically added to your RFQ"}
                     </div>
                   )}
@@ -753,6 +759,59 @@ const CollectionDetails = (props) => {
               Back to home page
             </Button>
           </Link>
+        </div>
+      </Modal>
+      <Modal
+        visible={confirmModal}
+        footer={null}
+        closable={false}
+        onCancel={() => setConfirmModal(false)}
+        centered
+        bodyStyle={{ padding: "30px", backgroundColor: "#f9f7f2" }}
+        width={450}
+        style={{ top: 5 }}
+        className="cart-delete-modal"
+      >
+        <div className="qa-rel-pos qa-font-san">
+          <div className="qa-pad-btm-2 qa-txt-alg-cnt">
+            <span className="qa-font-butler qa-fs-but-30 qa-tc-white">
+              REQUEST FOR QUOTE
+            </span>
+          </div>
+
+          <div
+            onClick={() => setConfirmModal(false)}
+            style={{
+              position: "absolute",
+              right: "0px",
+              top: "-10px",
+              cursor: "pointer",
+              zIndex: "1",
+            }}
+          >
+            <Icon
+              component={closeButton}
+              style={{ width: "30px", height: "30px" }}
+            />
+          </div>
+          <div>
+            <div className="qa-txt-alg-cnt qa-mar-btm-2">
+              A Request for quote for this collection has already been
+              submitted. Do you want to submit it again?
+            </div>
+            <Button
+              className="qa-button qa-fs-12 cart-cancel-delete qa-mar-top-2"
+              onClick={() => setConfirmModal(false)}
+            >
+              No
+            </Button>
+            <Button
+              className="qa-button qa-fs-12 cart-delete qa-mar-top-2"
+              onClick={() => setRFQ(true)}
+            >
+              Yes
+            </Button>
+          </div>
         </div>
       </Modal>
     </React.Fragment>
