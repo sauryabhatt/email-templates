@@ -7,13 +7,6 @@ export default function ShippingFAQforwholesalebuyers() {
   const [htmlContent, setHtmlContent] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    let width = window.innerWidth;
-    if (width <= 768) {
-      setMobile(true);
-    }
-  });
-
   useState(() => {
     fetch(
       process.env.NEXT_PUBLIC_REACT_APP_CONTENT_URL + "/content/ShippingFAQ",
