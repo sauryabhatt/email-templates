@@ -774,9 +774,7 @@ const CollectionDetails = (props) => {
       >
         <div className="qa-rel-pos qa-font-san">
           <div className="qa-pad-btm-2 qa-txt-alg-cnt">
-            <span className="qa-font-butler qa-fs-but-30 qa-tc-white">
-              REQUEST FOR QUOTE
-            </span>
+            <span className="rfq-confirm-heading">REQUEST FOR QUOTE</span>
           </div>
 
           <div
@@ -795,7 +793,7 @@ const CollectionDetails = (props) => {
             />
           </div>
           <div>
-            <div className="qa-txt-alg-cnt qa-mar-btm-2">
+            <div className="qa-txt-alg-lft qa-mar-btm-2">
               A Request for quote for this collection has already been
               submitted. Do you want to submit it again?
             </div>
