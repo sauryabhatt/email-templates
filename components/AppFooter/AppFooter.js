@@ -80,7 +80,7 @@ function AppFooter(props) {
               lg={3}
               xl={3}
             >
-              <Link href="/shippingFAQ">
+              <Link href="/shippingFAQforwholesalebuyers">
                 <a>Shipping FAQ</a>
               </Link>
             </Col>
