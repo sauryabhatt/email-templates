@@ -5,6 +5,7 @@ import Icon from "@ant-design/icons";
 import { UpOutlined, DownOutlined } from "@ant-design/icons";
 import LogoWithText from "../../public/filestore/logo_with_text.js";
 import SoundIcon from "../../public/filestore/soundIcon";
+import useDynamicRefs from "use-dynamic-refs";
 
 const Panel = Collapse.Panel;
 
@@ -32,7 +33,7 @@ const FAQ = () => {
   let url = process.env.NEXT_PUBLIC_URL + "/qalara-sound.mp3";
   const [playing, toggle] = useAudio(url);
   const [activeKeys, setActiveKeys] = useState([]);
-  const custom = useRef();
+  const [getRef, setRef] = useDynamicRefs();
   let accordionView = "custom";
 
   if (accordionView === "custom" && custom && custom.current) {
@@ -41,6 +42,12 @@ const FAQ = () => {
       block: "start",
     });
   }
+
+  useEffect(() => {
+    // Get ref for specific ID
+    const id = getRef("ref_1");
+    console.log(id);
+  }, []);
 
   const callback = (key) => {
     setActiveKeys(key);
@@ -94,6 +101,7 @@ const FAQ = () => {
             header="How does Qalara help overseas wholesale buyers?"
             key="ref-1"
             className="panel-title"
+            ref={setRef("ref_1")}
           >
             <div className="panel-body">
               Qalara is a global platform based in India, offering a convenient,
