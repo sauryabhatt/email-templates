@@ -79,6 +79,8 @@ const SavedForLater = (props) => {
           image = "",
           articleId = "",
           productType = "",
+          sellerCategory = "",
+          smallBatchesAvailable = false,
         } = product;
         // let newQty =
         //   document.getElementById(`sfl_quantity_${i}${count}`).value ||
@@ -104,6 +106,8 @@ const SavedForLater = (props) => {
           articleId: articleId,
           productType: productType,
           typeOfOrder: productType,
+          sellerCategory: sellerCategory,
+          smallBatchesAvailable: smallBatchesAvailable,
         };
 
         if (doNotDelete) {

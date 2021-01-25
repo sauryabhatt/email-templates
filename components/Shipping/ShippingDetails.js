@@ -214,7 +214,10 @@ const ShippingDetails = (props) => {
             landingFactor =
               (total + (seaMax > airMax ? airMax : seaMax)) / totalAmount;
 
-            if (landingFactor > LANDING_LIMITER) {
+            let result =
+              Object.values(airData[shippingTerm]).every((o) => o === 0) &&
+              Object.values(seaData[shippingTerm]).every((o) => o === 0);
+            if (landingFactor > LANDING_LIMITER || result) {
               setPayment(true);
             }
           }
