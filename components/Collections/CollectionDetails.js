@@ -805,7 +805,10 @@ const CollectionDetails = (props) => {
             </Button>
             <Button
               className="qa-button qa-fs-12 cart-delete qa-mar-top-2"
-              onClick={() => setRFQ(true)}
+              onClick={() => {
+                setRFQ(true);
+                setConfirmModal(false);
+              }}
             >
               Yes
             </Button>
