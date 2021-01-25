@@ -773,7 +773,7 @@ const CollectionDetails = (props) => {
         className="cart-delete-modal"
       >
         <div className="qa-rel-pos qa-font-san">
-          <div className="qa-pad-btm-2 qa-txt-alg-cnt">
+          <div className="qa-pad-btm-2">
             <span className="rfq-confirm-heading">REQUEST FOR QUOTE</span>
           </div>
 
