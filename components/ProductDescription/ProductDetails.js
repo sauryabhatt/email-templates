@@ -1385,13 +1385,13 @@ const ProductDetails = (props) => {
                             </span>
                           </div>
                         )}
-                      {(!sellerList.includes(sellerCode) ||
-                        !freeShippingEligible) && (
-                        <div className="qa-font-san qa-fs-12 qa-lh">
-                          Base price per unit excl. margin, freight and other
-                          charges
-                        </div>
-                      )}
+                      {!sellerList.includes(sellerCode) &&
+                        !freeShippingEligible && (
+                          <div className="qa-font-san qa-fs-12 qa-lh">
+                            Base price per unit excl. margin, freight and other
+                            charges
+                          </div>
+                        )}
                       {/* <div className="qa-tc-white qa-font-san qa-fs-12">
                         Suggested retail price:{" "}
                         <b>
@@ -2458,13 +2458,13 @@ const ProductDetails = (props) => {
                             </span>
                           </div>
                         )}
-                      {(!sellerList.includes(sellerCode) ||
-                        !freeShippingEligible) && (
-                        <div className="qa-font-san qa-fs-12 qa-lh">
-                          Base price per unit excl. margin, freight and other
-                          charges
-                        </div>
-                      )}
+                      {!sellerList.includes(sellerCode) &&
+                        !freeShippingEligible && (
+                          <div className="qa-font-san qa-fs-12 qa-lh">
+                            Base price per unit excl. margin, freight and other
+                            charges
+                          </div>
+                        )}
                       {/* <div className="qa-tc-white qa-font-san qa-fs-12">
                         Suggested retail price:{" "}
                         <b>
