@@ -36,11 +36,9 @@ function Accordion(props) {
     disclaimer = "",
     height = "",
     lbhUnit = "",
-    leastCubeVolume = "",
     length = "",
     breadth = "",
     careDescription = "",
-    shadeName = "",
     weight = "",
     packType = "",
     weightUnit = "",
@@ -50,27 +48,9 @@ function Accordion(props) {
     articleId = "",
   } = accData || {};
   const custom = useRef();
-  const color = useRef();
-  const size = useRef();
-  const packaging = useRef();
 
   if (accordionView === "custom" && custom && custom.current) {
     custom.current.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  } else if (accordionView === "color" && color && color.current) {
-    color.current.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  } else if (accordionView === "size" && size && size.current) {
-    size.current.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  } else if (accordionView === "packaging" && packaging && packaging.current) {
-    packaging.current.scrollIntoView({
       behavior: "smooth",
       block: "start",
     });
@@ -145,8 +125,6 @@ function Accordion(props) {
       </div>
     );
   });
-
- 
 
   return (
     <div>
@@ -298,7 +276,7 @@ function Accordion(props) {
             <div className="qa-pad-0-20">{customizationHeader}</div>
             <div>
               {colorCustomizationAvailable && (
-                <div ref={color}>
+                <div>
                   <div className="acc-sub-title">
                     Color/Print/Pattern/Material
                   </div>
@@ -319,7 +297,7 @@ function Accordion(props) {
                 <div className="p-section-divider"></div>
               )}
               {sizeCustomizationAvailable && (
-                <div ref={size}>
+                <div>
                   <div className="acc-sub-title">Size/Shape/Form</div>
                   <div className="qa-pad-0-20 qa-stitle">
                     {sizeCustomizationHeader}
@@ -337,7 +315,7 @@ function Accordion(props) {
                 <div className="p-section-divider"></div>
               )}
               {packagingCustomizationAvailable && (
-                <div ref={packaging}>
+                <div>
                   <div className="acc-sub-title">Packaging</div>
                   <div className="qa-pad-0-20 qa-stitle">
                     {packagingCustomizationHeader}

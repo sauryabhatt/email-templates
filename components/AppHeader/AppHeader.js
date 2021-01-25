@@ -4,8 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, connect } from "react-redux";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import responseJSONProd from "../../public/data/appHeader.json";
-import responseJSONDev from "../../public/data/appHeaderDev.json";
+import responseJSONShop from "../../public/data/appHeader.json";
 import responseJSONFeatured from "../../public/data/appHeaderFeatured.json";
 import {
   Layout,
@@ -167,12 +166,8 @@ function AppHeader(props) {
   }
 
   async function fetchNdjson(response) {
-    let responseJSON;
-    if (process.env.NODE_ENV === "production") {
-      responseJSON = responseJSONProd;
-    } else {
-      responseJSON = responseJSONDev;
-    }
+    let responseJSON = responseJSONShop;
+
     let navigationItems = _.mapValues(
       _.groupBy(responseJSON, "column"),
       (clist) => clist.map((navigationDetails) => navigationDetails)
