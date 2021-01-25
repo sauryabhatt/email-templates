@@ -35,6 +35,7 @@ const FAQ = () => {
   const [activeKeys, setActiveKeys] = useState([]);
   const [getRef, setRef] = useDynamicRefs();
   let accordionView = "custom";
+  const custom = useRef();
 
   if (accordionView === "custom" && custom && custom.current) {
     custom.current.scrollIntoView({
