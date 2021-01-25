@@ -16,8 +16,7 @@ export default function ShippingFAQforwholesalebuyers() {
 
   useState(() => {
     fetch(
-      process.env.NEXT_PUBLIC_REACT_APP_CONTENT_URL +
-        "/content/shippingFAQforwholesalebuyers",
+      process.env.NEXT_PUBLIC_REACT_APP_CONTENT_URL + "/content/ShippingFAQ",
       {
         method: "GET",
         headers: {
