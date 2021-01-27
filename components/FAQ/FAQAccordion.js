@@ -12,19 +12,15 @@ const FAQ = (props) => {
   const custom = useRef();
   const ref1 = useRef();
 
-  console.log("custom ", custom.current);
-
   useEffect(() => {
     let { refs = "" } = router.query;
     setActiveKeys([refs]);
-    if (ref1 && ref1.current) {
+    if (refs && ref1 && ref1.current) {
       ref1.current.scrollIntoView({
         behavior: "smooth",
         block: "start",
       });
     }
-    // if (custom && custom.current) {
-    // }
   }, [props, router.query]);
 
   const callback = (key) => {
