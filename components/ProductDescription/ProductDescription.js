@@ -58,7 +58,11 @@ const ProductDescription = (props) => {
   useEffect(() => {
     let { userProfile = "" } = props;
     let { profileType = "", verificationStatus = "" } = userProfile || {};
-    if (profileType === "BUYER" && verificationStatus === "VERIFIED") {
+    if (
+      profileType === "BUYER" &&
+      (verificationStatus === "VERIFIED" ||
+        verificationStatus === "IN_PROGRESS")
+    ) {
       props.checkCart(keycloak.token);
     }
   }, [props.userProfile]);
