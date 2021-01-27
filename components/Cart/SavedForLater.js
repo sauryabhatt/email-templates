@@ -106,8 +106,8 @@ const SavedForLater = (props) => {
           articleId: articleId,
           productType: productType,
           typeOfOrder: productType,
-          categories: sellerCategory,
-          batches: smallBatchesAvailable,
+          sellerCategory: sellerCategory,
+          smallBatchesAvailable: smallBatchesAvailable,
         };
 
         if (doNotDelete) {

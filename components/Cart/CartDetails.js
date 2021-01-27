@@ -910,8 +910,8 @@ const CartDetails = (props) => {
                 image: image,
                 productType: productType,
                 typeOfOrder: productType,
-                categories: sellerCategory,
-                batches: smallBatchesAvailable,
+                sellerCategory: sellerCategory,
+                smallBatchesAvailable: smallBatchesAvailable,
               };
             }
           }
