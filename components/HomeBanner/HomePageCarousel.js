@@ -310,15 +310,14 @@ function SlideElement(props) {
               </span>
             </Link>
           ) : (
-            <Link
+            <div
+              className="button qa-secondary-btn"
               onClick={(e) => {
                 handleRFQAction(e);
               }}
             >
-              <div className="button qa-secondary-btn">
-                <span className="sign-up-text">Help me Source</span>
-              </div>
-            </Link>
+              <span className="sign-up-text">Help me Source</span>
+            </div>
           )
         ) : null}
       </div>
