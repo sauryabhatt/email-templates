@@ -8,9 +8,8 @@ import {
 } from "@react-keycloak/ssr";
 
 const keycloakProviderInitConfig = {
-  // onLoad: "check-sso",
-  silentCheckSsoFallback: false,
-  onLoad: "login-required",
+  onLoad: "check-sso",
+  // onLoad: "login-required",
   flow: "implicit",
   // checkLoginIframe: false,
   silentCheckSsoRedirectUri:
@@ -73,7 +72,7 @@ function AuthWithKeycloak(props) {
     <SSRKeycloakProvider
       keycloakConfig={keycloakCfg}
       persistor={SSRCookies(cookies)}
-      // keycloak={keycloak}
+      keycloak={keycloak}
       initConfig={keycloakProviderInitConfig}
     >
       {props.children}
