@@ -408,7 +408,6 @@ const Register = (props) => {
           form={form}
           scrollToFirstError
           autoComplete="dontshow"
-          autofill={false}
         >
           <Row
             justify="space-around"

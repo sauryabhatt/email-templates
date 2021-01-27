@@ -4138,10 +4138,12 @@ const ProductDetails = (props) => {
 
             <div className="qa-txt-alg-cnt">
               <div className="login-modal-signup-btn">
-                <a href="/signup" className="button">
-                  <span className="sign-up-text-icon">{signUp_icon()} </span>
-                  <span className="sign-up-text">Sign Up as a buyer</span>
-                </a>
+                <Link href="/signup" className="button">
+                  <span>
+                    <span className="sign-up-text-icon">{signUp_icon()} </span>
+                    <span className="sign-up-text">Sign Up as a buyer</span>
+                  </span>
+                </Link>
               </div>
             </div>
             <div className="product-login-modal-content qa-mar-top-1">
