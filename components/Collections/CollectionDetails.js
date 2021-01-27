@@ -199,6 +199,7 @@ const CollectionDetails = (props) => {
             setSuccessQueryVisible(true);
             setFileList([]);
             form.resetFields();
+            rfqform.resetFields();
             props.getCollections(token, buyerId, (res) => {
               refreshCollection(res);
             });
