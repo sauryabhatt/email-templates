@@ -296,8 +296,7 @@ const ProductDetails = (props) => {
       exfactoryListPrice = "",
       productType = "",
     } = data || {};
-    let { sellerCategory = "", smallBatchesAvailable = false } =
-      sellerDetails || {};
+    let { smallBatchesAvailable = false } = sellerDetails || {};
     setDisplayPrice(exfactoryListPrice);
     let color = "";
     let variantId = "";
@@ -368,6 +367,9 @@ const ProductDetails = (props) => {
         }
         setInStock(qty);
       });
+    } else {
+      setSkuId("");
+      setInStock(0);
     }
 
     if (variants.length) {
