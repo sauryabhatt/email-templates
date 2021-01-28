@@ -147,11 +147,13 @@ const UserAccount = (props) => {
     if (router.query.section) {
       setShowOrderDetails(false);
       setCollectionDetails(false);
+      setCollectionName("");
       setCurrentNav(router.query.section);
     }
   }, [router.query.section]);
 
   useEffect(() => {
+    setCollectionName("");
     setShowOrderDetails(false);
     setCollectionDetails(false);
     if (keycloak.token) {
