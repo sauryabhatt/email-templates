@@ -77,7 +77,7 @@ const CollectionDetails = (props) => {
     "Dec",
   ];
 
-  let { createdTime = "" } = collections;
+  let { createdTime = "", rfqCreatedTime = "" } = collections;
   let date = new Date(createdTime);
   let month = monthNames[date.getMonth()];
   let year = date.getFullYear();
@@ -387,7 +387,16 @@ const CollectionDetails = (props) => {
                     <span>
                       {rfqSubmitted ? (
                         <div className="rfq-text mt-10">
-                          Request for quote submitted!
+                          Request for quote submitted
+                          {rfqCreatedTime ? (
+                            <span>
+                              {" "}
+                              on {moment(rfqCreatedTime).format("DD-MMM-YY")}
+                            </span>
+                          ) : (
+                            ""
+                          )}
+                          !
                         </div>
                       ) : (
                         <div className="rfq-text">
@@ -795,8 +804,13 @@ const CollectionDetails = (props) => {
           </div>
           <div>
             <div className="qa-txt-alg-lft qa-mar-btm-2">
-              A Request for quote for this collection has already been
-              submitted. Do you want to submit it again?
+              A Request for quote for this collection has already been submitted{" "}
+              {rfqCreatedTime ? (
+                <span>on {moment(rfqCreatedTime).format("DD-MMM-YY")}</span>
+              ) : (
+                ""
+              )}
+              . Do you want to submit it again?
             </div>
             <Button
               className="qa-button qa-fs-12 cart-cancel-delete qa-mar-top-2"
