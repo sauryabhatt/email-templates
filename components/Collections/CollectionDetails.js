@@ -391,7 +391,7 @@ const CollectionDetails = (props) => {
                           {rfqCreatedTime ? (
                             <span>
                               {" "}
-                              on {moment(rfqCreatedTime).format("DD-MMM-YY")}
+                              on {moment(rfqCreatedTime).format("DD MMM YY")}
                             </span>
                           ) : (
                             ""
@@ -806,7 +806,7 @@ const CollectionDetails = (props) => {
             <div className="qa-txt-alg-lft qa-mar-btm-2">
               A Request for quote for this collection has already been submitted{" "}
               {rfqCreatedTime ? (
-                <span>on {moment(rfqCreatedTime).format("DD-MMM-YY")}</span>
+                <span>on {moment(rfqCreatedTime).format("DD MMM YY")}</span>
               ) : (
                 ""
               )}

@@ -107,7 +107,7 @@ const UserAccount = (props) => {
   const [orderText, setOrderText] = useState("");
   const [collectionName, setCollectionName] = useState("");
   const [showCollectionDetails, setCollectionDetails] = useState(false);
-  console.log(orderText);
+
   const settings = {
     infinite: false,
     speed: 500,
@@ -145,14 +145,16 @@ const UserAccount = (props) => {
   };
   useEffect(() => {
     if (router.query.section) {
+      setShowOrderDetails(false);
+      setCollectionDetails(false);
       setCurrentNav(router.query.section);
     }
   }, [router.query.section]);
 
   useEffect(() => {
+    setShowOrderDetails(false);
+    setCollectionDetails(false);
     if (keycloak.token) {
-      setShowOrderDetails(false);
-      setCollectionDetails(false);
       if (currentNav == "profile") {
         props.getUserProfile(keycloak.token);
       } else if (currentNav == "video") {
