@@ -1612,7 +1612,7 @@ const ProductDetails = (props) => {
                                   (productType !== "RTS" ||
                                     (productType === "RTS" && inStock === 0)) &&
                                   moqList.length > 0 &&
-                                  smallBatchesAvailable &&
+                                  smallBatchesAvailable
                                 ) {
                                   changeMOQQty(value);
                                 }
@@ -2680,7 +2680,7 @@ const ProductDetails = (props) => {
                                   (productType !== "RTS" ||
                                     (productType === "RTS" && inStock === 0)) &&
                                   moqList.length &&
-                                  smallBatchesAvailable &&
+                                  smallBatchesAvailable
                                 ) {
                                   changeMOQQty(value);
                                 }
