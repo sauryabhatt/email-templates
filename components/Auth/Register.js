@@ -1403,7 +1403,16 @@ const Register = (props) => {
             complete the sign-up process!
           </p>
         ) : (
-          <p className="verification-heading">Sign up complete</p>
+          <p
+            className="qa-font-butler qa-fs-30 qa-fw-b qa-tc-white"
+            style={{
+              textAlign: "center",
+              lineHeight: "120%",
+              marginTop: "20px",
+            }}
+          >
+            Sign up complete
+          </p>
         )}
         {profileType === "BUYER" ? (
           <p
