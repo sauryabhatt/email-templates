@@ -15,8 +15,13 @@ const FAQ = (props) => {
   useEffect(() => {
     let { refs = "" } = router.query;
     setActiveKeys([refs]);
-    if (refs && ref1 && ref1.current) {
+    if (refs === "ref1" && ref1 && ref1.current) {
       ref1.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    } else if (refs === "custom" && custom && custom.current) {
+      custom.current.scrollIntoView({
         behavior: "smooth",
         block: "start",
       });
@@ -657,9 +662,7 @@ const FAQ = (props) => {
         </Panel>
       </Collapse>
 
-      <div className="panel-header main-heading" ref={ref1}>
-        NEED FURTHER HELP?
-      </div>
+      <div className="panel-header main-heading">NEED FURTHER HELP?</div>
       <div className="panel-body help-section">
         We're happy to help. You can always share your questions and issues by
         writing to us at buyers@qalara.com and we will make sure that your issue
