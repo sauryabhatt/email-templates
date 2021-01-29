@@ -406,6 +406,7 @@
     "values": "/sellers/all-categories",
     "isActive": "TRUE"
   },
+
   {
     "id": "SHOPOPTIONS::COLUMN::5::ROW::101",
     "column": "5",
@@ -425,14 +426,25 @@
     "font": "H2",
     "action": "URL",
     "filterType": "",
-    "values": "/seller/SL10789/all-categories",
+    "values": "/gb/?f_isfreeshipping=true",
     "isActive": "TRUE"
   },
   {
     "id": "SHOPOPTIONS::COLUMN::5::ROW::103",
     "column": "5",
-    "displayTitle": "Ready to ship",
+    "displayTitle": "RTS with free shipping",
     "menuOrder": "103",
+    "font": "H2",
+    "action": "URL",
+    "filterType": "",
+    "values": "/seller/SL10789/all-categories",
+    "isActive": "TRUE"
+  },
+  {
+    "id": "SHOPOPTIONS::COLUMN::5::ROW::104",
+    "column": "5",
+    "displayTitle": "Ready to ship",
+    "menuOrder": "104",
     "font": "H2",
     "action": "URL",
     "filterType": "",
@@ -440,10 +452,10 @@
     "isActive": "TRUE"
   },
   {
-    "id": "SHOPOPTIONS::COLUMN::5::ROW::104",
+    "id": "SHOPOPTIONS::COLUMN::5::ROW::105",
     "column": "5",
     "displayTitle": "Express custom",
-    "menuOrder": "104",
+    "menuOrder": "105",
     "font": "H2",
     "action": "URL",
     "filterType": "",
@@ -451,14 +463,25 @@
     "isActive": "TRUE"
   },
   {
-    "id": "SHOPOPTIONS::COLUMN::5::ROW::105",
+    "id": "SHOPOPTIONS::COLUMN::5::ROW::106",
     "column": "5",
     "displayTitle": "All curated trends",
-    "menuOrder": "105",
+    "menuOrder": "106",
     "font": "H2",
     "action": "URL",
     "filterType": "",
     "values": "/explore/curatedbyus",
+    "isActive": "TRUE"
+  },
+  {
+    "id": "SHOPOPTIONS::COLUMN::5::ROW::107",
+    "column": "5",
+    "displayTitle": "Indonesian treaures",
+    "menuOrder": "107",
+    "font": "H2",
+    "action": "URL",
+    "filterType": "",
+    "values": "/gb/?f_seller_code=SL10996%2CSL11014%2CSL10847",
     "isActive": "TRUE"
   }
 ]
