@@ -727,11 +727,11 @@ function Home(props) {
           </div>
           <div>
             {uProfile === "BUYER" ? (
-              <p className="verification-heading">
+              <p className="verification-heading home-page">
                 Please set your password to complete the sign-up process
               </p>
             ) : (
-              <p className="verification-heading">Sign up complete</p>
+              <p className="verification-heading home-page">Sign up complete</p>
             )}
             {uProfile === "BUYER" ? (
               <p className="verification-text">

@@ -1423,7 +1423,7 @@ const Register = (props) => {
             buyers@qalara.com.
           </p>
         ) : (
-          <p className="verification-text">
+          <p className="qa-font-san qa-tc-white qa-fs-14">
             Thanks for showing interest in joining our platform. Please set the
             password for your account using the link sent to your registered
             email address. To continue your registration process, select the

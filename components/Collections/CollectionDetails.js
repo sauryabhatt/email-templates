@@ -419,9 +419,21 @@ const CollectionDetails = (props) => {
 
                   {!mediaMatch.matches && (
                     <div className="rfq-text-mob">
-                      {rfqSubmitted
-                        ? "Request for quote submitted!"
-                        : "This collection gets automatically added to your RFQ"}
+                      {rfqSubmitted ? (
+                        <span>
+                          Request for quote submitted
+                          {rfqCreatedTime ? (
+                            <span>
+                              {" "}
+                              on {moment(rfqCreatedTime).format("DD MMM YY")}
+                            </span>
+                          ) : (
+                            ""
+                          )}
+                        </span>
+                      ) : (
+                        "This collection gets automatically added to your RFQ"
+                      )}
                     </div>
                   )}
                 </Col>

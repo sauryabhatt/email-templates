@@ -310,7 +310,7 @@ const SellerAgreement = (props) => {
         centered
       >
         <p className="verification-heading">Thank you! </p>
-        <p className="verification-text">
+        <p className="qa-font-san qa-tc-white qa-fs-17">
           Your registration process is complete.
         </p>
         <Button

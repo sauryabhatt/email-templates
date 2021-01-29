@@ -746,6 +746,9 @@ p.verification-heading {
   padding-bottom: 10px;
   width: 60%;
 }
+p.verification-heading.home-page {
+  color: #191919;
+}
 p.verification-text {
   font-size: 17px;
   font-family: senregular;
