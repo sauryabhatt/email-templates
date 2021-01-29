@@ -633,9 +633,6 @@ function AppHeader(props) {
                   </div>
                 </Dropdown>
 
-                {/* <a href="/explore/curatedbyus" className="trend-navigation">
-                  FEATURED
-                </a> */}
                 <Dropdown
                   overlayClassName="shop-navigation"
                   overlay={featuredMenu}

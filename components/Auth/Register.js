@@ -408,7 +408,6 @@ const Register = (props) => {
           form={form}
           scrollToFirstError
           autoComplete="dontshow"
-          autofill={false}
         >
           <Row
             justify="space-around"
@@ -1404,7 +1403,16 @@ const Register = (props) => {
             complete the sign-up process!
           </p>
         ) : (
-          <p className="verification-heading">Sign up complete</p>
+          <p
+            className="qa-font-butler qa-fs-30 qa-fw-b qa-tc-white"
+            style={{
+              textAlign: "center",
+              lineHeight: "120%",
+              marginTop: "20px",
+            }}
+          >
+            Sign up complete
+          </p>
         )}
         {profileType === "BUYER" ? (
           <p
@@ -1424,7 +1432,7 @@ const Register = (props) => {
             buyers@qalara.com.
           </p>
         ) : (
-          <p className="verification-text">
+          <p className="qa-font-san qa-tc-white qa-fs-14">
             Thanks for showing interest in joining our platform. Please set the
             password for your account using the link sent to your registered
             email address. To continue your registration process, select the

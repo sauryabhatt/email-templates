@@ -16,7 +16,6 @@ import {
 } from "antd";
 import moment from "moment";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import deleteIcon from "../../public/filestore/deleteIcon";
 import Icon from "@ant-design/icons";
 import { getCountries } from "react-phone-number-input/input";
@@ -42,23 +41,24 @@ const CollectionDetails = (props) => {
   } = props;
   let { profileId = "" } = userProfile || {};
 
-  const router = useRouter();
-
   useEffect(() => {
-    // window.scrollTo(0, 0);
     if (props && props.collections) {
-      let { products = [], rfqCreated = false } = props.collections || {};
+      let { products = [], rfqCreated = false, rfqCreatedTime = "" } =
+        props.collections || {};
       setProducts(products);
       setRfqSubmitted(rfqCreated);
+      setRfqCreatedTime(rfqCreatedTime);
     }
   }, [props.collections]);
 
   const [rfqSubmitted, setRfqSubmitted] = useState(false);
+  const [rfqCreatedTime, setRfqCreatedTime] = useState(false);
   const [products, setProducts] = useState([]);
   const [fileList, setFileList] = useState([]);
   const [RFQ, setRFQ] = useState(false);
   const [successQueryVisible, setSuccessQueryVisible] = useState(false);
   const [formVal, setFormval] = useState();
+  const [confirmModal, setConfirmModal] = useState(false);
 
   const mediaMatch = window.matchMedia("(min-width: 768px)");
   const monthNames = [
@@ -193,11 +193,14 @@ const CollectionDetails = (props) => {
             }
           })
           .then((res) => {
+            let { creationDate = "" } = res || {};
             setRFQ(false);
             setRfqSubmitted(true);
             setSuccessQueryVisible(true);
+            setRfqCreatedTime(creationDate);
             setFileList([]);
             form.resetFields();
+            rfqform.resetFields();
             props.getCollections(token, buyerId, (res) => {
               refreshCollection(res);
             });
@@ -344,7 +347,11 @@ const CollectionDetails = (props) => {
     form
       .validateFields()
       .then((values) => {
-        setRFQ(true);
+        if (rfqSubmitted) {
+          setConfirmModal(true);
+        } else {
+          setRFQ(true);
+        }
         setFormval(values);
       })
       .catch((err) => {
@@ -360,7 +367,7 @@ const CollectionDetails = (props) => {
             <Col xs={24} sm={24} md={24} lg={24}>
               <Row style={{ backgroundColor: "#E6E4DF" }}>
                 <React.Fragment>
-                  <Col xs={10} sm={10} md={10} lg={10} className="qa-pad-015">
+                  <Col xs={9} sm={9} md={8} lg={8} className="qa-pad-015">
                     <div className="collection-name qa-mar-left-20">
                       {collectionName}
                     </div>
@@ -371,17 +378,26 @@ const CollectionDetails = (props) => {
                 </React.Fragment>
 
                 <Col
-                  xs={14}
-                  sm={14}
-                  md={14}
-                  lg={14}
+                  xs={15}
+                  sm={15}
+                  md={16}
+                  lg={16}
                   className="qa-pad-01 qa-txt-alg-rgt"
                 >
                   {mediaMatch.matches && (
                     <span>
                       {rfqSubmitted ? (
                         <div className="rfq-text mt-10">
-                          Request for quote submitted!
+                          Request for quote submitted
+                          {rfqCreatedTime ? (
+                            <span>
+                              {" "}
+                              on {moment(rfqCreatedTime).format("DD MMM YY")}
+                            </span>
+                          ) : (
+                            ""
+                          )}
+                          !
                         </div>
                       ) : (
                         <div className="rfq-text">
@@ -393,7 +409,8 @@ const CollectionDetails = (props) => {
                   )}
 
                   <Button
-                    disabled={rfqSubmitted || products.length === 0}
+                    // disabled={rfqSubmitted || products.length === 0}
+                    disabled={products.length === 0}
                     htmlType="submit"
                     onClick={onCheck}
                     className="c-request-for-quote-button"
@@ -403,9 +420,21 @@ const CollectionDetails = (props) => {
 
                   {!mediaMatch.matches && (
                     <div className="rfq-text-mob">
-                      {rfqSubmitted
-                        ? "Request for quote submitted"
-                        : "This collection gets automatically added to your RFQ"}
+                      {rfqSubmitted ? (
+                        <span>
+                          Request for quote submitted
+                          {rfqCreatedTime ? (
+                            <span>
+                              {" "}
+                              on {moment(rfqCreatedTime).format("DD MMM YY")}
+                            </span>
+                          ) : (
+                            ""
+                          )}
+                        </span>
+                      ) : (
+                        "This collection gets automatically added to your RFQ"
+                      )}
                     </div>
                   )}
                 </Col>
@@ -753,6 +782,65 @@ const CollectionDetails = (props) => {
               Back to home page
             </Button>
           </Link>
+        </div>
+      </Modal>
+      <Modal
+        visible={confirmModal}
+        footer={null}
+        closable={false}
+        onCancel={() => setConfirmModal(false)}
+        centered
+        bodyStyle={{ padding: "30px", backgroundColor: "#f9f7f2" }}
+        width={450}
+        style={{ top: 5 }}
+        className="cart-delete-modal"
+      >
+        <div className="qa-rel-pos qa-font-san">
+          <div className="qa-pad-btm-2">
+            <span className="rfq-confirm-heading">REQUEST FOR QUOTE</span>
+          </div>
+
+          <div
+            onClick={() => setConfirmModal(false)}
+            style={{
+              position: "absolute",
+              right: "0px",
+              top: "-10px",
+              cursor: "pointer",
+              zIndex: "1",
+            }}
+          >
+            <Icon
+              component={closeButton}
+              style={{ width: "30px", height: "30px" }}
+            />
+          </div>
+          <div>
+            <div className="qa-txt-alg-lft qa-mar-btm-2">
+              A Request for quote for this collection has already been submitted
+              {rfqCreatedTime ? (
+                <span> on {moment(rfqCreatedTime).format("DD MMM YY")}</span>
+              ) : (
+                ""
+              )}
+              . Do you want to submit it again?
+            </div>
+            <Button
+              className="qa-button qa-fs-12 cart-cancel-delete qa-mar-top-2"
+              onClick={() => setConfirmModal(false)}
+            >
+              No
+            </Button>
+            <Button
+              className="qa-button qa-fs-12 cart-delete qa-mar-top-2"
+              onClick={() => {
+                setRFQ(true);
+                setConfirmModal(false);
+              }}
+            >
+              Yes
+            </Button>
+          </div>
         </div>
       </Modal>
     </React.Fragment>
