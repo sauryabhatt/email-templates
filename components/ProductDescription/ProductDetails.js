@@ -48,7 +48,7 @@ import { checkInventory, getCollections } from "../../store/actions";
 import playButton from "./../../public/filestore/playButton";
 import AddToCollection from "../common/AddToCollection";
 import sellerList from "../../public/filestore/freeShippingSellers.json";
-import AddToCollectionSignUp from "./AddToCollectionSignup";
+import AddToCollectionSignUp from "./AddToCollectionSignUp";
 import FreightChargeCalculator from "./FreightChargeCalculator";
 import { getConvertedCurrency } from "../../utils/currentConverter";
 import ServiceabilityCheck from "./ServiceabilityCheck";
