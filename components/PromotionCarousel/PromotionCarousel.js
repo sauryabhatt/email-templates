@@ -28,7 +28,7 @@ export default function PromotionCarousel(props) {
 
   let promotiolList = [
     {
-      title: "Free shipping on select styles",
+      title: "Worldwide free shipping on 1000+ products",
       copy: (
         <div>
           Introducing Q Bazaar collection with free shipping.{" "}

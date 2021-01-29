@@ -301,9 +301,7 @@ function Home(props) {
     },
   ];
 
-  let sellerUrl = `/sellers/all-categories`;
-  let plpUrl = `/products/all-categories`;
-  let productUrl = "/explore/curatedbyus";
+  let freeShippingUrl = `/gb/?f_isfreeshipping=true`;
   let rtsUrl = `/products/all-categories?f_product_types=${encodeURIComponent(
     "Ready to ship"
   )}`;
@@ -327,6 +325,37 @@ function Home(props) {
             We serve all types of wholesale buying & sourcing needs
           </div>
         </div>
+        <Col xs={24} sm={24} md={8} lg={8} xl={8} className="source-steps">
+          <Link href={freeShippingUrl}>
+            <div className="steps-container qa-cursor">
+              <span className="qa-next-line" style={{ color: "#191919" }}>
+                FREE SHIPPING
+              </span>
+
+              <span style={{ color: "#4e4848" }}>
+                Browse our hot new range of products with free shipping
+                worldwide! Minimum Order Value starting as low as USD 500.
+                Simply add to cart and checkout instantly!
+              </span>
+              <div className="qa-fixed-btns">
+                <div className="q-button-link">Browse now</div>
+                <svg
+                  width="18"
+                  height="8"
+                  viewBox="0 0 18 8"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M17.4964 4.35355C17.6917 4.15829 17.6917 3.84171 17.4964 3.64645L14.3144 0.464467C14.1192 0.269205 13.8026 0.269205 13.6073 0.464467C13.4121 0.659729 13.4121 0.976312 13.6073 1.17157L16.4357 4L13.6073 6.82843C13.4121 7.02369 13.4121 7.34027 13.6073 7.53554C13.8026 7.7308 14.1192 7.7308 14.3144 7.53554L17.4964 4.35355ZM-4.37114e-08 4.5L17.1429 4.5L17.1429 3.5L4.37114e-08 3.5L-4.37114e-08 4.5Z"
+                    fill="#874439"
+                  />
+                </svg>
+              </div>
+            </div>
+          </Link>
+        </Col>
+
         <Col
           xs={12}
           sm={12}
@@ -385,36 +414,6 @@ function Home(props) {
               </span>
               <div className="qa-fixed-btns">
                 <div className="q-button-link">Shop now</div>
-                <svg
-                  width="18"
-                  height="8"
-                  viewBox="0 0 18 8"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M17.4964 4.35355C17.6917 4.15829 17.6917 3.84171 17.4964 3.64645L14.3144 0.464467C14.1192 0.269205 13.8026 0.269205 13.6073 0.464467C13.4121 0.659729 13.4121 0.976312 13.6073 1.17157L16.4357 4L13.6073 6.82843C13.4121 7.02369 13.4121 7.34027 13.6073 7.53554C13.8026 7.7308 14.1192 7.7308 14.3144 7.53554L17.4964 4.35355ZM-4.37114e-08 4.5L17.1429 4.5L17.1429 3.5L4.37114e-08 3.5L-4.37114e-08 4.5Z"
-                    fill="#874439"
-                  />
-                </svg>
-              </div>
-            </div>
-          </Link>
-        </Col>
-        <Col xs={24} sm={24} md={8} lg={8} xl={8} className="source-steps">
-          <Link href={customUrl}>
-            <div className="steps-container qa-cursor">
-              <span className="qa-next-line" style={{ color: "#191919" }}>
-                CUSTOM QUOTE
-              </span>
-
-              <span style={{ color: "#4e4848" }}>
-                Browse products tagged 'Custom Order', share custom requirements
-                or your own designs and product ideas with a Request for Quote.
-                Receive quotations and confirm orders digitally.
-              </span>
-              <div className="qa-fixed-btns">
-                <div className="q-button-link">Browse now</div>
                 <svg
                   width="18"
                   height="8"
