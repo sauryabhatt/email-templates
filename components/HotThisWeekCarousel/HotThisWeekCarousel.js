@@ -34,29 +34,29 @@ export default function PressCrousel(props) {
   const press_data = [
     {
       title: "",
-      url: "https://cdn.qalara.com/images/Img_Hotoffer3.jpg",
-      linkTo: "/seller/SL10789/all-categories",
-    },
-    // {
-    //   title: "",
-    //   url: "https://cdn.qalara.com/images/Img_Hotdeal2.jpg",
-    //   linkTo: "/sellers/all-categories",
-    // },
-    {
-      title: "",
-      url: "https://cdn.qalara.com/images/Img_Hotseller1.jpg",
-      linkTo: "/seller/SL10519/all-categories",
+      url: "https://cdn.qalara.com/images/Img_Hot1.jpg",
+      linkTo: "/gb/?f_isfreeshipping=true",
     },
     {
       title: "",
-      url: "https://cdn.qalara.com/images/Img_Hotcollection1.jpg",
-      linkTo: "/seller/SL10808/all-categories",
+      url: "https://cdn.qalara.com/images/Img_Hot2.jpg",
+      linkTo: "/seller/SL10789/all-categories/",
+    },
+    {
+      title: "",
+      url: "https://cdn.qalara.com/images/Img_Hot3.jpg",
+      linkTo: "/gb/?f_seller_code=SL10996%2CSL11014%2CSL10847",
+    },
+    {
+      title: "",
+      url: "https://cdn.qalara.com/images/Img_Hot4.jpg",
+      linkTo: "/gb/?f_seller_code=SL10691%2CSL10237",
     },
   ];
 
   return (
     <div className="hot-weel-crousel">
-      <div className="hot-weel-header">Hot this week</div>
+      <div className="hot-weel-header">In the spotlight</div>
       {isMobile ? (
         <Slider ref={(c) => (slider = c)} {...settings}>
           {press_data.map((data, index) => {
