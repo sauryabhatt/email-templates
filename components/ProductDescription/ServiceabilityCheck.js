@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import Icon, { CheckCircleOutlined } from "@ant-design/icons";
 import closeButton from "../../public/filestore/closeButton";
 import { getCountries } from "react-phone-number-input/input";
-import Icon from "@ant-design/icons";
 import { Button, Row, Col, Form, Select } from "antd";
 import en from "react-phone-number-input/locale/en.json";
 
@@ -45,12 +44,17 @@ const countriesList = getCountries().map((country) => {
 const ServiceabilityCheck = (props) => {
   let {
     hidePincodeModal = "",
+    uCountry = "",
     setNonServiceable,
     setNonServiceableCountry,
+    setPincodeModal,
     setUCountry,
     modalType = "",
+    nonServiceable = "",
+    productDetails = {},
   } = props;
 
+  let { deliveryExclusions = [] } = productDetails || {};
   const [form] = Form.useForm();
 
   const [pincodeSuccess, setPincodeSuccess] = useState(false);

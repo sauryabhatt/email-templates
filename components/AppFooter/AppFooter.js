@@ -10,7 +10,14 @@ function AppFooter(props) {
   return (
     <Footer id="app-footer">
       <Row>
-        <Col style={{ margin: "auto" }} xs={24} sm={24} md={24} lg={24} xl={24}>
+        <Col
+          style={{ margin: "auto", paddingBottom: "70px" }}
+          xs={24}
+          sm={24}
+          md={24}
+          lg={24}
+          xl={24}
+        >
           <Row>
             <Col
               className="app-footer-text"

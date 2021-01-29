@@ -362,7 +362,6 @@ const ProductDetails = (props) => {
     priceMin = "",
     offers = "",
     sellerMOV = "",
-    deliveryExclusions = [],
     info = {},
     skus = [],
     exFactoryPrice = "",
@@ -3317,11 +3316,14 @@ const ProductDetails = (props) => {
           hidePincodeModal={hidePincodeModal}
           modalType={modalType}
           nonServiceable={nonServiceable}
+          productDetails={data}
+          uCountry={uCountry}
           setNonServiceable={(status) => setNonServiceable(status)}
           setNonServiceableCountry={(status) =>
             setNonServiceableCountry(status)
           }
           setUCountry={(country) => setUCountry(country)}
+          setPincodeModal={(status) => setPincodeModal(status)}
         />
       </Modal>
       <Modal
