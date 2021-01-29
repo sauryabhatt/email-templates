@@ -26,8 +26,6 @@ import Certifications from "../common/Certifications";
 import ImageGallery from "react-image-gallery";
 import Slider from "react-slick";
 import { connect } from "react-redux";
-import { getCountries } from "react-phone-number-input/input";
-import en from "react-phone-number-input/locale/en.json";
 import closeButton from "../../public/filestore/closeButton";
 import { loginToApp } from "../AuthWithKeycloak";
 import infoIcon from "../../public/filestore/infoIcon";
@@ -91,38 +89,6 @@ const settings = {
     },
   ],
 };
-
-const countriesList = getCountries().map((country) => {
-  if (country === "US") {
-    return (
-      <Option key={country} value={en[country] + " (US)"}>
-        {en[country] + " (US)"}
-      </Option>
-    );
-  }
-  if (country === "GB") {
-    return (
-      <Option key={country} value={en[country] + " (UK)"}>
-        {en[country] + " (UK)"}
-      </Option>
-    );
-  }
-  if (
-    country !== "CU" &&
-    country !== "IR" &&
-    country !== "KP" &&
-    country !== "SD" &&
-    country !== "SY" &&
-    country !== "PK" &&
-    country !== "SO"
-  ) {
-    return (
-      <Option key={country} value={en[country]}>
-        {en[country]}
-      </Option>
-    );
-  }
-});
 
 const ProductDetails = (props) => {
   let {
@@ -3352,7 +3318,15 @@ const ProductDetails = (props) => {
         bodyStyle={{ padding: "30px", backgroundColor: "#f9f7f2" }}
         width={600}
       >
-        <ServiceabilityCheck hidePincodeModal={hidePincodeModal} />
+        <ServiceabilityCheck
+          hidePincodeModal={hidePincodeModal}
+          setNonServiceable={(status) => setNonServiceable(status)}
+          setNonServiceableCountry={(status) =>
+            setNonServiceableCountry(status)
+          }
+          setPincodeSuccess={(status) => setPincodeSuccess(status)}
+          setUCountry={(country) => setUCountry(country)}
+        />
       </Modal>
       <Modal
         visible={calculationModal}

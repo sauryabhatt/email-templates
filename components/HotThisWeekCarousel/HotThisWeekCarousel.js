@@ -34,29 +34,29 @@ export default function PressCrousel(props) {
   const press_data = [
     {
       title: "",
-      url: "https://cdn.qalara.com/images/Img_Hotoffer3.jpg",
-      linkTo: "/seller/SL10789/all-categories",
-    },
-    // {
-    //   title: "",
-    //   url: "https://cdn.qalara.com/images/Img_Hotdeal2.jpg",
-    //   linkTo: "/sellers/all-categories",
-    // },
-    {
-      title: "",
-      url: "https://cdn.qalara.com/images/Img_Hotseller1.jpg",
-      linkTo: "/seller/SL10519/all-categories",
+      url: "https://cdn.qalara.com/images/Img_Hot1.jpg",
+      linkTo: "/gb/?f_isfreeshipping=true",
     },
     {
       title: "",
-      url: "https://cdn.qalara.com/images/Img_Hotcollection1.jpg",
-      linkTo: "/seller/SL10808/all-categories",
+      url: "https://cdn.qalara.com/images/Img_Hot2.jpg",
+      linkTo: "/seller/SL10789/all-categories/",
+    },
+    {
+      title: "",
+      url: "https://cdn.qalara.com/images/Img_Hot3.jpg",
+      linkTo: "/seller/SL10996/all-categories/",
+    },
+    {
+      title: "",
+      url: "https://cdn.qalara.com/images/Img_Hot4.jpg",
+      linkTo: "/seller/SL10237/all-categories/",
     },
   ];
 
   return (
     <div className="hot-weel-crousel">
-      <div className="hot-weel-header">Hot this week</div>
+      <div className="hot-weel-header">In the spotlight</div>
       {isMobile ? (
         <Slider ref={(c) => (slider = c)} {...settings}>
           {press_data.map((data, index) => {

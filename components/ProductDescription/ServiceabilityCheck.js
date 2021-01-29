@@ -3,9 +3,61 @@
 import React from "react";
 import Icon from "@ant-design/icons";
 import closeButton from "../../public/filestore/closeButton";
+import { getCountries } from "react-phone-number-input/input";
+import Icon from "@ant-design/icons";
+import {
+  Button,
+  Row,
+  Col,
+  Input,
+  Form,
+  Select,
+  Tooltip,
+  InputNumber,
+} from "antd";
+
+const { Option } = Select;
+
+const countriesList = getCountries().map((country) => {
+  if (country === "US") {
+    return (
+      <Option key={country} value={en[country] + " (US)"}>
+        {en[country] + " (US)"}
+      </Option>
+    );
+  }
+  if (country === "GB") {
+    return (
+      <Option key={country} value={en[country] + " (UK)"}>
+        {en[country] + " (UK)"}
+      </Option>
+    );
+  }
+  if (
+    country !== "CU" &&
+    country !== "IR" &&
+    country !== "KP" &&
+    country !== "SD" &&
+    country !== "SY" &&
+    country !== "PK" &&
+    country !== "SO"
+  ) {
+    return (
+      <Option key={country} value={en[country]}>
+        {en[country]}
+      </Option>
+    );
+  }
+});
 
 const ServiceabilityCheck = (props) => {
-  let { hidePincodeModal = "" } = props;
+  let {
+    hidePincodeModal = "",
+    setNonServiceable,
+    setNonServiceableCountry,
+    setUCountry,
+    setPincodeSuccess,
+  } = props;
 
   const onFinish = (values) => {
     let { country = "", postalCode = "" } = values;
