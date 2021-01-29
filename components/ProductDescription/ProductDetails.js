@@ -15,11 +15,7 @@ import {
   Drawer,
   message,
 } from "antd";
-import Icon, {
-  MinusOutlined,
-  CheckCircleOutlined,
-  CloseOutlined,
-} from "@ant-design/icons";
+import Icon, { MinusOutlined, CloseOutlined } from "@ant-design/icons";
 import Accordion from "../common/Accordion";
 import ProductCard from "../common/ProductCard";
 import Certifications from "../common/Certifications";
@@ -52,7 +48,7 @@ import { checkInventory, getCollections } from "../../store/actions";
 import playButton from "./../../public/filestore/playButton";
 import AddToCollection from "../common/AddToCollection";
 import sellerList from "../../public/filestore/freeShippingSellers.json";
-import AddToCollectionSignUp from "./AddtoCollectionSignup";
+import AddToCollectionSignUp from "./AddToCollectionSignup";
 import FreightChargeCalculator from "./FreightChargeCalculator";
 import { getConvertedCurrency } from "../../utils/currentConverter";
 import ServiceabilityCheck from "./ServiceabilityCheck";
@@ -117,12 +113,11 @@ const ProductDetails = (props) => {
   const { keycloak } = useKeycloak();
   const ImgGalleryM = useRef(null);
   const ImgGalleryD = useRef(null);
-  const [form] = Form.useForm();
+
   const [rtsform] = Form.useForm();
 
   const [pincodeModal, setPincodeModal] = useState(false);
   const [modalType, setModalType] = useState("");
-  const [pincodeSuccess, setPincodeSuccess] = useState(false);
   const [accordionView, setAccordionView] = useState("");
   const [activeKeys, setActiveKeys] = useState(["1", "2"]);
   const [count, setCount] = useState(0);
@@ -3320,11 +3315,12 @@ const ProductDetails = (props) => {
       >
         <ServiceabilityCheck
           hidePincodeModal={hidePincodeModal}
+          modalType={modalType}
+          nonServiceable={nonServiceable}
           setNonServiceable={(status) => setNonServiceable(status)}
           setNonServiceableCountry={(status) =>
             setNonServiceableCountry(status)
           }
-          setPincodeSuccess={(status) => setPincodeSuccess(status)}
           setUCountry={(country) => setUCountry(country)}
         />
       </Modal>
