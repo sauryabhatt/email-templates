@@ -16,7 +16,6 @@ import {
 } from "antd";
 import moment from "moment";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import deleteIcon from "../../public/filestore/deleteIcon";
 import Icon from "@ant-design/icons";
 import { getCountries } from "react-phone-number-input/input";
@@ -42,18 +41,18 @@ const CollectionDetails = (props) => {
   } = props;
   let { profileId = "" } = userProfile || {};
 
-  const router = useRouter();
-
   useEffect(() => {
-    // window.scrollTo(0, 0);
     if (props && props.collections) {
-      let { products = [], rfqCreated = false } = props.collections || {};
+      let { products = [], rfqCreated = false, rfqCreatedTime = "" } =
+        props.collections || {};
       setProducts(products);
       setRfqSubmitted(rfqCreated);
+      setRfqCreatedTime(rfqCreatedTime);
     }
   }, [props.collections]);
 
   const [rfqSubmitted, setRfqSubmitted] = useState(false);
+  const [rfqCreatedTime, setRfqCreatedTime] = useState(false);
   const [products, setProducts] = useState([]);
   const [fileList, setFileList] = useState([]);
   const [RFQ, setRFQ] = useState(false);
@@ -77,7 +76,7 @@ const CollectionDetails = (props) => {
     "Dec",
   ];
 
-  let { createdTime = "", rfqCreatedTime = "" } = collections;
+  let { createdTime = "" } = collections;
   let date = new Date(createdTime);
   let month = monthNames[date.getMonth()];
   let year = date.getFullYear();
@@ -194,9 +193,11 @@ const CollectionDetails = (props) => {
             }
           })
           .then((res) => {
+            let { creationDate = "" } = res || {};
             setRFQ(false);
             setRfqSubmitted(true);
             setSuccessQueryVisible(true);
+            setRfqCreatedTime(creationDate);
             setFileList([]);
             form.resetFields();
             rfqform.resetFields();
@@ -816,9 +817,9 @@ const CollectionDetails = (props) => {
           </div>
           <div>
             <div className="qa-txt-alg-lft qa-mar-btm-2">
-              A Request for quote for this collection has already been submitted{" "}
+              A Request for quote for this collection has already been submitted
               {rfqCreatedTime ? (
-                <span>on {moment(rfqCreatedTime).format("DD MMM YY")}</span>
+                <span> on {moment(rfqCreatedTime).format("DD MMM YY")}</span>
               ) : (
                 ""
               )}
