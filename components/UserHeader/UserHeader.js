@@ -770,9 +770,7 @@ function UserHeader(props) {
                   SHOP
                 </div>
               </Dropdown>
-              {/* <a href="/explore/curatedbyus" className="trend-navigation">
-                FEATURED
-              </a> */}
+
               <Dropdown
                 overlayClassName="shop-navigation"
                 overlay={featuredMenu}
@@ -1168,12 +1166,7 @@ function UserHeader(props) {
                 </SubMenu>
 
                 <Menu.Divider style={{ height: "0.5px" }} />
-                {/* <Menu.Item key="8">
-                  <a href="/explore/curatedbyus" className="trend-navigation">
-                    FEATURED
-                  </a>
-                </Menu.Item> */}
-                {/* <Menu.Item key="blog">BLOG</Menu.Item> */}
+
                 <SubMenu
                   key="shop"
                   title="SHOP"

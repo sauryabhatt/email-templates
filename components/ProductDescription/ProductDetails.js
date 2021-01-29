@@ -296,8 +296,7 @@ const ProductDetails = (props) => {
       exfactoryListPrice = "",
       productType = "",
     } = data || {};
-    let { sellerCategory = "", smallBatchesAvailable = false } =
-      sellerDetails || {};
+    let { smallBatchesAvailable = false } = sellerDetails || {};
     setDisplayPrice(exfactoryListPrice);
     let color = "";
     let variantId = "";
@@ -368,6 +367,9 @@ const ProductDetails = (props) => {
         }
         setInStock(qty);
       });
+    } else {
+      setSkuId("");
+      setInStock(0);
     }
 
     if (variants.length) {
@@ -392,7 +394,6 @@ const ProductDetails = (props) => {
       rtsform.setFieldsValue({ color: variants[0].color });
     }
     if (
-      sellerCategory === "B2B" &&
       smallBatchesAvailable &&
       productMOQPriceDetail &&
       productMOQPriceDetail.length > 0 &&
@@ -592,7 +593,6 @@ const ProductDetails = (props) => {
     productMOQPriceDetail &&
     productMOQPriceDetail.length > 0 &&
     smallBatchesAvailable &&
-    sellerCategory === "B2B" &&
     (productType !== "RTS" || (productType === "RTS" && inStock === 0))
   ) {
     minimumOrderQuantity =
@@ -1362,7 +1362,6 @@ const ProductDetails = (props) => {
                         !(
                           moqList.length > 0 &&
                           smallBatchesAvailable &&
-                          sellerCategory === "B2B" &&
                           (productType !== "RTS" ||
                             (productType === "RTS" && inStock === 0))
                         ) && (
@@ -1488,7 +1487,6 @@ const ProductDetails = (props) => {
               {showPrice &&
                 moqList.length > 0 &&
                 smallBatchesAvailable &&
-                sellerCategory === "B2B" &&
                 (productType !== "RTS" ||
                   (productType === "RTS" && inStock === 0)) && (
                   <div>
@@ -1566,7 +1564,6 @@ const ProductDetails = (props) => {
                             !(
                               moqList.length > 0 &&
                               smallBatchesAvailable &&
-                              sellerCategory === "B2B" &&
                               (productType !== "RTS" ||
                                 (productType === "RTS" && inStock === 0))
                             ) && (
@@ -1617,8 +1614,7 @@ const ProductDetails = (props) => {
                                   (productType !== "RTS" ||
                                     (productType === "RTS" && inStock === 0)) &&
                                   moqList.length > 0 &&
-                                  smallBatchesAvailable &&
-                                  sellerCategory === "B2B"
+                                  smallBatchesAvailable
                                 ) {
                                   changeMOQQty(value);
                                 }
@@ -1730,7 +1726,6 @@ const ProductDetails = (props) => {
                         {!(
                           moqList.length > 0 &&
                           smallBatchesAvailable &&
-                          sellerCategory === "B2B" &&
                           (productType !== "RTS" ||
                             (productType === "RTS" && inStock === 0))
                         ) && (
@@ -2435,7 +2430,6 @@ const ProductDetails = (props) => {
                         !(
                           moqList.length > 0 &&
                           smallBatchesAvailable &&
-                          sellerCategory === "B2B" &&
                           (productType !== "RTS" ||
                             (productType === "RTS" && inStock === 0))
                         ) && (
@@ -2561,7 +2555,6 @@ const ProductDetails = (props) => {
               {showPrice &&
                 moqList.length > 0 &&
                 smallBatchesAvailable &&
-                sellerCategory === "B2B" &&
                 (productType !== "RTS" ||
                   (productType === "RTS" && inStock === 0)) && (
                   <div>
@@ -2639,7 +2632,6 @@ const ProductDetails = (props) => {
                             !(
                               moqList.length > 0 &&
                               smallBatchesAvailable &&
-                              sellerCategory === "B2B" &&
                               (productType !== "RTS" ||
                                 (productType === "RTS" && inStock === 0))
                             ) && (
@@ -2690,8 +2682,7 @@ const ProductDetails = (props) => {
                                   (productType !== "RTS" ||
                                     (productType === "RTS" && inStock === 0)) &&
                                   moqList.length &&
-                                  smallBatchesAvailable &&
-                                  sellerCategory === "B2B"
+                                  smallBatchesAvailable
                                 ) {
                                   changeMOQQty(value);
                                 }
@@ -2804,7 +2795,6 @@ const ProductDetails = (props) => {
                         {!(
                           moqList.length > 0 &&
                           smallBatchesAvailable &&
-                          sellerCategory === "B2B" &&
                           (productType !== "RTS" ||
                             (productType === "RTS" && inStock === 0))
                         ) && (
@@ -3704,7 +3694,6 @@ const ProductDetails = (props) => {
                       !(
                         moqList.length > 0 &&
                         smallBatchesAvailable &&
-                        sellerCategory === "B2B" &&
                         (productType !== "RTS" ||
                           (productType === "RTS" && inStock === 0))
                       ) && (
@@ -4138,10 +4127,12 @@ const ProductDetails = (props) => {
 
             <div className="qa-txt-alg-cnt">
               <div className="login-modal-signup-btn">
-                <a href="/signup" className="button">
-                  <span className="sign-up-text-icon">{signUp_icon()} </span>
-                  <span className="sign-up-text">Sign Up as a buyer</span>
-                </a>
+                <Link href="/signup" className="button">
+                  <span>
+                    <span className="sign-up-text-icon">{signUp_icon()} </span>
+                    <span className="sign-up-text">Sign Up as a buyer</span>
+                  </span>
+                </Link>
               </div>
             </div>
             <div className="product-login-modal-content qa-mar-top-1">

@@ -107,7 +107,7 @@ const UserAccount = (props) => {
   const [orderText, setOrderText] = useState("");
   const [collectionName, setCollectionName] = useState("");
   const [showCollectionDetails, setCollectionDetails] = useState(false);
-  console.log(orderText);
+
   const settings = {
     infinite: false,
     speed: 500,
@@ -145,14 +145,18 @@ const UserAccount = (props) => {
   };
   useEffect(() => {
     if (router.query.section) {
+      setShowOrderDetails(false);
+      setCollectionDetails(false);
+      setCollectionName("");
       setCurrentNav(router.query.section);
     }
   }, [router.query.section]);
 
   useEffect(() => {
+    setCollectionName("");
+    setShowOrderDetails(false);
+    setCollectionDetails(false);
     if (keycloak.token) {
-      setShowOrderDetails(false);
-      setCollectionDetails(false);
       if (currentNav == "profile") {
         props.getUserProfile(keycloak.token);
       } else if (currentNav == "video") {
@@ -910,6 +914,7 @@ const UserAccount = (props) => {
     router.push(`/account/${value}`);
     setShowOrderDetails(false);
     setCollectionDetails(false);
+    setCollectionName("");
     // let status = "OPEN";
     // let request_status = "SCHEDULED,ACCEPTED";
     // if (profileType == "BUYER") {
@@ -1665,7 +1670,10 @@ const UserAccount = (props) => {
                 bodyStyle={{ padding: "30" }}
                 centered
               >
-                <p className="verification-text" style={{ marginTop: "30px" }}>
+                <p
+                  className="qa-font-san qa-tc-white qa-fs-17"
+                  style={{ marginTop: "30px" }}
+                >
                   Thank you for accepting the video demo request with{" "}
                   <b>
                     {acceptBuyerOrg} on {requestStart} to {requestEnd}
@@ -1696,7 +1704,10 @@ const UserAccount = (props) => {
               >
                 {/* <p className="verification-heading">Thank you!  </p> */}
 
-                <p className="verification-text" style={{ marginTop: "30px" }}>
+                <p
+                  className="qa-font-san qa-tc-white qa-fs-17"
+                  style={{ marginTop: "30px" }}
+                >
                   We have received your request to re-schedule the video demo.
                   Our team will reach out to you over email to book a convenient
                   time slot for you. You can write to us at help@qalara.com if
@@ -2160,7 +2171,10 @@ const UserAccount = (props) => {
       >
         {/* <p className="verification-heading">Thank you!  </p> */}
 
-        <p className="verification-text" style={{ marginTop: "30px" }}>
+        <p
+          className="qa-font-san qa-tc-white qa-fs-17"
+          style={{ marginTop: "30px" }}
+        >
           We have canceled your video demo request. If you want to reschedule
           the request write to us at help@qalara.com.
         </p>
