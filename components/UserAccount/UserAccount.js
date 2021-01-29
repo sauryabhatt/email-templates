@@ -914,6 +914,7 @@ const UserAccount = (props) => {
     router.push(`/account/${value}`);
     setShowOrderDetails(false);
     setCollectionDetails(false);
+    setCollectionName("");
     // let status = "OPEN";
     // let request_status = "SCHEDULED,ACCEPTED";
     // if (profileType == "BUYER") {

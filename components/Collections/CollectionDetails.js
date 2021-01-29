@@ -367,7 +367,7 @@ const CollectionDetails = (props) => {
             <Col xs={24} sm={24} md={24} lg={24}>
               <Row style={{ backgroundColor: "#E6E4DF" }}>
                 <React.Fragment>
-                  <Col xs={10} sm={10} md={10} lg={10} className="qa-pad-015">
+                  <Col xs={9} sm={9} md={8} lg={8} className="qa-pad-015">
                     <div className="collection-name qa-mar-left-20">
                       {collectionName}
                     </div>
@@ -378,10 +378,10 @@ const CollectionDetails = (props) => {
                 </React.Fragment>
 
                 <Col
-                  xs={14}
-                  sm={14}
-                  md={14}
-                  lg={14}
+                  xs={15}
+                  sm={15}
+                  md={16}
+                  lg={16}
                   className="qa-pad-01 qa-txt-alg-rgt"
                 >
                   {mediaMatch.matches && (
