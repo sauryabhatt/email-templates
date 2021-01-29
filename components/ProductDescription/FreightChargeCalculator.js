@@ -1,6 +1,6 @@
 /** @format */
 
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import Icon from "@ant-design/icons";
 import {
@@ -10,26 +10,87 @@ import {
   Input,
   Form,
   Select,
-  Modal,
   Tooltip,
   InputNumber,
-  Drawer,
-  message,
 } from "antd";
+import Air from "../../public/filestore/air";
+import Sea from "../../public/filestore/sea";
 import closeButton from "../../public/filestore/closeButton";
-import signUp_icon from "../../public/filestore/Sign_Up";
-import { loginToApp } from "../AuthWithKeycloak";
-import { useRouter } from "next/router";
-import { useKeycloak } from "@react-keycloak/ssr";
 import getSymbolFromCurrency from "currency-symbol-map";
 import { getConvertedCurrency } from "../../utils/currentConverter";
+import { getCountries } from "react-phone-number-input/input";
+import en from "react-phone-number-input/locale/en.json";
+
+const { Option } = Select;
+
+const filteredCountry = getCountries().map((country) => {
+  if (country === "US") {
+    return (
+      <Option key={country} value={en[country] + " (US)"}>
+        {en[country] + " (US)"}
+      </Option>
+    );
+  }
+  if (country === "GB") {
+    return (
+      <Option key={country} value={en[country] + " (UK)"}>
+        {en[country] + " (UK)"}
+      </Option>
+    );
+  }
+  if (
+    country === "AU" ||
+    country === "CA" ||
+    country === "PT" ||
+    country === "ES" ||
+    country === "RO" ||
+    country === "PL" ||
+    country === "SE" ||
+    country === "NL" ||
+    country === "LV" ||
+    country === "IE" ||
+    country === "DE" ||
+    country === "CZ" ||
+    country === "AT"
+  )
+    return (
+      <Option key={country} value={en[country]}>
+        {en[country]}
+      </Option>
+    );
+});
 
 const FreightChargeCalculator = (props) => {
-  let { hideCalculationModal, currencyDetails = {} } = props;
+  let {
+    hideCalculationModal,
+    currencyDetails = {},
+    showPrice = "",
+    productDetails = {},
+    token = "",
+    inStock = "",
+    qtyError = "",
+    nonServiceable = "",
+  } = props;
 
   const [calculateform] = Form.useForm();
-  const router = useRouter();
-  const { keycloak } = useKeycloak();
+  const [airData, setAirData] = useState();
+  const [seaData, setSeaData] = useState();
+
+  let {
+    moqUnit = "",
+    switchMoq = "",
+    hsnCode = "",
+    casePackBreadth = "",
+    casePackHeight = "",
+    casePackLength = "",
+    exfactoryListPrice = "",
+    casePackWeight = "",
+    casePackQty = "",
+    casePackLBHUnit = "",
+    casePackWeightUnit = "",
+    minimumOrderQuantity = "",
+    productType = "",
+  } = productDetails || {};
 
   const onCalculateCharges = (values) => {
     let { quantity = "", country = "", postalCode = "" } = values || {};

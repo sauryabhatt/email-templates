@@ -123,43 +123,6 @@ const countriesList = getCountries().map((country) => {
   }
 });
 
-const filteredCountry = getCountries().map((country) => {
-  if (country === "US") {
-    return (
-      <Option key={country} value={en[country] + " (US)"}>
-        {en[country] + " (US)"}
-      </Option>
-    );
-  }
-  if (country === "GB") {
-    return (
-      <Option key={country} value={en[country] + " (UK)"}>
-        {en[country] + " (UK)"}
-      </Option>
-    );
-  }
-  if (
-    country === "AU" ||
-    country === "CA" ||
-    country === "PT" ||
-    country === "ES" ||
-    country === "RO" ||
-    country === "PL" ||
-    country === "SE" ||
-    country === "NL" ||
-    country === "LV" ||
-    country === "IE" ||
-    country === "DE" ||
-    country === "CZ" ||
-    country === "AT"
-  )
-    return (
-      <Option key={country} value={en[country]}>
-        {en[country]}
-      </Option>
-    );
-});
-
 const ProductDetails = (props) => {
   let {
     data = {},
@@ -209,8 +172,6 @@ const ProductDetails = (props) => {
   const [calculationModal, setCalculationModal] = useState(false);
   const [qtyErr, setQtyErr] = useState(false);
   const [sizeErr, setSizeErr] = useState(false);
-  const [airData, setAirData] = useState();
-  const [seaData, setSeaData] = useState();
   const [skuId, setSkuId] = useState("");
   const [variantId, setVariantId] = useState();
   const [zoomImg, setZoomImg] = useState(false);
@@ -433,9 +394,6 @@ const ProductDetails = (props) => {
     sampleCost = "",
     shippingMethods = [],
     variants = [],
-    colorCustomizationAvailable = "",
-    sizeCustomizationAvailable = "",
-    packagingCustomizationAvailable = "",
     suggestedRetailPrice = "",
     exfactoryListPrice = "",
     sellerCode = "",
@@ -445,15 +403,7 @@ const ProductDetails = (props) => {
     deliveryExclusions = [],
     info = {},
     skus = [],
-    hsnCode = "",
-    casePackBreadth = "",
-    casePackHeight = "",
-    casePackLength = "",
     exFactoryPrice = "",
-    casePackWeight = "",
-    casePackQty = "",
-    casePackLBHUnit = "",
-    casePackWeightUnit = "",
     visibleTo = "",
     length = "",
     breadth = "",
@@ -3583,7 +3533,15 @@ const ProductDetails = (props) => {
         width={!mobile ? 900 : "98%"}
         style={{ top: 5 }}
       >
-        <FreightChargeCalculator hideCalculationModal={hideCalculationModal} />
+        <FreightChargeCalculator
+          hideCalculationModal={hideCalculationModal}
+          showPrice={showPrice}
+          productDetails={data}
+          token={token}
+          inStock={inStock}
+          qtyError={qtyError}
+          nonServiceable={nonServiceable}
+        />
       </Modal>
 
       <Modal
