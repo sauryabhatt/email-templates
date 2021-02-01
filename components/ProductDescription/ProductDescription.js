@@ -30,11 +30,11 @@ const ProductDescription = (props) => {
     app_token = keycloak.token;
   }
 
-  useEffect(() => {
-    let { articleId } = router.query;
-    props.getProductDetails(app_token, articleId);
-    setCount(1);
-  }, [router.query]);
+  // useEffect(() => {
+  //   let { articleId } = router.query;
+  //   props.getProductDetails(app_token, articleId);
+  //   setCount(1);
+  // }, [router.query]);
 
   useEffect(() => {
     let { productDetails = "" } = props;
