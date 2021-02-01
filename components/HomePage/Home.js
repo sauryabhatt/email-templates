@@ -338,7 +338,7 @@ function Home(props) {
                 Simply add to cart and checkout instantly!
               </span>
               <div className="qa-fixed-btns">
-                <div className="q-button-link">Browse now</div>
+                <div className="q-button-link">Shop now</div>
                 <svg
                   width="18"
                   height="8"
