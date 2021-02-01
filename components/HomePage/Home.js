@@ -372,7 +372,7 @@ function Home(props) {
 
               <span style={{ color: "#4e4848" }}>
                 Browse our growing range of ready stock products that can be
-                dispatched within 7-10 days. Add to bag and checkout instantly,
+                dispatched within 7-10 days. Add to cart and checkout instantly,
                 subject to reasonable order minimums.
               </span>
               <div className="qa-fixed-btns">
@@ -408,9 +408,9 @@ function Home(props) {
               </span>
 
               <span style={{ color: "#4e4848" }}>
-                Browse, add to bag and instantly checkout 'Express Custom' range
-                of products that can be manufactured in small quantities and
-                dispatched within 3-5 weeks.
+                Browse, add to cart and instantly checkout 'Express Custom'
+                range of products that can be manufactured in small quantities
+                and dispatched within 3-5 weeks.
               </span>
               <div className="qa-fixed-btns">
                 <div className="q-button-link">Shop now</div>
