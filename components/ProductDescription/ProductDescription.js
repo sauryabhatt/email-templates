@@ -31,11 +31,9 @@ const ProductDescription = (props) => {
   }
 
   useEffect(() => {
-    if (!isServer()) {
-      let { articleId } = router.query;
-      props.getProductDetails(app_token, articleId);
-      setCount(1);
-    }
+    let { articleId } = router.query;
+    props.getProductDetails(app_token, articleId);
+    setCount(1);
   }, [router.query]);
 
   useEffect(() => {
