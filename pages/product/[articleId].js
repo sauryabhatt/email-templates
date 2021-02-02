@@ -38,16 +38,14 @@ export default function ProductDescriptionPage({ data, articleId }) {
   );
 }
 
-// export async function getStaticPaths() {
-//   return {
-//     paths: [],
-//     fallback: true,
-//   };
-// }
+export async function getStaticPaths() {
+  return {
+    paths: [],
+    fallback: true,
+  };
+}
 
-export const getServerSideProps = async ({
-  params: { articleId = "" } = {},
-}) => {
+export const getStaticProps = async ({ params: { articleId = "" } = {} }) => {
   let res = {};
   const error = { status: false };
   try {
