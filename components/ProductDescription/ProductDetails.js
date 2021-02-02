@@ -152,7 +152,6 @@ const ProductDetails = (props) => {
   const [moqList, setMoqList] = useState([]);
   const [selectedQty, setSelectedQty] = useState(0);
   const [displayPrice, setDisplayPrice] = useState("");
-  const [apiCount, setApiCount] = useState(0);
 
   const url = process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL;
 
@@ -272,20 +271,18 @@ const ProductDetails = (props) => {
 
     if (profileType === "BUYER") {
       profileId = profileId.replace("BUYER::", "");
-      if (apiCount === 0) {
-        props.getCollections(token, profileId, (result) => {
-          setCollections(result);
-          for (let list of result) {
-            let { products = [], name = "" } = list;
-            for (let product of products) {
-              let { articleId: pArticleId = "" } = product;
-              if (pArticleId === articleId) {
-                setSelectedCollection(name);
-              }
+      props.getCollections(token, profileId, (result) => {
+        setCollections(result);
+        for (let list of result) {
+          let { products = [], name = "" } = list;
+          for (let product of products) {
+            let { articleId: pArticleId = "" } = product;
+            if (pArticleId === articleId) {
+              setSelectedCollection(name);
             }
           }
-        });
-      }
+        }
+      });
     }
     setDisplayPrice(exfactoryListPrice);
     let color = "";
@@ -294,17 +291,15 @@ const ProductDetails = (props) => {
     if (skus.length > 0) {
       let skuId = skus[0]["id"];
 
-      if (apiCount === 0) {
-        props.checkInventory(token, [skuId], (result) => {
-          let qty = result[skuId];
-          if (qty > 0) {
-            setSkuId(skuId);
-          } else {
-            setSkuId("");
-          }
-          setInStock(qty);
-        });
-      }
+      props.checkInventory(token, [skuId], (result) => {
+        let qty = result[skuId];
+        if (qty > 0) {
+          setSkuId(skuId);
+        } else {
+          setSkuId("");
+        }
+        setInStock(qty);
+      });
     } else {
       setSkuId("");
       setInStock(0);
@@ -343,7 +338,6 @@ const ProductDetails = (props) => {
     setSelectedColor(color);
     setVariantId(variantId);
     setMoqList(productMOQPriceDetail);
-    setApiCount(1);
   }, [props.data]);
 
   let {
