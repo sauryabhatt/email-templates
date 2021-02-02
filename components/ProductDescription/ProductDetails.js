@@ -210,75 +210,18 @@ const ProductDetails = (props) => {
     setSelectedCollection("");
     rtsform.resetFields();
     setCart(false);
-    let { data = {} } = props;
-
+    let { data = {}, userProfile = {} } = props;
     let {
       variants = [],
       skus = [],
       productMOQPriceDetail = [],
       exfactoryListPrice = "",
       productType = "",
+      deliveryExclusions = [],
+      articleId = "",
     } = data || {};
+
     let { smallBatchesAvailable = false } = sellerDetails || {};
-    setDisplayPrice(exfactoryListPrice);
-    let color = "";
-    let variantId = "";
-
-    if (skus.length > 0) {
-      let skuId = skus[0]["id"];
-
-      props.checkInventory(token, [skuId], (result) => {
-        let qty = result[skuId];
-        if (qty > 0) {
-          setSkuId(skuId);
-        } else {
-          setSkuId("");
-        }
-        setInStock(qty);
-      });
-    } else {
-      setSkuId("");
-      setInStock(0);
-    }
-
-    if (variants.length) {
-      color = variants[0]["color"];
-      variantId = variants[0]["sequenceId"];
-      let imageList = [];
-      let zoomedImages = [...variants[0]["mediaUrls"]];
-      if (variants[0]["zoomedImages"] && variants[0]["zoomedImages"].length) {
-        zoomedImages = [...variants[0]["zoomedImages"]];
-      }
-      for (let i = 0; i < zoomedImages.length; i++) {
-        let obj = {};
-        obj["fullscreen"] =
-          url + (zoomedImages[i] || variants[0]["mediaUrls"][i]);
-        obj["original"] =
-          url + (variants[0]["mediaUrls"][i] || zoomedImages[i]);
-        obj["thumbnail"] =
-          url + (variants[0]["thumbNails"][i] || variants[0]["mediaUrls"][i]);
-        imageList.push(obj);
-      }
-      setGalleryImages(imageList);
-      rtsform.setFieldsValue({ color: variants[0].color });
-    }
-    if (
-      smallBatchesAvailable &&
-      productMOQPriceDetail &&
-      productMOQPriceDetail.length > 0 &&
-      (productType !== "RTS" || (productType === "RTS" && inStock === 0))
-    ) {
-      setDisplayPrice(productMOQPriceDetail[0]["price"]);
-    }
-
-    setSelectedColor(color);
-    setVariantId(variantId);
-    setMoqList(productMOQPriceDetail);
-  }, [props.data]);
-
-  useEffect(() => {
-    let { data = {}, userProfile = {} } = props;
-    let { deliveryExclusions = [], articleId = "" } = data || {};
     let {
       country = "",
       verificationStatus = "",
@@ -341,7 +284,61 @@ const ProductDetails = (props) => {
         }
       });
     }
-  }, [props.data, props.userProfile]);
+    setDisplayPrice(exfactoryListPrice);
+    let color = "";
+    let variantId = "";
+
+    if (skus.length > 0) {
+      let skuId = skus[0]["id"];
+
+      props.checkInventory(token, [skuId], (result) => {
+        let qty = result[skuId];
+        if (qty > 0) {
+          setSkuId(skuId);
+        } else {
+          setSkuId("");
+        }
+        setInStock(qty);
+      });
+    } else {
+      setSkuId("");
+      setInStock(0);
+    }
+
+    if (variants.length) {
+      color = variants[0]["color"];
+      variantId = variants[0]["sequenceId"];
+      let imageList = [];
+      let zoomedImages = [...variants[0]["mediaUrls"]];
+      if (variants[0]["zoomedImages"] && variants[0]["zoomedImages"].length) {
+        zoomedImages = [...variants[0]["zoomedImages"]];
+      }
+      for (let i = 0; i < zoomedImages.length; i++) {
+        let obj = {};
+        obj["fullscreen"] =
+          url + (zoomedImages[i] || variants[0]["mediaUrls"][i]);
+        obj["original"] =
+          url + (variants[0]["mediaUrls"][i] || zoomedImages[i]);
+        obj["thumbnail"] =
+          url + (variants[0]["thumbNails"][i] || variants[0]["mediaUrls"][i]);
+        imageList.push(obj);
+      }
+      setGalleryImages(imageList);
+      rtsform.setFieldsValue({ color: variants[0].color });
+    }
+    if (
+      smallBatchesAvailable &&
+      productMOQPriceDetail &&
+      productMOQPriceDetail.length > 0 &&
+      (productType !== "RTS" || (productType === "RTS" && inStock === 0))
+    ) {
+      setDisplayPrice(productMOQPriceDetail[0]["price"]);
+    }
+
+    setSelectedColor(color);
+    setVariantId(variantId);
+    setMoqList(productMOQPriceDetail);
+  }, [props.data]);
 
   let {
     articleId = "",
