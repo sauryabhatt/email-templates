@@ -134,7 +134,7 @@ const ProductDetails = (props) => {
   const [calculationModal, setCalculationModal] = useState(false);
   const [qtyErr, setQtyErr] = useState(false);
   const [sizeErr, setSizeErr] = useState(false);
-  const [skuId, setSkuId] = useState(props.skuId);
+  const [skuId, setSkuId] = useState("");
   const [variantId, setVariantId] = useState();
   const [zoomImg, setZoomImg] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
@@ -142,7 +142,7 @@ const ProductDetails = (props) => {
   const [nonServiceableCountry, setNonServiceableCountry] = useState(false);
   const [selProductId, setSelProductId] = useState("");
   const [showCart, setCart] = useState(false);
-  const [inStock, setInStock] = useState(props.inStock);
+  const [inStock, setInStock] = useState(0);
   const [errorMsg, setErrorMsg] = useState("");
   const [qtyError, setQtyError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -175,6 +175,11 @@ const ProductDetails = (props) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [open]);
+
+  useEffect(() => {
+    setSkuId(props.skuId);
+    setInStock(props.inStock);
+  }, [props.skuId]);
 
   useEffect(() => {
     if (props.authenticated) {
@@ -215,6 +220,7 @@ const ProductDetails = (props) => {
     setActiveKeys(["1", "2"]);
     setSkuId("");
     setInStock(0);
+    setGalleryImages([]);
     let pdpOverlay = localStorage.getItem("pdpOverlay");
     if (pdpOverlay) {
       setOverlayDiv(false);
