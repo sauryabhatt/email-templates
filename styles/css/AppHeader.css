@@ -377,6 +377,7 @@
   padding: 1px 11px;
 }
 .search-dropdown .ant-input-search.ant-input-affix-wrapper,
+.search-dropdown .ant-input-search .ant-input-wrapper,
 .search-dropdown input#search-form_text {
   background: #303030;
   color: #f9f7f2;
@@ -387,18 +388,25 @@
 }
 .search-dropdown
   .ant-input-search.ant-input-affix-wrapper
+  .ant-input-search-icon::before,
+.search-dropdown
+  .ant-input-search.ant-input-wrapper
   .ant-input-search-icon::before {
   border-left: none;
 }
 .search-dropdown .ant-input-affix-wrapper:hover,
-.search-dropdown .ant-input-affix-wrapper {
+.search-dropdown .ant-input-affix-wrapper,
+.search-dropdown .ant-input-wrapper:hover,
+.search-dropdown .ant-input-wrapper {
   border: 1px solid transparent;
   border-right-width: 1px !important;
   outline: none;
 }
 
 .search-dropdown .ant-input-affix-wrapper:focus,
-.ant-input-affix-wrapper-focused {
+.search-dropdown .ant-input-affix-wrapper-focused,
+.search-dropdown .ant-input-wrapper:focus,
+.search-dropdown .ant-input-wrapper-focused {
   box-shadow: none !important;
   /* opacity: 0.8; */
 }
@@ -409,7 +417,8 @@
 .search-dropdown .ant-select-arrow {
   color: #d9bb7f;
 }
-.search-dropdown .ant-input-affix-wrapper > input.ant-input {
+.search-dropdown .ant-input-affix-wrapper > input.ant-input,
+.search-dropdown .ant-input-wrapper > input.ant-input {
   background-color: #303030;
   color: #f9f7f2;
 }
@@ -504,7 +513,9 @@
   color: #f9f7f2;
 }
 .search-dropdown .ant-input-affix-wrapper:focus,
-.ant-input-affix-wrapper-focused {
+.search-dropdown .ant-input-affix-wrapper-focused,
+.search-dropdown .ant-input-wrapper:focus,
+.search-dropdown .ant-input-wrapper-focused {
   box-shadow: none;
 }
 .header-popup .ant-popover-arrow {

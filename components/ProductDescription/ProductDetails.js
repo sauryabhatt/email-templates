@@ -1863,7 +1863,7 @@ const ProductDetails = (props) => {
                   }}
                 >
                   {getSymbolFromCurrency(convertToCurrency)}
-                  {getConvertedCurrency(sellerMOV)}
+                  {getConvertedCurrency(sellerMOV, currencyDetails)}
                 </span>
                 <div className="qa-font-san qa-tc-white qa-fs-12 qa-mar-top-05">
                   You need to purchase single or multiple products from this
@@ -2208,13 +2208,17 @@ const ProductDetails = (props) => {
                             }}
                           >
                             {getSymbolFromCurrency(convertToCurrency)}
-                            {getConvertedCurrency(displayPrice)}*
+                            {getConvertedCurrency(
+                              displayPrice,
+                              currencyDetails
+                            )}
+                            *
                           </span>
                           {/* {priceMin && (
                             <span className="qa-fs-20 qa-font-butler qa-va-m">
                               {" "}
                               - {getSymbolFromCurrency(convertToCurrency)}
-                              {getConvertedCurrency(exfactoryListPrice)}
+                              {getConvertedCurrency(exfactoryListPrice, currencyDetails)}
                             </span>
                           )} */}
                         </Col>
@@ -2248,7 +2252,10 @@ const ProductDetails = (props) => {
                               }}
                             >
                               {getSymbolFromCurrency(convertToCurrency)}
-                              {getConvertedCurrency(exFactoryPrice)}
+                              {getConvertedCurrency(
+                                exFactoryPrice,
+                                currencyDetails
+                              )}
                             </span>
                             <span className="qa-discount">
                               {parseFloat(discount).toFixed(0)}% off
@@ -2266,7 +2273,7 @@ const ProductDetails = (props) => {
                         Suggested retail price:{" "}
                         <b>
                           {getSymbolFromCurrency(convertToCurrency)}
-                          {getConvertedCurrency(suggestedRetailPrice)}
+                          {getConvertedCurrency(suggestedRetailPrice, currencyDetails)}
                         </b>
                       </div> */}
                     </div>
@@ -2897,7 +2904,7 @@ const ProductDetails = (props) => {
                   }}
                 >
                   {getSymbolFromCurrency(convertToCurrency)}
-                  {getConvertedCurrency(sellerMOV)}
+                  {getConvertedCurrency(sellerMOV, currencyDetails)}
                 </span>
                 <div className="qa-font-san qa-tc-white qa-fs-12 qa-mar-top-05">
                   You need to purchase single or multiple products from this
