@@ -1080,37 +1080,36 @@ const ProductDetails = (props) => {
             </Col>
           </Row>
           <Row className="qa-mar-auto-4 qa-mar-btm-4 image-gallery img-section">
-            {galleryImages.length > 0 && (
-              <Col
-                className="pdp-zoom-image"
-                xs={24}
-                sm={24}
-                md={10}
-                lg={10}
-                xl={10}
-                style={{ paddingRight: "30px", position: "relative" }}
-              >
-                <div className="product-list-details">
-                  <span className="product-order-type">
-                    {productType === "RTS" && skuId
-                      ? "Ready to ship"
-                      : productType === "ERTM" && skuId
-                      ? "Express custom"
-                      : "Custom order"}
-                  </span>
-                </div>
-                <ImageGallery
-                  ref={ImgGalleryD}
-                  items={galleryImages}
-                  showPlayButton={false}
-                  showFullscreenButton={false}
-                  useBrowserFullscreen={false}
-                  renderItem={renderItem}
-                  renderThumbInner={renderThumbInner}
-                  onScreenChange={onScreenChange}
-                />
-              </Col>
-            )}
+            <Col
+              className="pdp-zoom-image"
+              xs={24}
+              sm={24}
+              md={10}
+              lg={10}
+              xl={10}
+              style={{ paddingRight: "30px", position: "relative" }}
+            >
+              <div className="product-list-details">
+                <span className="product-order-type">
+                  {productType === "RTS" && skuId
+                    ? "Ready to ship"
+                    : productType === "ERTM" && skuId
+                    ? "Express custom"
+                    : "Custom order"}
+                </span>
+              </div>
+              <ImageGallery
+                ref={ImgGalleryD}
+                items={galleryImages}
+                showPlayButton={false}
+                showFullscreenButton={false}
+                useBrowserFullscreen={false}
+                renderItem={renderItem}
+                renderThumbInner={renderThumbInner}
+                onScreenChange={onScreenChange}
+              />
+            </Col>
+
             <Col
               xs={24}
               sm={24}
@@ -2146,32 +2145,31 @@ const ProductDetails = (props) => {
             </Col>
           </Row>
           <Row className="qa-mar-btm-4">
-            {galleryImages.length > 0 && (
-              <Col className="pdp-zoom-image" span={24}>
-                <ImageGallery
-                  ref={ImgGalleryM}
-                  items={galleryImages}
-                  showPlayButton={false}
-                  showNav={false}
-                  showThumbnails={thumbnail}
-                  useBrowserFullscreen={false}
-                  showFullscreenButton={false}
-                  showBullets={true}
-                  renderItem={renderItem}
-                  renderThumbInner={renderThumbInner}
-                  onScreenChange={onScreenChange}
-                />
-                <div className="product-list-details">
-                  <span className="product-order-type">
-                    {productType === "RTS" && skuId
-                      ? "Ready to ship"
-                      : productType === "ERTM" && skuId
-                      ? "Express custom"
-                      : "Custom order"}
-                  </span>
-                </div>
-              </Col>
-            )}
+            <Col className="pdp-zoom-image" span={24}>
+              <ImageGallery
+                ref={ImgGalleryM}
+                items={galleryImages}
+                showPlayButton={false}
+                showNav={false}
+                showThumbnails={thumbnail}
+                useBrowserFullscreen={false}
+                showFullscreenButton={false}
+                showBullets={true}
+                renderItem={renderItem}
+                renderThumbInner={renderThumbInner}
+                onScreenChange={onScreenChange}
+              />
+              <div className="product-list-details">
+                <span className="product-order-type">
+                  {productType === "RTS" && skuId
+                    ? "Ready to ship"
+                    : productType === "ERTM" && skuId
+                    ? "Express custom"
+                    : "Custom order"}
+                </span>
+              </div>
+            </Col>
+
             <Col
               className="qa-pad-0-30"
               xs={24}
