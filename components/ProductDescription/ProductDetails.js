@@ -273,6 +273,10 @@ const ProductDetails = (props) => {
 
   useEffect(() => {
     setSelectedQty(0);
+    setSkuId("");
+    setInStock(0);
+    setActiveKeys(["1", "2"]);
+    setAccordionView("");
     let pdpOverlay = localStorage.getItem("pdpOverlay");
     if (pdpOverlay) {
       setOverlayDiv(false);

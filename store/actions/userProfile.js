@@ -53,7 +53,7 @@ export const getUserProfile = (token) => {
         }
       })
       .then((result) => {
-        dispatch(getMeetingCount(result.profileId, token));
+        // dispatch(getMeetingCount(result.profileId, token));
         dispatch(setUserProfileLoading(false));
         return dispatch(setUserProfile(result));
       })
@@ -458,24 +458,24 @@ export const getOrders = (token) => async (dispatch) => {
     })
     .then((res) => {
       let sellerCodeList = [];
-      let typeOrder = {open: [], delivered: [], cancelled: []};
+      let typeOrder = { open: [], delivered: [], cancelled: [] };
       res.map((e) => {
-        let subTotal = 0
+        let subTotal = 0;
         if (e.subOrders) {
           e.subOrders.map((sub) => {
-            subTotal +=sub.total
+            subTotal += sub.total;
             if (!sellerCodeList.includes(sub.sellerCode)) {
               sellerCodeList.push(sub.sellerCode);
             }
           });
         }
-        e.subTotal = subTotal
-        if(e.status === "DELIVERED"){
-          typeOrder.delivered.push(e)
-        }else if(e.status === "CANCELED"){
-          typeOrder.cancelled.push(e)
-        }else {
-          typeOrder.open.push(e)
+        e.subTotal = subTotal;
+        if (e.status === "DELIVERED") {
+          typeOrder.delivered.push(e);
+        } else if (e.status === "CANCELED") {
+          typeOrder.cancelled.push(e);
+        } else {
+          typeOrder.open.push(e);
         }
       });
       let codes = sellerCodeList.join();
@@ -494,7 +494,7 @@ export const setMyOrders = (data, typeOrder) => {
     type: actionTypes.GET_MY_ORDERS,
     payload: {
       orders: data,
-      typeOrder: typeOrder
+      typeOrder: typeOrder,
     },
   };
 };
