@@ -228,12 +228,10 @@ const ProductDetails = (props) => {
     let { data = {}, userProfile = {} } = props;
     let {
       variants = [],
-      skus = [],
       productMOQPriceDetail = [],
       exfactoryListPrice = "",
       productType = "",
       deliveryExclusions = [],
-      articleId = "",
     } = data || {};
 
     let { smallBatchesAvailable = false } = sellerDetails || {};

@@ -29,6 +29,7 @@ const ProductDescription = (props) => {
   const [apiCount, setApiCount] = useState(0);
   const [inStock, setInStock] = useState(0);
   const [skuId, setSkuId] = useState("");
+  const [profileId, setProfileId] = useState("");
 
   let app_token = process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN;
   if (authenticated) {
@@ -43,7 +44,6 @@ const ProductDescription = (props) => {
       let { skus = [] } = productDetails || {};
       if (skus.length > 0) {
         let skuId = skus[0]["id"];
-
         props.checkInventory(app_token, [skuId], (result) => {
           let qty = result[skuId];
           if (qty > 0) {
@@ -61,6 +61,12 @@ const ProductDescription = (props) => {
     setCount(1);
     setApiCount(1);
   }, [router.query]);
+
+  useEffect(() => {
+    if (profileId) {
+      props.getCollections(keycloak.token, profileId);
+    }
+  }, [router.query, profileId]);
 
   useEffect(() => {
     let { productDetails = "" } = props;
@@ -85,6 +91,7 @@ const ProductDescription = (props) => {
     let { userProfile = "" } = props;
     let { profileType = "", verificationStatus = "", profileId = "" } =
       userProfile || {};
+
     if (apiCount === 1) {
       if (
         profileType === "BUYER" &&
@@ -92,8 +99,8 @@ const ProductDescription = (props) => {
           verificationStatus === "IN_PROGRESS")
       ) {
         profileId = profileId.replace("BUYER::", "");
+        setProfileId(profileId);
         props.checkCart(keycloak.token);
-        props.getCollections(keycloak.token, profileId);
         setApiCount(2);
       }
     }
