@@ -287,7 +287,7 @@ export const getProductSellerDetails = (token, sellerId) => {
   };
 };
 
-export const getProductDetails = (token, articleId = "") => {
+export const getProductDetails = (token, articleId = "", callback = false) => {
   return (dispatch) => {
     let url =
       process.env.NEXT_PUBLIC_REACT_APP_API_PRODUCT_DESCRIPTION_URL +
@@ -313,6 +313,9 @@ export const getProductDetails = (token, articleId = "") => {
         }
       })
       .then((result) => {
+        if (callback) {
+          callback(result);
+        }
         dispatch(setListingPageLoading(false));
         return dispatch(setProductDetails(result));
       })

@@ -5,7 +5,9 @@ import { connect } from "react-redux";
 import ProductDetails from "./ProductDetails";
 import {
   getProductDetails,
+  getCollections,
   getSPLPDetails,
+  checkInventory,
   checkCart,
 } from "../../store/actions";
 import { useKeycloak } from "@react-keycloak/ssr";
@@ -24,6 +26,9 @@ const ProductDescription = (props) => {
   let authenticated = keycloak.authenticated;
 
   const [count, setCount] = useState(0);
+  const [apiCount, setApiCount] = useState(0);
+  const [inStock, setInStock] = useState(0);
+  const [skuId, setSkuId] = useState("");
 
   let app_token = process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN;
   if (authenticated) {
@@ -32,8 +37,29 @@ const ProductDescription = (props) => {
 
   useEffect(() => {
     let { articleId } = router.query;
-    props.getProductDetails(app_token, articleId);
+    setSkuId("");
+    setInStock(0);
+    props.getProductDetails(app_token, articleId, (productDetails) => {
+      let { skus = [] } = productDetails || {};
+      if (skus.length > 0) {
+        let skuId = skus[0]["id"];
+
+        props.checkInventory(app_token, [skuId], (result) => {
+          let qty = result[skuId];
+          if (qty > 0) {
+            setSkuId(skuId);
+          } else {
+            setSkuId("");
+          }
+          setInStock(qty);
+        });
+      } else {
+        setSkuId("");
+        setInStock(0);
+      }
+    });
     setCount(1);
+    setApiCount(1);
   }, [router.query]);
 
   useEffect(() => {
@@ -57,13 +83,19 @@ const ProductDescription = (props) => {
 
   useEffect(() => {
     let { userProfile = "" } = props;
-    let { profileType = "", verificationStatus = "" } = userProfile || {};
-    if (
-      profileType === "BUYER" &&
-      (verificationStatus === "VERIFIED" ||
-        verificationStatus === "IN_PROGRESS")
-    ) {
-      props.checkCart(keycloak.token);
+    let { profileType = "", verificationStatus = "", profileId = "" } =
+      userProfile || {};
+    if (apiCount === 1) {
+      if (
+        profileType === "BUYER" &&
+        (verificationStatus === "VERIFIED" ||
+          verificationStatus === "IN_PROGRESS")
+      ) {
+        profileId = profileId.replace("BUYER::", "");
+        props.checkCart(keycloak.token);
+        props.getCollections(keycloak.token, profileId);
+        setApiCount(2);
+      }
     }
   }, [props.userProfile]);
 
@@ -77,6 +109,8 @@ const ProductDescription = (props) => {
         token={app_token}
         listingPage={listingPage}
         isLoading={!isServer() ? isLoading : false}
+        inStock={inStock}
+        skuId={skuId}
       />
     </div>
   );
@@ -94,5 +128,7 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
   getProductDetails,
   getSPLPDetails,
+  getCollections,
+  checkInventory,
   checkCart,
 })(ProductDescription);

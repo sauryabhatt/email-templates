@@ -15,7 +15,8 @@ const initialState = {
   orders: [],
   brandNameList: [],
   isQuoteAvailable: false,
-  isOrderAvailable: false
+  isOrderAvailable: false,
+  collections: [],
 };
 
 const userProfile = (state = initialState, action) => {
@@ -63,7 +64,7 @@ const userProfile = (state = initialState, action) => {
       return {
         ...state,
         quotes: action.payload.quoteByStatus,
-        isQuoteAvailable: true
+        isQuoteAvailable: true,
       };
 
     case actionTypes.SET_ORDER_BY_ID:
@@ -77,13 +78,19 @@ const userProfile = (state = initialState, action) => {
         ...state,
         orders: action.payload.orders,
         typeOrder: action.payload.typeOrder,
-        isOrderAvailable: true
+        isOrderAvailable: true,
       };
 
     case actionTypes.SET_BRAND_NAME:
       return {
         ...state,
         brandNameList: action.payload.brandNameList,
+      };
+
+    case actionTypes.SET_MY_COLLECTION:
+      return {
+        ...state,
+        collections: action.payload.collections,
       };
 
     default:

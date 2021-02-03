@@ -44,7 +44,7 @@ import Sea from "../../public/filestore/sea";
 import alertIcon from "../../public/filestore/alertIcon";
 import { useRouter } from "next/router";
 import { useKeycloak } from "@react-keycloak/ssr";
-import { checkInventory, getCollections } from "../../store/actions";
+import { checkInventory } from "../../store/actions";
 import playButton from "./../../public/filestore/playButton";
 import AddToCollection from "../common/AddToCollection";
 import sellerList from "../../public/filestore/freeShippingSellers.json";
@@ -134,7 +134,7 @@ const ProductDetails = (props) => {
   const [calculationModal, setCalculationModal] = useState(false);
   const [qtyErr, setQtyErr] = useState(false);
   const [sizeErr, setSizeErr] = useState(false);
-  const [skuId, setSkuId] = useState("");
+  const [skuId, setSkuId] = useState(props.skuId);
   const [variantId, setVariantId] = useState();
   const [zoomImg, setZoomImg] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
@@ -142,7 +142,7 @@ const ProductDetails = (props) => {
   const [nonServiceableCountry, setNonServiceableCountry] = useState(false);
   const [selProductId, setSelProductId] = useState("");
   const [showCart, setCart] = useState(false);
-  const [inStock, setInStock] = useState(0);
+  const [inStock, setInStock] = useState(props.inStock);
   const [errorMsg, setErrorMsg] = useState("");
   const [qtyError, setQtyError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -193,6 +193,21 @@ const ProductDetails = (props) => {
       setMobile(true);
     }
   }, []);
+
+  useEffect(() => {
+    if (props && props.collections && props.collections.length) {
+      setCollections(props.collections);
+      for (let list of props.collections) {
+        let { products = [], name = "" } = list;
+        for (let product of products) {
+          let { articleId: pArticleId = "" } = product;
+          if (pArticleId === articleId) {
+            setSelectedCollection(name);
+          }
+        }
+      }
+    }
+  }, [props.collections]);
 
   useEffect(() => {
     setSelectedQty(0);
@@ -269,41 +284,9 @@ const ProductDetails = (props) => {
       setQtyError("To place an order, please signup as a buyer");
     }
 
-    if (profileType === "BUYER") {
-      profileId = profileId.replace("BUYER::", "");
-      props.getCollections(token, profileId, (result) => {
-        setCollections(result);
-        for (let list of result) {
-          let { products = [], name = "" } = list;
-          for (let product of products) {
-            let { articleId: pArticleId = "" } = product;
-            if (pArticleId === articleId) {
-              setSelectedCollection(name);
-            }
-          }
-        }
-      });
-    }
     setDisplayPrice(exfactoryListPrice);
     let color = "";
     let variantId = "";
-
-    if (skus.length > 0) {
-      let skuId = skus[0]["id"];
-
-      props.checkInventory(token, [skuId], (result) => {
-        let qty = result[skuId];
-        if (qty > 0) {
-          setSkuId(skuId);
-        } else {
-          setSkuId("");
-        }
-        setInStock(qty);
-      });
-    } else {
-      setSkuId("");
-      setInStock(0);
-    }
 
     if (variants.length) {
       color = variants[0]["color"];
@@ -3475,6 +3458,7 @@ const ProductDetails = (props) => {
 
 const mapStateToProps = (state) => {
   return {
+    collections: state.userProfile.collections,
     cart: state.checkout.cart,
     currencyDetails: state.currencyConverter,
     isGuest:
@@ -3486,6 +3470,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { checkInventory, getCollections })(
-  ProductDetails
-);
+export default connect(mapStateToProps, { checkInventory })(ProductDetails);
