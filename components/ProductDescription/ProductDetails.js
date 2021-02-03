@@ -218,8 +218,6 @@ const ProductDetails = (props) => {
     setSelectedQty(0);
     setAccordionView("");
     setActiveKeys(["1", "2"]);
-    setSkuId("");
-    setInStock(0);
     setGalleryImages([]);
     let pdpOverlay = localStorage.getItem("pdpOverlay");
     if (pdpOverlay) {
