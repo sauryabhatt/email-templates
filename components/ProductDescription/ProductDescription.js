@@ -38,6 +38,8 @@ const ProductDescription = (props) => {
 
   useEffect(() => {
     let { articleId } = router.query;
+    setSkuId("");
+    setInStock(0);
     props.getProductDetails(app_token, articleId, (productDetails) => {
       let { skus = [] } = productDetails || {};
       if (skus.length > 0) {
