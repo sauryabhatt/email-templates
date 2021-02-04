@@ -58,6 +58,7 @@ const ProductListing = (props) => {
       f_values,
       f_product_types,
       f_color,
+      f_l1_names,
       f_l2_names,
       f_l3_names,
       f_country,
@@ -66,6 +67,11 @@ const ProductListing = (props) => {
       startPrice,
       endPrice,
       cameo,
+      f_themes,
+      f_seller_code,
+      f_moqBucket,
+      f_isfreeshipping,
+      exfactoryListPrice,
       ...rest
     } = queryParams;
     let defaultQuery = querystring.stringify(rest);

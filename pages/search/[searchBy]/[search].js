@@ -59,10 +59,16 @@ const getURL = (searchByLC, search) => {
 export const getStaticProps = async ({ params }) => {
   const { searchBy, search } = params;
   let searchByLC = searchBy.toLowerCase();
-  const response = await fetch(getURL(searchByLC, search), {
-    method: "GET",
-  });
-  const res = await response.json();
+  let res;
+  const error = { status: false };
+  try {
+    const response = await fetch(getURL(searchByLC, search), {
+      method: "GET",
+    });
+    res = await response.json();
+  } catch (error) {
+    error["status"] = true;
+  }
 
   return {
     props: {
@@ -76,6 +82,7 @@ export const getStaticProps = async ({ params }) => {
         slp_categories: res?.fixedAggregates || null,
         search: search,
         searchBy: searchByLC,
+        error: error,
       },
     },
   };
