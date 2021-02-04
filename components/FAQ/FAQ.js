@@ -32,12 +32,12 @@ const FAQ = () => {
   return (
     <div id="faq">
       <div id="faq-banner" style={{ marginTop: "-70px" }}>
-        <span className="banner-text">
+        <div className="banner-text">
           FAQ for Buyers
           <p className="banner-text-small">
             Frequently Asked Questions for Qalara Buyers
           </p>
-          <div style={{ marginTop: "25px" }}>
+          <div>
             <Icon
               component={LogoWithText}
               style={{
@@ -46,21 +46,21 @@ const FAQ = () => {
                 verticalAlign: "middle",
               }}
             ></Icon>
-            <span className="qa-mar-lft qa-cursor" onClick={toggle}>
-              <Icon
-                component={SoundIcon}
-                style={{
-                  height: "25px",
-                  width: "25px",
-                  verticalAlign: "middle",
-                }}
-              ></Icon>
-            </span>
+            <Icon
+              component={SoundIcon}
+              style={{
+                height: "25px",
+                width: "25px",
+                verticalAlign: "middle",
+                cursor: "pointer",
+                marginLeft: "5px",
+              }}
+            ></Icon>
+            <div className="qalara-pronounciation-text">
+              (pronounced kuh-laa-raa)
+            </div>
           </div>
-          <div className="qalara-pronounciation-text">
-            (pronounced kuh-laa-raa)
-          </div>
-        </span>
+        </div>
       </div>
       <FAQAccordion />
     </div>
