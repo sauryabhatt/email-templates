@@ -88,10 +88,10 @@ export const getStaticProps = async ({ params: { categoryId = "" } = {} }) => {
   return {
     props: {
       data: {
-        slp_count: res?.totalHits,
-        slp_content: res?.products,
-        slp_facets: res?.aggregates,
-        slp_categories: res?.fixedAggregates,
+        slp_count: res?.totalHits || null,
+        slp_content: res?.products || null,
+        slp_facets: res?.aggregates || null,
+        slp_categories: res?.fixedAggregates || null,
         categoryId: categoryId,
         error: error,
       },
