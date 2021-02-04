@@ -53,10 +53,25 @@ const SearchListing = (props) => {
       props.data || router.query;
 
     const {
-      f_product_types,
       f_categories,
       f_key_methods,
       f_values,
+      f_product_types,
+      f_color,
+      f_l1_names,
+      f_l2_names,
+      f_l3_names,
+      f_country,
+      f_style_type,
+      f_material,
+      startPrice,
+      endPrice,
+      cameo,
+      f_themes,
+      f_seller_code,
+      f_moqBucket,
+      f_isfreeshipping,
+      exfactoryListPrice,
       search,
       sort_by: sort,
       ...rest
