@@ -1,8 +1,15 @@
 /** @format */
 
+import dynamic from "next/dynamic";
 import { Layout } from "../components/common/Layout";
-import FAQ from "../components/FAQ/FAQ";
-export default function TermsOfUse() {
+import Spinner from "../components/Spinner/Spinner";
+
+const DynamicFAQ = dynamic(() => import("../components/FAQ/FAQ"), {
+  ssr: false,
+  loading: () => <Spinner />,
+});
+
+export default function FAQForWholesaleBuyers() {
   const meta = {
     title:
       "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods from South East Asia | Qalara",
@@ -15,7 +22,9 @@ export default function TermsOfUse() {
 
   return (
     <Layout meta={meta}>
-      <FAQ />
+      <>
+        <DynamicFAQ />
+      </>
     </Layout>
   );
 }

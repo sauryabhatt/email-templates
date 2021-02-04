@@ -13,8 +13,80 @@
   background-position: center;
   min-width: 100%;
   max-width: 100%;
-  height: 60vh;
-  max-height: 60vh;
+  height: 50vh;
+  max-height: 50vh;
+}
+
+#faq a {
+  color: #fff;
+}
+.buyer-faq-section {
+  background: #f9f7f2;
+  padding-bottom: 120px;
+}
+.buyer-faq-section .ant-collapse.ant-collapse-borderless {
+  width: 65%;
+  margin: 0 auto;
+  background: #f9f7f2;
+  padding-top: 10px;
+}
+.buyer-faq-section .panel-title .ant-collapse-header {
+  font-family: senregular;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 1.575;
+  letter-spacing: 1.4px;
+  color: #373737;
+  /* text-transform: uppercase; */
+  padding: 20px 0px;
+}
+.buyer-faq-section .panel-body {
+  font-family: senregular;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.575;
+  color: #4e4848;
+}
+.buyer-faq-section
+  .ant-collapse-icon-position-right
+  > .ant-collapse-item
+  > .ant-collapse-header
+  .ant-collapse-arrow {
+  right: 0px;
+  left: auto;
+  top: 45%;
+}
+.buyer-faq-section .panel-header {
+  font-family: senregular;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 37px;
+  text-align: left;
+  text-transform: uppercase;
+  color: #373737;
+  padding-top: 60px;
+  margin: 0 auto;
+  padding-bottom: 15px;
+}
+.buyer-faq-section .help-section {
+  padding: 24px 16px;
+  width: 65%;
+  margin: 0 auto;
+}
+.qalara-pronounciation-text {
+  font-family: senregular;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 14px;
+  color: rgba(249, 247, 242, 0.6);
+}
+.buyer-faq-section .panel-header.main-heading {
+  width: 65%;
+  padding-bottom: 2px;
 }
 
 @media only screen and (min-width: 768px) {
@@ -22,21 +94,22 @@
     position: absolute;
     left: 10%;
     /* right: 56.44%; */
-    top: 25.93vh;
+    top: 22vh;
     font-family: Butler;
     /* font-style: normal; */
     font-weight: 300;
-    font-size: 41pt;
+    font-size: 52px;
     /* letter-spacing: 0.01em; */
     color: #ffffff;
   }
 
   #faq-banner .banner-text-small {
     font-family: senregular;
-    font-size: 14.5px;
+    font-size: 15px;
     line-height: 160%;
     letter-spacing: 0.02em;
     color: #ffffff;
+    margin-bottom: 5px;
   }
 
   #faq-body-parent {
@@ -79,6 +152,9 @@
     /* letter-spacing: 0.01em; */
     color: #332f2f;
   }
+  .qalara-pronounciation-text {
+    margin-top: -8px;
+  }
 }
 
 @media only screen and (max-width: 767px) {
@@ -86,19 +162,19 @@
     position: absolute;
     left: 10%;
     /* right: 39.44%; */
-    top: 25.93vh;
+    top: 22vh;
     font-family: Butler;
     /* font-style: normal; */
     font-weight: 300;
-    font-size: 30pt;
+    font-size: 38px;
     /* letter-spacing: 0.01em; */
     color: #ffffff;
   }
 
   #faq-banner .banner-text-small {
     font-family: senregular;
-    font-size: 12.5px;
-    line-height: 160%;
+    font-size: 14px;
+    line-height: 20px;
     letter-spacing: 0.02em;
     color: #ffffff;
   }
@@ -142,7 +218,19 @@
     /* text-align: justify; */
     margin-bottom: 20px;
   }
-}
-#faq a {
-  color: #fff;
+  .buyer-faq-section .panel-header.main-heading {
+    width: 100%;
+    padding: 60px 30px 2px;
+  }
+  .buyer-faq-section .ant-collapse.ant-collapse-borderless {
+    width: 100%;
+    padding: 0px 30px;
+  }
+  .buyer-faq-section .help-section {
+    padding: 24px 30px;
+    width: 100%;
+  }
+  .buyer-faq-section .panel-header {
+    font-size: 20px;
+  }
 }
