@@ -38,10 +38,10 @@
   display: flex;
   align-items: center;
 }
-.press-crousel .press-web-wrp a:first-child {
+/* .press-crousel .press-web-wrp a:first-child {
   margin-left: -135px;
   margin-right: 250px;
-}
+} */
 
 .pointer {
   cursor: pointer;
@@ -526,7 +526,7 @@ top: 2.48vh; */
 .press-web-wrp {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-around;
   /*justify-content: space-between;*/
 }
 @media only screen and (max-width: 768px) {
@@ -569,7 +569,7 @@ top: 2.48vh; */
     padding: 15px 28px;
   }
   .press-crousel .press-arrow {
-    top: 75px;
+    top: 35%;
   }
   .press-crousel .press-header {
     font-size: 20px;

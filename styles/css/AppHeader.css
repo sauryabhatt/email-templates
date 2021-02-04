@@ -377,6 +377,7 @@
   padding: 1px 11px;
 }
 .search-dropdown .ant-input-search.ant-input-affix-wrapper,
+.search-dropdown .ant-input-search .ant-input-wrapper,
 .search-dropdown input#search-form_text {
   background: #303030;
   color: #f9f7f2;
@@ -387,18 +388,25 @@
 }
 .search-dropdown
   .ant-input-search.ant-input-affix-wrapper
+  .ant-input-search-icon::before,
+.search-dropdown
+  .ant-input-search.ant-input-wrapper
   .ant-input-search-icon::before {
   border-left: none;
 }
 .search-dropdown .ant-input-affix-wrapper:hover,
-.search-dropdown .ant-input-affix-wrapper {
+.search-dropdown .ant-input-affix-wrapper,
+.search-dropdown .ant-input-wrapper:hover,
+.search-dropdown .ant-input-wrapper {
   border: 1px solid transparent;
   border-right-width: 1px !important;
   outline: none;
 }
 
 .search-dropdown .ant-input-affix-wrapper:focus,
-.ant-input-affix-wrapper-focused {
+.search-dropdown .ant-input-affix-wrapper-focused,
+.search-dropdown .ant-input-wrapper:focus,
+.search-dropdown .ant-input-wrapper-focused {
   box-shadow: none !important;
   /* opacity: 0.8; */
 }
@@ -409,9 +417,11 @@
 .search-dropdown .ant-select-arrow {
   color: #d9bb7f;
 }
-.search-dropdown .ant-input-affix-wrapper > input.ant-input {
+.search-dropdown .ant-input-affix-wrapper > input.ant-input,
+.search-dropdown .ant-input-wrapper > input.ant-input {
   background-color: #303030;
   color: #f9f7f2;
+  border-color: #303030 !important;
 }
 /* .search-dropdown .search-input .ant-form-item-control-input-content {
   border-left: 1px solid #d9bb7f;
@@ -504,8 +514,20 @@
   color: #f9f7f2;
 }
 .search-dropdown .ant-input-affix-wrapper:focus,
-.ant-input-affix-wrapper-focused {
+.search-dropdown .ant-input-affix-wrapper-focused,
+.search-dropdown .ant-input-wrapper.ant-input-group:focus,
+.search-dropdown .ant-input-wrapper.ant-input-group:active,
+.search-dropdown .ant-input-wrapper:focus,
+.search-dropdown .ant-input-wrapper-focused,
+.search-dropdown #search-form_search:focus,
+.search-dropdown #search-form_search:active {
   box-shadow: none;
+  border: transparent;
+}
+.search-dropdown .ant-input-search-button {
+  color: #f9f7f2 !important;
+  border: none !important;
+  background-color: #303030;
 }
 .header-popup .ant-popover-arrow {
   border: 1px solid #d9bb7f;
