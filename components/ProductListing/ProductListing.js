@@ -71,7 +71,6 @@ const ProductListing = (props) => {
       f_seller_code,
       f_moqBucket,
       f_isfreeshipping,
-      f_country,
       exfactoryListPrice,
       ...rest
     } = queryParams;
