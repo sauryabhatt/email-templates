@@ -36,12 +36,6 @@ export default function Tastimonial() {
     {
       url: "",
       text_message:
-        "“We are extremely impressed and happy with the Qalara Global team. Aditi and her team have been absolutely fantastic, they made the entire process seamless and stress-free. From first contact right through the final shipment and delivery, we were kept in the loop every step of the way. Super informative, honest and prompt communication, beautiful products, and an all-round friendly team - highly recommended!”",
-      user_name: "- Dominey and Arno, New Zealand",
-    },
-    {
-      url: "",
-      text_message:
         "“Your bells arrived and I wish I had ordered many more!!! The craftsmanship is outstanding - thank you:)”",
       user_name: "- Store owner, Western Australia",
     },

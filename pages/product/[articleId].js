@@ -64,7 +64,7 @@ export const getStaticProps = async ({ params: { articleId = "" } = {} }) => {
     const { sellerCode } = (await res.product_details) || {};
     const responseListingPage = await fetch(
       process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL +
-        `/splpv2?from=0&size=6&sort_by=minimumOrderQuantity&sort_order=ASC&sellerId=${sellerCode}`
+        `/splpv2?from=0&size=30&sort_by=minimumOrderQuantity&sort_order=ASC&sellerId=${sellerCode}`
     );
     res["listingPage"] = await responseListingPage.json();
   } catch (error) {

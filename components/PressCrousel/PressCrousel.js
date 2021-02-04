@@ -38,14 +38,6 @@ export default function PressCrousel(props) {
       linkTo: "https://cdn.qalara.com/images/Img_YS_Logo.png",
     },*/
     {
-      mobile_height: "15px",
-      height: "30px",
-      title: "",
-      url:
-        "https://giftguideonline.com.au/blog/are-you-looking-to-expand-on-a-global-scale.html",
-      linkTo: "https://cdn.qalara.com/images/Img_Logo_GG.png",
-    },
-    {
       mobile_height: "35px",
       title: "",
       url:
@@ -66,8 +58,7 @@ export default function PressCrousel(props) {
     }*/
   ];
   let mobile_view = [];
-
-  for (let i = 0; i < press_data.length; i = i + 2) {
+  for (let i = 0; i < 2; i = i + 2) {
     let view = (
       <div className="mobile-press-crousel-container" key={i}>
         <div className="mobile-img-wrp">
@@ -79,17 +70,15 @@ export default function PressCrousel(props) {
             />
           </a>
         </div>
-        {press_data[i + 1] && (
-          <div className="mobile-img-wrp" target="blank">
-            <a href={press_data[i].url} className={`press-${i + 1}`}>
-              <img
-                style={{ height: `${press_data[i + 1].mobile_height}` }}
-                src={press_data[i + 1].linkTo}
-                alt={press_data[i + 1].url}
-              />
-            </a>
-          </div>
-        )}
+        <div className="mobile-img-wrp" target="blank">
+          <a href={press_data[i].url} className={`press-${i + 1}`}>
+            <img
+              style={{ height: `${press_data[i + 1].mobile_height}` }}
+              src={press_data[i + 1].linkTo}
+              alt={press_data[i + 1].url}
+            />
+          </a>
+        </div>
       </div>
     );
     mobile_view.push(view);
