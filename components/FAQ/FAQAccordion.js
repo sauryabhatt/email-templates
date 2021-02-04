@@ -9,8 +9,12 @@ const Panel = Collapse.Panel;
 const FAQ = (props) => {
   const router = useRouter();
   const [activeKeys, setActiveKeys] = useState([]);
-  const custom = useRef();
+  const orders = useRef();
+  const fulfillment = useRef();
+  const payment = useRef();
   const ref1 = useRef();
+  const ref2 = useRef();
+  const ref3 = useRef();
 
   useEffect(() => {
     let { refs = "" } = router.query;
@@ -20,8 +24,28 @@ const FAQ = (props) => {
         behavior: "smooth",
         block: "start",
       });
-    } else if (refs === "custom" && custom && custom.current) {
-      custom.current.scrollIntoView({
+    } else if (refs === "ref2" && ref2 && ref2.current) {
+      ref2.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    } else if (refs === "ref3" && ref3 && ref3.current) {
+      ref3.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    } else if (refs === "orders" && orders && orders.current) {
+      orders.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    } else if (refs === "payment" && payment && payment.current) {
+      payment.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    } else if (refs === "fulfillment" && fulfillment && fulfillment.current) {
+      fulfillment.current.scrollIntoView({
         behavior: "smooth",
         block: "start",
       });
@@ -66,10 +90,10 @@ const FAQ = (props) => {
         </Panel>
         <Panel
           header="How does Qalara verify its sellers?"
-          key="ref-2"
+          key="ref2"
           className="panel-title"
         >
-          <div className="panel-body">
+          <div className="panel-body" ref={ref2}>
             Qalara identifies and shortlists sellers based on credible,
             legitimate associations like the World Fair Trade Organization,
             Craftmark, Crafts Council, Exports Promotions Councils, and
@@ -87,10 +111,10 @@ const FAQ = (props) => {
         </Panel>
         <Panel
           header="Why is Qalara better than other B2B online platforms?"
-          key="ref-3"
+          key="ref3"
           className="panel-title"
         >
-          <div className="panel-body">
+          <div className="panel-body" ref={ref3}>
             Qalara's promise to the buyer is convenience and reliability. Qalara
             is a managed marketplace where 100% of the Sellers are verified -
             which means that all sellers have been verified and vetted by team
@@ -107,13 +131,13 @@ const FAQ = (props) => {
           </div>
         </Panel>
 
-        <div className="panel-header" ref={custom}>
+        <div className="panel-header" ref={orders}>
           ORDERS ON QALARA
         </div>
 
         <Panel
           header="What is a Request for Quote, an Order Query and a Custom Quote?"
-          key="ref-4"
+          key="orders"
           className="panel-title"
         >
           <div className="panel-body">
@@ -148,7 +172,7 @@ const FAQ = (props) => {
         </Panel>
         <Panel
           header="What are the different types of ordering options on Qalara?"
-          key="ref-5"
+          key="ref5"
           className="panel-title"
         >
           <div className="panel-body">
@@ -187,7 +211,7 @@ const FAQ = (props) => {
         </Panel>
         <Panel
           header="How do I place an order on Qalara?"
-          key="ref-6"
+          key="ref6"
           className="panel-title"
         >
           <div className="panel-body">
@@ -236,7 +260,7 @@ const FAQ = (props) => {
         </Panel>
         <Panel
           header="Can I order a sample?"
-          key="ref-7"
+          key="ref7"
           className="panel-title"
         >
           <div className="panel-body">
@@ -251,7 +275,7 @@ const FAQ = (props) => {
         </Panel>
         <Panel
           header="Can Qalara help me source products specific to my designs?"
-          key="ref-8"
+          key="ref8"
           className="panel-title"
         >
           <div className="panel-body">
@@ -266,7 +290,7 @@ const FAQ = (props) => {
         </Panel>
         <Panel
           header="What do you need from us to process our order"
-          key="ref-9"
+          key="ref9"
           className="panel-title"
         >
           <div className="panel-body">
@@ -280,7 +304,7 @@ const FAQ = (props) => {
         </Panel>
         <Panel
           header="What are 'Free shipping' products?"
-          key="ref-10"
+          key="ref10"
           className="panel-title"
         >
           <div className="panel-body">
@@ -293,7 +317,7 @@ const FAQ = (props) => {
         </Panel>
         <Panel
           header="Why do you have different prices for different quantities applicable for some products?"
-          key="ref-11"
+          key="ref11"
           className="panel-title"
         >
           <div className="panel-body">
@@ -315,7 +339,7 @@ const FAQ = (props) => {
         </Panel>
         <Panel
           header="What is a video meeting?"
-          key="ref-12"
+          key="ref12"
           className="panel-title"
         >
           <div className="panel-body">
@@ -331,11 +355,13 @@ const FAQ = (props) => {
           </div>
         </Panel>
 
-        <div className="panel-header">ORDER FULFILMENT BY QALARA</div>
+        <div className="panel-header" ref={fulfillment}>
+          ORDER FULFILMENT BY QALARA
+        </div>
 
         <Panel
           header="How do you ensure that goods will be delivered as per specifications and on time?"
-          key="ref-13"
+          key="fulfillment"
           className="panel-title"
         >
           <div className="panel-body">
@@ -352,7 +378,7 @@ const FAQ = (props) => {
         </Panel>
         <Panel
           header="What is production monitoring?"
-          key="ref-14"
+          key="ref14"
           className="panel-title"
         >
           <div className="panel-body">
@@ -369,7 +395,7 @@ const FAQ = (props) => {
         </Panel>
         <Panel
           header="What is Quality Inspection?"
-          key="ref-15"
+          key="ref15"
           className="panel-title"
         >
           <div className="panel-body">
@@ -386,7 +412,7 @@ const FAQ = (props) => {
         </Panel>
         <Panel
           header="What is Quality testing?"
-          key="ref-16"
+          key="ref16"
           className="panel-title"
         >
           <div className="panel-body">
@@ -401,7 +427,7 @@ const FAQ = (props) => {
         </Panel>
         <Panel
           header="What if there is an issue with my order?"
-          key="ref-17"
+          key="ref17"
           className="panel-title"
         >
           <div className="panel-body">
@@ -427,11 +453,13 @@ const FAQ = (props) => {
           </div>
         </Panel>
 
-        <div className="panel-header">PAYMENTS ON QALARA</div>
+        <div className="panel-header" ref={payment}>
+          PAYMENTS ON QALARA
+        </div>
 
         <Panel
           header="Is it safe to transact on Qalara?"
-          key="ref-18"
+          key="payment"
           className="panel-title"
         >
           <div className="panel-body">
@@ -449,7 +477,7 @@ const FAQ = (props) => {
         </Panel>
         <Panel
           header="What Payment mechanisms do you accept?"
-          key="ref-19"
+          key="ref19"
           className="panel-title"
         >
           <div className="panel-body">
@@ -479,7 +507,7 @@ const FAQ = (props) => {
         </Panel>
         <Panel
           header="What is DDU (Delivered Duty Unpaid) mode of shipment?"
-          key="ref-20"
+          key="ref20"
           className="panel-title"
         >
           <div className="panel-body">
@@ -497,7 +525,7 @@ const FAQ = (props) => {
         </Panel>
         <Panel
           header="What is DDP (Delivered Duty Paid) mode of shipment?"
-          key="ref-21"
+          key="ref21"
           className="panel-title"
         >
           <div className="panel-body">
@@ -512,7 +540,7 @@ const FAQ = (props) => {
         </Panel>
         <Panel
           header="Your checkout mentions that Freight, Taxes and Duties are 'estimates'. When will I know the freight, duties and taxes that will be charged?"
-          key="ref-22"
+          key="ref22"
           className="panel-title"
         >
           <div className="panel-body">
@@ -539,7 +567,7 @@ const FAQ = (props) => {
         </Panel>
         <Panel
           header="What will be the payment terms for my Qalara order?"
-          key="ref-23"
+          key="ref23"
           className="panel-title"
         >
           <div className="panel-body">
@@ -560,7 +588,7 @@ const FAQ = (props) => {
         </Panel>
         <Panel
           header="What is a Proforma invoice?"
-          key="ref-24"
+          key="ref24"
           className="panel-title"
         >
           <div className="panel-body">
@@ -575,7 +603,7 @@ const FAQ = (props) => {
         </Panel>
         <Panel
           header="How can I get the invoice for my order?"
-          key="ref-25"
+          key="ref25"
           className="panel-title"
         >
           <div className="panel-body">
@@ -588,7 +616,7 @@ const FAQ = (props) => {
         </Panel>
         <Panel
           header="I am shipping my order to the U.K.; can I get a refund for the VAT charges?"
-          key="ref-26"
+          key="ref26"
           className="panel-title"
         >
           <div className="panel-body">
@@ -601,7 +629,7 @@ const FAQ = (props) => {
         </Panel>
         <Panel
           header="I am shipping my order to Australia; can I get a refund for the GST charges?"
-          key="ref-27"
+          key="ref27"
           className="panel-title"
         >
           <div className="panel-body">
@@ -616,7 +644,7 @@ const FAQ = (props) => {
         </Panel>
         <Panel
           header="Payment for my order failed, what should I do?"
-          key="ref-28"
+          key="ref28"
           className="panel-title"
         >
           <div className="panel-body">
@@ -628,7 +656,7 @@ const FAQ = (props) => {
         </Panel>
         <Panel
           header="Amount from my card was deducted but I didn't get an order confirmation email?"
-          key="ref-29"
+          key="ref29"
           className="panel-title"
         >
           <div className="panel-body">
@@ -644,7 +672,7 @@ const FAQ = (props) => {
         </Panel>
         <Panel
           header="I'm just getting started with my business, and I don't have my business registrations done. Can I still order from Qalara?"
-          key="ref-30"
+          key="ref30"
           className="panel-title"
         >
           <div className="panel-body">
