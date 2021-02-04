@@ -153,8 +153,6 @@ const ShippingDetails = (props) => {
         })
         .then((res) => {
           setAirData(res);
-          // let result = Object.values(res).every((o) => o === 0);
-          // setPayment(result);
           setLoading(false);
         })
         .catch((error) => {
@@ -214,10 +212,7 @@ const ShippingDetails = (props) => {
             landingFactor =
               (total + (seaMax > airMax ? airMax : seaMax)) / totalAmount;
 
-            let result =
-              Object.values(airData[shippingTerm]).every((o) => o === 0) &&
-              Object.values(seaData[shippingTerm]).every((o) => o === 0);
-            if (landingFactor > LANDING_LIMITER || result) {
+            if (landingFactor > LANDING_LIMITER) {
               setPayment(true);
             }
           }
@@ -229,6 +224,12 @@ const ShippingDetails = (props) => {
         }
         setApiCount(1);
       }
+    }
+    let result =
+      Object.values(airData[shippingTerm]).every((o) => o === 0) &&
+      Object.values(seaData[shippingTerm]).every((o) => o === 0);
+    if (result) {
+      setPayment(true);
     }
   }, [props.cart, airData[shippingTerm], seaData[shippingTerm]]);
 
