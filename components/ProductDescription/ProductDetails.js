@@ -177,10 +177,9 @@ const ProductDetails = (props) => {
   }, [open]);
 
   useEffect(() => {
-    let { skuId = "", inStock = 0 } = props || {};
-    setSkuId(skuId);
-    setInStock(inStock);
-  }, [props.inStock]);
+    setSkuId(props.skuId);
+    setInStock(props.inStock);
+  }, [props.skuId]);
 
   useEffect(() => {
     if (props.authenticated) {
