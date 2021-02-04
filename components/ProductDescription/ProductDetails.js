@@ -15,18 +15,26 @@ import {
   Drawer,
   message,
 } from "antd";
-import Icon, { MinusOutlined, CloseOutlined } from "@ant-design/icons";
+import Icon, {
+  MinusOutlined,
+  CheckCircleOutlined,
+  CloseOutlined,
+} from "@ant-design/icons";
+import BreadCrumb from "../common/BreadCrumb";
 import Accordion from "../common/Accordion";
 import ProductCard from "../common/ProductCard";
 import Certifications from "../common/Certifications";
 import ImageGallery from "react-image-gallery";
 import Slider from "react-slick";
 import { connect } from "react-redux";
+import { getCountries } from "react-phone-number-input/input";
+import en from "react-phone-number-input/locale/en.json";
 import closeButton from "../../public/filestore/closeButton";
 import { loginToApp } from "../AuthWithKeycloak";
 import infoIcon from "../../public/filestore/infoIcon";
 import amexPayment from "../../public/filestore/amexPayment";
 import visaPayment from "../../public/filestore/visaPayment";
+import stripePayment from "../../public/filestore/stripePayment";
 import paypalPayment from "../../public/filestore/paypalPayment";
 import mcPayment from "../../public/filestore/mcPayment";
 import discoverPayment from "../../public/filestore/discoverPayment";
@@ -44,14 +52,11 @@ import Sea from "../../public/filestore/sea";
 import alertIcon from "../../public/filestore/alertIcon";
 import { useRouter } from "next/router";
 import { useKeycloak } from "@react-keycloak/ssr";
-import { checkInventory } from "../../store/actions";
+import { checkInventory, getCollections } from "../../store/actions";
 import playButton from "./../../public/filestore/playButton";
 import AddToCollection from "../common/AddToCollection";
 import sellerList from "../../public/filestore/freeShippingSellers.json";
-import AddToCollectionSignUp from "./AddToCollectionSignUp";
-import FreightChargeCalculator from "./FreightChargeCalculator";
-import { getConvertedCurrency } from "../../utils/currentConverter";
-import ServiceabilityCheck from "./ServiceabilityCheck";
+import signUp_icon from "../../public/filestore/Sign_Up";
 
 const { Option } = Select;
 
@@ -86,6 +91,75 @@ const settings = {
   ],
 };
 
+const countriesList = getCountries().map((country) => {
+  if (country === "US") {
+    return (
+      <Option key={country} value={en[country] + " (US)"}>
+        {en[country] + " (US)"}
+      </Option>
+    );
+  }
+  if (country === "GB") {
+    return (
+      <Option key={country} value={en[country] + " (UK)"}>
+        {en[country] + " (UK)"}
+      </Option>
+    );
+  }
+  if (
+    country !== "CU" &&
+    country !== "IR" &&
+    country !== "KP" &&
+    country !== "SD" &&
+    country !== "SY" &&
+    country !== "PK" &&
+    country !== "SO"
+  ) {
+    return (
+      <Option key={country} value={en[country]}>
+        {en[country]}
+      </Option>
+    );
+  }
+});
+
+const filteredCountry = getCountries().map((country) => {
+  if (country === "US") {
+    return (
+      <Option key={country} value={en[country] + " (US)"}>
+        {en[country] + " (US)"}
+      </Option>
+    );
+  }
+  if (country === "GB") {
+    return (
+      <Option key={country} value={en[country] + " (UK)"}>
+        {en[country] + " (UK)"}
+      </Option>
+    );
+  }
+  if (
+    country === "AU" ||
+    country === "CA" ||
+    country === "PT" ||
+    country === "ES" ||
+    country === "RO" ||
+    country === "PL" ||
+    country === "SE" ||
+    country === "NL" ||
+    country === "LV" ||
+    country === "IE" ||
+    country === "DE" ||
+    country === "CZ" ||
+    country === "AT"
+  )
+    return (
+      <Option key={country} value={en[country]}>
+        {en[country]}
+      </Option>
+    );
+});
+
 const ProductDetails = (props) => {
   let {
     data = {},
@@ -113,11 +187,12 @@ const ProductDetails = (props) => {
   const { keycloak } = useKeycloak();
   const ImgGalleryM = useRef(null);
   const ImgGalleryD = useRef(null);
-
+  const [form] = Form.useForm();
   const [rtsform] = Form.useForm();
-
+  const [calculateform] = Form.useForm();
   const [pincodeModal, setPincodeModal] = useState(false);
   const [modalType, setModalType] = useState("");
+  const [pincodeSuccess, setPincodeSuccess] = useState(false);
   const [accordionView, setAccordionView] = useState("");
   const [activeKeys, setActiveKeys] = useState(["1", "2"]);
   const [count, setCount] = useState(0);
@@ -134,6 +209,8 @@ const ProductDetails = (props) => {
   const [calculationModal, setCalculationModal] = useState(false);
   const [qtyErr, setQtyErr] = useState(false);
   const [sizeErr, setSizeErr] = useState(false);
+  const [airData, setAirData] = useState();
+  const [seaData, setSeaData] = useState();
   const [skuId, setSkuId] = useState("");
   const [variantId, setVariantId] = useState();
   const [zoomImg, setZoomImg] = useState(false);
@@ -177,12 +254,6 @@ const ProductDetails = (props) => {
   }, [open]);
 
   useEffect(() => {
-    let { skuId = "", inStock = 0 } = props || {};
-    setSkuId(skuId);
-    setInStock(inStock);
-  }, [props.inStock]);
-
-  useEffect(() => {
     if (props.authenticated) {
       setErrorMsg("");
     }
@@ -201,25 +272,11 @@ const ProductDetails = (props) => {
   }, []);
 
   useEffect(() => {
-    if (props && props.collections && props.collections.length) {
-      setCollections(props.collections);
-      for (let list of props.collections) {
-        let { products = [], name = "" } = list;
-        for (let product of products) {
-          let { articleId: pArticleId = "" } = product;
-          if (pArticleId === articleId) {
-            setSelectedCollection(name);
-          }
-        }
-      }
-    }
-  }, [props.collections]);
-
-  useEffect(() => {
     setSelectedQty(0);
-    setAccordionView("");
+    setSkuId("");
+    setInStock(0);
     setActiveKeys(["1", "2"]);
-    setGalleryImages([]);
+    setAccordionView("");
     let pdpOverlay = localStorage.getItem("pdpOverlay");
     if (pdpOverlay) {
       setOverlayDiv(false);
@@ -231,22 +288,22 @@ const ProductDetails = (props) => {
     rtsform.resetFields();
     setCart(false);
     let { data = {}, userProfile = {} } = props;
+    let { country = "", verificationStatus = "", profileId = "" } =
+      userProfile || {};
+    let destinationCountry = sessionStorage.getItem("destinationCountry");
+
     let {
       variants = [],
+      skus = [],
+      deliveryExclusions = [],
       productMOQPriceDetail = [],
       exfactoryListPrice = "",
       productType = "",
-      deliveryExclusions = [],
     } = data || {};
-
     let { smallBatchesAvailable = false } = sellerDetails || {};
-    let {
-      country = "",
-      verificationStatus = "",
-      profileId = "",
-      profileType = "",
-    } = userProfile || {};
-    let destinationCountry = sessionStorage.getItem("destinationCountry");
+    setDisplayPrice(exfactoryListPrice);
+    let color = "";
+    let variantId = "";
     let index = 0;
     if (destinationCountry && deliveryExclusions) {
       setUCountry(destinationCountry);
@@ -287,9 +344,37 @@ const ProductDetails = (props) => {
       setQtyError("To place an order, please signup as a buyer");
     }
 
-    setDisplayPrice(exfactoryListPrice);
-    let color = "";
-    let variantId = "";
+    if (profileType === "BUYER") {
+      profileId = profileId.replace("BUYER::", "");
+      props.getCollections(token, profileId, (result) => {
+        setCollections(result);
+        for (let list of result) {
+          let { products = [], name = "" } = list;
+          for (let product of products) {
+            let { articleId: pArticleId = "" } = product;
+            if (pArticleId === articleId) {
+              setSelectedCollection(name);
+            }
+          }
+        }
+      });
+    }
+    if (skus.length > 0) {
+      let skuId = skus[0]["id"];
+
+      props.checkInventory(token, [skuId], (result) => {
+        let qty = result[skuId];
+        if (qty > 0) {
+          setSkuId(skuId);
+        } else {
+          setSkuId("");
+        }
+        setInStock(qty);
+      });
+    } else {
+      setSkuId("");
+      setInStock(0);
+    }
 
     if (variants.length) {
       color = variants[0]["color"];
@@ -341,15 +426,27 @@ const ProductDetails = (props) => {
     sampleCost = "",
     shippingMethods = [],
     variants = [],
+    colorCustomizationAvailable = "",
+    sizeCustomizationAvailable = "",
+    packagingCustomizationAvailable = "",
     suggestedRetailPrice = "",
     exfactoryListPrice = "",
     sellerCode = "",
     priceMin = "",
     offers = "",
     sellerMOV = "",
+    deliveryExclusions = [],
     info = {},
     skus = [],
+    hsnCode = "",
+    casePackBreadth = "",
+    casePackHeight = "",
+    casePackLength = "",
     exFactoryPrice = "",
+    casePackWeight = "",
+    casePackQty = "",
+    casePackLBHUnit = "",
+    casePackWeightUnit = "",
     visibleTo = "",
     length = "",
     breadth = "",
@@ -415,6 +512,23 @@ const ProductDetails = (props) => {
   const previous = () => {
     slider.slickPrev();
     mslider.slickPrev();
+  };
+
+  const getConvertedCurrency = (baseAmount, roundOff = false) => {
+    let { convertToCurrency = "", rates = [] } = currencyDetails || {};
+    if (roundOff) {
+      return Number.parseFloat(
+        (baseAmount *
+          Math.round((rates[convertToCurrency] + Number.EPSILON) * 100)) /
+          100
+      ).toFixed(0);
+    } else {
+      return Number.parseFloat(
+        (baseAmount *
+          Math.round((rates[convertToCurrency] + Number.EPSILON) * 100)) /
+          100
+      ).toFixed(2);
+    }
   };
 
   let { convertToCurrency = "" } = currencyDetails || {};
@@ -672,6 +786,93 @@ const ProductDetails = (props) => {
   const hideOverlayDiv = () => {
     setOverlayDiv(false);
     localStorage.setItem("pdpOverlay", true);
+  };
+
+  const onCalculateCharges = (values) => {
+    let { quantity = "", country = "", postalCode = "" } = values || {};
+    let a_data = {
+      country: country,
+      mode: "AIR",
+      postalCode: postalCode,
+      products: [
+        {
+          hsnCode: hsnCode,
+          casePackLength: parseInt(casePackLength),
+          exFactoryPrice: exFactoryPrice,
+          casePackBreadth: parseInt(casePackBreadth),
+          casePackWeight: parseInt(casePackWeight),
+          casePackHeight: parseInt(casePackHeight),
+          casePackQty: parseInt(casePackQty),
+          numOfUnits: parseInt(quantity),
+          casePackLBHUnit: casePackLBHUnit,
+          casePackWeightUnit: casePackWeightUnit,
+        },
+      ],
+    };
+
+    let s_data = { ...a_data, mode: "SEA" };
+
+    fetch(`${process.env.NEXT_PUBLIC_REACT_APP_DUTY_COST_URL}/dutycost`, {
+      method: "POST",
+      body: JSON.stringify(a_data),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw res.statusText || "Error while signing up.";
+        }
+      })
+      .then((res) => {
+        setAirData(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    fetch(`${process.env.NEXT_PUBLIC_REACT_APP_DUTY_COST_URL}/dutycost`, {
+      method: "POST",
+      body: JSON.stringify(s_data),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw res.statusText || "Error while signing up.";
+        }
+      })
+      .then((res) => {
+        setSeaData(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const onFinish = (values) => {
+    let { country = "", postalCode = "" } = values;
+    let index = deliveryExclusions.findIndex(
+      (item) => country.toLowerCase() === item.toLowerCase()
+    );
+
+    if (index >= 0) {
+      setNonServiceable(true);
+      setNonServiceableCountry(true);
+    } else {
+      setNonServiceable(false);
+      setNonServiceableCountry(false);
+      setUCountry(country);
+      setPincodeSuccess(true);
+      sessionStorage.setItem("destinationCountry", country);
+    }
   };
 
   const setActiveKey = (key) => {
@@ -1085,36 +1286,37 @@ const ProductDetails = (props) => {
             </Col>
           </Row>
           <Row className="qa-mar-auto-4 qa-mar-btm-4 image-gallery img-section">
-            <Col
-              className="pdp-zoom-image"
-              xs={24}
-              sm={24}
-              md={10}
-              lg={10}
-              xl={10}
-              style={{ paddingRight: "30px", position: "relative" }}
-            >
-              <div className="product-list-details">
-                <span className="product-order-type">
-                  {productType === "RTS" && skuId
-                    ? "Ready to ship"
-                    : productType === "ERTM" && skuId
-                    ? "Express custom"
-                    : "Custom order"}
-                </span>
-              </div>
-              <ImageGallery
-                ref={ImgGalleryD}
-                items={galleryImages}
-                showPlayButton={false}
-                showFullscreenButton={false}
-                useBrowserFullscreen={false}
-                renderItem={renderItem}
-                renderThumbInner={renderThumbInner}
-                onScreenChange={onScreenChange}
-              />
-            </Col>
-
+            {galleryImages.length > 0 && (
+              <Col
+                className="pdp-zoom-image"
+                xs={24}
+                sm={24}
+                md={10}
+                lg={10}
+                xl={10}
+                style={{ paddingRight: "30px", position: "relative" }}
+              >
+                <div className="product-list-details">
+                  <span className="product-order-type">
+                    {productType === "RTS" && skuId
+                      ? "Ready to ship"
+                      : productType === "ERTM" && skuId
+                      ? "Express custom"
+                      : "Custom order"}
+                  </span>
+                </div>
+                <ImageGallery
+                  ref={ImgGalleryD}
+                  items={galleryImages}
+                  showPlayButton={false}
+                  showFullscreenButton={false}
+                  useBrowserFullscreen={false}
+                  renderItem={renderItem}
+                  renderThumbInner={renderThumbInner}
+                  onScreenChange={onScreenChange}
+                />
+              </Col>
+            )}
             <Col
               xs={24}
               sm={24}
@@ -1145,13 +1347,13 @@ const ProductDetails = (props) => {
                         }}
                       >
                         {getSymbolFromCurrency(convertToCurrency)}
-                        {getConvertedCurrency(displayPrice, currencyDetails)}*
+                        {getConvertedCurrency(displayPrice)}*
                       </span>
                       {/* {priceMin && (
                         <span className="qa-fs-20 qa-font-butler qa-va-m">
                           {" "}
                           - {getSymbolFromCurrency(convertToCurrency)}
-                          {getConvertedCurrency(exfactoryListPrice, currencyDetails)}
+                          {getConvertedCurrency(exfactoryListPrice)}
                         </span>
                       )} */}
                       {(sellerList.includes(sellerCode) ||
@@ -1179,10 +1381,7 @@ const ProductDetails = (props) => {
                               }}
                             >
                               {getSymbolFromCurrency(convertToCurrency)}
-                              {getConvertedCurrency(
-                                exFactoryPrice,
-                                currencyDetails
-                              )}
+                              {getConvertedCurrency(exFactoryPrice)}
                             </span>
                             <span className="qa-discount">
                               {parseFloat(discount).toFixed(0)}% off
@@ -1200,7 +1399,7 @@ const ProductDetails = (props) => {
                         Suggested retail price:{" "}
                         <b>
                           {getSymbolFromCurrency(convertToCurrency)}
-                          {getConvertedCurrency(suggestedRetailPrice, currencyDetails)}
+                          {getConvertedCurrency(suggestedRetailPrice)}
                         </b>
                       </div> */}
                     </div>
@@ -1864,7 +2063,7 @@ const ProductDetails = (props) => {
                   }}
                 >
                   {getSymbolFromCurrency(convertToCurrency)}
-                  {getConvertedCurrency(sellerMOV, currencyDetails)}
+                  {getConvertedCurrency(sellerMOV)}
                 </span>
                 <div className="qa-font-san qa-tc-white qa-fs-12 qa-mar-top-05">
                   You need to purchase single or multiple products from this
@@ -2150,31 +2349,32 @@ const ProductDetails = (props) => {
             </Col>
           </Row>
           <Row className="qa-mar-btm-4">
-            <Col className="pdp-zoom-image" span={24}>
-              <ImageGallery
-                ref={ImgGalleryM}
-                items={galleryImages}
-                showPlayButton={false}
-                showNav={false}
-                showThumbnails={thumbnail}
-                useBrowserFullscreen={false}
-                showFullscreenButton={false}
-                showBullets={true}
-                renderItem={renderItem}
-                renderThumbInner={renderThumbInner}
-                onScreenChange={onScreenChange}
-              />
-              <div className="product-list-details">
-                <span className="product-order-type">
-                  {productType === "RTS" && skuId
-                    ? "Ready to ship"
-                    : productType === "ERTM" && skuId
-                    ? "Express custom"
-                    : "Custom order"}
-                </span>
-              </div>
-            </Col>
-
+            {galleryImages.length > 0 && (
+              <Col className="pdp-zoom-image" span={24}>
+                <ImageGallery
+                  ref={ImgGalleryM}
+                  items={galleryImages}
+                  showPlayButton={false}
+                  showNav={false}
+                  showThumbnails={thumbnail}
+                  useBrowserFullscreen={false}
+                  showFullscreenButton={false}
+                  showBullets={true}
+                  renderItem={renderItem}
+                  renderThumbInner={renderThumbInner}
+                  onScreenChange={onScreenChange}
+                />
+                <div className="product-list-details">
+                  <span className="product-order-type">
+                    {productType === "RTS" && skuId
+                      ? "Ready to ship"
+                      : productType === "ERTM" && skuId
+                      ? "Express custom"
+                      : "Custom order"}
+                  </span>
+                </div>
+              </Col>
+            )}
             <Col
               className="qa-pad-0-30"
               xs={24}
@@ -2209,17 +2409,13 @@ const ProductDetails = (props) => {
                             }}
                           >
                             {getSymbolFromCurrency(convertToCurrency)}
-                            {getConvertedCurrency(
-                              displayPrice,
-                              currencyDetails
-                            )}
-                            *
+                            {getConvertedCurrency(displayPrice)}*
                           </span>
                           {/* {priceMin && (
                             <span className="qa-fs-20 qa-font-butler qa-va-m">
                               {" "}
                               - {getSymbolFromCurrency(convertToCurrency)}
-                              {getConvertedCurrency(exfactoryListPrice, currencyDetails)}
+                              {getConvertedCurrency(exfactoryListPrice)}
                             </span>
                           )} */}
                         </Col>
@@ -2253,10 +2449,7 @@ const ProductDetails = (props) => {
                               }}
                             >
                               {getSymbolFromCurrency(convertToCurrency)}
-                              {getConvertedCurrency(
-                                exFactoryPrice,
-                                currencyDetails
-                              )}
+                              {getConvertedCurrency(exFactoryPrice)}
                             </span>
                             <span className="qa-discount">
                               {parseFloat(discount).toFixed(0)}% off
@@ -2274,7 +2467,7 @@ const ProductDetails = (props) => {
                         Suggested retail price:{" "}
                         <b>
                           {getSymbolFromCurrency(convertToCurrency)}
-                          {getConvertedCurrency(suggestedRetailPrice, currencyDetails)}
+                          {getConvertedCurrency(suggestedRetailPrice)}
                         </b>
                       </div> */}
                     </div>
@@ -2905,7 +3098,7 @@ const ProductDetails = (props) => {
                   }}
                 >
                   {getSymbolFromCurrency(convertToCurrency)}
-                  {getConvertedCurrency(sellerMOV, currencyDetails)}
+                  {getConvertedCurrency(sellerMOV)}
                 </span>
                 <div className="qa-font-san qa-tc-white qa-fs-12 qa-mar-top-05">
                   You need to purchase single or multiple products from this
@@ -3302,19 +3495,158 @@ const ProductDetails = (props) => {
         bodyStyle={{ padding: "30px", backgroundColor: "#f9f7f2" }}
         width={600}
       >
-        <ServiceabilityCheck
-          hidePincodeModal={hidePincodeModal}
-          modalType={modalType}
-          nonServiceable={nonServiceable}
-          productDetails={data}
-          uCountry={uCountry}
-          setNonServiceable={(status) => setNonServiceable(status)}
-          setNonServiceableCountry={(status) =>
-            setNonServiceableCountry(status)
-          }
-          setUCountry={(country) => setUCountry(country)}
-          setPincodeModal={(status) => setPincodeModal(status)}
-        />
+        <div>
+          <div
+            onClick={hidePincodeModal}
+            style={{
+              position: "absolute",
+              right: "18px",
+              top: "18px",
+              cursor: "pointer",
+              zIndex: "1",
+            }}
+          >
+            <Icon
+              component={closeButton}
+              style={{ width: "30px", height: "30px" }}
+            />
+          </div>
+          <div className="heading qa-mar-btm-2">
+            {modalType === "sample-delivery"
+              ? "Sample availability"
+              : "Check serviceability"}
+          </div>
+          {modalType === "sample-delivery" ? (
+            <div>
+              <div className="p-title">
+                Sample delivery may be available for this product, but is
+                subject to supplier's confirmation.
+              </div>
+              <div className="p-s-title">
+                Estimated sample cost:{" "}
+                {/* <span className="p-price">{sampleCostSC}</span> */}
+                <span className="p-price">
+                  The supplier may charge a premium on the sample if not readily
+                  available. Delivery costs will be at actuals.
+                </span>
+              </div>
+              <div className="p-note">
+                To request for a sample, please write to us at{" "}
+                <a
+                  className="qa-tc-white qa-hover"
+                  href="mailto:buyers@qalara.com"
+                >
+                  buyers@qalara.com
+                </a>{" "}
+                and mention the product id or the webpage address. We will take
+                care of the rest.
+              </div>
+            </div>
+          ) : (
+            <Row>
+              <Col xs={0} sm={0} md={5} lg={5} xl={5}></Col>
+              <Col xs={24} sm={24} md={14} lg={14} xl={14}>
+                {!pincodeSuccess ? (
+                  <Form
+                    name="delivery_pincode_form"
+                    onFinish={onFinish}
+                    form={form}
+                    scrollToFirstError
+                    style={{ padding: "0px 30px" }}
+                  >
+                    <div className="qa-font-san">
+                      Select Destination Country
+                    </div>
+                    <Form.Item
+                      name="country"
+                      className="form-item modified-selector"
+                      rules={[
+                        { required: true, message: "Field is required." },
+                      ]}
+                    >
+                      <Select
+                        showSearch
+                        dropdownClassName="qa-light-menu-theme"
+                      >
+                        {countriesList}
+                      </Select>
+                    </Form.Item>
+                    {/* <div className="qa-font-san">
+                      Enter destination zip code
+                    </div>
+                    <Form.Item
+                      name="postalCode"
+                      rules={[
+                        { required: true, message: "Field is required." },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item> */}
+                    {nonServiceable && (
+                      <div className="qa-text-error">
+                        This country doesn't appear in our list. Please use 'Get
+                        custom quote' to send us your order requirements
+                      </div>
+                    )}
+                    <Button
+                      className="pincode-check-btn qa-mar-btm-2 qa-mar-top-1"
+                      htmlType="submit"
+                    >
+                      Save Country
+                    </Button>
+                  </Form>
+                ) : (
+                  <div style={{ textAlign: "center" }}>
+                    <CheckCircleOutlined
+                      style={{
+                        fontSize: "100px",
+                        marginTop: "10px",
+                        marginBottom: "20px",
+                      }}
+                    />
+                    <div className="qa-mar-btm-3 qa-font-san">
+                      Country <b>{uCountry}</b> is saved
+                      <span
+                        onClick={() => {
+                          setPincodeSuccess(false);
+                        }}
+                        style={{
+                          border: "1px solid #d9bb7f",
+                          height: "25px",
+                          display: "inline-block",
+                          cursor: "pointer",
+                          verticalAlign: "bottom",
+                          marginLeft: "8px",
+                        }}
+                      >
+                        <svg
+                          width="24"
+                          height="24"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M5 16.0837V19H7.91626L16.5173 10.399L13.601 7.48271L5 16.0837ZM18.7725 8.14373C19.0758 7.84044 19.0758 7.35051 18.7725 7.04722L16.9528 5.22747C16.6495 4.92418 16.1596 4.92418 15.8563 5.22747L14.4331 6.6506L17.3494 9.56687L18.7725 8.14373Z"
+                            fill="#191919"
+                          />
+                        </svg>
+                      </span>
+                    </div>
+
+                    <Button
+                      className="pincode-check-btn qa-mar-btm-2 qa-mar-top-1"
+                      onClick={() => setPincodeModal(false)}
+                    >
+                      Done
+                    </Button>
+                  </div>
+                )}
+              </Col>
+              <Col xs={0} sm={0} md={5} lg={5} xl={5}></Col>
+            </Row>
+          )}
+        </div>
       </Modal>
       <Modal
         visible={calculationModal}
@@ -3327,15 +3659,330 @@ const ProductDetails = (props) => {
         width={!mobile ? 900 : "98%"}
         style={{ top: 5 }}
       >
-        <FreightChargeCalculator
-          hideCalculationModal={hideCalculationModal}
-          showPrice={showPrice}
-          productDetails={data}
-          token={token}
-          inStock={inStock}
-          qtyError={qtyError}
-          nonServiceable={nonServiceable}
-        />
+        <div>
+          <div
+            onClick={hideCalculationModal}
+            style={{
+              position: "absolute",
+              right: "15px",
+              top: "15px",
+              cursor: "pointer",
+              zIndex: "1",
+            }}
+          >
+            <Icon
+              component={closeButton}
+              style={{ width: "30px", height: "30px" }}
+            />
+          </div>
+          <div className="heading qa-mar-btm-05">
+            Calculate lead time, freight and duties
+          </div>
+          <div className="qa-mar-btm-2 qa-font-san qa-txt-alg-cnt qa-lh">
+            If your country/pincode does not appear in the list below please use
+            'Get quote' to send us your order requirements
+          </div>
+
+          <Row className="qa-font-san">
+            <Col xs={24} sm={24} md={24} lg={6} xl={6} className="frieght-form">
+              <Form
+                name="calculate_charges_form"
+                onFinish={onCalculateCharges}
+                form={calculateform}
+                scrollToFirstError
+              >
+                <div>
+                  <div className="label-paragraph">
+                    Quantity
+                    {showPrice &&
+                      !(
+                        moqList.length > 0 &&
+                        smallBatchesAvailable &&
+                        (productType !== "RTS" ||
+                          (productType === "RTS" && inStock === 0))
+                      ) && (
+                        <span style={{ float: "right" }}>
+                          Minimum{" "}
+                          {switchMoq && inStock === 0
+                            ? switchMoq
+                            : inStock > 0 && inStock < minimumOrderQuantity
+                            ? inStock
+                            : minimumOrderQuantity}{" "}
+                          {moqUnit}
+                        </span>
+                      )}
+                  </div>
+                  <Form.Item
+                    name="quantity"
+                    className="form-item"
+                    rules={[
+                      { required: true, message: "Please select quantity" },
+                      {
+                        min:
+                          inStock > 0 && inStock < minimumOrderQuantity
+                            ? parseInt(inStock)
+                            : parseInt(minimumOrderQuantity),
+                        type: "number",
+                        message:
+                          "Please add quantity equal or greater than the minimum",
+                      },
+                      {
+                        pattern: new RegExp("^[0-9]*$"),
+                        message: "Wrong format!",
+                      },
+                    ]}
+                  >
+                    {showPrice ? (
+                      <InputNumber type="number" className="p-text-box" />
+                    ) : (
+                      <Tooltip
+                        trigger={["focus"]}
+                        title={qtyError}
+                        placement="top"
+                        overlayClassName="qa-tooltip qty-tooltip"
+                      >
+                        <Input value="" className="p-text-box" />
+                      </Tooltip>
+                    )}
+                  </Form.Item>
+                </div>
+                <div className="qa-font-san">Select Country</div>
+                <Form.Item
+                  name="country"
+                  className="form-item"
+                  rules={[{ required: true, message: "Please select country" }]}
+                >
+                  <Select showSearch dropdownClassName="qa-light-menu-theme">
+                    {filteredCountry}
+                  </Select>
+                </Form.Item>
+                <div className="qa-font-san">Enter destination zip code</div>
+                <Form.Item
+                  name="postalCode"
+                  rules={[{ required: true, message: "Field is required." }]}
+                >
+                  <Input />
+                </Form.Item>
+                {nonServiceable && (
+                  <div className="qa-text-error">
+                    This zipcode/ pincode doesn't appear in our list. Please use
+                    'Get quote' to send us your order requirements
+                  </div>
+                )}
+                <Button
+                  className="pincode-check-btn qa-mar-btm-2 qa-mar-top-1"
+                  htmlType="submit"
+                >
+                  Submit
+                </Button>
+              </Form>
+            </Col>
+            <Col xs={24} sm={24} md={24} lg={9} xl={9} className="frieght-form">
+              <div>
+                <div className="qa-mar-top-12 qa-mar-btm-2">
+                  <Icon
+                    component={Air}
+                    style={{
+                      width: "35px",
+                      verticalAlign: "middle",
+                      marginRight: "5px",
+                    }}
+                    className="air-icon"
+                  />
+                  <span className="p-shipBy">Air</span>
+                </div>
+                <div className="qa-pad-015 qa-dashed-border">
+                  <div className="c-left-blk">Estimated freight fees</div>
+                  <div className="c-right-blk qa-fw-b qa-txt-alg-rgt">
+                    {airData ? (
+                      <span>
+                        {getSymbolFromCurrency(convertToCurrency)}
+                        {airData["frightCostMin"]
+                          ? getConvertedCurrency(airData["frightCostMin"], true)
+                          : "0"}
+                        -{getSymbolFromCurrency(convertToCurrency)}
+                        {airData["frightCostMax"]
+                          ? getConvertedCurrency(airData["frightCostMax"], true)
+                          : "0"}
+                      </span>
+                    ) : (
+                      "-"
+                    )}
+                  </div>
+                </div>
+                <div className="qa-pad-015 qa-dashed-border">
+                  <div className="c-left-blk">Estimated custom duties</div>
+                  <div className="c-right-blk qa-fw-b qa-txt-alg-rgt">
+                    {airData ? (
+                      <span>
+                        {getSymbolFromCurrency(convertToCurrency)}
+                        {airData["dutyMin"]
+                          ? getConvertedCurrency(airData["dutyMin"], true)
+                          : "0"}
+                        -{getSymbolFromCurrency(convertToCurrency)}
+                        {airData["dutyMax"]
+                          ? getConvertedCurrency(airData["dutyMax"], true)
+                          : "0"}
+                      </span>
+                    ) : (
+                      "-"
+                    )}
+                  </div>
+                </div>
+                <div className="qa-pad-015 qa-dashed-border">
+                  <div className="c-left-blk">Total estimated charges</div>
+                  <div className="c-right-blk qa-fw-b qa-txt-alg-rgt">
+                    {airData &&
+                    airData["frightCostMin"] !== undefined &&
+                    airData["dutyMin"] !== undefined ? (
+                      <span>
+                        {getSymbolFromCurrency(convertToCurrency)}
+                        {getConvertedCurrency(
+                          airData["frightCostMin"] + airData["dutyMin"],
+                          true
+                        )}
+                        -{getSymbolFromCurrency(convertToCurrency)}
+                        {getConvertedCurrency(
+                          airData["frightCostMax"] + airData["dutyMax"],
+                          true
+                        )}
+                      </span>
+                    ) : (
+                      "-"
+                    )}
+                  </div>
+                </div>
+                <div className="qa-pad-015">
+                  <div className="c-left-blk">Shipping lead time</div>
+                  <div className="c-right-blk qa-fw-b qa-txt-alg-rgt">
+                    {airData ? (
+                      <span>
+                        {airData["tat"] ? airData["tat"] - 3 : "0"}-
+                        {airData["tat"] ? airData["tat"] : "0"} days
+                      </span>
+                    ) : (
+                      "-"
+                    )}
+                  </div>
+                </div>
+              </div>
+            </Col>
+            <Col
+              xs={24}
+              sm={24}
+              md={24}
+              lg={9}
+              xl={9}
+              className="frieght-sea-sec"
+            >
+              <div>
+                <div className="qa-mar-top-2 qa-mar-btm-2">
+                  <Icon
+                    component={Sea}
+                    style={{
+                      width: "35px",
+                      verticalAlign: "middle",
+                      marginRight: "5px",
+                    }}
+                    className="sea-icon"
+                  />
+                  <span className="p-shipBy">Sea</span>
+                </div>
+                <div className="qa-pad-015 qa-dashed-border">
+                  <div className="c-left-blk">Estimated freight fees</div>
+                  <div className="c-right-blk qa-fw-b qa-txt-alg-rgt">
+                    {seaData ? (
+                      <span>
+                        {getSymbolFromCurrency(convertToCurrency)}
+                        {seaData["frightCostMin"]
+                          ? getConvertedCurrency(seaData["frightCostMin"], true)
+                          : "0"}
+                        -{getSymbolFromCurrency(convertToCurrency)}
+                        {seaData["frightCostMax"]
+                          ? getConvertedCurrency(seaData["frightCostMax"], true)
+                          : "0"}
+                      </span>
+                    ) : (
+                      "-"
+                    )}
+                  </div>
+                </div>
+                <div className="qa-pad-015 qa-dashed-border">
+                  <div className="c-left-blk">Estimated custom duties</div>
+                  <div className="c-right-blk qa-fw-b qa-txt-alg-rgt">
+                    {seaData ? (
+                      <span>
+                        {getSymbolFromCurrency(convertToCurrency)}
+                        {seaData["dutyMin"]
+                          ? getConvertedCurrency(seaData["dutyMin"], true)
+                          : "0"}
+                        -{getSymbolFromCurrency(convertToCurrency)}
+                        {seaData["dutyMax"]
+                          ? getConvertedCurrency(seaData["dutyMax"], true)
+                          : "0"}
+                      </span>
+                    ) : (
+                      "-"
+                    )}
+                  </div>
+                </div>
+                <div className="qa-pad-015 qa-dashed-border">
+                  <div className="c-left-blk">Total estimated charges</div>
+                  <div className="c-right-blk qa-fw-b qa-txt-alg-rgt">
+                    {seaData &&
+                    seaData["frightCostMin"] !== undefined &&
+                    seaData["dutyMin"] !== undefined ? (
+                      <span>
+                        {getSymbolFromCurrency(convertToCurrency)}
+                        {getConvertedCurrency(
+                          seaData["frightCostMin"] + seaData["dutyMin"],
+                          true
+                        )}
+                        -{getSymbolFromCurrency(convertToCurrency)}
+                        {getConvertedCurrency(
+                          seaData["frightCostMax"] + seaData["dutyMax"],
+                          true
+                        )}
+                      </span>
+                    ) : (
+                      "-"
+                    )}
+                  </div>
+                </div>
+                <div className="qa-pad-015">
+                  <div className="c-left-blk">Shipping lead time</div>
+                  <div className="c-right-blk qa-fw-b qa-txt-alg-rgt">
+                    {seaData ? (
+                      <span>
+                        {seaData["tat"] ? seaData["tat"] - 7 : "0"}-
+                        {seaData["tat"] ? seaData["tat"] : "0"} days
+                      </span>
+                    ) : (
+                      "-"
+                    )}
+                  </div>
+                </div>
+              </div>
+            </Col>
+
+            <Col span={24} className="cart-fr-detail">
+              Estimated time to prepare and ship your order is{" "}
+              {productType === "RTS"
+                ? "7-10 days"
+                : productType === "ERTM"
+                ? "30-40 days"
+                : "30-40 days"}
+            </Col>
+            <Col span={24} className="qa-pad-2 qa-mar-top-1">
+              <div className="qa-tc-white qa-fs-20">Disclaimer</div>
+              <div className="qa-tc-white qa-fs-14">
+                *Freight and duties charges mentioned are estimates. You will be
+                charged at actuals. <br></br>*Lead time mentioned is applicable
+                once your order is shipped.
+              </div>
+            </Col>
+          </Row>
+        </div>
       </Modal>
 
       <Modal
@@ -3439,7 +4086,73 @@ const ProductDetails = (props) => {
         width={700}
         className="product-login-modal"
       >
-        <AddToCollectionSignUp handleCancel={handleCancel} />
+        <div className="qa-rel-pos">
+          <div
+            onClick={handleCancel}
+            style={{
+              position: "absolute",
+              right: "-25px",
+              top: "-25px",
+              cursor: "pointer",
+              zIndex: "1",
+            }}
+          >
+            <Icon
+              component={closeButton}
+              style={{ width: "30px", height: "30px" }}
+            />
+          </div>
+          <div id="product-login-modal">
+            <div className="product-login-modal-content">
+              <p
+                className="product-login-modal-para"
+                style={{ color: "#af0000" }}
+              >
+                To save a product to collection, please sign up as a buyer
+              </p>
+            </div>
+            <div className="product-login-modal-content">
+              <div className="product-login-modal-head sub-heading">
+                Introducing
+              </div>
+            </div>
+            <div className="product-login-modal-para">
+              <div className="product-login-modal-head sub-heading">
+                Save to collection!
+              </div>
+            </div>
+            <div className="product-login-modal-content">
+              <p className="product-login-modal-para">
+                If you would like to request for quote for multiple products,
+                you can now use our new Save to Collection feature and send a
+                combined Quote request easily
+              </p>
+            </div>
+
+            <div className="qa-txt-alg-cnt">
+              <div className="login-modal-signup-btn">
+                <Link href="/signup">
+                  <span className="button">
+                    <span className="sign-up-text-icon">{signUp_icon()} </span>
+                    <span className="sign-up-text">Sign Up as a buyer</span>
+                  </span>
+                </Link>
+              </div>
+            </div>
+            <div className="product-login-modal-content qa-mar-top-1">
+              <p className="product-login-modal-para sign-in-account">
+                Already have an account?{" "}
+                <span
+                  style={{ textDecoration: "underline" }}
+                  className="qa-sm-color qa-cursor"
+                  onClick={signIn}
+                >
+                  Sign in here
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
       </Modal>
       <Drawer
         placement={mobile ? "bottom" : "right"}
@@ -3466,9 +4179,9 @@ const ProductDetails = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    collections: state.userProfile.collections,
     cart: state.checkout.cart,
     currencyDetails: state.currencyConverter,
+    userProfile: state.userProfile.userProfile,
     isGuest:
       state.auth &&
       state.auth.userAuth &&
@@ -3478,4 +4191,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { checkInventory })(ProductDetails);
+export default connect(mapStateToProps, { checkInventory, getCollections })(
+  ProductDetails
+);

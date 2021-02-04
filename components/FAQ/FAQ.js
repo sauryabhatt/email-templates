@@ -46,16 +46,16 @@ const FAQ = () => {
                 verticalAlign: "middle",
               }}
             ></Icon>
-            <Icon
-              component={SoundIcon}
-              style={{
-                height: "25px",
-                width: "25px",
-                verticalAlign: "middle",
-                cursor: "pointer",
-                marginLeft: "5px",
-              }}
-            ></Icon>
+            <span className="qa-cursor qa-mar-lft" onClick={toggle}>
+              <Icon
+                component={SoundIcon}
+                style={{
+                  height: "25px",
+                  width: "25px",
+                  verticalAlign: "middle",
+                }}
+              ></Icon>
+            </span>
             <div className="qalara-pronounciation-text">
               (pronounced kuh-laa-raa)
             </div>

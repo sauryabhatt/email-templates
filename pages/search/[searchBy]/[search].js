@@ -59,30 +59,21 @@ const getURL = (searchByLC, search) => {
 export const getStaticProps = async ({ params }) => {
   const { searchBy, search } = params;
   let searchByLC = searchBy.toLowerCase();
-  let res;
-  const error = { status: false };
-  try {
-    const response = await fetch(getURL(searchByLC, search), {
-      method: "GET",
-    });
-    res = await response.json();
-  } catch (error) {
-    error["status"] = true;
-  }
+  const response = await fetch(getURL(searchByLC, search), {
+    method: "GET",
+  });
+  const res = await response.json();
 
   return {
     props: {
       data: {
-        slp_count: res?.totalHits || null,
+        slp_count: res?.totalHits,
         slp_content:
-          searchByLC === "product"
-            ? res?.products || null
-            : res?.sellerHomeLiteViews || null,
-        slp_facets: res?.aggregates || null,
-        slp_categories: res?.fixedAggregates || null,
+          searchByLC === "product" ? res?.products : res?.sellerHomeLiteViews,
+        slp_facets: res?.aggregates,
+        slp_categories: res?.fixedAggregates,
         search: search,
         searchBy: searchByLC,
-        error: error,
       },
     },
   };
