@@ -926,7 +926,7 @@ function SellerLandingMobile(props) {
                   onClick={handleClick}
                   mode="horizontal"
                   selectedKeys={[selectedKey]}
-                  className="qa-navigation-tab"
+                  className="qa-navigation-tab qa-vertical-center"
                 >
                   <Menu.Item key="seller-home" className="qa-fw-b">
                     <div className="qa-txt-alg-cnt">
@@ -1219,7 +1219,9 @@ function SellerLandingMobile(props) {
           </Panel>
         </Collapse>
 
-        {offerings.length <= 0 ? null : !(profileType === "BUYER" && verificationStatus === "VERIFIED") ? (
+        {offerings.length <= 0 ? null : !(
+            profileType === "BUYER" && verificationStatus === "VERIFIED"
+          ) ? (
           <Row className="qa-fs-14 qa-mar-top-2">
             <Col
               className="qa-pad-rgt-1 qa-mar-btm-1"

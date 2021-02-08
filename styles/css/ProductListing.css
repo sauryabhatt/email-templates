@@ -249,7 +249,7 @@
   #seller-product-listing-page
     .qa-navigation-tab
     .ant-menu-item.ant-menu-item-only-child {
-    margin: 0px 20px;
+    margin: 0px auto;
   }
   #seller-product-listing-page.seller-listing-container
     button.ant-btn.qa-button.slp-filters {
