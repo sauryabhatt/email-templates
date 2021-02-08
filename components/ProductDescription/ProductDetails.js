@@ -1389,7 +1389,9 @@ const ProductDetails = (props) => {
                           </div>
                         )}
                       {!sellerList.includes(sellerCode) &&
-                      !freeShippingEligible ? (
+                      !freeShippingEligible &&
+                      moqList.length === 0 &&
+                      !smallBatchesAvailable ? (
                         <div className="qa-font-san qa-fs-12 qa-lh">
                           Base price per unit excl. freight and other charges
                         </div>
@@ -2513,7 +2515,9 @@ const ProductDetails = (props) => {
                           </div>
                         )}
                       {!sellerList.includes(sellerCode) &&
-                      !freeShippingEligible ? (
+                      !freeShippingEligible &&
+                      moqList.length === 0 &&
+                      !smallBatchesAvailable ? (
                         <div className="qa-font-san qa-fs-12 qa-lh">
                           Base price per unit excl. freight and other charges
                         </div>

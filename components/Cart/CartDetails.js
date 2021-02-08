@@ -36,8 +36,6 @@ import {
   updateCart,
   checkInventory,
 } from "../../store/actions";
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
 import { QuantityInput } from "./QuantityInput";
 import _ from "lodash";
 import states from "../../public/filestore/stateCodes_en.json";
