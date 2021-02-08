@@ -33,7 +33,7 @@ const FAQ = () => {
     <div id="faq">
       <div id="faq-banner" style={{ marginTop: "-70px" }}>
         <div className="banner-text">
-          FAQ for Buyers
+          <div className="banner-title">FAQ for Buyers</div>
           <p className="banner-text-small">
             Frequently Asked Questions for Qalara Buyers
           </p>

@@ -1,7 +1,17 @@
 /** @format */
 
 import { Layout } from "../components/common/Layout";
-import AboutUsWrapper from "../components/AboutUs/AboutUsWrapper";
+import dynamic from "next/dynamic";
+import Spinner from "../components/Spinner/Spinner";
+
+const AboutUsWrapper = dynamic(
+  () => import("../components/AboutUs/AboutUsWrapper"),
+  {
+    ssr: false,
+    loading: () => <Spinner />,
+  }
+);
+
 export default function AboutUs() {
   const meta = {
     title:

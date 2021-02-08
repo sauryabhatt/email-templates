@@ -13,22 +13,21 @@
   background-position: center;
   min-width: 100%;
   max-width: 100%;
-  height: 60vh;
-  max-height: 60vh;
+  height: 45vh;
+  max-height: 45vh;
 }
 
 @media only screen and (min-width: 768px) {
   #aboutus-banner .banner-text {
     position: absolute;
-    left: 10%;
-    /* right: 56.44%; */
+    left: 50%;
     top: 25.93vh;
     font-family: Butler;
-    /* font-style: normal; */
     font-weight: 300;
-    font-size: 41pt;
-    /* letter-spacing: 0.01em; */
-    color: #ffffff;
+    font-size: 60px;
+    line-height: 72px;
+    color: #382019;
+    transform: translate(-50%);
   }
 
   #aboutus-banner .banner-text-small {
@@ -37,13 +36,6 @@
     line-height: 160%;
     letter-spacing: 0.02em;
     color: #ffffff;
-  }
-
-  #aboutus-body-parent {
-    padding-top: 8vh;
-    padding-bottom: 8vh;
-    margin: auto;
-    width: 65vw;
   }
 
   #aboutus-body-parent .aboutus-body-text-heading {
@@ -79,7 +71,7 @@
     font-family: Butler;
     /* font-style: normal; */
     font-weight: 300;
-    font-size: 30pt;
+    font-size: 36px;
     /* letter-spacing: 0.01em; */
     color: #ffffff;
   }
@@ -90,13 +82,6 @@
     line-height: 160%;
     letter-spacing: 0.02em;
     color: #ffffff;
-  }
-
-  #aboutus-body-parent {
-    padding-top: 8vh;
-    padding-bottom: 8vh;
-    margin: auto;
-    width: 65vw;
   }
 
   #aboutus-body-parent .aboutus-body-text-heading {
@@ -120,5 +105,295 @@
     color: #ffffff;
     /* text-align: justify; */
     margin-bottom: 20px;
+  }
+}
+#aboutus-body-parent .landing-container {
+  justify-content: center;
+  padding: 40px 60px;
+}
+#aboutus-body-parent .curated-fold {
+  width: 100%;
+  margin-top: 0px;
+}
+#aboutus-body-parent .section-heading.after::after {
+  display: inline-block;
+  content: "";
+  border-top: 2px solid #f9f7f2;
+  width: 250px;
+  margin-left: 20px;
+  vertical-align: middle;
+}
+#aboutus-body-parent .section-heading.before::before {
+  display: inline-block;
+  content: "";
+  border-top: 2px solid #f9f7f2;
+  width: 250px;
+  margin-right: 20px;
+  vertical-align: middle;
+}
+#aboutus-body-parent .center-align-container {
+  text-align: center;
+}
+#aboutus-body-parent .section-heading {
+  font-family: Butler;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 36px;
+  line-height: 43px;
+  letter-spacing: 0.002em;
+  color: #f9f7f2;
+  margin-bottom: 24px;
+}
+#aboutus-body-parent .section-content {
+  font-family: senregular;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 22px;
+  letter-spacing: 0.002em;
+  color: #f9f7f2;
+}
+#aboutus-body-parent .section-content p {
+  margin-bottom: 20px;
+}
+#aboutus-body-parent .highlight-text {
+  font-family: Butler;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 29px;
+  color: #6b6b6b;
+}
+#aboutus-body-parent .aboutus-container {
+  margin-bottom: 60px;
+}
+#aboutus-body-parent .section-content.center-align {
+  padding: 0px 165px;
+}
+#aboutus-body-parent .aboutus-press-crousel {
+  background-color: transparent;
+  padding: 0px;
+}
+#aboutus-body-parent .scroller-container {
+  display: none;
+}
+#aboutus-body-parent .about-whyus {
+  font-family: senregular;
+  font-style: normal;
+  font-size: 17px;
+  line-height: 27px;
+  text-align: center;
+  color: #f9f7f2;
+  margin-top: 100px;
+}
+#aboutus-body-parent .wework {
+  font-family: Butler;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 140%;
+  color: #f9f7f2;
+}
+#aboutus-body-parent .aboutus-img1 {
+  padding-right: 50px;
+  width: 100%;
+  height: 100%;
+  padding-bottom: 20px;
+}
+#aboutus-body-parent .fortune-head {
+  font-family: Butler;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 36px;
+  line-height: 43px;
+  color: #d9bb7f;
+}
+#aboutus-body-parent .about-status {
+  font-family: Butler;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 34px;
+  color: #f9f7f2;
+}
+#aboutus-body-parent .qa-flex-row {
+  justify-content: space-between;
+}
+.qa-pad-rgt-100 {
+  padding-right: 100px;
+}
+#aboutus-body-parent .news-para {
+  font-family: senregular;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 130%;
+  text-align: center;
+  letter-spacing: 0.25px;
+  color: #f9f7f2;
+  padding-top: 16px;
+}
+#aboutus-body-parent .news-article {
+  font-family: senregular;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: 0.25px;
+  text-decoration: underline;
+  color: #d9bb7f;
+  padding-top: 10px;
+  cursor: pointer;
+}
+#aboutus-body-parent .press-blk {
+  padding: 0px 30px;
+}
+#aboutus-body-parent .press-blk img {
+  display: inline-block;
+}
+.aboutus-btn .button {
+  padding: 16px 16px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+  margin: 0px;
+  width: 285px;
+  cursor: pointer;
+}
+.aboutus-btn .button.qa-primary-btn {
+  background: #d9bb7f;
+  margin-right: 10px;
+}
+.aboutus-btn .button.qa-secondary-btn {
+  background-color: #f2f0eb;
+  margin-left: 10px;
+}
+.aboutus-btn .sign-up-text {
+  font-size: 16px;
+  line-height: 140%;
+}
+.aboutus-btn {
+  padding-top: 30px;
+}
+#aboutus-body-parent .highlight-text.qa-fs-36 {
+  font-size: 36px;
+  line-height: 43px;
+}
+#aboutus-body-parent .aboutus-step {
+  font-family: Butler;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 24px;
+  text-align: center;
+  color: #c2b7a2;
+}
+#aboutus-body-parent .aboutus-video {
+  font-family: senregular;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #f9f7f2;
+  padding: 16px 20px;
+  border: 1px solid #f9f7f2;
+  box-sizing: border-box;
+  border-radius: 45px;
+  width: 70%;
+  margin: 0 auto;
+}
+#aboutus-body-parent .aboutus-step-num {
+  font-family: Butler;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 140%;
+  color: #f9f7f2;
+}
+#aboutus-body-parent .aboutus-detail {
+  font-family: senregular;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 22px;
+  color: rgba(249, 247, 242, 0.8);
+}
+#aboutus-body-parent .aboutus-mr {
+  margin-top: 20px;
+  margin-right: 20px;
+}
+#aboutus-body-parent .aboutus-hw {
+  width: 50%;
+}
+#aboutus-body-parent .aboutus-pr-1 {
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+#aboutus-body-parent .aboutus-pl-1 {
+  padding-left: 10px;
+  padding-bottom: 10px;
+}
+@media only screen and (max-width: 768px) {
+  #aboutus-body-parent .landing-container {
+    padding: 40px 30px;
+  }
+  #aboutus-body-parent .aboutus-img1 {
+    padding: 0px 30px;
+  }
+  #aboutus-body-parent .section-heading {
+    font-size: 20px;
+    line-height: 24px;
+  }
+  #aboutus-body-parent .section-heading.after::after,
+  #aboutus-body-parent .section-heading.before::before {
+    width: 100px;
+  }
+  #aboutus-body-parent .section-content {
+    text-align: center;
+  }
+  #aboutus-body-parent .section-content.center-align {
+    padding: 0px;
+  }
+  #aboutus-body-parent .qa-pad-rgt-100 {
+    padding-right: 0px;
+  }
+  #aboutus-body-parent .aboutus-container {
+    margin-bottom: 20px;
+  }
+  .aboutus-btn .button.qa-primary-btn {
+    margin-right: 0px;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .aboutus-btn .button.qa-secondary-btn {
+    margin-left: 0px;
+    width: 100%;
+  }
+  #aboutus-body-parent .highlight-text {
+    font-size: 17px;
+    line-height: 24px;
+  }
+  #aboutus-body-parent .line-divider {
+    display: inline-block;
+    content: "";
+    border-top: 2px solid #f9f7f2;
+    width: 100px;
+    margin-left: 20px;
+    vertical-align: middle;
+    margin-bottom: 20px;
+  }
+  #aboutus-body-parent .aboutus-full {
+    width: 100%;
+  }
+  #aboutus-body-parent .aboutus-pr-1 {
+    padding-right: 5px;
+    padding-bottom: 5px;
+  }
+  #aboutus-body-parent .aboutus-pl-1 {
+    padding-left: 5px;
+    padding-bottom: 5px;
+  }
+  #aboutus-body-parent .fortune-head {
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
   }
 }
