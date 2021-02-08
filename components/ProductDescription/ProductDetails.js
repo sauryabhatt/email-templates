@@ -2998,7 +2998,7 @@ const ProductDetails = (props) => {
                 )}
                 <div className="p-custom">
                   <span
-                    onClick={() => {
+                    onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
                       setAccordion("custom");
