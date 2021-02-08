@@ -51,7 +51,32 @@ const SellerListing = (props) => {
     if (width <= 768) {
       setMobile(true);
     }
-    const { f_categories, f_key_methods, f_values, ...rest } = queryParams;
+    const {
+      f_categories,
+      f_key_methods,
+      f_values,
+      f_product_types,
+      f_color,
+      f_l2_names,
+      f_l3_names,
+      f_country,
+      f_style_type,
+      f_material,
+      startPrice,
+      endPrice,
+      cameo,
+      f_themes,
+      f_seller_code,
+      f_moqBucket,
+      f_isfreeshipping,
+      exfactoryListPrice,
+      f_categorieslist,
+      f_l1names,
+      f_seller_names,
+      f_l2name,
+      f_l3name,
+      ...rest
+    } = queryParams;
     let defaultQuery = querystring.stringify(rest);
 
     let query = getQueryParamString();
@@ -75,7 +100,14 @@ const SellerListing = (props) => {
     const tempObj = {};
 
     for (const key in queryParams) {
-      if (key == "f_values" || key == "f_key_methods") {
+      if (
+        key !== "f_categories" &&
+        key !== "from" &&
+        key !== "size" &&
+        key !== "sort_by" &&
+        key !== "sort_order" &&
+        key !== "state"
+      ) {
         tempObj[key] = queryParams[key];
       }
     }

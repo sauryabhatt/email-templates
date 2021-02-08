@@ -71,6 +71,11 @@ const ProductListing = (props) => {
       f_moqBucket,
       f_isfreeshipping,
       exfactoryListPrice,
+      f_categorieslist,
+      f_l1names,
+      f_seller_names,
+      f_l2name,
+      f_l3name,
       ...rest
     } = queryParams;
     let defaultQuery = querystring.stringify(rest);
