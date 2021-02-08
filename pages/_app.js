@@ -52,19 +52,19 @@ function MyApp(props) {
   );
 }
 function parseCookies(req) {
-  if (!req || !req.headers) {
-    return {};
-  }
-  let cookies = cookie.parse(req.headers.cookie || "");
-  let appToken = cookies.appToken;
-  let appTokenCookie = cookie.serialize("appToken", appToken, {
-    path: "/",
-  });
-  return appTokenCookie;
   // if (!req || !req.headers) {
   //   return {};
   // }
-  // return cookie.parse(req.headers.cookie || "");
+  // let cookies = cookie.parse(req.headers.cookie || "");
+  // let appToken = cookies.appToken;
+  // let appTokenCookie = cookie.serialize("appToken", appToken, {
+  //   path: "/",
+  // });
+  // return appTokenCookie;
+  if (!req || !req.headers) {
+    return {};
+  }
+  return cookie.parse(req.headers.cookie || "");
 }
 
 MyApp.getInitialProps = async ({ ctx }) => {
