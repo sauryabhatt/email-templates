@@ -58,7 +58,9 @@
   top: 20px;
   padding: 2px 8px;
 }
-
+.qa-button.go-to-cart {
+  margin-left: 20px;
+}
 #product-description .product-title {
   color: #191919;
   line-height: 130%;
@@ -756,6 +758,7 @@
     margin-left: 0px;
     width: 70%;
     height: 45px;
+    margin-left: 0px;
   }
   .qa-button.button-contact-seller {
     width: 70%;
@@ -977,7 +980,6 @@
 .qa-button.go-to-cart:hover {
   border: 1px solid #d9bb7f;
   background: transparent;
-  /* margin-left: 20px; */
 }
 #product-description .qa-button.go-to-cart,
 #product-description .qa-button.go-to-cart:hover {
@@ -987,8 +989,6 @@
 #product-description .qa-error-atc {
   color: #191919;
   line-height: 110%;
-}
-@media only screen and (max-width: 768px) {
 }
 #product-description .go-to-cart {
   font-size: 12px;
@@ -1140,79 +1140,12 @@
   height: 296px;
   top: -25px;
   right: -48px;
-  /* margin-left: 123px; */
   -webkit-transform: rotate(-27deg);
   transform: rotate(-27deg);
   background: #332f2f;
   border-radius: 60%;
   color: #f9f7f2;
 }
-/* @media only screen and (min-width: 769px) and (max-width: 991px) {
-  .cross-icon {
-    margin: 0px 0px 0px 600px;
-    font-weight: 500;
-    font-size: 20px;
-    position: absolute;
-    top: 14px;
-  }
-  .save-to-overlay {
-    position: absolute;
-    border-radius: 60px;
-    background: #874439;
-    color: #f9f7f2;
-    transform: rotate(297deg);
-    -ms-transform: rotate(299deg);
-    margin-left: -10px;
-    margin-top: 80px;
-    border: 15px solid rgba(135, 68, 57, 0.6);
-  }
-  .save-overlay-collection {
-    border-radius: 60px;
-    border-color: rgba(135, 68, 57, 0.6);
-    background: #874439;
-    padding: 10px 10px 5px 15px;
-    font-size: 14px;
-    border: 15px solid rgba(135, 68, 57, 0.6);
-  }
-  .overlay-heading {
-    font-family: Butler regular;
-    font-style: normal;
-    font-size: 24px;
-    font-weight: 400;
-    letter-spacing: 0.2px;
-    color: #f9f7f2;
-  }
-  .overlay-click {
-    font-family: senregular;
-    font-size: 12px;
-    letter-spacing: 0.2px;
-    color: #f9f7f2;
-  }
-
-  .save-col-overlay {
-    color: #f9f7f2;
-    margin-top: 170px;
-    font-size: 14px;
-    padding-left: 15px;
-  }
-  .overlay {
-    position: absolute;
-    transition: 0.7s ease;
-    opacity: 95%;
-    width: 320px;
-    z-index: 8;
-    height: 450px;
-    top: -70px;
-    margin-left: 230px;
-    -ms-transform: rotate(65deg);
-    transform: rotate(65deg);
-    background: #332f2f;
-    border-radius: 60%;
-    color: #f9f7f2;
-  }
-} */
-/*Overlay end*/
-
 .qty-tooltip .ant-tooltip-inner {
   width: 208px;
 }
