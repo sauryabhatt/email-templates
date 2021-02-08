@@ -977,7 +977,7 @@
 .qa-button.go-to-cart:hover {
   border: 1px solid #d9bb7f;
   background: transparent;
-  margin-left: 20px;
+  /* margin-left: 20px; */
 }
 #product-description .qa-button.go-to-cart,
 #product-description .qa-button.go-to-cart:hover {

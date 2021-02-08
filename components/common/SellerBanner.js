@@ -33,7 +33,7 @@ function SellerBanner(props) {
           backgroundImage: `url(${imageUrl})`,
         }}
       >
-        <span className="banner-seller-name">{orgName}</span>
+        {/* <span className="banner-seller-name">{orgName}</span> */}
       </div>
     );
   } else {
