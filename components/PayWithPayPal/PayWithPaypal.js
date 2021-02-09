@@ -60,7 +60,9 @@ const PaypalButton = (props) => {
             currency_code: props.currency,
             value: props.isCartSummary
               ? getConvertedCurrency(
-                  product.exfactoryListPrice,
+                  product.priceApplied && product.priceApplied !== null
+                    ? product.priceApplied
+                    : product.exfactoryListPrice,
                   conversionFactor
                 )
               : product.unitPrice.toFixed(2).toString(),
@@ -80,6 +82,9 @@ const PaypalButton = (props) => {
       order.products.map((product) => {
         if (isCartSummary) {
           let basePrice = product.exfactoryListPrice * product.quantity;
+          if (product.priceApplied && product.priceApplied !== null) {
+            basePrice = product.priceApplied * product.quantity;
+          }
           sum =
             sum + parseFloat(getConvertedCurrency(basePrice, conversionFactor));
         } else {
@@ -253,15 +258,26 @@ const PaypalButton = (props) => {
               sampleCost = 0,
               quantity = 0,
               exfactoryListPrice = 0,
+              priceApplied = 0,
             } = items;
             samplePrice = samplePrice + sampleCost;
             testingPrice = testingPrice + qualityTestingCharge;
-            basePrice =
-              basePrice +
-              parseFloat(
-                getConvertedCurrency(exfactoryListPrice, conversionFactor)
-              ) *
-                quantity;
+
+            if (priceApplied && priceApplied !== null) {
+              basePrice =
+                basePrice +
+                parseFloat(
+                  getConvertedCurrency(priceApplied, conversionFactor)
+                ) *
+                  quantity;
+            } else {
+              basePrice =
+                basePrice +
+                parseFloat(
+                  getConvertedCurrency(exfactoryListPrice, conversionFactor)
+                ) *
+                  quantity;
+            }
           }
 
           samplePrice = parseFloat(

@@ -192,8 +192,14 @@ const ShippingDetails = (props) => {
                 quantity = 0,
                 exfactoryListPrice = 0,
                 productType = "",
+                priceApplied = 0,
               } = items;
-              basePrice = basePrice + exfactoryListPrice * quantity;
+              if (priceApplied && priceApplied !== null) {
+                basePrice = basePrice + priceApplied * quantity;
+              } else {
+                basePrice = basePrice + exfactoryListPrice * quantity;
+              }
+
               if (productType === "ERTM") {
                 setMov(true);
               }

@@ -156,12 +156,19 @@ const PaymentDetails = (props) => {
           sampleCost = 0,
           quantity = 0,
           exfactoryListPrice = 0,
+          priceApplied = 0,
         } = items;
         samplePrice = samplePrice + sampleCost;
         testingPrice = testingPrice + qualityTestingCharge;
-        basePrice =
-          basePrice +
-          parseFloat(getConvertedCurrency(exfactoryListPrice)) * quantity;
+        if (priceApplied && priceApplied !== null) {
+          basePrice =
+            basePrice +
+            parseFloat(getConvertedCurrency(priceApplied)) * quantity;
+        } else {
+          basePrice =
+            basePrice +
+            parseFloat(getConvertedCurrency(exfactoryListPrice)) * quantity;
+        }
       }
 
       sellerTotal = basePrice + samplePrice + testingPrice;

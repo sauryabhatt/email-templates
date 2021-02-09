@@ -142,6 +142,7 @@ const PaymentFailure = (props) => {
           sampleCost = 0,
           quantity = 0,
           exfactoryListPrice = 0,
+          priceApplied = 0,
         } = items;
         samplePrice =
           samplePrice +
@@ -151,12 +152,19 @@ const PaymentFailure = (props) => {
           parseFloat(
             parseFloat(qualityTestingCharge * conversionFactor).toFixed(2)
           );
-        basePrice =
-          basePrice +
-          parseFloat(
-            parseFloat(exfactoryListPrice * conversionFactor).toFixed(2)
-          ) *
-            quantity;
+        if (priceApplied && priceApplied !== null) {
+          basePrice =
+            basePrice +
+            parseFloat(parseFloat(priceApplied * conversionFactor).toFixed(2)) *
+              quantity;
+        } else {
+          basePrice =
+            basePrice +
+            parseFloat(
+              parseFloat(exfactoryListPrice * conversionFactor).toFixed(2)
+            ) *
+              quantity;
+        }
       }
       qalaraSellerMargin = parseFloat(
         parseFloat(qalaraSellerMargin * conversionFactor).toFixed(2)
@@ -273,6 +281,7 @@ const PaymentFailure = (props) => {
           sampleCost = 0,
           quantity = 0,
           exfactoryListPrice = 0,
+          priceApplied = 0,
         } = items;
         samplePrice =
           samplePrice +
@@ -282,12 +291,19 @@ const PaymentFailure = (props) => {
           parseFloat(
             parseFloat(qualityTestingCharge * conversionFactor).toFixed(2)
           );
-        basePrice =
-          basePrice +
-          parseFloat(
-            parseFloat(exfactoryListPrice * conversionFactor).toFixed(2)
-          ) *
-            quantity;
+        if (priceApplied && priceApplied !== null) {
+          basePrice =
+            basePrice +
+            parseFloat(parseFloat(priceApplied * conversionFactor).toFixed(2)) *
+              quantity;
+        } else {
+          basePrice =
+            basePrice +
+            parseFloat(
+              parseFloat(exfactoryListPrice * conversionFactor).toFixed(2)
+            ) *
+              quantity;
+        }
       }
 
       sellerTotal = basePrice + samplePrice + testingPrice;
