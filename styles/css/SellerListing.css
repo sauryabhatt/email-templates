@@ -325,6 +325,7 @@
     color: #d9bb7f;
     float: right;
     font-family: senregular;
+    cursor: pointer;
   }
   .mobile-slider-filter .seller-sort-list .ant-select-selector {
     height: 45px;
@@ -432,6 +433,17 @@
   color: #191919;
   /* padding-left: 24px; */
   margin-top: 30px;
+}
+.seller-listing-container .clear-filter {
+  font-size: 14px;
+  line-height: 110%;
+  letter-spacing: 0.01em;
+  text-transform: capitalize;
+  color: #d9bb7f;
+  float: right;
+  font-family: senregular;
+  cursor: pointer;
+  padding-top: 5px;
 }
 .seller-listing-container .ant-menu.ant-menu-sub.ant-menu-inline {
   margin-bottom: 15px;

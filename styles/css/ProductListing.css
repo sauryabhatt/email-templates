@@ -249,7 +249,7 @@
   #seller-product-listing-page
     .qa-navigation-tab
     .ant-menu-item.ant-menu-item-only-child {
-    margin: 0px 20px;
+    margin: 0px auto;
   }
   #seller-product-listing-page.seller-listing-container
     button.ant-btn.qa-button.slp-filters {
@@ -294,4 +294,24 @@
 }
 .listing-sidebar .ant-menu-inline .ant-menu-submenu-title {
   margin-bottom: 10px;
+}
+.filter-search-box input.ant-input {
+  background-color: transparent;
+}
+.filter-search-box
+  .ant-input-search
+  > .ant-input-group
+  > .ant-input-group-addon:last-child
+  .ant-input-search-button:not(.ant-btn-primary) {
+  color: rgba(0, 0, 0, 0.45);
+  background: #f9f7f2;
+  border-left: none;
+}
+.filter-search-box .ant-input:hover,
+.filter-search-box .ant-input:focus,
+.filter-search-box .ant-input:active {
+  border: 1px solid #d9d9d9;
+  outline: none !important;
+  box-shadow: none !important;
+  border-right: none !important;
 }

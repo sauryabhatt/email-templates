@@ -61,10 +61,29 @@ const SellerProductListing = (props) => {
     }
     const {
       f_categories,
-      sellerId: sellerIdKey,
       f_key_methods,
       f_values,
       f_product_types,
+      f_color,
+      f_l2_names,
+      f_l3_names,
+      f_country,
+      f_style_type,
+      f_material,
+      startPrice,
+      endPrice,
+      cameo,
+      f_themes,
+      f_seller_code,
+      f_moqBucket,
+      f_isfreeshipping,
+      exfactoryListPrice,
+      f_categorieslist,
+      f_l1names,
+      f_seller_names,
+      f_l2name,
+      f_l3name,
+      sellerId: sellerIdKey,
       ...rest
     } = queryParams;
     let defaultQuery = querystring.stringify(rest);

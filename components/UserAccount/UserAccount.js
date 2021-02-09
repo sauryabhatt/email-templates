@@ -1920,21 +1920,25 @@ const UserAccount = (props) => {
                       : dealsInOrderTypes}
                   </Select>
                 </Form.Item>
-                <p className="label-paragraph">
-                  {profileType === "BUYER"
-                    ? "Categories Interested in"
-                    : "Categories you deal in"}
-                </p>
-                <Form.Item
-                  name="inCategories"
-                  rules={[{ required: true, message: "Field is required." }]}
-                >
-                  <Select mode="multiple" disabled={edit}>
+                {form.getFieldValue("inCategories") && (
+                  <p className="label-paragraph">
                     {profileType === "BUYER"
-                      ? interestsInCategories
-                      : dealsInCategories}
-                  </Select>
-                </Form.Item>
+                      ? "Categories Interested in"
+                      : "Categories you deal in"}
+                  </p>
+                )}
+                {form.getFieldValue("inCategories") && (
+                  <Form.Item
+                    name="inCategories"
+                    rules={[{ required: true, message: "Field is required." }]}
+                  >
+                    <Select mode="multiple" disabled={edit}>
+                      {profileType === "BUYER"
+                        ? interestsInCategories
+                        : dealsInCategories}
+                    </Select>
+                  </Form.Item>
+                )}
                 <Button
                   type="primary"
                   loading={loading}

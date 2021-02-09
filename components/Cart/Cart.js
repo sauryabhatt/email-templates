@@ -58,9 +58,10 @@ const Cart = (props) => {
       let { profileType = "" } = user || {};
       if (profileType === "BUYER") {
         getCartDetails();
+      } else {
+        setLoading(false);
       }
     } else {
-      console.log(props.isLoading)
       setLoading(false);
     }
   }, [props.user]);

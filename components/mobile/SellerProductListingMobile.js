@@ -350,7 +350,7 @@ function SellerProductListingMobile(props) {
                 onClick={handleClick}
                 mode="horizontal"
                 selectedKeys={[selectedKey]}
-                className="qa-navigation-tab"
+                className="qa-navigation-tab qa-vertical-center"
               >
                 <Menu.Item key="seller-home">
                   <div className="qa-txt-alg-cnt">

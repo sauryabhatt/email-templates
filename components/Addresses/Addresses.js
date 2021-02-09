@@ -126,15 +126,16 @@ const Addresses = (props) => {
     setDeleteSuccess(false);
   };
 
-  const handlePhoneNumber = (value, country, event, formattedValue) => {
-    let dialCode = "+" + country.dialCode;
-    setSelCountryCode(country.countryCode);
+  const handlePhoneNumber = (e, country, event, formattedValue) => {
+    // let dialCode = "+" + country.dialCode;
+    // setSelCountryCode(country.countryCode);
+    let { value = "" } = e.target;
     setState((prevState) => ({
       ...prevState,
-      phone: formattedValue,
+      phone: value,
     }));
-    setDialCode(dialCode);
-    setSelCountryExpectedLength(country.format.length);
+    // setDialCode(dialCode);
+    // setSelCountryExpectedLength(country.format.length);
     // setPhone(formattedValue);
   };
 
@@ -591,12 +592,12 @@ const Addresses = (props) => {
 
   const assignText = (value, inputVal) => {
     let divName = value + "-error-block";
-    if (selCountryExpectedLength !== inputVal) {
-      document.getElementsByClassName(divName)[0].innerHTML =
-        "Enter valid phone number";
-    } else {
+    if (!inputVal) {
       document.getElementsByClassName(divName)[0].innerHTML =
         "Field is required";
+    } else {
+      document.getElementsByClassName(divName)[0].innerHTML =
+        "Enter valid phone number";
     }
   };
 
@@ -612,11 +613,7 @@ const Addresses = (props) => {
 
   const checkPhone = (value, inputVal) => {
     let divName = value + "-error-block";
-    if (
-      inputVal == "" ||
-      inputVal == dialCode ||
-      selCountryExpectedLength !== inputVal.length
-    ) {
+    if (inputVal == "" || inputVal.length < 10) {
       assignText(value, inputVal);
       document.getElementsByClassName("form-control")[0].style.border =
         "1px solid #ff4d4f";
@@ -645,7 +642,7 @@ const Addresses = (props) => {
         );
         node[node.length - 1].style.border = "1px solid #ff4d4f";
       } else if (value == "phone") {
-        checkPhone(value, inputVal);
+        document.getElementById(value).style.border = "1px solid #ff4d4f";
       } else if (value == "state" && state.isStatesDropdown) {
         document.querySelectorAll(
           "#add-new-address-form .ant-select-selector"
@@ -657,7 +654,8 @@ const Addresses = (props) => {
       if (message)
         document.getElementsByClassName(divName)[0].innerText = message;
     } else if (value == "phone") {
-      checkPhone(value, inputVal);
+      document.getElementById(value).style.border = "1px solid #d9d9d9";
+      document.getElementsByClassName(divName)[0].style.display = "none";
     } else if (value == "zipCode" && deliver) {
       let node = document.querySelectorAll(
         "#add-new-address-form .ant-select-selector"
@@ -720,11 +718,7 @@ const Addresses = (props) => {
       handleError("zipCode");
       isValid = false;
     }
-    if (
-      state.phone.trim() === "" ||
-      dialCode == state.phone ||
-      selCountryExpectedLength !== state.phone.length
-    ) {
+    if ((state.phone == null) | (state.phone.trim() === "")) {
       handleError("phone", state.phone);
       isValid = false;
     }
@@ -1153,7 +1147,7 @@ const Addresses = (props) => {
               <Row>
                 <Col xs={24} sm={24} md={24} lg={24}>
                   <Row>
-                    <Col xs={24} sm={24} md={11} lg={11}>
+                    {/* <Col xs={24} sm={24} md={11} lg={11}>
                       <span className="qa-font-san qa-fs-14 qa-tc-white">
                         Phone number
                       </span>
@@ -1171,34 +1165,13 @@ const Addresses = (props) => {
                           country={selCountryCode}
                           value={state.phone}
                           onChange={handlePhoneNumber}
+                          disableDropdown={true}
                           // disableCountryCode={true}
                           enableSearch={true}
                           countryCodeEditable={false}
                           // prefix={'+'}
                           id="phone"
                           onBlur={(e) => handleError("phone", state.phone)}
-                          // onChange={(inputPhone, countryData) => {
-                          //     console.log(countryData);
-                          //     if(countryData.countryCode !== selCountryCode) {
-                          //       setPhone('')
-                          //       setIsValid(true)
-                          //     }
-                          //     else{
-                          //         let text = '+' + inputPhone;
-                          //       setPhone(text);
-                          //     }
-                          //     setSelCountryCode(countryData.countryCode)
-                          //     setSelCountryExpectedLength(countryData.format.length)
-                          //   }}
-                          //   onBlur={()=>{
-                          //     console.log(phone);
-                          //     console.log(phone.length);
-                          //     console.log(selCountryExpectedLength);
-                          //     phone.length != selCountryExpectedLength ? setIsValid(false) : setIsValid(true)
-                          //   }}
-                          //   isValid={() => !isValid ? phone.length == selCountryExpectedLength : isValid}
-                          // value={this.state.phone}
-                          // onChange={phone => this.setState({ phone })}
                         />
                         <span
                           className="qa-font-san qa-fs-12 qa-error phone-error-block qa-mar-top-05"
@@ -1208,6 +1181,36 @@ const Addresses = (props) => {
                         </span>
                       </Form.Item>
                     </Col>
+                    */}
+                    <Col xs={24} sm={24} md={11} lg={11}>
+                      <span className="qa-font-san qa-fs-14 qa-tc-white">
+                        Phone number
+                      </span>
+                      <Form.Item
+                        name="phone"
+                        // rules={[
+                        //   {
+                        //     required: true,
+                        //     message: "Field is required.",
+                        //     whitespace: true,
+                        //   },
+                        // ]}
+                      >
+                        <Input
+                          value={state.phone}
+                          onChange={handlePhoneNumber}
+                          id="phone"
+                          onBlur={(e) => handleError("phone", state.phone)}
+                        />
+                        <span
+                          className="qa-font-san qa-fs-12 qa-error phone-error-block qa-mar-top-05"
+                          style={{ display: "none" }}
+                        >
+                          Field is required
+                        </span>
+                      </Form.Item>
+                    </Col>
+
                     <Col xs={0} sm={0} md={2} lg={2}></Col>
                     <Col xs={24} sm={24} md={11} lg={11}>
                       <span className="qa-font-san qa-fs-14 qa-tc-white">
