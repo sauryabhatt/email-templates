@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Checkbox from "./Checkbox";
 import { Input } from "antd";
 
@@ -8,8 +8,12 @@ export default ({ options, ...props }) => {
   let { filterType } = props;
   const [itemsToShow, setItemsToShow] = useState(10);
   const [showMore, setMore] = useState(false);
-  const [filteredList, setFilteredList] = useState(options);
+  const [filteredList, setFilteredList] = useState([]);
   const [searchVal, setSearchVal] = useState("");
+
+  useEffect(() => {
+    setFilteredList(options);
+  }, [options]);
 
   const search = (value) => {
     let filterTable = options.filter((o) =>
