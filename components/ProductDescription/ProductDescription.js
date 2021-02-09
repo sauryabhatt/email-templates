@@ -6,6 +6,7 @@ import ProductDetails from "./ProductDetails";
 import {
   getProductDetails,
   getSPLPDetails,
+  getCollections,
   checkCart,
 } from "../../store/actions";
 import { useKeycloak } from "@react-keycloak/ssr";
@@ -24,6 +25,8 @@ const ProductDescription = (props) => {
   let authenticated = keycloak.authenticated;
 
   const [count, setCount] = useState(0);
+  const [cartCount, setCartCount] = useState(0);
+  const [collections, setCollections] = useState([]);
 
   let app_token = process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN;
   if (authenticated) {
@@ -34,6 +37,7 @@ const ProductDescription = (props) => {
     let { articleId } = router.query;
     props.getProductDetails(app_token, articleId);
     setCount(1);
+    setCartCount(1);
   }, [router.query]);
 
   useEffect(() => {
@@ -57,13 +61,21 @@ const ProductDescription = (props) => {
 
   useEffect(() => {
     let { userProfile = "" } = props;
-    let { profileType = "", verificationStatus = "" } = userProfile || {};
+    let { profileType = "", verificationStatus = "", profileId = "" } =
+      userProfile || {};
     if (
       profileType === "BUYER" &&
       (verificationStatus === "VERIFIED" ||
         verificationStatus === "IN_PROGRESS")
     ) {
-      props.checkCart(keycloak.token);
+      if (cartCount === 1) {
+        props.checkCart(keycloak.token);
+        profileId = profileId.replace("BUYER::", "");
+        props.getCollections(app_token, profileId, (result) => {
+          setCollections(result);
+        });
+        setCartCount(2);
+      }
     }
   }, [props.userProfile]);
 
@@ -76,6 +88,7 @@ const ProductDescription = (props) => {
         sellerDetails={sellerDetails}
         token={app_token}
         listingPage={listingPage}
+        collections={collections}
         isLoading={!isServer() ? isLoading : false}
       />
     </div>
@@ -93,6 +106,7 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   getProductDetails,
+  getCollections,
   getSPLPDetails,
   checkCart,
 })(ProductDescription);

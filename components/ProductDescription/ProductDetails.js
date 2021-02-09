@@ -52,7 +52,7 @@ import Sea from "../../public/filestore/sea";
 import alertIcon from "../../public/filestore/alertIcon";
 import { useRouter } from "next/router";
 import { useKeycloak } from "@react-keycloak/ssr";
-import { checkInventory, getCollections } from "../../store/actions";
+import { checkInventory } from "../../store/actions";
 import playButton from "./../../public/filestore/playButton";
 import AddToCollection from "../common/AddToCollection";
 import sellerList from "../../public/filestore/freeShippingSellers.json";
@@ -344,21 +344,6 @@ const ProductDetails = (props) => {
       setQtyError("To place an order, please signup as a buyer");
     }
 
-    if (profileType === "BUYER") {
-      profileId = profileId.replace("BUYER::", "");
-      props.getCollections(token, profileId, (result) => {
-        setCollections(result);
-        for (let list of result) {
-          let { products = [], name = "" } = list;
-          for (let product of products) {
-            let { articleId: pArticleId = "" } = product;
-            if (pArticleId === articleId) {
-              setSelectedCollection(name);
-            }
-          }
-        }
-      });
-    }
     if (skus.length > 0) {
       let skuId = skus[0]["id"];
 
@@ -410,6 +395,23 @@ const ProductDetails = (props) => {
     setVariantId(variantId);
     setMoqList(productMOQPriceDetail);
   }, [props.data]);
+
+  useEffect(() => {
+    let { collections = [] } = props || {};
+    let { articleId = "" } = router.query;
+    if (collections && collections.length) {
+      setCollections(collections);
+      for (let list of collections) {
+        let { products = [], name = "" } = list;
+        for (let product of products) {
+          let { articleId: pArticleId = "" } = product;
+          if (pArticleId === articleId) {
+            setSelectedCollection(name);
+          }
+        }
+      }
+    }
+  }, [props.collections]);
 
   let {
     articleId = "",
@@ -4307,6 +4309,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { checkInventory, getCollections })(
-  ProductDetails
-);
+export default connect(mapStateToProps, { checkInventory })(ProductDetails);

@@ -6,23 +6,15 @@ import { Input } from "antd";
 
 export default ({ options, ...props }) => {
   let { filterType } = props;
-  const [itemsToShow, setItemsToShow] = useState(10);
+  const [itemsToShow, setItemsToShow] = useState(5);
   const [showMore, setMore] = useState(false);
   const [filteredList, setFilteredList] = useState([]);
   const [searchVal, setSearchVal] = useState("");
+  const [viewAll, setViewAll] = useState(false);
 
   useEffect(() => {
     setFilteredList(options);
   }, [options]);
-
-  const search = (value) => {
-    let filterTable = options.filter((o) =>
-      Object.keys(o).some((k) =>
-        String(o[k]).toLowerCase().includes(value.toLowerCase())
-      )
-    );
-    setFilteredList(filterTable);
-  };
 
   const onSearchText = (e) => {
     setSearchVal(e.target.value);
@@ -32,6 +24,12 @@ export default ({ options, ...props }) => {
         String(o[k]).toLowerCase().includes(value.toLowerCase())
       )
     );
+    if (filterTable.length === 0) {
+      setViewAll(true);
+    } else {
+      setViewAll(false);
+      setItemsToShow(5);
+    }
     setFilteredList(filterTable);
   };
 
@@ -41,7 +39,6 @@ export default ({ options, ...props }) => {
         <div className="qa-mar-btm-1 filter-search-box">
           <Input.Search
             placeholder="Search"
-            // onSearch={search}
             onChange={onSearchText}
             value={searchVal}
           />
@@ -82,7 +79,7 @@ export default ({ options, ...props }) => {
           );
         })}
       </div>
-      {options.length > itemsToShow && !showMore && (
+      {filteredList.length > itemsToShow && !showMore && !viewAll && (
         <div
           className="qa-sm-color qa-underline qa-cursor qa-mar-btm-1"
           onClick={() => {
@@ -94,15 +91,28 @@ export default ({ options, ...props }) => {
         </div>
       )}
 
-      {showMore && (
+      {showMore && !viewAll && (
         <div
           className="qa-sm-color qa-underline qa-cursor qa-mar-btm-1"
           onClick={() => {
             setMore(false);
-            setItemsToShow(10);
+            setItemsToShow(5);
           }}
         >
           View less
+        </div>
+      )}
+
+      {viewAll && (
+        <div
+          className="qa-sm-color qa-underline qa-cursor qa-mar-btm-1"
+          onClick={() => {
+            setFilteredList(options);
+            setItemsToShow(options.length);
+            setViewAll(false);
+          }}
+        >
+          View all
         </div>
       )}
     </div>
