@@ -15,6 +15,7 @@ function AddToCollection(props) {
     articleId = "",
     sellerCode = "",
     savedProductToCollection = "",
+    refreshCollection = "",
   } = props;
 
   const [value, setValue] = useState(props.selectedCollection);
@@ -118,6 +119,7 @@ function AddToCollection(props) {
       })
       .then((res) => {
         setCollections(res);
+        refreshCollection(res);
         onClose();
         savedProductToCollection(value);
       })

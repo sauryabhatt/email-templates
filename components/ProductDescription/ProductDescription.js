@@ -26,7 +26,6 @@ const ProductDescription = (props) => {
 
   const [count, setCount] = useState(0);
   const [cartCount, setCartCount] = useState(0);
-  const [collections, setCollections] = useState([]);
 
   let app_token = process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN;
   if (authenticated) {
@@ -71,9 +70,7 @@ const ProductDescription = (props) => {
       if (cartCount === 1) {
         props.checkCart(keycloak.token);
         profileId = profileId.replace("BUYER::", "");
-        props.getCollections(app_token, profileId, (result) => {
-          setCollections(result);
-        });
+        props.getCollections(app_token, profileId);
         setCartCount(2);
       }
     }
@@ -88,7 +85,6 @@ const ProductDescription = (props) => {
         sellerDetails={sellerDetails}
         token={app_token}
         listingPage={listingPage}
-        collections={collections}
         isLoading={!isServer() ? isLoading : false}
       />
     </div>
