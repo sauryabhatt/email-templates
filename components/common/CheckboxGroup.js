@@ -2,16 +2,49 @@
 
 import React, { useState } from "react";
 import Checkbox from "./Checkbox";
+import { Input } from "antd";
 
 export default ({ options, ...props }) => {
   let { filterType } = props;
   const [itemsToShow, setItemsToShow] = useState(10);
   const [showMore, setMore] = useState(false);
+  const [filteredList, setFilteredList] = useState(options);
+  const [searchVal, setSearchVal] = useState("");
+
+  const search = (value) => {
+    let filterTable = options.filter((o) =>
+      Object.keys(o).some((k) =>
+        String(o[k]).toLowerCase().includes(value.toLowerCase())
+      )
+    );
+    setFilteredList(filterTable);
+  };
+
+  const onSearchText = (e) => {
+    setSearchVal(e.target.value);
+    let { value = "" } = e.target;
+    let filterTable = options.filter((o) =>
+      Object.keys(o).some((k) =>
+        String(o[k]).toLowerCase().includes(value.toLowerCase())
+      )
+    );
+    setFilteredList(filterTable);
+  };
 
   return (
     <div className="ant-checkbox-group" style={{ display: "block" }}>
+      {options.length > 5 && (
+        <div className="qa-mar-btm-1 filter-search-box">
+          <Input.Search
+            placeholder="Search"
+            // onSearch={search}
+            onChange={onSearchText}
+            value={searchVal}
+          />
+        </div>
+      )}
       <div>
-        {options.slice(0, itemsToShow).map((label, i) => {
+        {filteredList.slice(0, itemsToShow).map((label, i) => {
           let checked = false;
           if (
             props[filterType] &&

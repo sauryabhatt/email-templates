@@ -115,9 +115,14 @@ const ProductListing = (props) => {
 
     if (gb) {
       if (instanceType === "clear") {
+        let tempObj = {};
+        if (queryParams && queryParams["cameo"]) {
+          tempObj["cameo"] = queryParams["cameo"];
+        }
         router.push(
           {
             pathname: window.location.pathname,
+            query: tempObj,
           },
           undefined,
           { shallow: true }
