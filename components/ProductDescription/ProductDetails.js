@@ -1389,12 +1389,70 @@ const ProductDetails = (props) => {
                           </div>
                         )}
                       {!sellerList.includes(sellerCode) &&
-                        !freeShippingEligible && (
-                          <div className="qa-font-san qa-fs-12 qa-lh">
-                            Base price per unit excl. margin, freight and other
-                            charges
-                          </div>
-                        )}
+                      !freeShippingEligible &&
+                      moqList.length === 0 &&
+                      !smallBatchesAvailable ? (
+                        <div className="qa-font-san qa-fs-12 qa-lh">
+                          Base price per unit excl. freight and other charges
+                        </div>
+                      ) : (
+                        <div>
+                          {!freeShippingEligible &&
+                          moqList.length > 0 &&
+                          smallBatchesAvailable &&
+                          (productType !== "RTS" ||
+                            (productType === "RTS" && inStock === 0)) ? (
+                            <div className="qa-font-san qa-fs-12 qa-lh">
+                              Price excl. shipping, taxes & duties, if
+                              applicable
+                              <Tooltip
+                                overlayClassName="qa-tooltip"
+                                placement="top"
+                                trigger="hover"
+                                title="Price varies based on the quantity ordered and may exclude certain remote regions. For large quantities or special requirements, please send us a Get quote request."
+                              >
+                                <span
+                                  style={{
+                                    cursor: "pointer",
+                                    verticalAlign: "middle",
+                                    marginLeft: "5px",
+                                  }}
+                                >
+                                  <Icon
+                                    component={infoIcon}
+                                    className="info-icon"
+                                    style={{ width: "18px" }}
+                                  />
+                                </span>
+                              </Tooltip>
+                            </div>
+                          ) : (
+                            <div className="qa-font-san qa-fs-12 qa-lh">
+                              Price excl. taxes & duties, if applicable
+                              <Tooltip
+                                overlayClassName="qa-tooltip"
+                                placement="top"
+                                trigger="hover"
+                                title="Price is inclusive of shipping for small quantities and may exclude certain remote regions. For large quantities, please send us a Get quote request."
+                              >
+                                <span
+                                  style={{
+                                    cursor: "pointer",
+                                    verticalAlign: "middle",
+                                    marginLeft: "5px",
+                                  }}
+                                >
+                                  <Icon
+                                    component={infoIcon}
+                                    className="info-icon"
+                                    style={{ width: "18px" }}
+                                  />
+                                </span>
+                              </Tooltip>
+                            </div>
+                          )}
+                        </div>
+                      )}
                       {/* <div className="qa-tc-white qa-font-san qa-fs-12">
                         Suggested retail price:{" "}
                         <b>
@@ -2457,12 +2515,70 @@ const ProductDetails = (props) => {
                           </div>
                         )}
                       {!sellerList.includes(sellerCode) &&
-                        !freeShippingEligible && (
-                          <div className="qa-font-san qa-fs-12 qa-lh">
-                            Base price per unit excl. margin, freight and other
-                            charges
-                          </div>
-                        )}
+                      !freeShippingEligible &&
+                      moqList.length === 0 &&
+                      !smallBatchesAvailable ? (
+                        <div className="qa-font-san qa-fs-12 qa-lh">
+                          Base price per unit excl. freight and other charges
+                        </div>
+                      ) : (
+                        <div>
+                          {!freeShippingEligible &&
+                          moqList.length > 0 &&
+                          smallBatchesAvailable &&
+                          (productType !== "RTS" ||
+                            (productType === "RTS" && inStock === 0)) ? (
+                            <div className="qa-font-san qa-fs-12 qa-lh">
+                              Price excl. shipping, taxes & duties, if
+                              applicable
+                              <Tooltip
+                                overlayClassName="qa-tooltip"
+                                placement="top"
+                                trigger="hover"
+                                title="Price varies based on the quantity ordered and may exclude certain remote regions. For large quantities or special requirements, please send us a Get quote request."
+                              >
+                                <span
+                                  style={{
+                                    cursor: "pointer",
+                                    verticalAlign: "middle",
+                                    marginLeft: "5px",
+                                  }}
+                                >
+                                  <Icon
+                                    component={infoIcon}
+                                    className="info-icon"
+                                    style={{ width: "18px" }}
+                                  />
+                                </span>
+                              </Tooltip>
+                            </div>
+                          ) : (
+                            <div className="qa-font-san qa-fs-12 qa-lh">
+                              Price excl. taxes & duties, if applicable
+                              <Tooltip
+                                overlayClassName="qa-tooltip"
+                                placement="top"
+                                trigger="hover"
+                                title="Price is inclusive of shipping for small quantities and may exclude certain remote regions. For large quantities, please send us a Get quote request."
+                              >
+                                <span
+                                  style={{
+                                    cursor: "pointer",
+                                    verticalAlign: "middle",
+                                    marginLeft: "5px",
+                                  }}
+                                >
+                                  <Icon
+                                    component={infoIcon}
+                                    className="info-icon"
+                                    style={{ width: "18px" }}
+                                  />
+                                </span>
+                              </Tooltip>
+                            </div>
+                          )}
+                        </div>
+                      )}
                       {/* <div className="qa-tc-white qa-font-san qa-fs-12">
                         Suggested retail price:{" "}
                         <b>
@@ -2882,7 +2998,7 @@ const ProductDetails = (props) => {
                 )}
                 <div className="p-custom">
                   <span
-                    onClick={() => {
+                    onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
                       setAccordion("custom");

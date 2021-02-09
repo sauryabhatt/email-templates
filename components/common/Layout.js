@@ -36,11 +36,12 @@ export const Layout = ({ children, meta = {} }) => {
       : false;
 
   useEffect(() => {
-    if (!getCookie("appToken")) {
-      if (keycloak?.authenticated) {
-        keycloak
-          .loadUserProfile()
-          .then((profile) => {
+    if (keycloak?.token) {
+      keycloak
+        .loadUserProfile()
+        .then((profile) => {
+          if (!getCookie("appToken")) {
+            document.cookie = `appToken=${keycloak.token}; path=/;`;
             const { attributes: { parentProfileId = [] } = {} } = profile;
             let profileId = parentProfileId[0] || "";
             profileId = profileId.replace("BUYER::", "");
@@ -71,21 +72,7 @@ export const Layout = ({ children, meta = {} }) => {
               .catch((err) => {
                 console.log(err);
               });
-          })
-          .catch((error) => {
-            console.log("error ", error);
-          });
-      }
-    }
-
-    if (keycloak?.token) {
-      if (!getCookie("appToken")) {
-        document.cookie = `appToken=${keycloak.token}; path=/;`;
-      }
-
-      keycloak
-        .loadUserProfile()
-        .then((profile) => {
+          }
           store.dispatch(setAuth(keycloak.authenticated, profile));
         })
         .catch((error) => {

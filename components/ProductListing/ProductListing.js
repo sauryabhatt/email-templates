@@ -66,6 +66,16 @@ const ProductListing = (props) => {
       startPrice,
       endPrice,
       cameo,
+      f_themes,
+      f_seller_code,
+      f_moqBucket,
+      f_isfreeshipping,
+      exfactoryListPrice,
+      f_categorieslist,
+      f_l1names,
+      f_seller_names,
+      f_l2name,
+      f_l3name,
       ...rest
     } = queryParams;
     let defaultQuery = querystring.stringify(rest);
@@ -105,9 +115,14 @@ const ProductListing = (props) => {
 
     if (gb) {
       if (instanceType === "clear") {
+        let tempObj = {};
+        if (queryParams && queryParams["cameo"]) {
+          tempObj["cameo"] = queryParams["cameo"];
+        }
         router.push(
           {
             pathname: window.location.pathname,
+            query: tempObj,
           },
           undefined,
           { shallow: true }

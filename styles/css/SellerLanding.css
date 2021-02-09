@@ -15,8 +15,8 @@
   max-height: 24vh;
 }
 
-.seller-landing-container .banner::after{
-  content: '';
+.seller-landing-container .banner::after {
+  content: "";
   position: absolute;
   top: 0;
   bottom: 0;
@@ -222,8 +222,8 @@
   .seller-landing-container {
     margin-bottom: -10px;
   }
-  .qa-button.book-video-btn{
-    font-size:12px !important;
+  .qa-button.book-video-btn {
+    font-size: 12px !important;
   }
 }
 @media only screen and (max-width: 768px) {
@@ -270,9 +270,6 @@
   }
   .seller-org-section .qa-button {
     background-color: #f9f7f2;
-  }
-  .seller-landing-container .seller-landing-banner .qa-scp-logo {
-    /* width: 16%; */
   }
   .seller-landing-container .seller-landing-banner .qa-scp-text {
     line-height: 110%;
@@ -791,6 +788,7 @@
   padding: 5px 0px;
   margin-right: 50px;
   border-bottom: none;
+  margin-left: 0px;
 }
 #seller-landing-desktop
   .qa-navigation-tab
@@ -830,7 +828,7 @@
   #seller-landing-desktop
     .qa-navigation-tab
     .ant-menu-item.ant-menu-item-only-child {
-    margin: 0px 20px;
+    margin: 0px auto;
   }
 }
 .ant-collapse > .ant-collapse-item > .ant-collapse-header {
