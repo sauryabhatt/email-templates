@@ -63,17 +63,21 @@
 }
 
 @media only screen and (max-width: 767px) {
+  #aboutus-banner {
+    height: 30vh;
+    max-height: 30vh;
+  }
   #aboutus-banner .banner-text {
     position: absolute;
-    left: 10%;
-    /* right: 39.44%; */
-    top: 25.93vh;
+    left: 50%;
+    top: 22vh;
     font-family: Butler;
-    /* font-style: normal; */
     font-weight: 300;
     font-size: 36px;
-    /* letter-spacing: 0.01em; */
     color: #ffffff;
+    transform: translate(-50%);
+    width: 100%;
+    text-align: center;
   }
 
   #aboutus-banner .banner-text-small {
@@ -242,7 +246,6 @@
   letter-spacing: 0.25px;
   text-decoration: underline;
   color: #d9bb7f;
-  padding-top: 10px;
   cursor: pointer;
 }
 #aboutus-body-parent .press-blk {
@@ -276,6 +279,8 @@
 #aboutus-body-parent .highlight-text.qa-fs-36 {
   font-size: 36px;
   line-height: 43px;
+  text-align: center;
+  margin-top: 70px;
 }
 #aboutus-body-parent .aboutus-step {
   font-family: Butler;
@@ -293,12 +298,13 @@
   line-height: 17px;
   text-align: center;
   color: #f9f7f2;
-  padding: 16px 20px;
+  padding: 16px;
   border: 1px solid #f9f7f2;
   box-sizing: border-box;
   border-radius: 45px;
-  width: 70%;
+  width: 80%;
   margin: 0 auto;
+  margin-top: 60px;
 }
 #aboutus-body-parent .aboutus-step-num {
   font-family: Butler;
@@ -376,7 +382,6 @@
     content: "";
     border-top: 2px solid #f9f7f2;
     width: 100px;
-    margin-left: 20px;
     vertical-align: middle;
     margin-bottom: 20px;
   }
@@ -389,11 +394,71 @@
   }
   #aboutus-body-parent .aboutus-pl-1 {
     padding-left: 5px;
-    padding-bottom: 5px;
+    padding-bottom: 10px;
   }
   #aboutus-body-parent .fortune-head {
     font-size: 20px;
     line-height: 24px;
     text-align: center;
+    padding: 0px 30px;
   }
+  #aboutus-body-parent .about-status {
+    font-size: 20px;
+    line-height: 24px;
+  }
+  #aboutus-body-parent .qa-flex-row div {
+    text-align: left;
+  }
+  #aboutus-body-parent .news-article {
+    margin-bottom: 20px;
+  }
+  #aboutus-body-parent .about-whyus {
+    margin-top: 0px;
+    font-size: 14px;
+  }
+  #aboutus-body-parent .highlight-text.qa-fs-36 {
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+    margin-top: 10px;
+  }
+  #aboutus-body-parent .aboutus-step.qa-fs-20 {
+    font-size: 17px;
+    text-align: center;
+  }
+  #aboutus-body-parent .aboutus-step.qa-fs-24 {
+    font-size: 20px;
+    text-align: center;
+  }
+  #aboutus-body-parent .aboutus-video {
+    width: 100%;
+    margin: 0 auto;
+  }
+}
+#aboutus-body-parent .section-content.mr-top-6 {
+  margin-top: 60px;
+}
+#aboutus-body-parent .aboutus-step.qa-fs-24 {
+  font-style: italic;
+  margin-top: 10px;
+}
+#aboutus-body-parent .qa-pad-rgt-2 {
+  padding-right: 25px;
+}
+#aboutus-body-parent .aboutus-full {
+  width: 100%;
+}
+#aboutus-body-parent .aboutus-pl-3 {
+  padding-left: 30px;
+}
+@media only screen and (min-width: 320px) and (max-width: 360px) {
+  #aboutus-body-parent .aboutus-step.qa-fs-24 {
+    font-size: 18px;
+  }
+}
+#aboutus-body-parent .aboutus-svg-bg {
+  background-image: url("../../public/filestore/bird-vector.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
 }

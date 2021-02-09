@@ -102,9 +102,9 @@ export const getStaticProps = async ({ params }) => {
   return {
     props: {
       data: {
-        sellerDetails: res.sellerDetails,
-        about: res.about,
-        category_product_range: res.category_product_range,
+        sellerDetails: res.sellerDetails || null,
+        about: res.about || null,
+        category_product_range: res.category_product_range || null,
         error: error,
         sellerId: sellerId,
       },

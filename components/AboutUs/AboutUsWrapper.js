@@ -322,7 +322,14 @@ function AboutUsWrapper() {
               className={isMobile ? "section-heading" : "section-heading after"}
             >
               Why the name "Qalara"{isMobile && <br></br>} (kuh-laa-raa)?
-              <span className="qa-cursor qa-mar-lft qa-va-m" onClick={toggle}>
+              <span
+                className={
+                  isMobile
+                    ? "qa-cursor qa-mar-lft qa-va-m"
+                    : "qa-cursor qa-mar-lft"
+                }
+                onClick={toggle}
+              >
                 <Icon
                   component={SoundIcon}
                   style={{
@@ -341,159 +348,309 @@ function AboutUsWrapper() {
             </p>
           </div>
 
-          <Row className="aboutus-container">
-            <Col xs={0} sm={0} md={1} lg={1} xl={1}></Col>
-            <Col xs={24} sm={24} md={11} lg={11} xl={11}>
-              <div>
-                {isMobile && <div className="line-divider"></div>}
-                <h2
-                  className={
-                    isMobile ? "section-heading" : "section-heading after"
-                  }
-                >
-                  Our team
-                </h2>
-                <Row className="">
-                  <Col
-                    xs={14}
-                    sm={14}
-                    md={14}
-                    lg={14}
-                    xl={14}
-                    className="aboutus-pr-1"
-                  >
-                    <img
-                      className="aboutus-full"
-                      src={process.env.NEXT_PUBLIC_URL + "/group photo.jpg"}
-                    ></img>
-                  </Col>
-                  <Col
-                    xs={10}
-                    sm={10}
-                    md={10}
-                    lg={10}
-                    xl={10}
-                    className="aboutus-pl-1"
-                  >
-                    <img
-                      className="aboutus-full"
-                      src={process.env.NEXT_PUBLIC_URL + "/aditi.jpg"}
-                    ></img>
-                  </Col>
-                </Row>
-                <Row className="">
-                  <Col
-                    xs={10}
-                    sm={10}
-                    md={8}
-                    lg={8}
-                    xl={8}
-                    className="aboutus-pr-1"
-                  >
-                    <img
-                      className="aboutus-full"
-                      src={process.env.NEXT_PUBLIC_URL + "/aditi.jpg"}
-                    ></img>
-                  </Col>
-                  <Col
-                    xs={14}
-                    sm={14}
-                    md={16}
-                    lg={16}
-                    xl={16}
-                    className="aboutus-pl-1"
-                  >
-                    <img
-                      className="aboutus-full"
-                      src={process.env.NEXT_PUBLIC_URL + "/group photo.jpg"}
-                    ></img>
-                  </Col>
-                </Row>
-              </div>
-            </Col>
-            <Col xs={24} sm={24} md={11} lg={11} xl={11}>
-              <div className="section-content">
-                <p>
-                  Qalara is founded by Aditi Pany, an MBA graduate from Stanford
-                  University, with close to a decade of experience in lifestyle
-                  retail across both brick and mortar and ecommerce. In her last
-                  stint, Aditi was the Chief Operating Officer of AJIO.com, a
-                  leading lifestyle ecommerce company in India. Previously,
-                  Aditi worked at Ashoka, a global non-profit that supports the
-                  world's largest network of social entrepreneurs with
-                  innovative ideas to change their community. Aditi has also
-                  been a Board Member of RLHL which manages companies like
-                  Hamleys in India.
-                </p>
-                <p>
-                  Qalara is led by a team of seasoned entrepreneurial,
-                  passionate leaders with strong track record and decades of
-                  experience in manufacturing, digital technology, fashion &
-                  lifestyle merchandising and retail, and supply chain, across
-                  geographies.
-                </p>
-                <p className="highlight-text">
-                  “Amet eu facilisi posuere ut at cras non ipsum proin nunc
-                  purus tellus ultricies velit”<br></br>-Aditi
-                </p>
-              </div>
-            </Col>
-            <Col xs={0} sm={0} md={1} lg={1} xl={1}></Col>
-          </Row>
+          {!isMobile && (
+            <Row className="aboutus-container">
+              <Col xs={0} sm={0} md={1} lg={1} xl={1}></Col>
+              <Col xs={24} sm={24} md={11} lg={11} xl={11}>
+                <div>
+                  <h2 className="section-heading before">Our team</h2>
+                  <Row>
+                    <Col
+                      xs={14}
+                      sm={14}
+                      md={14}
+                      lg={14}
+                      xl={14}
+                      className="aboutus-pr-1"
+                    >
+                      <img
+                        className="aboutus-full"
+                        src={process.env.NEXT_PUBLIC_URL + "/group photo.jpg"}
+                      ></img>
+                    </Col>
+                    <Col
+                      xs={10}
+                      sm={10}
+                      md={10}
+                      lg={10}
+                      xl={10}
+                      className="aboutus-pl-1"
+                    >
+                      <img
+                        className="aboutus-full"
+                        src={process.env.NEXT_PUBLIC_URL + "/aditi.jpg"}
+                      ></img>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col
+                      xs={10}
+                      sm={10}
+                      md={8}
+                      lg={8}
+                      xl={8}
+                      className="aboutus-pr-1"
+                    >
+                      <img
+                        className="aboutus-full"
+                        src={process.env.NEXT_PUBLIC_URL + "/aditi.jpg"}
+                      ></img>
+                    </Col>
+                    <Col
+                      xs={14}
+                      sm={14}
+                      md={16}
+                      lg={16}
+                      xl={16}
+                      className="aboutus-pl-1"
+                    >
+                      <img
+                        className="aboutus-full"
+                        src={process.env.NEXT_PUBLIC_URL + "/group photo.jpg"}
+                      ></img>
+                    </Col>
+                  </Row>
+                </div>
+              </Col>
+              <Col xs={24} sm={24} md={11} lg={11} xl={11}>
+                <div className="section-content mr-top-6 aboutus-pl-3">
+                  <p>
+                    Qalara is founded by Aditi Pany, an MBA graduate from
+                    Stanford University, with close to a decade of experience in
+                    lifestyle retail across both brick and mortar and ecommerce.
+                    In her last stint, Aditi was the Chief Operating Officer of
+                    AJIO.com, a leading lifestyle ecommerce company in India.
+                    Previously, Aditi worked at Ashoka, a global non-profit that
+                    supports the world's largest network of social entrepreneurs
+                    with innovative ideas to change their community. Aditi has
+                    also been a Board Member of RLHL which manages companies
+                    like Hamleys in India.
+                  </p>
+                  <p>
+                    Qalara is led by a team of seasoned entrepreneurial,
+                    passionate leaders with strong track record and decades of
+                    experience in manufacturing, digital technology, fashion &
+                    lifestyle merchandising and retail, and supply chain, across
+                    geographies.
+                  </p>
+                  <p className="highlight-text">
+                    “Amet eu facilisi posuere ut at cras non ipsum proin nunc
+                    purus tellus ultricies velit”<br></br>-Aditi
+                  </p>
+                </div>
+              </Col>
+              <Col xs={0} sm={0} md={1} lg={1} xl={1}></Col>
+            </Row>
+          )}
 
-          <Row className="aboutus-container">
-            <Col xs={0} sm={0} md={1} lg={1} xl={1}></Col>
-            <Col
-              xs={24}
-              sm={24}
-              md={10}
-              lg={10}
-              xl={10}
-              className="qa-pad-rgt-100"
-            >
-              <div className="fortune-head qa-mar-top-3">
-                An entity of a fortune 100 company
-              </div>
-              <div className="qa-flex-row qa-font-san qa-mar-top-3">
-                <div>
-                  <span className="about-status">25000+</span>
-                  <br></br>
-                  products
+          {isMobile && (
+            <Row className="aboutus-container center-align-container">
+              <Col xs={24} sm={24} md={0} lg={0} xl={0}>
+                <div className="line-divider"></div>
+                <h2 className="section-heading">Our team</h2>
+                <div className="section-content">
+                  <p>
+                    Qalara is founded by Aditi Pany, an MBA graduate from
+                    Stanford University, with close to a decade of experience in
+                    lifestyle retail across both brick and mortar and ecommerce.
+                    In her last stint, Aditi was the Chief Operating Officer of
+                    AJIO.com, a leading lifestyle ecommerce company in India.
+                    Previously, Aditi worked at Ashoka, a global non-profit that
+                    supports the world's largest network of social entrepreneurs
+                    with innovative ideas to change their community. Aditi has
+                    also been a Board Member of RLHL which manages companies
+                    like Hamleys in India.
+                  </p>
                 </div>
+              </Col>
+              <Col xs={24} sm={24} md={0} lg={0} xl={0}>
                 <div>
-                  <span className="about-status">500+</span>
-                  <br></br>vendors
+                  <Row>
+                    <Col
+                      xs={14}
+                      sm={14}
+                      md={14}
+                      lg={14}
+                      xl={14}
+                      className="aboutus-pr-1"
+                    >
+                      <img
+                        className="aboutus-full"
+                        src={process.env.NEXT_PUBLIC_URL + "/group photo.jpg"}
+                      ></img>
+                    </Col>
+                    <Col
+                      xs={10}
+                      sm={10}
+                      md={10}
+                      lg={10}
+                      xl={10}
+                      className="aboutus-pl-1"
+                    >
+                      <img
+                        className="aboutus-full"
+                        src={process.env.NEXT_PUBLIC_URL + "/aditi.jpg"}
+                      ></img>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col
+                      xs={10}
+                      sm={10}
+                      md={8}
+                      lg={8}
+                      xl={8}
+                      className="aboutus-pr-1"
+                    >
+                      <img
+                        className="aboutus-full"
+                        src={process.env.NEXT_PUBLIC_URL + "/aditi.jpg"}
+                      ></img>
+                    </Col>
+                    <Col
+                      xs={14}
+                      sm={14}
+                      md={16}
+                      lg={16}
+                      xl={16}
+                      className="aboutus-pl-1"
+                    >
+                      <img
+                        className="aboutus-full"
+                        src={process.env.NEXT_PUBLIC_URL + "/group photo.jpg"}
+                      ></img>
+                    </Col>
+                  </Row>
                 </div>
-                <div>
-                  <span className="about-status">3000+</span>
-                  <br></br>buyers
+              </Col>
+              <Col xs={24} sm={24} md={0} lg={0} xl={0}>
+                <div className="section-content qa-mar-top-2">
+                  <p>
+                    Qalara is led by a team of seasoned entrepreneurial,
+                    passionate leaders with strong track record and decades of
+                    experience in manufacturing, digital technology, fashion &
+                    lifestyle merchandising and retail, and supply chain, across
+                    geographies.
+                  </p>
+                  <p className="highlight-text">
+                    “Amet eu facilisi posuere ut at cras non ipsum proin nunc
+                    purus tellus ultricies velit”<br></br>-Aditi
+                  </p>
                 </div>
-              </div>
-            </Col>
-            <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-              <h2 className="section-heading after">Our credentials</h2>
-              <div className="section-content">
-                <p>
-                  Qalara is backed by Reliance Industries, a USD 100 bn Indian
-                  conglomerate spanning Telecom, Retail, Energy and Consumer
-                  Technology applications across AI, Content, Payments,
-                  Commerce, and more! Reliance also has in its luxury retail
-                  portfolio some of the world's most prominent fashion &
-                  lifestyle brands like Diesel, Hugo Boss, Zegna, Armani, Marks
-                  & Spencer, Muji, West Elm, Pottery Barn, GAS, Tiffany, Canali,
-                  Burberry, Kate Spade, Mothercare and many many more!
-                </p>
-                <p>
-                  With a strong mission-driven start-up team leveraging the
-                  incredible digital and supply chain ecosystem of a Fortune 100
-                  Indian company, Qalara seeks to achieve its vision of becoming
-                  pivotal to driving sustainable consumption by reimagining the
-                  global supply chain.
-                </p>
-              </div>
-            </Col>
-            <Col xs={0} sm={0} md={1} lg={1} xl={1}></Col>
-          </Row>
+              </Col>
+            </Row>
+          )}
+
+          {!isMobile && (
+            <Row className="aboutus-container">
+              <Col xs={0} sm={0} md={1} lg={1} xl={1}></Col>
+              <Col
+                xs={24}
+                sm={24}
+                md={10}
+                lg={10}
+                xl={10}
+                className="qa-pad-rgt-100 qa-mar-top-3"
+              >
+                <div className="fortune-head qa-mar-top-4">
+                  An entity of a fortune 100 company
+                </div>
+                <div className="qa-flex-row qa-font-san qa-mar-top-3">
+                  <div>
+                    <span className="about-status">25000+</span>
+                    <br></br>
+                    products
+                  </div>
+                  <div>
+                    <span className="about-status">500+</span>
+                    <br></br>vendors
+                  </div>
+                  <div>
+                    <span className="about-status">3000+</span>
+                    <br></br>buyers
+                  </div>
+                </div>
+              </Col>
+              <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                <h2 className="section-heading after">Our credentials</h2>
+                <div className="section-content">
+                  <p>
+                    Qalara is backed by Reliance Industries, a USD 100 bn Indian
+                    conglomerate spanning Telecom, Retail, Energy and Consumer
+                    Technology applications across AI, Content, Payments,
+                    Commerce, and more! Reliance also has in its luxury retail
+                    portfolio some of the world's most prominent fashion &
+                    lifestyle brands like Diesel, Hugo Boss, Zegna, Armani,
+                    Marks & Spencer, Muji, West Elm, Pottery Barn, GAS, Tiffany,
+                    Canali, Burberry, Kate Spade, Mothercare and many many more!
+                  </p>
+                  <p>
+                    With a strong mission-driven start-up team leveraging the
+                    incredible digital and supply chain ecosystem of a Fortune
+                    100 Indian company, Qalara seeks to achieve its vision of
+                    becoming pivotal to driving sustainable consumption by
+                    reimagining the global supply chain.
+                  </p>
+                </div>
+              </Col>
+              <Col xs={0} sm={0} md={1} lg={1} xl={1}></Col>
+            </Row>
+          )}
+
+          {isMobile && (
+            <Row className="aboutus-container center-align-container">
+              <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                <div className="line-divider"></div>
+                <h2 className="section-heading">Our credentials</h2>
+                <div className="section-content">
+                  <p>
+                    Qalara is backed by Reliance Industries, a USD 100 bn Indian
+                    conglomerate spanning Telecom, Retail, Energy and Consumer
+                    Technology applications across AI, Content, Payments,
+                    Commerce, and more! Reliance also has in its luxury retail
+                    portfolio some of the world's most prominent fashion &
+                    lifestyle brands like Diesel, Hugo Boss, Zegna, Armani,
+                    Marks & Spencer, Muji, West Elm, Pottery Barn, GAS, Tiffany,
+                    Canali, Burberry, Kate Spade, Mothercare and many many more!
+                  </p>
+                  <p>
+                    With a strong mission-driven start-up team leveraging the
+                    incredible digital and supply chain ecosystem of a Fortune
+                    100 Indian company, Qalara seeks to achieve its vision of
+                    becoming pivotal to driving sustainable consumption by
+                    reimagining the global supply chain.
+                  </p>
+                </div>
+              </Col>
+              <Col
+                xs={24}
+                sm={24}
+                md={10}
+                lg={10}
+                xl={10}
+                className="qa-pad-rgt-100 qa-mar-top-1"
+              >
+                <div className="fortune-head">
+                  An entity of a fortune 100 company
+                </div>
+                <div className="qa-flex-row qa-font-san qa-mar-top-3">
+                  <div>
+                    <span className="about-status">25000+</span>
+                    <br></br>
+                    products
+                  </div>
+                  <div>
+                    <span className="about-status">500+</span>
+                    <br></br>vendors
+                  </div>
+                  <div>
+                    <span className="about-status">3000+</span>
+                    <br></br>buyers
+                  </div>
+                </div>
+              </Col>
+            </Row>
+          )}
 
           <div className="aboutus-container">
             <AboutUsCarousel />
@@ -501,9 +658,20 @@ function AboutUsWrapper() {
 
           <div className="aboutus-container center-align-container">
             <div>
-              <h2 className="section-heading before">
-                Our core product values
-              </h2>
+              {isMobile && <div className="line-divider"></div>}
+              {isMobile ? (
+                <h2
+                  className={
+                    isMobile ? "section-heading" : "section-heading after"
+                  }
+                >
+                  Our values
+                </h2>
+              ) : (
+                <h2 className="section-heading before">
+                  Our core product values
+                </h2>
+              )}
               <p className="section-content center-align">
                 We have great respect for the skill and craftsmanship behind the
                 products on Qalara. We believe we have a responsibility towards
@@ -519,84 +687,280 @@ function AboutUsWrapper() {
             />
           </div>
 
-          <Row className="aboutus-container">
-            <Col xs={0} sm={0} md={1} lg={1} xl={1}></Col>
-            <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-              <div className="bird-vector" />
-              <div className="about-whyus">
-                <b>30,000+</b> products from verified suppliers Air and Sea
-                delivery to 100+ countries Secure payments in major global
-                currencies Quality Inspection included for all goods
-                One-stop-shop from design to delivery Minimum order value
-                starting <b>as low as USD 250</b>
-              </div>
-              <div className="about-status qa-txt-alg-cnt qa-mar-top-1">
-                try us out!
-              </div>
-            </Col>
-            <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>
-            <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-              <h2 className="section-heading after">Why us</h2>
-              <div className="section-content">
-                <p>
-                  We cater to all types of wholesale buying and sourcing
-                  requirements, and invest in building long-term relationships.
-                  Tapping into the rich tradition, culture, natural resources
-                  and expertise of India, Sri Lanka, Thailand, Indonesia,
-                  Vietnam, and neighbouring countries, we curate sellers and
-                  their products based on our brand values. We quality inspect
-                  all orders before they are shipped, monitor production for
-                  custom orders, arrange for custom packaging, compute the best
-                  shipping mode and cost combination, manage documentation,
-                  facilitate secure payments and ensure safe door delivery
-                  across the world. And we seek to get better with every order.
-                </p>
-                <div
-                  className={
-                    isMobile ? "aboutus-btn" : "aboutus-btn qa-vertical-center"
-                  }
-                >
-                  <Link href="/products/all-categories">
-                    <div className="button qa-primary-btn">
-                      <span className="sign-up-text">SHOP BY PRODUCTS</span>
-                    </div>
-                  </Link>
-
-                  <Link href="/signup">
-                    <span className="button qa-secondary-btn">
-                      <span className="sign-up-text">SHOP BY SELLERS</span>
-                    </span>
-                  </Link>
+          {!isMobile && (
+            <Row className="aboutus-container">
+              <Col xs={0} sm={0} md={1} lg={1} xl={1}></Col>
+              <Col
+                xs={24}
+                sm={24}
+                md={10}
+                lg={10}
+                xl={10}
+                className="aboutus-svg-bg"
+              >
+                <div className="about-whyus">
+                  <b>30,000+</b> products from verified suppliers Air and Sea
+                  delivery to 100+ countries Secure payments in major global
+                  currencies Quality Inspection included for all goods
+                  One-stop-shop from design to delivery Minimum order value
+                  starting <b>as low as USD 250</b>
                 </div>
-              </div>
-            </Col>
-            <Col xs={0} sm={0} md={1} lg={1} xl={1}></Col>
-          </Row>
-
-          <Row className="aboutus-container">
-            <Col xs={24} sm={24} md={15} lg={15} xl={15}>
-              <h2 className="section-heading before">How we work</h2>
-              <div className="qa-flex-row qa-font-san qa-mar-top-3">
-                <div className="aboutus-mr">
-                  <span className="aboutus-step-num">1</span>
+                <div className="about-status qa-txt-alg-cnt qa-mar-top-1">
+                  try us out!
                 </div>
-                <div>
-                  <div className="wework">Ready to ship</div>
-                  <p className="aboutus-detail">
-                    These are products for which inventory is readily available
-                    with the supplier and are generally dispatched within 7-10
-                    days of the order confirmation, after being quality
-                    inspected by Qalara. Many of these products are fast moving
-                    and can run out of stock!
+              </Col>
+              <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>
+              <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                <h2 className="section-heading after">Why us</h2>
+                <div className="section-content">
+                  <p>
+                    We cater to all types of wholesale buying and sourcing
+                    requirements, and invest in building long-term
+                    relationships. Tapping into the rich tradition, culture,
+                    natural resources and expertise of India, Sri Lanka,
+                    Thailand, Indonesia, Vietnam, and neighbouring countries, we
+                    curate sellers and their products based on our brand values.
+                    We quality inspect all orders before they are shipped,
+                    monitor production for custom orders, arrange for custom
+                    packaging, compute the best shipping mode and cost
+                    combination, manage documentation, facilitate secure
+                    payments and ensure safe door delivery across the world. And
+                    we seek to get better with every order.
                   </p>
+                  <div
+                    className={
+                      isMobile
+                        ? "aboutus-btn"
+                        : "aboutus-btn qa-vertical-center"
+                    }
+                  >
+                    <Link href="/products/all-categories">
+                      <div className="button qa-primary-btn">
+                        <span className="sign-up-text">SHOP BY PRODUCTS</span>
+                      </div>
+                    </Link>
+
+                    <Link href="/signup">
+                      <span className="button qa-secondary-btn">
+                        <span className="sign-up-text">SHOP BY SELLERS</span>
+                      </span>
+                    </Link>
+                  </div>
                 </div>
-              </div>
-              <div className="qa-flex-row qa-font-san qa-mar-top-3">
-                <div className="aboutus-mr">
-                  <span className="aboutus-step-num">2</span>
+              </Col>
+              <Col xs={0} sm={0} md={1} lg={1} xl={1}></Col>
+            </Row>
+          )}
+
+          {isMobile && (
+            <Row className="aboutus-container center-align-container">
+              <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                <div className="line-divider"></div>
+                <h2 className="section-heading">Why us</h2>
+                <div className="aboutus-svg-bg">
+                  <div className="about-whyus">
+                    <b>30,000+</b> products from verified suppliers Air and Sea
+                    delivery to 100+ countries Secure payments in major global
+                    currencies Quality Inspection included for all goods
+                    One-stop-shop from design to delivery Minimum order value
+                    starting <b>as low as USD 250</b>
+                    <div className="about-status qa-txt-alg-cnt qa-mar-top-1">
+                      try us out!
+                    </div>
+                  </div>
+                </div>
+              </Col>
+
+              <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                <div className="section-content qa-mar-top-2">
+                  <p>
+                    We cater to all types of wholesale buying and sourcing
+                    requirements, and invest in building long-term
+                    relationships. Tapping into the rich tradition, culture,
+                    natural resources and expertise of India, Sri Lanka,
+                    Thailand, Indonesia, Vietnam, and neighbouring countries, we
+                    curate sellers and their products based on our brand values.
+                    We quality inspect all orders before they are shipped,
+                    monitor production for custom orders, arrange for custom
+                    packaging, compute the best shipping mode and cost
+                    combination, manage documentation, facilitate secure
+                    payments and ensure safe door delivery across the world. And
+                    we seek to get better with every order.
+                  </p>
+                  <div
+                    className={
+                      isMobile
+                        ? "aboutus-btn"
+                        : "aboutus-btn qa-vertical-center"
+                    }
+                  >
+                    <Link href="/products/all-categories">
+                      <div className="button qa-primary-btn">
+                        <span className="sign-up-text">SHOP BY PRODUCTS</span>
+                      </div>
+                    </Link>
+
+                    <Link href="/signup">
+                      <span className="button qa-secondary-btn">
+                        <span className="sign-up-text">SHOP BY SELLERS</span>
+                      </span>
+                    </Link>
+                  </div>
+                </div>
+              </Col>
+            </Row>
+          )}
+
+          {!isMobile && (
+            <Row className="aboutus-container">
+              <Col
+                xs={24}
+                sm={24}
+                md={15}
+                lg={15}
+                xl={15}
+                className="qa-pad-rgt-2"
+              >
+                <h2 className="section-heading before">How we work</h2>
+                <div className="qa-flex-row qa-font-san qa-mar-top-3">
+                  <div className="aboutus-mr">
+                    <span className="aboutus-step-num">1</span>
+                  </div>
+                  <div>
+                    <div className="wework">Ready to ship</div>
+                    <p className="aboutus-detail">
+                      These are products for which inventory is readily
+                      available with the supplier and are generally dispatched
+                      within 7-10 days of the order confirmation, after being
+                      quality inspected by Qalara. Many of these products are
+                      fast moving and can run out of stock!
+                    </p>
+                  </div>
+                </div>
+                <div className="qa-flex-row qa-font-san qa-mar-top-3">
+                  <div className="aboutus-mr">
+                    <span className="aboutus-step-num">2</span>
+                  </div>
+                  <div>
+                    <div className="wework">Express custom</div>
+                    <p className="aboutus-detail">
+                      These are products that don’t have ready inventory but can
+                      be produced in small batches within 3-5 weeks. These are a
+                      great alternative to ready stock and many hard goods are
+                      able to meet these requirements.
+                    </p>
+                  </div>
+                </div>
+                <div className="qa-flex-row qa-font-san qa-mar-top-3">
+                  <div className="aboutus-mr">
+                    <span className="aboutus-step-num">3</span>
+                  </div>
+                  <div>
+                    <div className="wework">Made to order</div>
+                    <p className="aboutus-detail">
+                      These are manufactured on order with predefined Minimum
+                      Order Quantities (MOQ) where suppliers need to procure raw
+                      materials and undertake production. Such orders are
+                      usually dispatched within 45-60 days of order
+                      confirmation, but may take more or less time depending on
+                      product specifications and quantities.
+                    </p>
+                  </div>
+                </div>
+                <div className="qa-flex-row qa-font-san qa-mar-top-3">
+                  <div className="aboutus-mr">
+                    <span className="aboutus-step-num">4</span>
+                  </div>
+                  <div>
+                    <div className="wework">Design to order</div>
+                    <p className="aboutus-detail">
+                      Many of our suppliers can develop your own designs or
+                      product ideas, subject to Minimum Order Quantities (MOQ).
+                      Such orders usually require sample development, and entail
+                      a longer process depending on product specifications and
+                      quantities, and are usually shipped within 60-90 days.
+                    </p>
+                  </div>
+                </div>
+              </Col>
+              <Col xs={0} sm={0} md={1} lg={1} xl={1}></Col>
+              <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                <div className="highlight-text qa-fs-36 qa-mar-btm-4">
+                  You can shop on Qalara in many different ways
+                </div>
+                <div className="qa-txt-alg-cnt">
+                  <div className="qa-flex-row qa-font-san qa-mar-top-1">
+                    <div className="aboutus-hw">
+                      <div className="aboutus-step qa-fs-20">Step 1</div>
+                      <div className="aboutus-step qa-fs-24">
+                        Browse products
+                      </div>
+                    </div>
+                    <div className="aboutus-hw">
+                      <div className="aboutus-step qa-fs-20">Step 2</div>
+                      <div className="aboutus-step qa-fs-24">Confirm order</div>
+                    </div>
+                  </div>
+                  <div className="qa-flex-row qa-font-san qa-mar-top-4">
+                    <div className="aboutus-hw">
+                      <div className="aboutus-step qa-fs-20">Step 3</div>
+                      <div className="aboutus-step qa-fs-24">Get updates</div>
+                    </div>
+                    <div className="aboutus-hw">
+                      <div className="aboutus-step qa-fs-20">Step 4</div>
+                      <div className="aboutus-step qa-fs-24">Receive order</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="qa-txt-alg-cnt qa-mar-top-4">
+                  <div className="aboutus-video">
+                    WATCH OUR VIDEO STORY
+                    <span className="qa-mar-lft">
+                      <svg
+                        width="12"
+                        height="10"
+                        viewBox="0 0 14 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M14 8L0.5 15.7942L0.5 0.205771L14 8Z"
+                          fill="#F9F7F2"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+
+                <Link href="/FAQforwholesalebuyers">
+                  <div className="news-article qa-txt-alg-cnt qa-mar-top-2">
+                    View FAQs
+                  </div>
+                </Link>
+              </Col>
+            </Row>
+          )}
+
+          {isMobile && (
+            <Row className="aboutus-container center-align-container">
+              <Col xs={24} sm={24} md={15} lg={15} xl={15}>
+                <div className="line-divider"></div>
+                <h2 className="section-heading">How we work</h2>
+                <div className="qa-font-san qa-mar-top-3">
+                  <div>
+                    <div className="wework qa-mar-btm-05">Ready to ship</div>
+                    <p className="aboutus-detail">
+                      These are products for which inventory is readily
+                      available with the supplier and are generally dispatched
+                      within 7-10 days of the order confirmation, after being
+                      quality inspected by Qalara. Many of these products are
+                      fast moving and can run out of stock!
+                    </p>
+                  </div>
                 </div>
                 <div>
-                  <div className="wework">Express custom</div>
+                  <div className="wework qa-mar-btm-05">Express custom</div>
                   <p className="aboutus-detail">
                     These are products that don’t have ready inventory but can
                     be produced in small batches within 3-5 weeks. These are a
@@ -604,13 +968,8 @@ function AboutUsWrapper() {
                     able to meet these requirements.
                   </p>
                 </div>
-              </div>
-              <div className="qa-flex-row qa-font-san qa-mar-top-3">
-                <div className="aboutus-mr">
-                  <span className="aboutus-step-num">3</span>
-                </div>
                 <div>
-                  <div className="wework">Made to order</div>
+                  <div className="wework qa-mar-btm-05">Made to order</div>
                   <p className="aboutus-detail">
                     These are manufactured on order with predefined Minimum
                     Order Quantities (MOQ) where suppliers need to procure raw
@@ -620,13 +979,8 @@ function AboutUsWrapper() {
                     and quantities.
                   </p>
                 </div>
-              </div>
-              <div className="qa-flex-row qa-font-san qa-mar-top-3">
-                <div className="aboutus-mr">
-                  <span className="aboutus-step-num">4</span>
-                </div>
                 <div>
-                  <div className="wework">Design to order</div>
+                  <div className="wework qa-mar-btm-05">Design to order</div>
                   <p className="aboutus-detail">
                     Many of our suppliers can develop your own designs or
                     product ideas, subject to Minimum Order Quantities (MOQ).
@@ -635,73 +989,88 @@ function AboutUsWrapper() {
                     quantities, and are usually shipped within 60-90 days.
                   </p>
                 </div>
-              </div>
+              </Col>
+              <Col xs={0} sm={0} md={1} lg={1} xl={1}></Col>
+              <Col xs={24} sm={24} md={8} lg={8} xl={8}>
+                <div className="highlight-text qa-fs-36 qa-mar-btm-4">
+                  You can shop on Qalara in many different ways
+                </div>
+                <div className="qa-txt-alg-cnt">
+                  <div className="qa-flex-row qa-font-san qa-mar-top-1">
+                    <div className="aboutus-hw">
+                      <div className="aboutus-step qa-fs-20">Step 1</div>
+                      <div className="aboutus-step qa-fs-24">
+                        Browse products
+                      </div>
+                    </div>
+                    <div className="aboutus-hw">
+                      <div className="aboutus-step qa-fs-20">Step 2</div>
+                      <div className="aboutus-step qa-fs-24">Confirm order</div>
+                    </div>
+                  </div>
+                  <div className="qa-flex-row qa-font-san qa-mar-top-4">
+                    <div className="aboutus-hw">
+                      <div className="aboutus-step qa-fs-20">Step 3</div>
+                      <div className="aboutus-step qa-fs-24">Get updates</div>
+                    </div>
+                    <div className="aboutus-hw">
+                      <div className="aboutus-step qa-fs-20">Step 4</div>
+                      <div className="aboutus-step qa-fs-24">Receive order</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="qa-txt-alg-cnt qa-mar-top-4">
+                  <div className="aboutus-video">
+                    WATCH OUR VIDEO STORY
+                    <span className="qa-mar-lft">
+                      <svg
+                        width="12"
+                        height="10"
+                        viewBox="0 0 14 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M14 8L0.5 15.7942L0.5 0.205771L14 8Z"
+                          fill="#F9F7F2"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+
+                <Link href="/FAQforwholesalebuyers">
+                  <div className="news-article qa-txt-alg-cnt qa-mar-top-2">
+                    View FAQs
+                  </div>
+                </Link>
+              </Col>
+            </Row>
+          )}
+
+          <Row
+            className={
+              isMobile
+                ? "aboutus-container center-align-container"
+                : "aboutus-container"
+            }
+          >
+            <Col xs={24} sm={24} md={1} lg={1} xl={1}>
+              {isMobile && <div className="line-divider"></div>}
+              {isMobile && <h2 className="section-heading">Contact us</h2>}
             </Col>
-            <Col xs={0} sm={0} md={1} lg={1} xl={1}></Col>
-            <Col xs={24} sm={24} md={8} lg={8} xl={8}>
-              <div className="highlight-text qa-fs-36 qa-mar-btm-4">
-                You can shop on Qalara in many different ways
-              </div>
-              <div className="qa-txt-alg-cnt">
-                <div className="qa-flex-row qa-font-san qa-mar-top-1">
-                  <div className="aboutus-hw">
-                    <div className="aboutus-step qa-fs-20">Step 1</div>
-                    <div className="aboutus-step qa-fs-24">Browse products</div>
-                  </div>
-                  <div className="aboutus-hw">
-                    <div className="aboutus-step qa-fs-20">Step 2</div>
-                    <div className="aboutus-step qa-fs-24">Confirm order</div>
-                  </div>
-                </div>
-                <div className="qa-flex-row qa-font-san qa-mar-top-4">
-                  <div className="aboutus-hw">
-                    <div className="aboutus-step qa-fs-20">Step 3</div>
-                    <div className="aboutus-step qa-fs-24">Get updates</div>
-                  </div>
-                  <div className="aboutus-hw">
-                    <div className="aboutus-step qa-fs-20">Step 4</div>
-                    <div className="aboutus-step qa-fs-24">Receive order</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="qa-txt-alg-cnt qa-mar-top-4">
-                <div className="aboutus-video">
-                  WATCH OUR VIDEO STORY
-                  <span className="qa-mar-lft">
-                    <svg
-                      width="12"
-                      height="10"
-                      viewBox="0 0 14 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M14 8L0.5 15.7942L0.5 0.205771L14 8Z"
-                        fill="#F9F7F2"
-                      />
-                    </svg>
-                  </span>
-                </div>
-              </div>
-
-              <div className="news-article qa-txt-alg-cnt qa-mar-top-2">
-                View FAQs
-              </div>
-            </Col>
-          </Row>
-
-          <Row className="aboutus-container">
-            <Col xs={0} sm={0} md={1} lg={1} xl={1}></Col>
             <Col xs={24} sm={24} md={10} lg={10} xl={10}>
               <img
-                className="aboutus-map"
+                className="aboutus-full qa-mar-btm-2"
                 src={process.env.NEXT_PUBLIC_URL + "/India.png"}
               ></img>
             </Col>
             <Col xs={0} sm={0} md={2} lg={2} xl={2}></Col>
             <Col xs={24} sm={24} md={10} lg={10} xl={10}>
-              <h2 className="section-heading after">Contact us</h2>
+              {!isMobile && (
+                <h2 className="section-heading after">Contact us</h2>
+              )}
               <div className="section-content">
                 <p>
                   Qalara is headquartered in Bengaluru, India with teams across
@@ -709,15 +1078,17 @@ function AboutUsWrapper() {
                 </p>
                 <p>
                   We would love to meet you, once we are past this global
-                  crisis. Meanwhile, please write to us at contact@qalara.com
-                  for any questions or just to say hi!
+                  crisis. Meanwhile, please write to us at{" "}
+                  <span className="qa-primary-c">contact@qalara.com</span> for
+                  any questions or just to say hi!
                 </p>
                 <p>
                   We are also hiring across teams – merchandising, business
-                  development, QA, product management, UIUX design, category
-                  management, digital marketing and supply chain. Write to us at
-                  careers@qalara.com with a brief summary of your interests, and
-                  your resume and we will revert if we find our interests match!
+                  development, QA, product management, UI/UX design, category
+                  management, digital marketing and supply chain. Write to us at{" "}
+                  <span className="qa-primary-c">careers@qalara.com</span> with
+                  a brief summary of your interests, and your resume and we will
+                  revert if we find our interests match!
                 </p>
               </div>
             </Col>
