@@ -518,16 +518,46 @@ const PaymentDetails = (props) => {
                   <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                     <div className="qa-pad-2 c-item-list qa-mar-btm-4">
                       {_.map(subOrders, (order, i) => {
-                        let {
-                          sellerOrgName = "",
-                          products = "",
-                          sellerCode = "",
-                          total = 0,
-                          qalaraSellerMargin = 0,
-                          qualityTestingCharge = 0,
-                        } = order;
-                        let totalAmount =
-                          total + qalaraSellerMargin + qualityTestingCharge;
+                        let { products = "", sellerCode = "" } = order;
+                        let totalSellerAmount = 0;
+                        let basePrice = 0;
+                        let samplePrice = 0;
+                        let testingPrice = 0;
+                        for (let product of products) {
+                          let {
+                            productType = "",
+                            priceApplied = 0,
+                            exfactoryListPrice = 0,
+                            quantity = 0,
+                            sampleCost = 0,
+                            qualityTestingCharge = 0,
+                          } = product || {};
+
+                          samplePrice =
+                            samplePrice +
+                            parseFloat(getConvertedCurrency(sampleCost));
+                          testingPrice =
+                            testingPrice +
+                            parseFloat(
+                              getConvertedCurrency(qualityTestingCharge)
+                            );
+
+                          if (priceApplied && priceApplied !== null) {
+                            basePrice =
+                              basePrice +
+                              parseFloat(getConvertedCurrency(priceApplied)) *
+                                quantity;
+                          } else {
+                            basePrice =
+                              basePrice +
+                              parseFloat(
+                                getConvertedCurrency(exfactoryListPrice)
+                              ) *
+                                quantity;
+                          }
+                          totalSellerAmount =
+                            basePrice + samplePrice + testingPrice;
+                        }
                         return (
                           <div
                             className={`qa-bg-light-theme qa-pad-3 ${
@@ -568,17 +598,56 @@ const PaymentDetails = (props) => {
                                 image = "",
                                 isQualityTestingRequired = "",
                                 isSampleDeliveryRequired = "",
-                                productId = "",
+                                minimumOrderQuantity = "",
+                                unitOfMeasure = "",
                                 productName = "",
                                 quantity = "",
                                 size = "",
-                                total = "",
                                 isFulfillable = false,
-                                unitOfMeasure = "",
                                 freeShippingEligible = false,
+                                exfactoryListPrice = 0,
+                                priceApplied = 0,
+                                qualityTestingCharge = 0,
+                                sampleCost = 0,
                               } = product;
-                              quantity = parseInt(quantity);
 
+                              let totalProductAmount = 0;
+                              let basePrice = 0;
+                              let samplePrice = 0;
+                              let testingPrice = 0;
+
+                              quantity = parseInt(quantity);
+                              minimumOrderQuantity = parseInt(
+                                minimumOrderQuantity
+                              );
+
+                              samplePrice =
+                                samplePrice +
+                                parseFloat(getConvertedCurrency(sampleCost));
+                              testingPrice =
+                                testingPrice +
+                                parseFloat(
+                                  getConvertedCurrency(qualityTestingCharge)
+                                );
+
+                              if (priceApplied && priceApplied !== null) {
+                                basePrice =
+                                  basePrice +
+                                  parseFloat(
+                                    getConvertedCurrency(priceApplied)
+                                  ) *
+                                    quantity;
+                              } else {
+                                basePrice =
+                                  basePrice +
+                                  parseFloat(
+                                    getConvertedCurrency(exfactoryListPrice)
+                                  ) *
+                                    quantity;
+                              }
+
+                              totalProductAmount =
+                                basePrice + samplePrice + testingPrice;
                               return (
                                 <Row
                                   className={`${
@@ -647,8 +716,10 @@ const PaymentDetails = (props) => {
                                         {getSymbolFromCurrency(
                                           convertToCurrency
                                         )}
-                                        {total
-                                          ? getConvertedCurrency(total)
+                                        {totalProductAmount
+                                          ? parseFloat(
+                                              totalProductAmount
+                                            ).toFixed(2)
                                           : ""}
                                       </div>
                                       {(!sellerList.includes(sellerCode) ||
@@ -689,7 +760,9 @@ const PaymentDetails = (props) => {
                                 className="qa-txt-alg-rgt cart-prod-title qa-fw-b"
                               >
                                 {getSymbolFromCurrency(convertToCurrency)}
-                                {total ? getConvertedCurrency(total) : ""}
+                                {totalSellerAmount
+                                  ? parseFloat(totalSellerAmount).toFixed(2)
+                                  : ""}
                               </Col>
                             </Row>
                           </div>
@@ -1229,16 +1302,42 @@ const PaymentDetails = (props) => {
               <Col xs={24} sm={24} md={24} lg={24} xl={24}>
                 <div className="qa-mar-btm-2">
                   {_.map(subOrders, (order, i) => {
-                    let {
-                      sellerOrgName = "",
-                      products = "",
-                      sellerCode = "",
-                      total = 0,
-                      qalaraSellerMargin = 0,
-                      qualityTestingCharge = 0,
-                    } = order;
-                    let totalAmount =
-                      total + qalaraSellerMargin + qualityTestingCharge;
+                    let { products = "", sellerCode = "" } = order;
+                    let totalSellerAmount = 0;
+                    let basePrice = 0;
+                    let samplePrice = 0;
+                    let testingPrice = 0;
+                    for (let product of products) {
+                      let {
+                        productType = "",
+                        priceApplied = 0,
+                        exfactoryListPrice = 0,
+                        quantity = 0,
+                        sampleCost = 0,
+                        qualityTestingCharge = 0,
+                      } = product || {};
+
+                      samplePrice =
+                        samplePrice +
+                        parseFloat(getConvertedCurrency(sampleCost));
+                      testingPrice =
+                        testingPrice +
+                        parseFloat(getConvertedCurrency(qualityTestingCharge));
+
+                      if (priceApplied && priceApplied !== null) {
+                        basePrice =
+                          basePrice +
+                          parseFloat(getConvertedCurrency(priceApplied)) *
+                            quantity;
+                      } else {
+                        basePrice =
+                          basePrice +
+                          parseFloat(getConvertedCurrency(exfactoryListPrice)) *
+                            quantity;
+                      }
+                      totalSellerAmount =
+                        basePrice + samplePrice + testingPrice;
+                    }
                     return (
                       <div className="qa-bg-light-theme qa-mar-btm-2" key={i}>
                         <div className="cart-ship-pt qa-border-bottom">
@@ -1275,16 +1374,52 @@ const PaymentDetails = (props) => {
                             image = "",
                             isQualityTestingRequired = "",
                             isSampleDeliveryRequired = "",
-                            productId = "",
+                            minimumOrderQuantity = "",
+                            unitOfMeasure = "",
                             productName = "",
                             quantity = "",
                             size = "",
-                            total = "",
                             isFulfillable = false,
-                            unitOfMeasure = "",
                             freeShippingEligible = false,
+                            exfactoryListPrice = 0,
+                            priceApplied = 0,
+                            qualityTestingCharge = 0,
+                            sampleCost = 0,
                           } = product;
+
+                          let totalProductAmount = 0;
+                          let basePrice = 0;
+                          let samplePrice = 0;
+                          let testingPrice = 0;
+
                           quantity = parseInt(quantity);
+                          minimumOrderQuantity = parseInt(minimumOrderQuantity);
+
+                          samplePrice =
+                            samplePrice +
+                            parseFloat(getConvertedCurrency(sampleCost));
+                          testingPrice =
+                            testingPrice +
+                            parseFloat(
+                              getConvertedCurrency(qualityTestingCharge)
+                            );
+
+                          if (priceApplied && priceApplied !== null) {
+                            basePrice =
+                              basePrice +
+                              parseFloat(getConvertedCurrency(priceApplied)) *
+                                quantity;
+                          } else {
+                            basePrice =
+                              basePrice +
+                              parseFloat(
+                                getConvertedCurrency(exfactoryListPrice)
+                              ) *
+                                quantity;
+                          }
+
+                          totalProductAmount =
+                            basePrice + samplePrice + testingPrice;
                           return (
                             <Row className="qa-pad-20-0" key={j}>
                               <Col xs={9} sm={9} md={9} lg={9} xl={9}>
@@ -1347,7 +1482,9 @@ const PaymentDetails = (props) => {
                               >
                                 <div className="cart-prod-title qa-fw-b">
                                   {getSymbolFromCurrency(convertToCurrency)}
-                                  {total ? getConvertedCurrency(total) : ""}
+                                  {totalProductAmount
+                                    ? parseFloat(totalProductAmount).toFixed(2)
+                                    : ""}
                                 </div>
                                 {(!sellerList.includes(sellerCode) ||
                                   !freeShippingEligible) && (
@@ -1380,7 +1517,9 @@ const PaymentDetails = (props) => {
                             className="qa-txt-alg-rgt cart-prod-title qa-fw-b"
                           >
                             {getSymbolFromCurrency(convertToCurrency)}
-                            {total ? getConvertedCurrency(total) : ""}
+                            {totalSellerAmount
+                              ? parseFloat(totalSellerAmount).toFixed(2)
+                              : ""}
                           </Col>
                         </Row>
                       </div>
