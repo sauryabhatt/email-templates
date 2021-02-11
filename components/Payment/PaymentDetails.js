@@ -1241,14 +1241,42 @@ const PaymentDetails = (props) => {
                 className="cart-prod-title qa-pad-btm-1 qa-border-bottom qa-cursor qa-mar-top-1"
                 onClick={() => setEstimatedDelivery(!estimatedDelivery)}
               >
-                Estimated delivery date
-                <span style={{ float: "right" }}>
-                  {estimatedDelivery ? (
-                    <UpOutlined style={{ fontSize: "12px" }} />
-                  ) : (
-                    <DownOutlined style={{ fontSize: "12px" }} />
-                  )}
-                </span>
+                <div
+                  className="qa-txt-alg-lft"
+                  style={{
+                    width: "45%",
+                    display: "inline-block",
+                    verticalAlign: "top",
+                  }}
+                >
+                  Estimated delivery date:{" "}
+                </div>
+                <div
+                  className="qa-txt-alg-rgt qa-success qa-fw-b"
+                  style={{
+                    width: "55%",
+                    display: "inline-block",
+                    verticalAlign: "top",
+                  }}
+                >
+                  <span className="qa-fw-b qa-success qa-mar-rgt-05">
+                    {tat && shippingMode ? (
+                      <span>
+                        {moment(deliveryDateMin).format("DD MMM YY")} -{" "}
+                        {moment(deliveryDateMax).format("DD MMM YY")}
+                      </span>
+                    ) : (
+                      ""
+                    )}
+                  </span>
+                  <span style={{ float: "right" }}>
+                    {estimatedDelivery ? (
+                      <UpOutlined style={{ fontSize: "12px" }} />
+                    ) : (
+                      <DownOutlined style={{ fontSize: "12px" }} />
+                    )}
+                  </span>
+                </div>
               </div>
               {estimatedDelivery && (
                 <div className="qa-pad-top-2 qa-pad-btm-1 edd-section">
