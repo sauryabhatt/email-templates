@@ -11,7 +11,6 @@ import { connect } from "react-redux";
 import getSymbolFromCurrency from "currency-symbol-map";
 import amexPayment from "../../public/filestore/amexPayment";
 import visaPayment from "../../public/filestore/visaPayment";
-import stripePayment from "../../public/filestore/stripePayment";
 import paypalPayment from "../../public/filestore/paypalPayment";
 import mcPayment from "../../public/filestore/mcPayment";
 import discoverPayment from "../../public/filestore/discoverPayment";
@@ -21,7 +20,6 @@ import _ from "lodash";
 import Spinner from "./../Spinner/Spinner";
 import Air from "../../public/filestore/air";
 import Sea from "../../public/filestore/sea";
-import sellerList from "../../public/filestore/freeShippingSellers.json";
 import CheckoutSteps from "../common/CheckoutSteps";
 import PaymentBanner from "../common/PaymentBanner";
 import moment from "moment";
@@ -728,15 +726,13 @@ const PaymentDetails = (props) => {
                                             ).toFixed(2)
                                           : ""}
                                       </div>
-                                      {(!sellerList.includes(sellerCode) ||
-                                        !freeShippingEligible) && (
+                                      {!freeShippingEligible && (
                                         <div className="cart-price-text">
                                           Base price per unit excl. margin and
                                           other charges
                                         </div>
                                       )}
-                                      {(sellerList.includes(sellerCode) ||
-                                        freeShippingEligible) && (
+                                      {freeShippingEligible && (
                                         <div className="qa-offer-text qa-mar-top-15">
                                           FREE shipping
                                         </div>
@@ -1247,14 +1243,42 @@ const PaymentDetails = (props) => {
                 className="cart-prod-title qa-pad-btm-1 qa-border-bottom qa-cursor qa-mar-top-1"
                 onClick={() => setEstimatedDelivery(!estimatedDelivery)}
               >
-                Estimated delivery date
-                <span style={{ float: "right" }}>
-                  {estimatedDelivery ? (
-                    <UpOutlined style={{ fontSize: "12px" }} />
-                  ) : (
-                    <DownOutlined style={{ fontSize: "12px" }} />
-                  )}
-                </span>
+                <div
+                  className="qa-txt-alg-lft"
+                  style={{
+                    width: "45%",
+                    display: "inline-block",
+                    verticalAlign: "top",
+                  }}
+                >
+                  Estimated delivery date:{" "}
+                </div>
+                <div
+                  className="qa-txt-alg-rgt qa-success qa-fw-b"
+                  style={{
+                    width: "55%",
+                    display: "inline-block",
+                    verticalAlign: "top",
+                  }}
+                >
+                  <span className="qa-fw-b qa-success qa-mar-rgt-05">
+                    {tat && shippingMode ? (
+                      <span>
+                        {moment(deliveryDateMin).format("DD MMM YY")} -{" "}
+                        {moment(deliveryDateMax).format("DD MMM YY")}
+                      </span>
+                    ) : (
+                      ""
+                    )}
+                  </span>
+                  <span style={{ float: "right" }}>
+                    {estimatedDelivery ? (
+                      <UpOutlined style={{ fontSize: "12px" }} />
+                    ) : (
+                      <DownOutlined style={{ fontSize: "12px" }} />
+                    )}
+                  </span>
+                </div>
               </div>
               {estimatedDelivery && (
                 <div className="qa-pad-top-2 qa-pad-btm-1 edd-section">
@@ -1463,8 +1487,7 @@ const PaymentDetails = (props) => {
                                     <CheckCircleOutlined /> Sample required
                                   </div>
                                 )}
-                                {(sellerList.includes(sellerCode) ||
-                                  freeShippingEligible) && (
+                                {freeShippingEligible && (
                                   <div className="qa-mar-top-15 qa-offer-text">
                                     FREE shipping
                                   </div>
@@ -1492,8 +1515,7 @@ const PaymentDetails = (props) => {
                                     ? parseFloat(totalProductAmount).toFixed(2)
                                     : ""}
                                 </div>
-                                {(!sellerList.includes(sellerCode) ||
-                                  !freeShippingEligible) && (
+                                {!freeShippingEligible && (
                                   <div className="cart-price-text qa-mar-btm-1">
                                     Base price per unit excl. margin and other
                                     charges

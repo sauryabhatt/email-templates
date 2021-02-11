@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { Collapse } from "antd";
 import { UpOutlined, DownOutlined } from "@ant-design/icons";
 
@@ -49,12 +49,14 @@ function Accordion(props) {
   } = accData || {};
   const custom = useRef();
 
-  if (accordionView === "custom" && custom && custom.current) {
-    custom.current.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  }
+  useEffect(() => {
+    if (accordionView === "custom" && custom && custom.current) {
+      custom.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [props.accordionView]);
 
   const callback = (key) => {
     setActiveKey(key);
