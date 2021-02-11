@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { connect } from "react-redux";
 import CartDetails from "./CartDetails";
 import {
@@ -21,6 +21,7 @@ const Cart = (props) => {
   const { keycloak } = useKeycloak();
   const router = useRouter();
   let { token } = keycloak || {};
+  const loaded = useRef(false);
 
   const signIn = () => {
     loginToApp(keycloak, { currentPath: router.asPath.split("?")[0] });
@@ -61,18 +62,22 @@ const Cart = (props) => {
   }
 
   useEffect(() => {
-    if (props.user) {
-      let { user = {} } = props || {};
-      let { profileType = "" } = user || {};
-      if (profileType === "BUYER") {
-        getCartDetails();
-      } else {
-        setLoading(false);
+    if (loaded.current) {
+      if (props.user) {
+        let { user = {} } = props || {};
+        let { profileType = "" } = user || {};
+        if (profileType === "BUYER") {
+          getCartDetails();
+        } else {
+          setLoading(false);
+        }
       }
+    } else {
+      loaded.current = true;
     }
   }, [props.user]);
 
-  if (!keycloak.authenticated) {
+  if (!keycloak.authenticated && loaded.current) {
     return (
       <div id="cart-details" className="cart-section qa-font-san empty-cart">
         <div className="e-cart-title qa-txt-alg-cnt qa-mar-btm-2 qa-fs48">
