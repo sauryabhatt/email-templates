@@ -42,7 +42,6 @@ import states from "../../public/filestore/stateCodes_en.json";
 import Spinner from "../Spinner/Spinner";
 import deliveredCountryList from "../../public/filestore/deliveredCountries.json";
 import PromotionCarousel from "../PromotionCarousel/PromotionCarousel";
-import sellerList from "../../public/filestore/freeShippingSellers.json";
 import { loginToApp } from "../AuthWithKeycloak";
 import signUp_icon from "../../public/filestore/Sign_Up";
 import CheckoutSteps from "../common/CheckoutSteps";
@@ -1413,15 +1412,13 @@ const CartDetails = (props) => {
                                         )
                                       : ""}
                                   </div>
-                                  {(!sellerList.includes(sellerCode) ||
-                                    !freeShippingEligible) && (
+                                  {!freeShippingEligible && (
                                     <div className="cart-price-text">
                                       Base price per unit excl. margin and other
                                       charges
                                     </div>
                                   )}
-                                  {(sellerList.includes(sellerCode) ||
-                                    freeShippingEligible) && (
+                                  {freeShippingEligible && (
                                     <div className="qa-mar-top-15 qa-offer-text">
                                       FREE shipping
                                     </div>
@@ -1971,8 +1968,7 @@ const CartDetails = (props) => {
                                     <CheckCircleOutlined /> Sample required
                                   </div>
                                 )}
-                                {(sellerList.includes(sellerCode) ||
-                                  freeShippingEligible) && (
+                                {freeShippingEligible && (
                                   <div className="qa-mar-top-1 qa-offer-text">
                                     FREE shipping
                                   </div>
@@ -1985,8 +1981,7 @@ const CartDetails = (props) => {
                                     ? parseFloat(totalProductAmount).toFixed(2)
                                     : ""}
                                 </div>
-                                {(!sellerList.includes(sellerCode) ||
-                                  !freeShippingEligible) && (
+                                {!freeShippingEligible && (
                                   <div className="cart-price-text qa-mar-btm-1">
                                     Base price per unit excl. margin and other
                                     charges

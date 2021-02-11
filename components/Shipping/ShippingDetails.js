@@ -8,7 +8,6 @@ import Icon, {
   UpOutlined,
   DownOutlined,
   CheckCircleOutlined,
-  CheckOutlined,
 } from "@ant-design/icons";
 import { connect } from "react-redux";
 import getSymbolFromCurrency from "currency-symbol-map";
@@ -21,7 +20,6 @@ import Sea from "../../public/filestore/sea";
 import deliveredCountryList from "../../public/filestore/deliveredCountries.json";
 import _, { lowerCase } from "lodash";
 import PromotionCarousel from "../PromotionCarousel/PromotionCarousel";
-import sellerList from "../../public/filestore/freeShippingSellers.json";
 import CheckoutSteps from "../common/CheckoutSteps";
 import PaymentBanner from "../common/PaymentBanner";
 import moment from "moment";
@@ -1301,15 +1299,13 @@ const ShippingDetails = (props) => {
                                             ).toFixed(2)
                                           : ""}
                                       </div>
-                                      {(!sellerList.includes(sellerCode) ||
-                                        !freeShippingEligible) && (
+                                      {!freeShippingEligible && (
                                         <div className="cart-price-text">
                                           Base price per unit excl. margin and
                                           other charges
                                         </div>
                                       )}
-                                      {(sellerList.includes(sellerCode) ||
-                                        freeShippingEligible) && (
+                                      {freeShippingEligible && (
                                         <div className="qa-offer-text qa-mar-top-15">
                                           FREE shipping
                                         </div>
@@ -2306,8 +2302,7 @@ const ShippingDetails = (props) => {
                                       <CheckCircleOutlined /> Sample required
                                     </div>
                                   )}
-                                  {(sellerList.includes(sellerCode) ||
-                                    freeShippingEligible) && (
+                                  {freeShippingEligible && (
                                     <div className="qa-mar-top-1 qa-offer-text">
                                       FREE shipping
                                     </div>
@@ -2337,8 +2332,7 @@ const ShippingDetails = (props) => {
                                         )
                                       : ""}
                                   </div>
-                                  {(!sellerList.includes(sellerCode) ||
-                                    !freeShippingEligible) && (
+                                  {!freeShippingEligible && (
                                     <div className="cart-price-text">
                                       Base price per unit excl. margin and other
                                       charges
