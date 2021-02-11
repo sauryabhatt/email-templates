@@ -43,7 +43,6 @@ export const getCurrencyConversion = (base, callback = "") => async (
       }
     })
     .then((res) => {
-      console.log("API Resp 1 ", res);
       let currencies = res["rates"];
       let rates = Object.keys(res["rates"]).sort();
       if (callback) {

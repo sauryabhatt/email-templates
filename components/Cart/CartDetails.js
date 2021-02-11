@@ -42,8 +42,6 @@ import states from "../../public/filestore/stateCodes_en.json";
 import Spinner from "../Spinner/Spinner";
 import deliveredCountryList from "../../public/filestore/deliveredCountries.json";
 import PromotionCarousel from "../PromotionCarousel/PromotionCarousel";
-import { loginToApp } from "../AuthWithKeycloak";
-import signUp_icon from "../../public/filestore/Sign_Up";
 import CheckoutSteps from "../common/CheckoutSteps";
 import PaymentBanner from "../common/PaymentBanner";
 
@@ -284,16 +282,6 @@ const CartDetails = (props) => {
     ).toFixed(2);
   };
 
-  const handlePhoneNumber = (value, country) => {
-    /*let dialCode = "+" + country.dialCode;
-    let { format = "", countryCode = "" } = country;
-    console.log(country, value);
-    let length = (format.match(/\./g) || []).length;
-    setSelCountryCode(countryCode);
-    setDialCode(dialCode);
-    setSelCountryExpectedLength(length);*/
-  };
-
   const countryCheck = (e) => {
     if (deliveredCountryList.includes(e)) {
       setDeliver(true);
@@ -352,10 +340,6 @@ const CartDetails = (props) => {
 
   const enableUpdateQty = (id) => {
     setUpdate(id);
-  };
-
-  const signIn = () => {
-    loginToApp(keycloak, { currentPath: router.asPath.split("?")[0] });
   };
 
   const onOptServiceChange = (checkedValues, index) => {
@@ -1015,37 +999,6 @@ const CartDetails = (props) => {
           >
             {buttonName}
           </Button>
-        </div>
-      </div>
-    );
-  }
-
-  if (!keycloak.authenticated) {
-    return (
-      <div id="cart-details" className="cart-section qa-font-san empty-cart">
-        <div className="e-cart-title qa-txt-alg-cnt qa-mar-btm-2 qa-fs48">
-          Sign up to add products to your cart
-        </div>
-        <div className="qa-txt-alg-cnt e-cart-stitle">
-          In order to checkout and place an order please signup as a buyer
-        </div>
-
-        <div className="qa-txt-alg-cnt">
-          <Button
-            className="qa-button qa-fs-12 qa-shop-btn"
-            onClick={(e) => {
-              router.push("/signup");
-            }}
-          >
-            <span className="sign-up-cart-icon">{signUp_icon()} </span>
-            <span className="qa-va-m">sign up as a buyer</span>
-          </Button>
-        </div>
-        <div className="qa-signin-link qa-mar-top-05">
-          Already have an account?{" "}
-          <span className="c-breakup" onClick={signIn}>
-            Sign in here
-          </span>
         </div>
       </div>
     );
