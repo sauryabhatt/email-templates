@@ -507,7 +507,7 @@ const OrderCard = (props) => {
               DELIVERED DATE
             </div>
             <div className="qa-fs-14 order-header-tile-content qa-tc-white">
-              {moment(order.orderedDate).format("DD MMM YY")}
+              {moment(order.deliveredDate).format("DD MMM YY")}
             </div>
           </div>
         ) : null}

@@ -13,11 +13,6 @@ function CurrencyConverter(props) {
     props.getCurrencyConversion(baseCurrency);
   }, []);
 
-  // const convertCurrency = (value) => {
-  //   setConvertToCurrency(value);
-  //   props.getCurrentFormat(value);
-  // };
-
   const changeConvertToCurrency = (value) => {
     props.getCurrentFormat(value);
   };

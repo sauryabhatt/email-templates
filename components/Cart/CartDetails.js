@@ -42,9 +42,6 @@ import states from "../../public/filestore/stateCodes_en.json";
 import Spinner from "../Spinner/Spinner";
 import deliveredCountryList from "../../public/filestore/deliveredCountries.json";
 import PromotionCarousel from "../PromotionCarousel/PromotionCarousel";
-import sellerList from "../../public/filestore/freeShippingSellers.json";
-import { loginToApp } from "../AuthWithKeycloak";
-import signUp_icon from "../../public/filestore/Sign_Up";
 import CheckoutSteps from "../common/CheckoutSteps";
 import PaymentBanner from "../common/PaymentBanner";
 
@@ -285,16 +282,6 @@ const CartDetails = (props) => {
     ).toFixed(2);
   };
 
-  const handlePhoneNumber = (value, country) => {
-    /*let dialCode = "+" + country.dialCode;
-    let { format = "", countryCode = "" } = country;
-    console.log(country, value);
-    let length = (format.match(/\./g) || []).length;
-    setSelCountryCode(countryCode);
-    setDialCode(dialCode);
-    setSelCountryExpectedLength(length);*/
-  };
-
   const countryCheck = (e) => {
     if (deliveredCountryList.includes(e)) {
       setDeliver(true);
@@ -353,10 +340,6 @@ const CartDetails = (props) => {
 
   const enableUpdateQty = (id) => {
     setUpdate(id);
-  };
-
-  const signIn = () => {
-    loginToApp(keycloak, { currentPath: router.asPath.split("?")[0] });
   };
 
   const onOptServiceChange = (checkedValues, index) => {
@@ -1021,37 +1004,6 @@ const CartDetails = (props) => {
     );
   }
 
-  if (!keycloak.authenticated) {
-    return (
-      <div id="cart-details" className="cart-section qa-font-san empty-cart">
-        <div className="e-cart-title qa-txt-alg-cnt qa-mar-btm-2 qa-fs48">
-          Sign up to add products to your cart
-        </div>
-        <div className="qa-txt-alg-cnt e-cart-stitle">
-          In order to checkout and place an order please signup as a buyer
-        </div>
-
-        <div className="qa-txt-alg-cnt">
-          <Button
-            className="qa-button qa-fs-12 qa-shop-btn"
-            onClick={(e) => {
-              router.push("/signup");
-            }}
-          >
-            <span className="sign-up-cart-icon">{signUp_icon()} </span>
-            <span className="qa-va-m">sign up as a buyer</span>
-          </Button>
-        </div>
-        <div className="qa-signin-link qa-mar-top-05">
-          Already have an account?{" "}
-          <span className="c-breakup" onClick={signIn}>
-            Sign in here
-          </span>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <Row id="cart-details" className="cart-section qa-font-san">
       <CheckoutSteps pageId="cart" />
@@ -1141,8 +1093,19 @@ const CartDetails = (props) => {
                     let servicesTotal = 0;
                     let servicesOpted = {};
                     let mov = 0;
+                    let totalSellerAmount = 0;
+                    let basePrice = 0;
+                    let samplePrice = 0;
+                    let testingPrice = 0;
                     for (let product of products) {
-                      let { productType = "" } = product || {};
+                      let {
+                        productType = "",
+                        priceApplied = 0,
+                        exfactoryListPrice = 0,
+                        quantity = 0,
+                        sampleCost = 0,
+                        qualityTestingCharge = 0,
+                      } = product || {};
                       let sellerMov =
                         brandNames[sellerCode] &&
                         brandNames[sellerCode].mov &&
@@ -1153,7 +1116,29 @@ const CartDetails = (props) => {
                       if (mov < sellerMov) {
                         mov = sellerMov;
                       }
+
+                      samplePrice =
+                        samplePrice +
+                        parseFloat(getConvertedCurrency(sampleCost));
+                      testingPrice =
+                        testingPrice +
+                        parseFloat(getConvertedCurrency(qualityTestingCharge));
+
+                      if (priceApplied && priceApplied !== null) {
+                        basePrice =
+                          basePrice +
+                          parseFloat(getConvertedCurrency(priceApplied)) *
+                            quantity;
+                      } else {
+                        basePrice =
+                          basePrice +
+                          parseFloat(getConvertedCurrency(exfactoryListPrice)) *
+                            quantity;
+                      }
+                      totalSellerAmount =
+                        basePrice + samplePrice + testingPrice;
                     }
+
                     return (
                       <div
                         className={`qa-bg-light-theme qa-pad-3 ${
@@ -1236,12 +1221,47 @@ const CartDetails = (props) => {
                             productName = "",
                             quantity = "",
                             size = "",
-                            total = "",
                             isFulfillable = false,
                             freeShippingEligible = false,
+                            exfactoryListPrice = 0,
+                            priceApplied = 0,
+                            qualityTestingCharge = 0,
+                            sampleCost = 0,
                           } = product;
+
+                          let totalProductAmount = 0;
+                          let basePrice = 0;
+                          let samplePrice = 0;
+                          let testingPrice = 0;
+
                           quantity = parseInt(quantity);
                           minimumOrderQuantity = parseInt(minimumOrderQuantity);
+
+                          samplePrice =
+                            samplePrice +
+                            parseFloat(getConvertedCurrency(sampleCost));
+                          testingPrice =
+                            testingPrice +
+                            parseFloat(
+                              getConvertedCurrency(qualityTestingCharge)
+                            );
+
+                          if (priceApplied && priceApplied !== null) {
+                            basePrice =
+                              basePrice +
+                              parseFloat(getConvertedCurrency(priceApplied)) *
+                                quantity;
+                          } else {
+                            basePrice =
+                              basePrice +
+                              parseFloat(
+                                getConvertedCurrency(exfactoryListPrice)
+                              ) *
+                                quantity;
+                          }
+
+                          totalProductAmount =
+                            basePrice + samplePrice + testingPrice;
 
                           if (
                             inventoryQty &&
@@ -1339,17 +1359,19 @@ const CartDetails = (props) => {
                                   )}
                                   <div className="cart-prod-title qa-fw-b">
                                     {getSymbolFromCurrency(convertToCurrency)}
-                                    {total ? getConvertedCurrency(total) : ""}
+                                    {totalProductAmount
+                                      ? parseFloat(totalProductAmount).toFixed(
+                                          2
+                                        )
+                                      : ""}
                                   </div>
-                                  {(!sellerList.includes(sellerCode) ||
-                                    !freeShippingEligible) && (
+                                  {!freeShippingEligible && (
                                     <div className="cart-price-text">
                                       Base price per unit excl. margin and other
                                       charges
                                     </div>
                                   )}
-                                  {(sellerList.includes(sellerCode) ||
-                                    freeShippingEligible) && (
+                                  {freeShippingEligible && (
                                     <div className="qa-mar-top-15 qa-offer-text">
                                       FREE shipping
                                     </div>
@@ -1401,7 +1423,9 @@ const CartDetails = (props) => {
                             className="qa-txt-alg-rgt cart-prod-title qa-fw-b"
                           >
                             {getSymbolFromCurrency(convertToCurrency)}
-                            {total ? getConvertedCurrency(total) : ""}
+                            {totalSellerAmount
+                              ? parseFloat(totalSellerAmount).toFixed(2)
+                              : ""}
                           </Col>
                         </Row>
                         <Button
@@ -1689,10 +1713,22 @@ const CartDetails = (props) => {
                     let servicesTotal = 0;
                     let servicesOpted = {};
                     let mov = 0;
+                    let totalSellerAmount = 0;
+                    let basePrice = 0;
+                    let samplePrice = 0;
+                    let testingPrice = 0;
                     for (let product of products) {
-                      let { productType = "" } = product || {};
+                      let {
+                        productType = "",
+                        priceApplied = 0,
+                        exfactoryListPrice = 0,
+                        quantity = 0,
+                        sampleCost = 0,
+                        qualityTestingCharge = 0,
+                      } = product || {};
                       let sellerMov =
                         brandNames[sellerCode] &&
+                        brandNames[sellerCode].mov &&
                         brandNames[sellerCode].mov.find(
                           (x) => x.productType === productType
                         ).amount;
@@ -1700,6 +1736,27 @@ const CartDetails = (props) => {
                       if (mov < sellerMov) {
                         mov = sellerMov;
                       }
+
+                      samplePrice =
+                        samplePrice +
+                        parseFloat(getConvertedCurrency(sampleCost));
+                      testingPrice =
+                        testingPrice +
+                        parseFloat(getConvertedCurrency(qualityTestingCharge));
+
+                      if (priceApplied && priceApplied !== null) {
+                        basePrice =
+                          basePrice +
+                          parseFloat(getConvertedCurrency(priceApplied)) *
+                            quantity;
+                      } else {
+                        basePrice =
+                          basePrice +
+                          parseFloat(getConvertedCurrency(exfactoryListPrice)) *
+                            quantity;
+                      }
+                      totalSellerAmount =
+                        basePrice + samplePrice + testingPrice;
                     }
                     return (
                       <div className="qa-bg-light-theme qa-mar-btm-2" key={i}>
@@ -1771,9 +1828,45 @@ const CartDetails = (props) => {
                             total = "",
                             isFulfillable = false,
                             freeShippingEligible = false,
+                            exfactoryListPrice = 0,
+                            priceApplied = 0,
+                            qualityTestingCharge = 0,
+                            sampleCost = 0,
                           } = product;
-                          minimumOrderQuantity = parseInt(minimumOrderQuantity);
+
+                          let totalProductAmount = 0;
+                          let basePrice = 0;
+                          let samplePrice = 0;
+                          let testingPrice = 0;
+
                           quantity = parseInt(quantity);
+                          minimumOrderQuantity = parseInt(minimumOrderQuantity);
+
+                          samplePrice =
+                            samplePrice +
+                            parseFloat(getConvertedCurrency(sampleCost));
+                          testingPrice =
+                            testingPrice +
+                            parseFloat(
+                              getConvertedCurrency(qualityTestingCharge)
+                            );
+
+                          if (priceApplied && priceApplied !== null) {
+                            basePrice =
+                              basePrice +
+                              parseFloat(getConvertedCurrency(priceApplied)) *
+                                quantity;
+                          } else {
+                            basePrice =
+                              basePrice +
+                              parseFloat(
+                                getConvertedCurrency(exfactoryListPrice)
+                              ) *
+                                quantity;
+                          }
+
+                          totalProductAmount = basePrice;
+
                           if (
                             inventoryQty &&
                             inventoryQty[productId] &&
@@ -1828,8 +1921,7 @@ const CartDetails = (props) => {
                                     <CheckCircleOutlined /> Sample required
                                   </div>
                                 )}
-                                {(sellerList.includes(sellerCode) ||
-                                  freeShippingEligible) && (
+                                {freeShippingEligible && (
                                   <div className="qa-mar-top-1 qa-offer-text">
                                     FREE shipping
                                   </div>
@@ -1838,10 +1930,11 @@ const CartDetails = (props) => {
                               <Col xs={24} sm={24} md={10} lg={24} xl={24}>
                                 <div className="cart-prod-title qa-mar-top-05 qa-fw-b">
                                   {getSymbolFromCurrency(convertToCurrency)}
-                                  {total ? getConvertedCurrency(total) : ""}
+                                  {totalProductAmount
+                                    ? parseFloat(totalProductAmount).toFixed(2)
+                                    : ""}
                                 </div>
-                                {(!sellerList.includes(sellerCode) ||
-                                  !freeShippingEligible) && (
+                                {!freeShippingEligible && (
                                   <div className="cart-price-text qa-mar-btm-1">
                                     Base price per unit excl. margin and other
                                     charges
@@ -1924,7 +2017,9 @@ const CartDetails = (props) => {
                             className="qa-txt-alg-rgt cart-prod-title qa-fw-b"
                           >
                             {getSymbolFromCurrency(convertToCurrency)}
-                            {total ? getConvertedCurrency(total) : ""}
+                            {totalSellerAmount
+                              ? parseFloat(totalSellerAmount).toFixed(2)
+                              : ""}
                           </Col>
                         </Row>
 
@@ -2776,8 +2871,6 @@ const CartDetails = (props) => {
                 <div className="address-label">Phone number</div>
                 <Form.Item
                   name="phoneNumber"
-                  //validateStatus={selCountryExpectedLength}
-                  //help={selCountryExpectedLength == "error" ? "Enter valid phone number" : ""}
                   rules={[
                     {
                       required: true,
@@ -2790,15 +2883,7 @@ const CartDetails = (props) => {
                     },
                   ]}
                 >
-                  <Input
-                  //onChange={handlePhoneNumber}
-                  />
-                  {/*<PhoneInput
-                    country={selCountryCode}
-                    onChange={handlePhoneNumber}
-                    enableSearch={true}
-                    countryCodeEditable={false}
-                  />*/}
+                  <Input />
                 </Form.Item>
               </Col>
 

@@ -11,7 +11,6 @@ import { connect } from "react-redux";
 import getSymbolFromCurrency from "currency-symbol-map";
 import amexPayment from "../../public/filestore/amexPayment";
 import visaPayment from "../../public/filestore/visaPayment";
-import stripePayment from "../../public/filestore/stripePayment";
 import paypalPayment from "../../public/filestore/paypalPayment";
 import mcPayment from "../../public/filestore/mcPayment";
 import discoverPayment from "../../public/filestore/discoverPayment";
@@ -24,7 +23,6 @@ import Sea from "../../public/filestore/sea";
 import { useKeycloak } from "@react-keycloak/ssr";
 import { getOrderByOrderId } from "../../store/actions";
 import { useRouter } from "next/router";
-import sellerList from "../../public/filestore/freeShippingSellers.json";
 import PaymentBanner from "../common/PaymentBanner";
 import Link from "next/link";
 import moment from "moment";
@@ -164,12 +162,19 @@ const RtsOrderReview = (props) => {
           sampleCost = 0,
           quantity = 0,
           exfactoryListPrice = 0,
+          priceApplied = 0,
         } = items;
         samplePrice = samplePrice + sampleCost;
         testingPrice = testingPrice + qualityTestingCharge;
-        basePrice =
-          basePrice +
-          parseFloat(getConvertedCurrency(exfactoryListPrice)) * quantity;
+        if (priceApplied && priceApplied !== null) {
+          basePrice =
+            basePrice +
+            parseFloat(getConvertedCurrency(priceApplied)) * quantity;
+        } else {
+          basePrice =
+            basePrice +
+            parseFloat(getConvertedCurrency(exfactoryListPrice)) * quantity;
+        }
       }
 
       sellerTotal = basePrice + samplePrice + testingPrice;
@@ -684,15 +689,13 @@ const RtsOrderReview = (props) => {
                                           ? getConvertedCurrency(total)
                                           : ""}
                                       </div>
-                                      {(!sellerList.includes(sellerCode) ||
-                                        !freeShippingEligible) && (
+                                      {!freeShippingEligible && (
                                         <div className="cart-price-text">
                                           Base price per unit excl. margin and
                                           other charges
                                         </div>
                                       )}
-                                      {(sellerList.includes(sellerCode) ||
-                                        freeShippingEligible) && (
+                                      {freeShippingEligible && (
                                         <div className="qa-offer-text qa-mar-top-15">
                                           FREE shipping
                                         </div>
@@ -1355,8 +1358,7 @@ const RtsOrderReview = (props) => {
                                     <CheckCircleOutlined /> Sample required
                                   </div>
                                 )}
-                                {(sellerList.includes(sellerCode) ||
-                                  freeShippingEligible) && (
+                                {freeShippingEligible && (
                                   <div className="qa-mar-top-15 qa-offer-text">
                                     FREE shipping
                                   </div>
@@ -1382,8 +1384,7 @@ const RtsOrderReview = (props) => {
                                   {getSymbolFromCurrency(convertToCurrency)}
                                   {total ? getConvertedCurrency(total) : ""}
                                 </div>
-                                {(!sellerList.includes(sellerCode) ||
-                                  !freeShippingEligible) && (
+                                {!freeShippingEligible && (
                                   <div className="cart-price-text qa-mar-btm-1">
                                     Base price per unit excl. margin and other
                                     charges

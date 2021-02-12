@@ -51,6 +51,7 @@ const Payment = (props) => {
             setLoading(false);
           });
       }
+      setLoading(false);
     });
   }
 

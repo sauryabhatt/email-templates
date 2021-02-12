@@ -243,14 +243,18 @@ const CartSummary = (props) => {
           quantity = "",
           priceMin = "",
           articleId = "",
-          exfactoryListPrice = "",
+          exfactoryListPrice = 0,
+          priceApplied = 0,
         } = product;
         let obj = {
           productId: productId,
           productName: productName,
           quantity: quantity,
           priceMin: currencyFormat + priceMin,
-          exfactoryListPrice: exfactoryListPrice,
+          exfactoryListPrice:
+            priceApplied && priceApplied !== null
+              ? priceApplied
+              : exfactoryListPrice,
           linkOfProduct: url + articleId,
         };
         productList.push(obj);
@@ -568,14 +572,22 @@ const CartSummary = (props) => {
           sampleCost = 0,
           quantity = 0,
           exfactoryListPrice = 0,
+          priceApplied = 0,
         } = items;
         samplePrice =
           samplePrice + parseFloat(getConvertedCurrency(sampleCost));
         testingPrice =
           testingPrice + parseFloat(getConvertedCurrency(qualityTestingCharge));
-        basePrice =
-          basePrice +
-          parseFloat(getConvertedCurrency(exfactoryListPrice)) * quantity;
+
+        if (priceApplied && priceApplied !== null) {
+          basePrice =
+            basePrice +
+            parseFloat(getConvertedCurrency(priceApplied)) * quantity;
+        } else {
+          basePrice =
+            basePrice +
+            parseFloat(getConvertedCurrency(exfactoryListPrice)) * quantity;
+        }
       }
 
       sellerTotal = basePrice + samplePrice + testingPrice;
@@ -781,15 +793,23 @@ const CartSummary = (props) => {
               sampleCost = 0,
               quantity = 0,
               exfactoryListPrice = 0,
+              priceApplied = 0,
             } = items;
             samplePrice =
               samplePrice + parseFloat(getConvertedCurrency(sampleCost));
             testingPrice =
               testingPrice +
               parseFloat(getConvertedCurrency(qualityTestingCharge));
-            basePrice =
-              basePrice +
-              parseFloat(getConvertedCurrency(exfactoryListPrice)) * quantity;
+
+            if (priceApplied && priceApplied !== null) {
+              basePrice =
+                basePrice +
+                parseFloat(getConvertedCurrency(priceApplied)) * quantity;
+            } else {
+              basePrice =
+                basePrice +
+                parseFloat(getConvertedCurrency(exfactoryListPrice)) * quantity;
+            }
           }
           qalaraSellerMargin = parseFloat(
             getConvertedCurrency(qalaraSellerMargin)
