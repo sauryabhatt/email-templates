@@ -25,19 +25,13 @@ export default function CuratedByUsWrapper(props) {
   const token = useSelector(
     (state) => state.appToken.token && state.appToken.token.access_token
   );
+
   const trend = [
     {
-      url: "/trends/earthinspired",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend1.jpg",
-      text: "Earth inspired",
-      alt: "Source Earth Inspired products from India",
-    },
-    {
-      url: "/trends/urbanjungle",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend2.jpg",
-      text: "Urban jungle",
-      alt:
-        "Collection of wholesale handmade and sustainable products from Qalara",
+      url: "/trends/farmhousedecor",
+      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend9.jpg",
+      text: "Farmhouse decor",
+      alt: "Farmhouse decor",
     },
     {
       url: "/trends/globaltextures",
@@ -47,30 +41,16 @@ export default function CuratedByUsWrapper(props) {
         "Boho cushion covers, rugs, throws, bags & decor; crafted by hand picked sellers, combining local crafts with modern aesthetics",
     },
     {
-      url: "/trends/homeoffice",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend4.jpg",
-      text: "Home office",
-      alt:
-        "Collection of home workspace by our artisanal and responsible sellers fro Qalara",
+      url: "/trends/sunkissed-spring21",
+      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend6.jpg",
+      text: "Summer Pastels",
+      alt: "Summer Pastels",
     },
-    /*{
-      url: "/trends/christmasspirit",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend5.jpg",
-      text: "Holiday spirit",
-      alt:
-        "Explore holiday decorations perfect for any celebration from Qalara",
-    },*/
-    // {
-    //   url: "/trends/sunkissed-spring21",
-    //   img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend6.jpg",
-    //   text: "Summer Pastels",
-    //   alt: "Summer Pastels",
-    // },
     {
-      url: "/trends/indigoblues",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend8.jpg",
-      text: "Indigo Blues",
-      alt: "Indigo Blues",
+      url: "/trends/earthinspired",
+      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend1.jpg",
+      text: "Earth inspired",
+      alt: "Source Earth Inspired products from India",
     },
     {
       url: "/trends/play-and-learn",
@@ -79,6 +59,32 @@ export default function CuratedByUsWrapper(props) {
         "/images/Img_Play-learn.jpg",
       text: "Play and learn",
       alt: "Play and learn",
+    },
+    {
+      url: "/trends/urbanjungle",
+      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend2.jpg",
+      text: "Urban jungle",
+      alt:
+        "Collection of wholesale handmade and sustainable products from Qalara",
+    },
+    {
+      url: "/trends/homeoffice",
+      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend4.jpg",
+      text: "Home office",
+      alt:
+        "Collection of home workspace by our artisanal and responsible sellers fro Qalara",
+    },
+    {
+      url: "/trends/christmasspirit",
+      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend5.jpg",
+      text: "Holiday Spirit",
+      alt: "Holiday Spirit",
+    },
+    {
+      url: "/trends/indigoblues",
+      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend8.jpg",
+      text: "Indigo Blues",
+      alt: "Indigo Blues",
     },
   ];
 

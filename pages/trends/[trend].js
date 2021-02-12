@@ -63,6 +63,7 @@ const trendsObj = {
   "sunkissed-spring21": "SpringSummer",
   "play-and-learn": "KidsLearning",
   indigoblues: "IndigoBlues",
+  farmhousedecor: "FarmhouseDecor",
 };
 export async function getStaticPaths() {
   return {

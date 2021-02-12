@@ -244,12 +244,12 @@ function Home(props) {
 
   const craftItems = [
     {
-      imageTitle: "Indigo Blues",
+      imageTitle: "Farmhouse Decor",
       slideText:
-        "A curated handcrafted indigo collection to drive away the summer blues.",
-      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_9.jpg",
-      searchText: "IndigoBlues",
-      path: "/trends/indigoblues",
+        "A curated collection of eco friendly handcrafted signs, clocks, decor and furniture.",
+      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_10.jpg",
+      searchText: "FarmhouseDecor",
+      path: "/trends/farmhousedecor",
     },
     {
       imageTitle: "Crafted Boho",
@@ -298,6 +298,14 @@ function Home(props) {
       imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_4_2.jpg",
       searchText: "HomeOffice",
       path: "/trends/homeoffice",
+    },
+    {
+      imageTitle: "Indigo Blues",
+      slideText:
+        "A curated handcrafted indigo collection to drive away the summer blues.",
+      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_9.jpg",
+      searchText: "IndigoBlues",
+      path: "/trends/indigoblues",
     },
   ];
 
