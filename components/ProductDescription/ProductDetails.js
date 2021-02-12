@@ -684,23 +684,15 @@ const ProductDetails = (props) => {
 
   const setActiveKey = (key) => {
     setActiveKeys(key);
-    if (key.includes("3")) {
-      setCount(0);
-    }
     setAccordionView("");
   };
 
   const setAccordion = (name) => {
     let keys = [...activeKeys, "3"];
     setActiveKeys(keys);
-    if (count === 0) {
-      setTimeout(() => {
-        setAccordionView(name);
-      }, 200);
-    } else {
-      setAccordionView(name);
-    }
-    setCount(1);
+    setAccordionView(name);
+    let clickCount = count + 1;
+    setCount(clickCount);
   };
 
   const handleCancel = () => {
@@ -3187,6 +3179,7 @@ const ProductDetails = (props) => {
             keys={activeKeys}
             setActiveKey={setActiveKey}
             accData={data}
+            count={count}
           />
         </Col>
       </Row>
