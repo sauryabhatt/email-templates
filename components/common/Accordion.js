@@ -56,7 +56,7 @@ function Accordion(props) {
         block: "start",
       });
     }
-  }, [props.accordionView]);
+  }, [props.count]);
 
   const callback = (key) => {
     setActiveKey(key);
