@@ -1,24 +1,31 @@
 /** @format */
 
 import { useEffect } from "react";
+import { SSRKeycloakProvider, SSRCookies } from "@react-keycloak/ssr";
 import "antd/dist/antd.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../styles/globals.css";
 import AppFooter from "../components/AppFooter/AppFooter";
 import ScrollToTop from "../components/ScrollToTop/ScrollToTop";
-import AuthWithKeycloak from "../components/AuthWithKeycloak";
 import { Provider } from "react-redux";
 import cookie from "cookie";
 import TagManager from "react-gtm-module";
 import store from "../store";
-import { useRouter } from "next/router";
 
-function MyApp(props) {
-  const router = useRouter();
+const keycloak = {
+  url: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_URL,
+  realm: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_REALM,
+  clientId: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_CLIENT_ID,
+};
 
-  const { Component, pageProps, cookies } = props;
+const initOptions = {
+  onLoad: "check-sso",
+  silentCheckSsoRedirectUri:
+    process.env.NEXT_PUBLIC_URL + "/silent-check-sso.html",
+};
 
+function MyApp({ Component, pageProps, cookies }) {
   // Google Tag Manager
   useEffect(() => {
     TagManager.initialize({ gtmId: "GTM-KTVSR8R" });
@@ -39,7 +46,11 @@ function MyApp(props) {
   }, []);
 
   return (
-    <AuthWithKeycloak cookies={cookies}>
+    <SSRKeycloakProvider
+      keycloakConfig={keycloak}
+      persistor={SSRCookies(cookies)}
+      initOptions={initOptions}
+    >
       <Provider store={store}>
         <React.Fragment>
           <ScrollToTop>
@@ -48,30 +59,20 @@ function MyApp(props) {
           </ScrollToTop>
         </React.Fragment>
       </Provider>
-    </AuthWithKeycloak>
+    </SSRKeycloakProvider>
   );
 }
-function parseCookies(req) {
-  // if (!req || !req.headers) {
-  //   return {};
-  // }
-  // let cookies = cookie.parse(req.headers.cookie || "");
-  // let appToken = cookies.appToken;
-  // let appTokenCookie = cookie.serialize("appToken", appToken, {
-  //   path: "/",
-  // });
-  // return appTokenCookie;
-  if (!req || !req.headers) {
+
+function parseCookies(request) {
+  if (!request || !request.headers) {
     return {};
   }
-  return cookie.parse(req.headers.cookie || "");
+  return cookie.parse(request.headers.cookie || "");
 }
 
-MyApp.getInitialProps = async ({ ctx }) => {
-  const { req, res } = ctx || {};
-
+MyApp.getInitialProps = async (context) => {
   return {
-    cookies: parseCookies(req),
+    cookies: parseCookies(context?.ctx?.req),
   };
 };
 
