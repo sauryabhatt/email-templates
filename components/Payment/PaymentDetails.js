@@ -39,7 +39,6 @@ const PaymentDetails = (props) => {
     shippingAddressDetails = "",
     shippingMode = "",
     shippingTerms = "",
-    typeOfOrder = "",
     miscCharges = [],
     promoDiscount = "",
   } = cart || {};
@@ -93,6 +92,7 @@ const PaymentDetails = (props) => {
   let vat = 0;
   let dutyMax = 0;
   let dutyMin = 0;
+  let mov = false;
 
   for (let charge of miscCharges) {
     let { chargeId = "", amount = 0 } = charge;
@@ -155,7 +155,13 @@ const PaymentDetails = (props) => {
           quantity = 0,
           exfactoryListPrice = 0,
           priceApplied = 0,
+          productType = "",
         } = items;
+
+        if (productType === "ERTM") {
+          mov = true;
+        }
+
         samplePrice = samplePrice + sampleCost;
         testingPrice = testingPrice + qualityTestingCharge;
         if (priceApplied && priceApplied !== null) {
@@ -201,7 +207,7 @@ const PaymentDetails = (props) => {
 
   let eddMin = "";
   let eddMax = "";
-  if (typeOfOrder === "ERTM") {
+  if (mov) {
     eddMin = deliveryDateMin.setDate(today.getDate() + 30 + tat);
     eddMax = deliveryDateMax.setDate(today.getDate() + 40 + tat);
   } else {
@@ -471,7 +477,7 @@ const PaymentDetails = (props) => {
                       <li>Estimated production/ dispatch time</li>
                     </div>
                     <div className="c-right-blk qa-txt-alg-rgt">
-                      {typeOfOrder === "ERTM" ? "30-40" : "7-10"} days
+                      {mov ? "30-40" : "7-10"} days
                     </div>
                   </div>
 
@@ -1282,7 +1288,7 @@ const PaymentDetails = (props) => {
                         Estimated production/ dispatch time
                       </div>
                       <div className="c-right-blk qa-txt-alg-rgt">
-                        {typeOfOrder === "ERTM" ? "30-40" : "7-10"} days
+                        {mov ? "30-40" : "7-10"} days
                       </div>
                     </li>
                   </div>

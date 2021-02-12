@@ -1192,3 +1192,7 @@
   border: 1px solid #c2b7a2;
   box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.15);
 }
+#product-description .qa-pdp-box {
+  background: #959191;
+  padding: 100px;
+}
