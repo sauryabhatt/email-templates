@@ -71,6 +71,8 @@ const Cart = (props) => {
         } else {
           setLoading(false);
         }
+      } else {
+        setLoading(false);
       }
     } else {
       loaded.current = true;
