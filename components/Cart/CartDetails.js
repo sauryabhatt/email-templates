@@ -39,7 +39,6 @@ import {
 import { QuantityInput } from "./QuantityInput";
 import _ from "lodash";
 import states from "../../public/filestore/stateCodes_en.json";
-import Spinner from "../Spinner/Spinner";
 import deliveredCountryList from "../../public/filestore/deliveredCountries.json";
 import PromotionCarousel from "../PromotionCarousel/PromotionCarousel";
 import CheckoutSteps from "../common/CheckoutSteps";
@@ -83,7 +82,6 @@ const countryList = getCountries().map((country) => {
 const CartDetails = (props) => {
   let {
     cart = {},
-    isLoading = true,
     app_token = "",
     addresses = [],
     brandNames = "",
@@ -929,10 +927,6 @@ const CartDetails = (props) => {
         });
     }
   };
-
-  if (isLoading) {
-    return <Spinner />;
-  }
 
   if (
     subOrders &&
