@@ -107,7 +107,7 @@ function SellerLandingMobile(props) {
       values.push(obj);
     }
     setProductTypeDetails(values);
-  }, [props]);
+  }, [props.data]);
 
   let slider;
 
@@ -120,7 +120,7 @@ function SellerLandingMobile(props) {
   };
 
   const signIn = () => {
-    loginToApp(keycloak, { currentPath: `/seller/${router.query.sellerId}` });
+    loginToApp(keycloak, { currentPath: router.asPath.split("?")[0] });
   };
 
   const sendQueryCancel = (status) => {
@@ -617,7 +617,7 @@ function SellerLandingMobile(props) {
       setShowScheduleBenefits(false);
       setShowScheduling(true);
     } else {
-      loginToApp(keycloak, { currentPath: `/seller/${props.sellerId}` });
+      loginToApp(keycloak, { currentPath: router.asPath.split("?")[0] });
     }
   };
 
@@ -972,7 +972,8 @@ function SellerLandingMobile(props) {
           <Panel header="Product types" key="1">
             <div className="qa-fs-13">
               <ul className="qa-mar-btm-0 qa-ul-p0">
-                {productTypeDetails.length > 0 &&
+                {productTypeDetails &&
+                  productTypeDetails.length > 0 &&
                   productTypeDetails.map((list, i) => {
                     return (
                       <li key={i}>
@@ -1176,7 +1177,8 @@ function SellerLandingMobile(props) {
             <div className="qa-fs-013 qa-mar-btm-05">Key materials</div>
             <div className="qa-fs-13">
               <ul className="qa-mar-btm-0 qa-ul-p0">
-                {keyMaterials.length > 0 &&
+                {keyMaterials &&
+                  keyMaterials.length > 0 &&
                   keyMaterials.map((list, i) => {
                     return <li key={i}>{list}</li>;
                   })}

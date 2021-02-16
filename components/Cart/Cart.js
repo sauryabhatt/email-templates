@@ -22,7 +22,7 @@ const Cart = (props) => {
   const { keycloak } = useKeycloak();
   const router = useRouter();
   let { token } = keycloak || {};
-  const loaded = useRef(false);
+  const [loaded, setLoaded] = useState(false);
 
   const signIn = () => {
     loginToApp(keycloak, { currentPath: router.asPath.split("?")[0] });
@@ -63,24 +63,37 @@ const Cart = (props) => {
   }
 
   useEffect(() => {
-    if (loaded.current) {
-      if (props.user) {
-        let { user = {} } = props || {};
-        let { profileType = "" } = user || {};
-        if (profileType === "BUYER") {
-          getCartDetails();
+    if (loaded && keycloak.token === undefined) {
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
+    }
+  }, [loaded, keycloak.token]);
+
+  useEffect(() => {
+    if (loaded) {
+      if (keycloak.token) {
+        if (props.user) {
+          let { user = {} } = props || {};
+          let { profileType = "" } = user || {};
+          if (profileType === "BUYER") {
+            getCartDetails();
+          } else {
+            setLoading(false);
+          }
         } else {
           setLoading(false);
         }
       } else {
-        setLoading(false);
       }
     } else {
-      loaded.current = true;
+      setLoaded(true);
     }
   }, [props.user]);
 
-  if (!keycloak.authenticated && isLoading) {
+  if (isLoading) {
+    return <Spinner />;
+  } else if (!keycloak.authenticated) {
     return (
       <div id="cart-details" className="cart-section qa-font-san empty-cart">
         <div className="e-cart-title qa-txt-alg-cnt qa-mar-btm-2 qa-fs48">
@@ -109,8 +122,6 @@ const Cart = (props) => {
         </div>
       </div>
     );
-  } else if (isLoading) {
-    return <Spinner />;
   } else {
     return (
       <CartDetails app_token={token} cart={cart} brandNames={brandNameList} />
