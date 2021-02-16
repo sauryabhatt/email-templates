@@ -13,7 +13,23 @@ export default ({ options, ...props }) => {
   const [viewAll, setViewAll] = useState(false);
 
   useEffect(() => {
-    setFilteredList(options);
+    let checkedFilters = [];
+    let unCheckedFilters = [];
+    for (let list of options) {
+      if (
+        props[filterType] &&
+        props[filterType].length &&
+        (props[filterType].includes(list.value) ||
+          props[filterType].includes(list.id))
+      ) {
+        checkedFilters.push(list);
+      } else {
+        unCheckedFilters.push(list);
+      }
+    }
+
+    checkedFilters = [...checkedFilters, ...unCheckedFilters];
+    setFilteredList(checkedFilters);
   }, [options]);
 
   const onSearchText = (e) => {
