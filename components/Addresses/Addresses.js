@@ -1,12 +1,10 @@
 /** @format */
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Row,
   Col,
-  Menu,
   Button,
-  Tooltip,
   Modal,
   Input,
   Form,
@@ -14,14 +12,8 @@ import {
   Select,
   message,
 } from "antd";
-import Icon, {
-  PlusOutlined,
-  EditOutlined,
-  DeleteOutlined,
-} from "@ant-design/icons";
+import Icon, { PlusOutlined } from "@ant-design/icons";
 import closeButton from "../../public/filestore/closeButton";
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
 import { getCountries } from "react-phone-number-input/input";
 import en from "react-phone-number-input/locale/en.json";
 import AddressCard from "./AddressCard";
