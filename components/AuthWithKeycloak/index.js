@@ -22,23 +22,13 @@ const keycloakCfg = {
   clientId: process.env.NEXT_PUBLIC_REACT_APP_KEYCLOAK_CLIENT_ID,
 };
 
-const redirectUriForApp = {
-  "/": "/check-user-status",
-};
-
 export const loginToApp = (keycloak, options) => {
   if (options && options.currentPath) {
-    if (redirectUriForApp[options.currentPath]) {
-      keycloak.login({
-        redirectUri: process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN,
-      });
-    } else {
-      keycloak.login({
-        redirectUri:
-          process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN +
-          options.currentPath,
-      });
-    }
+    keycloak.login({
+      redirectUri:
+        process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN +
+        options.currentPath,
+    });
   } else {
     keycloak.login({
       redirectUri: process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN,

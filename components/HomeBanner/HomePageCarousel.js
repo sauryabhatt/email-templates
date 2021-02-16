@@ -50,6 +50,18 @@ export default function HomePageCarousel(props) {
       alt: "Qalara Global wholesale buying reimagined",
     },
     {
+      img: "https://cdn.qalara.com/images/Img_Homepage_banner_5.jpg",
+      hading_text: "", //"Global wholesale buying, reimagined.",
+      small_text: "", //"Source wholesale products from India and South East Asia. Order digitally, reliably, affordably.Backed by a Fortune 100 company.Verified buyers from 25+ countries.",
+      video_link: "", //"https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4",
+      isSignupbtn: false,
+      signinBTNLink: `/gb/?f_seller_code=${encodeURIComponent(
+        "SL10996,SL11014,SL10847"
+      )}`,
+      mobileImg: "https://cdn.qalara.com/images/Img_Homepage_banner_5_mob.jpg",
+      alt: "Indonesian treasures",
+    },
+    {
       img: "https://cdn.qalara.com/images/Img_Banner_Qalarabazar3.jpg",
       hading_text: "", //"Global wholesale buying, reimagined.",
       small_text: "", //"Source wholesale products from India and South East Asia. Order digitally, reliably, affordably.Backed by a Fortune 100 company.Verified buyers from 25+ countries.",

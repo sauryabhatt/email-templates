@@ -123,7 +123,6 @@ export const getSLPDetails = (
 
 export const getSPLPDetails = (queryResult, prevStateData = false) => {
   return (dispatch) => {
-    // dispatch(setListingPageLoading(true));
     return fetch(
       process.env.NEXT_PUBLIC_REACT_APP_API_FACET_PRODUCT_URL +
         "/splpv2?" +
@@ -148,7 +147,6 @@ export const getSPLPDetails = (queryResult, prevStateData = false) => {
           aggregates = [],
           fixedAggregates = {},
         } = result;
-        dispatch(setListingPageLoading(false));
         if (prevStateData) {
           let newStateData = [...prevStateData, ...products];
           return dispatch(
@@ -161,8 +159,6 @@ export const getSPLPDetails = (queryResult, prevStateData = false) => {
         }
       })
       .catch((error) => {
-        console.log(error);
-        dispatch(setListingPageLoading(false));
         return dispatch(setListingPageFailed(error));
       });
   };

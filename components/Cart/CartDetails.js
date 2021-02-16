@@ -28,7 +28,6 @@ import couponIcon from "../../public/filestore/couponIcon";
 import cartIcon from "../../public/filestore/cartIcon";
 import CartSummary from "./CartSummary";
 import SavedForLater from "./SavedForLater";
-import { useKeycloak } from "@react-keycloak/ssr";
 import {
   getAddresses,
   getCart,
@@ -91,7 +90,6 @@ const CartDetails = (props) => {
     isGuest = false,
   } = props;
   const router = useRouter();
-  const { keycloak } = useKeycloak();
   const [addressFunc, setAddressFunc] = useState("");
   const [modal, showModal] = useState(false);
   const [addressModal, setAddressModal] = useState(false);
@@ -167,6 +165,16 @@ const CartDetails = (props) => {
 
       props.checkInventory(app_token, productIds, (result) => {
         setInventoryQty(result);
+        for (let orders of subOrders) {
+          let { products = [], sellerCode = "" } = orders;
+          for (let product of products) {
+            let { productId = "", quantity = 0 } = product;
+            if (result[productId] < quantity) {
+              setUpdate(sellerCode);
+              break;
+            }
+          }
+        }
       });
     }
   }, [props.cart]);
@@ -928,12 +936,7 @@ const CartDetails = (props) => {
     }
   };
 
-  if (
-    subOrders &&
-    subOrders.length === 0 &&
-    products.length &&
-    keycloak.authenticated
-  ) {
+  if (subOrders && subOrders.length === 0 && products.length) {
     return (
       <div id="cart-details" className="cart-section qa-font-san">
         {mediaMatch.matches ? (
@@ -966,7 +969,7 @@ const CartDetails = (props) => {
     );
   }
 
-  if (subOrders && subOrders.length === 0 && keycloak.authenticated) {
+  if (subOrders && subOrders.length === 0) {
     return (
       <div id="cart-details" className="cart-section qa-font-san empty-cart">
         <div className="e-cart-title qa-txt-alg-cnt qa-mar-btm-1">
@@ -1310,7 +1313,13 @@ const CartDetails = (props) => {
                                 <div className="cart-subtitle">{size}</div>
                                 <div>
                                   <QuantityInput
-                                    quantity={quantity}
+                                    quantity={
+                                      inventoryQty &&
+                                      inventoryQty[productId] &&
+                                      inventoryQty[productId] < quantity
+                                        ? inventoryQty[productId]
+                                        : quantity
+                                    }
                                     sellerCode={sellerCode}
                                     minQty={minimumOrderQuantity}
                                     maxQty={error[productId]}
@@ -1388,11 +1397,23 @@ const CartDetails = (props) => {
                                     }}
                                   />
                                 </div>
-                                {isFulfillable === false && (
-                                  <div className="cart-sub-text p-out-of-stock">
-                                    This product is currently out of stock
-                                  </div>
-                                )}
+                                {isFulfillable === false &&
+                                  inventoryQty &&
+                                  inventoryQty[productId] &&
+                                  inventoryQty[productId] < quantity && (
+                                    <div className="cart-sub-text p-out-of-stock">
+                                      We have only {inventoryQty[productId]}{" "}
+                                      units of inventory available.
+                                    </div>
+                                  )}
+                                {isFulfillable === false &&
+                                  inventoryQty &&
+                                  inventoryQty[productId] &&
+                                  inventoryQty[productId] === 0 && (
+                                    <div className="cart-sub-text p-out-of-stock">
+                                      This product is currently out of stock
+                                    </div>
+                                  )}
                               </Col>
                             </Row>
                           );
@@ -1940,7 +1961,13 @@ const CartDetails = (props) => {
                                     style={{ width: "50%" }}
                                   >
                                     <QuantityInput
-                                      quantity={quantity}
+                                      quantity={
+                                        inventoryQty &&
+                                        inventoryQty[productId] &&
+                                        inventoryQty[productId] < quantity
+                                          ? inventoryQty[productId]
+                                          : quantity
+                                      }
                                       sellerCode={sellerCode}
                                       minQty={minimumOrderQuantity}
                                       maxQty={error[productId]}
@@ -1962,11 +1989,23 @@ const CartDetails = (props) => {
                                     className="qa-disp-tc"
                                     style={{ width: "40%" }}
                                   >
-                                    {isFulfillable === false && (
-                                      <div className="cart-sub-text p-out-of-stock qa-pad-0-20">
-                                        This product is currently out of stock
-                                      </div>
-                                    )}
+                                    {isFulfillable === false &&
+                                      inventoryQty &&
+                                      inventoryQty[productId] &&
+                                      inventoryQty[productId] < quantity && (
+                                        <div className="cart-sub-text p-out-of-stock">
+                                          We have only {inventoryQty[productId]}{" "}
+                                          units of inventory available.
+                                        </div>
+                                      )}
+                                    {isFulfillable === false &&
+                                      inventoryQty &&
+                                      inventoryQty[productId] &&
+                                      inventoryQty[productId] === 0 && (
+                                        <div className="cart-sub-text p-out-of-stock">
+                                          This product is currently out of stock
+                                        </div>
+                                      )}
                                   </div>
                                   <div
                                     className="qa-txt-alg-rgt qa-disp-tc"
