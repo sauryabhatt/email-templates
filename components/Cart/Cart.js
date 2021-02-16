@@ -66,6 +66,7 @@ const Cart = (props) => {
     if (loaded.current) {
       setLoading(true);
       if (props.user) {
+        setLoading(true);
         let { user = {} } = props || {};
         let { profileType = "" } = user || {};
         if (profileType === "BUYER") {
@@ -80,7 +81,7 @@ const Cart = (props) => {
       loaded.current = true;
       setTimeout(() => {
         setLoading(false);
-      }, 1000);
+      }, 1200);
     }
   }, [props.user]);
 
