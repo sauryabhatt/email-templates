@@ -14,10 +14,7 @@ const isServer = () => typeof window == "undefined";
 const SellerLanding = (props) => {
   const router = useRouter();
   let { sellerId: sellerIdParam } = router.query;
-
   let { userProfile = {}, isLoading = true } = props;
-
-  // let { orgName = "", categoryDescs = [], productTypeDescs = [] } = data || {};
 
   const token = useSelector(
     (state) => state.appToken.token && state.appToken.token.access_token
@@ -28,18 +25,15 @@ const SellerLanding = (props) => {
   const [sellerId, setSellerId] = useState("");
   const [sellerSubscriptions, setSellerSubscriptions] = useState([]);
   const [aboutCompany, setAboutCompany] = useState(props.data.about);
-  const [productPopupDetails, setProductPopupDetails] = useState(props.data.category_product_range);
-  // const [identityId, setIdentityId] = useState(null)
+  const [productPopupDetails, setProductPopupDetails] = useState(
+    props.data.category_product_range
+  );
 
   useEffect(() => {
     let width = window.screen ? window.screen.width : window.innerWidth;
     if (width <= 768) {
       setMobile(true);
     }
-    // let queryParams = props.match.params;
-    // let { sellerId = "" } = queryParams;
-    // sellerId = sellerId.toLowerCase();
-    // setIdentityId(props.userProfile.kcIdentityId)
 
     if (keycloak.token && props.userProfile) {
       let { verificationStatus = "", profileType = "" } = props.userProfile;
@@ -141,8 +135,8 @@ const SellerLanding = (props) => {
     }
   }, [props.sellerDetails]);
 
-const categoryRange =()=>{
-  let productTypes = _.groupBy(props.data.category_product_range, "l2Desc");
+  const categoryRange = () => {
+    let productTypes = _.groupBy(props.data.category_product_range, "l2Desc");
 
     let values = [];
     for (let list in productTypes) {
@@ -161,32 +155,36 @@ const categoryRange =()=>{
       values.push(obj);
     }
     return values;
-}
+  };
   return (
     <div>
       {mobile ? (
         <SellerLandingMobile
-          data={props.sellerDetails}
-          isLoading={isLoading}
+          data={!isServer() ? props.sellerDetails : props.data.sellerDetails}
+          isLoading={!isServer() ? isLoading : false}
           userProfile={userProfile}
           token={keycloak.token || token}
           sellerId={sellerId}
           sellerSubscriptions={sellerSubscriptions}
           aboutCompany={aboutCompany}
-          productPopupDetails={productPopupDetails}
+          productPopupDetails={
+            !isServer() ? productPopupDetails : categoryRange()
+          }
           sellerIdentity={
             (props.sellerDetails && props.sellerDetails.kcIdentityId) || null
           }
         />
       ) : (
         <SellerLandingDesktop
-          data={!isServer()? props.sellerDetails: props.data.sellerDetails}
-          isLoading={!isServer()?isLoading:false}
+          data={!isServer() ? props.sellerDetails : props.data.sellerDetails}
+          isLoading={!isServer() ? isLoading : false}
           userProfile={userProfile}
           token={keycloak.token || token}
           sellerId={sellerId}
           sellerSubscriptions={sellerSubscriptions}
-          productPopupDetails={!isServer()?productPopupDetails:categoryRange()}
+          productPopupDetails={
+            !isServer() ? productPopupDetails : categoryRange()
+          }
           aboutCompany={aboutCompany}
           sellerIdentity={
             (props.sellerDetails && props.sellerDetails.kcIdentityId) || null

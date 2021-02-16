@@ -98,7 +98,7 @@ export const getStaticProps = async ({ params }) => {
         slp_content: res1?.products || null,
         slp_facets: res1?.aggregates || null,
         slp_categories: res1?.fixedAggregates || null,
-        sellerDetails: sellerDetails,
+        sellerDetails: sellerDetails || null,
         error: error,
         sellerId: sellerId,
         categoryId: categoryId,
