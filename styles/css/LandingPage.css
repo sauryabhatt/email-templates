@@ -365,11 +365,13 @@ h6 {
     position: relative;
     padding-bottom: 100px;
   }
+  .landing-first-fold .image-wrp {
+    margin: 0px 20px 40px;
+    width: 15%;
+    display: inline-block;
+  }
   .fold-image-container {
-    justify-content: space-around;
-    margin-right: 0;
-    width: 100%;
-    flex-wrap: wrap;
+    width: 300%;
   }
   .fold-image-container a {
     width: calc(33% - 70px);
@@ -450,7 +452,9 @@ h6 {
     line-height: 18px;
   }
   .fold-image-container {
-    width: 130%;
+    width: 240%;
+    display: inline-block;
+    margin-right: 0px;
   }
   .fold-image,
   .hroizontal-img-container {
@@ -553,6 +557,6 @@ h6 {
 }
 @media only screen and (max-width: 360px) {
   .fold-image-container {
-    width: 180%;
+    width: 300%;
   }
 }

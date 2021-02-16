@@ -14,6 +14,7 @@ import signUp_icon from "../../public/filestore/Sign_Up";
 import { loginToApp } from "../AuthWithKeycloak";
 import { useRouter } from "next/router";
 import { Button } from "antd";
+import Spinner from "../Spinner/Spinner";
 
 const Cart = (props) => {
   let { cart = {}, brandNameList = [] } = props;
@@ -71,13 +72,15 @@ const Cart = (props) => {
         } else {
           setLoading(false);
         }
+      } else {
+        setLoading(false);
       }
     } else {
       loaded.current = true;
     }
   }, [props.user]);
 
-  if (!keycloak.authenticated && loaded.current) {
+  if (!keycloak.authenticated && isLoading) {
     return (
       <div id="cart-details" className="cart-section qa-font-san empty-cart">
         <div className="e-cart-title qa-txt-alg-cnt qa-mar-btm-2 qa-fs48">
@@ -106,16 +109,13 @@ const Cart = (props) => {
         </div>
       </div>
     );
+  } else if (isLoading) {
+    return <Spinner />;
+  } else {
+    return (
+      <CartDetails app_token={token} cart={cart} brandNames={brandNameList} />
+    );
   }
-
-  return (
-    <CartDetails
-      isLoading={isLoading}
-      app_token={token}
-      cart={cart}
-      brandNames={brandNameList}
-    />
-  );
 };
 
 const mapStateToProps = (state) => {
