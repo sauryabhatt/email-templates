@@ -64,6 +64,7 @@ const Cart = (props) => {
 
   useEffect(() => {
     if (loaded.current) {
+      setLoading(true);
       if (props.user) {
         let { user = {} } = props || {};
         let { profileType = "" } = user || {};
@@ -77,10 +78,15 @@ const Cart = (props) => {
       }
     } else {
       loaded.current = true;
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     }
   }, [props.user]);
 
-  if (!keycloak.authenticated && isLoading) {
+  if (isLoading) {
+    return <Spinner />;
+  } else if (!keycloak.authenticated) {
     return (
       <div id="cart-details" className="cart-section qa-font-san empty-cart">
         <div className="e-cart-title qa-txt-alg-cnt qa-mar-btm-2 qa-fs48">
@@ -109,8 +115,6 @@ const Cart = (props) => {
         </div>
       </div>
     );
-  } else if (isLoading) {
-    return <Spinner />;
   } else {
     return (
       <CartDetails app_token={token} cart={cart} brandNames={brandNameList} />

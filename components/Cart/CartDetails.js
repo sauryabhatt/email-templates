@@ -28,7 +28,6 @@ import couponIcon from "../../public/filestore/couponIcon";
 import cartIcon from "../../public/filestore/cartIcon";
 import CartSummary from "./CartSummary";
 import SavedForLater from "./SavedForLater";
-import { useKeycloak } from "@react-keycloak/ssr";
 import {
   getAddresses,
   getCart,
@@ -91,7 +90,6 @@ const CartDetails = (props) => {
     isGuest = false,
   } = props;
   const router = useRouter();
-  const { keycloak } = useKeycloak();
   const [addressFunc, setAddressFunc] = useState("");
   const [modal, showModal] = useState(false);
   const [addressModal, setAddressModal] = useState(false);
@@ -928,12 +926,7 @@ const CartDetails = (props) => {
     }
   };
 
-  if (
-    subOrders &&
-    subOrders.length === 0 &&
-    products.length &&
-    keycloak.authenticated
-  ) {
+  if (subOrders && subOrders.length === 0 && products.length) {
     return (
       <div id="cart-details" className="cart-section qa-font-san">
         {mediaMatch.matches ? (
@@ -966,7 +959,7 @@ const CartDetails = (props) => {
     );
   }
 
-  if (subOrders && subOrders.length === 0 && keycloak.authenticated) {
+  if (subOrders && subOrders.length === 0) {
     return (
       <div id="cart-details" className="cart-section qa-font-san empty-cart">
         <div className="e-cart-title qa-txt-alg-cnt qa-mar-btm-1">
