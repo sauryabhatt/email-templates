@@ -75,7 +75,6 @@ const SellerLanding = (props) => {
 
   useEffect(() => {
     if (props.sellerDetails) {
-      let userToken = keycloak.token || token;
       let { id = "" } = props.sellerDetails;
       id = id.replace("HOME::", "");
       setSellerId(id);
