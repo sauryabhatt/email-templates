@@ -22,7 +22,7 @@ const Cart = (props) => {
   const { keycloak } = useKeycloak();
   const router = useRouter();
   let { token } = keycloak || {};
-  const loaded = useRef(false);
+  const [loaded, setLoaded] = useState(false);
 
   const signIn = () => {
     loginToApp(keycloak, { currentPath: router.asPath.split("?")[0] });
@@ -63,25 +63,31 @@ const Cart = (props) => {
   }
 
   useEffect(() => {
-    if (loaded.current) {
-      setLoading(true);
-      if (props.user) {
-        setLoading(true);
-        let { user = {} } = props || {};
-        let { profileType = "" } = user || {};
-        if (profileType === "BUYER") {
-          getCartDetails();
+    if (loaded && keycloak.token === undefined) {
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
+    }
+  }, [loaded, keycloak.token]);
+
+  useEffect(() => {
+    if (loaded) {
+      if (keycloak.token) {
+        if (props.user) {
+          let { user = {} } = props || {};
+          let { profileType = "" } = user || {};
+          if (profileType === "BUYER") {
+            getCartDetails();
+          } else {
+            setLoading(false);
+          }
         } else {
           setLoading(false);
         }
       } else {
-        setLoading(false);
       }
     } else {
-      loaded.current = true;
-      setTimeout(() => {
-        setLoading(false);
-      }, 1200);
+      setLoaded(true);
     }
   }, [props.user]);
 

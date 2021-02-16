@@ -35,40 +35,42 @@ const SellerLanding = (props) => {
       setMobile(true);
     }
 
-    if (keycloak.token && props.userProfile) {
-      let { verificationStatus = "", profileType = "" } = props.userProfile;
-      props.getSellerDetails(
-        keycloak.token,
-        sellerIdParam?.toLowerCase(),
-        verificationStatus
-      );
+    if (keycloak.token) {
+      if (props.userProfile) {
+        let { verificationStatus = "", profileType = "" } = props.userProfile;
+        props.getSellerDetails(
+          keycloak.token,
+          sellerIdParam?.toLowerCase(),
+          verificationStatus
+        );
 
-      if (profileType === "BUYER" && verificationStatus === "IN_PROGRESS") {
-        fetch(
-          process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
-            "/profiles/my/subscriptions",
-          {
-            method: "GET",
-            headers: {
-              Authorization: "Bearer " + keycloak.token,
-            },
-          }
-        )
-          .then((res) => {
-            if (res.ok) {
-              return res.json();
-            } else {
-              throw res.statusText || "Error while fetching user profile.";
+        if (profileType === "BUYER" && verificationStatus === "IN_PROGRESS") {
+          fetch(
+            process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
+              "/profiles/my/subscriptions",
+            {
+              method: "GET",
+              headers: {
+                Authorization: "Bearer " + keycloak.token,
+              },
             }
-          })
-          .then((response) => {
-            setSellerSubscriptions(response["sellerSubscriptions"]);
-          })
-          .catch((err) => {
-            // console.log("Error ", err);
-          });
+          )
+            .then((res) => {
+              if (res.ok) {
+                return res.json();
+              } else {
+                throw res.statusText || "Error while fetching user profile.";
+              }
+            })
+            .then((response) => {
+              setSellerSubscriptions(response["sellerSubscriptions"]);
+            })
+            .catch((err) => {
+              // console.log("Error ", err);
+            });
+        }
       }
-    } else if (!keycloak.authenticated) {
+    } else if (!keycloak.token) {
       props.getSellerDetails(token, sellerIdParam?.toLowerCase());
     }
   }, [props.userProfile]);
