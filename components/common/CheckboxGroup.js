@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Checkbox from "./Checkbox";
 import { Input } from "antd";
 
-const ITEMS_TO_SHOW = 5;
+const ITEMS_TO_SHOW = 10;
 
 export default ({ options, ...props }) => {
   let { filterType } = props;
