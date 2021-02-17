@@ -1374,7 +1374,8 @@ const CartDetails = (props) => {
                                 </div>
                                 {isFulfillable === false &&
                                   inventoryQty &&
-                                  inventoryQty[productId] &&
+                                  inventoryQty[productId] !== undefined &&
+                                  inventoryQty[productId] !== 0 &&
                                   inventoryQty[productId] < quantity && (
                                     <div className="cart-sub-text p-out-of-stock">
                                       We have only {inventoryQty[productId]}{" "}
@@ -1383,7 +1384,7 @@ const CartDetails = (props) => {
                                   )}
                                 {isFulfillable === false &&
                                   inventoryQty &&
-                                  inventoryQty[productId] &&
+                                  inventoryQty[productId] !== undefined &&
                                   inventoryQty[productId] === 0 && (
                                     <div className="cart-sub-text p-out-of-stock">
                                       This product is currently out of stock
@@ -1966,7 +1967,8 @@ const CartDetails = (props) => {
                                   >
                                     {isFulfillable === false &&
                                       inventoryQty &&
-                                      inventoryQty[productId] &&
+                                      inventoryQty[productId] !== undefined &&
+                                      inventoryQty[productId] !== 0 &&
                                       inventoryQty[productId] < quantity && (
                                         <div className="cart-sub-text p-out-of-stock">
                                           We have only {inventoryQty[productId]}{" "}
@@ -1975,7 +1977,7 @@ const CartDetails = (props) => {
                                       )}
                                     {isFulfillable === false &&
                                       inventoryQty &&
-                                      inventoryQty[productId] &&
+                                      inventoryQty[productId] !== undefined &&
                                       inventoryQty[productId] === 0 && (
                                         <div className="cart-sub-text p-out-of-stock">
                                           This product is currently out of stock

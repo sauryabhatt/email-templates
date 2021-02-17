@@ -1,24 +1,13 @@
 /** @format */
 
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import ShippingDetails from "./ShippingDetails";
-import { getCart } from "../../store/actions";
 import { useKeycloak } from "@react-keycloak/ssr";
 
 const Shipping = (props) => {
-  let { cart = {} } = props;
+  let { cart = {} } = props.data;
   const { keycloak } = useKeycloak();
-
-  useEffect(() => {
-    if (props.user) {
-      let { user = {} } = props || {};
-      let { profileType = "" } = user || {};
-      if (profileType === "BUYER") {
-        props.getCart(keycloak.token);
-      }
-    }
-  }, [props.user, keycloak.token]);
 
   return <ShippingDetails app_token={keycloak.token} cart={cart} />;
 };
@@ -30,4 +19,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { getCart })(Shipping);
+export default connect(mapStateToProps, null)(Shipping);

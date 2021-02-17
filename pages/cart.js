@@ -27,6 +27,7 @@ export default function CartPage({ data, appToken }) {
   if (router.isFallback) {
     return <Spinner />;
   }
+
   return (
     <Layout meta={meta}>
       {appToken ? <Cart data={data} /> : <AnonymousCart />}

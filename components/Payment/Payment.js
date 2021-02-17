@@ -3,67 +3,24 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import PaymentDetails from "./PaymentDetails";
-import { checkCartAPI, getOrder } from "../../store/actions";
 import { useKeycloak } from "@react-keycloak/ssr";
-// import { Helmet } from "react-helmet";
 
 const Payment = (props) => {
-  let { cart = {}, user = {} } = props;
+  let { user = {} } = props;
   const { keycloak } = useKeycloak();
   const [data, setData] = useState({});
-  const [isLoading, setLoading] = useState(true);
-
-  async function getCartDetails(token) {
-    props.checkCartAPI(token, (result) => {
-      let {
-        orderId = "",
-        priceQuoteRef = "",
-        shippingMode = "",
-        shippingTerms = "",
-      } = result || {};
-
-      if (priceQuoteRef && shippingMode !== "DEFAULT") {
-        fetch(
-          `${process.env.NEXT_PUBLIC_REACT_APP_PRICE_QUOTATION_URL}/quotes/rts/${priceQuoteRef}?mode=${shippingMode}`,
-          {
-            method: "GET",
-            headers: {
-              "content-type": "application/json",
-              Authorization: "Bearer " + token,
-            },
-          }
-        )
-          .then((res) => {
-            if (res.ok) {
-              return res.json();
-            } else {
-              throw res.statusText || "COntent not found";
-            }
-          })
-          .then((res) => {
-            let shippingterm = shippingTerms.toLowerCase();
-            setData(res[shippingterm]);
-            setLoading(false);
-            props.getOrder(orderId, token);
-          })
-          .catch((error) => {
-            // message.error(error)
-            setLoading(false);
-          });
-      }
-      setLoading(false);
-    });
-  }
+  const [isLoading, setIsLoading] = useState(true);
+  const [cart, setCart] = useState(props.data.cart);
 
   useEffect(() => {
-    if (props.user) {
-      let { user = {} } = props || {};
-      let { profileType = "" } = user || {};
-      if (profileType === "BUYER") {
-        getCartDetails(keycloak.token);
-      }
+    let { priceQuoteResp = {}, cart = {} } = props.data || {};
+    let { shippingTerms = "" } = cart || {};
+    let shippingTerm = shippingTerms.toLowerCase();
+    if (priceQuoteResp && priceQuoteResp[shippingTerm]) {
+      setData(priceQuoteResp[shippingTerm]);
     }
-  }, [props.user, keycloak.token]);
+    setIsLoading(false);
+  }, []);
 
   return (
     <PaymentDetails
@@ -83,7 +40,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, {
-  checkCartAPI,
-  getOrder,
-})(Payment);
+export default connect(mapStateToProps, null)(Payment);
