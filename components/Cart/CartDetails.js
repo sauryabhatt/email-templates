@@ -96,7 +96,10 @@ const CartDetails = (props) => {
   const [defaultValue, setDefaultValue] = useState();
   const [form] = Form.useForm();
   const [addform] = Form.useForm();
-  const mediaMatch = window.matchMedia("(min-width: 1024px)");
+  const mediaMatch =
+    typeof window !== "undefined"
+      ? window.matchMedia("(min-width: 1024px)")
+      : false;
   const [selCountryCode, setSelCountryCode] = useState("us");
   const [dialCode, setDialCode] = useState("+1");
   const [contactId, setContactId] = useState(null);
@@ -116,7 +119,6 @@ const CartDetails = (props) => {
   const [error, setError] = useState({});
   const [selCountry, setSelCountry] = useState("");
   const [selPincode, setSelPincode] = useState("");
-  const [deliver, setDeliver] = useState(false);
   const [serviceTotal, setServiceTotal] = useState(0);
   const [hCountry, setHCountry] = useState([]);
   const [zipCodeList, setZipcodeList] = useState([]);
@@ -133,13 +135,8 @@ const CartDetails = (props) => {
     let { shippingAddressDetails = "", shippingAddressId, subOrders = [] } =
       cart || {};
     if (shippingAddressDetails && addresses.length > 0) {
-      let {
-        countryCode = "",
-        phoneNumber = "",
-        country = "",
-        zipCode = "",
-        dialCode = "",
-      } = shippingAddressDetails || {};
+      let { countryCode = "", country = "", zipCode = "", dialCode = "" } =
+        shippingAddressDetails || {};
       setSelectedShippingId(shippingAddressId);
       setSelCountryCode(countryCode);
       setSelCountryExpectedLength("success");
@@ -147,10 +144,6 @@ const CartDetails = (props) => {
       setSelCountry(country);
       handleCountry(country);
       setDialCode(dialCode);
-
-      if (deliveredCountryList.includes(country)) {
-        setDeliver(true);
-      }
     }
 
     if (subOrders.length > 0) {
@@ -182,7 +175,6 @@ const CartDetails = (props) => {
   let {
     subOrders = [],
     shippingAddressDetails = "",
-    shippingAddressId = "",
     orderId = "",
     isFulfillable = true,
     referralCode = "",
@@ -201,7 +193,6 @@ const CartDetails = (props) => {
     profileId = "",
     dunsNumber = "",
   } = shippingAddressDetails || {};
-  let shippingId = id;
   let mov = 0;
   let addressFlag = false;
   if (
@@ -288,21 +279,12 @@ const CartDetails = (props) => {
     ).toFixed(2);
   };
 
-  const countryCheck = (e) => {
-    if (deliveredCountryList.includes(e)) {
-      setDeliver(true);
-    } else {
-      setDeliver(false);
-    }
-  };
-
   const onChange = (e) => {
     let { value = "", id = "" } = e.target;
     setSelectedShippingId(value);
     let details = id.split("-");
     setSelCountry(details[1]);
     setSelPincode(details[0]);
-    countryCheck(details[1]);
   };
 
   const optForServices = () => {
@@ -325,11 +307,6 @@ const CartDetails = (props) => {
     form.setFieldsValue({ zipCode: "" });
     addform.setFieldsValue({ zipCode: "" });
     addform.setFieldsValue({ state: "" });
-    if (deliveredCountryList.includes(value)) {
-      setDeliver(true);
-    } else {
-      setDeliver(false);
-    }
     setSelCountry(value);
     setZipcodeList([]);
   };
@@ -463,7 +440,6 @@ const CartDetails = (props) => {
   const saveAddress = (values) => {
     setSelCountry(values.country);
     setSelPincode(values.zipCode);
-    countryCheck(values.country);
     let zip = values.zipCode.replace(/[^a-z0-9]/gi, "");
     let data = {
       profileId: profileId,
@@ -511,7 +487,6 @@ const CartDetails = (props) => {
   const updateAddress = (values) => {
     setSelCountry(values.country);
     setSelPincode(values.zipCode);
-    countryCheck(values.country);
     let zip = values.zipCode.replace(/[^a-z0-9]/gi, "");
     let data = {
       profileId: profileId,
@@ -1530,7 +1505,7 @@ const CartDetails = (props) => {
                 enable={enable && isFulfillable && addressFlag}
                 cart={cart}
                 brandNames={brandNames}
-                deliver={deliver}
+                deliver={deliveredCountryList.includes(selCountry || country)}
                 showCartError={showError}
                 currencyDetails={currencyDetails}
                 user={userProfile}
@@ -1620,7 +1595,7 @@ const CartDetails = (props) => {
                   enable={enable && isFulfillable && addressFlag}
                   cart={cart}
                   brandNames={brandNames}
-                  deliver={deliver}
+                  deliver={deliveredCountryList.includes(selCountry || country)}
                   showCartError={showError}
                   currencyDetails={currencyDetails}
                   user={userProfile}
@@ -2872,7 +2847,7 @@ const CartDetails = (props) => {
                     },
                   ]}
                 >
-                  {deliver ? (
+                  {deliveredCountryList.includes(selCountry || country) ? (
                     <Select showSearch onSearch={handleZipCode}>
                       {zipCodeList && zipCodeList.length > 0 ? (
                         zipCodeList.map((e) => {
