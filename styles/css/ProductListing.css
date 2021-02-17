@@ -315,3 +315,12 @@
   box-shadow: none !important;
   border-right: none !important;
 }
+span.ant-input-affix-wrapper.ant-input-search {
+  background: transparent;
+}
+span.ant-input-affix-wrapper.ant-input-search:focus,
+span.ant-input-affix-wrapper.ant-input-search:active {
+  box-shadow: none;
+  outline: none;
+  border: none;
+}

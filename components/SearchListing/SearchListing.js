@@ -77,6 +77,7 @@ const SearchListing = (props) => {
       f_l2name,
       f_l3name,
       search,
+      f_l1_names,
       sort_by: sort,
       ...rest
     } = queryParams;
