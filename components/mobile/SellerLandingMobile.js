@@ -199,6 +199,7 @@ function SellerLandingMobile(props) {
 
   let { profileType = "", verificationStatus = "" } = userProfile || {};
   let {
+    id = "",
     orgName = "",
     brandName = "",
     companyDescription = "",
@@ -219,6 +220,9 @@ function SellerLandingMobile(props) {
     showcaseMedia = {},
     showSPLP = "",
   } = sellerDetails || {};
+
+  let sellerId = "";
+  sellerId = id.replace("HOME::SELLER::", "");
 
   let { sellerSubscriptions = [] } = props;
   let offerings = [...publicOfferings, ...privateOfferings];
@@ -293,8 +297,6 @@ function SellerLandingMobile(props) {
 
   const handleClick = (e) => {
     setSelectedKey(e.key);
-    let { sellerId = "" } = props;
-    sellerId = sellerId.replace("SELLER::", "");
     if (e.key !== "seller-home") {
       router.push("/seller/" + sellerId + "/all-categories");
     }
@@ -491,7 +493,7 @@ function SellerLandingMobile(props) {
     //   fetch(
     //     process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
     //       "/seller-home/" +
-    //       props.sellerId +
+    //       sellerId +
     //       "/category-product-range",
     //     {
     //       method: "GET",
@@ -562,7 +564,7 @@ function SellerLandingMobile(props) {
 
   const requestSellerAccess = () => {
     setRequestLoading(true);
-    let data = { profileId: props.sellerId };
+    let data = { profileId: sellerId };
     fetch(
       process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
         "/profiles/my/subscriptions",
@@ -643,7 +645,7 @@ function SellerLandingMobile(props) {
       presenters: [
         {
           profileType: "SELLER",
-          profileId: props.sellerId,
+          profileId: sellerId,
           slotDate: sellerStartTime.split(" ")[0],
           slotStart: moment(sellerStartTime.split(" ")[1].toString(), [
             "HH:mm",

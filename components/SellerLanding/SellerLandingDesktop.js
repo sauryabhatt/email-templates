@@ -45,7 +45,6 @@ const DynamicPDFDocument = dynamic(() => import("../common/PDFDocument"), {
 });
 import Link from "next/link";
 import { useRouter } from "next/router";
-const isServer = () => typeof window == "undefined";
 
 const { Column, ColumnGroup } = Table;
 const { Content } = Layout;
@@ -80,9 +79,6 @@ const SellerLandingDesktop = (props) => {
   const [logoUrl, setLogoUrl] = useState();
   const [productTypeDetails, setProductTypeDetails] = useState([]);
   let mediaMatch;
-
-  let { sellerId = "" } = props || {};
-  sellerId = sellerId.replace("SELLER::", "");
 
   useEffect(() => {
     mediaMatch = window.matchMedia("(max-width: 1024px)");
@@ -154,6 +150,7 @@ const SellerLandingDesktop = (props) => {
   let { profileType = "", verificationStatus = "" } = userProfile || {};
 
   let {
+    id = "",
     orgName = "",
     brandName = "",
     companyDescription = "",
@@ -174,6 +171,9 @@ const SellerLandingDesktop = (props) => {
     showcaseMedia = {},
     showSPLP = "",
   } = sellerDetails || {};
+
+  let sellerId = "";
+  sellerId = id.replace("HOME::SELLER::", "");
 
   let { sellerSubscriptions = [] } = props;
   orderMinimums = _.orderBy(orderMinimums, ["type"], ["desc"]);
@@ -483,7 +483,7 @@ const SellerLandingDesktop = (props) => {
 
   const requestSellerAccess = () => {
     setRequestLoading(true);
-    let data = { profileId: props.sellerId };
+    let data = { profileId: sellerId };
     fetch(
       process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
         "/profiles/my/subscriptions",
@@ -569,7 +569,7 @@ const SellerLandingDesktop = (props) => {
       presenters: [
         {
           profileType: "SELLER",
-          profileId: props.sellerId,
+          profileId: sellerId,
           slotDate: sellerStartTime.split(" ")[0],
           slotStart: moment(sellerStartTime.split(" ")[1].toString(), [
             "HH:mm",
@@ -760,8 +760,6 @@ const SellerLandingDesktop = (props) => {
   const [selectedKey, setSelectedKey] = useState("seller-home");
   const handleClick = (e) => {
     setSelectedKey(e.key);
-    let { sellerId = "" } = props;
-    sellerId = sellerId.replace("SELLER::", "");
     if (e.key !== "seller-home") {
       router.push("/seller/" + sellerId + "/all-categories");
     }

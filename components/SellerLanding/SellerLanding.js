@@ -14,6 +14,7 @@ const isServer = () => typeof window == "undefined";
 const SellerLanding = (props) => {
   const router = useRouter();
   let { sellerId: sellerIdParam } = router.query;
+
   let { userProfile = {}, isLoading = true } = props;
 
   const token = useSelector(
@@ -22,24 +23,28 @@ const SellerLanding = (props) => {
 
   const { keycloak } = useKeycloak();
   const [mobile, setMobile] = useState(false);
-  const [sellerId, setSellerId] = useState("");
   const [sellerSubscriptions, setSellerSubscriptions] = useState([]);
   const [aboutCompany, setAboutCompany] = useState(props.data.about);
   const [productPopupDetails, setProductPopupDetails] = useState(
     props.data.category_product_range
   );
+  const [sellerDetails, setSellerDetails] = useState(props.data.sellerDetails);
 
   useEffect(() => {
     let width = window.screen ? window.screen.width : window.innerWidth;
     if (width <= 768) {
       setMobile(true);
     }
+
     if (props.userProfile) {
       let { verificationStatus = "", profileType = "" } = props.userProfile;
       props.getSellerDetails(
         keycloak.token,
         sellerIdParam?.toLowerCase(),
-        verificationStatus
+        verificationStatus,
+        (result) => {
+          setSellerDetails(result);
+        }
       );
 
       if (profileType === "BUYER" && verificationStatus === "IN_PROGRESS") {
@@ -70,68 +75,6 @@ const SellerLanding = (props) => {
     }
   }, [props.userProfile]);
 
-  useEffect(() => {
-    let { sellerDetails = {} } = !isServer() ? props : props.data;
-    if (sellerDetails && sellerDetails["id"]) {
-      let { id = "" } = sellerDetails;
-      id = id.replace("HOME::", "");
-      setSellerId(id);
-      fetch(
-        process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
-          "/seller-home/ABOUT::" +
-          id +
-          "/about",
-        {
-          method: "GET",
-          headers: {
-            Authorization: "Bearer " + process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN,
-          },
-        }
-      )
-        .then((res) => {
-          if (res.ok) {
-            return res.json();
-          } else {
-            throw res.statusText || "Error while fetching user profile.";
-          }
-        })
-        .then((response) => {
-          let aboutCompany =
-            response.length > 0 ? response[0]["htmlContent"] : "";
-          setAboutCompany(aboutCompany);
-        })
-        .catch((err) => {
-          // console.log("Error ", err);
-        });
-
-      fetch(
-        process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
-          "/seller-home/" +
-          id +
-          "/category-product-range",
-        {
-          method: "GET",
-          headers: {
-            Authorization: "Bearer " + process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN,
-          },
-        }
-      )
-        .then((res) => {
-          if (res.ok) {
-            return res.json();
-          } else {
-            throw res.statusText || "Error while fetching user profile.";
-          }
-        })
-        .then((response) => {
-          setProductPopupDetails(response);
-        })
-        .catch((err) => {
-          // console.log("Error ", err);
-        });
-    }
-  }, [props.sellerDetails]);
-
   const categoryRange = () => {
     let productTypes = _.groupBy(props.data.category_product_range, "l2Desc");
 
@@ -157,35 +100,29 @@ const SellerLanding = (props) => {
     <div>
       {mobile ? (
         <SellerLandingMobile
-          data={!isServer() ? props.sellerDetails : props.data.sellerDetails}
-          isLoading={!isServer() ? isLoading : false}
+          data={!isServer() ? sellerDetails : props.data.sellerDetails}
+          isLoading={isServer() ? isLoading : false}
           userProfile={userProfile}
           token={keycloak.token || token}
-          sellerId={sellerId}
           sellerSubscriptions={sellerSubscriptions}
-          aboutCompany={aboutCompany}
+          aboutCompany={!isServer() ? aboutCompany : props.data.about}
           productPopupDetails={
             !isServer() ? productPopupDetails : categoryRange()
           }
-          sellerIdentity={
-            (props.sellerDetails && props.sellerDetails.kcIdentityId) || null
-          }
+          sellerIdentity={(sellerDetails && sellerDetails.kcIdentityId) || null}
         />
       ) : (
         <SellerLandingDesktop
-          data={!isServer() ? props.sellerDetails : props.data.sellerDetails}
-          isLoading={!isServer() ? isLoading : false}
+          data={!isServer() ? sellerDetails : props.data.sellerDetails}
+          isLoading={isServer() ? isLoading : false}
           userProfile={userProfile}
           token={keycloak.token || token}
-          sellerId={sellerId}
           sellerSubscriptions={sellerSubscriptions}
           productPopupDetails={
             !isServer() ? productPopupDetails : categoryRange()
           }
-          aboutCompany={aboutCompany}
-          sellerIdentity={
-            (props.sellerDetails && props.sellerDetails.kcIdentityId) || null
-          }
+          aboutCompany={!isServer() ? aboutCompany : props.data.about}
+          sellerIdentity={(sellerDetails && sellerDetails.kcIdentityId) || null}
         />
       )}
     </div>
@@ -194,7 +131,6 @@ const SellerLanding = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    sellerDetails: state.sellerListing.sellerDetails,
     userProfile: state.userProfile.userProfile,
     isLoading: state.sellerListing.isLoading,
   };

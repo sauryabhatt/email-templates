@@ -48,7 +48,7 @@ function SellerBanner(props) {
               height: "100%",
             }}
           >
-            <div className="banner-text-small qa-font-san qa-fs-12 qa-text-3line qa-tc-f">
+            <div className="banner-text-small qa-font-san qa-fs-12 qa-text-4line qa-tc-f">
               {companyDescription}
             </div>
           </div>

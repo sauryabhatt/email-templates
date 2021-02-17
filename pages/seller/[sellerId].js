@@ -1,9 +1,9 @@
 /** @format */
 
-import { Layout } from "../../../components/common/Layout";
-import SellerLanding from "../../../components/SellerLanding/SellerLanding";
-import Spinner from "../../../components/Spinner/Spinner";
-import NotFound from "../../../components/NotFound/NotFound";
+import { Layout } from "../../components/common/Layout";
+import SellerLanding from "../../components/SellerLanding/SellerLanding";
+import Spinner from "../../components/Spinner/Spinner";
+import NotFound from "../../components/NotFound/NotFound";
 
 import { useRouter } from "next/router";
 export default function SellerLandingPage({ data }) {
@@ -52,17 +52,21 @@ export async function getStaticPaths() {
   };
 }
 
-export const getStaticProps = async ({ params }) => {
-  const { sellerId } = params || {};
-
+export const getStaticProps = async ({ params: { sellerId = "" } = {} }) => {
   let res = {};
   const error = { status: false };
+
   try {
-    const response_sellerDetails = await fetch(
+    const responseSD = await fetch(
       process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + `/${sellerId}`,
-      { method: "GET" }
+      {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN,
+        },
+      }
     );
-    res["sellerDetails"] = await response_sellerDetails.json();
+    res["sellerDetails"] = await responseSD.json();
 
     let id = await res?.sellerDetails?.id?.replace("HOME::", "");
 
@@ -99,6 +103,7 @@ export const getStaticProps = async ({ params }) => {
   } catch (error) {
     error["status"] = true;
   }
+
   return {
     props: {
       data: {
