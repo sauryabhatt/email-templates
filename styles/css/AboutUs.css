@@ -5,29 +5,28 @@
 }
 
 #aboutus-banner {
-  /* background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url("https://cdn.qalara.com/images/banner_top.png"); */
   background-size: cover;
   background-repeat: no-repeat;
-  background-image: url("https://cdn.qalara.com/images/Img_AbouUs_1x_Full_Width_Banner.jpg");
+  background-image: url("../../public/Banner_Img.jpg");
   background-color: #4e4848;
   background-position: center;
   min-width: 100%;
   max-width: 100%;
-  height: 45vh;
-  max-height: 45vh;
+  height: 42vh;
+  max-height: 42vh;
 }
 
 @media only screen and (min-width: 768px) {
   #aboutus-banner .banner-text {
     position: absolute;
-    left: 50%;
-    top: 25.93vh;
+    left: 60px;
+    top: 27vh;
     font-family: Butler;
-    font-weight: 300;
+    font-style: normal;
+    font-weight: normal;
     font-size: 60px;
     line-height: 72px;
-    color: #382019;
-    transform: translate(-50%);
+    color: #f9f7f2;
   }
 
   #aboutus-banner .banner-text-small {
@@ -60,6 +59,12 @@
     text-align: justify;
     margin-bottom: 20px;
   }
+  #aboutus-body-parent .section-content.center-align.core-value {
+    padding: 0px 160px;
+  }
+  #aboutus-body-parent .aboutus-svg-bg {
+    margin-top: -50px;
+  }
 }
 
 @media only screen and (max-width: 767px) {
@@ -74,10 +79,8 @@
     font-family: Butler;
     font-weight: 300;
     font-size: 36px;
-    color: #ffffff;
+    color: #f9f7f2;
     transform: translate(-50%);
-    width: 100%;
-    text-align: center;
   }
 
   #aboutus-banner .banner-text-small {
@@ -113,7 +116,7 @@
 }
 #aboutus-body-parent .landing-container {
   justify-content: center;
-  padding: 40px 60px;
+  padding: 80px 60px;
 }
 #aboutus-body-parent .curated-fold {
   width: 100%;
@@ -172,11 +175,14 @@
   margin-bottom: 60px;
 }
 #aboutus-body-parent .section-content.center-align {
-  padding: 0px 165px;
+  padding: 0px 192px;
 }
 #aboutus-body-parent .aboutus-press-crousel {
   background-color: transparent;
-  padding: 0px;
+  padding: 0px 60px;
+}
+#aboutus-body-parent .aboutus-press-crousel.press-crousel .press-arrow {
+  top: 22px;
 }
 #aboutus-body-parent .scroller-container {
   display: none;
@@ -189,6 +195,7 @@
   text-align: center;
   color: #f9f7f2;
   margin-top: 100px;
+  padding: 20px 45px;
 }
 #aboutus-body-parent .wework {
   font-family: Butler;
@@ -241,12 +248,14 @@
   font-family: senregular;
   font-style: normal;
   font-weight: bold;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 20px;
   letter-spacing: 0.25px;
-  text-decoration: underline;
+  border-bottom: 1px solid #d9bb7f;
+  padding-bottom: 2px;
   color: #d9bb7f;
   cursor: pointer;
+  margin-top: 20px;
 }
 #aboutus-body-parent .press-blk {
   padding: 0px 30px;
@@ -258,7 +267,7 @@
   padding: 16px 16px;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
   margin: 0px;
-  width: 285px;
+  width: 281px;
   cursor: pointer;
 }
 .aboutus-btn .button.qa-primary-btn {
@@ -270,11 +279,11 @@
   margin-left: 10px;
 }
 .aboutus-btn .sign-up-text {
-  font-size: 16px;
+  font-size: 17px;
   line-height: 140%;
 }
 .aboutus-btn {
-  padding-top: 30px;
+  padding-top: 15px;
 }
 #aboutus-body-parent .highlight-text.qa-fs-36 {
   font-size: 36px;
@@ -328,6 +337,7 @@
 }
 #aboutus-body-parent .aboutus-hw {
   width: 50%;
+  margin-top: 20px;
 }
 #aboutus-body-parent .aboutus-pr-1 {
   padding-right: 10px;
@@ -338,6 +348,9 @@
   padding-bottom: 10px;
 }
 @media only screen and (max-width: 768px) {
+  #aboutus-body-parent .aboutus-press-crousel {
+    padding: 0px;
+  }
   #aboutus-body-parent .landing-container {
     padding: 40px 30px;
   }
@@ -345,8 +358,9 @@
     padding: 0px 30px;
   }
   #aboutus-body-parent .section-heading {
-    font-size: 20px;
+    font-size: 24px;
     line-height: 24px;
+    margin-bottom: 20px;
   }
   #aboutus-body-parent .section-heading.after::after,
   #aboutus-body-parent .section-heading.before::before {
@@ -354,6 +368,10 @@
   }
   #aboutus-body-parent .section-content {
     text-align: center;
+  }
+  #aboutus-body-parent .section-content.qa-txt-alg-lft {
+    text-align: left;
+    margin-bottom: 30px;
   }
   #aboutus-body-parent .section-content.center-align {
     padding: 0px;
@@ -363,6 +381,9 @@
   }
   #aboutus-body-parent .aboutus-container {
     margin-bottom: 20px;
+  }
+  #aboutus-body-parent .aboutus-container.news-section {
+    margin-bottom: 0px;
   }
   .aboutus-btn .button.qa-primary-btn {
     margin-right: 0px;
@@ -376,6 +397,10 @@
   #aboutus-body-parent .highlight-text {
     font-size: 17px;
     line-height: 24px;
+    margin-bottom: 10px;
+  }
+  #aboutus-body-parent .section-content p.highlight-text {
+    margin-bottom: 10px;
   }
   #aboutus-body-parent .line-divider {
     display: inline-block;
@@ -409,12 +434,10 @@
   #aboutus-body-parent .qa-flex-row div {
     text-align: left;
   }
-  #aboutus-body-parent .news-article {
-    margin-bottom: 20px;
-  }
   #aboutus-body-parent .about-whyus {
-    margin-top: 0px;
+    margin-top: 75px;
     font-size: 14px;
+    padding: 0px;
   }
   #aboutus-body-parent .highlight-text.qa-fs-36 {
     font-size: 24px;
@@ -434,6 +457,9 @@
     width: 100%;
     margin: 0 auto;
   }
+  #aboutus-body-parent .scroll-container .image-wrp {
+    min-width: 180px;
+  }
 }
 #aboutus-body-parent .section-content.mr-top-6 {
   margin-top: 60px;
@@ -448,9 +474,6 @@
 #aboutus-body-parent .aboutus-full {
   width: 100%;
 }
-#aboutus-body-parent .aboutus-pl-3 {
-  padding-left: 30px;
-}
 @media only screen and (min-width: 320px) and (max-width: 360px) {
   #aboutus-body-parent .aboutus-step.qa-fs-24 {
     font-size: 18px;
@@ -461,4 +484,22 @@
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
+}
+#aboutus-body-parent .qa-pad-rgt-5 {
+  padding-right: 50px;
+}
+#aboutus-body-parent .new-read-article {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+#aboutus-body-parent .mobile-press-crousel-container {
+  margin-bottom: 35px;
+}
+@media only screen and (max-device-width: 1024px) {
+  #aboutus-body-parent .section-heading.after::after {
+    width: 160px;
+  }
+  #aboutus-body-parent .section-heading.before::before {
+    width: 160px;
+  }
 }

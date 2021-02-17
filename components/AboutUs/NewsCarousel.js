@@ -8,7 +8,7 @@ import Slider from "react-slick";
 import left from "../../public/filestore/left";
 import right from "../../public/filestore/right";
 
-export default function PressCrousel(props) {
+export default function NewsCrousel(props) {
   const [isMobile, setIsMobile] = useState(false);
   let slider;
 
@@ -34,44 +34,61 @@ export default function PressCrousel(props) {
   const press_data = [
     {
       mobile_height: "15px",
-      height: "30px",
+      height: "40px",
       url:
         "https://giftguideonline.com.au/blog/are-you-looking-to-expand-on-a-global-scale.html",
-      linkTo: process.env.NEXT_PUBLIC_URL + "/news 1.jpg",
+      linkTo: process.env.NEXT_PUBLIC_URL + "/news1.jpg",
       title:
-        "“This Virtual Wholesale Platform Links Regional Artisans to Global Retail”",
+        "Qalara is a digital platform that enables producers and brands of consciously designed goods to access global markets with ease and reliability.",
     },
     {
       mobile_height: "15px",
-      height: "30px",
+      height: "40px",
       url:
         "https://sourcingjournal.com/topics/sourcing/qalara-india-artisans-ethical-manufacturing-retail-online-sustainability-241851/",
-      linkTo: process.env.NEXT_PUBLIC_URL + "/news 2.jpg",
+      linkTo: process.env.NEXT_PUBLIC_URL + "/news2.jpg",
       title:
-        "“Qalara, a startup that offers a wholesale ecommerce marketplace for small businesses to export across the world.”",
+        "This Virtual Wholesale Platform Links Regional Artisans to Global Retail",
     },
     {
       mobile_height: "15px",
-      height: "30px",
+      height: "40px",
       url: "https://futureofsourcing.com/women-in-global-sourcing-aditi-pany",
-      linkTo: process.env.NEXT_PUBLIC_URL + "/news 3.jpg",
+      linkTo: process.env.NEXT_PUBLIC_URL + "/news3.jpg",
       title:
         "Our founder featured alongside pioneering 'women in global sourcing'",
+    },
+    {
+      mobile_height: "15px",
+      height: "40px",
+      url:
+        "https://yourstory.com/2020/12/mukesh-ambani-reliance-industries-startup-qalara-aditi-pany",
+      linkTo: process.env.NEXT_PUBLIC_URL + "/news4.jpg",
+      title:
+        "Qalara offers a wholesale ecommerce marketplace for small businesses to export across the world.",
+    },
+    {
+      mobile_height: "15px",
+      height: "40px",
+      url: "https://ideamensch.com/aditi-pany/",
+      linkTo: process.env.NEXT_PUBLIC_URL + "/news5.jpg",
+      title:
+        "Qalara aimed at redesigning the global supply chain for artisan goods",
     },
   ];
   let mobile_view = [];
 
   for (let i = 0; i < press_data.length; i++) {
     let view = (
-      <div className="mobile-press-crousel-container" key={i}>
+      <div className="mobile-press-crousel-container qa-mar-top-3" key={i}>
         <div className="mobile-img-wrp">
-          <img
-            style={{ height: `${press_data[i].mobile_height}` }}
-            src={press_data[i].linkTo}
-            alt={press_data[i].url}
-          />
+          <img src={press_data[i].linkTo} alt={press_data[i].url} />
           <div className="news-para">{press_data[i].title}</div>
-          <div className="news-article">Read Article</div>
+          <div>
+            <a href={press_data[i].url}>
+              <span className="news-article">Read Article</span>
+            </a>
+          </div>
         </div>
       </div>
     );
@@ -97,7 +114,11 @@ export default function PressCrousel(props) {
                   alt={data.url}
                 />
                 <div className="news-para">{data.title}</div>
-                <div className="news-article">Read Article</div>
+                <div className="new-read-article">
+                  <a href={data.url}>
+                    <span className="news-article">Read Article</span>
+                  </a>
+                </div>
               </div>
             );
           })}
