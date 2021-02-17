@@ -114,7 +114,9 @@ class ProductFacets extends Component {
     this.setState({ openKeys: [...OPEN_KEYS, ...openKeys] });
 
   clearFilter = () => {
-    this.props.onClose();
+    if (this.props.id === "mobile") {
+      this.props.onClose();
+    }
     this.props.getFilterData(this.baseState.query, "clear");
   };
 
@@ -397,7 +399,15 @@ class ProductFacets extends Component {
             </SubMenu>
 
             {this.props.id !== "mobile" && (
-              <div className="filter-title qa-mar-btm-2">FILTERS</div>
+              <div className="qa-mar-btm-2">
+                <span className="filter-title">FILTERS</span>
+                <span
+                  className="clear-filter"
+                  onClick={() => this.clearFilter()}
+                >
+                  Clear All
+                </span>
+              </div>
             )}
 
             {_.map(orderedFacets, (facet, key) => {
