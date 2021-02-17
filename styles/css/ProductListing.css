@@ -317,6 +317,7 @@
 }
 span.ant-input-affix-wrapper.ant-input-search {
   background: transparent;
+  border-color: #d9d9d9;
 }
 span.ant-input-affix-wrapper.ant-input-search:focus,
 span.ant-input-affix-wrapper.ant-input-search:active {
@@ -332,4 +333,9 @@ span.ant-input-affix-wrapper.ant-input-search:active {
 }
 .filter-search-box .ant-input-search-icon:before {
   border-left: none;
+}
+.filter-search-box .ant-input-affix-wrapper:hover,
+.filter-search-box .ant-input-affix-wrapper:active,
+.filter-search-box .ant-input-affix-wrapper:focus {
+  border-color: #d9d9d9;
 }
