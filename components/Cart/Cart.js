@@ -68,7 +68,7 @@ const Cart = (props) => {
   }, [props.user]);
 
   console.log("isLoading ", isLoading);
-  if (isLoading) {
+  if (!isServer() && isLoading) {
     return <Spinner />;
   } else {
     return (
