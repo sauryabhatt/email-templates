@@ -156,15 +156,15 @@ function AboutUsWrapper() {
           <div className="aboutus-container center-align-container">
             {isMobile && <div className="line-divider"></div>}
             <h2
-              className={isMobile ? "section-heading" : "section-heading after"}
+              className={
+                isMobile
+                  ? "section-heading qalara-heading"
+                  : "section-heading after"
+              }
             >
               Why the name "Qalara"{isMobile && <br></br>} (kuh-laa-raa)?
-              <span
-                className={
-                  isMobile
-                    ? "qa-cursor qa-mar-lft qa-va-m"
-                    : "qa-cursor qa-mar-lft"
-                }
+              <div
+                className="qa-cursor qa-mar-lft qa-disp-inline"
                 onClick={toggle}
               >
                 <Icon
@@ -174,7 +174,7 @@ function AboutUsWrapper() {
                     width: "25px",
                   }}
                 ></Icon>
-              </span>
+              </div>
             </h2>
             <p className="section-content center-align">
               Kala in Hindi means ‘a skilled craft’ while Ira stands for ‘Earth’
@@ -305,7 +305,7 @@ function AboutUsWrapper() {
                     with leading global companies like Amazon, Target, DHL
                     Global, Flipkart, and more.
                   </p>
-                  <div className="highlight-text">
+                  <div className="highlight-text qa-fs-18">
                     “Qalara is a powerful combination of a strong mission-driven
                     experienced team venture and the digital & supply chain
                     ecosystem of a Fortune 100 company”
@@ -952,7 +952,7 @@ function AboutUsWrapper() {
                 </div> */}
 
                 <Link href="/FAQforwholesalebuyers">
-                  <div className="qa-txt-alg-cnt qa-mar-top-2">
+                  <div className="qa-txt-alg-cnt qa-mar-top-2 qa-mar-btm-1">
                     <span className="news-article">View FAQs</span>
                   </div>
                 </Link>

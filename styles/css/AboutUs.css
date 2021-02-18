@@ -518,3 +518,11 @@
     width: 160px;
   }
 }
+#aboutus-body-parent .highlight-text.qa-fs-18 {
+  padding-top: 10px;
+  font-size: 18px;
+  line-height: 25px;
+}
+#aboutus-body-parent .section-heading.qalara-heading {
+  line-height: 32px;
+}
