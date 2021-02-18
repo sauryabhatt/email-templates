@@ -19,11 +19,11 @@
 @media only screen and (min-width: 768px) {
   #aboutus-banner .banner-text {
     position: absolute;
-    left: 60px;
+    left: 10%;
     top: 27vh;
     font-family: Butler;
     font-style: normal;
-    font-weight: normal;
+    font-weight: 300;
     font-size: 60px;
     line-height: 72px;
     color: #f9f7f2;
@@ -64,6 +64,9 @@
   }
   #aboutus-body-parent .aboutus-svg-bg {
     margin-top: -50px;
+  }
+  #aboutus-body-parent .aboutus-full.india-map {
+    width: 70%;
   }
 }
 
@@ -112,6 +115,9 @@
     color: #ffffff;
     /* text-align: justify; */
     margin-bottom: 20px;
+  }
+  #aboutus-body-parent .aboutus-full.india-map {
+    width: 90%;
   }
 }
 #aboutus-body-parent .landing-container {
@@ -255,7 +261,7 @@
   padding-bottom: 2px;
   color: #d9bb7f;
   cursor: pointer;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 #aboutus-body-parent .press-blk {
   padding: 0px 30px;
@@ -347,6 +353,12 @@
   padding-left: 10px;
   padding-bottom: 10px;
 }
+#aboutus-body-parent .abtus-img-aditi::after {
+  padding-bottom: 115%;
+}
+#aboutus-body-parent .abtus-img-team::after {
+  padding-bottom: 80.5%;
+}
 @media only screen and (max-width: 768px) {
   #aboutus-body-parent .aboutus-press-crousel {
     padding: 0px;
@@ -408,7 +420,7 @@
     border-top: 2px solid #f9f7f2;
     width: 100px;
     vertical-align: middle;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
   }
   #aboutus-body-parent .aboutus-full {
     width: 100%;
@@ -435,7 +447,7 @@
     text-align: left;
   }
   #aboutus-body-parent .about-whyus {
-    margin-top: 75px;
+    margin-top: 25px;
     font-size: 14px;
     padding: 0px;
   }
@@ -459,6 +471,9 @@
   }
   #aboutus-body-parent .scroll-container .image-wrp {
     min-width: 180px;
+  }
+  #aboutus-body-parent .abtus-img-aditi::after {
+    padding-bottom: 78%;
   }
 }
 #aboutus-body-parent .section-content.mr-top-6 {
@@ -493,7 +508,7 @@
   margin-bottom: 10px;
 }
 #aboutus-body-parent .mobile-press-crousel-container {
-  margin-bottom: 35px;
+  margin-bottom: 40px;
 }
 @media only screen and (max-device-width: 1024px) {
   #aboutus-body-parent .section-heading.after::after {

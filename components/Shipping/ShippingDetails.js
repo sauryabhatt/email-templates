@@ -89,8 +89,6 @@ const ShippingDetails = (props) => {
   const [shippingTerm, setShippingTerm] = useState("ddu");
   const [shipTerm, setShipTerm] = useState("ddu");
 
-  console.log("apptoken ", appToken);
-
   useEffect(() => {
     let {
       airQuote = { ddp: {}, ddu: {} },
@@ -441,7 +439,6 @@ const ShippingDetails = (props) => {
   if (isLoading) {
     return <Spinner />;
   }
-  console.log(tat, mode);
   return (
     <Row id="cart-details" className="cart-section qa-font-san">
       <CheckoutSteps pageId="shipping" />

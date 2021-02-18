@@ -176,13 +176,7 @@ function AboutUsWrapper() {
                 ></Icon>
               </span>
             </h2>
-            <p
-              className={
-                isMobile
-                  ? "section-content qa-txt-alg-lft"
-                  : "section-content center-align"
-              }
-            >
+            <p className="section-content center-align">
               Kala in Hindi means ‘a skilled craft’ while Ira stands for ‘Earth’
               in Sanskrit. We believe that these two combined form the essence
               of who we are - a celebration of human ingenuity and the immense
@@ -206,20 +200,28 @@ function AboutUsWrapper() {
                   </h2>
                   <Row>
                     <Col
-                      xs={14}
-                      sm={14}
+                      xs={12}
+                      sm={12}
                       md={14}
                       lg={14}
                       xl={14}
                       className="aboutus-pr-1"
                     >
-                      <video muted loop autoPlay controls={false} width="100%">
-                        <source
-                          src={process.env.NEXT_PUBLIC_URL + "/Team-1.mp4"}
-                          type="video/mp4"
-                        />
-                        Your browser does not support HTML5 video.
-                      </video>
+                      <div>
+                        <video
+                          muted
+                          loop
+                          autoPlay
+                          controls={false}
+                          width="100%"
+                        >
+                          <source
+                            src={process.env.NEXT_PUBLIC_URL + "/Team-1.mp4"}
+                            type="video/mp4"
+                          />
+                          Your browser does not support HTML5 video.
+                        </video>
+                      </div>
                     </Col>
                     <Col
                       xs={10}
@@ -229,10 +231,12 @@ function AboutUsWrapper() {
                       xl={10}
                       className="aboutus-pl-1"
                     >
-                      <img
-                        className="aboutus-full"
-                        src={process.env.NEXT_PUBLIC_URL + "/Team-quote.jpg"}
-                      ></img>
+                      <div className="aspect-ratio-box abtus-img-team">
+                        <img
+                          className="aboutus-full"
+                          src={process.env.NEXT_PUBLIC_URL + "/Team-quote.jpg"}
+                        ></img>
+                      </div>
                     </Col>
                   </Row>
                   <Row>
@@ -244,10 +248,12 @@ function AboutUsWrapper() {
                       xl={8}
                       className="aboutus-pr-1"
                     >
-                      <img
-                        className="aboutus-full"
-                        src={process.env.NEXT_PUBLIC_URL + "/Team-Aditi.jpg"}
-                      ></img>
+                      <div className="aspect-ratio-box abtus-img-aditi">
+                        <img
+                          className="aboutus-full"
+                          src={process.env.NEXT_PUBLIC_URL + "/Team-Aditi.jpg"}
+                        ></img>
+                      </div>
                     </Col>
                     <Col
                       xs={14}
@@ -257,13 +263,21 @@ function AboutUsWrapper() {
                       xl={16}
                       className="aboutus-pl-1"
                     >
-                      <video muted loop autoPlay controls={false} width="100%">
-                        <source
-                          src={process.env.NEXT_PUBLIC_URL + "/Team-2.mp4"}
-                          type="video/mp4"
-                        />
-                        Your browser does not support HTML5 video.
-                      </video>
+                      <div>
+                        <video
+                          muted
+                          loop
+                          autoPlay
+                          controls={false}
+                          width="100%"
+                        >
+                          <source
+                            src={process.env.NEXT_PUBLIC_URL + "/Team-2.mp4"}
+                            type="video/mp4"
+                          />
+                          Your browser does not support HTML5 video.
+                        </video>
+                      </div>
                     </Col>
                   </Row>
                 </div>
@@ -350,10 +364,12 @@ function AboutUsWrapper() {
                       xl={10}
                       className="aboutus-pl-1"
                     >
-                      <img
-                        className="aboutus-full"
-                        src={process.env.NEXT_PUBLIC_URL + "/Team-quote.jpg"}
-                      ></img>
+                      <div className="aspect-ratio-box abtus-img-team">
+                        <img
+                          className="aboutus-full"
+                          src={process.env.NEXT_PUBLIC_URL + "/Team-quote.jpg"}
+                        ></img>
+                      </div>
                     </Col>
                   </Row>
                   <Row>
@@ -365,10 +381,12 @@ function AboutUsWrapper() {
                       xl={8}
                       className="aboutus-pr-1"
                     >
-                      <img
-                        className="aboutus-full"
-                        src={process.env.NEXT_PUBLIC_URL + "/Team-Aditi.jpg"}
-                      ></img>
+                      <div className="aspect-ratio-box abtus-img-aditi">
+                        <img
+                          className="aboutus-full"
+                          src={process.env.NEXT_PUBLIC_URL + "/Team-Aditi.jpg"}
+                        ></img>
+                      </div>
                     </Col>
                     <Col
                       xs={14}
@@ -554,7 +572,7 @@ function AboutUsWrapper() {
               <p
                 className={
                   isMobile
-                    ? "section-content qa-txt-alg-lft"
+                    ? "section-content center-align"
                     : "section-content center-align core-value"
                 }
               >
@@ -954,10 +972,12 @@ function AboutUsWrapper() {
               {isMobile && <h2 className="section-heading">Contact us</h2>}
             </Col>
             <Col xs={24} sm={24} md={24} lg={10} xl={10}>
-              <img
-                className="aboutus-full qa-mar-btm-2"
-                src={process.env.NEXT_PUBLIC_URL + "/IndiaMap.png"}
-              ></img>
+              <div className="qa-txt-alg-cnt">
+                <img
+                  className="aboutus-full qa-mar-btm-2 india-map"
+                  src={process.env.NEXT_PUBLIC_URL + "/IndiaMap.png"}
+                ></img>
+              </div>
             </Col>
             <Col xs={0} sm={0} md={0} lg={2} xl={2}></Col>
             <Col xs={24} sm={24} md={24} lg={10} xl={10}>
