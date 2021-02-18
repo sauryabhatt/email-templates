@@ -1750,6 +1750,14 @@ const ProductDetails = (props) => {
                       />
                       <span className="p-shipBy">Air</span>
                     </span>
+                    <span>
+                      <Icon
+                        component={Sea}
+                        style={{ width: "35px", verticalAlign: "middle" }}
+                        className="sea-icon"
+                      />
+                      <span className="p-shipBy">Sea</span>
+                    </span>
                   </div>
                 )}
                 {shippingMode === "Sea" && (
@@ -2828,6 +2836,14 @@ const ProductDetails = (props) => {
                 )}
                 {shippingMode === "Sea" && (
                   <div className="qa-mar-btm-15">
+                    <span>
+                      <Icon
+                        component={Sea}
+                        style={{ width: "35px", verticalAlign: "middle" }}
+                        className="sea-icon"
+                      />
+                      <span className="p-shipBy">Sea</span>
+                    </span>
                     <span>
                       <Icon
                         component={Sea}

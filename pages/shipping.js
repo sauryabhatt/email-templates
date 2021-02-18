@@ -97,10 +97,11 @@ export const getServerSideProps = async ({ req }) => {
     }
   }
 
+  res["appToken"] = appToken;
+
   return {
     props: {
       data: res || null,
-      appToken: appToken || "",
       error: error,
     },
   };

@@ -33,12 +33,15 @@ const ShippingDetails = (props) => {
     currencyDetails = {},
     userProfile = {},
     appToken = "",
+    airQuote = { ddp: {}, ddu: {} },
+    seaQuote = { ddp: {}, ddu: {} },
   } = props;
   let {
     subOrders = [],
     shippingAddressDetails = "",
     orderId = "",
     referralCode = "",
+    shippingModesAvailable = [],
   } = cart || {};
   let {
     fullName = "",
@@ -388,10 +391,10 @@ const ShippingDetails = (props) => {
         .then((result) => {
           setCartData(result);
           if (mode === "AIR") {
-            let { tat = 0 } = airData[shippingTerm] || {};
+            let { tat = 0 } = airQuote[shippingTerm] || {};
             setTat(tat);
           } else {
-            let { tat = 0 } = seaData[shippingTerm] || {};
+            let { tat = 0 } = seaQuote[shippingTerm] || {};
             setTat(tat);
           }
           let { miscCharges = [] } = result || {};
@@ -548,7 +551,7 @@ const ShippingDetails = (props) => {
                     style={{ width: "100%" }}
                   >
                     <Row>
-                      {!disableAir && (
+                      {!disableAir && shippingModesAvailable.includes("Air") && (
                         <Col xs={12} sm={12} md={12} lg={12} xl={12}>
                           <div
                             className={`${
@@ -704,7 +707,7 @@ const ShippingDetails = (props) => {
                           </div>
                         </Col>
                       )}
-                      {!disableSea && (
+                      {!disableSea && shippingModesAvailable.includes("Sea") && (
                         <Col xs={12} sm={12} md={12} lg={12} xl={12}>
                           <div
                             className={`${
@@ -1507,7 +1510,7 @@ const ShippingDetails = (props) => {
                       value={mode}
                       style={{ width: "100%" }}
                     >
-                      {!disableAir && (
+                      {!disableAir && shippingModesAvailable.includes("Air") && (
                         <div
                           className="min-width-320px"
                           style={{
@@ -1674,7 +1677,7 @@ const ShippingDetails = (props) => {
                           </div>
                         </div>
                       )}
-                      {!disableSea && (
+                      {!disableSea && shippingModesAvailable.includes("Sea") && (
                         <div
                           className="min-width-320px"
                           style={{
