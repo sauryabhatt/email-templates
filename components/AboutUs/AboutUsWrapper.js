@@ -246,7 +246,7 @@ function AboutUsWrapper() {
                     >
                       <img
                         className="aboutus-full"
-                        src={process.env.NEXT_PUBLIC_URL + "/Team-aditi.jpg"}
+                        src={process.env.NEXT_PUBLIC_URL + "/Team-Aditi.jpg"}
                       ></img>
                     </Col>
                     <Col

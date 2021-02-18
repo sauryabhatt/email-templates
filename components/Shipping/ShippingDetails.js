@@ -17,16 +17,16 @@ import cartIcon from "../../public/filestore/cartIcon";
 import Spinner from "../Spinner/Spinner";
 import Air from "../../public/filestore/air";
 import Sea from "../../public/filestore/sea";
-import deliveredCountryList from "../../public/filestore/deliveredCountries.json";
-import _, { lowerCase } from "lodash";
+import _ from "lodash";
 import PromotionCarousel from "../PromotionCarousel/PromotionCarousel";
 import CheckoutSteps from "../common/CheckoutSteps";
 import PaymentBanner from "../common/PaymentBanner";
 import moment from "moment";
 
+const LANDING_LIMITER = 2;
+
 const ShippingDetails = (props) => {
   const router = useRouter();
-  const LANDING_LIMITER = 2;
   let {
     cart = {},
     app_token = "",
@@ -77,7 +77,6 @@ const ShippingDetails = (props) => {
   const [seaData, setSeaData] = useState({ ddp: {}, ddu: {} });
   const [cartData, setCartData] = useState("");
   const [isLoading, setLoading] = useState(true);
-  const [deliver, setDeliver] = useState(false);
   const mediaMatch = window.matchMedia("(min-width: 1024px)");
   const [disablePayment, setPayment] = useState(false);
   const [mov, setMov] = useState("");
@@ -89,157 +88,90 @@ const ShippingDetails = (props) => {
   const [tat, setTat] = useState("");
   const [shippingTerm, setShippingTerm] = useState("ddu");
   const [shipTerm, setShipTerm] = useState("ddu");
-  const [apiCount, setApiCount] = useState(0);
-  const [priceCount, setPriceCount] = useState(0);
 
   useEffect(() => {
-    let { cart = "", app_token = "" } = props;
-    let { priceQuoteRef = "", shippingAddressDetails = {} } = cart || {};
+    let {
+      airQuote = { ddp: {}, ddu: {} },
+      seaQuote = { ddp: {}, ddu: {} },
+      cart = {},
+    } = props || {};
+    setAirData(airQuote);
+    setSeaData(seaQuote);
+    setCartData(cart);
 
-    if (shippingAddressDetails) {
-      let { country = "" } = shippingAddressDetails || {};
-      if (deliveredCountryList.includes(country)) {
-        setDeliver(true);
-      }
-    }
-    if (priceQuoteRef && priceCount === 0) {
-      setCartData(cart);
-      fetch(
-        `${process.env.NEXT_PUBLIC_REACT_APP_PRICE_QUOTATION_URL}/quotes/rts/${priceQuoteRef}?mode=SEA`,
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Authorization: "Bearer " + app_token,
-          },
-        }
-      )
-        .then((res) => {
-          if (res.ok) {
-            setPriceCount(1);
-            setSeaData({ ddp: {}, ddu: {} });
-            return res.json();
-          } else {
-            throw res.statusText || "COntent not found";
-          }
-        })
-        .then((res) => {
-          setSeaData(res);
-          setLoading(false);
-        })
-        .catch((error) => {
-          setLoading(false);
-        });
-      fetch(
-        `${process.env.NEXT_PUBLIC_REACT_APP_PRICE_QUOTATION_URL}/quotes/rts/${priceQuoteRef}?mode=AIR`,
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Authorization: "Bearer " + app_token,
-          },
-        }
-      )
-        .then((res) => {
-          setAirData({ ddp: {}, ddu: {} });
-          if (res.ok) {
-            setPriceCount(1);
-            return res.json();
-          } else {
-            throw res.statusText || "COntent not found";
-          }
-        })
-        .then((res) => {
-          setAirData(res);
-          setLoading(false);
-        })
-        .catch((error) => {
-          // message.error(error)
-          setLoading(false);
-        });
-    }
-  }, [props.cart]);
-
-  useEffect(() => {
     if (
-      Object.keys(airData[shippingTerm]).length === 0 ||
-      Object.keys(seaData[shippingTerm]).length === 0
+      Object.keys(airQuote[shippingTerm]).length === 0 ||
+      Object.keys(seaQuote[shippingTerm]).length === 0
     ) {
       if (
-        Object.keys(airData[shippingTerm]).length === 0 &&
-        Object.keys(seaData[shippingTerm]).length === 0
+        Object.keys(airQuote[shippingTerm]).length === 0 &&
+        Object.keys(seaQuote[shippingTerm]).length === 0
       ) {
-        console.log("1");
         setPayment(true);
       } else {
-        console.log("2");
         setPayment(false);
       }
     } else {
-      if (apiCount === 0) {
-        let { cart = "" } = props;
-        let { subOrders = [], total = 0 } = cart || {};
-        if (subOrders && subOrders.length) {
-          let totalAmount = 0;
-          for (let sellers of subOrders) {
+      let { cart = "" } = props;
+      let { subOrders = [], total = 0 } = cart || {};
+      if (subOrders && subOrders.length) {
+        let totalAmount = 0;
+        for (let sellers of subOrders) {
+          let {
+            products = "",
+            qalaraSellerMargin = 0,
+            basePrice = 0,
+          } = sellers;
+          for (let items of products) {
             let {
-              products = "",
-              qalaraSellerMargin = 0,
-              basePrice = 0,
-            } = sellers;
-            for (let items of products) {
-              let {
-                quantity = 0,
-                exfactoryListPrice = 0,
-                productType = "",
-                priceApplied = 0,
-              } = items;
-              if (priceApplied && priceApplied !== null) {
-                basePrice = basePrice + priceApplied * quantity;
-              } else {
-                basePrice = basePrice + exfactoryListPrice * quantity;
-              }
-
-              if (productType === "ERTM") {
-                setMov(true);
-              }
+              quantity = 0,
+              exfactoryListPrice = 0,
+              productType = "",
+              priceApplied = 0,
+            } = items;
+            if (priceApplied && priceApplied !== null) {
+              basePrice = basePrice + priceApplied * quantity;
+            } else {
+              basePrice = basePrice + exfactoryListPrice * quantity;
             }
-            totalAmount = totalAmount + basePrice;
-          }
 
-          const seaMax =
-            seaData[shippingTerm]["dutyMax"] +
-            seaData[shippingTerm]["frightCostMax"];
-          const airMax =
-            airData[shippingTerm]["dutyMax"] +
-            airData[shippingTerm]["frightCostMax"];
-          if (airMax > 0 && seaMax > 0) {
-            let landingFactor = "";
-            landingFactor =
-              (total + (seaMax > airMax ? airMax : seaMax)) / totalAmount;
-
-            if (landingFactor > LANDING_LIMITER) {
-              console.log("3");
-              setPayment(true);
+            if (productType === "ERTM") {
+              setMov(true);
             }
           }
-          let mode = "AIR";
-          if (seaMax < airMax) {
-            mode = "SEA";
-          }
-          selectMode(mode);
+          totalAmount = totalAmount + basePrice;
         }
-        setApiCount(1);
+
+        const seaMax =
+          seaQuote[shippingTerm]["dutyMax"] +
+          seaQuote[shippingTerm]["frightCostMax"];
+        const airMax =
+          airQuote[shippingTerm]["dutyMax"] +
+          airQuote[shippingTerm]["frightCostMax"];
+        if (airMax > 0 && seaMax > 0) {
+          let landingFactor = "";
+          landingFactor =
+            (total + (seaMax > airMax ? airMax : seaMax)) / totalAmount;
+
+          if (landingFactor > LANDING_LIMITER) {
+            setPayment(true);
+          }
+        }
+        let mode = "AIR";
+        if (seaMax < airMax) {
+          mode = "SEA";
+        }
+        selectMode(mode);
       }
     }
     let result =
-      Object.values(airData[shippingTerm]).every((o) => o === 0) &&
-      Object.values(seaData[shippingTerm]).every((o) => o === 0);
+      Object.values(airQuote[shippingTerm]).every((o) => o === 0) &&
+      Object.values(seaQuote[shippingTerm]).every((o) => o === 0);
     if (result) {
-      console.log("4");
       setPayment(true);
     }
-  }, [props.cart, airData[shippingTerm], seaData[shippingTerm]]);
+    setLoading(false);
+  }, [props.cart]);
 
   const checkCommitStatus = () => {
     let cartId = orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
@@ -512,9 +444,6 @@ const ShippingDetails = (props) => {
 
   deliveryDateMin = new Date(eddMin);
   deliveryDateMax = new Date(eddMax);
-
-  console.log(deliver, disablePayment, showError);
-  console.log((!deliver || disablePayment) && !showError);
 
   if (isLoading) {
     return <Spinner />;
@@ -1435,7 +1364,6 @@ const ShippingDetails = (props) => {
                 currencyDetails={currencyDetails}
                 user={userProfile}
                 shippingMode={mode}
-                deliver={deliver}
                 disablePayment={disablePayment}
                 tat={tat}
                 shippingTerm={shippingTerm}
@@ -2138,7 +2066,6 @@ const ShippingDetails = (props) => {
                     showCartError={showError}
                     currencyDetails={currencyDetails}
                     shippingMode={mode}
-                    deliver={deliver}
                     user={userProfile}
                     disablePayment={disablePayment}
                     tat={tat}
@@ -2379,7 +2306,7 @@ const ShippingDetails = (props) => {
                     })}
                   </div>
                   <div>
-                    {enable && deliver && !showError ? (
+                    {enable && !showError ? (
                       <Button
                         onClick={checkCommitStatus}
                         disabled={disablePayment}

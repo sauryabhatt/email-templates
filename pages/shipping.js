@@ -60,6 +60,38 @@ export const getServerSideProps = async ({ req }) => {
       let cartResp = await response.json();
       cartResp["currency"] = "USD";
       res["cart"] = cartResp;
+
+      let cartDetails = (await res?.cart) || {};
+
+      let { priceQuoteRef = "" } = cartDetails || {};
+
+      if (priceQuoteRef) {
+        const airData = await fetch(
+          `${process.env.NEXT_PUBLIC_REACT_APP_PRICE_QUOTATION_URL}/quotes/rts/${priceQuoteRef}?mode=AIR`,
+          {
+            method: "GET",
+            headers: {
+              "content-type": "application/json",
+              Authorization: "Bearer " + appToken,
+            },
+          }
+        );
+
+        res["airData"] = await airData.json();
+
+        const seaData = await fetch(
+          `${process.env.NEXT_PUBLIC_REACT_APP_PRICE_QUOTATION_URL}/quotes/rts/${priceQuoteRef}?mode=SEA`,
+          {
+            method: "GET",
+            headers: {
+              "content-type": "application/json",
+              Authorization: "Bearer " + appToken,
+            },
+          }
+        );
+
+        res["seaData"] = await seaData.json();
+      }
     } catch (error) {
       error["status"] = true;
     }

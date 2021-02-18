@@ -13,7 +13,6 @@ import Spinner from "../Spinner/Spinner";
 export default function AnonymousCart() {
   const { keycloak } = useKeycloak();
   const router = useRouter();
-  const [loaded, setLoaded] = useState(false);
   const [isLoading, setLoading] = useState(true);
 
   const signIn = () => {
@@ -21,17 +20,10 @@ export default function AnonymousCart() {
   };
 
   useEffect(() => {
-    if (loaded) {
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
-    } else {
-      setLoaded(true);
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000);
-    }
-  }, [loaded]);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
 
   if (isLoading) {
     return <Spinner />;
