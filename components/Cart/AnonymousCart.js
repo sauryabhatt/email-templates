@@ -27,6 +27,9 @@ export default function AnonymousCart() {
       }, 1000);
     } else {
       setLoaded(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     }
   }, [loaded]);
 

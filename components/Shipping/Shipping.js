@@ -1,13 +1,13 @@
 /** @format */
 
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import ShippingDetails from "./ShippingDetails";
 import { useKeycloak } from "@react-keycloak/ssr";
 
 const Shipping = (props) => {
-  let { cart = {} } = props.data;
   const { keycloak } = useKeycloak();
+  const [cart, setCart] = useState(props.data.cart);
 
   return <ShippingDetails app_token={keycloak.token} cart={cart} />;
 };

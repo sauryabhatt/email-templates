@@ -169,8 +169,10 @@ const ShippingDetails = (props) => {
         Object.keys(airData[shippingTerm]).length === 0 &&
         Object.keys(seaData[shippingTerm]).length === 0
       ) {
+        console.log("1");
         setPayment(true);
       } else {
+        console.log("2");
         setPayment(false);
       }
     } else {
@@ -217,6 +219,7 @@ const ShippingDetails = (props) => {
               (total + (seaMax > airMax ? airMax : seaMax)) / totalAmount;
 
             if (landingFactor > LANDING_LIMITER) {
+              console.log("3");
               setPayment(true);
             }
           }
@@ -233,6 +236,7 @@ const ShippingDetails = (props) => {
       Object.values(airData[shippingTerm]).every((o) => o === 0) &&
       Object.values(seaData[shippingTerm]).every((o) => o === 0);
     if (result) {
+      console.log("4");
       setPayment(true);
     }
   }, [props.cart, airData[shippingTerm], seaData[shippingTerm]]);
@@ -508,6 +512,9 @@ const ShippingDetails = (props) => {
 
   deliveryDateMin = new Date(eddMin);
   deliveryDateMax = new Date(eddMax);
+
+  console.log(deliver, disablePayment, showError);
+  console.log((!deliver || disablePayment) && !showError);
 
   if (isLoading) {
     return <Spinner />;
