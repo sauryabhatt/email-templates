@@ -602,11 +602,12 @@ function AboutUsWrapper() {
                 className="aboutus-svg-bg"
               >
                 <div className="about-whyus">
-                  <b>30,000+</b> products from verified suppliers Air and Sea
-                  delivery to 100+ countries Secure payments in major global
-                  currencies Quality Inspection included for all goods
-                  One-stop-shop from design to delivery Minimum order value
-                  starting as low as <b>USD 250</b>
+                  <b>30,000+</b> products from verified suppliers<br></br> Air
+                  and Sea delivery to <b>100+ countries</b>
+                  <br></br> Secure payments in major global currencies<br></br>
+                  Quality Inspection included for all goods<br></br>
+                  One-stop-shop from design to delivery<br></br> Minimum order
+                  value starting <b>as low as USD 250</b>
                 </div>
                 <div className="about-status qa-txt-alg-cnt qa-mar-top-1">
                   -try us out!
@@ -662,11 +663,13 @@ function AboutUsWrapper() {
                 <h2 className="section-heading">Why us</h2>
                 <div className="aboutus-svg-bg">
                   <div className="about-whyus qa-mar-btm-2">
-                    <b>30,000+</b> products from verified suppliers Air and Sea
-                    delivery to 100+ countries Secure payments in major global
-                    currencies Quality Inspection included for all goods
-                    One-stop-shop from design to delivery Minimum order value
-                    starting as low as <b>USD 250</b>
+                    <b>30,000+</b> products from verified suppliers<br></br> Air
+                    and Sea delivery to <b>100+ countries</b>
+                    <br></br> Secure payments in major global currencies
+                    <br></br>
+                    Quality Inspection included for all goods<br></br>
+                    One-stop-shop from design to delivery<br></br> Minimum order
+                    value starting <b>as low as USD 250</b>
                     <div className="about-status qa-txt-alg-cnt qa-mar-top-1">
                       -try us out!
                     </div>
