@@ -14,6 +14,7 @@ export default function AnonymousCart() {
   const { keycloak } = useKeycloak();
   const router = useRouter();
   const [isLoading, setLoading] = useState(true);
+  const [authenticated, setAuthenticated] = useState(false);
 
   const signIn = () => {
     loginToApp(keycloak, { currentPath: router.asPath.split("?")[0] });
@@ -25,9 +26,19 @@ export default function AnonymousCart() {
     }, 1000);
   }, []);
 
+  useEffect(() => {
+    if (keycloak.token) {
+      setLoading(false);
+      setAuthenticated(true);
+
+      console.log("Authenticated");
+    }
+  }, [keycloak.token]);
+
+  console.log("Anonymous cart ", isLoading);
   if (isLoading) {
     return <Spinner />;
-  } else if (keycloak.authenticated) {
+  } else if (authenticated) {
     return <Cart />;
   } else {
     return (

@@ -19,7 +19,6 @@ const Cart = (props) => {
   const [isLoading, setLoading] = useState(true);
   const { keycloak } = useKeycloak();
   let { token } = keycloak || {};
-  const [loaded, setLoaded] = useState(false);
 
   async function getCartDetails() {
     let response1 = await props.getCart(token, (res) => {
@@ -56,21 +55,19 @@ const Cart = (props) => {
   }
 
   useEffect(() => {
-    if (loaded) {
-      if (props.user) {
-        let { user = {} } = props || {};
-        let { profileType = "" } = user || {};
-        if (profileType === "BUYER") {
-          getCartDetails();
-        } else {
-          setLoading(false);
-        }
+    if (props.user) {
+      console.log("Inside user");
+      let { user = {} } = props || {};
+      let { profileType = "" } = user || {};
+      if (profileType === "BUYER") {
+        getCartDetails();
+      } else {
+        setLoading(false);
       }
-    } else {
-      setLoaded(true);
     }
   }, [props.user]);
 
+  console.log("isLoading ", isLoading);
   if (isLoading) {
     return <Spinner />;
   } else {

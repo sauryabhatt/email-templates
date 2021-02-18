@@ -29,7 +29,6 @@ const ShippingDetails = (props) => {
   const router = useRouter();
   let {
     cart = {},
-    app_token = "",
     brandNames = "",
     currencyDetails = {},
     userProfile = {},
@@ -100,18 +99,9 @@ const ShippingDetails = (props) => {
     setCartData(cart);
 
     if (
-      Object.keys(airQuote[shippingTerm]).length === 0 ||
-      Object.keys(seaQuote[shippingTerm]).length === 0
+      Object.keys(airQuote[shippingTerm]).length ||
+      Object.keys(seaQuote[shippingTerm]).length
     ) {
-      if (
-        Object.keys(airQuote[shippingTerm]).length === 0 &&
-        Object.keys(seaQuote[shippingTerm]).length === 0
-      ) {
-        setPayment(true);
-      } else {
-        setPayment(false);
-      }
-    } else {
       let { cart = "" } = props;
       let { subOrders = [], total = 0 } = cart || {};
       if (subOrders && subOrders.length) {
@@ -141,13 +131,13 @@ const ShippingDetails = (props) => {
           }
           totalAmount = totalAmount + basePrice;
         }
-
         const seaMax =
           seaQuote[shippingTerm]["dutyMax"] +
           seaQuote[shippingTerm]["frightCostMax"];
         const airMax =
           airQuote[shippingTerm]["dutyMax"] +
           airQuote[shippingTerm]["frightCostMax"];
+
         if (airMax > 0 && seaMax > 0) {
           let landingFactor = "";
           landingFactor =
@@ -163,12 +153,13 @@ const ShippingDetails = (props) => {
         }
         selectMode(mode);
       }
-    }
-    let result =
-      Object.values(airQuote[shippingTerm]).every((o) => o === 0) &&
-      Object.values(seaQuote[shippingTerm]).every((o) => o === 0);
-    if (result) {
-      setPayment(true);
+    } else {
+      let result =
+        Object.values(airQuote[shippingTerm]).every((o) => o === 0) &&
+        Object.values(seaQuote[shippingTerm]).every((o) => o === 0);
+      if (result) {
+        setPayment(true);
+      }
     }
     setLoading(false);
   }, [props.cart]);
@@ -183,7 +174,7 @@ const ShippingDetails = (props) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + app_token,
+        Authorization: "Bearer " + props.app_token,
       },
     })
       .then((res) => {
@@ -281,7 +272,7 @@ const ShippingDetails = (props) => {
         body: JSON.stringify(data),
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + app_token,
+          Authorization: "Bearer " + props.app_token,
         },
       }
     )
@@ -319,7 +310,6 @@ const ShippingDetails = (props) => {
       });
   };
 
-  let showError = false;
   let { convertToCurrency = "" } = currencyDetails || {};
 
   let { frightCostMax: a_frieghtCost = 0 } = airData[shippingTerm] || {};
@@ -383,7 +373,7 @@ const ShippingDetails = (props) => {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + app_token,
+            Authorization: "Bearer " + props.app_token,
           },
         }
       )
@@ -448,7 +438,7 @@ const ShippingDetails = (props) => {
   if (isLoading) {
     return <Spinner />;
   }
-
+  console.log(tat, mode);
   return (
     <Row id="cart-details" className="cart-section qa-font-san">
       <CheckoutSteps pageId="shipping" />
@@ -1360,7 +1350,6 @@ const ShippingDetails = (props) => {
                 enable={enable}
                 cart={cartData}
                 brandNames={brandNames}
-                showCartError={showError}
                 currencyDetails={currencyDetails}
                 user={userProfile}
                 shippingMode={mode}
@@ -2063,7 +2052,6 @@ const ShippingDetails = (props) => {
                     enable={enable}
                     cart={cartData}
                     brandNames={brandNames}
-                    showCartError={showError}
                     currencyDetails={currencyDetails}
                     shippingMode={mode}
                     user={userProfile}
@@ -2306,7 +2294,7 @@ const ShippingDetails = (props) => {
                     })}
                   </div>
                   <div>
-                    {enable && !showError ? (
+                    {enable ? (
                       <Button
                         onClick={checkCommitStatus}
                         disabled={disablePayment}
