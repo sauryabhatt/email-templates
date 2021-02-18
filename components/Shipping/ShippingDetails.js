@@ -32,6 +32,7 @@ const ShippingDetails = (props) => {
     brandNames = "",
     currencyDetails = {},
     userProfile = {},
+    appToken = "",
   } = props;
   let {
     subOrders = [],
@@ -87,6 +88,8 @@ const ShippingDetails = (props) => {
   const [tat, setTat] = useState("");
   const [shippingTerm, setShippingTerm] = useState("ddu");
   const [shipTerm, setShipTerm] = useState("ddu");
+
+  console.log("apptoken ", appToken);
 
   useEffect(() => {
     let {
@@ -174,7 +177,7 @@ const ShippingDetails = (props) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + props.app_token,
+        Authorization: "Bearer " + appToken,
       },
     })
       .then((res) => {
@@ -272,7 +275,7 @@ const ShippingDetails = (props) => {
         body: JSON.stringify(data),
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + props.app_token,
+          Authorization: "Bearer " + appToken,
         },
       }
     )
@@ -373,7 +376,7 @@ const ShippingDetails = (props) => {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + props.app_token,
+            Authorization: "Bearer " + appToken,
           },
         }
       )

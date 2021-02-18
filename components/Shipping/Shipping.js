@@ -7,13 +7,14 @@ import { useKeycloak } from "@react-keycloak/ssr";
 
 const Shipping = (props) => {
   const { keycloak } = useKeycloak();
+  const [token, setToken] = useState(props.appToken);
   const [cart, setCart] = useState(props.data.cart);
   const [airData, setAirData] = useState(props.data.airData);
   const [seaData, setSeaData] = useState(props.data.seaData);
 
   return (
     <ShippingDetails
-      app_token={keycloak.token}
+      appToken={token || keycloak.token}
       cart={cart}
       airQuote={airData}
       seaQuote={seaData}
