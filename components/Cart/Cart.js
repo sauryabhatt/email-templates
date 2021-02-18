@@ -56,7 +56,6 @@ const Cart = (props) => {
 
   useEffect(() => {
     if (props.user) {
-      console.log("Inside user");
       let { user = {} } = props || {};
       let { profileType = "" } = user || {};
       if (profileType === "BUYER") {
@@ -65,10 +64,13 @@ const Cart = (props) => {
         setLoading(false);
       }
     }
+    setTimeout(() => {
+      setLoading(false);
+    }, 5000);
   }, [props.user]);
 
-  console.log("isLoading ", isLoading);
-  if (!isServer() && isLoading) {
+  console.log("Logged in cart ", isLoading);
+  if (isLoading) {
     return <Spinner />;
   } else {
     return (

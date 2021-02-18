@@ -30,8 +30,6 @@ export default function AnonymousCart() {
     if (keycloak.token) {
       setLoading(false);
       setAuthenticated(true);
-
-      console.log("Authenticated");
     }
   }, [keycloak.token]);
 
