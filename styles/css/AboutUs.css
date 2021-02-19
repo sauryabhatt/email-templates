@@ -196,12 +196,12 @@
 #aboutus-body-parent .about-whyus {
   font-family: senregular;
   font-style: normal;
-  font-size: 17px;
+  font-size: 14px;
   line-height: 27px;
   text-align: center;
   color: #f9f7f2;
   margin-top: 100px;
-  padding: 20px;
+  padding: 20px 20px 0px;
 }
 #aboutus-body-parent .wework {
   font-family: Butler;
