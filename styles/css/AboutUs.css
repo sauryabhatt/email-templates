@@ -441,7 +441,7 @@
   }
   #aboutus-body-parent .about-status {
     font-size: 24px;
-    line-height: 160%;
+    line-height: inherit;
   }
   #aboutus-body-parent .qa-flex-row div {
     text-align: left;
