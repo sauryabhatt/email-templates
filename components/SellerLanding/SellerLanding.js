@@ -14,7 +14,6 @@ const isServer = () => typeof window == "undefined";
 const SellerLanding = (props) => {
   const router = useRouter();
   let { sellerId: sellerIdParam } = router.query;
-
   let { userProfile = {}, isLoading = true } = props;
 
   const token = useSelector(

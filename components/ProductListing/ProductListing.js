@@ -74,6 +74,7 @@ const ProductListing = (props) => {
       f_seller_names,
       f_l2name,
       f_l3name,
+      f_l1_names,
       ...rest
     } = queryParams;
     let defaultQuery = querystring.stringify(rest);

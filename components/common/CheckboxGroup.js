@@ -4,9 +4,11 @@ import React, { useState, useEffect } from "react";
 import Checkbox from "./Checkbox";
 import { Input } from "antd";
 
+const ITEMS_TO_SHOW = 5;
+
 export default ({ options, ...props }) => {
   let { filterType } = props;
-  const [itemsToShow, setItemsToShow] = useState(5);
+  const [itemsToShow, setItemsToShow] = useState(ITEMS_TO_SHOW);
   const [showMore, setMore] = useState(false);
   const [filteredList, setFilteredList] = useState([]);
   const [searchVal, setSearchVal] = useState("");
@@ -44,14 +46,14 @@ export default ({ options, ...props }) => {
       setViewAll(true);
     } else {
       setViewAll(false);
-      setItemsToShow(5);
+      setItemsToShow(ITEMS_TO_SHOW);
     }
     setFilteredList(filterTable);
   };
 
   return (
     <div className="ant-checkbox-group" style={{ display: "block" }}>
-      {options.length > 5 && (
+      {options.length > ITEMS_TO_SHOW && (
         <div className="qa-mar-btm-1 filter-search-box">
           <Input.Search
             placeholder="Search"
@@ -112,7 +114,7 @@ export default ({ options, ...props }) => {
           className="qa-sm-color qa-underline qa-cursor qa-mar-btm-1"
           onClick={() => {
             setMore(false);
-            setItemsToShow(5);
+            setItemsToShow(ITEMS_TO_SHOW);
           }}
         >
           View less
