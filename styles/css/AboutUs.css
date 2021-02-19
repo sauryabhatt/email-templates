@@ -201,7 +201,7 @@
   text-align: center;
   color: #f9f7f2;
   margin-top: 100px;
-  padding: 20px 45px;
+  padding: 20px;
 }
 #aboutus-body-parent .wework {
   font-family: Butler;
@@ -440,8 +440,8 @@
     padding: 0px 30px;
   }
   #aboutus-body-parent .about-status {
-    font-size: 20px;
-    line-height: 24px;
+    font-size: 24px;
+    line-height: 160%;
   }
   #aboutus-body-parent .qa-flex-row div {
     text-align: left;
@@ -450,6 +450,11 @@
     margin-top: 25px;
     font-size: 14px;
     padding: 0px;
+    font-family: senregular;
+    font-style: normal;
+    line-height: 160%;
+    text-align: center;
+    color: #f9f7f2;
   }
   #aboutus-body-parent .highlight-text.qa-fs-36 {
     font-size: 24px;

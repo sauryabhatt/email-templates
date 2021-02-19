@@ -366,7 +366,6 @@ const ProductDetails = (props) => {
     lbhUnit = "",
     freeShippingEligible = false,
     productMOQPriceDetail = [],
-    shippingMode1 = "",
   } = data || {};
   let sizes = [];
   let standardSize = "Standard (l*b*h)";
@@ -1750,14 +1749,6 @@ const ProductDetails = (props) => {
                       />
                       <span className="p-shipBy">Air</span>
                     </span>
-                    <span>
-                      <Icon
-                        component={Sea}
-                        style={{ width: "35px", verticalAlign: "middle" }}
-                        className="sea-icon"
-                      />
-                      <span className="p-shipBy">Sea</span>
-                    </span>
                   </div>
                 )}
                 {shippingMode === "Sea" && (
@@ -1772,30 +1763,7 @@ const ProductDetails = (props) => {
                     </span>
                   </div>
                 )}
-                {!shippingMode && freeShippingEligible && (
-                  <div className="qa-mar-btm-15">
-                    {shippingMode1 === "Air" ? (
-                      <span>
-                        <Icon
-                          component={Air}
-                          style={{ width: "35px", verticalAlign: "middle" }}
-                          className="air-icon"
-                        />
-                        <span className="p-shipBy">Air</span>
-                      </span>
-                    ) : (
-                      <span>
-                        <Icon
-                          component={Sea}
-                          style={{ width: "35px", verticalAlign: "middle" }}
-                          className="sea-icon"
-                        />
-                        <span className="p-shipBy">Sea</span>
-                      </span>
-                    )}
-                  </div>
-                )}
-                {!shippingMode && !freeShippingEligible && (
+                {!shippingMode && moqList.length === 0 && (
                   <div className="qa-mar-btm-15">
                     {shippingMethods.includes("Air") && (
                       <span>
@@ -2844,40 +2812,9 @@ const ProductDetails = (props) => {
                       />
                       <span className="p-shipBy">Sea</span>
                     </span>
-                    <span>
-                      <Icon
-                        component={Sea}
-                        style={{ width: "35px", verticalAlign: "middle" }}
-                        className="sea-icon"
-                      />
-                      <span className="p-shipBy">Sea</span>
-                    </span>
                   </div>
                 )}
-                {!shippingMode && freeShippingEligible && (
-                  <div className="qa-mar-btm-15">
-                    {shippingMode1 === "Air" ? (
-                      <span>
-                        <Icon
-                          component={Air}
-                          style={{ width: "35px", verticalAlign: "middle" }}
-                          className="air-icon"
-                        />
-                        <span className="p-shipBy">Air</span>
-                      </span>
-                    ) : (
-                      <span>
-                        <Icon
-                          component={Sea}
-                          style={{ width: "35px", verticalAlign: "middle" }}
-                          className="sea-icon"
-                        />
-                        <span className="p-shipBy">Sea</span>
-                      </span>
-                    )}
-                  </div>
-                )}
-                {!shippingMode && !freeShippingEligible && (
+                {!shippingMode && moqList.length === 0 && (
                   <div className="qa-mar-btm-15">
                     {shippingMethods.includes("Air") && (
                       <span>

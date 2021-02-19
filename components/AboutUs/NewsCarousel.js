@@ -36,15 +36,6 @@ export default function NewsCrousel(props) {
       mobile_height: "15px",
       height: "40px",
       url:
-        "https://giftguideonline.com.au/blog/are-you-looking-to-expand-on-a-global-scale.html",
-      linkTo: process.env.NEXT_PUBLIC_URL + "/news1.jpg",
-      title:
-        "“Qalara is a digital platform that enables producers and brands of consciously designed goods to access global markets with ease and reliability.”",
-    },
-    {
-      mobile_height: "15px",
-      height: "40px",
-      url:
         "https://sourcingjournal.com/topics/sourcing/qalara-india-artisans-ethical-manufacturing-retail-online-sustainability-241851/",
       linkTo: process.env.NEXT_PUBLIC_URL + "/news2.jpg",
       title:
@@ -53,20 +44,30 @@ export default function NewsCrousel(props) {
     {
       mobile_height: "15px",
       height: "40px",
+      url:
+        "https://giftguideonline.com.au/blog/are-you-looking-to-expand-on-a-global-scale.html",
+      linkTo: process.env.NEXT_PUBLIC_URL + "/news1.jpg",
+      title:
+        "“Qalara strives to reimagine the global supply chain to make it convenient, reliable and affordable for wholesale buyers of all sizes to source...”",
+    },
+
+    {
+      mobile_height: "15px",
+      height: "40px",
       url: "https://futureofsourcing.com/women-in-global-sourcing-aditi-pany",
       linkTo: process.env.NEXT_PUBLIC_URL + "/news3.jpg",
       title:
         "Our founder featured alongside pioneering 'women in global sourcing'",
     },
-    {
-      mobile_height: "15px",
-      height: "40px",
-      url:
-        "https://yourstory.com/2020/12/mukesh-ambani-reliance-industries-startup-qalara-aditi-pany",
-      linkTo: process.env.NEXT_PUBLIC_URL + "/news4.jpg",
-      title:
-        "“Qalara offers a wholesale ecommerce marketplace for small businesses to export across the world.”",
-    },
+    // {
+    //   mobile_height: "15px",
+    //   height: "40px",
+    //   url:
+    //     "https://yourstory.com/2020/12/mukesh-ambani-reliance-industries-startup-qalara-aditi-pany",
+    //   linkTo: process.env.NEXT_PUBLIC_URL + "/news4.jpg",
+    //   title:
+    //     "“Qalara offers a wholesale ecommerce marketplace for small businesses to export across the world.”",
+    // },
     {
       mobile_height: "15px",
       height: "40px",
@@ -85,7 +86,7 @@ export default function NewsCrousel(props) {
           <img src={press_data[i].linkTo} alt={press_data[i].url} />
           <div className="news-para">{press_data[i].title}</div>
           <div>
-            <a href={press_data[i].url}>
+            <a href={press_data[i].url} target="_blank">
               <span className="news-article">Read Article</span>
             </a>
           </div>
@@ -115,7 +116,7 @@ export default function NewsCrousel(props) {
                 />
                 <div className="news-para qa-text-2line">{data.title}</div>
                 <div className="new-read-article">
-                  <a href={data.url}>
+                  <a href={data.url} target="_blank">
                     <span className="news-article">Read Article</span>
                   </a>
                 </div>

@@ -125,25 +125,27 @@ function AboutUsWrapper() {
                     Our vision is for Qalara and its partners to become pivotal
                     to driving sustainable consumption around the world by
                     reimagining the global supply chain. Every day we strive to
-                    build a stronger, reliable ecosystem of global trade,
+                    build a reliable and efficient ecosystem of global trade,
                     facilitating digitally enabled wholesale commerce between
                     buyers and sellers from around the world.
                   </p>
                   <p>
                     Our mission is to make available the widest range of
-                    handmade, artisanal, eco-friendly, organic, recycled and
                     responsibly produced goods across all consumer categories
                     from South Asia and South East Asia at competitive wholesale
                     prices, helping buyers of all sizes source conveniently,
                     reliably and affordably, while equally supporting producers
                     and manufacturers gain access to global markets efficiently.
+                    We specialise in handmade, artisanal, eco-friendly,
+                    recycled, organic, sustainable products, but have the
+                    capabilities to extend well beyond.
                   </p>
                   <p>
                     We enjoy working with people across geographies and
-                    cultures. We want to do right by the planet. We are
+                    cultures. We strive to do right by the planet. We are
                     passionate about artisanal crafts. We believe in leveraging
-                    technology in simple but powerful ways to empower us all.
-                    And, we are committed to operational excellence.
+                    data and technology in simple but powerful ways. And, we are
+                    committed to operational excellence.
                   </p>
                   <p className="highlight-text">
                     Digitally. Reliably. Affordably. Responsibly.
@@ -305,7 +307,7 @@ function AboutUsWrapper() {
                     with leading global companies like Amazon, Target, DHL
                     Global, Flipkart, and more.
                   </p>
-                  <div className="highlight-text qa-fs-18">
+                  <div className="highlight-text">
                     “Qalara is a powerful combination of a strong mission-driven
                     experienced team venture and the digital & supply chain
                     ecosystem of a Fortune 100 company”
@@ -384,7 +386,9 @@ function AboutUsWrapper() {
                       <div className="aspect-ratio-box abtus-img-aditi">
                         <img
                           className="aboutus-full"
-                          src={process.env.NEXT_PUBLIC_URL + "/Team-Aditi.jpg"}
+                          src={
+                            process.env.NEXT_PUBLIC_URL + "/Team-Aditi-mob.jpg"
+                          }
                         ></img>
                       </div>
                     </Col>
@@ -602,7 +606,7 @@ function AboutUsWrapper() {
                 className="aboutus-svg-bg"
               >
                 <div className="about-whyus">
-                  <b>30,000+</b> products from verified suppliers<br></br> Air
+                  <b>35,000+</b> products from verified suppliers<br></br> Air
                   and Sea delivery to <b>100+ countries</b>
                   <br></br> Secure payments in major global currencies<br></br>
                   Quality Inspection included for all goods<br></br>
@@ -663,16 +667,14 @@ function AboutUsWrapper() {
                 <h2 className="section-heading">Why us</h2>
                 <div className="aboutus-svg-bg">
                   <div className="about-whyus qa-mar-btm-2">
-                    <b>30,000+</b> products from verified suppliers<br></br> Air
+                    <b>35,000+</b> products from verified suppliers<br></br> Air
                     and Sea delivery to <b>100+ countries</b>
                     <br></br> Secure payments in major global currencies
                     <br></br>
                     Quality Inspection included for all goods<br></br>
                     One-stop-shop from design to delivery<br></br> Minimum order
                     value starting <b>as low as USD 250</b>
-                    <div className="about-status qa-txt-alg-cnt qa-mar-top-1">
-                      -try us out!
-                    </div>
+                    <span className="about-status"> -try us out!</span>
                   </div>
                 </div>
               </Col>
