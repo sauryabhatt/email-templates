@@ -608,6 +608,7 @@ const CartDetails = (props) => {
           sellerOrgName = "",
           isSMOVMet = "",
           total = "",
+          smallBatchesAvailable = false,
         } = order;
 
         let obj = {};
@@ -621,6 +622,7 @@ const CartDetails = (props) => {
           obj["status"] = status;
           obj["total"] = total;
           obj["sellerCode"] = sellerCode;
+          obj["smallBatchesAvailable"] = smallBatchesAvailable;
 
           let prodArr = [];
           for (let list of products) {
@@ -690,6 +692,7 @@ const CartDetails = (props) => {
           sellerOrgName = "",
           isSMOVMet = "",
           total = "",
+          smallBatchesAvailable = false,
         } = order;
 
         let obj = {};
@@ -703,6 +706,7 @@ const CartDetails = (props) => {
           obj["status"] = status;
           obj["total"] = total;
           obj["sellerCode"] = sellerCode;
+          obj["smallBatchesAvailable"] = smallBatchesAvailable;
 
           let p_count = 0;
           let prodArr = [];
@@ -783,6 +787,7 @@ const CartDetails = (props) => {
           sellerOrgName = "",
           isSMOVMet = "",
           total = "",
+          smallBatchesAvailable = false,
         } = order;
 
         let obj = {};
@@ -796,6 +801,7 @@ const CartDetails = (props) => {
           obj["status"] = status;
           obj["total"] = total;
           obj["sellerCode"] = sellerCode;
+          obj["smallBatchesAvailable"] = smallBatchesAvailable;
 
           let productList = [];
           for (let list of products) {
