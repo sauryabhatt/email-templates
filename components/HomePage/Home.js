@@ -112,19 +112,38 @@ function Home(props) {
     }
   }, [props.userProfile]);
 
+  let {
+    firstName = "",
+    lastName = "",
+    orgName = "",
+    profileType = "",
+    verificationStatus = "",
+    profileId = "",
+    email = "",
+    country = "",
+    orgPhone = "",
+  } = props.userProfile || {};
+
+  let requesterName = firstName;
+  if (lastName && lastName !== null) {
+    requesterName = requesterName + lastName;
+  }
+
   let values = {
+    profileId: profileId,
+    profileType: profileType,
     category: "",
     requirementDetails: "",
     upload: {},
     quantity: "",
     pricePerItem: "",
     deliveryDate: "",
-    requesterName: "",
-    companyName: "",
-    emailId: "",
-    country: "",
+    requesterName: requesterName,
+    companyName: orgName,
+    emailId: email,
+    country: country,
     city: "",
-    mobileNo: "",
+    mobileNo: orgPhone,
   };
   // sendQueryOpen = () => {
   //   this.setState({ visible: true });
