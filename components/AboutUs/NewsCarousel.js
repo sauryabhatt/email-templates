@@ -37,7 +37,9 @@ export default function NewsCrousel(props) {
       height: "40px",
       url:
         "https://sourcingjournal.com/topics/sourcing/qalara-india-artisans-ethical-manufacturing-retail-online-sustainability-241851/",
-      linkTo: process.env.NEXT_PUBLIC_URL + "/news2.jpg",
+      linkTo:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL +
+        "/images/Img_AboutUs_SourcingJournal.jpg",
       title:
         "“This Virtual Wholesale Platform Links Regional Artisans to Global Retail”",
     },
@@ -46,7 +48,9 @@ export default function NewsCrousel(props) {
       height: "40px",
       url:
         "https://giftguideonline.com.au/blog/are-you-looking-to-expand-on-a-global-scale.html",
-      linkTo: process.env.NEXT_PUBLIC_URL + "/news1.jpg",
+      linkTo:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL +
+        "/images/Img_AboutUs_GiftGuide.jpg",
       title:
         "“Qalara strives to reimagine the global supply chain to make it convenient, reliable and affordable for wholesale buyers of all sizes to source...”",
     },
@@ -55,24 +59,19 @@ export default function NewsCrousel(props) {
       mobile_height: "15px",
       height: "40px",
       url: "https://futureofsourcing.com/women-in-global-sourcing-aditi-pany",
-      linkTo: process.env.NEXT_PUBLIC_URL + "/news3.jpg",
+      linkTo:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL +
+        "/images/Img_AboutUs_FutureSourcing.jpg",
       title:
         "Our founder featured alongside pioneering 'women in global sourcing'",
     },
-    // {
-    //   mobile_height: "15px",
-    //   height: "40px",
-    //   url:
-    //     "https://yourstory.com/2020/12/mukesh-ambani-reliance-industries-startup-qalara-aditi-pany",
-    //   linkTo: process.env.NEXT_PUBLIC_URL + "/news4.jpg",
-    //   title:
-    //     "“Qalara offers a wholesale ecommerce marketplace for small businesses to export across the world.”",
-    // },
     {
       mobile_height: "15px",
       height: "40px",
       url: "https://ideamensch.com/aditi-pany/",
-      linkTo: process.env.NEXT_PUBLIC_URL + "/news5.jpg",
+      linkTo:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL +
+        "/images/Img_AboutUs_IdeaMensch.jpg",
       title:
         "“Qalara aimed at redesigning the global supply chain for artisan goods”",
     },
@@ -98,7 +97,6 @@ export default function NewsCrousel(props) {
 
   return (
     <div className="aboutus-press-crousel press-crousel">
-      {/* <div className="press-header">In the news</div> */}
       {!isMobile && press_data.length > 3 ? (
         <span className="press-arrow press-left-arrow" onClick={previous}>
           {left()}

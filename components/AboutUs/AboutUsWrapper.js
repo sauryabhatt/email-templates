@@ -34,7 +34,6 @@ function AboutUsWrapper() {
 
   useEffect(() => {
     enquireScreen((status) => setIsMobile(status));
-    console.log(isMobile);
   }, []);
 
   const values = [
@@ -106,7 +105,10 @@ function AboutUsWrapper() {
             <Col xs={24} sm={24} md={24} lg={8} xl={8}>
               <img
                 className="aboutus-img1"
-                src={process.env.NEXT_PUBLIC_URL + "/our-philosophy.jpg"}
+                src={
+                  process.env.NEXT_PUBLIC_REACT_APP_CDN_URL +
+                  "/images/Img_AboutUs_Philosophy.jpg"
+                }
               ></img>
             </Col>
             <Col xs={24} sm={24} md={24} lg={16} xl={16}>
@@ -218,7 +220,10 @@ function AboutUsWrapper() {
                           width="100%"
                         >
                           <source
-                            src={process.env.NEXT_PUBLIC_URL + "/Team-1.mp4"}
+                            src={
+                              process.env.NEXT_PUBLIC_URL +
+                              "/Img_AboutUs_Team1.mp4"
+                            }
                             type="video/mp4"
                           />
                           Your browser does not support HTML5 video.
@@ -236,7 +241,10 @@ function AboutUsWrapper() {
                       <div className="aspect-ratio-box abtus-img-team">
                         <img
                           className="aboutus-full"
-                          src={process.env.NEXT_PUBLIC_URL + "/Team-quote.jpg"}
+                          src={
+                            process.env.NEXT_PUBLIC_REACT_APP_CDN_URL +
+                            "/images/Img_AboutUs_Team.jpg"
+                          }
                         ></img>
                       </div>
                     </Col>
@@ -253,7 +261,10 @@ function AboutUsWrapper() {
                       <div className="aspect-ratio-box abtus-img-aditi">
                         <img
                           className="aboutus-full"
-                          src={process.env.NEXT_PUBLIC_URL + "/Team-Aditi.jpg"}
+                          src={
+                            process.env.NEXT_PUBLIC_REACT_APP_CDN_URL +
+                            "/images/Img_AboutUs_Aditi.jpg"
+                          }
                         ></img>
                       </div>
                     </Col>
@@ -274,7 +285,10 @@ function AboutUsWrapper() {
                           width="100%"
                         >
                           <source
-                            src={process.env.NEXT_PUBLIC_URL + "/Team-2.mp4"}
+                            src={
+                              process.env.NEXT_PUBLIC_URL +
+                              "/Img_AboutUs_Team2.mp4"
+                            }
                             type="video/mp4"
                           />
                           Your browser does not support HTML5 video.
@@ -352,7 +366,10 @@ function AboutUsWrapper() {
                     >
                       <video muted loop autoPlay controls={false} width="100%">
                         <source
-                          src={process.env.NEXT_PUBLIC_URL + "/Team-1.mp4"}
+                          src={
+                            process.env.NEXT_PUBLIC_URL +
+                            "/Img_AboutUs_Team1.mp4"
+                          }
                           type="video/mp4"
                         />
                         Your browser does not support HTML5 video.
@@ -369,7 +386,10 @@ function AboutUsWrapper() {
                       <div className="aspect-ratio-box abtus-img-team">
                         <img
                           className="aboutus-full"
-                          src={process.env.NEXT_PUBLIC_URL + "/Team-quote.jpg"}
+                          src={
+                            process.env.NEXT_PUBLIC_REACT_APP_CDN_URL +
+                            "/images/Img_AboutUs_Team.jpg"
+                          }
                         ></img>
                       </div>
                     </Col>
@@ -387,7 +407,8 @@ function AboutUsWrapper() {
                         <img
                           className="aboutus-full"
                           src={
-                            process.env.NEXT_PUBLIC_URL + "/Team-Aditi-mob.jpg"
+                            process.env.NEXT_PUBLIC_REACT_APP_CDN_URL +
+                            "/images/Team-Aditi-mob.jpg"
                           }
                         ></img>
                       </div>
@@ -402,7 +423,10 @@ function AboutUsWrapper() {
                     >
                       <video muted loop autoPlay controls={false} width="100%">
                         <source
-                          src={process.env.NEXT_PUBLIC_URL + "/Team-2.mp4"}
+                          src={
+                            process.env.NEXT_PUBLIC_URL +
+                            "/Img_AboutUs_Team2.mp4"
+                          }
                           type="video/mp4"
                         />
                         Your browser does not support HTML5 video.
@@ -980,7 +1004,10 @@ function AboutUsWrapper() {
               <div className="qa-txt-alg-cnt">
                 <img
                   className="aboutus-full qa-mar-btm-2 india-map"
-                  src={process.env.NEXT_PUBLIC_URL + "/IndiaMap.png"}
+                  src={
+                    process.env.NEXT_PUBLIC_REACT_APP_CDN_URL +
+                    "/images/Img_AboutUs_IndiaMap.png"
+                  }
                 ></img>
               </div>
             </Col>
