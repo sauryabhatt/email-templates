@@ -135,10 +135,10 @@ const ShippingDetails = (props) => {
           }
           totalAmount = totalAmount + basePrice;
         }
-        const seaMax =
+        let seaMax =
           seaQuote[shippingTerm]["dutyMax"] +
           seaQuote[shippingTerm]["frightCostMax"];
-        const airMax =
+        let airMax =
           airQuote[shippingTerm]["dutyMax"] +
           airQuote[shippingTerm]["frightCostMax"];
 
@@ -149,13 +149,14 @@ const ShippingDetails = (props) => {
 
           if (landingFactor > LANDING_LIMITER) {
             setPayment(true);
+          } else {
+            let mode = "AIR";
+            if (seaMax < airMax) {
+              mode = "SEA";
+            }
+            selectMode(mode);
           }
         }
-        let mode = "AIR";
-        if (seaMax < airMax) {
-          mode = "SEA";
-        }
-        selectMode(mode);
       }
     } else {
       let result =
@@ -165,6 +166,7 @@ const ShippingDetails = (props) => {
         setPayment(true);
       }
     }
+
     setLoading(false);
   }, [props.cart]);
 
