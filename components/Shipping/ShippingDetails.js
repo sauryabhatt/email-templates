@@ -218,13 +218,14 @@ const ShippingDetails = (props) => {
 
             if (landingFactor > LANDING_LIMITER) {
               setPayment(true);
+            } else {
+              let mode = "AIR";
+              if (seaMax < airMax) {
+                mode = "SEA";
+              }
+              selectMode(mode);
             }
           }
-          let mode = "AIR";
-          if (seaMax < airMax) {
-            mode = "SEA";
-          }
-          selectMode(mode);
         }
         setApiCount(1);
       }
