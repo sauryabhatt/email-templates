@@ -94,6 +94,7 @@ export const getServerSideProps = async ({ req }) => {
       }
     } catch (error) {
       error["status"] = true;
+      console.log("Error in shipping page ", error);
     }
   }
 

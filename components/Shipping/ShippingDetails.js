@@ -91,6 +91,8 @@ const ShippingDetails = (props) => {
   const [tat, setTat] = useState("");
   const [shippingTerm, setShippingTerm] = useState("ddu");
   const [shipTerm, setShipTerm] = useState("ddu");
+  const [disableAir, setDisableAir] = useState(false);
+  const [disableSea, setDisableSea] = useState(false);
 
   useEffect(() => {
     let {
@@ -108,6 +110,7 @@ const ShippingDetails = (props) => {
     ) {
       let { cart = "" } = props;
       let { subOrders = [], total = 0 } = cart || {};
+      let landedPrice = false;
       if (subOrders && subOrders.length) {
         let totalAmount = 0;
         for (let sellers of subOrders) {
@@ -122,8 +125,10 @@ const ShippingDetails = (props) => {
               exfactoryListPrice = 0,
               productType = "",
               priceApplied = 0,
+              freeShippingEligible = false,
             } = items;
             if (priceApplied && priceApplied !== null) {
+              if (freeShippingEligible) landedPrice = true;
               basePrice = basePrice + priceApplied * quantity;
             } else {
               basePrice = basePrice + exfactoryListPrice * quantity;
@@ -156,6 +161,47 @@ const ShippingDetails = (props) => {
             }
             selectMode(mode);
           }
+        }
+
+        console.log("Enable LP ", landedPrice);
+
+        if (!landedPrice) {
+          let { frightCostMax: a_frieghtCost = 0 } =
+            airQuote[shippingTerm] || {};
+          let { frightCostMax: s_frieghtCost = 0 } =
+            seaQuote[shippingTerm] || {};
+
+          if (a_frieghtCost > 0 && s_frieghtCost > 0) {
+            if (a_frieghtCost > s_frieghtCost) {
+              let percentage =
+                ((a_frieghtCost - s_frieghtCost) / a_frieghtCost) * 100;
+              if (percentage > 50) {
+                setDisableAir(true);
+              }
+            }
+
+            if (s_frieghtCost > a_frieghtCost) {
+              let percentage =
+                ((s_frieghtCost - a_frieghtCost) / s_frieghtCost) * 100;
+              if (percentage > 50) {
+                setDisableSea(true);
+              }
+            }
+          }
+        }
+
+        let a_result = Object.values(airQuote[shippingTerm]).every(
+          (o) => o === 0
+        );
+        let s_result = Object.values(seaQuote[shippingTerm]).every(
+          (o) => o === 0
+        );
+
+        if (a_result) {
+          setDisableAir(a_result);
+        }
+        if (s_result) {
+          setDisableSea(s_result);
         }
       }
     } else {
@@ -317,37 +363,6 @@ const ShippingDetails = (props) => {
   };
 
   let { convertToCurrency = "" } = currencyDetails || {};
-
-  let { frightCostMax: a_frieghtCost = 0 } = airData[shippingTerm] || {};
-  let { frightCostMax: s_frieghtCost = 0 } = seaData[shippingTerm] || {};
-  let disableAir = false;
-  let disableSea = false;
-
-  if (a_frieghtCost > 0 && s_frieghtCost > 0) {
-    if (a_frieghtCost > s_frieghtCost) {
-      let percentage = ((a_frieghtCost - s_frieghtCost) / a_frieghtCost) * 100;
-      if (percentage > 50) {
-        disableAir = true;
-      }
-    }
-
-    if (s_frieghtCost > a_frieghtCost) {
-      let percentage = ((s_frieghtCost - a_frieghtCost) / s_frieghtCost) * 100;
-      if (percentage > 50) {
-        disableSea = true;
-      }
-    }
-  }
-
-  let a_result = Object.values(airData[shippingTerm]).every((o) => o === 0);
-  let s_result = Object.values(seaData[shippingTerm]).every((o) => o === 0);
-
-  if (a_result) {
-    disableAir = a_result;
-  }
-  if (s_result) {
-    disableSea = s_result;
-  }
 
   const getConvertedCurrency = (baseAmount, round = false) => {
     let { convertToCurrency = "", rates = [] } = props.currencyDetails;

@@ -71,6 +71,7 @@ export const getServerSideProps = async ({ req }) => {
       res["sfl"] = await sflResp.json();
     } catch (error) {
       error["status"] = true;
+      console.log("Error in cart page ", error);
     }
   }
 

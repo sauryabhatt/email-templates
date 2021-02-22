@@ -86,6 +86,7 @@ export const getServerSideProps = async ({ req }) => {
       res["cart"] = await orderResp?.json();
     } catch (error) {
       error["status"] = true;
+      console.log("Error in payment page ", error);
     }
   }
   return {
