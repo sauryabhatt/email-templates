@@ -109,7 +109,8 @@ const ShippingDetails = (props) => {
       Object.keys(seaQuote[shippingTerm]).length
     ) {
       let { cart = "" } = props;
-      let { subOrders = [], total = 0 } = cart || {};
+      let { subOrders = [], total = 0, shippingModesAvailable = [] } =
+        cart || {};
       let landedPrice = false;
       if (subOrders && subOrders.length) {
         let totalAmount = 0;
@@ -155,15 +156,22 @@ const ShippingDetails = (props) => {
           if (landingFactor > LANDING_LIMITER) {
             setPayment(true);
           } else {
-            let mode = "AIR";
-            if (seaMax < airMax) {
-              mode = "SEA";
+            if (
+              shippingModesAvailable.includes("Air") &&
+              shippingModesAvailable.includes("Sea")
+            ) {
+              let mode = "AIR";
+              if (seaMax < airMax) {
+                mode = "SEA";
+              }
+              selectMode(mode);
+            } else if (shippingModesAvailable.includes("Air")) {
+              selectMode("AIR");
+            } else if (shippingModesAvailable.includes("Sea")) {
+              selectMode("SEA");
             }
-            selectMode(mode);
           }
         }
-
-        console.log("Enable LP ", landedPrice);
 
         if (!landedPrice) {
           let { frightCostMax: a_frieghtCost = 0 } =
