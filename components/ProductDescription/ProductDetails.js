@@ -198,6 +198,7 @@ const ProductDetails = (props) => {
     setInStock(0);
     setActiveKeys(["1", "2"]);
     setAccordionView("");
+    setQtyErr(false);
     let pdpOverlay = localStorage.getItem("pdpOverlay");
     if (pdpOverlay) {
       setOverlayDiv(false);
@@ -2923,7 +2924,6 @@ const ProductDetails = (props) => {
                         <span>
                           {showCart ? (
                             <Button
-                              htmlType="submit"
                               onClick={() => {
                                 router.push("/cart");
                               }}
