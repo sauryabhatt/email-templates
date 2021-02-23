@@ -25,7 +25,7 @@ function PaymentBanner(props) {
         <h5>Why us?</h5>
 
         <p className="paragraph-points">
-          25,000+ products from verified suppliers
+          35,000+ products from verified suppliers
           <br />
           Air and Sea delivery to 100+ countries
           <br />
@@ -45,24 +45,35 @@ function PaymentBanner(props) {
         </p>*/}
         <div className="payment-banner-home-page">
           <Button
-            className="send-query-button invite-access-button"
+            className="send-query-button secondary-btn"
             disabled={false}
             onClick={() => {
-              handleSignUp();
+              router.push("/FAQforwholesalebuyers");
             }}
           >
             <div className="send-query-button-text qa-buyer-button qa-payment">
-              Help me source
+              FREQUENTLY ASKED QUESTIONS
+            </div>
+          </Button>
+          <Button
+            className="send-query-button"
+            disabled={false}
+            onClick={() => {
+              router.push("/AboutUs");
+            }}
+          >
+            <div className="send-query-button-text qa-buyer-button qa-payment">
+              KNOW MORE ABOUT US
             </div>
           </Button>
         </div>
 
-        <div
+        {/* <div
           className="qa-font-san qa-fs-12 qa-tc-white qa-mar-top-05"
           style={{ lineHeight: "initial" }}
         >
           Your wholesale shopping assistant
-        </div>
+        </div> */}
       </span>
       {props.children}
     </div>

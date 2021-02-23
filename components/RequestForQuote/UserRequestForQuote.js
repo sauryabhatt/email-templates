@@ -127,7 +127,7 @@ function RequestForQuote(props) {
         <div className="rfq-why-us">
           <span className="heading">Why us?</span>
           <p className="paragraph-points">
-            25,000+ products from verified suppliers
+            35,000+ products from verified suppliers
             <br />
             Air and Sea delivery to 100+ countries
             <br />

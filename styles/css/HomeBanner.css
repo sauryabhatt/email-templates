@@ -96,11 +96,11 @@
   justify-content: center;
 }
 .press-crousel .press-left-arrow {
-  left: 30px;
+  left: 15px;
 }
 
 .press-crousel .press-arrow.press-right-arrow {
-  right: 35px;
+  right: 15px;
 }
 .press-crousel .press-header {
   text-align: center;
@@ -566,7 +566,7 @@ top: 2.48vh; */
     background-position: left;
   }
   .press-crousel {
-    padding: 15px 28px;
+    padding: 25px 28px;
   }
   .press-crousel .press-arrow {
     top: 35%;
@@ -579,6 +579,7 @@ top: 2.48vh; */
   .press-crousel img {
     height: 35px;
     transform: none;
+    margin: 0 auto;
   }
   .press-crousel .mobile-press-crousel-container .mobile-img-wrp:nth-child(2n) {
     margin-top: 30px;
@@ -642,6 +643,10 @@ top: 2.48vh; */
   .home-banner-carousel span.home-banner-playvideo {
     transform: scale3d(0.8, 0.8, 0.7);
     left: 34%;
+  }
+  .press-crousel.news-section svg {
+    height: 13px;
+    width: 8px;
   }
 }
 @media only screen and (max-width: 767px) {
@@ -896,8 +901,18 @@ top: 2.48vh; */
   background-color: #7e473b;
   border-radius: 0;
   border: none;
-  padding: 10px 60px;
+  padding: 10px 0px;
   height: 48px !important;
+  width: 290px;
+}
+.payment-banner-home-page .send-query-button.secondary-btn {
+  background-color: #f9f7f2;
+  margin-right: 20px;
+}
+.payment-banner-home-page
+  .send-query-button.secondary-btn
+  .send-query-button-text {
+  color: #191919 !important;
 }
 
 .payment-banner-home-page .send-query-button-text {
@@ -1067,6 +1082,12 @@ top: 2.48vh; */
     font-size: 14px;
     line-height: 130%;
   }
+  .payment-banner-home-page button.ant-btn {
+    width: 100%;
+  }
+  .payment-banner-home-page .send-query-button.secondary-btn {
+    margin-right: 0px;
+  }
 }
 
 @media only screen and (max-width: 360px) {
@@ -1165,4 +1186,35 @@ right: 25%;
   .home-signup-btn .sign-up-text-icon {
     margin-top: 3px;
   }
+}
+.press-crousel.news-section .press-web-wrp .press-blk {
+  padding: 0px 30px;
+  width: 33.33%;
+}
+.press-crousel.news-section .press-web-wrp .press-blk img {
+  display: inline-block;
+}
+.press-crousel.news-section .news-para.qa-text-2line {
+  font-family: senregular;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 130%;
+  text-align: center;
+  letter-spacing: 0.25px;
+  color: #191919;
+  margin-top: 15px;
+}
+.press-crousel.news-section .news-article {
+  font-family: senregular;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.25px;
+  border-bottom: 1px solid #874439;
+  padding-bottom: 2px;
+  color: #874439;
+  cursor: pointer;
+  margin-top: 10px;
 }
