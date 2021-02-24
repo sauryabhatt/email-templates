@@ -2985,7 +2985,10 @@ const ProductDetails = (props) => {
                     </span>
                   )}
                   {inRange === false && (
-                    <div className="qa-text-error">
+                    <div
+                      className="qa-text-error"
+                      style={{ marginTop: "-20px" }}
+                    >
                       Please enter a quantity value as per the quantity range
                       mentioned
                     </div>
