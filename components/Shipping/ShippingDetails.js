@@ -241,6 +241,7 @@ const ShippingDetails = (props) => {
     referralCode = "",
     shippingModesAvailable = [],
   } = cartData || {};
+  let { shippingAddressDetails = "" } = props.cart || {};
   let {
     fullName = "",
     addressLine1 = "",
