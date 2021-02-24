@@ -271,7 +271,7 @@ const ShippingDetails = (props) => {
     phoneNumber;
 
   let { priceQuoteRef = "", country: s_country = "", postalCode = "" } =
-    cartData || {};
+    props.cart || {};
 
   let allOrders = [];
   for (let orders of subOrders) {
