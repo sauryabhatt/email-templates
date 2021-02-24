@@ -108,7 +108,7 @@
   font-size: 28px;
   line-height: 34px;
   letter-spacing: 0.01em;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   color: #332f2f;
 }
 .press-crousel img {
@@ -566,7 +566,7 @@ top: 2.48vh; */
     background-position: left;
   }
   .press-crousel {
-    padding: 25px 28px;
+    padding: 21px 24px;
   }
   .press-crousel .press-arrow {
     top: 35%;
@@ -574,7 +574,7 @@ top: 2.48vh; */
   .press-crousel .press-header {
     font-size: 20px;
     line-height: 24px;
-    margin-bottom: 14px;
+    margin-bottom: 20px;
   }
   .press-crousel img {
     height: 35px;
@@ -903,7 +903,7 @@ top: 2.48vh; */
   border: none;
   padding: 10px 0px;
   height: 48px !important;
-  width: 290px;
+  width: 280px;
 }
 .payment-banner-home-page .send-query-button.secondary-btn {
   background-color: #f9f7f2;
@@ -1083,7 +1083,7 @@ top: 2.48vh; */
     line-height: 130%;
   }
   .payment-banner-home-page button.ant-btn {
-    width: 100%;
+    width: 280px;
   }
   .payment-banner-home-page .send-query-button.secondary-btn {
     margin-right: 0px;
@@ -1146,9 +1146,15 @@ position: absolute;
 bottom: 20px;
 right: 25%;
 } */
-@media only screen and (max-width: 280px) {
+@media only screen and (max-width: 320px) {
   .home-banner-head-text {
     font-size: 28px !important;
+  }
+  .payment-banner-home-page button.ant-btn {
+    width: 100%;
+  }
+  .payment-banner-home-page .send-query-button-text {
+    font-size: 12px;
   }
 }
 @media only screen and (min-width: 1300px) {
@@ -1217,4 +1223,7 @@ right: 25%;
   color: #874439;
   cursor: pointer;
   margin-top: 10px;
+}
+.press-crousel.news-section .press-web-wrp a {
+  display: block !important;
 }

@@ -1067,7 +1067,12 @@ const CartDetails = (props) => {
               {subOrders && subOrders.length > 0 && (
                 <div className="qa-pad-2 c-item-list qa-mar-btm-4">
                   {_.map(subOrders, (order, i) => {
-                    let { products = "", sellerCode = "", total = 0 } = order;
+                    let {
+                      products = "",
+                      sellerCode = "",
+                      total = 0,
+                      smallBatchesAvailable = false,
+                    } = order;
                     let servicesTotal = 0;
                     let servicesOpted = {};
                     let mov = 0;
@@ -1205,6 +1210,7 @@ const CartDetails = (props) => {
                             priceApplied = 0,
                             qualityTestingCharge = 0,
                             sampleCost = 0,
+                            productMOQPriceDetail = [],
                           } = product;
 
                           let totalProductAmount = 0;
@@ -1214,6 +1220,16 @@ const CartDetails = (props) => {
 
                           quantity = parseInt(quantity);
                           minimumOrderQuantity = parseInt(minimumOrderQuantity);
+                          if (
+                            productMOQPriceDetail &&
+                            productMOQPriceDetail.length > 0 &&
+                            smallBatchesAvailable
+                          ) {
+                            minimumOrderQuantity =
+                              productMOQPriceDetail[
+                                productMOQPriceDetail.length - 1
+                              ]["qtyMin"];
+                          }
 
                           samplePrice =
                             samplePrice +
@@ -1706,7 +1722,12 @@ const CartDetails = (props) => {
                 </div>
                 <div className="qa-mar-btm-2">
                   {_.map(subOrders, (order, i) => {
-                    let { products = "", sellerCode = "", total = 0 } = order;
+                    let {
+                      products = "",
+                      sellerCode = "",
+                      total = 0,
+                      smallBatchesAvailable = false,
+                    } = order;
                     let servicesTotal = 0;
                     let servicesOpted = {};
                     let mov = 0;
@@ -1829,6 +1850,7 @@ const CartDetails = (props) => {
                             priceApplied = 0,
                             qualityTestingCharge = 0,
                             sampleCost = 0,
+                            productMOQPriceDetail = [],
                           } = product;
 
                           let totalProductAmount = 0;
@@ -1838,7 +1860,16 @@ const CartDetails = (props) => {
 
                           quantity = parseInt(quantity);
                           minimumOrderQuantity = parseInt(minimumOrderQuantity);
-
+                          if (
+                            productMOQPriceDetail &&
+                            productMOQPriceDetail.length > 0 &&
+                            smallBatchesAvailable
+                          ) {
+                            minimumOrderQuantity =
+                              productMOQPriceDetail[
+                                productMOQPriceDetail.length - 1
+                              ]["qtyMin"];
+                          }
                           samplePrice =
                             samplePrice +
                             parseFloat(getConvertedCurrency(sampleCost));

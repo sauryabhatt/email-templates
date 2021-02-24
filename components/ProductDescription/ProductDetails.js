@@ -1358,7 +1358,8 @@ const ProductDetails = (props) => {
               {showPrice && moqList.length > 0 && smallBatchesAvailable && (
                 <div>
                   <div className="qa-font-san qa-tc-white qa-fs-12 qa-fw-b qa-mar-top-1 qa-mar-btm-05">
-                    Select quantity range to view applicable price (units):{" "}
+                    Select quantity range to view applicable price and shipping
+                    mode (units):{" "}
                   </div>
                   {moqList.map((moq, i) => (
                     <div
@@ -1751,7 +1752,7 @@ const ProductDetails = (props) => {
                     <span>
                       <Icon
                         component={Air}
-                        style={{ width: "35px", verticalAlign: "middle" }}
+                        style={{ width: "34px", verticalAlign: "middle" }}
                         className="air-icon"
                       />
                       <span className="p-shipBy">Air</span>
@@ -1763,20 +1764,20 @@ const ProductDetails = (props) => {
                     <span>
                       <Icon
                         component={Sea}
-                        style={{ width: "35px", verticalAlign: "middle" }}
+                        style={{ width: "32px", verticalAlign: "middle" }}
                         className="sea-icon"
                       />
                       <span className="p-shipBy">Sea</span>
                     </span>
                   </div>
                 )}
-                {!shippingMode && moqList.length === 0 && (
+                {!shippingMode && (
                   <div className="qa-mar-btm-15">
                     {shippingMethods.includes("Air") && (
                       <span>
                         <Icon
                           component={Air}
-                          style={{ width: "35px", verticalAlign: "middle" }}
+                          style={{ width: "34px", verticalAlign: "middle" }}
                           className="air-icon"
                         />
                         <span className="p-shipBy">Air</span>
@@ -1786,7 +1787,7 @@ const ProductDetails = (props) => {
                       <span>
                         <Icon
                           component={Sea}
-                          style={{ width: "35px", verticalAlign: "middle" }}
+                          style={{ width: "32px", verticalAlign: "middle" }}
                           className="sea-icon"
                         />
                         <span className="p-shipBy">Sea</span>
@@ -2505,7 +2506,8 @@ const ProductDetails = (props) => {
               {showPrice && moqList.length > 0 && smallBatchesAvailable && (
                 <div>
                   <div className="qa-font-san qa-tc-white qa-fs-12 qa-fw-b qa-mar-top-15 qa-mar-btm-05">
-                    Select quantity range to view applicable price (units):{" "}
+                    Select quantity range to view applicable price and shipping
+                    mode (units):{" "}
                   </div>
                   {moqList.map((moq, i) => (
                     <div
@@ -2621,7 +2623,7 @@ const ProductDetails = (props) => {
                         </Form.Item>
                         <div
                           className="qa-font-san qa-fs-12 qa-blue qa-mar-btm-1 qa-lh"
-                          style={{ marginTop: "-15px" }}
+                          style={{ marginTop: "-10px" }}
                         >
                           *For large quantities, please submit the{" "}
                           <b>'get quote'</b> form for unbeatable prices!
@@ -2813,7 +2815,7 @@ const ProductDetails = (props) => {
                     <span>
                       <Icon
                         component={Air}
-                        style={{ width: "35px", verticalAlign: "middle" }}
+                        style={{ width: "34px", verticalAlign: "middle" }}
                         className="air-icon"
                       />
                       <span className="p-shipBy">Air</span>
@@ -2825,20 +2827,20 @@ const ProductDetails = (props) => {
                     <span>
                       <Icon
                         component={Sea}
-                        style={{ width: "35px", verticalAlign: "middle" }}
+                        style={{ width: "32px", verticalAlign: "middle" }}
                         className="sea-icon"
                       />
                       <span className="p-shipBy">Sea</span>
                     </span>
                   </div>
                 )}
-                {!shippingMode && moqList.length === 0 && (
+                {!shippingMode && (
                   <div className="qa-mar-btm-15">
                     {shippingMethods.includes("Air") && (
                       <span>
                         <Icon
                           component={Air}
-                          style={{ width: "35px", verticalAlign: "middle" }}
+                          style={{ width: "34px", verticalAlign: "middle" }}
                           className="air-icon"
                         />
                         <span className="p-shipBy">Air</span>
@@ -2848,7 +2850,7 @@ const ProductDetails = (props) => {
                       <span>
                         <Icon
                           component={Sea}
-                          style={{ width: "35px", verticalAlign: "middle" }}
+                          style={{ width: "32px", verticalAlign: "middle" }}
                           className="sea-icon"
                         />
                         <span className="p-shipBy">Sea</span>

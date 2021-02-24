@@ -82,15 +82,17 @@ export default function PressCrousel(props) {
   for (let i = 0; i < press_data.length; i++) {
     let view = (
       <div className="mobile-press-crousel-container" key={i}>
-        <div className="mobile-img-wrp">
-          <img src={press_data[i].linkTo} alt={press_data[i].url} />
-          <div className="news-para qa-text-2line">{press_data[i].title}</div>
-          <div className="new-read-article">
-            <a href={press_data[i].url} target="_blank">
-              <span className="news-article">Read Article</span>
-            </a>
+        <a href={press_data[i].url} target="_blank">
+          <div className="mobile-img-wrp">
+            <img src={press_data[i].linkTo} alt={press_data[i].url} />
+            <div className="news-para qa-text-2line">{press_data[i].title}</div>
+            <div className="new-read-article">
+              <a href={press_data[i].url} target="_blank">
+                <span className="news-article">Read Article</span>
+              </a>
+            </div>
           </div>
-        </div>
+        </a>
       </div>
     );
     mobile_view.push(view);
@@ -98,7 +100,9 @@ export default function PressCrousel(props) {
 
   return (
     <div className="press-crousel news-section">
-      <div className="press-header">In the news</div>
+      <div className="press-header category-heading">
+        <h3>In the news</h3>
+      </div>
       {(!isMobile && press_data.length > 3) ||
       (isMobile && press_data.length > 1) ? (
         <span className="press-arrow press-left-arrow" onClick={previous}>
@@ -114,17 +118,19 @@ export default function PressCrousel(props) {
           {press_data.map((data, index) => {
             return (
               <div key={`press-${index}`} className="qa-txt-alg-cnt press-blk">
-                <img
-                  style={{ height: `${data.height}` }}
-                  src={data.linkTo}
-                  alt={data.url}
-                />
-                <div className="news-para qa-text-2line">{data.title}</div>
-                <div className="new-read-article">
-                  <a href={data.url} target="_blank">
-                    <span className="news-article">Read Article</span>
-                  </a>
-                </div>
+                <a href={data.url} target="_blank">
+                  <img
+                    style={{ height: `${data.height}` }}
+                    src={data.linkTo}
+                    alt={data.url}
+                  />
+                  <div className="news-para qa-text-2line">{data.title}</div>
+                  <div className="new-read-article">
+                    <a href={data.url} target="_blank">
+                      <span className="news-article">Read Article</span>
+                    </a>
+                  </div>
+                </a>
               </div>
             );
           })}
