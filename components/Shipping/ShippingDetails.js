@@ -236,7 +236,6 @@ const ShippingDetails = (props) => {
 
   let {
     subOrders = [],
-    shippingAddressDetails = "",
     orderId = "",
     referralCode = "",
     shippingModesAvailable = [],
