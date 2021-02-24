@@ -162,10 +162,10 @@ const ShippingDetails = (props) => {
           }
         }
 
-        let a_result = Object.values(airData[shippingTerm]).every(
+        let a_result = Object.values(airQuote[shippingTerm]).every(
           (o) => o === 0
         );
-        let s_result = Object.values(seaData[shippingTerm]).every(
+        let s_result = Object.values(seaQuote[shippingTerm]).every(
           (o) => o === 0
         );
 
@@ -178,8 +178,8 @@ const ShippingDetails = (props) => {
       }
     } else {
       let result =
-        Object.values(airData[shippingTerm]).every((o) => o === 0) &&
-        Object.values(seaData[shippingTerm]).every((o) => o === 0);
+        Object.values(airQuote[shippingTerm]).every((o) => o === 0) &&
+        Object.values(seaQuote[shippingTerm]).every((o) => o === 0);
       if (result) {
         setPayment(true);
       }
@@ -465,6 +465,7 @@ const ShippingDetails = (props) => {
   deliveryDateMax = new Date(eddMax);
 
   console.log(disableAir, disableSea);
+
   if (isLoading) {
     return <Spinner />;
   }
