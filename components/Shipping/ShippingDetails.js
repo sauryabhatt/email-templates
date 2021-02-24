@@ -276,12 +276,19 @@ const ShippingDetails = (props) => {
   let allOrders = [];
   for (let orders of subOrders) {
     let orderObj = {};
-    let { products = [], sellerCode = "", id = "", orderId = "", status = "" } =
-      orders || {};
+    let {
+      products = [],
+      sellerCode = "",
+      id = "",
+      orderId = "",
+      status = "",
+      smallBatchesAvailable = "",
+    } = orders || {};
     orderObj["id"] = id;
     orderObj["orderId"] = orderId;
     orderObj["status"] = status;
     orderObj["sellerCode"] = sellerCode;
+    orderObj["smallBatchesAvailable"] = smallBatchesAvailable;
     let allProducts = [];
     for (let product of products) {
       let productObj = {};

@@ -151,6 +151,7 @@ const ProductDetails = (props) => {
   const [selectedQty, setSelectedQty] = useState(0);
   const [displayPrice, setDisplayPrice] = useState("");
   const [shippingMode, setShippingMode] = useState("");
+  const [inRange, setInRange] = useState("");
 
   const url = process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL;
 
@@ -199,6 +200,7 @@ const ProductDetails = (props) => {
     setActiveKeys(["1", "2"]);
     setAccordionView("");
     setQtyErr(false);
+    setInRange("");
     let pdpOverlay = localStorage.getItem("pdpOverlay");
     if (pdpOverlay) {
       setOverlayDiv(false);
@@ -860,16 +862,23 @@ const ProductDetails = (props) => {
   };
 
   const changeMOQQty = (value) => {
+    let range = false;
     let priceList = moqList;
     let index = 0;
     for (let details of priceList) {
       let { qtyMin = "", qtyMax = "", price = "", shippingMode = "" } = details;
       if (inRangeQty(value, qtyMin, qtyMax)) {
+        range = true;
         setDisplayPrice(price);
         setShippingMode(shippingMode);
         setSelectedQty(index);
       }
       index++;
+    }
+    if (range) {
+      setInRange(range);
+    } else {
+      setInRange(range);
     }
   };
 
@@ -893,15 +902,12 @@ const ProductDetails = (props) => {
     }
   }
 
-  console.log(shippingMode);
-
   return (
     <div id="product-description" className="product-description qa-font-san">
       <Row>
         <Col xs={0} sm={0} md={0} lg={24} xl={24}>
           <Row className="product-org-section qa-mar-auto-4">
             <Col
-              className=""
               xs={24}
               sm={24}
               md={4}
@@ -1806,7 +1812,7 @@ const ProductDetails = (props) => {
                       setRfqType("Product RFQ");
                     }}
                   >
-                    <div className="">Get Quote</div>
+                    <div>Get Quote</div>
                   </Button>
                   {(productType === "RTS" || productType === "ERTM") && skuId && (
                     <span>
@@ -1845,7 +1851,11 @@ const ProductDetails = (props) => {
                             <Button
                               htmlType="submit"
                               onClick={onCheck}
-                              className="add-to-bag-button"
+                              className={
+                                inRange !== false
+                                  ? "add-to-bag-button"
+                                  : "add-to-bag-button atc-diable"
+                              }
                               loading={loading}
                             >
                               Add to cart
@@ -1861,6 +1871,12 @@ const ProductDetails = (props) => {
                   )}
                 </div>
 
+                {inRange === false && (
+                  <div className="qa-text-error">
+                    Please enter a quantity value as per the quantity range
+                    mentioned
+                  </div>
+                )}
                 {errorMsg &&
                   (productType === "RTS" || productType === "ERTM") &&
                   skuId && (
@@ -2950,7 +2966,11 @@ const ProductDetails = (props) => {
                             <Button
                               htmlType="submit"
                               onClick={onCheck}
-                              className="add-to-bag-button"
+                              className={
+                                inRange !== false
+                                  ? "add-to-bag-button"
+                                  : "add-to-bag-button atc-diable"
+                              }
                               loading={loading}
                             >
                               Add to cart
@@ -2964,7 +2984,12 @@ const ProductDetails = (props) => {
                       )}
                     </span>
                   )}
-
+                  {inRange === false && (
+                    <div className="qa-text-error">
+                      Please enter a quantity value as per the quantity range
+                      mentioned
+                    </div>
+                  )}
                   {errorMsg &&
                     (productType === "RTS" || productType === "ERTM") &&
                     skuId && (
