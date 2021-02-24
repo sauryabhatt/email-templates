@@ -1565,7 +1565,7 @@ const ProductDetails = (props) => {
                               ? switchMoq
                               : minimumOrderQuantity}{" "}
                             {moqUnit}{" "}
-                            <span
+                            {/* <span
                               style={{
                                 marginRight: "5px",
                                 fontWeight: "bold",
@@ -1591,7 +1591,7 @@ const ProductDetails = (props) => {
                                   />
                                 </span>
                               </Tooltip>
-                            </span>
+                            </span> */}
                           </span>
                         )}
                         <div className="qa-font-san qa-fs-12 qa-blue qa-mar-top-05 qa-lh qa-mar-btm-1">
@@ -2703,7 +2703,7 @@ const ProductDetails = (props) => {
                               ? switchMoq
                               : minimumOrderQuantity}{" "}
                             {moqUnit}{" "}
-                            <span
+                            {/* <span
                               style={{
                                 marginRight: "5px",
                                 fontWeight: "bold",
@@ -2730,6 +2730,7 @@ const ProductDetails = (props) => {
                                 </span>
                               </Tooltip>
                             </span>
+                         */}
                           </span>
                         )}
                         <div className="qa-font-san qa-fs-12 qa-blue qa-mar-top-05 qa-lh qa-mar-btm-1">
