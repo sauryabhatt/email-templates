@@ -162,10 +162,10 @@ const ShippingDetails = (props) => {
           }
         }
 
-        let a_result = Object.values(airQuote[shippingTerm]).every(
+        let a_result = Object.values(airData[shippingTerm]).every(
           (o) => o === 0
         );
-        let s_result = Object.values(seaQuote[shippingTerm]).every(
+        let s_result = Object.values(seaData[shippingTerm]).every(
           (o) => o === 0
         );
 
@@ -178,8 +178,8 @@ const ShippingDetails = (props) => {
       }
     } else {
       let result =
-        Object.values(airQuote[shippingTerm]).every((o) => o === 0) &&
-        Object.values(seaQuote[shippingTerm]).every((o) => o === 0);
+        Object.values(airData[shippingTerm]).every((o) => o === 0) &&
+        Object.values(seaData[shippingTerm]).every((o) => o === 0);
       if (result) {
         setPayment(true);
       }
@@ -464,6 +464,7 @@ const ShippingDetails = (props) => {
   deliveryDateMin = new Date(eddMin);
   deliveryDateMax = new Date(eddMax);
 
+  console.log(disableAir, disableSea);
   if (isLoading) {
     return <Spinner />;
   }
@@ -1133,7 +1134,6 @@ const ShippingDetails = (props) => {
                                 productName = "",
                                 quantity = "",
                                 size = "",
-                                isFulfillable = false,
                                 freeShippingEligible = false,
                                 exfactoryListPrice = 0,
                                 priceApplied = 0,
@@ -1180,14 +1180,7 @@ const ShippingDetails = (props) => {
                                 basePrice + samplePrice + testingPrice;
 
                               return (
-                                <Row
-                                  className={`${
-                                    isFulfillable === false
-                                      ? "qa-pad-20-0 oos-border qa-mar-btm-1"
-                                      : "qa-pad-20-0"
-                                  }`}
-                                  key={j}
-                                >
+                                <Row className="qa-pad-20-0" key={j}>
                                   <Col xs={24} sm={24} md={6} lg={6} xl={6}>
                                     <div className="aspect-ratio-box">
                                       <img
@@ -1216,11 +1209,11 @@ const ShippingDetails = (props) => {
                                     <div className="cart-prod-title qa-mar-top-1">
                                       Units: {quantity} {unitOfMeasure}
                                     </div>
-                                    {isFulfillable === false && (
+                                    {/* {isFulfillable === false && (
                                       <div className="cart-sub-text p-out-of-stock qa-mar-top-05">
                                         This product is currently out of stock
                                       </div>
-                                    )}
+                                    )} */}
                                   </Col>
                                   <Col
                                     xs={24}
@@ -2172,7 +2165,6 @@ const ShippingDetails = (props) => {
                               productName = "",
                               quantity = "",
                               size = "",
-                              isFulfillable = false,
                               freeShippingEligible = false,
                               exfactoryListPrice = 0,
                               priceApplied = 0,
@@ -2260,11 +2252,11 @@ const ShippingDetails = (props) => {
                                   <div className="cart-prod-title qa-mar-top-1">
                                     Units: {quantity} {unitOfMeasure}
                                   </div>
-                                  {isFulfillable === false && (
+                                  {/* {isFulfillable === false && (
                                     <div className="cart-sub-text p-out-of-stock qa-mar-top-05">
                                       This product is currently out of stock
                                     </div>
-                                  )}
+                                  )} */}
                                 </Col>
                                 <Col
                                   xs={24}
