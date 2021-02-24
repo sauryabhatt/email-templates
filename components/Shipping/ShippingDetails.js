@@ -28,7 +28,6 @@ const LANDING_LIMITER = 2;
 const ShippingDetails = (props) => {
   const router = useRouter();
   let {
-    cart = {},
     brandNames = "",
     currencyDetails = {},
     userProfile = {},
@@ -36,41 +35,6 @@ const ShippingDetails = (props) => {
     airQuote = { ddp: {}, ddu: {} },
     seaQuote = { ddp: {}, ddu: {} },
   } = props;
-  let {
-    subOrders = [],
-    shippingAddressDetails = "",
-    orderId = "",
-    referralCode = "",
-    shippingModesAvailable = [],
-  } = cart || {};
-  let {
-    fullName = "",
-    addressLine1 = "",
-    addressLine2 = "",
-    city = "",
-    country = "",
-    state = "",
-    zipCode = "",
-    phoneNumber = "",
-  } = shippingAddressDetails || {};
-
-  let shippingAddr = "";
-  shippingAddr =
-    fullName +
-    ", " +
-    addressLine1 +
-    ", " +
-    addressLine2 +
-    ", " +
-    city +
-    ", " +
-    state +
-    ", " +
-    country +
-    ", " +
-    zipCode +
-    ", " +
-    phoneNumber;
 
   const [shippingModeModal, setShippingModeModal] = useState(false);
   const [enable, setEnable] = useState(false);
@@ -78,7 +42,7 @@ const ShippingDetails = (props) => {
   const [showRow, setShowRow] = useState(true);
   const [airData, setAirData] = useState({ ddp: {}, ddu: {} });
   const [seaData, setSeaData] = useState({ ddp: {}, ddu: {} });
-  const [cartData, setCartData] = useState("");
+  const [cartData, setCartData] = useState(props.cart);
   const [isLoading, setLoading] = useState(true);
   const mediaMatch = window.matchMedia("(min-width: 1024px)");
   const [disablePayment, setPayment] = useState(false);
@@ -270,8 +234,44 @@ const ShippingDetails = (props) => {
     setCouponCode(value);
   };
 
+  let {
+    subOrders = [],
+    shippingAddressDetails = "",
+    orderId = "",
+    referralCode = "",
+    shippingModesAvailable = [],
+  } = cartData || {};
+  let {
+    fullName = "",
+    addressLine1 = "",
+    addressLine2 = "",
+    city = "",
+    country = "",
+    state = "",
+    zipCode = "",
+    phoneNumber = "",
+  } = shippingAddressDetails || {};
+
+  let shippingAddr = "";
+  shippingAddr =
+    fullName +
+    ", " +
+    addressLine1 +
+    ", " +
+    addressLine2 +
+    ", " +
+    city +
+    ", " +
+    state +
+    ", " +
+    country +
+    ", " +
+    zipCode +
+    ", " +
+    phoneNumber;
+
   let { priceQuoteRef = "", country: s_country = "", postalCode = "" } =
-    cart || {};
+    cartData || {};
 
   let allOrders = [];
   for (let orders of subOrders) {
