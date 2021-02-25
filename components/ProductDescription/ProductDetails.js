@@ -1747,7 +1747,7 @@ const ProductDetails = (props) => {
                     </div>
                   </div>
                 )}
-                {shippingMode === "Air" && (
+                {shippingMode === "Air" && showPrice && (
                   <div className="qa-mar-btm-15">
                     <span>
                       <Icon
@@ -1759,7 +1759,7 @@ const ProductDetails = (props) => {
                     </span>
                   </div>
                 )}
-                {shippingMode === "Sea" && (
+                {shippingMode === "Sea" && showPrice && (
                   <div className="qa-mar-btm-15">
                     <span>
                       <Icon
@@ -1771,7 +1771,7 @@ const ProductDetails = (props) => {
                     </span>
                   </div>
                 )}
-                {!shippingMode && (
+                {(!shippingMode || !showPrice) && (
                   <div className="qa-mar-btm-15">
                     {shippingMethods.includes("Air") && (
                       <span>
@@ -2810,7 +2810,7 @@ const ProductDetails = (props) => {
                   Available shipping modes
                 </div>
 
-                {shippingMode === "Air" && (
+                {shippingMode === "Air" && showPrice && (
                   <div className="qa-mar-btm-15">
                     <span>
                       <Icon
@@ -2822,7 +2822,7 @@ const ProductDetails = (props) => {
                     </span>
                   </div>
                 )}
-                {shippingMode === "Sea" && (
+                {shippingMode === "Sea" && showPrice && (
                   <div className="qa-mar-btm-15">
                     <span>
                       <Icon
@@ -2834,7 +2834,7 @@ const ProductDetails = (props) => {
                     </span>
                   </div>
                 )}
-                {!shippingMode && (
+                {(!shippingMode || !showPrice) && (
                   <div className="qa-mar-btm-15">
                     {shippingMethods.includes("Air") && (
                       <span>
