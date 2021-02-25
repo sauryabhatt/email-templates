@@ -12,18 +12,16 @@ export default function SellerProductListingPage({ data }) {
   const meta = {
     title:
       `Source quality ${data?.sellerDetails?.categoryDescs.join(", ")} from ${
-        data?.sellerDetails?.brandName
+        data?.sellerId
       } for
       wholesale. | Qalara` ||
       "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods from South Asia | Qalara",
     description:
       `Buy ${data?.sellerDetails?.categoryDescs.join(", ")} from ${
-        data?.sellerDetails?.brandName
+        data?.sellerId
       } online and get it delivered at your doorstep. Check out all the products, pricing and place your order online, securely.` ||
       "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods - Décor, Rugs and Carpets, Kitchen, Home Furnishings – from South East Asia. Digitally. Reliably. Affordably. Responsibly.",
-    keywords: `${
-      data?.sellerDetails?.brandName
-    }, ${data?.sellerDetails?.categoryDescs.join(
+    keywords: `${data?.sellerId}, ${data?.sellerDetails?.categoryDescs.join(
       ", "
     )}, Global sourcing, wholesale, exports, handcrafted, South East Asia, bulk, vendors, manufacturer`,
     url: `/seller/${data?.sellerId}/${data?.categoryId}`,
@@ -94,11 +92,11 @@ export const getStaticProps = async ({ params }) => {
   return {
     props: {
       data: {
-        slp_count: res1?.totalHits,
-        slp_content: res1?.products,
-        slp_facets: res1?.aggregates,
-        slp_categories: res1?.fixedAggregates,
-        sellerDetails: sellerDetails,
+        slp_count: res1?.totalHits || null,
+        slp_content: res1?.products || null,
+        slp_facets: res1?.aggregates || null,
+        slp_categories: res1?.fixedAggregates || null,
+        sellerDetails: sellerDetails || null,
         error: error,
         sellerId: sellerId,
         categoryId: categoryId,
