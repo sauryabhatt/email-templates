@@ -5,7 +5,7 @@ import { Row, Col, Button } from "antd";
 import AddToCalendar from "react-add-to-calendar";
 import "react-add-to-calendar/dist/react-add-to-calendar.css";
 import moment from "moment";
-import  Link  from "next/link";
+import Link from "next/link";
 
 const VideoRequestCarousel = (props) => {
   const [headerText, setHeaderText] = useState(null);
@@ -330,11 +330,15 @@ const VideoRequestCarousel = (props) => {
                   marginTop: "25px",
                 }}
               >
-                <Link
-                  href={`/seller/${props.id}`}
-                  target="blank"                  
-                >
-                 <span style={{ color: "#874439", textDecoration: "underline" }} className="qa-fs-14 qa-font-san qa-fw-b"> View seller profile</span>
+                <Link href={`/seller/${props.id}`}>
+                  <a target="_blank">
+                    <span
+                      style={{ color: "#874439", textDecoration: "underline" }}
+                      className="qa-fs-14 qa-font-san qa-fw-b"
+                    >
+                      View seller profile
+                    </span>
+                  </a>
                 </Link>
               </Col>
             </Row>

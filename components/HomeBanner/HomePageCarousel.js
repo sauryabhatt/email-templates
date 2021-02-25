@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState, useEffect, useRef, useImperativeHandle } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { enquireScreen } from "enquire-js";
 import Slider from "react-slick";
 import playButton from "../../public/filestore/playButton";
