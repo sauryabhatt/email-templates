@@ -59,14 +59,10 @@ const OrderReview = (props) => {
   }
 
   useEffect(() => {
-    if (
-      props.user &&
-      props.user.userProfile &&
-      router.query.orderId
-    ) {
+    if (keycloak?.token && orderIdParam) {
       props.getOrderByOrderId(keycloak.token, orderIdParam);
     }
-  }, [props.user.userProfile, router.query.orderId]);
+  }, [keycloak.token, orderIdParam]);
 
   useEffect(() => {
     setLoading(false);

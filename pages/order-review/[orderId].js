@@ -23,7 +23,7 @@ function OrderReview() {
   };
 
   return (
-    <Layout meta={meta}>
+    <Layout meta={meta} privateRoute>
       <Auth path={`/order-review/${router.query.orderId}`}>
         <>
           <DynamicOrderReviewWrapper />

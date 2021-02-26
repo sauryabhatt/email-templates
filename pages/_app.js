@@ -21,6 +21,7 @@ const keycloak = {
 
 const initOptions = {
   onLoad: "check-sso",
+  checkLoginIframe: false,
   silentCheckSsoRedirectUri:
     process.env.NEXT_PUBLIC_URL + "/silent-check-sso.html",
 };
