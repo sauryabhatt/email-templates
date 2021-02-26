@@ -1,10 +1,9 @@
 /** @format */
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import ShippingDetails from "./ShippingDetails";
 import { useKeycloak } from "@react-keycloak/ssr";
-import { getCart } from "../../store/actions";
 
 const Shipping = (props) => {
   const { keycloak } = useKeycloak();
@@ -12,19 +11,6 @@ const Shipping = (props) => {
   const [cart, setCart] = useState(props.data.cart);
   const [airData, setAirData] = useState(props.data.airData);
   const [seaData, setSeaData] = useState(props.data.seaData);
-
-  let cartToken = token || keycloak.token;
-  useEffect(() => {
-    if (props.user && props.user.userProfile) {
-      let { user = {} } = props || {};
-      let { profileType = "" } = user || {};
-      if (profileType === "BUYER") {
-        props.getCart(cartToken, (res) => {
-          setCart(res);
-        });
-      }
-    }
-  }, [props.user]);
 
   return (
     <ShippingDetails
@@ -43,4 +29,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, getCart)(Shipping);
+export default connect(mapStateToProps, null)(Shipping);
