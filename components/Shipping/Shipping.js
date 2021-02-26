@@ -18,7 +18,7 @@ const Shipping = (props) => {
       let { user = {} } = props || {};
       let { profileType = "" } = user || {};
       if (profileType === "BUYER") {
-        props.getCart(keycloak.token, (res) => {
+        props.getCart(token || keycloak.token, (res) => {
           setCart(res);
         });
       }
