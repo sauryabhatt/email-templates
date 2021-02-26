@@ -469,7 +469,7 @@ function UserHeader(props) {
 
   let requesterName = firstName;
   if (lastName && lastName !== null) {
-    requesterName = requesterName + lastName;
+    requesterName = requesterName + " " + lastName;
   }
 
   let values = {

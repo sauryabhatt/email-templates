@@ -96,7 +96,10 @@ const CartDetails = (props) => {
   const [defaultValue, setDefaultValue] = useState();
   const [form] = Form.useForm();
   const [addform] = Form.useForm();
-  const mediaMatch = window.matchMedia("(min-width: 1024px)");
+  const mediaMatch =
+    typeof window !== "undefined"
+      ? window.matchMedia("(min-width: 1024px)")
+      : false;
   const [selCountryCode, setSelCountryCode] = useState("us");
   const [dialCode, setDialCode] = useState("+1");
   const [contactId, setContactId] = useState(null);
@@ -116,7 +119,6 @@ const CartDetails = (props) => {
   const [error, setError] = useState({});
   const [selCountry, setSelCountry] = useState("");
   const [selPincode, setSelPincode] = useState("");
-  const [deliver, setDeliver] = useState(false);
   const [serviceTotal, setServiceTotal] = useState(0);
   const [hCountry, setHCountry] = useState([]);
   const [zipCodeList, setZipcodeList] = useState([]);
@@ -133,13 +135,8 @@ const CartDetails = (props) => {
     let { shippingAddressDetails = "", shippingAddressId, subOrders = [] } =
       cart || {};
     if (shippingAddressDetails && addresses.length > 0) {
-      let {
-        countryCode = "",
-        phoneNumber = "",
-        country = "",
-        zipCode = "",
-        dialCode = "",
-      } = shippingAddressDetails || {};
+      let { countryCode = "", country = "", zipCode = "", dialCode = "" } =
+        shippingAddressDetails || {};
       setSelectedShippingId(shippingAddressId);
       setSelCountryCode(countryCode);
       setSelCountryExpectedLength("success");
@@ -147,10 +144,6 @@ const CartDetails = (props) => {
       setSelCountry(country);
       handleCountry(country);
       setDialCode(dialCode);
-
-      if (deliveredCountryList.includes(country)) {
-        setDeliver(true);
-      }
     }
 
     if (subOrders.length > 0) {
@@ -182,7 +175,6 @@ const CartDetails = (props) => {
   let {
     subOrders = [],
     shippingAddressDetails = "",
-    shippingAddressId = "",
     orderId = "",
     isFulfillable = true,
     referralCode = "",
@@ -201,7 +193,6 @@ const CartDetails = (props) => {
     profileId = "",
     dunsNumber = "",
   } = shippingAddressDetails || {};
-  let shippingId = id;
   let mov = 0;
   let addressFlag = false;
   if (
@@ -288,21 +279,12 @@ const CartDetails = (props) => {
     ).toFixed(2);
   };
 
-  const countryCheck = (e) => {
-    if (deliveredCountryList.includes(e)) {
-      setDeliver(true);
-    } else {
-      setDeliver(false);
-    }
-  };
-
   const onChange = (e) => {
     let { value = "", id = "" } = e.target;
     setSelectedShippingId(value);
     let details = id.split("-");
     setSelCountry(details[1]);
     setSelPincode(details[0]);
-    countryCheck(details[1]);
   };
 
   const optForServices = () => {
@@ -325,11 +307,6 @@ const CartDetails = (props) => {
     form.setFieldsValue({ zipCode: "" });
     addform.setFieldsValue({ zipCode: "" });
     addform.setFieldsValue({ state: "" });
-    if (deliveredCountryList.includes(value)) {
-      setDeliver(true);
-    } else {
-      setDeliver(false);
-    }
     setSelCountry(value);
     setZipcodeList([]);
   };
@@ -463,7 +440,6 @@ const CartDetails = (props) => {
   const saveAddress = (values) => {
     setSelCountry(values.country);
     setSelPincode(values.zipCode);
-    countryCheck(values.country);
     let zip = values.zipCode.replace(/[^a-z0-9]/gi, "");
     let data = {
       profileId: profileId,
@@ -511,7 +487,6 @@ const CartDetails = (props) => {
   const updateAddress = (values) => {
     setSelCountry(values.country);
     setSelPincode(values.zipCode);
-    countryCheck(values.country);
     let zip = values.zipCode.replace(/[^a-z0-9]/gi, "");
     let data = {
       profileId: profileId,
@@ -633,6 +608,7 @@ const CartDetails = (props) => {
           sellerOrgName = "",
           isSMOVMet = "",
           total = "",
+          smallBatchesAvailable = false,
         } = order;
 
         let obj = {};
@@ -646,6 +622,7 @@ const CartDetails = (props) => {
           obj["status"] = status;
           obj["total"] = total;
           obj["sellerCode"] = sellerCode;
+          obj["smallBatchesAvailable"] = smallBatchesAvailable;
 
           let prodArr = [];
           for (let list of products) {
@@ -715,6 +692,7 @@ const CartDetails = (props) => {
           sellerOrgName = "",
           isSMOVMet = "",
           total = "",
+          smallBatchesAvailable = false,
         } = order;
 
         let obj = {};
@@ -728,6 +706,7 @@ const CartDetails = (props) => {
           obj["status"] = status;
           obj["total"] = total;
           obj["sellerCode"] = sellerCode;
+          obj["smallBatchesAvailable"] = smallBatchesAvailable;
 
           let p_count = 0;
           let prodArr = [];
@@ -808,6 +787,7 @@ const CartDetails = (props) => {
           sellerOrgName = "",
           isSMOVMet = "",
           total = "",
+          smallBatchesAvailable = false,
         } = order;
 
         let obj = {};
@@ -821,6 +801,7 @@ const CartDetails = (props) => {
           obj["status"] = status;
           obj["total"] = total;
           obj["sellerCode"] = sellerCode;
+          obj["smallBatchesAvailable"] = smallBatchesAvailable;
 
           let productList = [];
           for (let list of products) {
@@ -1086,7 +1067,12 @@ const CartDetails = (props) => {
               {subOrders && subOrders.length > 0 && (
                 <div className="qa-pad-2 c-item-list qa-mar-btm-4">
                   {_.map(subOrders, (order, i) => {
-                    let { products = "", sellerCode = "", total = 0 } = order;
+                    let {
+                      products = "",
+                      sellerCode = "",
+                      total = 0,
+                      smallBatchesAvailable = false,
+                    } = order;
                     let servicesTotal = 0;
                     let servicesOpted = {};
                     let mov = 0;
@@ -1224,6 +1210,7 @@ const CartDetails = (props) => {
                             priceApplied = 0,
                             qualityTestingCharge = 0,
                             sampleCost = 0,
+                            productMOQPriceDetail = [],
                           } = product;
 
                           let totalProductAmount = 0;
@@ -1233,6 +1220,16 @@ const CartDetails = (props) => {
 
                           quantity = parseInt(quantity);
                           minimumOrderQuantity = parseInt(minimumOrderQuantity);
+                          if (
+                            productMOQPriceDetail &&
+                            productMOQPriceDetail.length > 0 &&
+                            smallBatchesAvailable
+                          ) {
+                            minimumOrderQuantity =
+                              productMOQPriceDetail[
+                                productMOQPriceDetail.length - 1
+                              ]["qtyMin"];
+                          }
 
                           samplePrice =
                             samplePrice +
@@ -1399,7 +1396,8 @@ const CartDetails = (props) => {
                                 </div>
                                 {isFulfillable === false &&
                                   inventoryQty &&
-                                  inventoryQty[productId] &&
+                                  inventoryQty[productId] !== undefined &&
+                                  inventoryQty[productId] !== 0 &&
                                   inventoryQty[productId] < quantity && (
                                     <div className="cart-sub-text p-out-of-stock">
                                       We have only {inventoryQty[productId]}{" "}
@@ -1408,7 +1406,7 @@ const CartDetails = (props) => {
                                   )}
                                 {isFulfillable === false &&
                                   inventoryQty &&
-                                  inventoryQty[productId] &&
+                                  inventoryQty[productId] !== undefined &&
                                   inventoryQty[productId] === 0 && (
                                     <div className="cart-sub-text p-out-of-stock">
                                       This product is currently out of stock
@@ -1530,7 +1528,7 @@ const CartDetails = (props) => {
                 enable={enable && isFulfillable && addressFlag}
                 cart={cart}
                 brandNames={brandNames}
-                deliver={deliver}
+                deliver={deliveredCountryList.includes(selCountry || country)}
                 showCartError={showError}
                 currencyDetails={currencyDetails}
                 user={userProfile}
@@ -1620,7 +1618,7 @@ const CartDetails = (props) => {
                   enable={enable && isFulfillable && addressFlag}
                   cart={cart}
                   brandNames={brandNames}
-                  deliver={deliver}
+                  deliver={deliveredCountryList.includes(selCountry || country)}
                   showCartError={showError}
                   currencyDetails={currencyDetails}
                   user={userProfile}
@@ -1724,7 +1722,12 @@ const CartDetails = (props) => {
                 </div>
                 <div className="qa-mar-btm-2">
                   {_.map(subOrders, (order, i) => {
-                    let { products = "", sellerCode = "", total = 0 } = order;
+                    let {
+                      products = "",
+                      sellerCode = "",
+                      total = 0,
+                      smallBatchesAvailable = false,
+                    } = order;
                     let servicesTotal = 0;
                     let servicesOpted = {};
                     let mov = 0;
@@ -1847,6 +1850,7 @@ const CartDetails = (props) => {
                             priceApplied = 0,
                             qualityTestingCharge = 0,
                             sampleCost = 0,
+                            productMOQPriceDetail = [],
                           } = product;
 
                           let totalProductAmount = 0;
@@ -1856,7 +1860,16 @@ const CartDetails = (props) => {
 
                           quantity = parseInt(quantity);
                           minimumOrderQuantity = parseInt(minimumOrderQuantity);
-
+                          if (
+                            productMOQPriceDetail &&
+                            productMOQPriceDetail.length > 0 &&
+                            smallBatchesAvailable
+                          ) {
+                            minimumOrderQuantity =
+                              productMOQPriceDetail[
+                                productMOQPriceDetail.length - 1
+                              ]["qtyMin"];
+                          }
                           samplePrice =
                             samplePrice +
                             parseFloat(getConvertedCurrency(sampleCost));
@@ -1991,7 +2004,8 @@ const CartDetails = (props) => {
                                   >
                                     {isFulfillable === false &&
                                       inventoryQty &&
-                                      inventoryQty[productId] &&
+                                      inventoryQty[productId] !== undefined &&
+                                      inventoryQty[productId] !== 0 &&
                                       inventoryQty[productId] < quantity && (
                                         <div className="cart-sub-text p-out-of-stock">
                                           We have only {inventoryQty[productId]}{" "}
@@ -2000,7 +2014,7 @@ const CartDetails = (props) => {
                                       )}
                                     {isFulfillable === false &&
                                       inventoryQty &&
-                                      inventoryQty[productId] &&
+                                      inventoryQty[productId] !== undefined &&
                                       inventoryQty[productId] === 0 && (
                                         <div className="cart-sub-text p-out-of-stock">
                                           This product is currently out of stock
@@ -2872,7 +2886,7 @@ const CartDetails = (props) => {
                     },
                   ]}
                 >
-                  {deliver ? (
+                  {deliveredCountryList.includes(selCountry || country) ? (
                     <Select showSearch onSearch={handleZipCode}>
                       {zipCodeList && zipCodeList.length > 0 ? (
                         zipCodeList.map((e) => {

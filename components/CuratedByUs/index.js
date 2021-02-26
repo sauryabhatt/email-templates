@@ -30,8 +30,8 @@ export default function CuratedByUsWrapper(props) {
     {
       url: "/trends/farmhousedecor",
       img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend9.jpg",
-      text: "Farmhouse decor",
-      alt: "Farmhouse decor",
+      text: "Farmhouse",
+      alt: "Farmhouse",
     },
     {
       url: "/trends/globaltextures",
@@ -256,7 +256,7 @@ export default function CuratedByUsWrapper(props) {
                 style={{ cursor: "pointer" }}
                 onClick={() => setVisible(true)}
               >
-                request for quote
+                Help me source
               </span>
 
               <p className="tagline-small-text">

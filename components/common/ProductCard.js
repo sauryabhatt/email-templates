@@ -240,7 +240,7 @@ function ProductCard(props) {
                         </Col>
 
                         <Col span={10} className="qa-txt-alg-rgt">
-                          {colorFamily.length > 1 && (
+                          {colorFamily && colorFamily.length > 1 && (
                             <div>+colors available</div>
                           )}
                         </Col>
@@ -305,7 +305,9 @@ function ProductCard(props) {
                           freeShippingEligible) && (
                           <div className="qa-offer-text">FREE shipping</div>
                         )}
-                        {colorFamily.length > 1 && <div>+colors available</div>}
+                        {colorFamily && colorFamily.length > 1 && (
+                          <div>+colors available</div>
+                        )}
                       </Col>
                     </Row>
                   )}

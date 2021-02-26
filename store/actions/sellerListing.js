@@ -204,7 +204,12 @@ export const getListingPage = (token, queryResult, prevStateData = false) => {
   };
 };
 
-export const getSellerDetails = (token, sellerId, verificationStatus = "") => {
+export const getSellerDetails = (
+  token,
+  sellerId,
+  verificationStatus = "",
+  callback = false
+) => {
   return (dispatch) => {
     let url =
       process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/" + sellerId;
@@ -235,6 +240,9 @@ export const getSellerDetails = (token, sellerId, verificationStatus = "") => {
         }
       })
       .then((result) => {
+        if (callback) {
+          callback(result);
+        }
         dispatch(setListingPageLoading(false));
         return dispatch(setSellerDetails(result));
       })

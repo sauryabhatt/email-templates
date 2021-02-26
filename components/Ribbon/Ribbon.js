@@ -41,9 +41,7 @@ export default function Ribbon(props) {
           return (
             <a
               target="_blank"
-              href={
-                i === 0 ? "/seller/SL10789/all-categories" : "/promotionsFAQ"
-              }
+              href={i === 0 ? "/gb/?f_isfreeshipping=true" : "/promotionsFAQ"}
               key={a}
               className="home-page-ribben"
             >
