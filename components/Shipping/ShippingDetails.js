@@ -471,8 +471,6 @@ const ShippingDetails = (props) => {
   deliveryDateMin = new Date(eddMin);
   deliveryDateMax = new Date(eddMax);
 
-  console.log(disableAir, disableSea);
-
   if (isLoading) {
     return <Spinner />;
   }
