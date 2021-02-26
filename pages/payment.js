@@ -45,6 +45,8 @@ export const getServerSideProps = async ({ req }) => {
   let serializeCookie = cookie.parse(s_cookie);
   let { appToken = "" } = serializeCookie || {};
 
+  console.log("apptoken payment ", appToken);
+
   if (appToken) {
     try {
       const cartResp = await fetch(
