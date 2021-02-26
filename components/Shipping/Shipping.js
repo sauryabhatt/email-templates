@@ -13,12 +13,13 @@ const Shipping = (props) => {
   const [airData, setAirData] = useState(props.data.airData);
   const [seaData, setSeaData] = useState(props.data.seaData);
 
+  let cartToken = token || keycloak.token;
   useEffect(() => {
     if (props.user && props.user.userProfile) {
       let { user = {} } = props || {};
       let { profileType = "" } = user || {};
       if (profileType === "BUYER") {
-        props.getCart(token || keycloak.token, (res) => {
+        props.getCart(cartToken, (res) => {
           setCart(res);
         });
       }
