@@ -13,9 +13,7 @@ const isServer = () => typeof window == "undefined";
 const ProductListing = (props) => {
   const router = useRouter();
 
-  let { slp_content = [], isLoading = true } = !isServer()
-    ? props.listingPage
-    : props.data;
+  let { slp_content = [] } = !isServer() ? props.listingPage : props.data;
 
   let { gb = false } = props.data;
   const [mobile, setMobile] = useState(false);

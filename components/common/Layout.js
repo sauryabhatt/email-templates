@@ -11,6 +11,7 @@ import { setAuth, getUserProfile } from "../../store/actions";
 import store from "../../store";
 import _ from "lodash";
 import { getCookie } from "../common/Auth";
+import cookie from "js-cookie";
 
 export const Layout = ({ children, meta = {} }) => {
   const [isShowRibbon, setShowRibbon] = useState(true);
@@ -40,8 +41,9 @@ export const Layout = ({ children, meta = {} }) => {
       keycloak
         .loadUserProfile()
         .then((profile) => {
-          if (!getCookie("appToken")) {
-            document.cookie = `appToken=${keycloak.token}; path=/;`;
+          if (!cookie.get("appToken")) {
+            cookie.set("appToken", keycloak.token, { expires: 90, path: "/" });
+            // document.cookie = `appToken=${keycloak.token}; path=/;`;
             const { attributes: { parentProfileId = [] } = {} } = profile;
             let profileId = parentProfileId[0] || "";
             profileId = profileId.replace("BUYER::", "");

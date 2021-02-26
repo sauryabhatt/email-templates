@@ -150,6 +150,8 @@ const ProductDetails = (props) => {
   const [moqList, setMoqList] = useState([]);
   const [selectedQty, setSelectedQty] = useState(0);
   const [displayPrice, setDisplayPrice] = useState("");
+  const [shippingMode, setShippingMode] = useState("");
+  const [inRange, setInRange] = useState("");
 
   const url = process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL;
 
@@ -197,6 +199,8 @@ const ProductDetails = (props) => {
     setInStock(0);
     setActiveKeys(["1", "2"]);
     setAccordionView("");
+    setQtyErr(false);
+    setInRange("");
     let pdpOverlay = localStorage.getItem("pdpOverlay");
     if (pdpOverlay) {
       setOverlayDiv(false);
@@ -303,10 +307,10 @@ const ProductDetails = (props) => {
     if (
       smallBatchesAvailable &&
       productMOQPriceDetail &&
-      productMOQPriceDetail.length > 0 &&
-      (productType !== "RTS" || (productType === "RTS" && inStock === 0))
+      productMOQPriceDetail.length > 0
     ) {
       setDisplayPrice(productMOQPriceDetail[0]["price"]);
+      setShippingMode(productMOQPriceDetail[0]["shippingMode"]);
     }
 
     setSelectedColor(color);
@@ -357,15 +361,7 @@ const ProductDetails = (props) => {
     sellerMOV = "",
     info = {},
     skus = [],
-    hsnCode = "",
-    casePackBreadth = "",
-    casePackHeight = "",
-    casePackLength = "",
     exFactoryPrice = "",
-    casePackWeight = "",
-    casePackQty = "",
-    casePackLBHUnit = "",
-    casePackWeightUnit = "",
     visibleTo = "",
     length = "",
     breadth = "",
@@ -490,8 +486,7 @@ const ProductDetails = (props) => {
   if (
     productMOQPriceDetail &&
     productMOQPriceDetail.length > 0 &&
-    smallBatchesAvailable &&
-    (productType !== "RTS" || (productType === "RTS" && inStock === 0))
+    smallBatchesAvailable
   ) {
     minimumOrderQuantity =
       productMOQPriceDetail[productMOQPriceDetail.length - 1]["qtyMin"];
@@ -867,15 +862,23 @@ const ProductDetails = (props) => {
   };
 
   const changeMOQQty = (value) => {
+    let range = false;
     let priceList = moqList;
     let index = 0;
     for (let details of priceList) {
-      let { qtyMin = "", qtyMax = "", price = "" } = details;
+      let { qtyMin = "", qtyMax = "", price = "", shippingMode = "" } = details;
       if (inRangeQty(value, qtyMin, qtyMax)) {
+        range = true;
         setDisplayPrice(price);
+        setShippingMode(shippingMode);
         setSelectedQty(index);
       }
       index++;
+    }
+    if (range) {
+      setInRange(range);
+    } else {
+      setInRange(range);
     }
   };
 
@@ -905,7 +908,6 @@ const ProductDetails = (props) => {
         <Col xs={0} sm={0} md={0} lg={24} xl={24}>
           <Row className="product-org-section qa-mar-auto-4">
             <Col
-              className=""
               xs={24}
               sm={24}
               md={4}
@@ -1174,12 +1176,7 @@ const ProductDetails = (props) => {
                         </div>
                       )}
                       {exFactoryPrice > exfactoryListPrice &&
-                        !(
-                          moqList.length > 0 &&
-                          smallBatchesAvailable &&
-                          (productType !== "RTS" ||
-                            (productType === "RTS" && inStock === 0))
-                        ) && (
+                        !(moqList.length > 0 && smallBatchesAvailable) && (
                           <div>
                             <span
                               className="qa-font-butler"
@@ -1213,9 +1210,7 @@ const ProductDetails = (props) => {
                         <div>
                           {!freeShippingEligible &&
                           moqList.length > 0 &&
-                          smallBatchesAvailable &&
-                          (productType !== "RTS" ||
-                            (productType === "RTS" && inStock === 0)) ? (
+                          smallBatchesAvailable ? (
                             <div className="qa-font-san qa-fs-12 qa-lh">
                               Price excl. shipping, taxes & duties, if
                               applicable
@@ -1360,41 +1355,39 @@ const ProductDetails = (props) => {
                   </span>
                 </div>
               )}
-              {showPrice &&
-                moqList.length > 0 &&
-                smallBatchesAvailable &&
-                (productType !== "RTS" ||
-                  (productType === "RTS" && inStock === 0)) && (
-                  <div>
-                    <div className="qa-font-san qa-tc-white qa-fs-12 qa-fw-b qa-mar-top-1 qa-mar-btm-05">
-                      Select quantity range to view applicable price (units):{" "}
-                    </div>
-                    {moqList.map((moq, i) => (
-                      <div
-                        className={
-                          selectedQty === i
-                            ? "pdp-moq-range qa-mar-rgt-2 selected"
-                            : "pdp-moq-range qa-mar-rgt-2"
-                        }
-                        key={i}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          e.preventDefault();
-                          setSelectedQty(i);
-                          setDisplayPrice(moq.price);
-                          rtsform.setFieldsValue({ quantity: "" });
-                        }}
-                      >
-                        {moq.qtyMin}{" "}
-                        {moq.qtyMax > 0 ? (
-                          <span>- {moq.qtyMax}</span>
-                        ) : (
-                          <span> +</span>
-                        )}
-                      </div>
-                    ))}
+              {showPrice && moqList.length > 0 && smallBatchesAvailable && (
+                <div>
+                  <div className="qa-font-san qa-tc-white qa-fs-12 qa-fw-b qa-mar-top-1 qa-mar-btm-05">
+                    Select quantity range to view applicable price and shipping
+                    mode (units):{" "}
                   </div>
-                )}
+                  {moqList.map((moq, i) => (
+                    <div
+                      className={
+                        selectedQty === i
+                          ? "pdp-moq-range qa-mar-rgt-2 selected"
+                          : "pdp-moq-range qa-mar-rgt-2"
+                      }
+                      key={i}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        setSelectedQty(i);
+                        setDisplayPrice(moq.price);
+                        setShippingMode(moq.shippingMode);
+                        rtsform.setFieldsValue({ quantity: "" });
+                      }}
+                    >
+                      {moq.qtyMin}{" "}
+                      {moq.qtyMax > 0 ? (
+                        <span>- {moq.qtyMax}</span>
+                      ) : (
+                        <span> +</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
               <Form
                 name="product_details_form_large"
                 form={rtsform}
@@ -1417,12 +1410,7 @@ const ProductDetails = (props) => {
                             />
                           )}
                           {showPrice &&
-                            !(
-                              moqList.length > 0 &&
-                              smallBatchesAvailable &&
-                              (productType !== "RTS" ||
-                                (productType === "RTS" && inStock === 0))
-                            ) && (
+                            !(moqList.length > 0 && smallBatchesAvailable) && (
                               <span
                                 className="qa-fs-12"
                                 style={{ float: "right" }}
@@ -1467,8 +1455,6 @@ const ProductDetails = (props) => {
                               className="p-text-box"
                               onChange={(value) => {
                                 if (
-                                  (productType !== "RTS" ||
-                                    (productType === "RTS" && inStock === 0)) &&
                                   moqList.length > 0 &&
                                   smallBatchesAvailable
                                 ) {
@@ -1579,19 +1565,14 @@ const ProductDetails = (props) => {
                   <div className="custom-section">
                     {showPrice && (
                       <div className="qa-font-san qa-tc-white">
-                        {!(
-                          moqList.length > 0 &&
-                          smallBatchesAvailable &&
-                          (productType !== "RTS" ||
-                            (productType === "RTS" && inStock === 0))
-                        ) && (
+                        {!(moqList.length > 0 && smallBatchesAvailable) && (
                           <span>
                             Minimum order quantity:{" "}
                             {switchMoq && inStock === 0
                               ? switchMoq
                               : minimumOrderQuantity}{" "}
                             {moqUnit}{" "}
-                            <span
+                            {/* <span
                               style={{
                                 marginRight: "5px",
                                 fontWeight: "bold",
@@ -1617,7 +1598,7 @@ const ProductDetails = (props) => {
                                   />
                                 </span>
                               </Tooltip>
-                            </span>
+                            </span> */}
                           </span>
                         )}
                         <div className="qa-font-san qa-fs-12 qa-blue qa-mar-top-05 qa-lh qa-mar-btm-1">
@@ -1766,34 +1747,60 @@ const ProductDetails = (props) => {
                     </div>
                   </div>
                 )}
-                <div className="qa-mar-btm-15">
-                  {shippingMethods.includes("Air") && (
+                {shippingMode === "Air" && showPrice && (
+                  <div className="qa-mar-btm-15">
                     <span>
                       <Icon
                         component={Air}
-                        style={{ width: "35px", verticalAlign: "middle" }}
+                        style={{ width: "34px", verticalAlign: "middle" }}
                         className="air-icon"
                       />
                       <span className="p-shipBy">Air</span>
                     </span>
-                  )}
-                  {shippingMethods.includes("Sea") && (
+                  </div>
+                )}
+                {shippingMode === "Sea" && showPrice && (
+                  <div className="qa-mar-btm-15">
                     <span>
                       <Icon
                         component={Sea}
-                        style={{ width: "35px", verticalAlign: "middle" }}
+                        style={{ width: "32px", verticalAlign: "middle" }}
                         className="sea-icon"
                       />
                       <span className="p-shipBy">Sea</span>
                     </span>
-                  )}
-                  {/* <span
+                  </div>
+                )}
+                {(!shippingMode || !showPrice) && (
+                  <div className="qa-mar-btm-15">
+                    {shippingMethods.includes("Air") && (
+                      <span>
+                        <Icon
+                          component={Air}
+                          style={{ width: "34px", verticalAlign: "middle" }}
+                          className="air-icon"
+                        />
+                        <span className="p-shipBy">Air</span>
+                      </span>
+                    )}
+                    {shippingMethods.includes("Sea") && (
+                      <span>
+                        <Icon
+                          component={Sea}
+                          style={{ width: "32px", verticalAlign: "middle" }}
+                          className="sea-icon"
+                        />
+                        <span className="p-shipBy">Sea</span>
+                      </span>
+                    )}
+                    {/* <span
                     className="p-custom"
                     onClick={() => setCalculationModal(true)}
                   >
                     Check lead time, freight and duties
                   </span> */}
-                </div>
+                  </div>
+                )}
                 <div>
                   <Button
                     className={`${
@@ -1806,7 +1813,7 @@ const ProductDetails = (props) => {
                       setRfqType("Product RFQ");
                     }}
                   >
-                    <div className="">Get Quote</div>
+                    <div>Get Quote</div>
                   </Button>
                   {(productType === "RTS" || productType === "ERTM") && skuId && (
                     <span>
@@ -1845,7 +1852,11 @@ const ProductDetails = (props) => {
                             <Button
                               htmlType="submit"
                               onClick={onCheck}
-                              className="add-to-bag-button"
+                              className={
+                                inRange !== false
+                                  ? "add-to-bag-button"
+                                  : "add-to-bag-button atc-diable"
+                              }
                               loading={loading}
                             >
                               Add to cart
@@ -1861,6 +1872,12 @@ const ProductDetails = (props) => {
                   )}
                 </div>
 
+                {inRange === false && (
+                  <div className="qa-text-error">
+                    Please enter a quantity value as per the quantity range
+                    mentioned
+                  </div>
+                )}
                 {errorMsg &&
                   (productType === "RTS" || productType === "ERTM") &&
                   skuId && (
@@ -2307,12 +2324,7 @@ const ProductDetails = (props) => {
                       </Row>
 
                       {exFactoryPrice > exfactoryListPrice &&
-                        !(
-                          moqList.length > 0 &&
-                          smallBatchesAvailable &&
-                          (productType !== "RTS" ||
-                            (productType === "RTS" && inStock === 0))
-                        ) && (
+                        !(moqList.length > 0 && smallBatchesAvailable) && (
                           <div>
                             <span
                               className="qa-font-butler"
@@ -2346,9 +2358,7 @@ const ProductDetails = (props) => {
                         <div>
                           {!freeShippingEligible &&
                           moqList.length > 0 &&
-                          smallBatchesAvailable &&
-                          (productType !== "RTS" ||
-                            (productType === "RTS" && inStock === 0)) ? (
+                          smallBatchesAvailable ? (
                             <div className="qa-font-san qa-fs-12 qa-lh">
                               Price excl. shipping, taxes & duties, if
                               applicable
@@ -2493,41 +2503,39 @@ const ProductDetails = (props) => {
                   </span>
                 </div>
               )}
-              {showPrice &&
-                moqList.length > 0 &&
-                smallBatchesAvailable &&
-                (productType !== "RTS" ||
-                  (productType === "RTS" && inStock === 0)) && (
-                  <div>
-                    <div className="qa-font-san qa-tc-white qa-fs-12 qa-fw-b qa-mar-top-15 qa-mar-btm-05">
-                      Select quantity range to view applicable price (units):{" "}
-                    </div>
-                    {moqList.map((moq, i) => (
-                      <div
-                        className={
-                          selectedQty === i
-                            ? "pdp-moq-range qa-mar-rgt-2 selected"
-                            : "pdp-moq-range qa-mar-rgt-2"
-                        }
-                        key={i}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          e.preventDefault();
-                          setSelectedQty(i);
-                          setDisplayPrice(moq.price);
-                          rtsform.setFieldsValue({ quantity: "" });
-                        }}
-                      >
-                        {moq.qtyMin}{" "}
-                        {moq.qtyMax > 0 ? (
-                          <span>- {moq.qtyMax}</span>
-                        ) : (
-                          <span> +</span>
-                        )}
-                      </div>
-                    ))}
+              {showPrice && moqList.length > 0 && smallBatchesAvailable && (
+                <div>
+                  <div className="qa-font-san qa-tc-white qa-fs-12 qa-fw-b qa-mar-top-15 qa-mar-btm-05">
+                    Select quantity range to view applicable price and shipping
+                    mode (units):{" "}
                   </div>
-                )}
+                  {moqList.map((moq, i) => (
+                    <div
+                      className={
+                        selectedQty === i
+                          ? "pdp-moq-range qa-mar-rgt-2 selected"
+                          : "pdp-moq-range qa-mar-rgt-2"
+                      }
+                      key={i}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        setSelectedQty(i);
+                        setDisplayPrice(moq.price);
+                        setShippingMode(moq.shippingMode);
+                        rtsform.setFieldsValue({ quantity: "" });
+                      }}
+                    >
+                      {moq.qtyMin}{" "}
+                      {moq.qtyMax > 0 ? (
+                        <span>- {moq.qtyMax}</span>
+                      ) : (
+                        <span> +</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
               <Form
                 name="product_details_form_mobile"
                 form={rtsform}
@@ -2550,12 +2558,7 @@ const ProductDetails = (props) => {
                             />
                           )}
                           {showPrice &&
-                            !(
-                              moqList.length > 0 &&
-                              smallBatchesAvailable &&
-                              (productType !== "RTS" ||
-                                (productType === "RTS" && inStock === 0))
-                            ) && (
+                            !(moqList.length > 0 && smallBatchesAvailable) && (
                               <span
                                 className="qa-fs-12"
                                 style={{ float: "right" }}
@@ -2600,9 +2603,7 @@ const ProductDetails = (props) => {
                               className="p-text-box"
                               onChange={(value) => {
                                 if (
-                                  (productType !== "RTS" ||
-                                    (productType === "RTS" && inStock === 0)) &&
-                                  moqList.length &&
+                                  moqList.length > 0 &&
                                   smallBatchesAvailable
                                 ) {
                                   changeMOQQty(value);
@@ -2622,7 +2623,7 @@ const ProductDetails = (props) => {
                         </Form.Item>
                         <div
                           className="qa-font-san qa-fs-12 qa-blue qa-mar-btm-1 qa-lh"
-                          style={{ marginTop: "-15px" }}
+                          style={{ marginTop: "-10px" }}
                         >
                           *For large quantities, please submit the{" "}
                           <b>'get quote'</b> form for unbeatable prices!
@@ -2713,19 +2714,14 @@ const ProductDetails = (props) => {
                   <div>
                     {showPrice && (
                       <div className="qa-font-san qa-tc-white">
-                        {!(
-                          moqList.length > 0 &&
-                          smallBatchesAvailable &&
-                          (productType !== "RTS" ||
-                            (productType === "RTS" && inStock === 0))
-                        ) && (
+                        {!(moqList.length > 0 && smallBatchesAvailable) && (
                           <span>
                             Minimum order quantity:{" "}
                             {switchMoq && inStock === 0
                               ? switchMoq
                               : minimumOrderQuantity}{" "}
                             {moqUnit}{" "}
-                            <span
+                            {/* <span
                               style={{
                                 marginRight: "5px",
                                 fontWeight: "bold",
@@ -2752,6 +2748,7 @@ const ProductDetails = (props) => {
                                 </span>
                               </Tooltip>
                             </span>
+                         */}
                           </span>
                         )}
                         <div className="qa-font-san qa-fs-12 qa-blue qa-mar-top-05 qa-lh qa-mar-btm-1">
@@ -2813,34 +2810,61 @@ const ProductDetails = (props) => {
                   Available shipping modes
                 </div>
 
-                <div className="qa-mar-btm-15">
-                  {shippingMethods.includes("Air") && (
+                {shippingMode === "Air" && showPrice && (
+                  <div className="qa-mar-btm-15">
                     <span>
                       <Icon
                         component={Air}
-                        style={{ width: "35px", verticalAlign: "middle" }}
+                        style={{ width: "34px", verticalAlign: "middle" }}
                         className="air-icon"
                       />
                       <span className="p-shipBy">Air</span>
                     </span>
-                  )}
-                  {shippingMethods.includes("Sea") && (
+                  </div>
+                )}
+                {shippingMode === "Sea" && showPrice && (
+                  <div className="qa-mar-btm-15">
                     <span>
                       <Icon
                         component={Sea}
-                        style={{ width: "35px", verticalAlign: "middle" }}
+                        style={{ width: "32px", verticalAlign: "middle" }}
                         className="sea-icon"
                       />
                       <span className="p-shipBy">Sea</span>
                     </span>
-                  )}
-                  {/* <div
+                  </div>
+                )}
+                {(!shippingMode || !showPrice) && (
+                  <div className="qa-mar-btm-15">
+                    {shippingMethods.includes("Air") && (
+                      <span>
+                        <Icon
+                          component={Air}
+                          style={{ width: "34px", verticalAlign: "middle" }}
+                          className="air-icon"
+                        />
+                        <span className="p-shipBy">Air</span>
+                      </span>
+                    )}
+                    {shippingMethods.includes("Sea") && (
+                      <span>
+                        <Icon
+                          component={Sea}
+                          style={{ width: "32px", verticalAlign: "middle" }}
+                          className="sea-icon"
+                        />
+                        <span className="p-shipBy">Sea</span>
+                      </span>
+                    )}
+                    {/* <div
                     className="p-custom qa-mar-btm-1 qa-mar-top-1"
                     onClick={() => setCalculationModal(true)}
                   >
                     Check lead time, freight and duties
                   </div> */}
-                </div>
+                  </div>
+                )}
+
                 <div>
                   {(productType === "RTS" || productType === "ERTM") && skuId && (
                     <div className="qa-mar-btm-2 qa-font-san">
@@ -2919,7 +2943,6 @@ const ProductDetails = (props) => {
                         <span>
                           {showCart ? (
                             <Button
-                              htmlType="submit"
                               onClick={() => {
                                 router.push("/cart");
                               }}
@@ -2945,7 +2968,11 @@ const ProductDetails = (props) => {
                             <Button
                               htmlType="submit"
                               onClick={onCheck}
-                              className="add-to-bag-button"
+                              className={
+                                inRange !== false
+                                  ? "add-to-bag-button"
+                                  : "add-to-bag-button atc-diable"
+                              }
                               loading={loading}
                             >
                               Add to cart
@@ -2959,7 +2986,15 @@ const ProductDetails = (props) => {
                       )}
                     </span>
                   )}
-
+                  {inRange === false && (
+                    <div
+                      className="qa-text-error"
+                      style={{ marginTop: "-20px" }}
+                    >
+                      Please enter a quantity value as per the quantity range
+                      mentioned
+                    </div>
+                  )}
                   {errorMsg &&
                     (productType === "RTS" || productType === "ERTM") &&
                     skuId && (

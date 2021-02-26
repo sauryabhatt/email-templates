@@ -17,57 +17,24 @@ import cartIcon from "../../public/filestore/cartIcon";
 import Spinner from "../Spinner/Spinner";
 import Air from "../../public/filestore/air";
 import Sea from "../../public/filestore/sea";
-import deliveredCountryList from "../../public/filestore/deliveredCountries.json";
-import _, { lowerCase } from "lodash";
+import _ from "lodash";
 import PromotionCarousel from "../PromotionCarousel/PromotionCarousel";
 import CheckoutSteps from "../common/CheckoutSteps";
 import PaymentBanner from "../common/PaymentBanner";
 import moment from "moment";
 
+const LANDING_LIMITER = 2;
+
 const ShippingDetails = (props) => {
   const router = useRouter();
-  const LANDING_LIMITER = 2;
   let {
-    cart = {},
-    app_token = "",
     brandNames = "",
     currencyDetails = {},
     userProfile = {},
+    appToken = "",
+    airQuote = { ddp: {}, ddu: {} },
+    seaQuote = { ddp: {}, ddu: {} },
   } = props;
-  let {
-    subOrders = [],
-    shippingAddressDetails = "",
-    orderId = "",
-    referralCode = "",
-  } = cart || {};
-  let {
-    fullName = "",
-    addressLine1 = "",
-    addressLine2 = "",
-    city = "",
-    country = "",
-    state = "",
-    zipCode = "",
-    phoneNumber = "",
-  } = shippingAddressDetails || {};
-
-  let shippingAddr = "";
-  shippingAddr =
-    fullName +
-    ", " +
-    addressLine1 +
-    ", " +
-    addressLine2 +
-    ", " +
-    city +
-    ", " +
-    state +
-    ", " +
-    country +
-    ", " +
-    zipCode +
-    ", " +
-    phoneNumber;
 
   const [shippingModeModal, setShippingModeModal] = useState(false);
   const [enable, setEnable] = useState(false);
@@ -75,9 +42,8 @@ const ShippingDetails = (props) => {
   const [showRow, setShowRow] = useState(true);
   const [airData, setAirData] = useState({ ddp: {}, ddu: {} });
   const [seaData, setSeaData] = useState({ ddp: {}, ddu: {} });
-  const [cartData, setCartData] = useState("");
+  const [cartData, setCartData] = useState(props.cart);
   const [isLoading, setLoading] = useState(true);
-  const [deliver, setDeliver] = useState(false);
   const mediaMatch = window.matchMedia("(min-width: 1024px)");
   const [disablePayment, setPayment] = useState(false);
   const [mov, setMov] = useState("");
@@ -89,154 +55,138 @@ const ShippingDetails = (props) => {
   const [tat, setTat] = useState("");
   const [shippingTerm, setShippingTerm] = useState("ddu");
   const [shipTerm, setShipTerm] = useState("ddu");
-  const [apiCount, setApiCount] = useState(0);
-  const [priceCount, setPriceCount] = useState(0);
+  const [disableAir, setDisableAir] = useState(false);
+  const [disableSea, setDisableSea] = useState(false);
 
   useEffect(() => {
-    let { cart = "", app_token = "" } = props;
-    let { priceQuoteRef = "", shippingAddressDetails = {} } = cart || {};
+    let {
+      airQuote = { ddp: {}, ddu: {} },
+      seaQuote = { ddp: {}, ddu: {} },
+      cart = {},
+    } = props || {};
+    setAirData(airQuote);
+    setSeaData(seaQuote);
+    setCartData(cart);
 
-    if (shippingAddressDetails) {
-      let { country = "" } = shippingAddressDetails || {};
-      if (deliveredCountryList.includes(country)) {
-        setDeliver(true);
-      }
-    }
-    if (priceQuoteRef && priceCount === 0) {
-      setCartData(cart);
-      fetch(
-        `${process.env.NEXT_PUBLIC_REACT_APP_PRICE_QUOTATION_URL}/quotes/rts/${priceQuoteRef}?mode=SEA`,
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Authorization: "Bearer " + app_token,
-          },
-        }
-      )
-        .then((res) => {
-          if (res.ok) {
-            setPriceCount(1);
-            setSeaData({ ddp: {}, ddu: {} });
-            return res.json();
-          } else {
-            throw res.statusText || "COntent not found";
-          }
-        })
-        .then((res) => {
-          setSeaData(res);
-          setLoading(false);
-        })
-        .catch((error) => {
-          setLoading(false);
-        });
-      fetch(
-        `${process.env.NEXT_PUBLIC_REACT_APP_PRICE_QUOTATION_URL}/quotes/rts/${priceQuoteRef}?mode=AIR`,
-        {
-          method: "GET",
-          headers: {
-            "content-type": "application/json",
-            Authorization: "Bearer " + app_token,
-          },
-        }
-      )
-        .then((res) => {
-          setAirData({ ddp: {}, ddu: {} });
-          if (res.ok) {
-            setPriceCount(1);
-            return res.json();
-          } else {
-            throw res.statusText || "COntent not found";
-          }
-        })
-        .then((res) => {
-          setAirData(res);
-          setLoading(false);
-        })
-        .catch((error) => {
-          // message.error(error)
-          setLoading(false);
-        });
-    }
-  }, [props.cart]);
-
-  useEffect(() => {
     if (
-      Object.keys(airData[shippingTerm]).length === 0 ||
-      Object.keys(seaData[shippingTerm]).length === 0
+      Object.keys(airQuote[shippingTerm]).length ||
+      Object.keys(seaQuote[shippingTerm]).length
     ) {
-      if (
-        Object.keys(airData[shippingTerm]).length === 0 &&
-        Object.keys(seaData[shippingTerm]).length === 0
-      ) {
-        setPayment(true);
-      } else {
-        setPayment(false);
-      }
-    } else {
-      if (apiCount === 0) {
-        let { cart = "" } = props;
-        let { subOrders = [], total = 0 } = cart || {};
-        if (subOrders && subOrders.length) {
-          let totalAmount = 0;
-          for (let sellers of subOrders) {
+      let { cart = "" } = props;
+      let { subOrders = [], total = 0, shippingModesAvailable = [] } =
+        cart || {};
+      let landedPrice = false;
+      if (subOrders && subOrders.length) {
+        let totalAmount = 0;
+        for (let sellers of subOrders) {
+          let {
+            products = "",
+            qalaraSellerMargin = 0,
+            basePrice = 0,
+          } = sellers;
+          for (let items of products) {
             let {
-              products = "",
-              qalaraSellerMargin = 0,
-              basePrice = 0,
-            } = sellers;
-            for (let items of products) {
-              let {
-                quantity = 0,
-                exfactoryListPrice = 0,
-                productType = "",
-                priceApplied = 0,
-              } = items;
-              if (priceApplied && priceApplied !== null) {
-                basePrice = basePrice + priceApplied * quantity;
-              } else {
-                basePrice = basePrice + exfactoryListPrice * quantity;
-              }
-
-              if (productType === "ERTM") {
-                setMov(true);
-              }
-            }
-            totalAmount = totalAmount + basePrice;
-          }
-
-          const seaMax =
-            seaData[shippingTerm]["dutyMax"] +
-            seaData[shippingTerm]["frightCostMax"];
-          const airMax =
-            airData[shippingTerm]["dutyMax"] +
-            airData[shippingTerm]["frightCostMax"];
-          if (airMax > 0 && seaMax > 0) {
-            let landingFactor = "";
-            landingFactor =
-              (total + (seaMax > airMax ? airMax : seaMax)) / totalAmount;
-
-            if (landingFactor > LANDING_LIMITER) {
-              setPayment(true);
+              quantity = 0,
+              exfactoryListPrice = 0,
+              productType = "",
+              priceApplied = 0,
+              freeShippingEligible = false,
+            } = items;
+            if (priceApplied && priceApplied !== null) {
+              if (freeShippingEligible) landedPrice = true;
+              basePrice = basePrice + priceApplied * quantity;
             } else {
+              basePrice = basePrice + exfactoryListPrice * quantity;
+            }
+
+            if (productType === "ERTM") {
+              setMov(true);
+            }
+          }
+          totalAmount = totalAmount + basePrice;
+        }
+        let seaMax =
+          seaQuote[shippingTerm]["dutyMax"] +
+          seaQuote[shippingTerm]["frightCostMax"];
+        let airMax =
+          airQuote[shippingTerm]["dutyMax"] +
+          airQuote[shippingTerm]["frightCostMax"];
+
+        if (airMax > 0 && seaMax > 0) {
+          let landingFactor = "";
+          landingFactor =
+            (total + (seaMax > airMax ? airMax : seaMax)) / totalAmount;
+
+          if (landingFactor > LANDING_LIMITER) {
+            setPayment(true);
+          } else {
+            if (
+              shippingModesAvailable.includes("Air") &&
+              shippingModesAvailable.includes("Sea")
+            ) {
               let mode = "AIR";
               if (seaMax < airMax) {
                 mode = "SEA";
               }
               selectMode(mode);
+            } else if (shippingModesAvailable.includes("Air")) {
+              selectMode("AIR");
+            } else if (shippingModesAvailable.includes("Sea")) {
+              selectMode("SEA");
             }
           }
         }
-        setApiCount(1);
+
+        if (!landedPrice) {
+          let { frightCostMax: a_frieghtCost = 0 } =
+            airQuote[shippingTerm] || {};
+          let { frightCostMax: s_frieghtCost = 0 } =
+            seaQuote[shippingTerm] || {};
+
+          if (a_frieghtCost > 0 && s_frieghtCost > 0) {
+            if (a_frieghtCost > s_frieghtCost) {
+              let percentage =
+                ((a_frieghtCost - s_frieghtCost) / a_frieghtCost) * 100;
+              if (percentage > 50) {
+                setDisableAir(true);
+              }
+            }
+
+            if (s_frieghtCost > a_frieghtCost) {
+              let percentage =
+                ((s_frieghtCost - a_frieghtCost) / s_frieghtCost) * 100;
+              if (percentage > 50) {
+                setDisableSea(true);
+              }
+            }
+          }
+        }
+
+        let a_result = Object.values(airQuote[shippingTerm]).every(
+          (o) => o === 0
+        );
+        let s_result = Object.values(seaQuote[shippingTerm]).every(
+          (o) => o === 0
+        );
+
+        if (a_result) {
+          setDisableAir(a_result);
+        }
+        if (s_result) {
+          setDisableSea(s_result);
+        }
+      }
+    } else {
+      let result =
+        Object.values(airQuote[shippingTerm]).every((o) => o === 0) &&
+        Object.values(seaQuote[shippingTerm]).every((o) => o === 0);
+      if (result) {
+        setPayment(true);
       }
     }
-    let result =
-      Object.values(airData[shippingTerm]).every((o) => o === 0) &&
-      Object.values(seaData[shippingTerm]).every((o) => o === 0);
-    if (result) {
-      setPayment(true);
-    }
-  }, [props.cart, airData[shippingTerm], seaData[shippingTerm]]);
+
+    setLoading(false);
+  }, [props.cart]);
 
   const checkCommitStatus = () => {
     let cartId = orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
@@ -248,7 +198,7 @@ const ShippingDetails = (props) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + app_token,
+        Authorization: "Bearer " + appToken,
       },
     })
       .then((res) => {
@@ -284,18 +234,61 @@ const ShippingDetails = (props) => {
     setCouponCode(value);
   };
 
+  let {
+    subOrders = [],
+    orderId = "",
+    referralCode = "",
+    shippingModesAvailable = [],
+  } = cartData || {};
+  let { shippingAddressDetails = "" } = props.cart || {};
+  let {
+    fullName = "",
+    addressLine1 = "",
+    addressLine2 = "",
+    city = "",
+    country = "",
+    state = "",
+    zipCode = "",
+    phoneNumber = "",
+  } = shippingAddressDetails || {};
+
+  let shippingAddr = "";
+  shippingAddr =
+    fullName +
+    ", " +
+    addressLine1 +
+    ", " +
+    addressLine2 +
+    ", " +
+    city +
+    ", " +
+    state +
+    ", " +
+    country +
+    ", " +
+    zipCode +
+    ", " +
+    phoneNumber;
+
   let { priceQuoteRef = "", country: s_country = "", postalCode = "" } =
-    cart || {};
+    props.cart || {};
 
   let allOrders = [];
   for (let orders of subOrders) {
     let orderObj = {};
-    let { products = [], sellerCode = "", id = "", orderId = "", status = "" } =
-      orders || {};
+    let {
+      products = [],
+      sellerCode = "",
+      id = "",
+      orderId = "",
+      status = "",
+      smallBatchesAvailable = "",
+    } = orders || {};
     orderObj["id"] = id;
     orderObj["orderId"] = orderId;
     orderObj["status"] = status;
     orderObj["sellerCode"] = sellerCode;
+    orderObj["smallBatchesAvailable"] = smallBatchesAvailable;
     let allProducts = [];
     for (let product of products) {
       let productObj = {};
@@ -346,7 +339,7 @@ const ShippingDetails = (props) => {
         body: JSON.stringify(data),
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + app_token,
+          Authorization: "Bearer " + appToken,
         },
       }
     )
@@ -384,39 +377,7 @@ const ShippingDetails = (props) => {
       });
   };
 
-  let showError = false;
   let { convertToCurrency = "" } = currencyDetails || {};
-
-  let { frightCostMax: a_frieghtCost = 0 } = airData[shippingTerm] || {};
-  let { frightCostMax: s_frieghtCost = 0 } = seaData[shippingTerm] || {};
-  let disableAir = false;
-  let disableSea = false;
-
-  if (a_frieghtCost > 0 && s_frieghtCost > 0) {
-    if (a_frieghtCost > s_frieghtCost) {
-      let percentage = ((a_frieghtCost - s_frieghtCost) / a_frieghtCost) * 100;
-      if (percentage > 50) {
-        disableAir = true;
-      }
-    }
-
-    if (s_frieghtCost > a_frieghtCost) {
-      let percentage = ((s_frieghtCost - a_frieghtCost) / s_frieghtCost) * 100;
-      if (percentage > 50) {
-        disableSea = true;
-      }
-    }
-  }
-
-  let a_result = Object.values(airData[shippingTerm]).every((o) => o === 0);
-  let s_result = Object.values(seaData[shippingTerm]).every((o) => o === 0);
-
-  if (a_result) {
-    disableAir = a_result;
-  }
-  if (s_result) {
-    disableSea = s_result;
-  }
 
   const getConvertedCurrency = (baseAmount, round = false) => {
     let { convertToCurrency = "", rates = [] } = props.currencyDetails;
@@ -448,7 +409,7 @@ const ShippingDetails = (props) => {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + app_token,
+            Authorization: "Bearer " + appToken,
           },
         }
       )
@@ -462,10 +423,10 @@ const ShippingDetails = (props) => {
         .then((result) => {
           setCartData(result);
           if (mode === "AIR") {
-            let { tat = 0 } = airData[shippingTerm] || {};
+            let { tat = 0 } = airQuote[shippingTerm] || {};
             setTat(tat);
           } else {
-            let { tat = 0 } = seaData[shippingTerm] || {};
+            let { tat = 0 } = seaQuote[shippingTerm] || {};
             setTat(tat);
           }
           let { miscCharges = [] } = result || {};
@@ -510,10 +471,11 @@ const ShippingDetails = (props) => {
   deliveryDateMin = new Date(eddMin);
   deliveryDateMax = new Date(eddMax);
 
+  console.log(disableAir, disableSea);
+
   if (isLoading) {
     return <Spinner />;
   }
-
   return (
     <Row id="cart-details" className="cart-section qa-font-san">
       <CheckoutSteps pageId="shipping" />
@@ -623,7 +585,7 @@ const ShippingDetails = (props) => {
                     style={{ width: "100%" }}
                   >
                     <Row>
-                      {!disableAir && (
+                      {!disableAir && shippingModesAvailable.includes("Air") && (
                         <Col xs={12} sm={12} md={12} lg={12} xl={12}>
                           <div
                             className={`${
@@ -779,7 +741,7 @@ const ShippingDetails = (props) => {
                           </div>
                         </Col>
                       )}
-                      {!disableSea && (
+                      {!disableSea && shippingModesAvailable.includes("Sea") && (
                         <Col xs={12} sm={12} md={12} lg={12} xl={12}>
                           <div
                             className={`${
@@ -1180,7 +1142,6 @@ const ShippingDetails = (props) => {
                                 productName = "",
                                 quantity = "",
                                 size = "",
-                                isFulfillable = false,
                                 freeShippingEligible = false,
                                 exfactoryListPrice = 0,
                                 priceApplied = 0,
@@ -1227,14 +1188,7 @@ const ShippingDetails = (props) => {
                                 basePrice + samplePrice + testingPrice;
 
                               return (
-                                <Row
-                                  className={`${
-                                    isFulfillable === false
-                                      ? "qa-pad-20-0 oos-border qa-mar-btm-1"
-                                      : "qa-pad-20-0"
-                                  }`}
-                                  key={j}
-                                >
+                                <Row className="qa-pad-20-0" key={j}>
                                   <Col xs={24} sm={24} md={6} lg={6} xl={6}>
                                     <div className="aspect-ratio-box">
                                       <img
@@ -1263,11 +1217,11 @@ const ShippingDetails = (props) => {
                                     <div className="cart-prod-title qa-mar-top-1">
                                       Units: {quantity} {unitOfMeasure}
                                     </div>
-                                    {isFulfillable === false && (
+                                    {/* {isFulfillable === false && (
                                       <div className="cart-sub-text p-out-of-stock qa-mar-top-05">
                                         This product is currently out of stock
                                       </div>
-                                    )}
+                                    )} */}
                                   </Col>
                                   <Col
                                     xs={24}
@@ -1425,11 +1379,9 @@ const ShippingDetails = (props) => {
                 enable={enable}
                 cart={cartData}
                 brandNames={brandNames}
-                showCartError={showError}
                 currencyDetails={currencyDetails}
                 user={userProfile}
                 shippingMode={mode}
-                deliver={deliver}
                 disablePayment={disablePayment}
                 tat={tat}
                 shippingTerm={shippingTerm}
@@ -1584,7 +1536,7 @@ const ShippingDetails = (props) => {
                       value={mode}
                       style={{ width: "100%" }}
                     >
-                      {!disableAir && (
+                      {!disableAir && shippingModesAvailable.includes("Air") && (
                         <div
                           className="min-width-320px"
                           style={{
@@ -1751,7 +1703,7 @@ const ShippingDetails = (props) => {
                           </div>
                         </div>
                       )}
-                      {!disableSea && (
+                      {!disableSea && shippingModesAvailable.includes("Sea") && (
                         <div
                           className="min-width-320px"
                           style={{
@@ -2129,10 +2081,8 @@ const ShippingDetails = (props) => {
                     enable={enable}
                     cart={cartData}
                     brandNames={brandNames}
-                    showCartError={showError}
                     currencyDetails={currencyDetails}
                     shippingMode={mode}
-                    deliver={deliver}
                     user={userProfile}
                     disablePayment={disablePayment}
                     tat={tat}
@@ -2223,7 +2173,6 @@ const ShippingDetails = (props) => {
                               productName = "",
                               quantity = "",
                               size = "",
-                              isFulfillable = false,
                               freeShippingEligible = false,
                               exfactoryListPrice = 0,
                               priceApplied = 0,
@@ -2311,11 +2260,11 @@ const ShippingDetails = (props) => {
                                   <div className="cart-prod-title qa-mar-top-1">
                                     Units: {quantity} {unitOfMeasure}
                                   </div>
-                                  {isFulfillable === false && (
+                                  {/* {isFulfillable === false && (
                                     <div className="cart-sub-text p-out-of-stock qa-mar-top-05">
                                       This product is currently out of stock
                                     </div>
-                                  )}
+                                  )} */}
                                 </Col>
                                 <Col
                                   xs={24}
@@ -2373,7 +2322,7 @@ const ShippingDetails = (props) => {
                     })}
                   </div>
                   <div>
-                    {enable && deliver && !showError ? (
+                    {enable ? (
                       <Button
                         onClick={checkCommitStatus}
                         disabled={disablePayment}

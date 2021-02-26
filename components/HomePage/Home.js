@@ -126,7 +126,7 @@ function Home(props) {
 
   let requesterName = firstName;
   if (lastName && lastName !== null) {
-    requesterName = requesterName + lastName;
+    requesterName = requesterName + " " + lastName;
   }
 
   let values = {
@@ -263,7 +263,7 @@ function Home(props) {
 
   const craftItems = [
     {
-      imageTitle: "Farmhouse Decor",
+      imageTitle: "Farmhouse",
       slideText:
         "A curated collection of eco friendly handcrafted signs, clocks, decor and furniture.",
       imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_10.jpg",

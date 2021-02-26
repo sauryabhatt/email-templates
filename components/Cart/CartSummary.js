@@ -887,40 +887,42 @@ const CartSummary = (props) => {
         })}
       </div>
 
-      <div className="qa-mar-btm-05">
-        <div
-          className={`${
-            (referralCode && couponDiscount > 0) ||
-            sellerDiscount > 0 ||
-            productDiscount > 0
-              ? "cart-ship-pt qa-pd-0"
-              : "cart-ship-pt"
-          }`}
-        >
-          <div className="c-left-blk">Estimated freight fees</div>
-          <div className="c-right-blk qa-txt-alg-rgt">
-            {id !== "cart" && frieghtCharge > 0 ? (
-              <span className="qa-fw-b">
-                {getSymbolFromCurrency(convertToCurrency)}
-                {getConvertedCurrency(frieghtCharge)}
-              </span>
-            ) : (
-              <span>
-                {id === "cart" || !shippingMode ? (
-                  "TBD*"
-                ) : (
-                  <span className="qa-fw-b">
-                    {getSymbolFromCurrency(convertToCurrency)}
-                    {getConvertedCurrency(0)}
-                  </span>
-                )}
-              </span>
-            )}
+      {!disablePayment && (
+        <div className="qa-mar-btm-05">
+          <div
+            className={`${
+              (referralCode && couponDiscount > 0) ||
+              sellerDiscount > 0 ||
+              productDiscount > 0
+                ? "cart-ship-pt qa-pd-0"
+                : "cart-ship-pt"
+            }`}
+          >
+            <div className="c-left-blk">Estimated freight fees</div>
+            <div className="c-right-blk qa-txt-alg-rgt">
+              {id !== "cart" && frieghtCharge > 0 ? (
+                <span className="qa-fw-b">
+                  {getSymbolFromCurrency(convertToCurrency)}
+                  {getConvertedCurrency(frieghtCharge)}
+                </span>
+              ) : (
+                <span>
+                  {id === "cart" || !shippingMode ? (
+                    "TBD*"
+                  ) : (
+                    <span className="qa-fw-b">
+                      {getSymbolFromCurrency(convertToCurrency)}
+                      {getConvertedCurrency(0)}
+                    </span>
+                  )}
+                </span>
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
-      {id !== "cart" && referralCode && couponDiscount > 0 && (
+      {id !== "cart" && !disablePayment && referralCode && couponDiscount > 0 && (
         <div className="qa-mar-btm-2 qa-fw-b">
           <div className="cart-ship-pt">
             <div style={{ color: "#02873A" }} className="c-left-blk">
@@ -936,7 +938,7 @@ const CartSummary = (props) => {
         </div>
       )}
 
-      {id !== "cart" && sellerDiscount > 0 && (
+      {id !== "cart" && sellerDiscount > 0 && !disablePayment && (
         <div className="qa-fw-b">
           <div className="cart-ship-pt">
             <div style={{ color: "#02873A" }} className="c-left-blk">
@@ -981,7 +983,7 @@ const CartSummary = (props) => {
         </div>
       )}
 
-      {id !== "cart" && productDiscount > 0 && (
+      {id !== "cart" && productDiscount > 0 && !disablePayment && (
         <div className="qa-fw-b">
           <div className="cart-ship-pt">
             <div style={{ color: "#02873A" }} className="c-left-blk">
@@ -1024,118 +1026,124 @@ const CartSummary = (props) => {
         </div>
       )}
 
-      <div className="qa-mar-btm-05">
-        <div className="cart-ship-pt qa-border-bottom">
-          <div className="c-left-blk">
-            {shippingTerm === "ddu"
-              ? "Customs duties excluded*"
-              : "Estimated custom, taxes & duties"}
-            {shippingTerm === "ddu" && (
-              <div>
-                <Popover
-                  placement="bottomRight"
-                  content={dduContent}
-                  trigger="click"
-                  overlayClassName="price-breakup-popup"
-                >
-                  <span className="c-breakup">View estimates</span>
-                </Popover>
-              </div>
-            )}
-          </div>
-          <div className="c-right-blk qa-txt-alg-rgt">
-            {id !== "cart" && dutyCharge > 0 ? (
-              <span className="qa-fw-b">
-                {getSymbolFromCurrency(convertToCurrency)}
-                {getConvertedCurrency(dutyCharge)}
-              </span>
-            ) : (
-              <span>
-                {id === "cart" || !shippingMode ? (
-                  "TBD*"
-                ) : (
-                  <span>
-                    {shippingTerm === "ddu" ? (
-                      "NA"
-                    ) : (
-                      <span className="qa-fw-b">
-                        {getSymbolFromCurrency(convertToCurrency)}
-                        {getConvertedCurrency(dutyCharge)}
-                      </span>
-                    )}
-                  </span>
-                )}
-              </span>
-            )}
+      {!disablePayment && (
+        <div className="qa-mar-btm-05">
+          <div className="cart-ship-pt qa-border-bottom">
+            <div className="c-left-blk">
+              {shippingTerm === "ddu"
+                ? "Customs duties excluded*"
+                : "Estimated custom, taxes & duties"}
+              {shippingTerm === "ddu" && (
+                <div>
+                  <Popover
+                    placement="bottomRight"
+                    content={dduContent}
+                    trigger="click"
+                    overlayClassName="price-breakup-popup"
+                  >
+                    <span className="c-breakup">View estimates</span>
+                  </Popover>
+                </div>
+              )}
+            </div>
+            <div className="c-right-blk qa-txt-alg-rgt">
+              {id !== "cart" && dutyCharge > 0 ? (
+                <span className="qa-fw-b">
+                  {getSymbolFromCurrency(convertToCurrency)}
+                  {getConvertedCurrency(dutyCharge)}
+                </span>
+              ) : (
+                <span>
+                  {id === "cart" || !shippingMode ? (
+                    "TBD*"
+                  ) : (
+                    <span>
+                      {shippingTerm === "ddu" ? (
+                        "NA"
+                      ) : (
+                        <span className="qa-fw-b">
+                          {getSymbolFromCurrency(convertToCurrency)}
+                          {getConvertedCurrency(dutyCharge)}
+                        </span>
+                      )}
+                    </span>
+                  )}
+                </span>
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
-      <div className="qa-mar-top-2 qa-fw-b">
-        <div className="cart-ship-pt">
-          <div className="c-left-blk font-size-17">SUBTOTAL</div>
-          <div className="c-right-blk qa-txt-alg-rgt font-size-17">
-            {getSymbolFromCurrency(convertToCurrency)}
-            {parseFloat(subTotal).toFixed(2)}
+      {!disablePayment && (
+        <div className="qa-mar-top-2 qa-fw-b">
+          <div className="cart-ship-pt">
+            <div className="c-left-blk font-size-17">SUBTOTAL</div>
+            <div className="c-right-blk qa-txt-alg-rgt font-size-17">
+              {getSymbolFromCurrency(convertToCurrency)}
+              {parseFloat(subTotal).toFixed(2)}
+            </div>
           </div>
         </div>
-      </div>
-      <div
-        className={`${
-          (referralCode && couponDiscount > 0) || promoDiscount > 0
-            ? ""
-            : "qa-mar-btm-2"
-        }`}
-      >
+      )}
+      {!disablePayment && (
         <div
           className={`${
             (referralCode && couponDiscount > 0) || promoDiscount > 0
-              ? "cart-ship-pt"
-              : "cart-ship-pt qa-border-bottom"
+              ? ""
+              : "qa-mar-btm-2"
           }`}
         >
-          <div className="c-left-blk qa-mar-btm-05">
-            {shippingTerm === "ddu"
-              ? "VAT/ GST / Taxes excluded*"
-              : "VAT/ GST / Taxes*"}
-          </div>
-          <div className="c-right-blk qa-txt-alg-rgt">
-            {id !== "cart" && vatCharge > 0 ? (
-              <span className="qa-fw-b">
-                {getSymbolFromCurrency(convertToCurrency)}
-                {getConvertedCurrency(vatCharge)}
-              </span>
-            ) : (
-              <span>
-                {id === "cart" || !shippingMode ? (
-                  "TBD*"
-                ) : (
-                  <span>
-                    {shippingTerm === "ddu" ? (
-                      "NA"
-                    ) : (
-                      <span className="qa-fw-b">
-                        {getSymbolFromCurrency(convertToCurrency)}
-                        {getConvertedCurrency(vatCharge)}
-                      </span>
-                    )}
-                  </span>
-                )}
-              </span>
-            )}
-          </div>
-          <div className="c-left-blk">
-            Refundable for some countries like UK/AU.{" "}
-            <Link href="/FAQforwholesalebuyers">
-              <a target="_blank">
-                <span className="qa-sm-color qa-cursor">Learn more</span>
-              </a>
-            </Link>
+          <div
+            className={`${
+              (referralCode && couponDiscount > 0) || promoDiscount > 0
+                ? "cart-ship-pt"
+                : "cart-ship-pt qa-border-bottom"
+            }`}
+          >
+            <div className="c-left-blk qa-mar-btm-05">
+              {shippingTerm === "ddu"
+                ? "VAT/ GST / Taxes excluded*"
+                : "VAT/ GST / Taxes*"}
+            </div>
+            <div className="c-right-blk qa-txt-alg-rgt">
+              {id !== "cart" && vatCharge > 0 ? (
+                <span className="qa-fw-b">
+                  {getSymbolFromCurrency(convertToCurrency)}
+                  {getConvertedCurrency(vatCharge)}
+                </span>
+              ) : (
+                <span>
+                  {id === "cart" || !shippingMode ? (
+                    "TBD*"
+                  ) : (
+                    <span>
+                      {shippingTerm === "ddu" ? (
+                        "NA"
+                      ) : (
+                        <span className="qa-fw-b">
+                          {getSymbolFromCurrency(convertToCurrency)}
+                          {getConvertedCurrency(vatCharge)}
+                        </span>
+                      )}
+                    </span>
+                  )}
+                </span>
+              )}
+            </div>
+            <div className="c-left-blk">
+              Refundable for some countries like UK/AU.{" "}
+              <Link href="/FAQforwholesalebuyers">
+                <a target="_blank">
+                  <span className="qa-sm-color qa-cursor">Learn more</span>
+                </a>
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
-      {id !== "cart" && promoDiscount > 0 && (
+      {id !== "cart" && promoDiscount > 0 && !disablePayment && (
         <div className="qa-mar-btm-2 qa-fw-b">
           <div className="cart-ship-pt qa-border-bottom">
             <div

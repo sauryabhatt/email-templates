@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useKeycloak } from "@react-keycloak/ssr";
 import { loginToApp } from "../AuthWithKeycloak";
 import Spinner from "../Spinner/Spinner";
+import cookie from "js-cookie";
 
 export const getCookie = (cname) => {
   let cookies = document.cookie
@@ -29,7 +30,7 @@ function Auth({ children, path }) {
   const [status, setStatus] = useState(undefined);
 
   useEffect(() => {
-    if (getCookie("appToken")) {
+    if (cookie.get("appToken")) {
       setStatus("loggedin");
     } else {
       setStatus("loggedout");
