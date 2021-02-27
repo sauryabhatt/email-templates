@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState, useEffect, useRef, useImperativeHandle } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { enquireScreen } from "enquire-js";
 import Slider from "react-slick";
 import playButton from "../../public/filestore/playButton";
@@ -55,9 +55,7 @@ export default function HomePageCarousel(props) {
       small_text: "", //"Source wholesale products from India and South East Asia. Order digitally, reliably, affordably.Backed by a Fortune 100 company.Verified buyers from 25+ countries.",
       video_link: "", //"https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4",
       isSignupbtn: false,
-      signinBTNLink: `/gb/?f_seller_code=${encodeURIComponent(
-        "SL10996,SL11014,SL10847"
-      )}`,
+      signinBTNLink: `/products/all-categories/`,
       mobileImg: "https://cdn.qalara.com/images/Img_Homepage_banner_5_mob.jpg",
       alt: "Indonesian treasures",
     },

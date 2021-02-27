@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { Button } from "antd";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 function PaymentBanner(props) {
   const router = useRouter();
@@ -46,25 +47,31 @@ function PaymentBanner(props) {
         <div className="payment-banner-home-page">
           <Button
             className="send-query-button secondary-btn"
-            disabled={false}
-            onClick={() => {
-              router.push("/FAQforwholesalebuyers");
-            }}
+            // onClick={() => {
+            //   router.push("/FAQforwholesalebuyers");
+            // }}
           >
-            <div className="send-query-button-text qa-buyer-button qa-payment">
-              FREQUENTLY ASKED QUESTIONS
-            </div>
+            <Link href="/FAQforwholesalebuyers">
+              <a target="_blank">
+                <div className="send-query-button-text qa-buyer-button qa-payment">
+                  FREQUENTLY ASKED QUESTIONS
+                </div>
+              </a>
+            </Link>
           </Button>
           <Button
             className="send-query-button"
-            disabled={false}
-            onClick={() => {
-              router.push("/AboutUs");
-            }}
+            // onClick={() => {
+            //   router.push("/AboutUs");
+            // }}
           >
-            <div className="send-query-button-text qa-buyer-button qa-payment">
-              KNOW MORE ABOUT US
-            </div>
+            <Link href="/AboutUs">
+              <a target="_blank">
+                <div className="send-query-button-text qa-buyer-button qa-payment">
+                  KNOW MORE ABOUT US
+                </div>
+              </a>
+            </Link>
           </Button>
         </div>
 
