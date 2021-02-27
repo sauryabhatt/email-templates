@@ -40,7 +40,7 @@ export default function PressCrousel(props) {
     {
       title: "",
       url: "https://cdn.qalara.com/images/Img_Hot2.jpg",
-      linkTo: "/seller/SL10789/all-categories/",
+      linkTo: "/products/all-categories/",
     },
     {
       title: "",
@@ -50,7 +50,7 @@ export default function PressCrousel(props) {
     {
       title: "",
       url: "https://cdn.qalara.com/images/Img_Hot4.jpg",
-      linkTo: "/gb/?f_seller_code=SL10691%2CSL10237",
+      linkTo: "/seller/SL10789/all-categories/",
     },
   ];
 

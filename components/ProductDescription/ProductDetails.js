@@ -1826,7 +1826,6 @@ const ProductDetails = (props) => {
                         <span>
                           {showCart ? (
                             <Button
-                              htmlType="submit"
                               onClick={() => {
                                 router.push("/cart");
                               }}

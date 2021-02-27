@@ -28,6 +28,15 @@ export default function PromotionCarousel(props) {
 
   let promotiolList = [
     {
+      title: "USD 100 off",
+      copy: (
+        <div>
+          on your first order. Minimum order value USD 500. Apply code FAB100.{" "}
+          <span style={{ fontSize: "12px" }}>*T&C </span>
+        </div>
+      ),
+    },
+    {
       title: "Free shipping on select styles",
       copy: (
         <div>

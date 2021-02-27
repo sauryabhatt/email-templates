@@ -10,6 +10,7 @@ import Ribbon from "../Ribbon/Ribbon";
 import { setAuth, getUserProfile } from "../../store/actions";
 import store from "../../store";
 import _ from "lodash";
+import { getCookie } from "../common/Auth";
 import cookie from "js-cookie";
 
 export const Layout = ({ children, meta = {} }) => {
