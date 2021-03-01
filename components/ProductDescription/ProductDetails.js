@@ -273,10 +273,11 @@ const ProductDetails = (props) => {
         let qty = result[skuId];
         if (qty > 0) {
           setSkuId(skuId);
+          setInStock(qty);
         } else {
           setSkuId("");
+          setInStock(0);
         }
-        setInStock(qty);
       });
     } else {
       setSkuId("");
@@ -817,10 +818,11 @@ const ProductDetails = (props) => {
             let qty = result[skuId];
             if (qty > 0) {
               setSkuId(skuId);
+              setInStock(qty);
             } else {
               setSkuId("");
+              setInStock(0);
             }
-            setInStock(qty);
           });
         }
       }
