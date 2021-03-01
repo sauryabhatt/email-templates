@@ -119,6 +119,7 @@ const FAQ = (props) => {
     {
       title: "Country",
       dataIndex: "country",
+      width: 200,
     },
     {
       title: "AIR Shipping time (in days)",
@@ -628,7 +629,7 @@ const FAQ = (props) => {
               pagination={false}
               size="small"
               rowClassName="qa-fs-13"
-              tableLayout="fixed"
+              tableLayout="auto"
             />
             <br></br>
             <i>*Remote regions may add a few extra days</i>
