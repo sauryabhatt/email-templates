@@ -6,25 +6,6 @@ import { loginToApp } from "../AuthWithKeycloak";
 import Spinner from "../Spinner/Spinner";
 import cookie from "js-cookie";
 
-export const getCookie = (cname) => {
-  let cookies = document.cookie
-    .split(";")
-    .map((cookie) => cookie.split("="))
-    .reduce(
-      (accumulator, [key, value]) => ({
-        ...accumulator,
-        [key.trim()]: decodeURIComponent(value),
-      }),
-      {}
-    );
-
-  if (cookies[cname]) {
-    return "exist";
-  } else {
-    return "";
-  }
-};
-
 function Auth({ children, path }) {
   const { keycloak } = useKeycloak();
   const [status, setStatus] = useState(undefined);

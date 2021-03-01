@@ -668,17 +668,7 @@ function Home(props) {
       <HotThisWeekCarousel />
       <SellerCarousel items={sellerItems} />
       <Tastimonial />
-      {/* <Button>
-          <Link href="/categories">Seller Listing Page</Link>
-        </Button>
-        <Button>
-          <Link href="/products">Product Listing Page</Link>
-        </Button>
-        <Button>
-          <Link href="/sellers/products">SPLP</Link>
-        </Button> */}
-      {/* <AppFeedBanner/> */}
-      {/* } */}
+
       <Modal
         visible={visible}
         footer={null}
