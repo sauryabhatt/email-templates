@@ -275,11 +275,11 @@ const FAQ = (props) => {
             <br></br>
             <br></br>
             <b>Request for Quote</b> - If you're looking to purchase something
-            specific but you haven’t been able to find that product on our
+            specific but you haven't been able to find that product on our
             platform, we can create or curate products for you. This may require
             higher MOQs (Minimum Order Quantity) and longer lead times.<br></br>
             <br></br>
-            <b>Send order Query</b> - If you like a seller’s portfolio and would
+            <b>Send order Query</b> - If you like a seller's portfolio and would
             like them to manufacture a custom design for you basis their
             skillset. This may require higher MOQs (Minimum Order Quantity) and
             longer lead times.<br></br>
@@ -350,34 +350,34 @@ const FAQ = (props) => {
               <i>Ready-to-ship and Express Custom orders</i>
             </b>
             <br></br>Both these types of orders are enabled for{" "}
-            <b>instant checkout</b> - Look out for the ‘Ready to ship’ and
-            ‘Express Custom’ tag for these items. For the ones that you like,
+            <b>instant checkout</b> - Look out for the 'Ready to ship' and
+            'Express Custom' tag for these items. For the ones that you like,
             please enter quantity equal to or greater than the minimum quantity,
             add the products to cart, confirm your address, review the freight,
             tax and duties costs, and checkout using Paypal securely.
             <br></br>
             <br></br>For certain countries or postal codes, we may not have
             instant checkout currently available. In this case, look out for the
-            <b>‘Ready to ship’</b> and <b>‘Express Custom’</b> tag and shortlist
+            <b>'Ready to ship'</b> and <b>'Express Custom'</b> tag and shortlist
             the items that you like. Please enter quantity equal to or greater
             than the minimum quantity, add the products to cart, confirm your
-            address and then click on ‘Create Order’ for the Qalara team to then
+            address and then click on 'Create Order' for the Qalara team to then
             help you with the rest of the process to confirm the order. Once we
-            receive your <b>‘Create Order’</b> request, we will revert to you
+            receive your <b>'Create Order'</b> request, we will revert to you
             with a consolidated quotation via email and your My Account section,
             along with a link to checkout securely using Paypal or a similar
             payment gateway.<br></br>
             <br></br>
             Please note that the prices mentioned on our site may exclude
             certain remote regions. For ordering large quantities, please send
-            us a ‘Get quote’ request to get unbeatable prices.<br></br>
+            us a 'Get quote' request to get unbeatable prices.<br></br>
             <br></br>
             <b>
               <i>Made-to-order or Design-to-order (Custom Orders)</i>
             </b>
             <br></br>
             STEP 1: Send us a Request for Quote, Seller Order Query or Custom
-            Quote for any artisanal home & lifestyle products you’d like to
+            Quote for any artisanal home & lifestyle products you'd like to
             source from us. <br></br>
             <br></br>STEP 2: Receive line-sheets for collections s. Shortlist
             products and finalise quantities to receive a consolidated quote
@@ -422,12 +422,12 @@ const FAQ = (props) => {
           </div>
         </Panel>
         <Panel
-          header="What are ‘Free shipping’ products?"
+          header="What are 'Free shipping' products?"
           key="ref9"
           className="panel-title"
         >
           <div className="panel-body">
-            For products classified as ‘Free shipping’ you don't have to pay any
+            For products classified as 'Free shipping' you don't have to pay any
             additional freight charge for these products. You can simply add
             these products to your cart and proceed to the shipping page. You
             may have to pay Duties and taxes for these products depending on the
@@ -436,7 +436,7 @@ const FAQ = (props) => {
             <b>Please note</b> that the free shipping price is inclusive of
             shipping based on calculations for small quantities and further may
             exclude certain remote regions. For large quantities, please send us
-            a ‘Get quote’ request to get the best possible rates
+            a 'Get quote' request to get the best possible rates
           </div>
         </Panel>
         <Panel
@@ -578,7 +578,7 @@ const FAQ = (props) => {
             <br></br>
             <br></br>
             Having said that, if yours is a genuine case, we understand and
-            we’ve got your back!
+            we've got your back!
           </div>
         </Panel>
 
@@ -621,6 +621,7 @@ const FAQ = (props) => {
             The table below shows the general timelines to some popular
             destinations worldwide:
             <br></br>
+            <br></br>
             <Table
               dataSource={countryList}
               columns={countryHeader}
@@ -640,8 +641,8 @@ const FAQ = (props) => {
             <br></br>
             <br></br>You can add products to your Cart and proceed to the
             Shipping page to check the time that it will take to ship the order
-            to your country. In case ‘Proceed to shipping’ is not available for
-            your country you can use the ‘Create Order’ feature and we will get
+            to your country. In case 'Proceed to shipping' is not available for
+            your country you can use the 'Create Order' feature and we will get
             back to you within 24 - 48 hours with the timelines and the best
             possible quote.<br></br>
             <br></br>For more details, you can write to us at buyers@qalara.com
@@ -669,11 +670,11 @@ const FAQ = (props) => {
           <div className="panel-body">
             Yes, we can ship to Amazon Warehouses. We recommend you follow the
             steps mentioned in the Amazon Seller central panel. A summary of how
-            the process works:<br></br>● Select the option to ‘Send/ Replenish
-            inventory’ and then, assuming that your product is already listed
-            choose the option to ‘Send Inventory’
-            <br></br>● Next, you will be directed to the ‘Create Shipping Plan’
-            page. Select the option ‘case-packed products’ and enter the number
+            the process works:<br></br>● Select the option to 'Send/ Replenish
+            inventory' and then, assuming that your product is already listed
+            choose the option to 'Send Inventory'
+            <br></br>● Next, you will be directed to the 'Create Shipping Plan'
+            page. Select the option 'case-packed products' and enter the number
             of case packs and units. Case pack and the details of products in
             case pack will be provided to you by Qalara.
             <br></br>● Save the pdf labels as a high-resolution Black & White
@@ -730,15 +731,15 @@ const FAQ = (props) => {
             <br></br>b) Is there a provision to unload from the vehicle through
             any mechanized means eg. pallet jack, forklift etc.?
             <br></br>c) Is there adequate space for the transport vehicle (could
-            be a 20’ or a 40’ container) to approach and reverse at your
+            be a 20' or a 40' container) to approach and reverse at your
             warehouse?
-            <br></br>d) Hours of operation of your warehouse, it’s best if you
+            <br></br>d) Hours of operation of your warehouse, it's best if you
             share this with us in advance so that we can instruct our logistics
             partner accordingly.
           </div>
         </Panel>
         <Panel
-          header="Will we be intimated when goods are out for delivery? What if I’m not there?"
+          header="Will we be intimated when goods are out for delivery? What if I'm not there?"
           key="shipping-7"
           className="panel-title"
         >
@@ -841,7 +842,7 @@ const FAQ = (props) => {
           </div>
         </Panel>
         <Panel
-          header="Your checkout mentions that Freight, Taxes and Duties are ‘estimates’. When will I know the freight, duties and taxes that will be charged?"
+          header="Your checkout mentions that Freight, Taxes and Duties are 'estimates'. When will I know the freight, duties and taxes that will be charged?"
           key="shipping-10"
           className="panel-title"
         >
@@ -887,7 +888,7 @@ const FAQ = (props) => {
           className="panel-title"
         >
           <div className="panel-body">
-            For a DDU shipment, we don’t add the Estimated duties and taxes to
+            For a DDU shipment, we don't add the Estimated duties and taxes to
             your order total and any{" "}
             <b>
               applicable duties and taxes are directly paid by you to the
@@ -946,13 +947,13 @@ const FAQ = (props) => {
           </div>
         </Panel>
         <Panel
-          header="I’m just getting started with my business, and I don’t have my business registrations done. Can I still order from Qalara?"
+          header="I'm just getting started with my business, and I don't have my business registrations done. Can I still order from Qalara?"
           key="shipping-15"
           className="panel-title"
         >
           <div className="panel-body">
             For some countries, like the UK, yes we may be able to work via our
-            own / partners’ entities as an ‘Importer on Record’. In some
+            own / partners' entities as an 'Importer on Record'. In some
             countries, it may be permissible to ship goods up till a certain
             value without business details from the buyer, in which case we can
             still fulfil your order. We have to follow the laws of the land into
@@ -969,7 +970,7 @@ const FAQ = (props) => {
           className="panel-title"
         >
           <div className="panel-body">
-            We currently don’t offer drop-shipping, but we can offer a variation
+            We currently don't offer drop-shipping, but we can offer a variation
             - our minimum order values start as low as USD 250 per Seller. You
             can list products on your site, based on agreed terms with us, and
             as you get orders, we can combine them up to USD 250 - 500, and ship
@@ -987,7 +988,7 @@ const FAQ = (props) => {
         </div>
 
         <Panel
-          header="Tell me more about the ‘Free Shipping’ offer"
+          header="Tell me more about the 'Free Shipping' offer"
           key="offers-1"
           className="panel-title"
         >
@@ -1006,8 +1007,8 @@ const FAQ = (props) => {
           className="panel-title"
         >
           <div className="panel-body">
-            Step 1: Add your favorite products from products marked with ‘free
-            shipping’ to your cart, totaling to or above the Minimum Order Value
+            Step 1: Add your favorite products from products marked with 'free
+            shipping' to your cart, totaling to or above the Minimum Order Value
             for a given seller.
             <br></br>Step 2: Enter or select the address where the products need
             to be delivered and proceed to the Shipping Page
@@ -1038,7 +1039,7 @@ const FAQ = (props) => {
           className="panel-title"
         >
           <div className="panel-body">
-            We’re happy to help. You can always share your questions and issues
+            We're happy to help. You can always share your questions and issues
             by writing to us at buyers@qalara.com and we will make sure that
             your issue is resolved within the next 48 hours.
           </div>
@@ -1155,7 +1156,7 @@ const FAQ = (props) => {
           <div className="panel-body">
             Many countries like Australia, U.K., Canada, and Singapore allow you
             to claim VAT/GST refunds provided you have a VAT/GST registration
-            and if it’s a business shipment. Different countries have different
+            and if it's a business shipment. Different countries have different
             rules for claiming VAT refunds and we request you to check your
             local laws for the exact process. Please note that VAT/GST refund is
             not possible if you are availing IOR services for a DDP shipment.
@@ -1192,7 +1193,7 @@ const FAQ = (props) => {
         </Panel>
 
         <Panel
-          header="Amount from my card was deducted but I didn’t get an order confirmation email?"
+          header="Amount from my card was deducted but I didn't get an order confirmation email?"
           key="ref29"
           className="panel-title"
         >
