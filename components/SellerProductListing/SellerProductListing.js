@@ -38,6 +38,7 @@ const SellerProductListing = (props) => {
     sort_order: "DESC",
     size: limit,
     from: offset,
+    bird: keycloak.authenticated ? "lion" : "apple",
   });
 
   const getQueryParamString = () => {

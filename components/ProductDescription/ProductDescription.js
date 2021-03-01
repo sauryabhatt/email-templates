@@ -49,6 +49,7 @@ const ProductDescription = (props) => {
         size: 6,
         from: 0,
         sellerId: sellerCode,
+        bird: keycloak.authenticated ? "lion" : "apple",
       };
       let queryResult = querystring.stringify(query);
       if (count === 1) {

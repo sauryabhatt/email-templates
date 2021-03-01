@@ -8,11 +8,12 @@ import { getPLPDetails } from "../../store/actions";
 import queryString from "query-string";
 const querystring = require("querystring");
 import { useRouter } from "next/router";
+import { useKeycloak } from "@react-keycloak/ssr";
 const isServer = () => typeof window == "undefined";
 
 const ProductListing = (props) => {
   const router = useRouter();
-
+  const { keycloak } = useKeycloak();
   let { slp_content = [] } = !isServer() ? props.listingPage : props.data;
 
   let { gb = false } = props.data;
@@ -30,6 +31,7 @@ const ProductListing = (props) => {
     sort_order: "DESC",
     size: limit,
     from: offset,
+    bird: keycloak.authenticated ? "lion" : "apple",
   });
   const getQueryParamString = () => {
     let queryObj = {};
