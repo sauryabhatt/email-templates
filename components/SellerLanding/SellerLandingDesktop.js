@@ -1992,7 +1992,7 @@ const SellerLandingDesktop = (props) => {
             />
           </div>
         </div>
-        <Row>
+        {/* <Row>
           <Col xs={22} sm={22} md={22} lg={22}>
             <span
               className="qa-font-san qa-fs-12 qa-fw-b"
@@ -2013,7 +2013,7 @@ const SellerLandingDesktop = (props) => {
               us confirm the video meeting and share updates with you.
             </span>
           </Col>
-        </Row>
+        </Row> */}
         <Row justify="space-between">
           <Col
             xs={24}

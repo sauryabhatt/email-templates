@@ -203,18 +203,25 @@ const FAQ = (props) => {
           className="panel-title"
         >
           <div className="panel-body" ref={ref1}>
-            Qalara is a global platform based in India, offering a convenient,
-            reliable, digitally-enabled platform for global sourcing from South
-            Asia (India, Sri Lanka, Nepal, Thailand, Vietnam, Indonesia, etc.).
+            Qalara is a global wholesale sourcing platform based in India,
+            offering a convenient, reliable, digitally-enabled platform for
+            global sourcing from South Asia and Southeast Asia (India, Sri
+            Lanka, Nepal, Thailand, Vietnam, Indonesia, etc.).
             <br></br>
             <br></br>Specifically, we offer: <br></br>• An ever growing
-            selection of artisanal, eco-friendly, organic, recycled products at
-            great prices! <br></br>• Verified producers <br></br>• Small-to-mid
-            sized, buyer friendly terms - MOQs, lead times and prices <br></br>•
-            One-stop sourcing platform from discovery to delivery <br></br>•
-            Account managers so that you don't have to coordinate with multiple
-            vendors <br></br>• Secure payments <br></br>• Best freight and
-            shipping costs <br></br>• Financial services launching soon
+            selection of thousands of Home, Fashion and Lifestyle products at
+            great wholesale prices. Beauty & Food categories launching soon.
+            <br></br>
+            <br></br>• A vast range of on-trend handmade, artisanal,
+            eco-friendly, organic, recycled, sustainable, products
+            <br></br>• Verified producers of all sizes<br></br>• Ability to
+            service all kinds of buyers and sourcing requirements - small, new
+            businesses to importers to very large businesses ordering thousands
+            of units per SKU<br></br>• One-stop sourcing platform from discovery
+            to delivery<br></br>• Account managers so that you don’t have to
+            coordinate with multiple vendors<br></br>• Secure global payments
+            <br></br>• Best freight and shipping costs<br></br>• Financial
+            services launching soon
           </div>
         </Panel>
         <Panel
@@ -224,18 +231,17 @@ const FAQ = (props) => {
         >
           <div className="panel-body" ref={ref2}>
             Qalara identifies and shortlists sellers based on credible,
-            legitimate associations like the World Fair Trade Organization,
-            Craftmark, Crafts Council, Export, Promotion, Councils, and
-            self-declared claims against our six core values - Artisanal
-            (heritage, evolved, hybrid), Organic, Eco-friendly, Recycled, Fair &
-            Social, Sustainable. We then reach out to the sellers, once agreed
-            on the terms and conditions, and review their certifications and
-            legal compliance documentation. We also undertake physical factory
-            or facility audits as best possible, however, owing to the unusual
-            Covid circumstances we have been limited in our ability to do so to
-            the fullest extent possible. In such scenarios, we also undertake
-            reference checks and review customer or client feedback where
-            possible.
+            legitimate associations like governmental Export Promotion Councils,
+            Business Trade Associations, World Fair Trade Organization,
+            Craftmark, Crafts Council, and self-declared claims against our six
+            core values as applicable - Artisanal, Organic, Eco-friendly,
+            Recycled. We then reach out to the sellers, once agreed on the terms
+            and conditions, and review their certifications and legal compliance
+            documentation. We also undertake physical factory or facility audits
+            as best possible, however, owing to the unusual Covid circumstances
+            we have been limited in our ability to do so to the fullest extent
+            possible. In such scenarios, we also undertake reference checks and
+            review customer or client feedback where possible.
           </div>
         </Panel>
         <Panel
@@ -244,17 +250,15 @@ const FAQ = (props) => {
           className="panel-title"
         >
           <div className="panel-body" ref={ref3}>
-            Qalara's promise to the buyer is convenience and reliability. Qalara
-            is a managed marketplace where 100% of the Sellers are verified -
-            which means that all sellers have been verified and vetted by team
-            Qalara. We facilitate direct, moderated interaction between buyers
-            and sellers, while at the same time taking a hands-on role to ensure
-            that products are produced in time and to your specifications.
-            Qalara steps in to take care of cross-border logistics, and
-            aggregating shipments and partners with the best companies to ensure
-            the best costs and experience to both sellers and buyers.
-            Importantly, Qalara consciously emphasises on its six core values -
-            artisanal, eco friendly, organic, fair & social, recycled,
+            Qalara's promise to the buyer is on-trend selection, convenience and
+            reliability. Qalara is a managed marketplace where all the Sellers
+            are verified - which means that all sellers have been vetted by team
+            Qalara. We take a hands-on role to ensure that products are produced
+            in time and to your specifications. Qalara steps in to take care of
+            cross-border logistics, and aggregating shipments and partners with
+            the best global companies to ensure the best costs and experience to
+            both sellers and buyers. Importantly, Qalara emphasises on its core
+            values - artisanal, eco friendly, organic, fair & social, recycled,
             sustainable - and aspires to have the largest and most reliable
             selection of such manufacturers.
           </div>
@@ -471,7 +475,7 @@ const FAQ = (props) => {
           </b>
         </Panel>
         <Panel
-          header="What is a video meeting?"
+          header="What is a video meeting / appointment?"
           key="ref12"
           className="panel-title"
         >
@@ -747,7 +751,7 @@ const FAQ = (props) => {
           <div className="panel-body">
             Yes, you will be intimated regarding the delivery of your shipment.
             The delivery process may differ depending on the shipping term that
-            you have selected.
+            you have selected - please read below:
             <br></br>
             <br></br>
             <b>In case of a DDU shipment; </b>
@@ -1061,11 +1065,11 @@ const FAQ = (props) => {
             May 25, 2018, replacing the Data Protection Directive 95/46/EC -
             which protects user data. From payments, we only work with the best
             global payment services providers like Paypal / Visa / Mastercard.
-            Furthermore, we are backed by a Fortune 100 company, that is listed
-            on the leading Indian Stock Exchange (BSE), and has partnerships
-            with globally reputable companies like Intel, Qualcomm, Facebook
-            amongst others. We comply with the highest governance land adherence
-            standards and laws. You may also refer to our Privacy Policy.
+            Furthermore, we are backed by a Fortune 100 company that is listed
+            on the leading Indian Stock Exchange (BSE), and has strategic
+            partnerships with globally reputable companies. We comply with the
+            highest governance land adherence standards and laws. You may also
+            refer to our Privacy Policy.
           </div>
         </Panel>
         <Panel
@@ -1092,7 +1096,8 @@ const FAQ = (props) => {
               USA, Canada, and many more!
             </b>{" "}
             - We can share local bank details and you can make a local bank
-            transfer easily in the following countries - <br></br>
+            transfer easily in the following countries - Australia, Canada, US,
+            UK, Singapore and Euro Zone countries.<br></br>
             <br></br> <b>• International Bank Transfer to Citibank, India</b> -
             We can share our Citibank details in India, and you can make an
             international SWIFT transfer from your bank almost anywhere in the
@@ -1132,9 +1137,7 @@ const FAQ = (props) => {
             and the estimated freight and estimated customs, duties and taxes.
             We share the Proforma Invoice, immediately after you place the order
             and will email you a copy of the invoice with the final billing
-            amount at the time of dispatch. We also share a final invoice with
-            all case of a ready to ship order or within 24 hours of placing a
-            custom order.
+            amount at the time of dispatch or closer to delivery.
           </div>
         </Panel>
         <Panel
@@ -1150,32 +1153,21 @@ const FAQ = (props) => {
           </div>
         </Panel>
         <Panel
-          header="Can I get a refund for the VAT/GST charges?"
+          header="Can I get a refund for the VAT/ GST charges?"
           key="ref26"
           className="panel-title"
         >
           <div className="panel-body">
-            Many countries like Australia, U.K., Canada, and Singapore allow you
-            to claim VAT/GST refunds provided you have a VAT/GST registration
-            and if it's a business shipment. Different countries have different
-            rules for claiming VAT refunds and we request you to check your
-            local laws for the exact process. Please note that VAT/GST refund is
-            not possible if you are availing IOR services for a DDP shipment.
-            <br></br>
-            <br></br>
-            For U.K. You can reclaim a refund against the VAT while filing your
-            returns. For more details, please refer the link
-            https://www.gov.uk/reclaim-vat
-            <br></br>
-            <br></br>
-            For Australia, you can pay the VAT and reclaim the benefits as
-            applicable under the local laws. Alternatively, you can set up a
-            deferment account in the first activity statement after import, and
-            reclaim the applicable benefits on a monthly basis.
-            <br></br>
-            <br></br>
-            For other countries that enable similar tax refunds, please write to
-            us at buyers@qalara.com and we will share the process as applicable!
+            Different countries have different rules for claiming VAT/ GST / Tax
+            refunds and we request you to check your local laws for the latest
+            information and process. Many countries like Australia,
+            U.K.,Germany, Netherlands, and Singapore may allow you to claim VAT/
+            GST / Tax refunds provided you have the requisite VAT/ GST/ Tax/
+            Business registration, the goods ordered are for business purposes,
+            and they meet the necessary thresholds or rules and restrictions
+            defined by each country. Please note that VAT refund is generally
+            not possible if you are availing IOR (Importer-on-record)) services
+            for a DDP shipment.
           </div>
         </Panel>
         <Panel
