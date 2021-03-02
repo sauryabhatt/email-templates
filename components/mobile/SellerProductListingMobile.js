@@ -626,7 +626,7 @@ function SellerProductListingMobile(props) {
               ) : (
                 ""
               )}
-              {isAuthenticated ? (
+              {/* {isAuthenticated ? (
                 <span
                   className="qa-font-san qa-fs-12"
                   style={{
@@ -645,7 +645,7 @@ function SellerProductListingMobile(props) {
                 </span>
               ) : (
                 ""
-              )}
+              )} */}
             </Col>
           </Row>
         </Modal>

@@ -1407,7 +1407,7 @@ const CartDetails = (props) => {
                                 {isFulfillable === false &&
                                   inventoryQty &&
                                   inventoryQty[productId] !== undefined &&
-                                  inventoryQty[productId] === 0 && (
+                                  inventoryQty[productId] <= 0 && (
                                     <div className="cart-sub-text p-out-of-stock">
                                       This product is currently out of stock
                                     </div>
@@ -2015,7 +2015,7 @@ const CartDetails = (props) => {
                                     {isFulfillable === false &&
                                       inventoryQty &&
                                       inventoryQty[productId] !== undefined &&
-                                      inventoryQty[productId] === 0 && (
+                                      inventoryQty[productId] <= 0 && (
                                         <div className="cart-sub-text p-out-of-stock">
                                           This product is currently out of stock
                                         </div>

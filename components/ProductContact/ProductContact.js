@@ -362,9 +362,9 @@ const ProductContact = (props) => {
                   </div> 
                 </div>
               )} */}
-              <div className="qa-fs-12 qa-mar-btm-2 qa-font-san qa-dark-body qa-lh">
+              {/* <div className="qa-fs-12 qa-mar-btm-2 qa-font-san qa-dark-body qa-lh">
                 Base price per unit excl. margin and other charges
-              </div>
+              </div> */}
               <div>
                 <div
                   style={{
@@ -912,9 +912,9 @@ const ProductContact = (props) => {
                   Suggested retail price : <b>${suggestedRetailPrice}</b>
                 </div>
               </div> */}
-              <div className="qa-mar-btm-1 qa-font-san qa-dark-body qa-fs-12 qa-lh">
+              {/* <div className="qa-mar-btm-1 qa-font-san qa-dark-body qa-fs-12 qa-lh">
                 Base price per unit excl. margin and other charges
-              </div>
+              </div> */}
               <div>
                 <div
                   style={{

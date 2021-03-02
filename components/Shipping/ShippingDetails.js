@@ -570,7 +570,7 @@ const ShippingDetails = (props) => {
                     <Col span={24}>
                       <div className="qa-bg-light-theme qa-pad-2 qa-mar-1 qa-no-ship">
                         We will need to generate a custom freight quotation for
-                        this. Please click on <b>'Create Order Request'</b> and
+                        this. Please click on <b>'Order Quote Request'</b> and
                         we will revert with the best freight rates from our
                         delivery partners.
                       </div>
@@ -1522,7 +1522,7 @@ const ShippingDetails = (props) => {
                   <div className="qa-pad-2 qa-ship-section qa-mar-top-2">
                     <div className="qa-no-ship">
                       We will need to generate a custom freight quotation for
-                      this. Please click on <b>'Create Order Request'</b> and we
+                      this. Please click on <b>'Order Quote Request'</b> and we
                       will revert with the best freight rates from our delivery
                       partners.
                     </div>
