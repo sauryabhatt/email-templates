@@ -85,6 +85,7 @@ const SellerProductListing = (props) => {
       f_l2name,
       f_l3name,
       f_l1_names,
+      bird,
       sellerId: sellerIdKey,
       ...rest
     } = queryParams;

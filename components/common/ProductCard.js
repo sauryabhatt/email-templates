@@ -234,9 +234,9 @@ function ProductCard(props) {
                     <Col span={24}>
                       <Row>
                         <Col span={14}>
-                          <div className="qa-tc-white">
+                          {/* <div className="qa-tc-white">
                             MOQ {minimumOrderQuantity} {moqUnit}
-                          </div>
+                          </div> */}
                         </Col>
 
                         <Col span={10} className="qa-txt-alg-rgt">

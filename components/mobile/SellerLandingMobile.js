@@ -1867,7 +1867,7 @@ function SellerLandingMobile(props) {
             ) : (
               ""
             )}
-            {isAuthenticated ? (
+            {/* {isAuthenticated ? (
               <span
                 className="qa-font-san qa-fs-12"
                 style={{
@@ -1886,7 +1886,7 @@ function SellerLandingMobile(props) {
               </span>
             ) : (
               ""
-            )}
+            )} */}
           </Col>
         </Row>
       </Modal>
