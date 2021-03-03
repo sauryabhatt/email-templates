@@ -273,10 +273,11 @@ const ProductDetails = (props) => {
         let qty = result[skuId];
         if (qty > 0) {
           setSkuId(skuId);
+          setInStock(qty);
         } else {
           setSkuId("");
+          setInStock(0);
         }
-        setInStock(qty);
       });
     } else {
       setSkuId("");
@@ -817,10 +818,11 @@ const ProductDetails = (props) => {
             let qty = result[skuId];
             if (qty > 0) {
               setSkuId(skuId);
+              setInStock(qty);
             } else {
               setSkuId("");
+              setInStock(0);
             }
-            setInStock(qty);
           });
         }
       }
@@ -1449,7 +1451,7 @@ const ProductDetails = (props) => {
                             },
                           ]}
                         >
-                          {showPrice ? (
+                          {showPrice && profileType !== "SELLER" ? (
                             <InputNumber
                               type="number"
                               className="p-text-box"
@@ -2596,7 +2598,7 @@ const ProductDetails = (props) => {
                             },
                           ]}
                         >
-                          {showPrice ? (
+                          {showPrice && profileType !== "SELLER" ? (
                             <InputNumber
                               type="number"
                               className="p-text-box"

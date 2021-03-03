@@ -154,7 +154,13 @@ export default function CuratedByUsWrapper(props) {
       img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Craft1.jpg",
       text: "Carving & Inlay",
       alt:
-        "Shop wholesale for unique products from our curated, responsible sellers ",
+        "Shop wholesale for unique products from our curated, responsible sellers",
+    },
+    {
+      url: "/artisancrafts/hand-painted",
+      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Craft5.jpg",
+      text: "Hand Painted",
+      alt: " Curated handpainted products at Qalara",
     },
     {
       url: "/artisancrafts/metalcrafts",

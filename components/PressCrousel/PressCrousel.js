@@ -87,9 +87,7 @@ export default function PressCrousel(props) {
             <img src={press_data[i].linkTo} alt={press_data[i].url} />
             <div className="news-para qa-text-2line">{press_data[i].title}</div>
             <div className="new-read-article">
-              <a href={press_data[i].url} target="_blank">
-                <span className="news-article">Read Article</span>
-              </a>
+              <span className="news-article">Read Article</span>
             </div>
           </div>
         </a>
@@ -126,9 +124,7 @@ export default function PressCrousel(props) {
                   />
                   <div className="news-para qa-text-2line">{data.title}</div>
                   <div className="new-read-article">
-                    <a href={data.url} target="_blank">
-                      <span className="news-article">Read Article</span>
-                    </a>
+                    <span className="news-article">Read Article</span>
                   </div>
                 </a>
               </div>

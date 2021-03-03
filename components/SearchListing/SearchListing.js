@@ -7,11 +7,14 @@ import SearchListingMobile from "../mobile/SearchListingMobile";
 import { getPLPDetails, getSLPDetails } from "../../store/actions";
 import queryString from "query-string";
 import { useRouter } from "next/router";
+import { useKeycloak } from "@react-keycloak/ssr";
+import cookie from "js-cookie";
 const isServer = () => typeof window == "undefined";
 const querystring = require("querystring");
 
 const SearchListing = (props) => {
   const router = useRouter();
+  const { keycloak } = useKeycloak();
   let { slp_content = [], isLoading = true } = !isServer()
     ? props.listingPage
     : props.data;
@@ -28,6 +31,7 @@ const SearchListing = (props) => {
     sort_order: "DESC",
     size: limit,
     from: offset,
+    bird: keycloak.authenticated || cookie.get("appToken") ? "lion" : "apple",
   });
 
   const getQueryParamString = () => {

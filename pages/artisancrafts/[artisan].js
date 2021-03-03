@@ -41,6 +41,14 @@ export default function ArtisanDetails({ data }) {
           "Shop wholesale decor and accessories in brass, copper, iron and wrought iron, produced consciously and responsibly",
       };
       break;
+    case "hand-painted":
+      meta = {
+        title:
+          "From planters to salad servers and coasters, experience the masterstrokes of best-in-class artists with our carefully curated collection of handpainted homeware.",
+        description:
+          "From planters to salad servers and coasters, experience the masterstrokes of best-in-class artists with our carefully curated collection of handpainted homeware.",
+      };
+      break;
     default:
       meta = {
         title:
@@ -70,6 +78,7 @@ const artisanObj = {
   carvingandinlay: "CarvingInlay",
   basketry: "Basketry",
   metalcrafts: "MetalCrafts",
+  "hand-painted": "HandPainted",
 };
 export async function getStaticPaths() {
   return {

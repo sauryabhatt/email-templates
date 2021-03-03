@@ -263,20 +263,20 @@ function Home(props) {
 
   const craftItems = [
     {
-      imageTitle: "Farmhouse",
-      slideText:
-        "A curated collection of eco friendly handcrafted signs, clocks, decor and furniture.",
-      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_10.jpg",
-      searchText: "FarmhouseDecor",
-      path: "/trends/farmhousedecor",
-    },
-    {
       imageTitle: "Crafted Boho",
       slideText:
         "Boho cushion covers, rugs, throws, bags & decor; crafted by hand picked sellers, combining local crafts with modern aesthetics.",
       imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_1_1.jpg",
       searchText: "GlobalTextures",
       path: "/trends/globaltextures",
+    },
+    {
+      imageTitle: "Farmhouse",
+      slideText:
+        "A curated collection of eco friendly handcrafted signs, clocks, decor and furniture.",
+      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_10.jpg",
+      searchText: "FarmhouseDecor",
+      path: "/trends/farmhousedecor",
     },
     {
       imageTitle: "Summer Pastels",
@@ -668,17 +668,7 @@ function Home(props) {
       <HotThisWeekCarousel />
       <SellerCarousel items={sellerItems} />
       <Tastimonial />
-      {/* <Button>
-          <Link href="/categories">Seller Listing Page</Link>
-        </Button>
-        <Button>
-          <Link href="/products">Product Listing Page</Link>
-        </Button>
-        <Button>
-          <Link href="/sellers/products">SPLP</Link>
-        </Button> */}
-      {/* <AppFeedBanner/> */}
-      {/* } */}
+
       <Modal
         visible={visible}
         footer={null}
