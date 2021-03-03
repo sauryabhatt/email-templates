@@ -9,7 +9,7 @@ import { useKeycloak } from "@react-keycloak/ssr";
 import { useSelector } from "react-redux";
 import queryString from "query-string";
 import { useRouter } from "next/router";
-
+import cookie from "js-cookie";
 const querystring = require("querystring");
 
 //TODO: handle token
@@ -38,6 +38,7 @@ const SellerProductListing = (props) => {
     sort_order: "DESC",
     size: limit,
     from: offset,
+    bird: keycloak.authenticated || cookie.get("appToken") ? "lion" : "apple",
   });
 
   const getQueryParamString = () => {

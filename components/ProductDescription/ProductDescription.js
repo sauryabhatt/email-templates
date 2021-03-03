@@ -11,6 +11,7 @@ import {
 } from "../../store/actions";
 import { useKeycloak } from "@react-keycloak/ssr";
 import { useRouter } from "next/router";
+import cookie from "js-cookie";
 const querystring = require("querystring");
 const isServer = () => typeof window == "undefined";
 
@@ -49,6 +50,8 @@ const ProductDescription = (props) => {
         size: 6,
         from: 0,
         sellerId: sellerCode,
+        bird:
+          keycloak.authenticated || cookie.get("appToken") ? "lion" : "apple",
       };
       let queryResult = querystring.stringify(query);
       if (count === 1) {

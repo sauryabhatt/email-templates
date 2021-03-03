@@ -1810,71 +1810,13 @@ function SellerLandingMobile(props) {
               className="qa-font-san qa-fs-14"
               style={{ lineHeight: "20px", color: "#332f2f", opacity: "80%" }}
             >
-              The Qalara Video demo is a live video meeting that allows the
-              buyer to have a one-on-one interaction with the seller. You can
-              share your target product segments and the sellers can share their
-              experience and achievements with similar product lines. This also
-              helps you understand the production methods and materials better,
-              and to know the story behind the product and the seller.
+              A video demo is a video meeting that facilitates live interaction
+              between the buyer and the products and a product expert. Through
+              these meetings, we can engage more deeply, understand your
+              requirements, and share more about our product offering and the
+              specifications and details of the different production methods and
+              crafts.
             </p>
-          </Col>
-        </Row>
-        <Row justify="space-between" style={{ marginTop: "25px" }}>
-          <Col xs={22} sm={22} md={22} lg={22}>
-            <span
-              className="benefits-header qa-font-san qa-fs-17 qa-fw-b"
-              style={{ color: "#191919", letterSpacing: "0.2px" }}
-            >
-              Benefits
-            </span>
-          </Col>
-        </Row>
-        <Row justify="space-between" style={{ marginTop: "35px" }}>
-          <Col xs={22} sm={22} md={22} lg={22}>
-            <span className="qa-font-san qa-fs-14">
-              <ul>
-                <li
-                  style={{
-                    lineHeight: "20px",
-                    color: "#332f2f",
-                    opacity: "80%",
-                  }}
-                >
-                  Check out the seller's product offering live and understand
-                  the specifications and details
-                </li>
-                <li
-                  style={{
-                    lineHeight: "20px",
-                    color: "#332f2f",
-                    opacity: "80%",
-                  }}
-                >
-                  Help supplier understand your design preferences and
-                  expectations
-                </li>
-                <li
-                  style={{
-                    lineHeight: "20px",
-                    color: "#332f2f",
-                    opacity: "80%",
-                  }}
-                >
-                  Interact and build your customised requirements and finalize
-                  pricing and other order details
-                </li>
-                <li
-                  style={{
-                    lineHeight: "20px",
-                    color: "#332f2f",
-                    opacity: "80%",
-                  }}
-                >
-                  You may even request a facility tour to get a first hand view
-                  of behind the scenes operations
-                </li>
-              </ul>
-            </span>
           </Col>
         </Row>
         {!isAuthenticated ? (
@@ -1982,7 +1924,7 @@ function SellerLandingMobile(props) {
             style={{ width: "30px", height: "30px" }}
           />{" "}
         </div>
-        <Row>
+        {/* <Row>
           <Col xs={22} sm={22} md={22} lg={22}>
             <span
               className="qa-font-san qa-fs-12 qa-fw-b"
@@ -2001,7 +1943,7 @@ function SellerLandingMobile(props) {
               us confirm the video meeting and share updates with you.
             </span>
           </Col>
-        </Row>
+        </Row> */}
         <Row justify="space-between" className="qa-mar-top-3">
           <Col
             xs={24}
