@@ -83,6 +83,7 @@ const SearchListing = (props) => {
       search,
       f_l1_names,
       sort_by: sort,
+      bird,
       ...rest
     } = queryParams;
     let newObj = { ...rest };

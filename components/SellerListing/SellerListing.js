@@ -76,6 +76,7 @@ const SellerListing = (props) => {
       f_l2name,
       f_l3name,
       f_l1_names,
+      bird,
       ...rest
     } = queryParams;
     let defaultQuery = querystring.stringify(rest);
