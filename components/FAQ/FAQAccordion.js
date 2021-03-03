@@ -211,7 +211,6 @@ const FAQ = (props) => {
             <br></br>Specifically, we offer: <br></br>• An ever growing
             selection of thousands of Home, Fashion and Lifestyle products at
             great wholesale prices. Beauty & Food categories launching soon.
-            <br></br>
             <br></br>• A vast range of on-trend handmade, artisanal,
             eco-friendly, organic, recycled, sustainable, products
             <br></br>• Verified producers of all sizes<br></br>• Ability to
