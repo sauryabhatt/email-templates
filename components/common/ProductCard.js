@@ -25,7 +25,7 @@ function ProductCard(props) {
     ).toFixed(2);
   };
 
-  const signIn = () => {
+  const signIn = (e) => {
     loginToApp(keycloak, { currentPath: router.asPath });
     e.stopPropagation();
     e.preventDefault();
@@ -195,7 +195,7 @@ function ProductCard(props) {
                     <Col span={24}>
                       <div className="qa-tc-white">
                         Base price:{" "}
-                        <span className="qa-cursor" onClick={signIn}>
+                        <span className="qa-cursor" onClick={(e) => signIn(e)}>
                           <span className="qa-fs-13 qa-sm-color">Sign in</span>
 
                           <svg
@@ -255,7 +255,10 @@ function ProductCard(props) {
                       <Col span={14}>
                         <span className="qa-tc-white">
                           Base price:{" "}
-                          <span className="qa-cursor" onClick={signIn}>
+                          <span
+                            className="qa-cursor"
+                            onClick={(e) => signIn(e)}
+                          >
                             <span className="qa-fs-13 qa-sm-color">
                               Sign in
                             </span>
