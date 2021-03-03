@@ -177,7 +177,7 @@ const ProductContact = (props) => {
       sellerId: props.sellerDetails.id.split("::")[2],
       buyerId: props.userId && props.userId.split("::")[1],
       productName: props.productDetails.productName,
-      locationType: values.locationType,
+      // locationType: values.locationType,
     };
 
     if (keycloak.authenticated) {

@@ -162,6 +162,8 @@ const SellerContact = (props) => {
       sellerId: props.sellerDetails.id.split("::")[2],
       buyerId: props.userId && props.userId.split("::")[1],
       sellerBrandName: props.sellerDetails.brandName,
+      // aboutCompany: values.aboutCompany,
+      // locationType: values.locationType,
     };
 
     if (keycloak.authenticated) {

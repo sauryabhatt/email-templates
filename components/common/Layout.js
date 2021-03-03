@@ -111,6 +111,10 @@ export const Layout = ({ children, meta = {} }) => {
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+        ></meta>
         {process.env.NODE_ENV !== "production" && (
           <>
             <meta name="robots" content="noindex" />

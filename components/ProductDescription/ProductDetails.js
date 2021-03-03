@@ -1451,7 +1451,7 @@ const ProductDetails = (props) => {
                             },
                           ]}
                         >
-                          {showPrice ? (
+                          {showPrice && profileType !== "SELLER" ? (
                             <InputNumber
                               type="number"
                               className="p-text-box"
@@ -2598,7 +2598,7 @@ const ProductDetails = (props) => {
                             },
                           ]}
                         >
-                          {showPrice ? (
+                          {showPrice && profileType !== "SELLER" ? (
                             <InputNumber
                               type="number"
                               className="p-text-box"
