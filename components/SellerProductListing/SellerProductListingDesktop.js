@@ -589,7 +589,9 @@ function SellerProductListingDesktop(props) {
                     scheduleCall();
                   }}
                 >
-                  {isAuthenticated ? "Schedule video call" : "Sign in/Sign up"}
+                  {isAuthenticated
+                    ? "Schedule video call"
+                    : "Sign in / Sign up"}
                 </Button>
               </div>
               {!isAuthenticated ? (
