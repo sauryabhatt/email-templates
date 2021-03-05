@@ -297,11 +297,13 @@ const ShippingDetails = (props) => {
         quantity = "",
         isSampleDeliveryRequired = "",
         isQualityTestingRequired = "",
+        image = "",
       } = product || {};
       productObj["articleId"] = articleId;
       productObj["quantity"] = quantity;
       productObj["isSampleDeliveryRequired"] = isSampleDeliveryRequired;
       productObj["isQualityTestingRequired"] = isQualityTestingRequired;
+      // productObj["image"] = image;
       allProducts.push(productObj);
     }
     orderObj["products"] = allProducts;
@@ -401,10 +403,12 @@ const ShippingDetails = (props) => {
 
   const selectShippingMode = (mode, term = shippingTerm) => {
     if (mode) {
+      let cartId =
+        orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
       fetch(
         `${
           process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL
-        }/orders/my/${orderId}/${mode}?shippingTerms=${term.toUpperCase()}`,
+        }/orders/my/${cartId}/${mode}?shippingTerms=${term.toUpperCase()}`,
         {
           method: "PUT",
           headers: {
