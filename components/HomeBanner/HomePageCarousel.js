@@ -50,24 +50,25 @@ export default function HomePageCarousel(props) {
       alt: "Qalara Global wholesale buying reimagined",
     },
     {
-      img: "https://cdn.qalara.com/images/Img_Homepage_banner_5.jpg",
+      img: "https://cdn.qalara.com/images/Img_Homepage_banner_5_1.jpg",
       hading_text: "", //"Global wholesale buying, reimagined.",
       small_text: "", //"Source wholesale products from India and South East Asia. Order digitally, reliably, affordably.Backed by a Fortune 100 company.Verified buyers from 25+ countries.",
       video_link: "", //"https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4",
       isSignupbtn: false,
       signinBTNLink: `/products/all-categories/`,
-      mobileImg: "https://cdn.qalara.com/images/Img_Homepage_banner_5_mob.jpg",
+      mobileImg:
+        "https://cdn.qalara.com/images/Img_Homepage_banner_5_mob_1.jpg",
       alt: "Indonesian treasures",
     },
     {
-      img: "https://cdn.qalara.com/images/Img_Banner_Qalarabazar3.jpg",
+      img: "https://cdn.qalara.com/images/Img_Banner_Qalarabazar3_1.jpg",
       hading_text: "", //"Global wholesale buying, reimagined.",
       small_text: "", //"Source wholesale products from India and South East Asia. Order digitally, reliably, affordably.Backed by a Fortune 100 company.Verified buyers from 25+ countries.",
       video_link: "", //"https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4",
       isSignupbtn: false,
       signinBTNLink: "/seller/SL10789/all-categories",
       mobileImg:
-        "https://cdn.qalara.com/images/Img_Banner_Qalarabazar3_mob.jpg",
+        "https://cdn.qalara.com/images/Img_Banner_Qalarabazar3_mob_1.jpg",
       alt:
         "Qalara festive offer get eco-friendly, handmade gifts for the holiday season",
     },
@@ -81,6 +82,16 @@ export default function HomePageCarousel(props) {
       signinBTNText: "EXPLORE NOW",
       mobileImg: "https://cdn.qalara.com/images/Img_Homepage_Banner-mob.jpg",
       alt: "Qalara your one-stop-shop for wholesale",
+    },
+    {
+      img: "https://cdn.qalara.com/images/Img_Homepage_banner_6_1.jpg",
+      hading_text: "",
+      small_text: "",
+      isSignupbtn: false,
+      signinBTNLink: "/products/all-categories/?f_product_types=Ready+to+ship",
+      mobileImg:
+        "https://cdn.qalara.com/images/Img_Homepage_banner_6_mob_1.jpg",
+      alt: "",
     },
     {
       img: "https://cdn.qalara.com/images/Img_Homepage_banner_3.jpg",
