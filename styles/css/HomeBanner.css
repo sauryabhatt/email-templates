@@ -1227,6 +1227,8 @@ right: 25%;
   color: #874439;
   cursor: pointer;
   border-bottom: 1px solid #874439;
+  width: 85px;
+  margin: 0 auto;
 }
 .press-crousel.news-section .press-web-wrp a {
   display: block !important;
