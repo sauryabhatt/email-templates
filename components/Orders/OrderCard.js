@@ -41,11 +41,10 @@ const OrderCard = (props) => {
   } = order;
 
   let date1 = expectedDeliveryDateMin.split("-");
-let minDate = new Date(date1[0], date1[1]-1, date1[2]);
-
-
-let date2 = expectedDeliveryDateMax.split("-");
-let maxDate = new Date(date2[0], date2[1]-1, date2[2]);
+  let minDate = new Date(date1[2], date1[0]-1, date1[1]);
+  
+  let date2 = expectedDeliveryDateMax.split("-");
+  let maxDate = new Date(date2[2], date2[0]-1, date2[1]);
 
 
   let paymentTimeDiff = diff_hours(new Date(paymentTime), new Date());
