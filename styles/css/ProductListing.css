@@ -329,7 +329,7 @@ span.ant-input-affix-wrapper.ant-input-search:active {
 .filter-search-box .ant-input:focus,
 .filter-search-box .ant-input:hover,
 .filter-search-box .ant-input:active {
-  border: none;
+  border: 1px solid #d9d9d9;
 }
 .filter-search-box .ant-input-search-icon:before {
   border-left: none;

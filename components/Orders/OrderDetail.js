@@ -15,7 +15,14 @@ const OrderDetail = (props) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const mediaMatch = window.matchMedia("(min-width: 768px)");
 
-  let { paymentTime = "" } = order;
+  let { paymentTime = "",expectedDeliveryDateMin='',
+  expectedDeliveryDateMax='' } = order;
+
+  let date1 = expectedDeliveryDateMin.split("-");
+  let minDate = new Date(date1[0], date1[1]-1, date1[2]);
+  
+  let date2 = expectedDeliveryDateMax.split("-");
+  let maxDate = new Date(date2[0], date2[1]-1, date2[2]);
 
   const diff_hours = (dt2, dt1) => {
     var diff = (dt2.getTime() - dt1.getTime()) / 1000;
@@ -109,8 +116,8 @@ const OrderDetail = (props) => {
                   ESTIMATED DELIVERY DATE
                 </div>
                 <div className="qa-fs-14 order-header-tile-content qa-green-color">
-                  {moment(order.expectedDeliveryDateMin).format("DD MMM YY")} -{" "}
-                  {moment(order.expectedDeliveryDateMax).format("DD MMM YY")}
+                  {moment(minDate).format("DD MMM YY")} -{" "}
+                  {moment(maxDate).format("DD MMM YY")}
                 </div>
               </div>
               <div className="order-card-headr-tile">

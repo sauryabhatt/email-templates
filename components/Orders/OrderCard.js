@@ -36,7 +36,18 @@ const OrderCard = (props) => {
     subOrders = [],
     orderConfirmedDate = "",
     paymentTime = "",
+    expectedDeliveryDateMin='',
+    expectedDeliveryDateMax=''
   } = order;
+
+  let date1 = expectedDeliveryDateMin.split("-");
+let minDate = new Date(date1[0], date1[1]-1, date1[2]);
+
+
+let date2 = expectedDeliveryDateMax.split("-");
+let maxDate = new Date(date2[0], date2[1]-1, date2[2]);
+
+
   let paymentTimeDiff = diff_hours(new Date(paymentTime), new Date());
   const downloadInvoice = (data) => {
     if (data) {
@@ -544,8 +555,8 @@ const OrderCard = (props) => {
                 ESTIMATED DELIVERY DATE
               </div>
               <div className="qa-fs-14 order-header-tile-content qa-green-color">
-                {moment(order.expectedDeliveryDateMin).format("DD MMM YY")} -{" "}
-                {moment(order.expectedDeliveryDateMax).format("DD MMM YY")}
+                {moment(minDate).format("DD MMM YY")} -{" "}
+                {moment(maxDate).format("DD MMM YY")}
               </div>
             </div>
             {order.trackingURL && order.shipperName && !mediaMatche ? (
