@@ -407,7 +407,7 @@ const ShippingDetails = (props) => {
       fetch(
         `${
           process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL
-        }/orders/my/${cartId}/${mode}?shippingTerms=${term.toUpperCase()}`,
+        }/orders/my/${cartId}/${mode}?shippingTerms=${term.toUpperCase()}&promoCode=${couponCode}&promoDiscount=${couponDiscount}`,
         {
           method: "PUT",
           headers: {
