@@ -179,6 +179,11 @@ const ShippingDetails = (props) => {
         if(a_result && s_result){
           setPayment(true);
         }
+
+        let result = airQuote[shippingTerm]['tat'] === 0 && seaQuote[shippingTerm]['tat'] === 0;
+        if (result) {
+          setPayment(true);
+        }
       }
     } else {
       let result =
