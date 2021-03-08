@@ -175,6 +175,10 @@ const ShippingDetails = (props) => {
         if (s_result) {
           setDisableSea(s_result);
         }
+
+        if(a_result && s_result){
+          setPayment(true);
+        }
       }
     } else {
       let result =
