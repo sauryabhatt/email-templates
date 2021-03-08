@@ -299,11 +299,11 @@ const ShippingDetails = (props) => {
         isQualityTestingRequired = "",
         image = "",
       } = product || {};
+      productObj["image"] = image;
       productObj["articleId"] = articleId;
       productObj["quantity"] = quantity;
       productObj["isSampleDeliveryRequired"] = isSampleDeliveryRequired;
       productObj["isQualityTestingRequired"] = isQualityTestingRequired;
-      // productObj["image"] = image;
       allProducts.push(productObj);
     }
     orderObj["products"] = allProducts;
