@@ -771,7 +771,9 @@ const UserAccount = (props) => {
   };
 
   const slides = props.openRequest.map((v, i) => {
-    let id = "HOME::" + v.presenters[0].profileId;
+    console.log(props)
+    console.log("v ", v)
+    let id = v.presenters[0].profileId + "/all-categories";
     let requestDate = new Date(v.presenters[0].slotDate).toLocaleDateString(
       "en-us",
       {
