@@ -827,6 +827,7 @@
   .image-gallery-content.bottom.fullscreen
   .qa-zoom-icon {
   right: 30px;
+  bottom: 100px;
 }
 @media only screen and (min-device-width: 481px) and (max-device-width: 1024px) and (orientation: portrait) {
   #product-description .p-box.even {
