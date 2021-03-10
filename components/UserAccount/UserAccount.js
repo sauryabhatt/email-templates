@@ -771,9 +771,6 @@ const UserAccount = (props) => {
   };
 
   const slides = props.openRequest.map((v, i) => {
-    console.log(props)
-    console.log("v ", v)
-    let id = v.presenters[0].profileId + "/all-categories";
     let requestDate = new Date(v.presenters[0].slotDate).toLocaleDateString(
       "en-us",
       {
@@ -783,27 +780,35 @@ const UserAccount = (props) => {
         day: "numeric",
       }
     );
-    return (
-      <VideoRequestCarousel
-        key={i}
-        isWeb={mediaMatch.matches}
-        userProfileType={profileType}
-        data={v}
-        type={props.profileType}
-        handleAccept={() =>
-          handleAccept(
-            v.requestId,
-            v.registrants[0].orgName,
-            requestDate,
-            v.presenters[0].slotStart,
-            v.presenters[0].slotEnd
-          )
-        }
-        handleReject={() => handleReject(v.requestId)}
-        handleCancel={() => handleCancel(v.requestId)}
-        id={id}
-      />
-    );
+
+    if(v.presenters[0].profileId){
+      let id = v.presenters[0].profileId.replace("SELLER::","") + "/all-categories";
+    
+      return (
+        <VideoRequestCarousel
+          key={i}
+          isWeb={mediaMatch.matches}
+          userProfileType={profileType}
+          data={v}
+          type={props.profileType}
+          handleAccept={() =>
+            handleAccept(
+              v.requestId,
+              v.registrants[0].orgName,
+              requestDate,
+              v.presenters[0].slotStart,
+              v.presenters[0].slotEnd
+            )
+          }
+          handleReject={() => handleReject(v.requestId)}
+          handleCancel={() => handleCancel(v.requestId)}
+          id={id}
+        />
+      );
+    } else {
+      return null;
+    }
+   
   });
 
   const getFormattedDate = (date) => {
