@@ -343,17 +343,19 @@ const ShippingDetails = (props) => {
   };
 
   const applyCouponAPI = (data, couponApplied = "") => {
+    let cartId = orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
     fetch(
-      `${process.env.NEXT_PUBLIC_REACT_APP_PRICE_QUOTATION_URL}/quotes/rts/${priceQuoteRef}`,
-      {
-        method: "PUT",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + appToken,
-        },
-      }
-    )
+        `${
+          process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL
+        }/orders/my/${cartId}/${mode}?shippingTerms=${shippingTerm.toUpperCase()}&promoCode=${couponCode}&promoDiscount=${couponDiscount}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + appToken,
+          },
+        }
+      )
       .then((res) => {
         if (res.ok) {
           return res.json();
