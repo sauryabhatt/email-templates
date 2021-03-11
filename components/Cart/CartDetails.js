@@ -135,7 +135,7 @@ const CartDetails = (props) => {
     let { cart = {} } = props;
     let { shippingAddressDetails = "", shippingAddressId, subOrders = [] } =
       cart || {};
-    if (shippingAddressDetails && addresses.length > 0) {
+    if (shippingAddressDetails && Object.keys(shippingAddressDetails)) {
       let { countryCode = "", country = "", zipCode = "", dialCode = "" } =
         shippingAddressDetails || {};
       setSelectedShippingId(shippingAddressId);
