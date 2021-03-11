@@ -123,7 +123,7 @@ const CartDetails = (props) => {
   const [hCountry, setHCountry] = useState([]);
   const [zipCodeList, setZipcodeList] = useState([]);
   const [inventoryQty, setInventoryQty] = useState();
-  const [availableZipcodes, setAvailableZipCodes] = useState([])
+  const [availableZipcodes, setAvailableZipCodes] = useState([]);
   let showError = false;
   useEffect(() => {
     if (app_token) {
@@ -145,36 +145,36 @@ const CartDetails = (props) => {
       setSelCountry(country);
       handleCountry(country);
       setDialCode(dialCode);
-    }
 
-    fetch(
-      process.env.NEXT_PUBLIC_REACT_APP_DUTY_COST_URL +
-        "/country/" +
-        country +
-        "/zipcode/" +
-        zipCode,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + app_token,
-        },
-      }
-    )
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          throw res.statusText || "Error while updating info.";
+      fetch(
+        process.env.NEXT_PUBLIC_REACT_APP_DUTY_COST_URL +
+          "/country/" +
+          country +
+          "/zipcode/" +
+          zipCode,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + app_token,
+          },
         }
-      })
-      .then((res) => {
-        let {zipcodes=[]} = res || {};
-        setAvailableZipCodes(zipcodes);
-      })
-      .catch((err) => {
-      console.log(error)
-      });
+      )
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            throw res.statusText || "Error while updating info.";
+          }
+        })
+        .then((res) => {
+          let { zipcodes = [] } = res || {};
+          setAvailableZipCodes(zipcodes);
+        })
+        .catch((err) => {
+          console.log(error);
+        });
+    }
 
     if (subOrders.length > 0) {
       let productIds = [];
@@ -608,7 +608,7 @@ const CartDetails = (props) => {
           } else {
             setZipcodeList([value]);
           }
-          let {zipcodes=[]} = res || {};
+          let { zipcodes = [] } = res || {};
           setAvailableZipCodes(zipcodes);
         })
         .catch((err) => {
@@ -1560,7 +1560,10 @@ const CartDetails = (props) => {
                 enable={enable && isFulfillable && addressFlag}
                 cart={cart}
                 brandNames={brandNames}
-                deliver={deliveredCountryList.includes(selCountry || country) && availableZipcodes.length}
+                deliver={
+                  deliveredCountryList.includes(selCountry || country) &&
+                  availableZipcodes.length
+                }
                 showCartError={showError}
                 currencyDetails={currencyDetails}
                 user={userProfile}
@@ -1650,7 +1653,10 @@ const CartDetails = (props) => {
                   enable={enable && isFulfillable && addressFlag}
                   cart={cart}
                   brandNames={brandNames}
-                  deliver={deliveredCountryList.includes(selCountry || country) && availableZipcodes.length}
+                  deliver={
+                    deliveredCountryList.includes(selCountry || country) &&
+                    availableZipcodes.length
+                  }
                   showCartError={showError}
                   currencyDetails={currencyDetails}
                   user={userProfile}
