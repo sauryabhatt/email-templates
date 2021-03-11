@@ -263,6 +263,14 @@ function Home(props) {
 
   const craftItems = [
     {
+      imageTitle: "Monochrome",
+      slideText:
+        "Earthy tones that soothe the soul and add pizzazz to living spaces; explore consciously produced, furnishings, decor & kitchenware.",
+      imageInner: "https://cdn.qalara.com/images/Img_HomePageCarousel1_11.jpg",
+      searchText: "Monochrome",
+      path: "/trends/monochrome",
+    },
+    {
       imageTitle: "Crafted Boho",
       slideText:
         "Boho cushion covers, rugs, throws, bags & decor; crafted by hand picked sellers, combining local crafts with modern aesthetics.",
