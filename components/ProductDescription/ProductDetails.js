@@ -880,7 +880,11 @@ const ProductDetails = (props) => {
     if (range) {
       setInRange(range);
     } else {
-      setInRange(range);
+      if (inStock <= value) {
+        setInRange(true);
+      } else {
+        setInRange(range);
+      }
     }
   };
 
@@ -1850,18 +1854,22 @@ const ProductDetails = (props) => {
                               </span>
                             </Button>
                           ) : (
-                            <Button
-                              htmlType="submit"
-                              onClick={onCheck}
-                              className={
-                                inRange !== false
-                                  ? "add-to-bag-button"
-                                  : "add-to-bag-button atc-diable"
-                              }
-                              loading={loading}
-                            >
-                              Add to cart
-                            </Button>
+                            <span>
+                              {inRange ? (
+                                <Button
+                                  htmlType="submit"
+                                  onClick={onCheck}
+                                  className="add-to-bag-button"
+                                  loading={loading}
+                                >
+                                  Add to cart
+                                </Button>
+                              ) : (
+                                <Button className="add-to-bag-button atc-diable">
+                                  <div>Add to cart</div>
+                                </Button>
+                              )}
+                            </span>
                           )}
                         </span>
                       ) : (
@@ -2966,18 +2974,22 @@ const ProductDetails = (props) => {
                               </span>
                             </Button>
                           ) : (
-                            <Button
-                              htmlType="submit"
-                              onClick={onCheck}
-                              className={
-                                inRange !== false
-                                  ? "add-to-bag-button"
-                                  : "add-to-bag-button atc-diable"
-                              }
-                              loading={loading}
-                            >
-                              Add to cart
-                            </Button>
+                            <span>
+                              {inRange ? (
+                                <Button
+                                  htmlType="submit"
+                                  onClick={onCheck}
+                                  className="add-to-bag-button"
+                                  loading={loading}
+                                >
+                                  Add to cart
+                                </Button>
+                              ) : (
+                                <Button className="add-to-bag-button atc-diable">
+                                  <div>Add to cart</div>
+                                </Button>
+                              )}
+                            </span>
                           )}
                         </span>
                       ) : (
