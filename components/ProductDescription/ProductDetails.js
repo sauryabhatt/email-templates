@@ -877,11 +877,14 @@ const ProductDetails = (props) => {
       }
       index++;
     }
+    console.log(range, value, inStock);
     if (range) {
       setInRange(range);
     } else {
       if (inStock <= value) {
         setInRange(true);
+        setSelectedQty("");
+        setDisplayPrice(exfactoryListPrice);
       } else {
         setInRange(range);
       }
