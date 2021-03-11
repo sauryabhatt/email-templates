@@ -85,11 +85,11 @@ function parseCookies(request) {
 }
 
 MyApp.getInitialProps = async (context) => {
-  if (context?.ctx?.res) {
-    // res available only at server
-    // no-store disable bfCache for any browser. So your HTML will not be cached
-    context?.ctx?.res?.setHeader('Cache-Control', 'no-store');
-}
+  // if (context?.ctx?.res) {
+  //   // res available only at server
+  //   // no-store disable bfCache for any browser. So your HTML will not be cached
+  //   context?.ctx?.res?.setHeader("Cache-Control", "no-store");
+  // }
   return {
     cookies: parseCookies(context?.ctx?.req),
   };
