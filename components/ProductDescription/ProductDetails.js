@@ -570,6 +570,8 @@ const ProductDetails = (props) => {
                   setLoading(false);
                   setCart(false);
                   rtsform.setFieldsValue({ quantity: result[skuId] });
+                  setSelectedQty("");
+                  setDisplayPrice(exfactoryListPrice);
                   message.success(
                     `Sorry, we currently have ${result[skuId]} units available for instant checkout. If you need more units please raise a custom quote request`,
                     5
@@ -636,6 +638,8 @@ const ProductDetails = (props) => {
                   setLoading(false);
                   setCart(false);
                   rtsform.setFieldsValue({ quantity: result[skuId] });
+                  setSelectedQty("");
+                  setDisplayPrice(exfactoryListPrice);
                   message.success(
                     `Sorry, we currently have ${result[skuId]} units available for instant checkout. If you need more units please raise a custom quote request`,
                     5
