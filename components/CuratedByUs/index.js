@@ -28,27 +28,33 @@ export default function CuratedByUsWrapper(props) {
 
   const trend = [
     {
+      url: "/trends/monochrome",
+      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend10_1.jpg",
+      text: "Monochrome",
+      alt: "Explore hand curated monochrome trends at Qalara",
+    },
+    {
       url: "/trends/farmhousedecor",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend9.jpg",
+      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend9_1.jpg",
       text: "Farmhouse",
       alt: "Farmhouse",
     },
     {
       url: "/trends/globaltextures",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend3.jpg",
+      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend3_1.jpg",
       text: "Crafted Boho",
       alt:
         "Boho cushion covers, rugs, throws, bags & decor; crafted by hand picked sellers, combining local crafts with modern aesthetics",
     },
     {
       url: "/trends/sunkissed-spring21",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend6.jpg",
+      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend6_1.jpg",
       text: "Summer Pastels",
       alt: "Summer Pastels",
     },
     {
       url: "/trends/earthinspired",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend1.jpg",
+      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend1_1.jpg",
       text: "Earth inspired",
       alt: "Source Earth Inspired products from India",
     },
@@ -56,33 +62,33 @@ export default function CuratedByUsWrapper(props) {
       url: "/trends/play-and-learn",
       img:
         process.env.NEXT_PUBLIC_REACT_APP_CDN_URL +
-        "/images/Img_Play-learn.jpg",
+        "/images/Img_Trend7_1.jpg",
       text: "Play and learn",
       alt: "Play and learn",
     },
     {
       url: "/trends/urbanjungle",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend2.jpg",
+      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend2_1.jpg",
       text: "Urban jungle",
       alt:
         "Collection of wholesale handmade and sustainable products from Qalara",
     },
     {
       url: "/trends/homeoffice",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend4.jpg",
+      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend4_1.jpg",
       text: "Home office",
       alt:
         "Collection of home workspace by our artisanal and responsible sellers fro Qalara",
     },
     {
       url: "/trends/christmasspirit",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend5.jpg",
+      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend5_1.jpg",
       text: "Holiday Spirit",
       alt: "Holiday Spirit",
     },
     {
       url: "/trends/indigoblues",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend8.jpg",
+      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend8_1.jpg",
       text: "Indigo Blues",
       alt: "Indigo Blues",
     },
@@ -325,7 +331,7 @@ export default function CuratedByUsWrapper(props) {
           <Link href={zoom_url.url}>
             <div
               style={{ backgroundImage: "url(" + zoom_url.img + ")" }}
-              className="fold-heading"
+              className="fold-heading qa-cursor"
             >
               <div className="dialog-box">
                 <span className="dialog-big-text">Handcrafted by artisans</span>
@@ -333,7 +339,7 @@ export default function CuratedByUsWrapper(props) {
               </div>
             </div>
           </Link>
-          <div className="fold-content">
+          <div className="fold-content qa-cursor">
             <div className="craft-text-wrap">
               <h2 className="bar-heading">Shop by crafts</h2>
               <p className="discription-text">

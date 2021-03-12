@@ -602,14 +602,10 @@ const ScheduleMeeting = (props) => {
                           className="alert-paragraph qa-fs-12 qa-fw-b qa-font-san"
                           style={{ color: "#191919" }}
                         >
-                          {dateFormat(sellerStartTime, "dddd, mmmm dS, yyyy ")}
-                          {moment(sellerStartTime.split(" ")[1].toString(), [
-                            "HH:mm",
-                          ]).format("hh:mm A")}{" "}
-                          - {dateFormat(sellerEndTime, "dddd, mmmm dS, yyyy ")}
-                          {moment(sellerEndTime.split(" ")[1].toString(), [
-                            "HH:mm",
-                          ]).format("hh:mm A")}
+                        {moment(sellerStartTime).format("dddd, MMMM Do YYYY, hh:mm A")}
+                          {" "}
+                          - {moment(sellerEndTime).format("dddd, MMMM Do YYYY, hh:mm A")}
+                         
                         </p>
                       }
                     />
