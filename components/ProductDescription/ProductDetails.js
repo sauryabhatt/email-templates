@@ -881,7 +881,6 @@ const ProductDetails = (props) => {
       }
       index++;
     }
-    console.log(range, value, inStock);
     if (range) {
       setInRange(range);
     } else {
@@ -1862,7 +1861,11 @@ const ProductDetails = (props) => {
                             </Button>
                           ) : (
                             <span>
-                              {inRange ? (
+                              {inRange === false ? (
+                                <Button className="add-to-bag-button atc-diable">
+                                  <div>Add to cart</div>
+                                </Button>
+                              ) : (
                                 <Button
                                   htmlType="submit"
                                   onClick={onCheck}
@@ -1870,10 +1873,6 @@ const ProductDetails = (props) => {
                                   loading={loading}
                                 >
                                   Add to cart
-                                </Button>
-                              ) : (
-                                <Button className="add-to-bag-button atc-diable">
-                                  <div>Add to cart</div>
                                 </Button>
                               )}
                             </span>
@@ -2982,7 +2981,11 @@ const ProductDetails = (props) => {
                             </Button>
                           ) : (
                             <span>
-                              {inRange ? (
+                              {inRange === false ? (
+                                <Button className="add-to-bag-button atc-diable">
+                                  <div>Add to cart</div>
+                                </Button>
+                              ) : (
                                 <Button
                                   htmlType="submit"
                                   onClick={onCheck}
@@ -2990,10 +2993,6 @@ const ProductDetails = (props) => {
                                   loading={loading}
                                 >
                                   Add to cart
-                                </Button>
-                              ) : (
-                                <Button className="add-to-bag-button atc-diable">
-                                  <div>Add to cart</div>
                                 </Button>
                               )}
                             </span>
