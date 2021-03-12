@@ -570,6 +570,8 @@ const ProductDetails = (props) => {
                   setLoading(false);
                   setCart(false);
                   rtsform.setFieldsValue({ quantity: result[skuId] });
+                  setSelectedQty("");
+                  setDisplayPrice(exfactoryListPrice);
                   message.success(
                     `Sorry, we currently have ${result[skuId]} units available for instant checkout. If you need more units please raise a custom quote request`,
                     5
@@ -636,6 +638,8 @@ const ProductDetails = (props) => {
                   setLoading(false);
                   setCart(false);
                   rtsform.setFieldsValue({ quantity: result[skuId] });
+                  setSelectedQty("");
+                  setDisplayPrice(exfactoryListPrice);
                   message.success(
                     `Sorry, we currently have ${result[skuId]} units available for instant checkout. If you need more units please raise a custom quote request`,
                     5
@@ -880,7 +884,13 @@ const ProductDetails = (props) => {
     if (range) {
       setInRange(range);
     } else {
-      setInRange(range);
+      if (inStock <= value) {
+        setInRange(true);
+        setSelectedQty("");
+        setDisplayPrice(exfactoryListPrice);
+      } else {
+        setInRange(range);
+      }
     }
   };
 
@@ -1850,18 +1860,22 @@ const ProductDetails = (props) => {
                               </span>
                             </Button>
                           ) : (
-                            <Button
-                              htmlType="submit"
-                              onClick={onCheck}
-                              className={
-                                inRange !== false
-                                  ? "add-to-bag-button"
-                                  : "add-to-bag-button atc-diable"
-                              }
-                              loading={loading}
-                            >
-                              Add to cart
-                            </Button>
+                            <span>
+                              {inRange === false ? (
+                                <Button className="add-to-bag-button atc-diable">
+                                  <div>Add to cart</div>
+                                </Button>
+                              ) : (
+                                <Button
+                                  htmlType="submit"
+                                  onClick={onCheck}
+                                  className="add-to-bag-button"
+                                  loading={loading}
+                                >
+                                  Add to cart
+                                </Button>
+                              )}
+                            </span>
                           )}
                         </span>
                       ) : (
@@ -2966,18 +2980,22 @@ const ProductDetails = (props) => {
                               </span>
                             </Button>
                           ) : (
-                            <Button
-                              htmlType="submit"
-                              onClick={onCheck}
-                              className={
-                                inRange !== false
-                                  ? "add-to-bag-button"
-                                  : "add-to-bag-button atc-diable"
-                              }
-                              loading={loading}
-                            >
-                              Add to cart
-                            </Button>
+                            <span>
+                              {inRange === false ? (
+                                <Button className="add-to-bag-button atc-diable">
+                                  <div>Add to cart</div>
+                                </Button>
+                              ) : (
+                                <Button
+                                  htmlType="submit"
+                                  onClick={onCheck}
+                                  className="add-to-bag-button"
+                                  loading={loading}
+                                >
+                                  Add to cart
+                                </Button>
+                              )}
+                            </span>
                           )}
                         </span>
                       ) : (

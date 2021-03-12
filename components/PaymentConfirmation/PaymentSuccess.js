@@ -68,6 +68,12 @@ const PaymentSuccess = (props) => {
     subOrders = [],
   } = order || {};
 
+  let date1 = expectedDeliveryDateMin.split("-");
+  let minDate = new Date(date1[2], date1[0]-1, date1[1]);
+  
+  let date2 = expectedDeliveryDateMax.split("-");
+  let maxDate = new Date(date2[2], date2[0]-1, date2[1]);
+
   const getOrders =
     props.order &&
     props.order.subOrders &&
@@ -410,9 +416,9 @@ const PaymentSuccess = (props) => {
                     <div className="c-right-blk qa-txt-alg-rgt font-size-17 qa-success qa-fw-b edd-rgt">
                       {props.order && (
                         <span>
-                          {moment(expectedDeliveryDateMin).format("DD MMM YY")}{" "}
+                          {moment(minDate).format("DD MMM YY")}{" "}
                           -{" "}
-                          {moment(expectedDeliveryDateMax).format("DD MMM YY")}
+                          {moment(maxDate).format("DD MMM YY")}
                         </span>
                       )}
                     </div>

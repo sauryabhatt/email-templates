@@ -123,6 +123,7 @@ const CartDetails = (props) => {
   const [hCountry, setHCountry] = useState([]);
   const [zipCodeList, setZipcodeList] = useState([]);
   const [inventoryQty, setInventoryQty] = useState();
+  const [availableZipcodes, setAvailableZipCodes] = useState([]);
   let showError = false;
   useEffect(() => {
     if (app_token) {
@@ -134,7 +135,7 @@ const CartDetails = (props) => {
     let { cart = {} } = props;
     let { shippingAddressDetails = "", shippingAddressId, subOrders = [] } =
       cart || {};
-    if (shippingAddressDetails && addresses.length > 0) {
+    if (shippingAddressDetails && Object.keys(shippingAddressDetails)) {
       let { countryCode = "", country = "", zipCode = "", dialCode = "" } =
         shippingAddressDetails || {};
       setSelectedShippingId(shippingAddressId);
@@ -144,6 +145,35 @@ const CartDetails = (props) => {
       setSelCountry(country);
       handleCountry(country);
       setDialCode(dialCode);
+
+      fetch(
+        process.env.NEXT_PUBLIC_REACT_APP_DUTY_COST_URL +
+          "/country/" +
+          country +
+          "/zipcode/" +
+          zipCode,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + app_token,
+          },
+        }
+      )
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            throw res.statusText || "Error while updating info.";
+          }
+        })
+        .then((res) => {
+          let { zipcodes = [] } = res || {};
+          setAvailableZipCodes(zipcodes);
+        })
+        .catch((err) => {
+          console.log(error);
+        });
     }
 
     if (subOrders.length > 0) {
@@ -578,6 +608,8 @@ const CartDetails = (props) => {
           } else {
             setZipcodeList([value]);
           }
+          let { zipcodes = [] } = res || {};
+          setAvailableZipCodes(zipcodes);
         })
         .catch((err) => {
           message.error(err.message || err, 5);
@@ -1528,7 +1560,10 @@ const CartDetails = (props) => {
                 enable={enable && isFulfillable && addressFlag}
                 cart={cart}
                 brandNames={brandNames}
-                deliver={deliveredCountryList.includes(selCountry || country)}
+                deliver={
+                  deliveredCountryList.includes(selCountry || country) &&
+                  availableZipcodes.length
+                }
                 showCartError={showError}
                 currencyDetails={currencyDetails}
                 user={userProfile}
@@ -1618,7 +1653,10 @@ const CartDetails = (props) => {
                   enable={enable && isFulfillable && addressFlag}
                   cart={cart}
                   brandNames={brandNames}
-                  deliver={deliveredCountryList.includes(selCountry || country)}
+                  deliver={
+                    deliveredCountryList.includes(selCountry || country) &&
+                    availableZipcodes.length
+                  }
                   showCartError={showError}
                   currencyDetails={currencyDetails}
                   user={userProfile}

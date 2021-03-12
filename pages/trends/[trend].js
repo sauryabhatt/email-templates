@@ -64,6 +64,7 @@ const trendsObj = {
   "play-and-learn": "KidsLearning",
   indigoblues: "IndigoBlues",
   farmhousedecor: "FarmhouseDecor",
+  monochrome :"Monochrome"
 };
 export async function getStaticPaths() {
   return {
