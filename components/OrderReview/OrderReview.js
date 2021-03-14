@@ -39,6 +39,7 @@ const OrderReview = (props) => {
   const [sellers, setSellers] = useState([]);
   const [showPayment, setShowPayment] = useState(false);
   const [showShipping, setShowShipping] = useState(false);
+  const [paypalLoaded, setPaypalLoaded] = useState(false);
 
   let { order = {}, brandNameList = "" } = props || {};
   let { shippingMode = "", shippingTerms = "", miscCharges = [] } = order || {};
@@ -2857,6 +2858,9 @@ const OrderReview = (props) => {
                                   .toUpperCase()
                               ]
                             }
+                            onButtonReady={() => {
+                              setPaypalLoaded(true);
+                            }}
                             termsAccepted={isTermsAccepted}
                             showError={showError}
                             locale={locale}
@@ -3310,7 +3314,7 @@ const OrderReview = (props) => {
                     <Row style={{ paddingTop: "20px" }}>
                       <Col xs={24} sm={24} md={24} lg={24}>
                         {/* <Button className="qa-button payemnt-btn" style={{ minWidth: '90%' }} onClick><span>PROCEED TO PAYMENT</span></Button> */}
-                        {props.order && localeUpdated ? (
+                        {props.order && paypalLoaded && localeUpdated ? (
                           <PayWithPaypal
                             token={keycloak.token}
                             saveOrder={saveOrder}
