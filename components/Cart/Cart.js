@@ -18,6 +18,7 @@ const Cart = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [initialLoad, setInitialLoad] = useState(false);
   const [cart, setCart] = useState("");
+  const [subOrder, setSubOrder] = useState(null);
   const { keycloak } = useKeycloak();
   let { token } = keycloak || {};
 
@@ -43,6 +44,7 @@ const Cart = (props) => {
       }
     }
     let { subOrders = [] } = cart || {};
+    setSubOrder(subOrders);
     if (subOrders.length) {
       for (let sellers of subOrders) {
         let { sellerCode = "" } = sellers;
@@ -79,18 +81,72 @@ const Cart = (props) => {
     }
   }, [props.cartDetails]);
 
+  let { isGuest = false, user = {} } = props || {};
+  let { verificationStatus = "", profileType = "" } = user || {};
+  let notificationMsg = "You do not have any product added to your cart";
+  let buttonName = "Start shopping";
+  if (
+    (profileType === "BUYER" && verificationStatus === "ON_HOLD") ||
+    (profileType === "BUYER" && verificationStatus === "REJECTED")
+  ) {
+    notificationMsg =
+      "You can add products to your cart as soon as your account is verified";
+    buttonName = "Go to home page";
+  } else if (
+    (profileType === "BUYER" &&
+      verificationStatus === "VERIFIED" &&
+      isGuest === "true") ||
+    profileType === "SELLER"
+  ) {
+    notificationMsg =
+      "In order to checkout and place an order please signup as a buyer";
+    buttonName = "Sign up as a buyer";
+  }
+
   if (isLoading) {
     return <Spinner />;
   }
   if (keycloak.authenticated) {
-    return (
-      <CartDetails
-        app_token={token}
-        cart={cart}
-        sfl={sfl}
-        brandNames={brandNameList}
-      />
-    );
+    if (subOrder && subOrder !== null && subOrder.length === 0) {
+      return (
+        <div id="cart-details" className="cart-section qa-font-san empty-cart">
+          <div className="e-cart-title qa-txt-alg-cnt qa-mar-btm-1">
+            Your cart is empty!
+          </div>
+          <div className="qa-txt-alg-cnt e-cart-stitle">{notificationMsg}</div>
+          <Link href="/account/profile">
+            <div className="qa-txt-alg-cnt e-link">My account</div>
+          </Link>
+          <Link href="/FAQforwholesalebuyers">
+            <div className="qa-txt-alg-cnt e-link qa-mar-btm-2">See FAQ</div>
+          </Link>
+          <div className="qa-txt-alg-cnt qa-mar-btm-4">
+            <Button
+              className="qa-button qa-fs-12 qa-shop-btn"
+              onClick={(e) => {
+                if (buttonName === "Sign up as a buyer") {
+                  router.push("/signup");
+                } else {
+                  router.push("/");
+                }
+                e.preventDefault();
+              }}
+            >
+              {buttonName}
+            </Button>
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <CartDetails
+          app_token={token}
+          cart={cart}
+          sfl={sfl}
+          brandNames={brandNameList}
+        />
+      );
+    }
   } else if (!keycloak.authenticated) {
     return <AnonymousCart />;
   }
@@ -102,6 +158,12 @@ const mapStateToProps = (state) => {
     brandNameList: state.userProfile.brandNameList,
     user: state.userProfile.userProfile,
     sfl: state.checkout.sfl,
+    isGuest:
+      state.auth &&
+      state.auth.userAuth &&
+      state.auth.userAuth.attributes &&
+      state.auth.userAuth.attributes.isGuest &&
+      state.auth.userAuth.attributes.isGuest[0],
   };
 };
 
