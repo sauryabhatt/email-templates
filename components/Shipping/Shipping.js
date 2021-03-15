@@ -73,7 +73,7 @@ const Shipping = (props) => {
         });
       }
     }
-  }, [props.user, keycloak.token]);
+  }, [props.user]);
 
   if (Object.keys(cart).length) {
     return (

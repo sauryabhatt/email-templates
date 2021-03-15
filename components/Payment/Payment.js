@@ -8,61 +8,61 @@ import { useKeycloak } from "@react-keycloak/ssr";
 // import { Helmet } from "react-helmet";
 
 const Payment = (props) => {
-  let { cart = {}, user = {} } = props;
+  let { user = {} } = props;
   const { keycloak } = useKeycloak();
   const [data, setData] = useState({});
   const [isLoading, setLoading] = useState(true);
-
-  async function getCartDetails(token) {
-    props.checkCartAPI(token, (result) => {
-      let {
-        orderId = "",
-        priceQuoteRef = "",
-        shippingMode = "",
-        shippingTerms = "",
-      } = result || {};
-
-      if (priceQuoteRef && shippingMode !== "DEFAULT") {
-        fetch(
-          `${process.env.NEXT_PUBLIC_REACT_APP_PRICE_QUOTATION_URL}/quotes/rts/${priceQuoteRef}?mode=${shippingMode}`,
-          {
-            method: "GET",
-            headers: {
-              "content-type": "application/json",
-              Authorization: "Bearer " + token,
-            },
-          }
-        )
-          .then((res) => {
-            if (res.ok) {
-              return res.json();
-            } else {
-              throw res.statusText || "COntent not found";
-            }
-          })
-          .then((res) => {
-            let shippingterm = shippingTerms.toLowerCase();
-            setData(res[shippingterm]);
-            setLoading(false);
-            props.getOrder(orderId, token);
-          })
-          .catch((error) => {
-            // message.error(error)
-            setLoading(false);
-          });
-      }
-    });
-  }
+  const [cart, setCart] = useState("");
 
   useEffect(() => {
     if (props.user) {
       let { user = {} } = props || {};
       let { profileType = "" } = user || {};
       if (profileType === "BUYER") {
-        getCartDetails(keycloak.token);
+        props.checkCartAPI(keycloak.token, (result) => {
+          let {
+            orderId = "",
+            priceQuoteRef = "",
+            shippingMode = "",
+            shippingTerms = "",
+          } = result || {};
+
+          props.getOrder(orderId, keycloak.token, (result) => {
+            setCart(result);
+          });
+
+          if (priceQuoteRef && shippingMode !== "DEFAULT") {
+            fetch(
+              `${process.env.NEXT_PUBLIC_REACT_APP_PRICE_QUOTATION_URL}/quotes/rts/${priceQuoteRef}?mode=${shippingMode}`,
+              {
+                method: "GET",
+                headers: {
+                  "content-type": "application/json",
+                  Authorization: "Bearer " + keycloak.token,
+                },
+              }
+            )
+              .then((res) => {
+                if (res.ok) {
+                  return res.json();
+                } else {
+                  throw res.statusText || "COntent not found";
+                }
+              })
+              .then((res) => {
+                let shippingterm = shippingTerms.toLowerCase();
+                setData(res[shippingterm]);
+                setLoading(false);
+              })
+              .catch((error) => {
+                // message.error(error)
+                setLoading(false);
+              });
+          }
+        });
       }
     }
-  }, [props.user, keycloak.token]);
+  }, [props.user]);
 
   return (
     <PaymentDetails
@@ -77,7 +77,6 @@ const Payment = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    cart: state.checkout.cart,
     user: state.userProfile.userProfile,
   };
 };
