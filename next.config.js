@@ -9,4 +9,17 @@ module.exports = {
     return execSync(lastCommitCommand).toString().trim();
   },
   trailingSlash: true,
+  async headers() {
+    return [
+      {
+        source: "/:path*{/}?",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: 'no-cache="Set-Cookie"',
+          },
+        ],
+      },
+    ];
+  },
 };
