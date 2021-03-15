@@ -987,6 +987,8 @@ const CartDetails = (props) => {
     );
   }
 
+  console.log(cart && subOrders && subOrders.length === 0);
+
   if (cart && subOrders && subOrders.length === 0) {
     return (
       <div id="cart-details" className="cart-section qa-font-san empty-cart">
