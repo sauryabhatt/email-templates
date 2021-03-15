@@ -57,6 +57,7 @@ const ShippingDetails = (props) => {
   const [shipTerm, setShipTerm] = useState("ddu");
   const [disableAir, setDisableAir] = useState(false);
   const [disableSea, setDisableSea] = useState(false);
+  const [promoDiscount, setPromoDiscount] = useState(0);
 
   useEffect(() => {
     if (props.cart && Object.keys(props.cart).length) {
@@ -339,7 +340,7 @@ const ShippingDetails = (props) => {
       shippingMode: mode || "DEFAULT",
       shippingTerms: shippingTerm.toUpperCase(),
       referralCode: referralCode,
-      promoDiscount: couponDiscount,
+      promoDiscount: promoDiscount,
       promoCode: couponCode,
       subOrders: allOrders,
     };
@@ -357,18 +358,25 @@ const ShippingDetails = (props) => {
 
   const applyCouponAPI = (data, couponApplied = "") => {
     let cartId = orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
-    fetch(
-      `${
+
+    let couponUrl = "";
+    if (!couponApplied) {
+      couponUrl = `${
         process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL
-      }/orders/my/${cartId}/${mode}?shippingTerms=${shippingTerm.toUpperCase()}&promoCode=${couponCode}&promoDiscount=${couponDiscount}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + appToken,
-        },
-      }
-    )
+      }/orders/my/${cartId}/${mode}?shippingTerms=${shippingTerm.toUpperCase()}&promoCode=${couponCode}&promoDiscount=${promoDiscount}`;
+    } else {
+      couponUrl = `${
+        process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL
+      }/orders/my/${cartId}/${mode}?shippingTerms=${shippingTerm.toUpperCase()}&promoCode=&promoDiscount=0`;
+    }
+
+    fetch(couponUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + appToken,
+      },
+    })
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -378,6 +386,7 @@ const ShippingDetails = (props) => {
       })
       .then((result) => {
         let { promoMessage = "", promoDiscount = "" } = result || {};
+        setPromoDiscount(promoDiscount);
         if (promoDiscount === 0) {
           if (!couponApplied) {
             message.error(promoMessage, 5);
@@ -432,7 +441,7 @@ const ShippingDetails = (props) => {
       fetch(
         `${
           process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL
-        }/orders/my/${cartId}/${mode}?shippingTerms=${term.toUpperCase()}&promoCode=${couponCode}&promoDiscount=${couponDiscount}`,
+        }/orders/my/${cartId}/${mode}?shippingTerms=${term.toUpperCase()}&promoCode=${couponCode}&promoDiscount=${promoDiscount}`,
         {
           method: "PUT",
           headers: {
@@ -457,7 +466,7 @@ const ShippingDetails = (props) => {
             let { tat = 0 } = seaQuote[shippingTerm] || {};
             setTat(tat);
           }
-          let { miscCharges = [] } = result || {};
+          let { miscCharges = [], promoDiscount = 0 } = result || {};
           let discount = 0;
           if (miscCharges.length) {
             discount = miscCharges.find((x) => x.chargeId === "DISCOUNT")
@@ -465,6 +474,7 @@ const ShippingDetails = (props) => {
               : 0;
           }
           setCouponDiscount(discount);
+          setPromoDiscount(promoDiscount);
         })
         .catch((err) => {
           console.log(err);
