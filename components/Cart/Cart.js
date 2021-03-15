@@ -14,6 +14,7 @@ import _ from "lodash";
 import Spinner from "../Spinner/Spinner";
 import Link from "next/link";
 import { Button } from "antd";
+import { useRouter } from "next/router";
 
 const Cart = (props) => {
   let { brandNameList = [], sfl = {} } = props;
@@ -22,6 +23,7 @@ const Cart = (props) => {
   const [cart, setCart] = useState("");
   const [subOrder, setSubOrder] = useState(null);
   const { keycloak } = useKeycloak();
+  const router = useRouter();
   let { token } = keycloak || {};
 
   async function getCartDetails() {
