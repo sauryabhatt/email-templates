@@ -12,6 +12,8 @@ import { useKeycloak } from "@react-keycloak/ssr";
 import AnonymousCart from "./AnonymousCart";
 import _ from "lodash";
 import Spinner from "../Spinner/Spinner";
+import Link from "next/link";
+import { Button } from "antd";
 
 const Cart = (props) => {
   let { brandNameList = [], sfl = {} } = props;
@@ -78,6 +80,8 @@ const Cart = (props) => {
   useEffect(() => {
     if (props.cartDetails && Object.keys(props.cartDetails).length) {
       setCart(props.cartDetails);
+      let { subOrders = [] } = props.cartDetails || {};
+      setSubOrder(subOrders);
     }
   }, [props.cartDetails]);
 
@@ -105,9 +109,8 @@ const Cart = (props) => {
 
   if (isLoading) {
     return <Spinner />;
-  }
-  if (keycloak.authenticated) {
-    if (subOrder && subOrder !== null && subOrder.length === 0) {
+  } else if (keycloak.authenticated) {
+    if (subOrder && subOrder !== null && subOrder.length === 0 && !isLoading) {
       return (
         <div id="cart-details" className="cart-section qa-font-san empty-cart">
           <div className="e-cart-title qa-txt-alg-cnt qa-mar-btm-1">
@@ -137,7 +140,7 @@ const Cart = (props) => {
           </div>
         </div>
       );
-    } else {
+    } else if (subOrder && subOrder !== null && subOrder.length) {
       return (
         <CartDetails
           app_token={token}
@@ -146,6 +149,8 @@ const Cart = (props) => {
           brandNames={brandNameList}
         />
       );
+    } else {
+      return <Spinner />;
     }
   } else if (!keycloak.authenticated) {
     return <AnonymousCart />;

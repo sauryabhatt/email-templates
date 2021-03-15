@@ -7,14 +7,12 @@ import signUp_icon from "../../public/filestore/Sign_Up";
 import { loginToApp } from "../AuthWithKeycloak";
 import { useRouter } from "next/router";
 import { Button } from "antd";
-import Cart from "./Cart";
 import Spinner from "../Spinner/Spinner";
 
 export default function AnonymousCart() {
   const { keycloak } = useKeycloak();
   const router = useRouter();
   const [isLoading, setLoading] = useState(true);
-  const [authenticated, setAuthenticated] = useState(false);
 
   const signIn = () => {
     loginToApp(keycloak, { currentPath: router.asPath.split("?")[0] });
@@ -29,15 +27,12 @@ export default function AnonymousCart() {
   useEffect(() => {
     if (keycloak.token) {
       setLoading(false);
-      setAuthenticated(true);
     }
   }, [keycloak.token]);
 
   console.log("Anonymous cart ", isLoading);
   if (isLoading) {
     return <Spinner />;
-  } else if (authenticated) {
-    return <Cart />;
   } else {
     return (
       <div id="cart-details" className="cart-section qa-font-san empty-cart">
