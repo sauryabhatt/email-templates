@@ -41,14 +41,6 @@ export const Layout = ({ children, meta = {} }) => {
         .loadUserProfile()
         .then((profile) => {
           if (!cookie.get("appToken")) {
-            let kcToken = cookie.get("kcToken");
-            let kcIdToken = cookie.get("kcIdToken");
-            if (kcToken) {
-              cookie.set("kcToken", kcToken, { expires: 90, path: "/" });
-            }
-            if (kcIdToken) {
-              cookie.set("kcIdToken", kcIdToken, { expires: 90, path: "/" });
-            }
             cookie.set("appToken", keycloak.token, { expires: 90, path: "/" });
             // document.cookie = `appToken=${keycloak.token}; path=/;`;
             const { attributes: { parentProfileId = [] } = {} } = profile;
