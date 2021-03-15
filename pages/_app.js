@@ -32,15 +32,15 @@ function MyApp({ Component, pageProps, cookies }) {
   // Google Tag Manager
   useEffect(() => {
     TagManager.initialize({ gtmId: "GTM-KTVSR8R" });
-    Sentry.init({
-      dsn:
-        "https://c4f8164d21b94e0e9c21fc606e0ab9a6@o529094.ingest.sentry.io/5656163",
-      integrations: [new Integrations.BrowserTracing()],
+    // Sentry.init({
+    //   dsn:
+    //     "https://c4f8164d21b94e0e9c21fc606e0ab9a6@o529094.ingest.sentry.io/5656163",
+    //   integrations: [new Integrations.BrowserTracing()],
 
-      // We recommend adjusting this value in production, or using tracesSampler
-      // for finer control
-      tracesSampleRate: 1.0,
-    });
+    //   // We recommend adjusting this value in production, or using tracesSampler
+    //   // for finer control
+    //   tracesSampleRate: 1.0,
+    // });
   }, []);
 
   useEffect(() => {
@@ -65,12 +65,12 @@ function MyApp({ Component, pageProps, cookies }) {
     >
       <Provider store={store}>
         <React.Fragment>
-          <Sentry.ErrorBoundary fallback={"An error has occurred"}>
-            <ScrollToTop>
-              <Component {...pageProps} />
-              <AppFooter />
-            </ScrollToTop>
-          </Sentry.ErrorBoundary>
+          {/* <Sentry.ErrorBoundary fallback={"An error has occurred"}> */}
+          <ScrollToTop>
+            <Component {...pageProps} />
+            <AppFooter />
+          </ScrollToTop>
+          {/* </Sentry.ErrorBoundary> */}
         </React.Fragment>
       </Provider>
     </SSRKeycloakProvider>
