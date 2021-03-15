@@ -42,6 +42,7 @@ import deliveredCountryList from "../../public/filestore/deliveredCountries.json
 import PromotionCarousel from "../PromotionCarousel/PromotionCarousel";
 import CheckoutSteps from "../common/CheckoutSteps";
 import PaymentBanner from "../common/PaymentBanner";
+import Spinner from "../Spinner/Spinner";
 
 const { Option } = Select;
 
@@ -949,7 +950,11 @@ const CartDetails = (props) => {
     }
   };
 
-  if (subOrders && subOrders.length === 0 && products.length) {
+  if (!props.cart) {
+    return <Spinner />;
+  }
+
+  if (cart && subOrders && subOrders.length === 0 && products.length) {
     return (
       <div id="cart-details" className="cart-section qa-font-san">
         {mediaMatch.matches ? (
@@ -982,7 +987,7 @@ const CartDetails = (props) => {
     );
   }
 
-  if (subOrders && subOrders.length === 0) {
+  if (cart && subOrders && subOrders.length === 0) {
     return (
       <div id="cart-details" className="cart-section qa-font-san empty-cart">
         <div className="e-cart-title qa-txt-alg-cnt qa-mar-btm-1">

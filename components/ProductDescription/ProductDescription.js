@@ -28,10 +28,7 @@ const ProductDescription = (props) => {
   const [count, setCount] = useState(0);
   const [cartCount, setCartCount] = useState(0);
 
-  let app_token = process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN;
-  if (authenticated) {
-    app_token = keycloak.token;
-  }
+  let app_token = keycloak.token || process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN;
 
   useEffect(() => {
     let { articleId } = router.query;

@@ -59,143 +59,156 @@ const ShippingDetails = (props) => {
   const [disableSea, setDisableSea] = useState(false);
 
   useEffect(() => {
-    let {
-      airQuote = { ddp: {}, ddu: {} },
-      seaQuote = { ddp: {}, ddu: {} },
-      cart = {},
-    } = props || {};
-    setAirData(airQuote);
-    setSeaData(seaQuote);
-    setCartData(cart);
+    if (props.cart && Object.keys(props.cart).length) {
+      let { cart = {} } = props || {};
+      setCartData(cart);
+    }
+  }, [props.cart]);
 
+  useEffect(() => {
     if (
-      Object.keys(airQuote[shippingTerm]).length ||
-      Object.keys(seaQuote[shippingTerm]).length
+      Object.keys(props.airQuote).length &&
+      Object.keys(props.seaQuote).length
     ) {
-      let { cart = "" } = props;
-      let { subOrders = [], total = 0, shippingModesAvailable = [] } =
-        cart || {};
-      let landedPrice = false;
-      if (subOrders && subOrders.length) {
-        let totalAmount = 0;
-        for (let sellers of subOrders) {
-          let {
-            products = "",
-            qalaraSellerMargin = 0,
-            basePrice = 0,
-          } = sellers;
-          for (let items of products) {
+      let {
+        airQuote = { ddp: {}, ddu: {} },
+        seaQuote = { ddp: {}, ddu: {} },
+        cart = {},
+      } = props || {};
+      setAirData(airQuote);
+      setSeaData(seaQuote);
+      if (
+        Object.keys(airQuote[shippingTerm]).length ||
+        Object.keys(seaQuote[shippingTerm]).length
+      ) {
+        let { cart = "" } = props;
+        let { subOrders = [], total = 0, shippingModesAvailable = [] } =
+          cart || {};
+        let landedPrice = false;
+        if (subOrders && subOrders.length) {
+          let totalAmount = 0;
+          for (let sellers of subOrders) {
             let {
-              quantity = 0,
-              exfactoryListPrice = 0,
-              productType = "",
-              priceApplied = 0,
-              freeShippingEligible = false,
-            } = items;
-            if (priceApplied && priceApplied !== null) {
-              if (freeShippingEligible) landedPrice = true;
-              basePrice = basePrice + priceApplied * quantity;
+              products = "",
+              qalaraSellerMargin = 0,
+              basePrice = 0,
+            } = sellers;
+            for (let items of products) {
+              let {
+                quantity = 0,
+                exfactoryListPrice = 0,
+                productType = "",
+                priceApplied = 0,
+                freeShippingEligible = false,
+              } = items;
+              if (priceApplied && priceApplied !== null) {
+                if (freeShippingEligible) landedPrice = true;
+                basePrice = basePrice + priceApplied * quantity;
+              } else {
+                basePrice = basePrice + exfactoryListPrice * quantity;
+              }
+
+              if (productType === "ERTM") {
+                setMov(true);
+              }
+            }
+            totalAmount = totalAmount + basePrice;
+          }
+          let seaMax =
+            seaQuote[shippingTerm]["dutyMax"] +
+            seaQuote[shippingTerm]["frightCostMax"];
+          let airMax =
+            airQuote[shippingTerm]["dutyMax"] +
+            airQuote[shippingTerm]["frightCostMax"];
+
+          if (airMax > 0 && seaMax > 0) {
+            let landingFactor = "";
+            landingFactor =
+              (total + (seaMax > airMax ? airMax : seaMax)) / totalAmount;
+
+            if (landingFactor > LANDING_LIMITER) {
+              console.log("Landing factor is ", landingFactor);
+              setPayment(true);
             } else {
-              basePrice = basePrice + exfactoryListPrice * quantity;
-            }
-
-            if (productType === "ERTM") {
-              setMov(true);
+              if (
+                shippingModesAvailable.includes("Air") &&
+                shippingModesAvailable.includes("Sea")
+              ) {
+                let mode = "AIR";
+                if (seaMax < airMax) {
+                  mode = "SEA";
+                }
+                selectMode(mode);
+              } else if (shippingModesAvailable.includes("Air")) {
+                selectMode("AIR");
+              } else if (shippingModesAvailable.includes("Sea")) {
+                selectMode("SEA");
+              }
             }
           }
-          totalAmount = totalAmount + basePrice;
-        }
-        let seaMax =
-          seaQuote[shippingTerm]["dutyMax"] +
-          seaQuote[shippingTerm]["frightCostMax"];
-        let airMax =
-          airQuote[shippingTerm]["dutyMax"] +
-          airQuote[shippingTerm]["frightCostMax"];
 
-        if (airMax > 0 && seaMax > 0) {
-          let landingFactor = "";
-          landingFactor =
-            (total + (seaMax > airMax ? airMax : seaMax)) / totalAmount;
+          if (!landedPrice) {
+            let { frightCostMax: a_frieghtCost = 0 } =
+              airQuote[shippingTerm] || {};
+            let { frightCostMax: s_frieghtCost = 0 } =
+              seaQuote[shippingTerm] || {};
 
-          if (landingFactor > LANDING_LIMITER) {
+            if (a_frieghtCost > 0 && s_frieghtCost > 0) {
+              if (a_frieghtCost > s_frieghtCost) {
+                let percentage =
+                  ((a_frieghtCost - s_frieghtCost) / a_frieghtCost) * 100;
+                if (percentage > 50) {
+                  setDisableAir(true);
+                }
+              }
+
+              if (s_frieghtCost > a_frieghtCost) {
+                let percentage =
+                  ((s_frieghtCost - a_frieghtCost) / s_frieghtCost) * 100;
+                if (percentage > 50) {
+                  setDisableSea(true);
+                }
+              }
+            }
+          }
+
+          let a_result = Object.values(airQuote[shippingTerm]).every(
+            (o) => o === 0
+          );
+          let s_result = Object.values(seaQuote[shippingTerm]).every(
+            (o) => o === 0
+          );
+
+          if (a_result) {
+            setDisableAir(a_result);
+          }
+          if (s_result) {
+            setDisableSea(s_result);
+          }
+
+          if (a_result && s_result) {
             setPayment(true);
-          } else {
-            if (
-              shippingModesAvailable.includes("Air") &&
-              shippingModesAvailable.includes("Sea")
-            ) {
-              let mode = "AIR";
-              if (seaMax < airMax) {
-                mode = "SEA";
-              }
-              selectMode(mode);
-            } else if (shippingModesAvailable.includes("Air")) {
-              selectMode("AIR");
-            } else if (shippingModesAvailable.includes("Sea")) {
-              selectMode("SEA");
-            }
+          }
+
+          let result =
+            airQuote[shippingTerm]["tat"] === 0 &&
+            seaQuote[shippingTerm]["tat"] === 0;
+          if (result) {
+            setPayment(true);
           }
         }
-
-        if (!landedPrice) {
-          let { frightCostMax: a_frieghtCost = 0 } =
-            airQuote[shippingTerm] || {};
-          let { frightCostMax: s_frieghtCost = 0 } =
-            seaQuote[shippingTerm] || {};
-
-          if (a_frieghtCost > 0 && s_frieghtCost > 0) {
-            if (a_frieghtCost > s_frieghtCost) {
-              let percentage =
-                ((a_frieghtCost - s_frieghtCost) / a_frieghtCost) * 100;
-              if (percentage > 50) {
-                setDisableAir(true);
-              }
-            }
-
-            if (s_frieghtCost > a_frieghtCost) {
-              let percentage =
-                ((s_frieghtCost - a_frieghtCost) / s_frieghtCost) * 100;
-              if (percentage > 50) {
-                setDisableSea(true);
-              }
-            }
-          }
-        }
-
-        let a_result = Object.values(airQuote[shippingTerm]).every(
-          (o) => o === 0
-        );
-        let s_result = Object.values(seaQuote[shippingTerm]).every(
-          (o) => o === 0
-        );
-
-        if (a_result) {
-          setDisableAir(a_result);
-        }
-        if (s_result) {
-          setDisableSea(s_result);
-        }
-
-        if(a_result && s_result){
-          setPayment(true);
-        }
-
-        let result = airQuote[shippingTerm]['tat'] === 0 && seaQuote[shippingTerm]['tat'] === 0;
+      } else {
+        let result =
+          Object.values(airQuote[shippingTerm]).every((o) => o === 0) &&
+          Object.values(seaQuote[shippingTerm]).every((o) => o === 0);
         if (result) {
           setPayment(true);
         }
       }
-    } else {
-      let result =
-        Object.values(airQuote[shippingTerm]).every((o) => o === 0) &&
-        Object.values(seaQuote[shippingTerm]).every((o) => o === 0);
-      if (result) {
-        setPayment(true);
-      }
-    }
 
-    setLoading(false);
-  }, [props.cart]);
+      setLoading(false);
+    }
+  }, [props.airQuote, props.seaQuote]);
 
   const checkCommitStatus = () => {
     let cartId = orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
@@ -345,17 +358,17 @@ const ShippingDetails = (props) => {
   const applyCouponAPI = (data, couponApplied = "") => {
     let cartId = orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
     fetch(
-        `${
-          process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL
-        }/orders/my/${cartId}/${mode}?shippingTerms=${shippingTerm.toUpperCase()}&promoCode=${couponCode}&promoDiscount=${couponDiscount}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + appToken,
-          },
-        }
-      )
+      `${
+        process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL
+      }/orders/my/${cartId}/${mode}?shippingTerms=${shippingTerm.toUpperCase()}&promoCode=${couponCode}&promoDiscount=${couponDiscount}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + appToken,
+        },
+      }
+    )
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -414,7 +427,8 @@ const ShippingDetails = (props) => {
 
   const selectShippingMode = (mode, term = shippingTerm) => {
     if (mode) {
-      let cartId = orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
+      let cartId =
+        orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
       fetch(
         `${
           process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL
