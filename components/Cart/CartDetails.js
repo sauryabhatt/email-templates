@@ -147,6 +147,7 @@ const CartDetails = (props) => {
       handleCountry(country);
       setDialCode(dialCode);
 
+      // https://api-dev.qalara.com:1135/country/serviceable/Australia/zipcode/1001
       // fetch(
       //   process.env.NEXT_PUBLIC_REACT_APP_DUTY_COST_URL +
       //     "/country/" +
