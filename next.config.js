@@ -9,6 +9,7 @@ module.exports = {
     return execSync(lastCommitCommand).toString().trim();
   },
   trailingSlash: true,
+  generateEtags: false,
   async headers() {
     return [
       {
