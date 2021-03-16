@@ -4,11 +4,15 @@ import React, { useState } from "react";
 import { loginToApp } from "../AuthWithKeycloak";
 import { Button, Modal } from "antd";
 import SendQueryForm from "../SendQueryForm/SendQueryForm";
+import { useKeycloak } from "@react-keycloak/ssr";
+import { useRouter } from "next/router";
 
 function RequestForQuote(props) {
   const [visible, setVisible] = useState(false);
   const [inviteAccess, setInviteAccess] = useState(false);
   const [successQueryVisible, setSuccessQueryVisible] = useState(false);
+  const { keycloak } = useKeycloak();
+  const router = useRouter();
 
   let values = {
     requesterName: "",
@@ -35,7 +39,9 @@ function RequestForQuote(props) {
   };
 
   const signIn = () => {
-    loginToApp();
+    loginToApp(keycloak, {
+      currentPath: router.asPath.split("?")[0],
+    });
   };
 
   const normFile = (e) => {
