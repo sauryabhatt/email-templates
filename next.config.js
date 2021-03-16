@@ -9,6 +9,8 @@ module.exports = {
     return execSync(lastCommitCommand).toString().trim();
   },
   trailingSlash: true,
+  generateEtags: false,
+  distDir: "build",
   async headers() {
     return [
       {
