@@ -1565,10 +1565,7 @@ const CartDetails = (props) => {
                 enable={enable && isFulfillable && addressFlag}
                 cart={cart}
                 brandNames={brandNames}
-                deliver={
-                  deliveredCountryList.includes(selCountry || country) &&
-                  availableZipcodes.length
-                }
+                deliver={deliveredCountryList.includes(selCountry || country)}
                 showCartError={showError}
                 currencyDetails={currencyDetails}
                 user={userProfile}
@@ -1658,10 +1655,7 @@ const CartDetails = (props) => {
                   enable={enable && isFulfillable && addressFlag}
                   cart={cart}
                   brandNames={brandNames}
-                  deliver={
-                    deliveredCountryList.includes(selCountry || country) &&
-                    availableZipcodes.length
-                  }
+                  deliver={deliveredCountryList.includes(selCountry || country)}
                   showCartError={showError}
                   currencyDetails={currencyDetails}
                   user={userProfile}
