@@ -22,13 +22,14 @@ const Cart = (props) => {
   let { token } = keycloak || {};
 
   async function getCartDetails() {
-    let response1 = await props.getCart(token, (res) => {
-      setIsLoading(false);
-    });
+    let response1 = await props.getCart(token);
     let cartResp = await response1;
     let { cart = {} } =
       cartResp && cartResp["payload"] ? cartResp["payload"] : {};
 
+    if (cartResp) {
+      setIsLoading(false);
+    }
     setCart(cart);
 
     let response2 = await props.getSavedForLater(token);
@@ -58,21 +59,25 @@ const Cart = (props) => {
   }
 
   useEffect(() => {
+    let showLoader = true;
     if (props.user) {
+      showLoader = false;
       setIsLoading(true);
       let { user = {} } = props || {};
       let { profileType = "" } = user || {};
       if (profileType === "BUYER") {
         getCartDetails();
+      } else {
+        setIsLoading(false);
       }
     }
-    setInitialLoad(true);
-
-    if (initialLoad) {
+    console.log(initialLoad, showLoader);
+    if (initialLoad && showLoader && Object.keys(props.user).length === 0) {
       setTimeout(() => {
         setIsLoading(false);
-      }, 1000);
+      }, 600);
     }
+    setInitialLoad(true);
   }, [props.user, initialLoad]);
 
   useEffect(() => {
