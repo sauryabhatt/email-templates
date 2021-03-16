@@ -162,7 +162,9 @@ export const updateCart = (
     });
 };
 
-export const getOrder = (orderId, token) => async (dispatch) => {
+export const getOrder = (orderId, token, callback = false) => async (
+  dispatch
+) => {
   let url = `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/composite/${orderId}`;
   return await fetch(url, {
     method: "GET",
@@ -181,6 +183,9 @@ export const getOrder = (orderId, token) => async (dispatch) => {
     .then((res) => {
       let result = { ...res };
       result["currency"] = "USD";
+      if (callback) {
+        callback(result);
+      }
       return dispatch(setCart(result));
     })
     .catch((err) => {

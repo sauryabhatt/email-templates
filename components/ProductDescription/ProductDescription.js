@@ -24,8 +24,7 @@ const ProductDescription = (props) => {
 
   const { keycloak } = useKeycloak();
   let authenticated = keycloak.authenticated;
-  console.log("Authenticated ", keycloak.authenticated, authenticated);
-  console.log(keycloak);
+
   const [count, setCount] = useState(0);
   const [cartCount, setCartCount] = useState(0);
 
