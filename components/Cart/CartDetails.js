@@ -149,7 +149,7 @@ const CartDetails = (props) => {
 
       fetch(
         process.env.NEXT_PUBLIC_REACT_APP_DUTY_COST_URL +
-          "/country/" +
+          "/country/serviceable/" +
           country +
           "/zipcode/" +
           zipCode,
@@ -169,6 +169,7 @@ const CartDetails = (props) => {
           }
         })
         .then((res) => {
+          console.log(res);
           let { zipcodes = [] } = res || {};
           setAvailableZipCodes(zipcodes);
         })
@@ -1565,10 +1566,7 @@ const CartDetails = (props) => {
                 enable={enable && isFulfillable && addressFlag}
                 cart={cart}
                 brandNames={brandNames}
-                deliver={
-                  deliveredCountryList.includes(selCountry || country) &&
-                  availableZipcodes.length
-                }
+                deliver={deliveredCountryList.includes(selCountry || country)}
                 showCartError={showError}
                 currencyDetails={currencyDetails}
                 user={userProfile}
@@ -1658,10 +1656,7 @@ const CartDetails = (props) => {
                   enable={enable && isFulfillable && addressFlag}
                   cart={cart}
                   brandNames={brandNames}
-                  deliver={
-                    deliveredCountryList.includes(selCountry || country) &&
-                    availableZipcodes.length
-                  }
+                  deliver={deliveredCountryList.includes(selCountry || country)}
                   showCartError={showError}
                   currencyDetails={currencyDetails}
                   user={userProfile}
