@@ -22,14 +22,13 @@ const Cart = (props) => {
   let { token } = keycloak || {};
 
   async function getCartDetails() {
-    let response1 = await props.getCart(token);
+    let response1 = await props.getCart(token, (res) => {
+      setIsLoading(false);
+    });
     let cartResp = await response1;
     let { cart = {} } =
       cartResp && cartResp["payload"] ? cartResp["payload"] : {};
 
-    if (cartResp) {
-      setIsLoading(false);
-    }
     setCart(cart);
 
     let response2 = await props.getSavedForLater(token);
@@ -89,7 +88,7 @@ const Cart = (props) => {
   if (isLoading) {
     return <Spinner />;
   }
-  if (keycloak.authenticated && !isLoading) {
+  if (!isLoading && keycloak.authenticated) {
     return (
       <CartDetails
         app_token={token}
