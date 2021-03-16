@@ -71,7 +71,12 @@ const Cart = (props) => {
       }
     }
     console.log(initialLoad, showLoader);
-    if (initialLoad && showLoader && Object.keys(props.user).length === 0) {
+    if (
+      initialLoad &&
+      showLoader &&
+      props.user &&
+      Object.keys(props.user).length === 0
+    ) {
       setTimeout(() => {
         setIsLoading(false);
       }, 600);
