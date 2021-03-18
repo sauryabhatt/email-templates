@@ -363,7 +363,7 @@ const ShippingDetails = (props) => {
     if (!couponApplied) {
       couponUrl = `${
         process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL
-      }/orders/my/${cartId}/${mode}?shippingTerms=${shippingTerm.toUpperCase()}&promoCode=${couponCode}&promoDiscount=${promoDiscount}`;
+      }/orders/my/${cartId}/${mode}?shippingTerms=${shippingTerm.toUpperCase()}&promoCode=${couponCode}&promoDiscount=${couponDiscount}`;
     } else {
       couponUrl = `${
         process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL
@@ -441,7 +441,7 @@ const ShippingDetails = (props) => {
       fetch(
         `${
           process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL
-        }/orders/my/${cartId}/${mode}?shippingTerms=${term.toUpperCase()}&promoCode=${couponCode}&promoDiscount=${promoDiscount}`,
+        }/orders/my/${cartId}/${mode}?shippingTerms=${term.toUpperCase()}&promoCode=${couponCode}&promoDiscount=${couponDiscount}`,
         {
           method: "PUT",
           headers: {
