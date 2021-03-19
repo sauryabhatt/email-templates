@@ -36,6 +36,16 @@ export default function NewsCrousel(props) {
       mobile_height: "15px",
       height: "40px",
       url:
+        "https://www.hometextilestoday.com/supply-chain/qalara-aims-to-grow-its-sourcing-platform-in-the-u-s/",
+      linkTo:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL +
+        "/images/Img_AboutUs_Home-Textiles.jpg",
+      title: "“Qalara aims to grow its sourcing platform in the U.S.”",
+    },
+    {
+      mobile_height: "15px",
+      height: "40px",
+      url:
         "https://sourcingjournal.com/topics/sourcing/qalara-india-artisans-ethical-manufacturing-retail-online-sustainability-241851/",
       linkTo:
         process.env.NEXT_PUBLIC_REACT_APP_CDN_URL +

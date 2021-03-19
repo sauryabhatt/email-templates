@@ -96,11 +96,11 @@
   justify-content: center;
 }
 .press-crousel .press-left-arrow {
-  left: 15px;
+  left: 25px;
 }
 
 .press-crousel .press-arrow.press-right-arrow {
-  right: 15px;
+  right: 25px;
 }
 .press-crousel .press-header {
   text-align: center;
@@ -1232,4 +1232,7 @@ right: 25%;
 }
 .press-crousel.news-section .press-web-wrp a {
   display: block !important;
+}
+.press-crousel.news-section .press-blk {
+  padding: 0px 30px;
 }
