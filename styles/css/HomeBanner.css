@@ -1233,3 +1233,6 @@ right: 25%;
 .press-crousel.news-section .press-web-wrp a {
   display: block !important;
 }
+.press-crousel.news-section .press-blk {
+  padding: 0px 30px;
+}
