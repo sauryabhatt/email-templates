@@ -11,23 +11,17 @@ function Auth({ children, path }) {
   const [status, setStatus] = useState(undefined);
 
   useEffect(() => {
-    if (cookie.get("appToken")) {
+    if (cookie.get("kcToken")) {
       setStatus("loggedin");
     } else {
       setStatus("loggedout");
     }
-  }, [keycloak.authenticated, keycloak.token]);
+  }, []);
 
   if (status === undefined) {
     return <Spinner />;
   } else if (status === "loggedout") {
-    setTimeout(() => {
-      if (status === "loggedin") {
-        return children;
-      } else {
-        loginToApp(keycloak, { currentPath: path });
-      }
-    }, 500);
+    loginToApp(keycloak, { currentPath: path });
     return <Spinner />;
   } else if (status === "loggedin") {
     return children;

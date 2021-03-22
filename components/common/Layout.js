@@ -40,9 +40,7 @@ export const Layout = ({ children, meta = {} }) => {
       keycloak
         .loadUserProfile()
         .then((profile) => {
-          if (!cookie.get("appToken")) {
-            cookie.set("appToken", keycloak.token, { expires: 90, path: "/" });
-            // document.cookie = `appToken=${keycloak.token}; path=/;`;
+          if (!cookie.get("kcToken")) {
             const { attributes: { parentProfileId = [] } = {} } = profile;
             let profileId = parentProfileId[0] || "";
             profileId = profileId.replace("BUYER::", "");
