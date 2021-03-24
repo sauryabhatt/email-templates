@@ -33,7 +33,7 @@ export const setUserProfileFailed = (error) => {
 };
 
 export const getUserProfile = (token) => {
-  // console.log(token);
+  console.log("User profile token ", token);
   return (dispatch) => {
     dispatch(setUserProfileLoading(true));
     return fetch(

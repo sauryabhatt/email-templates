@@ -23,7 +23,13 @@ function Auth({ children, path }) {
   if (status === undefined) {
     return <Spinner />;
   } else if (status === "loggedout") {
-    loginToApp(keycloak, { currentPath: path });
+    setTimeout(() => {
+      if (status === "loggedin") {
+        return children;
+      } else {
+        loginToApp(keycloak, { currentPath: path });
+      }
+    }, 500);
     return <Spinner />;
   } else if (status === "loggedin") {
     return children;
