@@ -12,6 +12,7 @@ function Auth({ children, path }) {
 
   useEffect(() => {
     console.log("Keycloak token ", keycloak?.token);
+    console.log("Cookie ", cookie.get("kcToken"));
     if (cookie.get("kcToken") || keycloak?.token) {
       setStatus("loggedin");
     } else {
