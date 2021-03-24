@@ -11,12 +11,13 @@ function Auth({ children, path }) {
   const [status, setStatus] = useState(undefined);
 
   useEffect(() => {
-    if (cookie.get("kcToken")) {
+    console.log("Keycloak token ", keycloak?.token);
+    if (cookie.get("kcToken") || keycloak?.token) {
       setStatus("loggedin");
     } else {
       setStatus("loggedout");
     }
-  }, []);
+  }, [keycloak.token]);
 
   if (status === undefined) {
     return <Spinner />;
