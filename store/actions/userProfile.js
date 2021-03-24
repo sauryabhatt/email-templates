@@ -58,23 +58,24 @@ export const getUserProfile = (token) => {
         return dispatch(setUserProfile(result));
       })
       .catch((error) => {
-        // console.log(error);
+        console.log("In user profile error");
+        console.log(error);
         const values = queryString.parse(Router.asPath);
-        if (values.redirectURI) {
-          Router.push(
-            "/error?message=" +
-              (error.message || error) +
-              "&redirectURI=" +
-              values.redirectURI
-          );
-        } else {
-          Router.push(
-            "/error?message=" +
-              (error.message || error) +
-              "&redirectURI=" +
-              Router.query.pathname
-          );
-        }
+        // if (values.redirectURI) {
+        //   Router.push(
+        //     "/error?message=" +
+        //       (error.message || error) +
+        //       "&redirectURI=" +
+        //       values.redirectURI
+        //   );
+        // } else {
+        //   Router.push(
+        //     "/error?message=" +
+        //       (error.message || error) +
+        //       "&redirectURI=" +
+        //       Router.query.pathname
+        //   );
+        // }
         dispatch(setUserProfileLoading(false));
         return dispatch(setUserProfileFailed(error));
       });
