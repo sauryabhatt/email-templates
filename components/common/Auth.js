@@ -6,6 +6,8 @@ import { loginToApp } from "../AuthWithKeycloak";
 import Spinner from "../Spinner/Spinner";
 import cookie from "js-cookie";
 
+const delay = 2;
+
 function Auth({ children, path }) {
   const { keycloak } = useKeycloak();
   const [status, setStatus] = useState(undefined);
@@ -13,23 +15,26 @@ function Auth({ children, path }) {
   useEffect(() => {
     console.log("Keycloak token ", keycloak?.token);
     console.log("Cookie ", cookie.get("kcToken"));
-    if (cookie.get("kcToken") || keycloak?.token) {
-      setStatus("loggedin");
-    } else {
-      setStatus("loggedout");
-    }
+
+    let timer1 = setTimeout(() => {
+      if (cookie.get("kcToken") || keycloak?.token) {
+        console.log("In token ");
+        setStatus("loggedin");
+      } else {
+        console.log("In logged out ");
+        setStatus("loggedout");
+      }
+    }, delay * 1000);
+
+    return () => {
+      clearTimeout(timer1);
+    };
   }, [keycloak.token]);
 
   if (status === undefined) {
     return <Spinner />;
   } else if (status === "loggedout") {
-    setTimeout(() => {
-      if (status === "loggedin") {
-        return children;
-      } else {
-        loginToApp(keycloak, { currentPath: path });
-      }
-    }, 2000);
+    loginToApp(keycloak, { currentPath: path });
     return <Spinner />;
   } else if (status === "loggedin") {
     return children;
