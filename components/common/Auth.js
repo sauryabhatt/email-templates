@@ -29,7 +29,7 @@ function Auth({ children, path }) {
       } else {
         loginToApp(keycloak, { currentPath: path });
       }
-    }, 500);
+    }, 2000);
     return <Spinner />;
   } else if (status === "loggedin") {
     return children;
