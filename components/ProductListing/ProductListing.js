@@ -95,9 +95,15 @@ const ProductListing = (props) => {
       query = query + "&f_categories=" + categoryId;
     }
     let jsonQuery = queryString.parse(query);
+
+    if (keycloak.authenticated || cookie.get("kcToken")) {
+      jsonQuery = { ...jsonQuery, bird: "lion" };
+      query = query.replace("apple", "lion");
+    }
+
     setQueryParams(jsonQuery);
     props.getPLPDetails(query, true, false, gb);
-  }, [router.query]);
+  }, [router.query, keycloak.token]);
 
   const getFilterData = (queryParams, instanceType) => {
     setQueryParams(queryParams);

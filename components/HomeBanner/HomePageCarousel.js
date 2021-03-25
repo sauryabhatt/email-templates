@@ -49,19 +49,19 @@ export default function HomePageCarousel(props) {
         "https://cdn.qalara.com/images/Img_Homepage_Banner_Qalara1_1-mob.jpg",
       alt: "Qalara Global wholesale buying reimagined",
     },
+    // {
+    //   img: "https://cdn.qalara.com/images/Img_Homepage_banner_5_1.jpg",
+    //   hading_text: "", //"Global wholesale buying, reimagined.",
+    //   small_text: "", //"Source wholesale products from India and South East Asia. Order digitally, reliably, affordably.Backed by a Fortune 100 company.Verified buyers from 25+ countries.",
+    //   video_link: "", //"https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4",
+    //   isSignupbtn: false,
+    //   signinBTNLink: `/products/all-categories/`,
+    //   mobileImg:
+    //     "https://cdn.qalara.com/images/Img_Homepage_banner_5_mob_1.jpg",
+    //   alt: "Indonesian treasures",
+    // },
     {
-      img: "https://cdn.qalara.com/images/Img_Homepage_banner_5_1.jpg",
-      hading_text: "", //"Global wholesale buying, reimagined.",
-      small_text: "", //"Source wholesale products from India and South East Asia. Order digitally, reliably, affordably.Backed by a Fortune 100 company.Verified buyers from 25+ countries.",
-      video_link: "", //"https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4",
-      isSignupbtn: false,
-      signinBTNLink: `/products/all-categories/`,
-      mobileImg:
-        "https://cdn.qalara.com/images/Img_Homepage_banner_5_mob_1.jpg",
-      alt: "Indonesian treasures",
-    },
-    {
-      img: "https://cdn.qalara.com/images/Img_Banner_Qalarabazar3_1.jpg",
+      img: "https://cdn.qalara.com/images/Img_Banner_Qalarabazar3_2.jpg",
       hading_text: "", //"Global wholesale buying, reimagined.",
       small_text: "", //"Source wholesale products from India and South East Asia. Order digitally, reliably, affordably.Backed by a Fortune 100 company.Verified buyers from 25+ countries.",
       video_link: "", //"https://archive.org/download/BigBuckBunny_124/Content/big_buck_bunny_720p_surround.mp4",
@@ -84,13 +84,13 @@ export default function HomePageCarousel(props) {
       alt: "Qalara your one-stop-shop for wholesale",
     },
     {
-      img: "https://cdn.qalara.com/images/Img_Homepage_banner_6_1.jpg",
+      img: "https://cdn.qalara.com/images/Img_Homepage_banner_6_2.jpg",
       hading_text: "",
       small_text: "",
       isSignupbtn: false,
       signinBTNLink: "/products/all-categories/?f_product_types=Ready+to+ship",
       mobileImg:
-        "https://cdn.qalara.com/images/Img_Homepage_banner_6_mob_1.jpg",
+        "https://cdn.qalara.com/images/Img_Homepage_banner_6_mob_2.jpg",
       alt: "",
     },
     {

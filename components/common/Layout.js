@@ -37,7 +37,7 @@ export const Layout = ({ children, meta = {} }) => {
 
   useEffect(() => {
     if (keycloak?.token) {
-      console.log("Layout ", keycloak.token);
+      // console.log("Layout ", keycloak.token);
       keycloak
         .loadUserProfile()
         .then((profile) => {
@@ -79,7 +79,7 @@ export const Layout = ({ children, meta = {} }) => {
           store.dispatch(setAuth(keycloak.authenticated, null));
           // router.push('/error?message="Somthing went wrong on loading user profile."&redirectURI='+router.pathname);
         });
-      console.log("In dispatch");
+      // console.log("In dispatch");
       store.dispatch(getUserProfile(keycloak.token));
     }
   }, [keycloak.token]);
