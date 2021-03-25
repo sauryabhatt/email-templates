@@ -38,7 +38,7 @@ const SellerProductListing = (props) => {
     sort_order: "DESC",
     size: limit,
     from: offset,
-    bird: keycloak.authenticated || cookie.get("appToken") ? "lion" : "apple",
+    bird: keycloak.authenticated || cookie.get("kcToken") ? "lion" : "apple",
   });
 
   const getQueryParamString = () => {
@@ -85,7 +85,6 @@ const SellerProductListing = (props) => {
       f_l2name,
       f_l3name,
       f_l1_names,
-      bird,
       sellerId: sellerIdKey,
       ...rest
     } = queryParams;

@@ -424,7 +424,7 @@ const OrderReview = (props) => {
           <div className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
             {getSymbolFromCurrency(props.order && props.order.currency)}
             {parseFloat(
-              subOrder.qalaraSellerMargin && subOrder.qalaraSellerMargin
+              (subOrder.qalaraSellerMargin && subOrder.qalaraSellerMargin) || 0
             ).toFixed(2)}
           </div>
           <div className="c-left-blk qa-mar-btm-05">Quality testing</div>
@@ -572,7 +572,7 @@ const OrderReview = (props) => {
                 {getSymbolFromCurrency(props.order && props.order.currency)}
                 {parseFloat(
                   subOrder.products.reduce((x, y) => x + y["total"], 0) +
-                    subOrder["qalaraSellerMargin"]
+                    subOrder["qalaraSellerMargin"] || 0
                 ).toFixed(2)}
               </span>
             </Col>
