@@ -97,6 +97,8 @@ const SearchListing = (props) => {
         ...rest,
         sort_by: sort,
         sort_order: "DESC",
+        bird:
+          keycloak.authenticated || cookie.get("kcToken") ? "lion" : "apple",
       };
     }
     let defaultQuery = querystring.stringify(newObj);
@@ -109,6 +111,13 @@ const SearchListing = (props) => {
     }
 
     let jsonQuery = queryString.parse(query);
+    if (keycloak.authenticated) {
+      jsonQuery = { ...jsonQuery, bird: "lion" };
+      query = query.replace("apple", "lion");
+    }
+
+    console.log(query, jsonQuery);
+    console.log(jsonQuery);
     setQueryParams(jsonQuery);
     if (searchBy === "product") {
       props.getPLPDetails(query, true);

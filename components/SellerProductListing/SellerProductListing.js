@@ -103,6 +103,13 @@ const SellerProductListing = (props) => {
     }
     query = query + "&sellerId=" + sellerId;
     let jsonQuery = queryString.parse(query);
+
+    if (keycloak.authenticated) {
+      jsonQuery = { ...jsonQuery, bird: "lion" };
+      query = query.replace("apple", "lion");
+    }
+
+    console.log(query, jsonQuery);
     setQueryParams(jsonQuery);
     props.getProductSellerDetails(appToken, sellerId);
     props.getSPLPDetails(query);
