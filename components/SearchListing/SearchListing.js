@@ -33,7 +33,6 @@ const SearchListing = (props) => {
     from: offset,
     bird: keycloak.authenticated || cookie.get("kcToken") ? "lion" : "apple",
   });
-  console.log(keycloak.authenticated);
   const getQueryParamString = () => {
     let queryObj = {};
     const rq = router.query;
@@ -116,8 +115,6 @@ const SearchListing = (props) => {
       query = query.replace("apple", "lion");
     }
 
-    console.log(query, jsonQuery);
-    console.log(jsonQuery);
     setQueryParams(jsonQuery);
     if (searchBy === "product") {
       props.getPLPDetails(query, true);
@@ -132,7 +129,7 @@ const SearchListing = (props) => {
     }
     setSearchBy(searchBy);
     setSearchText(decodeURIComponent(searchFromQuery));
-  }, [router.query]);
+  }, [router.query, keycloak.token]);
 
   const getFilterData = (queryParams, instanceType) => {
     setQueryParams(queryParams);

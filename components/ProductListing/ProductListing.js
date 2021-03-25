@@ -101,10 +101,9 @@ const ProductListing = (props) => {
       query = query.replace("apple", "lion");
     }
 
-    console.log(query, jsonQuery);
     setQueryParams(jsonQuery);
     props.getPLPDetails(query, true, false, gb);
-  }, [router.query]);
+  }, [router.query, keycloak.token]);
 
   const getFilterData = (queryParams, instanceType) => {
     setQueryParams(queryParams);

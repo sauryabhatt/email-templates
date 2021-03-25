@@ -40,7 +40,6 @@ const SellerProductListing = (props) => {
     from: offset,
     bird: keycloak.authenticated || cookie.get("kcToken") ? "lion" : "apple",
   });
-  console.log(keycloak.authenticated);
   const getQueryParamString = () => {
     let queryObj = {};
     const rq = router.query;
@@ -109,12 +108,11 @@ const SellerProductListing = (props) => {
       query = query.replace("apple", "lion");
     }
 
-    console.log(query, jsonQuery);
     setQueryParams(jsonQuery);
     props.getProductSellerDetails(appToken, sellerId);
     props.getSPLPDetails(query);
     setSellerId(sellerId);
-  }, [router.query]);
+  }, [router.query, keycloak.token]);
 
   const getFilterData = (queryParams, instanceType) => {
     setQueryParams(queryParams);
