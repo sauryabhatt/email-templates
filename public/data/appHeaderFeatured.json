@@ -24,7 +24,7 @@
   {
     "id": "SHOPOPTIONS::COLUMN::1::ROW::103",
     "column": "1",
-    "displayTitle": "Eco friendly ",
+    "displayTitle": "Eco friendly",
     "menuOrder": "103",
     "font": "H2",
     "action": "URL",
@@ -380,19 +380,8 @@
   {
     "id": "SHOPOPTIONS::COLUMN::5::ROW::104",
     "column": "5",
-    "displayTitle": "USD 100 OFF",
-    "menuOrder": "104",
-    "font": "H2",
-    "action": "URL",
-    "filterType": "",
-    "values": "/products/all-categories/",
-    "isActive": "TRUE"
-  },
-  {
-    "id": "SHOPOPTIONS::COLUMN::5::ROW::105",
-    "column": "5",
     "displayTitle": "Ready-to-ship",
-    "menuOrder": "105",
+    "menuOrder": "104",
     "font": "H2",
     "action": "URL",
     "filterType": "",
@@ -400,10 +389,10 @@
     "isActive": "TRUE"
   },
   {
-    "id": "SHOPOPTIONS::COLUMN::5::ROW::106",
+    "id": "SHOPOPTIONS::COLUMN::5::ROW::105",
     "column": "5",
     "displayTitle": "Express Custom",
-    "menuOrder": "106",
+    "menuOrder": "105",
     "font": "H2",
     "action": "URL",
     "filterType": "",
