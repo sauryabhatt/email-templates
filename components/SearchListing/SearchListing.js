@@ -31,7 +31,7 @@ const SearchListing = (props) => {
     sort_order: "DESC",
     size: limit,
     from: offset,
-    bird: keycloak.authenticated || cookie.get("appToken") ? "lion" : "apple",
+    bird: keycloak.authenticated || cookie.get("kcToken") ? "lion" : "apple",
   });
 
   const getQueryParamString = () => {
@@ -83,7 +83,6 @@ const SearchListing = (props) => {
       search,
       f_l1_names,
       sort_by: sort,
-      bird,
       ...rest
     } = queryParams;
     let newObj = { ...rest };

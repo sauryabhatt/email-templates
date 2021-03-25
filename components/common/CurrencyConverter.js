@@ -11,9 +11,12 @@ function CurrencyConverter(props) {
 
   useEffect(() => {
     props.getCurrencyConversion(baseCurrency);
+    let currencySelected = sessionStorage.getItem("CURRENCY_SELECTED") || "USD";
+    props.getCurrentFormat(currencySelected);
   }, []);
 
   const changeConvertToCurrency = (value) => {
+    sessionStorage.setItem("CURRENCY_SELECTED", value);
     props.getCurrentFormat(value);
   };
 
@@ -62,7 +65,7 @@ function CurrencyConverter(props) {
         <Select
           className="qa-dark-menu-theme currency-converter"
           dropdownClassName="qa-dark-menu-theme currency-converter"
-          defaultValue={convertToCurrency}
+          value={convertToCurrency}
           onChange={changeConvertToCurrency}
         >
           {currencyChoice}

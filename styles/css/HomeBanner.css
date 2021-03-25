@@ -569,7 +569,7 @@ top: 2.48vh; */
     padding: 21px 24px;
   }
   .press-crousel .press-arrow {
-    top: 35%;
+    top: 32%;
   }
   .press-crousel .press-header {
     font-size: 20px;
@@ -901,7 +901,7 @@ top: 2.48vh; */
   background-color: #7e473b;
   border-radius: 0;
   border: none;
-  padding: 10px 0px;
+  padding: 10px 10px;
   height: 48px !important;
   width: 280px;
 }
@@ -1223,11 +1223,10 @@ right: 25%;
   line-height: 20px;
   letter-spacing: 0.25px;
   border-bottom: 1px solid #874439;
-  padding-bottom: 2px;
+  padding-bottom: 1px;
   color: #874439;
   cursor: pointer;
   border-bottom: 1px solid #874439;
-  width: 85px;
   margin: 0 auto;
 }
 .press-crousel.news-section .press-web-wrp a {

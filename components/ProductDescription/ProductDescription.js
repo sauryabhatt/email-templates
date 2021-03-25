@@ -24,22 +24,16 @@ const ProductDescription = (props) => {
 
   const { keycloak } = useKeycloak();
   let authenticated = keycloak.authenticated;
-  console.log("Authenticated ", keycloak.authenticated, authenticated);
-  console.log(keycloak);
   const [count, setCount] = useState(0);
   const [cartCount, setCartCount] = useState(0);
 
   let app_token = null;
 
-  console.log("App token before init ", app_token);
   if (keycloak.token) {
     app_token = keycloak.token;
   } else {
     app_token = process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN;
   }
-
-  console.log("keycloak ", keycloak.token);
-  console.log("App token ", app_token);
 
   useEffect(() => {
     let { articleId } = router.query;
@@ -59,7 +53,7 @@ const ProductDescription = (props) => {
         from: 0,
         sellerId: sellerCode,
         bird:
-          keycloak.authenticated || cookie.get("appToken") ? "lion" : "apple",
+          keycloak.authenticated || cookie.get("kcToken") ? "lion" : "apple",
       };
       let queryResult = querystring.stringify(query);
       if (count === 1) {

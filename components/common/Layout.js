@@ -10,7 +10,6 @@ import Ribbon from "../Ribbon/Ribbon";
 import { setAuth, getUserProfile } from "../../store/actions";
 import store from "../../store";
 import _ from "lodash";
-import { getCookie } from "../common/Auth";
 import cookie from "js-cookie";
 
 export const Layout = ({ children, meta = {} }) => {
@@ -38,12 +37,11 @@ export const Layout = ({ children, meta = {} }) => {
 
   useEffect(() => {
     if (keycloak?.token) {
+      console.log("Layout ", keycloak.token);
       keycloak
         .loadUserProfile()
         .then((profile) => {
-          if (!cookie.get("appToken")) {
-            cookie.set("appToken", keycloak.token, { expires: 90, path: "/" });
-            // document.cookie = `appToken=${keycloak.token}; path=/;`;
+          if (!cookie.get("kcToken")) {
             const { attributes: { parentProfileId = [] } = {} } = profile;
             let profileId = parentProfileId[0] || "";
             profileId = profileId.replace("BUYER::", "");
@@ -81,6 +79,7 @@ export const Layout = ({ children, meta = {} }) => {
           store.dispatch(setAuth(keycloak.authenticated, null));
           // router.push('/error?message="Somthing went wrong on loading user profile."&redirectURI='+router.pathname);
         });
+      console.log("In dispatch");
       store.dispatch(getUserProfile(keycloak.token));
     }
   }, [keycloak.token]);
@@ -103,7 +102,11 @@ export const Layout = ({ children, meta = {} }) => {
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+        {/* <meta http-equiv="content-type" content="text/html; charset=UTF-8" /> */}
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+        ></meta>
         {process.env.NODE_ENV !== "production" && (
           <>
             <meta name="robots" content="noindex" />
