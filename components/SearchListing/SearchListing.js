@@ -111,7 +111,7 @@ const SearchListing = (props) => {
     }
 
     let jsonQuery = queryString.parse(query);
-    if (keycloak.authenticated) {
+    if (keycloak.authenticated || cookie.get("kcToken")) {
       jsonQuery = { ...jsonQuery, bird: "lion" };
       query = query.replace("apple", "lion");
     }
