@@ -13,15 +13,15 @@ function Auth({ children, path }) {
   const [status, setStatus] = useState(undefined);
 
   useEffect(() => {
-    console.log("Keycloak token ", keycloak?.token);
-    console.log("Cookie ", cookie.get("kcToken"));
+    // console.log("Keycloak token ", keycloak?.token);
+    // console.log("Cookie ", cookie.get("kcToken"));
 
     let timer1 = setTimeout(() => {
       if (cookie.get("kcToken") || keycloak?.token) {
-        console.log("In token ");
+        // console.log("In token ");
         setStatus("loggedin");
       } else {
-        console.log("In logged out ");
+        // console.log("In logged out ");
         setStatus("loggedout");
       }
     }, delay * 1000);

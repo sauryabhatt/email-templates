@@ -34,13 +34,13 @@ export default function PressCrousel(props) {
   const press_data = [
     {
       title: "",
-      url: "https://cdn.qalara.com/images/Img_Hot1.jpg",
+      url: "https://cdn.qalara.com/images/Img_Hot1_1.jpg",
       linkTo: "/gb/?f_isfreeshipping=true",
     },
     {
       title: "",
-      url: "https://cdn.qalara.com/images/Img_Hot2.jpg",
-      linkTo: "/products/all-categories/",
+      url: "https://cdn.qalara.com/images/Img_Hot2_1.jpg",
+      linkTo: "/seller/SL10971/all-categories/",
     },
     {
       title: "",
