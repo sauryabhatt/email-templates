@@ -572,7 +572,7 @@ const OrderReview = (props) => {
                 {getSymbolFromCurrency(props.order && props.order.currency)}
                 {parseFloat(
                   subOrder.products.reduce((x, y) => x + y["total"], 0) +
-                    subOrder["qalaraSellerMargin"] || 0
+                    (subOrder["qalaraSellerMargin"] || 0)
                 ).toFixed(2)}
               </span>
             </Col>
