@@ -40,7 +40,7 @@ const SellerProductListing = (props) => {
     from: offset,
     bird: keycloak.authenticated || cookie.get("kcToken") ? "lion" : "apple",
   });
-
+  console.log(keycloak.authenticated);
   const getQueryParamString = () => {
     let queryObj = {};
     const rq = router.query;
