@@ -339,3 +339,7 @@ span.ant-input-affix-wrapper.ant-input-search:active {
 .filter-search-box .ant-input-affix-wrapper:focus {
   border-color: #d9d9d9;
 }
+.ant-layout.ant-layout-has-sider > .ant-layout,
+.ant-layout.ant-layout-has-sider > .ant-layout-content {
+  width: auto;
+}
