@@ -223,10 +223,12 @@ function ProductCard(props) {
                     <Col span={24}>
                       <div className="qa-tc-white">
                         Base price:{" "}
-                        <span className="qa-fw-b qa-fs-14">
-                          {getSymbolFromCurrency(convertToCurrency)}
-                          {getConvertedCurrency(exfactoryListPrice)}
-                        </span>
+                        {exfactoryListPrice !== null && exfactoryListPrice > 0 && (
+                          <span className="qa-fw-b qa-fs-14">
+                            {getSymbolFromCurrency(convertToCurrency)}
+                            {getConvertedCurrency(exfactoryListPrice)}
+                          </span>
+                        )}
                       </div>
                     </Col>
                   )}
@@ -294,10 +296,13 @@ function ProductCard(props) {
                       <Col span={14}>
                         <span className="qa-tc-white">
                           Base price:{" "}
-                          <span className="qa-fw-b qa-fs-14">
-                            {getSymbolFromCurrency(convertToCurrency)}
-                            {getConvertedCurrency(exfactoryListPrice)}
-                          </span>
+                          {exfactoryListPrice !== null &&
+                            exfactoryListPrice > 0 && (
+                              <span className="qa-fw-b qa-fs-14">
+                                {getSymbolFromCurrency(convertToCurrency)}
+                                {getConvertedCurrency(exfactoryListPrice)}
+                              </span>
+                            )}
                         </span>
                         {/*<div style={{ marginTop: "-3px" }}>
                           Min order qty {minimumOrderQuantity} {moqUnit}
