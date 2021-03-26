@@ -96,6 +96,7 @@ const CartSummary = (props) => {
     hideCreateOrder = false,
     tat = "",
     shippingTerm = "",
+    rfqReason = "",
   } = props;
   let {
     subOrders = [],
@@ -229,76 +230,172 @@ const CartSummary = (props) => {
       });
   };
 
-  const createOrder = () => {
-    let url =
-      process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN + "/product/";
+  const createOrder = async () => {
+    let shippingRemarks = rfqReason
+      ? rfqReason
+      : "RFQ created from Shipping page";
+    let cartRemarks = "Country/Zipcode not serviceable";
+
+    let {
+      profileId = "",
+      profileType = "",
+      email = "",
+      firstName = "",
+      orgName = "",
+      orgPhone = "",
+    } = user || {};
+    let buyerId = profileId.replace("BUYER::", "");
+
+    let data = {
+      profileId: profileId,
+      profileType: profileType,
+      targetDeliveryDate: "",
+      requesterName: firstName,
+      companyName: orgName,
+      emailId: email,
+      mobileNo: orgPhone,
+      destinationCountry: country,
+      destinationCity: city,
+      zipcode: zipCode,
+      rfqType: id === "shipping" ? "SHIPMENT RFQ" : "CART RFQ",
+      buyerId: buyerId,
+      remarks: id === "shipping" ? shippingRemarks : cartRemarks,
+      collectionName: "",
+    };
+
     let productList = [];
-    let currencyFormat = getSymbolFromCurrency(convertToCurrency);
+    let i = 0;
     for (let orders of subOrders) {
       let { products = [] } = orders;
       for (let product of products) {
-        let {
-          productId = "",
-          productName = "",
-          quantity = "",
-          priceMin = "",
-          articleId = "",
-          exfactoryListPrice = 0,
-          priceApplied = 0,
-        } = product;
-        let obj = {
-          productId: productId,
-          productName: productName,
-          quantity: quantity,
-          priceMin: currencyFormat + priceMin,
-          exfactoryListPrice:
-            priceApplied && priceApplied !== null
-              ? priceApplied
-              : exfactoryListPrice,
-          linkOfProduct: url + articleId,
-        };
+        let { articleId = "", quantity = "" } = product;
+        let obj = {};
+        obj["articleId"] = articleId;
+        obj["quantity"] = quantity;
+        obj["remarks"] = "";
         productList.push(obj);
+        i++;
       }
     }
 
-    let data = {
-      buyerName: firstName,
-      buyerEmailId: email,
-      buyerOrgName: orgName,
-      orderId: orderId,
-      quoteId: priceQuoteRef,
-      addressLine1: addressLine1,
-      addressLine2: addressLine2,
-      city: city,
-      state: state,
-      country: country,
-      zipCode: zipCode,
-      products: productList,
-    };
-    fetch(process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL + "/v1/orders/assist", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + keycloak.token,
-      },
-    })
-      .then((res) => {
-        if (res.ok) {
-          showOrderModal(true);
-          // return res.json();
-        } else {
-          throw res.statusText || "Error in create order";
+    data.products = productList;
+
+    let userDetails = "";
+    const response = await fetch("https://ipapi.co/json/", {
+      method: "GET",
+    });
+    userDetails = await response.json();
+    let { ip = "", country = "" } = userDetails;
+    data.fromIP = ip;
+    data.ipCountry = country;
+
+    const rfqResp = await fetch(
+      process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/queries",
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + keycloak.token,
+        },
+      }
+    );
+    const rfqResponse = await rfqResp.json();
+
+    console.log(rfqResponse);
+
+    if (rfqResponse.status === 200) {
+      const cartResp = await fetch(
+        process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL +
+          "/v1/orders/status/" +
+          orderId,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + keycloak.token,
+          },
         }
-      })
-      // .then((res) => {
-      //   showOrderModal(true);
-      // })
-      .catch((err) => {
-        message.error(err.message || err, 5);
-        // setLoading(false);
-      });
+      );
+      const cartResponse = await cartResp.json();
+      console.log(cartResponse);
+      if (cartResponse.status === 200) {
+        showOrderModal(true);
+      }
+    }
   };
+
+  // const createOrder = () => {
+  //   console.log("Create order id ", id);
+  //   let url =
+  //     process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN + "/product/";
+  //   let productList = [];
+  //   let currencyFormat = getSymbolFromCurrency(convertToCurrency);
+  //   for (let orders of subOrders) {
+  //     let { products = [] } = orders;
+  //     for (let product of products) {
+  //       let {
+  //         productId = "",
+  //         productName = "",
+  //         quantity = "",
+  //         priceMin = "",
+  //         articleId = "",
+  //         exfactoryListPrice = 0,
+  //         priceApplied = 0,
+  //       } = product;
+  //       let obj = {
+  //         productId: productId,
+  //         productName: productName,
+  //         quantity: quantity,
+  //         priceMin: currencyFormat + priceMin,
+  //         exfactoryListPrice:
+  //           priceApplied && priceApplied !== null
+  //             ? priceApplied
+  //             : exfactoryListPrice,
+  //         linkOfProduct: url + articleId,
+  //       };
+  //       productList.push(obj);
+  //     }
+  //   }
+
+  //   let data = {
+  //     buyerName: firstName,
+  //     buyerEmailId: email,
+  //     buyerOrgName: orgName,
+  //     orderId: orderId,
+  //     quoteId: priceQuoteRef,
+  //     addressLine1: addressLine1,
+  //     addressLine2: addressLine2,
+  //     city: city,
+  //     state: state,
+  //     country: country,
+  //     zipCode: zipCode,
+  //     products: productList,
+  //   };
+  //   // fetch(process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL + "/v1/orders/assist", {
+  //   //   method: "POST",
+  //   //   body: JSON.stringify(data),
+  //   //   headers: {
+  //   //     "Content-Type": "application/json",
+  //   //     Authorization: "Bearer " + keycloak.token,
+  //   //   },
+  //   // })
+  //   //   .then((res) => {
+  //   //     if (res.ok) {
+  //   //       showOrderModal(true);
+  //   //       // return res.json();
+  //   //     } else {
+  //   //       throw res.statusText || "Error in create order";
+  //   //     }
+  //   //   })
+  //   // .then((res) => {
+  //   //   showOrderModal(true);
+  //   // })
+  //   // .catch((err) => {
+  //   //   message.error(err.message || err, 5);
+  //   //   // setLoading(false);
+  //   // });
+  // };
 
   const handleCancel = () => {
     showOrderModal(false);
@@ -1315,11 +1412,10 @@ const CartSummary = (props) => {
       )}
       {disablePayment && id === "shipping" && (
         <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-top-05 qa-txt-alg-cnt">
-          *We currently don't have instant checkout enabled for your country.
-          However, in most cases we can still arrange to deliver the order to
-          you. Please click on 'Order Quote Request' and we will share a link
-          over email with the necessary details to process your order. The link
-          will also be available in your Qalara Account section.
+          Freight cost appears to be high for this order. Please click on 'Order
+          Quote Request' and we will share a link over email with the necessary
+          details to process your order. The link will also be available in your
+          Qalara Account section.
         </div>
       )}
 
@@ -1333,7 +1429,7 @@ const CartSummary = (props) => {
             </span>
           ) : (
             <span>
-              {id === "shipping" && (
+              {id === "shipping" && !disablePayment && (
                 <span>*Proceed to review payment mode</span>
               )}
             </span>

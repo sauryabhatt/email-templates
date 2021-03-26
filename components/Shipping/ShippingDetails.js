@@ -58,6 +58,7 @@ const ShippingDetails = (props) => {
   const [disableAir, setDisableAir] = useState(false);
   const [disableSea, setDisableSea] = useState(false);
   const [promoDiscount, setPromoDiscount] = useState(0);
+  const [landingFactorShip, setLandingFactorShip] = useState("");
 
   useEffect(() => {
     if (props.cart && Object.keys(props.cart).length) {
@@ -126,6 +127,8 @@ const ShippingDetails = (props) => {
             let landingFactor = "";
             landingFactor =
               (total + (seaMax > airMax ? airMax : seaMax)) / totalAmount;
+
+            setLandingFactorShip(landingFactor);
 
             if (landingFactor > LANDING_LIMITER) {
               console.log("Landing factor is ", landingFactor);
@@ -1421,6 +1424,15 @@ const ShippingDetails = (props) => {
                 disablePayment={disablePayment}
                 tat={tat}
                 shippingTerm={shippingTerm}
+                rfqReason={`Landing factor : ${landingFactorShip}, TAT : ${tat}, Air freight charge ${
+                  airData[shippingTerm]["frightCostMax"]
+                    ? airData[shippingTerm]["frightCostMax"]
+                    : "0"
+                }: , Sea freight change : ${
+                  seaData[shippingTerm]["frightCostMax"]
+                    ? airData[shippingTerm]["frightCostMax"]
+                    : "0"
+                }`}
               />
             </Col>
           </Row>
@@ -2123,6 +2135,15 @@ const ShippingDetails = (props) => {
                     disablePayment={disablePayment}
                     tat={tat}
                     shippingTerm={shippingTerm}
+                    rfqReason={`Landing factor : ${landingFactorShip}, TAT : ${tat}, Air freight charge ${
+                      airData[shippingTerm]["frightCostMax"]
+                        ? airData[shippingTerm]["frightCostMax"]
+                        : "0"
+                    }: , Sea freight change : ${
+                      seaData[shippingTerm]["frightCostMax"]
+                        ? airData[shippingTerm]["frightCostMax"]
+                        : "0"
+                    }`}
                   />
                 </Col>
               )}
