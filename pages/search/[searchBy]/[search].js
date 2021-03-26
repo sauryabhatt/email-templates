@@ -76,5 +76,6 @@ export const getStaticProps = async ({ params }) => {
         searchBy: searchByLC,
       },
     },
+    revalidate: 14400,
   };
 };

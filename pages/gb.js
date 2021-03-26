@@ -84,5 +84,6 @@ export const getStaticProps = async () => {
         error: error,
       },
     },
+    revalidate: 14400,
   };
 };
