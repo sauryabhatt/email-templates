@@ -77,6 +77,6 @@ export const getStaticProps = async ({ params: { articleId = "" } = {} }) => {
       error: error,
       articleId: articleId,
     },
-    revalidate: 10,
+    revalidate: 60,
   };
 };
