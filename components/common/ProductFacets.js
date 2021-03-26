@@ -325,8 +325,9 @@ class ProductFacets extends Component {
             obj["priority"] = priority;
 
             let categoryList = [];
-            let catObj = {};
+
             for (let category of aggregateList) {
+              let catObj = {};
               let { value = "", count = "" } = category;
               catObj["name"] = value;
 
@@ -364,8 +365,9 @@ class ProductFacets extends Component {
               }
 
               catObj["count"] = count;
+              categoryList.push(catObj);
             }
-            categoryList.push(catObj);
+
             obj["aggregateList"] = categoryList;
             dynamicCategories = obj;
           }
