@@ -453,7 +453,7 @@ const Quotations = (props) => {
               zIndex: "1",
             }}
           >
-            {/* hi */}
+            {/* hello */}
             <Icon
               component={closeButton}
               style={{ width: "30px", height: "30px" }}
