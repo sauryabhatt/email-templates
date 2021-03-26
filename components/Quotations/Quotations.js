@@ -15,6 +15,7 @@ import SendQueryForm from "../SendQueryForm/SendQueryForm";
 import Icon from "@ant-design/icons";
 
 const Quotations = (props) => {
+  console.log("props",props)
   const router = useRouter();
   const mediaMatch = window.matchMedia("(min-width: 768px)");
   const [current, setCurrent] = useState("received");
@@ -22,6 +23,12 @@ const Quotations = (props) => {
   const [showLoader, setShowLoader] = useState(false);
   const [successQueryVisible, setSuccessQueryVisible] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [lineSheetRes, setLineSheetRes ] = useState([])
+
+  const mergedlineSheetRes = [...lineSheetRes,...props.quotes]
+  console.log("props.userProfile",props.userProfile)
+
+  // let buyer_id = props.userProfile.profileId.replace("BUYER::","");
 
   let requesterName = "";
   if (
@@ -50,6 +57,33 @@ const Quotations = (props) => {
     city: "",
     mobileNo: props.userProfile && props.userProfile.orgPhone,
   };
+
+ const getRfq = () => {
+  // let url = `https://api-dev.qalara.com:2095/forms/queries/status?buyer_id=${buyer_id}&status=LINKED_PARTIAL`
+  let url = `https://api-dev.qalara.com:2095/forms/queries/status?buyer_id=BU10160&status=LINKED_PARTIAL`
+
+  fetch(url , {
+      method:"GET",
+      headers: {
+        "Authorization": "Bearer " + keycloak.token,
+        "Content-Type": "application/json"
+      },   
+    }).then(res => {
+      console.log("res",res)
+      if(res.ok){
+        return res.json()
+      }
+    }).then(res => {
+      // console.log("merge",res.props.quote);
+      console.log("resBody",res)
+      setLineSheetRes(res);
+    })
+ }
+  useEffect(()=>{
+    if(keycloak?.token){
+      getRfq();
+    }
+  },[keycloak.token,props.quote])
 
   const downloadBuyerAgreement = () => {
     var a = document.createElement("a");
@@ -115,7 +149,9 @@ const Quotations = (props) => {
     return (
       <QuotationCard
         status={current}
+        lineSheetRes={mergedlineSheetRes}
         data={quote}
+        // data={mergedlineSheetRes}
         formattedDate={date}
         day={day}
         quoteCreatedDate={quoteCreatedDate}
