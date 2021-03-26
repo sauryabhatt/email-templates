@@ -221,15 +221,15 @@ function ProductCard(props) {
 
                   {!accessLocked && isAuthenticated && showPrice && (
                     <Col span={24}>
-                      <div className="qa-tc-white">
-                        Base price:{" "}
-                        {exfactoryListPrice !== null && exfactoryListPrice > 0 && (
+                      {exfactoryListPrice !== null && exfactoryListPrice > 0 && (
+                        <div className="qa-tc-white">
+                          Base price:{" "}
                           <span className="qa-fw-b qa-fs-14">
                             {getSymbolFromCurrency(convertToCurrency)}
                             {getConvertedCurrency(exfactoryListPrice)}
                           </span>
-                        )}
-                      </div>
+                        </div>
+                      )}
                     </Col>
                   )}
                   {!accessLocked && isAuthenticated && showPrice && (
@@ -294,16 +294,15 @@ function ProductCard(props) {
                   {!accessLocked && isAuthenticated && showPrice && (
                     <Row className="qa-tc-white">
                       <Col span={14}>
-                        <span className="qa-tc-white">
-                          Base price:{" "}
-                          {exfactoryListPrice !== null &&
-                            exfactoryListPrice > 0 && (
-                              <span className="qa-fw-b qa-fs-14">
-                                {getSymbolFromCurrency(convertToCurrency)}
-                                {getConvertedCurrency(exfactoryListPrice)}
-                              </span>
-                            )}
-                        </span>
+                        {exfactoryListPrice !== null && exfactoryListPrice > 0 && (
+                          <span className="qa-tc-white">
+                            Base price:{" "}
+                            <span className="qa-fw-b qa-fs-14">
+                              {getSymbolFromCurrency(convertToCurrency)}
+                              {getConvertedCurrency(exfactoryListPrice)}
+                            </span>
+                          </span>
+                        )}
                         {/*<div style={{ marginTop: "-3px" }}>
                           Min order qty {minimumOrderQuantity} {moqUnit}
                         </div>*/}
