@@ -29,66 +29,74 @@ export default function CuratedByUsWrapper(props) {
   const trend = [
     {
       url: "/trends/monochrome",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend10_1.jpg",
+      img:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend10_1.jpg",
       text: "Monochrome",
       alt: "Explore hand curated monochrome trends at Qalara",
     },
     {
       url: "/trends/farmhousedecor",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend9_1.jpg",
+      img:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend9_1.jpg",
       text: "Farmhouse",
       alt: "Farmhouse",
     },
     {
       url: "/trends/globaltextures",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend3_1.jpg",
+      img:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend3_1.jpg",
       text: "Crafted Boho",
       alt:
         "Boho cushion covers, rugs, throws, bags & decor; crafted by hand picked sellers, combining local crafts with modern aesthetics",
     },
     {
       url: "/trends/sunkissed-spring21",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend6_1.jpg",
+      img:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend6_1.jpg",
       text: "Summer Pastels",
       alt: "Summer Pastels",
     },
     {
       url: "/trends/earthinspired",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend1_1.jpg",
+      img:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend1_1.jpg",
       text: "Earth inspired",
       alt: "Source Earth Inspired products from India",
     },
     {
       url: "/trends/play-and-learn",
       img:
-        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL +
-        "/images/Img_Trend7_1.jpg",
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend7_1.jpg",
       text: "Play and learn",
       alt: "Play and learn",
     },
     {
       url: "/trends/urbanjungle",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend2_1.jpg",
+      img:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend2_1.jpg",
       text: "Urban jungle",
       alt:
         "Collection of wholesale handmade and sustainable products from Qalara",
     },
     {
       url: "/trends/homeoffice",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend4_1.jpg",
+      img:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend4_1.jpg",
       text: "Home office",
       alt:
         "Collection of home workspace by our artisanal and responsible sellers fro Qalara",
     },
     {
       url: "/trends/christmasspirit",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend5_1.jpg",
+      img:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend5_1.jpg",
       text: "Holiday Spirit",
       alt: "Holiday Spirit",
     },
     {
       url: "/trends/indigoblues",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend8_1.jpg",
+      img:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Trend8_1.jpg",
       text: "Indigo Blues",
       alt: "Indigo Blues",
     },
@@ -157,32 +165,37 @@ export default function CuratedByUsWrapper(props) {
   const crafts = [
     {
       url: "/artisancrafts/carvingandinlay",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Craft1.jpg",
+      img:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Craft1_1.jpg",
       text: "Carving & Inlay",
       alt:
         "Shop wholesale for unique products from our curated, responsible sellers",
     },
     {
       url: "/artisancrafts/hand-painted",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Craft5.jpg",
+      img:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Craft5_1.jpg",
       text: "Hand Painted",
       alt: " Curated handpainted products at Qalara",
     },
     {
       url: "/artisancrafts/metalcrafts",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Craft2.jpg",
+      img:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Craft2_1.jpg",
       text: "Metal crafts",
       alt: "Explore Qalara's curation of traditional crafts across South Asia",
     },
     {
       url: "/artisancrafts/basketry",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Craft3.jpg",
+      img:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Craft3_1.jpg",
       text: "Basketry",
       alt: "Sustainable and eco-friendly handmade products curated by Qalara",
     },
     {
       url: "/artisancrafts/textileweaves",
-      img: process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Craft4.jpg",
+      img:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL + "/images/Img_Craft4_1.jpg",
       text: "Knots & Weaves",
       alt:
         "Shop wholesale textiles crafted in indigenous techniques from Qalara",

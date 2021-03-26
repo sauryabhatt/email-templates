@@ -57,136 +57,159 @@ const ShippingDetails = (props) => {
   const [shipTerm, setShipTerm] = useState("ddu");
   const [disableAir, setDisableAir] = useState(false);
   const [disableSea, setDisableSea] = useState(false);
+  const [promoDiscount, setPromoDiscount] = useState(0);
 
   useEffect(() => {
-    let {
-      airQuote = { ddp: {}, ddu: {} },
-      seaQuote = { ddp: {}, ddu: {} },
-      cart = {},
-    } = props || {};
-    setAirData(airQuote);
-    setSeaData(seaQuote);
-    setCartData(cart);
-
-    if (
-      Object.keys(airQuote[shippingTerm]).length ||
-      Object.keys(seaQuote[shippingTerm]).length
-    ) {
-      let { cart = "" } = props;
-      let { subOrders = [], total = 0, shippingModesAvailable = [] } =
-        cart || {};
-      let landedPrice = false;
-      if (subOrders && subOrders.length) {
-        let totalAmount = 0;
-        for (let sellers of subOrders) {
-          let {
-            products = "",
-            qalaraSellerMargin = 0,
-            basePrice = 0,
-          } = sellers;
-          for (let items of products) {
-            let {
-              quantity = 0,
-              exfactoryListPrice = 0,
-              productType = "",
-              priceApplied = 0,
-              freeShippingEligible = false,
-            } = items;
-            if (priceApplied && priceApplied !== null) {
-              if (freeShippingEligible) landedPrice = true;
-              basePrice = basePrice + priceApplied * quantity;
-            } else {
-              basePrice = basePrice + exfactoryListPrice * quantity;
-            }
-
-            if (productType === "ERTM") {
-              setMov(true);
-            }
-          }
-          totalAmount = totalAmount + basePrice;
-        }
-        let seaMax =
-          seaQuote[shippingTerm]["dutyMax"] +
-          seaQuote[shippingTerm]["frightCostMax"];
-        let airMax =
-          airQuote[shippingTerm]["dutyMax"] +
-          airQuote[shippingTerm]["frightCostMax"];
-
-        if (airMax > 0 && seaMax > 0) {
-          let landingFactor = "";
-          landingFactor =
-            (total + (seaMax > airMax ? airMax : seaMax)) / totalAmount;
-
-          if (landingFactor > LANDING_LIMITER) {
-            setPayment(true);
-          } else {
-            if (
-              shippingModesAvailable.includes("Air") &&
-              shippingModesAvailable.includes("Sea")
-            ) {
-              let mode = "AIR";
-              if (seaMax < airMax) {
-                mode = "SEA";
-              }
-              selectMode(mode);
-            } else if (shippingModesAvailable.includes("Air")) {
-              selectMode("AIR");
-            } else if (shippingModesAvailable.includes("Sea")) {
-              selectMode("SEA");
-            }
-          }
-        }
-
-        if (!landedPrice) {
-          let { frightCostMax: a_frieghtCost = 0 } =
-            airQuote[shippingTerm] || {};
-          let { frightCostMax: s_frieghtCost = 0 } =
-            seaQuote[shippingTerm] || {};
-
-          if (a_frieghtCost > 0 && s_frieghtCost > 0) {
-            if (a_frieghtCost > s_frieghtCost) {
-              let percentage =
-                ((a_frieghtCost - s_frieghtCost) / a_frieghtCost) * 100;
-              if (percentage > 50) {
-                setDisableAir(true);
-              }
-            }
-
-            if (s_frieghtCost > a_frieghtCost) {
-              let percentage =
-                ((s_frieghtCost - a_frieghtCost) / s_frieghtCost) * 100;
-              if (percentage > 50) {
-                setDisableSea(true);
-              }
-            }
-          }
-        }
-
-        let a_result = Object.values(airQuote[shippingTerm]).every(
-          (o) => o === 0
-        );
-        let s_result = Object.values(seaQuote[shippingTerm]).every(
-          (o) => o === 0
-        );
-
-        if (a_result) {
-          setDisableAir(a_result);
-        }
-        if (s_result) {
-          setDisableSea(s_result);
-        }
-      }
-    } else {
-      let result =
-        Object.values(airQuote[shippingTerm]).every((o) => o === 0) &&
-        Object.values(seaQuote[shippingTerm]).every((o) => o === 0);
-      if (result) {
-        setPayment(true);
-      }
+    if (props.cart && Object.keys(props.cart).length) {
+      let { cart = {} } = props || {};
+      setCartData(cart);
     }
-
-    setLoading(false);
   }, [props.cart]);
+
+  useEffect(() => {
+    if (
+      Object.keys(props.airQuote).length &&
+      Object.keys(props.seaQuote).length
+    ) {
+      let {
+        airQuote = { ddp: {}, ddu: {} },
+        seaQuote = { ddp: {}, ddu: {} },
+        cart = {},
+      } = props || {};
+      setAirData(airQuote);
+      setSeaData(seaQuote);
+      if (
+        Object.keys(airQuote[shippingTerm]).length ||
+        Object.keys(seaQuote[shippingTerm]).length
+      ) {
+        let { cart = "" } = props;
+        let { subOrders = [], total = 0, shippingModesAvailable = [] } =
+          cart || {};
+        let landedPrice = false;
+        if (subOrders && subOrders.length) {
+          let totalAmount = 0;
+          for (let sellers of subOrders) {
+            let {
+              products = "",
+              qalaraSellerMargin = 0,
+              basePrice = 0,
+            } = sellers;
+            for (let items of products) {
+              let {
+                quantity = 0,
+                exfactoryListPrice = 0,
+                productType = "",
+                priceApplied = 0,
+                freeShippingEligible = false,
+              } = items;
+              if (priceApplied && priceApplied !== null) {
+                if (freeShippingEligible) landedPrice = true;
+                basePrice = basePrice + priceApplied * quantity;
+              } else {
+                basePrice = basePrice + exfactoryListPrice * quantity;
+              }
+
+              if (productType === "ERTM") {
+                setMov(true);
+              }
+            }
+            totalAmount = totalAmount + basePrice;
+          }
+          let seaMax =
+            seaQuote[shippingTerm]["dutyMax"] +
+            seaQuote[shippingTerm]["frightCostMax"];
+          let airMax =
+            airQuote[shippingTerm]["dutyMax"] +
+            airQuote[shippingTerm]["frightCostMax"];
+
+          if (airMax > 0 && seaMax > 0) {
+            let landingFactor = "";
+            landingFactor =
+              (total + (seaMax > airMax ? airMax : seaMax)) / totalAmount;
+
+            if (landingFactor > LANDING_LIMITER) {
+              console.log("Landing factor is ", landingFactor);
+              setPayment(true);
+            } else {
+              if (
+                shippingModesAvailable.includes("Air") &&
+                shippingModesAvailable.includes("Sea")
+              ) {
+                let mode = "AIR";
+                if (seaMax < airMax) {
+                  mode = "SEA";
+                }
+                selectMode(mode);
+              } else if (shippingModesAvailable.includes("Air")) {
+                selectMode("AIR");
+              } else if (shippingModesAvailable.includes("Sea")) {
+                selectMode("SEA");
+              }
+            }
+          }
+
+          if (!landedPrice) {
+            let { frightCostMax: a_frieghtCost = 0 } =
+              airQuote[shippingTerm] || {};
+            let { frightCostMax: s_frieghtCost = 0 } =
+              seaQuote[shippingTerm] || {};
+
+            if (a_frieghtCost > 0 && s_frieghtCost > 0) {
+              if (a_frieghtCost > s_frieghtCost) {
+                let percentage =
+                  ((a_frieghtCost - s_frieghtCost) / a_frieghtCost) * 100;
+                if (percentage > 50) {
+                  setDisableAir(true);
+                }
+              }
+
+              if (s_frieghtCost > a_frieghtCost) {
+                let percentage =
+                  ((s_frieghtCost - a_frieghtCost) / s_frieghtCost) * 100;
+                if (percentage > 50) {
+                  setDisableSea(true);
+                }
+              }
+            }
+          }
+
+          let a_result = Object.values(airQuote[shippingTerm]).every(
+            (o) => o === 0
+          );
+          let s_result = Object.values(seaQuote[shippingTerm]).every(
+            (o) => o === 0
+          );
+
+          if (a_result) {
+            setDisableAir(a_result);
+          }
+          if (s_result) {
+            setDisableSea(s_result);
+          }
+
+          if (a_result && s_result) {
+            setPayment(true);
+          }
+
+          let result =
+            airQuote[shippingTerm]["tat"] === 0 &&
+            seaQuote[shippingTerm]["tat"] === 0;
+          if (result) {
+            setPayment(true);
+          }
+        }
+      } else {
+        let result =
+          Object.values(airQuote[shippingTerm]).every((o) => o === 0) &&
+          Object.values(seaQuote[shippingTerm]).every((o) => o === 0);
+        if (result) {
+          setPayment(true);
+        }
+      }
+
+      setLoading(false);
+    }
+  }, [props.airQuote, props.seaQuote]);
 
   const checkCommitStatus = () => {
     let cartId = orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
@@ -297,7 +320,9 @@ const ShippingDetails = (props) => {
         quantity = "",
         isSampleDeliveryRequired = "",
         isQualityTestingRequired = "",
+        image = "",
       } = product || {};
+      productObj["image"] = image;
       productObj["articleId"] = articleId;
       productObj["quantity"] = quantity;
       productObj["isSampleDeliveryRequired"] = isSampleDeliveryRequired;
@@ -315,7 +340,7 @@ const ShippingDetails = (props) => {
       shippingMode: mode || "DEFAULT",
       shippingTerms: shippingTerm.toUpperCase(),
       referralCode: referralCode,
-      promoDiscount: couponDiscount,
+      promoDiscount: promoDiscount,
       promoCode: couponCode,
       subOrders: allOrders,
     };
@@ -332,17 +357,26 @@ const ShippingDetails = (props) => {
   };
 
   const applyCouponAPI = (data, couponApplied = "") => {
-    fetch(
-      `${process.env.NEXT_PUBLIC_REACT_APP_PRICE_QUOTATION_URL}/quotes/rts/${priceQuoteRef}`,
-      {
-        method: "PUT",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + appToken,
-        },
-      }
-    )
+    let cartId = orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
+
+    let couponUrl = "";
+    if (!couponApplied) {
+      couponUrl = `${
+        process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL
+      }/orders/my/${cartId}/${mode}?shippingTerms=${shippingTerm.toUpperCase()}&promoCode=${couponCode}&promoDiscount=${couponDiscount}`;
+    } else {
+      couponUrl = `${
+        process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL
+      }/orders/my/${cartId}/${mode}?shippingTerms=${shippingTerm.toUpperCase()}&promoCode=&promoDiscount=0`;
+    }
+
+    fetch(couponUrl, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + appToken,
+      },
+    })
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -352,6 +386,7 @@ const ShippingDetails = (props) => {
       })
       .then((result) => {
         let { promoMessage = "", promoDiscount = "" } = result || {};
+        setPromoDiscount(promoDiscount);
         if (promoDiscount === 0) {
           if (!couponApplied) {
             message.error(promoMessage, 5);
@@ -401,11 +436,12 @@ const ShippingDetails = (props) => {
 
   const selectShippingMode = (mode, term = shippingTerm) => {
     if (mode) {
-      let cartId = orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
+      let cartId =
+        orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
       fetch(
         `${
           process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL
-        }/orders/my/${cartId}/${mode}?shippingTerms=${term.toUpperCase()}`,
+        }/orders/my/${cartId}/${mode}?shippingTerms=${term.toUpperCase()}&promoCode=${couponCode}&promoDiscount=${couponDiscount}`,
         {
           method: "PUT",
           headers: {
@@ -430,7 +466,7 @@ const ShippingDetails = (props) => {
             let { tat = 0 } = seaQuote[shippingTerm] || {};
             setTat(tat);
           }
-          let { miscCharges = [] } = result || {};
+          let { miscCharges = [], promoDiscount = 0 } = result || {};
           let discount = 0;
           if (miscCharges.length) {
             discount = miscCharges.find((x) => x.chargeId === "DISCOUNT")
@@ -438,6 +474,7 @@ const ShippingDetails = (props) => {
               : 0;
           }
           setCouponDiscount(discount);
+          setPromoDiscount(promoDiscount);
         })
         .catch((err) => {
           console.log(err);
@@ -569,7 +606,7 @@ const ShippingDetails = (props) => {
                     <Col span={24}>
                       <div className="qa-bg-light-theme qa-pad-2 qa-mar-1 qa-no-ship">
                         We will need to generate a custom freight quotation for
-                        this. Please click on <b>'Create Order Request'</b> and
+                        this. Please click on <b>'Order Quote Request'</b> and
                         we will revert with the best freight rates from our
                         delivery partners.
                       </div>
@@ -1521,7 +1558,7 @@ const ShippingDetails = (props) => {
                   <div className="qa-pad-2 qa-ship-section qa-mar-top-2">
                     <div className="qa-no-ship">
                       We will need to generate a custom freight quotation for
-                      this. Please click on <b>'Create Order Request'</b> and we
+                      this. Please click on <b>'Order Quote Request'</b> and we
                       will revert with the best freight rates from our delivery
                       partners.
                     </div>

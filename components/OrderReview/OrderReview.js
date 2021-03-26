@@ -39,6 +39,7 @@ const OrderReview = (props) => {
   const [sellers, setSellers] = useState([]);
   const [showPayment, setShowPayment] = useState(false);
   const [showShipping, setShowShipping] = useState(false);
+  const [paypalLoaded, setPaypalLoaded] = useState(false);
 
   let { order = {}, brandNameList = "" } = props || {};
   let { shippingMode = "", shippingTerms = "", miscCharges = [] } = order || {};
@@ -423,7 +424,7 @@ const OrderReview = (props) => {
           <div className="c-right-blk qa-txt-alg-rgt qa-mar-btm-05 qa-fw-b">
             {getSymbolFromCurrency(props.order && props.order.currency)}
             {parseFloat(
-              subOrder.qalaraSellerMargin && subOrder.qalaraSellerMargin
+              (subOrder.qalaraSellerMargin && subOrder.qalaraSellerMargin) || 0
             ).toFixed(2)}
           </div>
           <div className="c-left-blk qa-mar-btm-05">Quality testing</div>
@@ -571,7 +572,7 @@ const OrderReview = (props) => {
                 {getSymbolFromCurrency(props.order && props.order.currency)}
                 {parseFloat(
                   subOrder.products.reduce((x, y) => x + y["total"], 0) +
-                    subOrder["qalaraSellerMargin"]
+                    (subOrder["qalaraSellerMargin"] || 0)
                 ).toFixed(2)}
               </span>
             </Col>
@@ -2857,6 +2858,9 @@ const OrderReview = (props) => {
                                   .toUpperCase()
                               ]
                             }
+                            onButtonReady={() => {
+                              setPaypalLoaded(true);
+                            }}
                             termsAccepted={isTermsAccepted}
                             showError={showError}
                             locale={locale}
@@ -3310,7 +3314,7 @@ const OrderReview = (props) => {
                     <Row style={{ paddingTop: "20px" }}>
                       <Col xs={24} sm={24} md={24} lg={24}>
                         {/* <Button className="qa-button payemnt-btn" style={{ minWidth: '90%' }} onClick><span>PROCEED TO PAYMENT</span></Button> */}
-                        {props.order && localeUpdated ? (
+                        {props.order && paypalLoaded && localeUpdated ? (
                           <PayWithPaypal
                             token={keycloak.token}
                             saveOrder={saveOrder}

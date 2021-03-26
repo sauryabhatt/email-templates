@@ -38,6 +38,16 @@ export default function PressCrousel(props) {
       mobile_height: "15px",
       height: "40px",
       url:
+        "https://www.hometextilestoday.com/supply-chain/qalara-aims-to-grow-its-sourcing-platform-in-the-u-s/",
+      linkTo:
+        process.env.NEXT_PUBLIC_REACT_APP_CDN_URL +
+        "/images/Img_AboutUs_Home-Textiles.jpg",
+      title: "“Qalara aims to grow its sourcing platform in the U.S.”",
+    },
+    {
+      mobile_height: "15px",
+      height: "40px",
+      url:
         "https://giftguideonline.com.au/blog/are-you-looking-to-expand-on-a-global-scale.html",
       linkTo:
         process.env.NEXT_PUBLIC_REACT_APP_CDN_URL +
@@ -87,7 +97,7 @@ export default function PressCrousel(props) {
             <img src={press_data[i].linkTo} alt={press_data[i].url} />
             <div className="news-para qa-text-2line">{press_data[i].title}</div>
             <div className="new-read-article">
-              <div className="news-article">Read Article</div>
+              <span className="news-article">Read Article</span>
             </div>
           </div>
         </a>
@@ -112,25 +122,25 @@ export default function PressCrousel(props) {
           {mobile_view}
         </Slider>
       ) : (
-        <div className="press-web-wrp">
+        <Slider ref={(c) => (slider = c)} {...settings}>
           {press_data.map((data, index) => {
             return (
               <div key={`press-${index}`} className="qa-txt-alg-cnt press-blk">
-                <a href={data.url} target="_blank">
-                  <img
-                    style={{ height: `${data.height}` }}
-                    src={data.linkTo}
-                    alt={data.url}
-                  />
-                  <div className="news-para qa-text-2line">{data.title}</div>
-                  <div className="new-read-article">
+                <img
+                  style={{ height: `${data.height}`, margin: "0 auto" }}
+                  src={data.linkTo}
+                  alt={data.url}
+                />
+                <div className="news-para qa-text-2line">{data.title}</div>
+                <div className="new-read-article">
+                  <a href={data.url} target="_blank">
                     <span className="news-article">Read Article</span>
-                  </div>
-                </a>
+                  </a>
+                </div>
               </div>
             );
           })}
-        </div>
+        </Slider>
       )}
       {(!isMobile && press_data.length > 3) ||
       (isMobile && press_data.length > 1) ? (

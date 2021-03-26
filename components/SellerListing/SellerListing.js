@@ -76,7 +76,6 @@ const SellerListing = (props) => {
       f_l2name,
       f_l3name,
       f_l1_names,
-      bird,
       ...rest
     } = queryParams;
     let defaultQuery = querystring.stringify(rest);
@@ -108,8 +107,7 @@ const SellerListing = (props) => {
         key !== "size" &&
         key !== "sort_by" &&
         key !== "sort_order" &&
-        key !== "state" &&
-        key !== "bird"
+        key !== "state"
       ) {
         tempObj[key] = queryParams[key];
       }

@@ -64,7 +64,7 @@ const trendsObj = {
   "play-and-learn": "KidsLearning",
   indigoblues: "IndigoBlues",
   farmhousedecor: "FarmhouseDecor",
-  monochrome :"Monochrome"
+  monochrome: "Monochrome",
 };
 export async function getStaticPaths() {
   return {
@@ -98,5 +98,6 @@ export async function getStaticProps({ params: { trend = "" } = {} }) {
       error: error,
       trend: trend.toLowerCase(),
     },
+    revalidate: 14400,
   };
 }

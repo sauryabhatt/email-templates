@@ -891,6 +891,7 @@ const ProductDetails = (props) => {
       } else {
         setInRange(range);
       }
+      setSelectedQty("");
     }
   };
 

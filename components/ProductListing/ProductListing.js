@@ -33,7 +33,7 @@ const ProductListing = (props) => {
     sort_order: "DESC",
     size: limit,
     from: offset,
-    bird: keycloak.authenticated || cookie.get("appToken") ? "lion" : "apple",
+    bird: keycloak.authenticated || cookie.get("kcToken") ? "lion" : "apple",
   });
   const getQueryParamString = () => {
     let queryObj = {};
@@ -79,7 +79,6 @@ const ProductListing = (props) => {
       f_l2name,
       f_l3name,
       f_l1_names,
-      bird,
       ...rest
     } = queryParams;
     let defaultQuery = querystring.stringify(rest);
@@ -96,9 +95,15 @@ const ProductListing = (props) => {
       query = query + "&f_categories=" + categoryId;
     }
     let jsonQuery = queryString.parse(query);
+
+    if (keycloak.authenticated || cookie.get("kcToken")) {
+      jsonQuery = { ...jsonQuery, bird: "lion" };
+      query = query.replace("apple", "lion");
+    }
+
     setQueryParams(jsonQuery);
     props.getPLPDetails(query, true, false, gb);
-  }, [router.query]);
+  }, [router.query, keycloak.token]);
 
   const getFilterData = (queryParams, instanceType) => {
     setQueryParams(queryParams);

@@ -42,6 +42,7 @@ import deliveredCountryList from "../../public/filestore/deliveredCountries.json
 import PromotionCarousel from "../PromotionCarousel/PromotionCarousel";
 import CheckoutSteps from "../common/CheckoutSteps";
 import PaymentBanner from "../common/PaymentBanner";
+import Spinner from "../Spinner/Spinner";
 
 const { Option } = Select;
 
@@ -123,7 +124,7 @@ const CartDetails = (props) => {
   const [hCountry, setHCountry] = useState([]);
   const [zipCodeList, setZipcodeList] = useState([]);
   const [inventoryQty, setInventoryQty] = useState();
-  const [availableZipcodes, setAvailableZipCodes] = useState([]);
+  const [serviceable, setServiceable] = useState([]);
   let showError = false;
   useEffect(() => {
     if (app_token) {
@@ -146,34 +147,7 @@ const CartDetails = (props) => {
       handleCountry(country);
       setDialCode(dialCode);
 
-      fetch(
-        process.env.NEXT_PUBLIC_REACT_APP_DUTY_COST_URL +
-          "/country/" +
-          country +
-          "/zipcode/" +
-          zipCode,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + app_token,
-          },
-        }
-      )
-        .then((res) => {
-          if (res.ok) {
-            return res.json();
-          } else {
-            throw res.statusText || "Error while updating info.";
-          }
-        })
-        .then((res) => {
-          let { zipcodes = [] } = res || {};
-          setAvailableZipCodes(zipcodes);
-        })
-        .catch((err) => {
-          console.log(error);
-        });
+      checkServiceability(country, zipCode);
     }
 
     if (subOrders.length > 0) {
@@ -201,6 +175,37 @@ const CartDetails = (props) => {
       });
     }
   }, [props.cart]);
+
+  const checkServiceability = (country, zipCode) => {
+    fetch(
+      process.env.NEXT_PUBLIC_REACT_APP_DUTY_COST_URL +
+        "/country/serviceable/" +
+        country +
+        "/zipcode/" +
+        zipCode,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + app_token,
+        },
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw res.statusText || "Error while updating info.";
+        }
+      })
+      .then((res) => {
+        console.log(res);
+        setServiceable(res);
+      })
+      .catch((err) => {
+        console.log(error);
+      });
+  };
 
   let {
     subOrders = [],
@@ -315,6 +320,7 @@ const CartDetails = (props) => {
     let details = id.split("-");
     setSelCountry(details[1]);
     setSelPincode(details[0]);
+    checkServiceability(details[1], details[0]);
   };
 
   const optForServices = () => {
@@ -470,6 +476,7 @@ const CartDetails = (props) => {
   const saveAddress = (values) => {
     setSelCountry(values.country);
     setSelPincode(values.zipCode);
+    checkServiceability(values.country, values.zipCode);
     let zip = values.zipCode.replace(/[^a-z0-9]/gi, "");
     let data = {
       profileId: profileId,
@@ -517,6 +524,7 @@ const CartDetails = (props) => {
   const updateAddress = (values) => {
     setSelCountry(values.country);
     setSelPincode(values.zipCode);
+    checkServiceability(values.country, values.zipCode);
     let zip = values.zipCode.replace(/[^a-z0-9]/gi, "");
     let data = {
       profileId: profileId,
@@ -608,12 +616,9 @@ const CartDetails = (props) => {
           } else {
             setZipcodeList([value]);
           }
-          let { zipcodes = [] } = res || {};
-          setAvailableZipCodes(zipcodes);
         })
         .catch((err) => {
           message.error(err.message || err, 5);
-          setLoading(false);
         });
     } else {
       setZipcodeList([value]);
@@ -949,7 +954,11 @@ const CartDetails = (props) => {
     }
   };
 
-  if (subOrders && subOrders.length === 0 && products.length) {
+  if (!props.cart) {
+    return <Spinner />;
+  }
+
+  if (cart && subOrders && subOrders.length === 0 && products.length) {
     return (
       <div id="cart-details" className="cart-section qa-font-san">
         {mediaMatch.matches ? (
@@ -982,7 +991,7 @@ const CartDetails = (props) => {
     );
   }
 
-  if (subOrders && subOrders.length === 0) {
+  if (cart && subOrders && subOrders.length === 0 && products.length === 0) {
     return (
       <div id="cart-details" className="cart-section qa-font-san empty-cart">
         <div className="e-cart-title qa-txt-alg-cnt qa-mar-btm-1">
@@ -1562,7 +1571,7 @@ const CartDetails = (props) => {
                 brandNames={brandNames}
                 deliver={
                   deliveredCountryList.includes(selCountry || country) &&
-                  availableZipcodes.length
+                  serviceable
                 }
                 showCartError={showError}
                 currencyDetails={currencyDetails}
@@ -1655,7 +1664,7 @@ const CartDetails = (props) => {
                   brandNames={brandNames}
                   deliver={
                     deliveredCountryList.includes(selCountry || country) &&
-                    availableZipcodes.length
+                    serviceable
                   }
                   showCartError={showError}
                   currencyDetails={currencyDetails}

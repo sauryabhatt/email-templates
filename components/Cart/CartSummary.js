@@ -1301,14 +1301,14 @@ const CartSummary = (props) => {
           onClick={createOrder}
           className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment active"
         >
-          Create order request
+          ORDER QUOTE REQUEST
         </Button>
       )}
       {!deliver && id === "cart" && !showCartError && !hideCreateOrder && (
         <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-top-05 qa-txt-alg-cnt">
           *We currently don't have instant checkout enabled for your country.
           However, in most cases we can still arrange to deliver the order to
-          you. Please click on 'Create Order Request' and we will share a link
+          you. Please click on 'Order Quote Request' and we will share a link
           over email with the necessary details to process your order. The link
           will also be available in your Qalara Account section.
         </div>
@@ -1317,7 +1317,7 @@ const CartSummary = (props) => {
         <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-top-05 qa-txt-alg-cnt">
           *We currently don't have instant checkout enabled for your country.
           However, in most cases we can still arrange to deliver the order to
-          you. Please click on 'Create Order Request' and we will share a link
+          you. Please click on 'Order Quote Request' and we will share a link
           over email with the necessary details to process your order. The link
           will also be available in your Qalara Account section.
         </div>

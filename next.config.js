@@ -10,4 +10,18 @@ module.exports = {
   },
   trailingSlash: true,
   generateEtags: false,
+  distDir: "out",
+  async headers() {
+    return [
+      {
+        source: "/:path*{/}?",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: 'no-cache="Set-Cookie"',
+          },
+        ],
+      },
+    ];
+  },
 };

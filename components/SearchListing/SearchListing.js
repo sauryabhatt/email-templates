@@ -31,9 +31,8 @@ const SearchListing = (props) => {
     sort_order: "DESC",
     size: limit,
     from: offset,
-    bird: keycloak.authenticated || cookie.get("appToken") ? "lion" : "apple",
+    bird: keycloak.authenticated || cookie.get("kcToken") ? "lion" : "apple",
   });
-
   const getQueryParamString = () => {
     let queryObj = {};
     const rq = router.query;
@@ -83,7 +82,6 @@ const SearchListing = (props) => {
       search,
       f_l1_names,
       sort_by: sort,
-      bird,
       ...rest
     } = queryParams;
     let newObj = { ...rest };
@@ -98,6 +96,8 @@ const SearchListing = (props) => {
         ...rest,
         sort_by: sort,
         sort_order: "DESC",
+        bird:
+          keycloak.authenticated || cookie.get("kcToken") ? "lion" : "apple",
       };
     }
     let defaultQuery = querystring.stringify(newObj);
@@ -110,6 +110,11 @@ const SearchListing = (props) => {
     }
 
     let jsonQuery = queryString.parse(query);
+    if (keycloak.authenticated || cookie.get("kcToken")) {
+      jsonQuery = { ...jsonQuery, bird: "lion" };
+      query = query.replace("apple", "lion");
+    }
+
     setQueryParams(jsonQuery);
     if (searchBy === "product") {
       props.getPLPDetails(query, true);
@@ -124,7 +129,7 @@ const SearchListing = (props) => {
     }
     setSearchBy(searchBy);
     setSearchText(decodeURIComponent(searchFromQuery));
-  }, [router.query]);
+  }, [router.query, keycloak.token]);
 
   const getFilterData = (queryParams, instanceType) => {
     setQueryParams(queryParams);

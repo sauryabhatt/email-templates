@@ -141,6 +141,10 @@
   .listing-sidebar .price-filter #toPrice {
     margin-top: 12px;
   }
+  .ant-layout.ant-layout-has-sider > .ant-layout,
+  .ant-layout.ant-layout-has-sider > .ant-layout-content {
+    width: auto;
+  }
 }
 #seller-product-listing-page .banner {
   background-size: cover;

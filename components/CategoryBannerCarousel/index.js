@@ -13,35 +13,35 @@ const categoryData = [
   {
     title: "Home decor",
     url:
-      "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_1_1.jpg",
+      "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_1_2.jpg",
     linkTo: "home-decor-and-accessories",
     alt: "Handpicked wholesale home decor suppliers at Qalara",
   },
   {
     title: "Home linen",
     url:
-      "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_4_1.jpg",
+      "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_4_2.jpg",
     linkTo: "home-furnishing",
     alt: "Shop wide variety of wholesale home furnishing brands from Qalara",
   },
   {
     title: "Kitchen & dining",
     url:
-      "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_3_1.jpg",
+      "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_3_2.jpg",
     linkTo: "kitchen-and-dining",
     alt: "Handcarved and Handpainted wholesale kitchenware brands at Qalara",
   },
   {
     title: "Fashion accessories",
     url:
-      "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_2_1.jpg",
+      "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_2_2.jpg",
     linkTo: "fashion",
     alt: "Best wholesale textile and fashion accessories suppliers at Qalara",
   },
   {
     title: "Furniture & storage",
     url:
-      "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_5_1.jpg",
+      "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_5_2.jpg",
     linkTo: "furniture-and-storage",
     alt:
       "Discover bulk furniture suppliers made with artisanal techniques at Qalara",
@@ -49,28 +49,32 @@ const categoryData = [
 
   {
     title: "Baby & kids",
-    url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_7.jpg",
+    url:
+      "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_7_2.jpg",
     linkTo: "baby-and-kids",
     alt:
       "Handcrafted and eco friendly wholesale suppliers specializing in Baby & kids products at Qalara",
   },
   {
     title: "Stationery & novelty",
-    url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_8.jpg",
+    url:
+      "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_8_2.jpg",
     linkTo: "stationery-and-novelty",
     alt:
       "Curated wholesale suppliers offering a wide range of stationery & novelty products at Qalara",
   },
   {
     title: "Jewelry",
-    url: "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_6.jpg",
+    url:
+      "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_6_2.jpg",
     linkTo: "jewelry",
     alt:
       "Wholesale earrings, necklaces, bracelets, rings, nose pins and cufflinks",
   },
   {
     title: "Shop all",
-    url: "https://cdn.qalara.com/images/Img_HomePageCategory_7.jpg",
+    url:
+      "https://cdn.qalara.com/images/Img_HomePageCategory_4x_Vertical_9_2.jpg",
     linkTo: "all-categories",
     alt:
       "Shop consciously designed products with curated craftsmanship at Qalara",

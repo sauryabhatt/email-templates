@@ -313,7 +313,61 @@ class ProductFacets extends Component {
       if (facets && facets.length) {
         for (let list of facets) {
           if (list["aggregateId"] === "f_categories") {
-            dynamicCategories = list;
+            let {
+              aggregateId = "",
+              aggregateList = [],
+              aggregateName = "",
+              priority = 0,
+            } = list;
+            let obj = {};
+            obj["aggregateId"] = aggregateId;
+            obj["aggregateName"] = aggregateName;
+            obj["priority"] = priority;
+
+            let categoryList = [];
+            let catObj = {};
+            for (let category of aggregateList) {
+              let { value = "", count = "" } = category;
+              catObj["name"] = value;
+
+              switch (value) {
+                case "Baby & Kids":
+                  catObj["value"] = "baby-and-kids";
+                  break;
+                case "Fashion":
+                  catObj["value"] = "fashion";
+                  break;
+                case "Furniture & Storage":
+                  catObj["value"] = "furniture-and-storage";
+                  break;
+                case "Home Décor & Accessories":
+                  catObj["value"] = "home-decor-and-accessories";
+                  break;
+                case "Home Furnishing":
+                  catObj["value"] = "home-furnishing";
+                  break;
+                case "Jewelry":
+                  catObj["value"] = "jewelry";
+                  break;
+                case "Kitchen & Dining":
+                  catObj["value"] = "kitchen-and-dining";
+                  break;
+                case "Pets Essentials":
+                  catObj["value"] = "pets-essentials";
+                  break;
+                case "Stationery & Novelty":
+                  catObj["value"] = "stationery-and-novelty";
+                  break;
+                default:
+                  catObj["value"] = "all-categories";
+                  break;
+              }
+
+              catObj["count"] = count;
+            }
+            categoryList.push(catObj);
+            obj["aggregateList"] = categoryList;
+            dynamicCategories = obj;
           }
         }
       }
@@ -392,7 +446,7 @@ class ProductFacets extends Component {
                         key={list.value}
                         onClick={() => this.selectCategory(list.value)}
                       >
-                        {list.value}
+                        {list.name}
                       </Menu.Item>
                     );
                   })}

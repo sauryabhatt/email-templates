@@ -9,24 +9,27 @@ import {
   getBrandNameByCode,
 } from "../../store/actions";
 import { useKeycloak } from "@react-keycloak/ssr";
+import AnonymousCart from "./AnonymousCart";
 import _ from "lodash";
 import Spinner from "../Spinner/Spinner";
-const isServer = () => typeof window == "undefined";
 
 const Cart = (props) => {
-  let { cart = {}, sfl = {} } = !isServer() ? props : props.data;
-  let { brandNameList = [] } = props;
-  const [isLoading, setLoading] = useState(true);
+  let { brandNameList = [], sfl = {} } = props;
+  const [isLoading, setIsLoading] = useState(true);
+  const [initialLoad, setInitialLoad] = useState(false);
+  const [cart, setCart] = useState("");
   const { keycloak } = useKeycloak();
   let { token } = keycloak || {};
 
   async function getCartDetails() {
     let response1 = await props.getCart(token, (res) => {
-      setLoading(false);
+      setIsLoading(false);
     });
     let cartResp = await response1;
     let { cart = {} } =
       cartResp && cartResp["payload"] ? cartResp["payload"] : {};
+
+    setCart(cart);
 
     let response2 = await props.getSavedForLater(token);
     let sflResp = await response2;
@@ -55,24 +58,37 @@ const Cart = (props) => {
   }
 
   useEffect(() => {
+    let showLoader = true;
     if (props.user) {
+      showLoader = false;
+      setIsLoading(true);
       let { user = {} } = props || {};
       let { profileType = "" } = user || {};
       if (profileType === "BUYER") {
         getCartDetails();
       } else {
-        setLoading(false);
+        setIsLoading(false);
       }
     }
-    setTimeout(() => {
-      setLoading(false);
-    }, 5000);
-  }, [props.user]);
+    console.log(initialLoad, showLoader);
+    if (initialLoad && showLoader) {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 600);
+    }
+    setInitialLoad(true);
+  }, [props.user, initialLoad]);
 
-  console.log("Logged in cart ", isLoading);
+  useEffect(() => {
+    if (props.cartDetails && Object.keys(props.cartDetails).length) {
+      setCart(props.cartDetails);
+    }
+  }, [props.cartDetails]);
+
   if (isLoading) {
     return <Spinner />;
-  } else {
+  }
+  if (!isLoading && keycloak.authenticated) {
     return (
       <CartDetails
         app_token={token}
@@ -81,15 +97,17 @@ const Cart = (props) => {
         brandNames={brandNameList}
       />
     );
+  } else if (!keycloak.authenticated) {
+    return <AnonymousCart />;
   }
 };
 
 const mapStateToProps = (state) => {
   return {
-    cart: state.checkout.cart,
-    isLoading: state.userProfile.isLoading,
+    cartDetails: state.checkout.cart,
     brandNameList: state.userProfile.brandNameList,
     user: state.userProfile.userProfile,
+    sfl: state.checkout.sfl,
   };
 };
 
