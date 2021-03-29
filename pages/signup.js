@@ -9,7 +9,7 @@ export default function AboutUs() {
     description:
       "Join the community of wholesale buyers and sellers on Qalara, the best global sourcing platform for Indian handmade products, home decor, furniture, jewelry, kitchen, carpets and textiles.",
     keywords:
-      "Indian exporters, Indian manufacturers, products from South East Asia, buy and sell wholesale, sell in USA, Sell in Europe",
+      "Indian exporters, Indian manufacturers, products from India and South East Asia, buy and sell wholesale, sell in USA, Sell in Europe",
     url: "/signup",
   };
 
