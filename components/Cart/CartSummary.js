@@ -158,7 +158,6 @@ const CartSummary = (props) => {
   }
 
   let { convertToCurrency = "" } = currencyDetails || {};
-  let { orgName = "", email = "", firstName = "" } = user || {};
   let {
     addressLine1 = "",
     addressLine2 = "",
@@ -166,6 +165,7 @@ const CartSummary = (props) => {
     state = "",
     zipCode = "",
     country = "",
+    phoneNumber = "",
   } = shippingAddressDetails || {};
 
   const getConvertedCurrency = (baseAmount) => {
@@ -246,6 +246,24 @@ const CartSummary = (props) => {
     } = user || {};
     let buyerId = profileId.replace("BUYER::", "");
 
+    let shippingAddr = "";
+    shippingAddr =
+      firstName +
+      ", " +
+      addressLine1 +
+      ", " +
+      addressLine2 +
+      ", " +
+      city +
+      ", " +
+      state +
+      ", " +
+      country +
+      ", " +
+      zipCode +
+      ", " +
+      phoneNumber;
+
     let data = {
       profileId: profileId,
       profileType: profileType,
@@ -261,6 +279,8 @@ const CartSummary = (props) => {
       buyerId: buyerId,
       remarks: id === "shipping" ? shippingRemarks : cartRemarks,
       collectionName: "",
+      linkedQuotesId: [priceQuoteRef],
+      deliveryAddress: shippingAddr,
     };
 
     let productList = [];
@@ -268,10 +288,20 @@ const CartSummary = (props) => {
     for (let orders of subOrders) {
       let { products = [] } = orders;
       for (let product of products) {
-        let { articleId = "", quantity = "" } = product;
+        let {
+          articleId = "",
+          quantity = "",
+          priceApplied = "",
+          exfactoryListPrice = "",
+        } = product;
+        let price = exfactoryListPrice;
+        if (priceApplied && priceApplied !== null) {
+          price = priceApplied;
+        }
         let obj = {};
         obj["articleId"] = articleId;
         obj["quantity"] = quantity;
+        obj["priceApplied"] = price;
         obj["remarks"] = "";
         productList.push(obj);
         i++;
@@ -285,9 +315,9 @@ const CartSummary = (props) => {
       method: "GET",
     });
     userDetails = await response.json();
-    let { ip = "", country = "" } = userDetails;
+    let { ip = "", country: ipCountry = "" } = userDetails;
     data.fromIP = ip;
-    data.ipCountry = country;
+    data.ipCountry = ipCountry;
 
     const rfqResp = await fetch(
       process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/queries",
@@ -300,11 +330,8 @@ const CartSummary = (props) => {
         },
       }
     );
-    const rfqResponse = await rfqResp.json();
-
-    console.log(rfqResponse);
-
-    if (rfqResponse.status === 200) {
+    const rfqResponse = await rfqResp;
+    if (rfqResponse && rfqResponse["status"] === 200) {
       const cartResp = await fetch(
         process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL +
           "/v1/orders/status/" +
@@ -317,9 +344,8 @@ const CartSummary = (props) => {
           },
         }
       );
-      const cartResponse = await cartResp.json();
-      console.log(cartResponse);
-      if (cartResponse.status === 200) {
+      const cartResponse = await cartResp;
+      if (cartResponse && cartResponse["status"] === 200) {
         showOrderModal(true);
       }
     }
