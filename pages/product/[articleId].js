@@ -12,7 +12,7 @@ export default function ProductDescriptionPage({ data, articleId }) {
   const meta = {
     title:
       `Buy ${data?.productDetails?.productName} online from India and South East Asia for wholesale exports. Source from verified exporters | Qalara` ||
-      "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods from South Asia | Qalara",
+      "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods from India and South East Asia | Qalara",
     description:
       `Looking to buy ${data?.productDetails?.productName} from Indian exporters? Buy wholesale, connect with hundreds of verified manufacturers and trade online!` ||
       "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods - Décor, Rugs and Carpets, Kitchen, Home Furnishings – from India and South East Asia. Digitally. Reliably. Affordably. Responsibly.",
@@ -77,6 +77,6 @@ export const getStaticProps = async ({ params: { articleId = "" } = {} }) => {
       error: error,
       articleId: articleId,
     },
-    revalidate: 60,
+    revalidate: 10,
   };
 };
