@@ -15,7 +15,6 @@ import SendQueryForm from "../SendQueryForm/SendQueryForm";
 import Icon from "@ant-design/icons";
 
 const Quotations = (props) => {
-  console.log("props",props)
   const router = useRouter();
   const mediaMatch = window.matchMedia("(min-width: 768px)");
   const [current, setCurrent] = useState("received");
@@ -26,10 +25,10 @@ const Quotations = (props) => {
   const [lineSheetRes, setLineSheetRes ] = useState([])
 
   const mergedlineSheetRes = [...lineSheetRes,...props.quotes]
-  console.log("props.userProfile",props.userProfile)
+  // console.log("object",mergedlineSheetRes)
 
-  // let buyer_id = props.userProfile.profileId.replace("BUYER::","");
-
+  let buyer_id = props.userProfile && props.userProfile !== null && props.userProfile.profileId.replace("BUYER::","");
+  
   let requesterName = "";
   if (
     props.userProfile &&
@@ -59,8 +58,7 @@ const Quotations = (props) => {
   };
 
  const getRfq = () => {
-  // let url = `https://api-dev.qalara.com:2095/forms/queries/status?buyer_id=${buyer_id}&status=LINKED_PARTIAL`
-  let url = `https://api-dev.qalara.com:2095/forms/queries/status?buyer_id=BU10160&status=LINKED_PARTIAL`
+  let url = process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/queries/status?buyer_id=" + buyer_id + "&status=LINKED_PARTIAL"
 
   fetch(url , {
       method:"GET",
@@ -69,13 +67,11 @@ const Quotations = (props) => {
         "Content-Type": "application/json"
       },   
     }).then(res => {
-      console.log("res",res)
       if(res.ok){
         return res.json()
       }
     }).then(res => {
-      // console.log("merge",res.props.quote);
-      console.log("resBody",res)
+     
       setLineSheetRes(res);
     })
  }
@@ -130,7 +126,14 @@ const Quotations = (props) => {
     );
   };
 
-  const quotaionCard = props.quotes.map((quote, i) => {
+  const quotaionCard = mergedlineSheetRes.map((quote, i) => {
+
+    let linesheet = false
+    
+    if(quote.rfqStatus === "LINKED_PARTIAL"){
+      linesheet = true
+    }
+
     let date = null;
     let day = null;
     let quoteCreatedDate = null;
@@ -149,7 +152,7 @@ const Quotations = (props) => {
     return (
       <QuotationCard
         status={current}
-        lineSheetRes={mergedlineSheetRes}
+        linesheet={linesheet}
         data={quote}
         // data={mergedlineSheetRes}
         formattedDate={date}
