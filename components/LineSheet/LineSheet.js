@@ -167,7 +167,7 @@ const LineSheet = (props) => {
         return res.json()
       }
     }).then(res => {
-      // console.log("resOlderVersion",res)
+      console.log("resOlderVersion",res)
 
       if(res.length == 0 ){
         document.getElementById("myQuotationNoData").style.display = "block"
@@ -203,7 +203,6 @@ const LineSheet = (props) => {
 
   const getPreviousVersion = () => {
     const {queryNumber} = orderSheetDetails;
-    // console.log("queryNumber",queryNumber)
     let url = process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/lineSheet/get/older_versions/" + queryNumber ;
     fetch(url)
     .then( res => {
@@ -212,6 +211,9 @@ const LineSheet = (props) => {
       }
     })
     .then( res => {
+        console.log("getPreviousVersion",res)
+        document.getElementById("review-and-checkout").style.display = "none"
+        document.getElementById("review-checkout").style.display = "none"
         let Allcomments = res[0].buyerComments
         let findLastComment = Allcomments.pop()
         setLastComments(findLastComment)
@@ -232,7 +234,6 @@ const LineSheet = (props) => {
         return;
       }
       let url = process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/lineSheet/edit_request/" + linesheetId
-      // console.log("url",url)
       let UpdateComments = {
         ...orderSheetDetails,
         comment : buyerComments 
@@ -482,7 +483,11 @@ const LineSheet = (props) => {
             </Row>
 
             <Row style={{marginTop:"20px"}}>
-                <Col span={24}><Button style={{width:"100%"}} id="reviewBtn" loading={reviewCheckout.loading} disabled={reviewCheckout.isDisabled} onClick={checkOut} >REVIEW & CHECKOUT </Button></Col>
+                <Col span={24}>
+                  <span id="review-and-checkout">
+                    <Button style={{width:"100%"}} id="reviewBtn" loading={reviewCheckout.loading} disabled={reviewCheckout.isDisabled} onClick={checkOut} >REVIEW & CHECKOUT </Button>
+                  </span>
+                </Col>
             </Row>
 
             <Row justify="space-between" id="paynow">
@@ -540,31 +545,31 @@ const LineSheet = (props) => {
               </tr>
               <tr style={{height:"45px"}}>
                 <th><span>Product name/<br/> Description</span></th>
-                {productsDetails.map(ele =><td key={ele}><span>{ele.productName}</span></td>)}
+                {productsDetails.map((ele,i) =><td key={i}><span>{ele.productName}</span></td>)}
               </tr>
               <tr style={{height:"45px"}}>
                 <th style={{fontWeight:"900"}}><span>Quantity units</span></th>
-                {productsDetails.map(ele =><td key={ele}><span>{ele.lbhUnit}</span></td>)}
+                {productsDetails.map((ele,i) =><td key={i}><span>{ele.lbhUnit}</span></td>)}
               </tr>
               <tr style={{height:"45px"}}>
                 <th style={{fontWeight:"900"}}><span>Quantity</span></th>
-                {productsDetails.map(ele =><td key={ele}><span>{ele.quantity}</span></td>)}
+                {productsDetails.map((ele,i) =><td key={i}><span>{ele.quantity}</span></td>)}
               </tr>
               <tr style={{height:"45px"}}>
                 <th><span><span>Item ID</span></span></th>
-                {productsDetails.map(ele =><td key={ele}><span>{ele.id.replace("PRODUCT::","")}</span></td>)}
+                {productsDetails.map((ele,i) =><td key={i}><span>{ele.id.replace("PRODUCT::","")}</span></td>)}
               </tr>
               <tr style={{height:"45px"}}>
                 <th style={{color:"#02873A",fontWeight:"900"}}><span>FREE shipping</span></th>
-                {productsDetails.map(ele => <td key={ele}><span>{ele.freeShippingEligible ? "Yes" : "No"}</span></td>)} 
+                {productsDetails.map((ele,i) => <td key={i}><span>{ele.freeShippingEligible ? "Yes" : "No"}</span></td>)} 
               </tr>
               <tr style={{height:"45px"}}>
                 <th style={{fontWeight:"900"}}><span>Door Delivered Price incl.<br/> Duties and taxes DDP</span></th>
-                {productsDetails.map(ele => <td key={ele}><span>{ele.doorDeliveredPrice}</span></td>)}
+                {productsDetails.map((ele,i) => <td key={i}><span>{ele.doorDeliveredPrice}</span></td>)}
               </tr>
               <tr style={{height:"45px"}}>
                 <th><span>Color / Finish</span></th>
-                {productsDetails.map(ele => <td key={ele}><span>{ele.colorOrFinish}</span></td>)}
+                {productsDetails.map((ele,i) => <td key={i}><span>{ele.colorOrFinish}</span></td>)}
               </tr>
               <tr style={{height:"45px"}}>
                 <th><span>Product size</span></th>
@@ -572,31 +577,31 @@ const LineSheet = (props) => {
               </tr>
               <tr style={{height:"45px"}}>
                 <th><span>Product size units</span></th>
-                {productsDetails.map(ele => <td key={ele}><span>{ele.casePackLBHUnit}</span></td>)}
+                {productsDetails.map((ele,i) => <td key={i}><span>{ele.casePackLBHUnit}</span></td>)}
               </tr>
               <tr style={{height:"45px"}}>
                 <th><span>Product weight</span></th>
-                {productsDetails.map(ele => <td key={ele}><span>{ele.casePackWeight}</span></td>)}
+                {productsDetails.map((ele,i) => <td key={i}><span>{ele.casePackWeight}</span></td>)}
               </tr>
               <tr style={{height:"45px"}}>
                 <th><span>Product weight units</span></th>
-                {productsDetails.map(ele => <td key={ele}><span>{ele.casePackWeightUnit}</span></td>)}
+                {productsDetails.map((ele,i) => <td key={i}><span>{ele.casePackWeightUnit}</span></td>)}
               </tr>
               <tr style={{height:"45px"}}>
                 <th><span>Material</span></th>
-                {productsDetails.map(ele => <td key={ele}><span>{ele.material}</span></td>)}
+                {productsDetails.map((ele,i) => <td key={i}><span>{ele.material}</span></td>)}
               </tr>
               <tr style={{height:"45px"}}>
                 <th><span>Specification 1</span></th>
-                {productsDetails.map(ele => <td key={ele}><span>{ele.specification1}</span></td>)}
+                {productsDetails.map((ele,i) => <td key={i}><span>{ele.specification1}</span></td>)}
               </tr>
               <tr style={{height:"45px"}}>
                 <th><span>Specification 2</span></th>
-                {productsDetails.map(ele => <td key={ele}><span>{ele.specification2}</span></td>)}
+                {productsDetails.map((ele,i) => <td key={i}><span>{ele.specification2}</span></td>)}
               </tr>
               <tr style={{height:"45px"}}>
                 <th><span>Minimum order quantity</span></th>
-                {productsDetails.map(ele => <td key={ele}><span>{ele.minimumOrderQuantity}</span></td>)}
+                {productsDetails.map((ele,i) => <td key={i}><span>{ele.minimumOrderQuantity}</span></td>)}
               </tr>
               <tr style={{height:"45px"}}>
                 <th><span>Production Lead time  DAYS</span></th>
@@ -604,15 +609,15 @@ const LineSheet = (props) => {
               </tr>
               <tr style={{height:"45px"}}>
                 <th><span>Base price</span></th>
-                  {productsDetails.map(ele => <td key={ele}><span>{ele.priceApplied}</span></td>)}
+                  {productsDetails.map((ele,i) => <td key={i}><span>{ele.priceApplied}</span></td>)}
               </tr>
               <tr style={{height:"45px"}}>
                 <th>
                   <span style={{color:"#005098"}}>Enter your comments here</span>
                   <span><button style={{border:"none",textDecoration:"underline",cursor:"pointer"}} onClick={saveComments}>Save</button></span>
                 </th>
-                  {productsDetails.map(ele => (
-                    <td key={ele}>
+                  {productsDetails.map((ele,i) => (
+                    <td key={i}>
                       <span>
                         {<TextArea id="buyerValidate" value={lastComments.comment} style={{marginTop:"1px",marginBottom:"1px",width:"70%"}} onChange={ (e) => setBuyerComments(e.target.value)} />}
                       </span>
