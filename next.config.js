@@ -10,7 +10,7 @@ module.exports = {
   },
   trailingSlash: true,
   generateEtags: false,
-  distDir: "dist",
+  distDir: "out",
   async headers() {
     return [
       {

@@ -89,25 +89,127 @@ const SellerProductListing = (props) => {
     } = queryParams;
     let defaultQuery = querystring.stringify(rest);
     let query = getQueryParamString();
+    let urlQuery = getQueryParamString();
     let { categoryId = "", sellerId = "" } = router.query;
 
     if (query) {
-      query = defaultQuery + "&" + query.replace("?", "");
+      let filterQuery = queryString.parse(query);
+      let { f_moqBucket = "" } = filterQuery || {};
+
+      if (f_moqBucket) {
+        let moqFilter = f_moqBucket.split(",");
+        let bucketValues = [];
+        for (let filter of moqFilter) {
+          if (filter === "12 & below") {
+            bucketValues = [
+              ...bucketValues,
+              "Bucket- D",
+              "Bucket- F",
+              "Bucket- H",
+              "Bucket- P",
+              "Bucket- Q",
+              "Bucket- R",
+            ];
+          } else if (filter === "24 & below") {
+            bucketValues = [
+              ...bucketValues,
+              "Bucket- D",
+              "Bucket- F",
+              "Bucket- H",
+              "Bucket- P",
+              "Bucket- Q",
+              "Bucket- R",
+              "Bucket- B",
+              "Bucket- E",
+              "Bucket- G",
+              "Bucket- O",
+            ];
+          } else if (filter === "50 & below") {
+            bucketValues = [
+              ...bucketValues,
+              "Bucket- D",
+              "Bucket- F",
+              "Bucket- H",
+              "Bucket- P",
+              "Bucket- Q",
+              "Bucket- R",
+              "Bucket- B",
+              "Bucket- E",
+              "Bucket- G",
+              "Bucket- O",
+              "Bucket- A",
+              "Bucket- C",
+              "Bucket- N",
+            ];
+          } else if (filter === "100 & below") {
+            bucketValues = [
+              ...bucketValues,
+              "Bucket- D",
+              "Bucket- F",
+              "Bucket- H",
+              "Bucket- P",
+              "Bucket- Q",
+              "Bucket- R",
+              "Bucket- B",
+              "Bucket- E",
+              "Bucket- G",
+              "Bucket- O",
+              "Bucket- A",
+              "Bucket- C",
+              "Bucket- N",
+              "Bucket- M",
+            ];
+          } else if (filter === "200 & below") {
+            bucketValues = [
+              ...bucketValues,
+              "Bucket- D",
+              "Bucket- F",
+              "Bucket- H",
+              "Bucket- P",
+              "Bucket- Q",
+              "Bucket- R",
+              "Bucket- B",
+              "Bucket- E",
+              "Bucket- G",
+              "Bucket- O",
+              "Bucket- A",
+              "Bucket- C",
+              "Bucket- N",
+              "Bucket- M",
+              "Bucket- L",
+            ];
+          } else if (filter === "500 & above") {
+            bucketValues = [
+              ...bucketValues,
+              "Bucket- K",
+              "Bucket- J",
+              "Bucket- I",
+            ];
+          }
+        }
+        bucketValues = _.uniq(bucketValues);
+        filterQuery["f_moqBucket"] = bucketValues.toString();
+      }
+      let filteredQuery = querystring.stringify(filterQuery);
+      query = defaultQuery + "&" + filteredQuery.replace("?", "");
+      urlQuery = defaultQuery + "&" + urlQuery.replace("?", "");
     } else {
       query = defaultQuery;
+      urlQuery = defaultQuery;
     }
 
     if (categoryId.toLowerCase() !== "all-categories") {
       query = query + "&f_categories=" + categoryId;
+      urlQuery = urlQuery + "&f_categories=" + categoryId;
     }
-    query = query + "&sellerId=" + sellerId;
-    let jsonQuery = queryString.parse(query);
 
     if (keycloak.authenticated || cookie.get("kcToken")) {
-      jsonQuery = { ...jsonQuery, bird: "lion" };
       query = query.replace("apple", "lion");
+      urlQuery = urlQuery.replace("apple", "lion");
     }
-
+    query = query + "&sellerId=" + sellerId;
+    urlQuery = urlQuery + "&sellerId=" + sellerId;
+    let jsonQuery = queryString.parse(urlQuery);
     setQueryParams(jsonQuery);
     props.getProductSellerDetails(appToken, sellerId);
     props.getSPLPDetails(query);
