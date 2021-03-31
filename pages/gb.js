@@ -30,7 +30,7 @@ export default function ListingPage({ data }) {
         " "
       )} from Indian manufacturers? Source online with ease from Qalara.com, your reliable partner for ${categoryId
       ?.split("-")
-      ?.join(" ")} from South East Asia.`,
+      ?.join(" ")} from India and South East Asia.`,
     keywords: `${categoryId
       ?.split("-")
       ?.join(" ")} wholesale, ${categoryId

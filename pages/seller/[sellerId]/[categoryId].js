@@ -20,7 +20,7 @@ export default function SellerProductListingPage({ data }) {
       `Buy ${data?.sellerDetails?.categoryDescs.join(", ")} from ${
         data?.sellerId
       } online and get it delivered at your doorstep. Check out all the products, pricing and place your order online, securely.` ||
-      "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods - Décor, Rugs and Carpets, Kitchen, Home Furnishings – from South East Asia. Digitally. Reliably. Affordably. Responsibly.",
+      "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods - Décor, Rugs and Carpets, Kitchen, Home Furnishings – from India and South East Asia. Digitally. Reliably. Affordably. Responsibly.",
     keywords: `${data?.sellerId}, ${data?.sellerDetails?.categoryDescs.join(
       ", "
     )}, Global sourcing, wholesale, exports, handcrafted, South East Asia, bulk, vendors, manufacturer`,
