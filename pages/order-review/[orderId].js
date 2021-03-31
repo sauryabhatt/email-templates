@@ -17,7 +17,7 @@ function OrderReview() {
   const router = useRouter();
   const meta = {
     title:
-      "Buy online from South East Asia for wholesale exports. Source from verified exporters | Qalara",
+      "Buy online from India and South East Asia for wholesale exports. Source from verified exporters | Qalara",
     description:
       "Looking to buy from Indian exporters? Buy wholesale, connect with hundreds of verified manufacturers and trade online!",
   };
