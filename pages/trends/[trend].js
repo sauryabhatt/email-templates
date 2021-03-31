@@ -98,6 +98,6 @@ export async function getStaticProps({ params: { trend = "" } = {} }) {
       error: error,
       trend: trend.toLowerCase(),
     },
-    revalidate: 14400,
+    revalidate: 1000,
   };
 }

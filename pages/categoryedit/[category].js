@@ -131,6 +131,6 @@ export async function getStaticProps({ params: { category = "" } = {} }) {
         error: error,
       },
     },
-    revalidate: 14400,
+    revalidate: 1000,
   };
 }

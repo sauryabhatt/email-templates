@@ -114,6 +114,6 @@ export async function getStaticProps({ params: { artisan = "" } = {} }) {
         error: error,
       },
     },
-    revalidate: 14400,
+    revalidate: 1000,
   };
 }
