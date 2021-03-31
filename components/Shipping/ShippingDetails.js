@@ -23,7 +23,7 @@ import CheckoutSteps from "../common/CheckoutSteps";
 import PaymentBanner from "../common/PaymentBanner";
 import moment from "moment";
 
-const LANDING_LIMITER = 2;
+const LANDING_LIMITER = 1;
 
 const ShippingDetails = (props) => {
   const router = useRouter();

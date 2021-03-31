@@ -22,6 +22,7 @@ import getSymbolFromCurrency from "currency-symbol-map";
 import sellerList from "../../public/filestore/freeShippingSellers.json";
 import alertIcon from "../../public/filestore/alertIcon";
 import _ from "lodash";
+import OtpInput from "react-otp-input";
 
 const CartSummary = (props) => {
   const { keycloak } = useKeycloak();
@@ -46,6 +47,11 @@ const CartSummary = (props) => {
   const [reRender, setReRender] = useState(false);
   const [sellers, setSellers] = useState([]);
   const [qalaraMargin, setQalaraMargin] = useState(0);
+  const [otpVerificationModal, setOtpVerificationModal] = useState(false);
+  const [otpInput, setOtpInput] = useState("");
+  const [otpError, setOtpError] = useState(false);
+  const [otpValidated, setOtpValidated] = useState(false);
+  const [otpLengthError, setOtpLengthError] = useState(false);
 
   useEffect(() => {
     if (props.cart) {
@@ -348,6 +354,78 @@ const CartSummary = (props) => {
       if (cartResponse && cartResponse["status"] === 200) {
         showOrderModal(true);
       }
+    }
+  };
+
+  const hideOtpModal = () => {
+    setOtpVerificationModal(false);
+  };
+
+  const sendOtp = () => {
+    setOtpError(false);
+    setOtpInput("");
+    setOtpLengthError(false);
+    fetch(process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/otp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + keycloak.token,
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.text();
+        } else {
+          throw res.statusText || "Error while signing up.";
+        }
+      })
+      .then((res) => {
+        console.log(res);
+        setOtpVerificationModal(true);
+      })
+      .catch((err) => {
+        message.error(err.message || err, 5);
+      });
+  };
+
+  const handleOtpChange = (otp) => {
+    setOtpInput(otp);
+  };
+
+  const validateOtp = () => {
+    if (otpInput.length !== 6) {
+      setOtpLengthError(true);
+    } else {
+      setOtpLengthError(false);
+      fetch(
+        process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/otp/validate",
+        {
+          method: "POST",
+          body: otpInput,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + keycloak.token,
+          },
+        }
+      )
+        .then((res) => {
+          if (res.ok) {
+            return res.text();
+          } else {
+            throw res.statusText || "Error while signing up.";
+          }
+        })
+        .then((res) => {
+          console.log(res);
+          setOtpVerificationModal(true);
+          setOtpError(false);
+          setOtpValidated(true);
+        })
+        .catch((err) => {
+          setOtpError(true);
+          setOtpValidated(false);
+          // message.error(err.message || err, 5);
+        });
     }
   };
 
@@ -1322,7 +1400,10 @@ const CartSummary = (props) => {
       )}
       {id === "cart" && (
         <div>
-          {enable && deliver && !showCartError ? (
+          {enable &&
+          deliver &&
+          !showCartError &&
+          user.emailVerified === true ? (
             <Link href="/shipping">
               <Button className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-ship active">
                 Proceed to shipping
@@ -1419,23 +1500,48 @@ const CartSummary = (props) => {
         </div>
       )}
 
-      {(!deliver || disablePayment) && !showCartError && !hideCreateOrder && (
-        <Button
-          onClick={createOrder}
-          className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment active"
-        >
-          ORDER QUOTE REQUEST
-        </Button>
-      )}
-      {!deliver && id === "cart" && !showCartError && !hideCreateOrder && (
-        <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-top-05 qa-txt-alg-cnt">
-          *We currently don't have instant checkout enabled for your country.
-          However, in most cases we can still arrange to deliver the order to
-          you. Please click on 'Order Quote Request' and we will share a link
-          over email with the necessary details to process your order. The link
-          will also be available in your Qalara Account section.
+      {user.emailVerified === false && (
+        <div className="otp-error-cart qa-mar-top-2">
+          Please validate your email address to proceed to the shipping
+          page.Please click on the button below to receive a One Time Password
+          (OTP) at your registered email address and follow instructions to
+          validate your email.
         </div>
       )}
+      {user.emailVerified === false && (
+        <Button
+          onClick={sendOtp}
+          className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment active"
+        >
+          SEND VALIDATION OTP
+        </Button>
+      )}
+
+      {(!deliver || disablePayment) &&
+        !showCartError &&
+        !hideCreateOrder &&
+        user.emailVerified === true && (
+          <Button
+            onClick={createOrder}
+            className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment active"
+          >
+            ORDER QUOTE REQUEST
+          </Button>
+        )}
+
+      {!deliver &&
+        id === "cart" &&
+        !showCartError &&
+        !hideCreateOrder &&
+        user.emailVerified === true && (
+          <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-top-05 qa-txt-alg-cnt">
+            *We currently don't have instant checkout enabled for your country.
+            However, in most cases we can still arrange to deliver the order to
+            you. Please click on 'Order Quote Request' and we will share a link
+            over email with the necessary details to process your order. The
+            link will also be available in your Qalara Account section.
+          </div>
+        )}
       {disablePayment && id === "shipping" && (
         <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-top-05 qa-txt-alg-cnt">
           Freight cost appears to be high for this order. Please click on 'Order
@@ -1445,7 +1551,7 @@ const CartSummary = (props) => {
         </div>
       )}
 
-      {deliver && !nonShippable ? (
+      {deliver && !nonShippable && user.emailVerified === true ? (
         <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-top-05 qa-txt-alg-cnt">
           {id === "cart" ? (
             <span>
@@ -1506,6 +1612,103 @@ const CartSummary = (props) => {
             >
               Continue shopping
             </Button>
+          </div>
+        </div>
+      </Modal>
+      <Modal
+        visible={otpVerificationModal}
+        className="otp-verification-modal"
+        footer={null}
+        closable={false}
+        onCancel={hideOtpModal}
+        centered
+        bodyStyle={{ padding: "30px", backgroundColor: "#f9f7f2" }}
+        width={props.isMobile ? "100%" : 800}
+      >
+        <div className="qa-rel-pos">
+          <div
+            onClick={hideOtpModal}
+            style={{
+              position: "absolute",
+              right: "0px",
+              top: "-15px",
+              cursor: "pointer",
+              zIndex: "1",
+            }}
+          >
+            <Icon
+              component={closeButton}
+              style={{ width: "30px", height: "30px" }}
+            />
+          </div>
+          <div>
+            <div className="otp-email-title">Validate your email address</div>
+            {!otpValidated ? (
+              <div>
+                <div className="otp-email-detail">
+                  Enter the One Time Password (OTP) sent to your registered
+                  email address pavaxxxxx@gmail.com
+                </div>
+                <div className="otp-input-field">
+                  <OtpInput
+                    value={otpInput}
+                    onChange={handleOtpChange}
+                    numInputs={6}
+                    separator={<span></span>}
+                    focusStyle="focussed-input"
+                    shouldAutoFocus={true}
+                  />
+                </div>
+                {otpLengthError && (
+                  <div className="email-verification-text">
+                    Please enter 6 digits OTP
+                  </div>
+                )}
+                {otpError && (
+                  <div className="email-verification-text">
+                    The OTP entered is incorrect. Please enter the correct OTP
+                  </div>
+                )}
+                <div className="otp-btn-section qa-mar-top-2">
+                  <Button
+                    onClick={validateOtp}
+                    className="qa-button qa-send-otp"
+                  >
+                    VALIDATE OTP
+                  </Button>
+                </div>
+                <div className="resend-otp-btn" onClick={sendOtp}>
+                  RESEND OTP
+                </div>
+                <div className="otp-help-section">
+                  Please check your promotions/spam/junk folder if you have not
+                  received the OTP in your primary inbox. If you haven't
+                  received the OTP or are facing any issues please write to us
+                  at{" "}
+                  <a
+                    href="mailto:help@qalara.com"
+                    className="qa-sm-color qa-underline"
+                  >
+                    help@qalara.com
+                  </a>{" "}
+                  from your registered email address.
+                </div>
+              </div>
+            ) : (
+              <div style={{ textAlign: "center" }}>
+                <CheckCircleOutlined
+                  style={{
+                    fontSize: "100px",
+                    marginTop: "10px",
+                    marginBottom: "20px",
+                  }}
+                />
+                <div className="qa-mar-btm-3 otp-validated">
+                  Thank you for validating your email address. Online checkout
+                  is now enabled for your Qalara account.
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </Modal>

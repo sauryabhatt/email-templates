@@ -1585,22 +1585,24 @@ const CartDetails = (props) => {
                   setAddressFunc("add");
                 }}
               />
-              <div className=" qa-mar-btm-2">
-                <Checkbox
-                  className="check-box-tnc"
-                  onChange={(e) => {
-                    let { checked = "" } = e.target;
-                    setEnable(checked);
-                  }}
-                >
-                  I agree to{" "}
-                  <Link className="c-breakup" href="/TermsOfUse">
-                    <a target="_blank">
-                      <span className="c-breakup">terms and conditions</span>
-                    </a>
-                  </Link>
-                </Checkbox>
-              </div>
+              {userProfile.emailVerified === true && (
+                <div className=" qa-mar-btm-2">
+                  <Checkbox
+                    className="check-box-tnc"
+                    onChange={(e) => {
+                      let { checked = "" } = e.target;
+                      setEnable(checked);
+                    }}
+                  >
+                    I agree to{" "}
+                    <Link className="c-breakup" href="/TermsOfUse">
+                      <a target="_blank">
+                        <span className="c-breakup">terms and conditions</span>
+                      </a>
+                    </Link>
+                  </Checkbox>
+                </div>
+              )}
             </Col>
           </Row>
         </Col>
@@ -1677,23 +1679,28 @@ const CartDetails = (props) => {
                     setAddressModal(true);
                     setAddressFunc("add");
                   }}
+                  isMobile={true}
                 />
-                <div className="qa-mar-top-05">
-                  <Checkbox
-                    className="check-box-tnc"
-                    onChange={(e) => {
-                      let { checked = "" } = e.target;
-                      setEnable(checked);
-                    }}
-                  >
-                    I agree to{" "}
-                    <Link className="c-breakup" href="/TermsOfUse">
-                      <a target="_blank">
-                        <span className="c-breakup">terms and conditions</span>
-                      </a>
-                    </Link>
-                  </Checkbox>
-                </div>
+                {userProfile.emailVerified === true && (
+                  <div className="qa-mar-top-05">
+                    <Checkbox
+                      className="check-box-tnc"
+                      onChange={(e) => {
+                        let { checked = "" } = e.target;
+                        setEnable(checked);
+                      }}
+                    >
+                      I agree to{" "}
+                      <Link className="c-breakup" href="/TermsOfUse">
+                        <a target="_blank">
+                          <span className="c-breakup">
+                            terms and conditions
+                          </span>
+                        </a>
+                      </Link>
+                    </Checkbox>
+                  </div>
+                )}
               </Col>
               {referralCode && (
                 <Col span={24}>
