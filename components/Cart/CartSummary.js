@@ -174,6 +174,8 @@ const CartSummary = (props) => {
     phoneNumber = "",
   } = shippingAddressDetails || {};
 
+  let { emailVerified = false, email = "" } = user || {};
+
   const getConvertedCurrency = (baseAmount) => {
     let { convertToCurrency = "", rates = [] } = currencyDetails;
     return Number.parseFloat(
@@ -815,6 +817,20 @@ const CartSummary = (props) => {
     parseFloat(getConvertedCurrency(vatCharge)) -
     parseFloat(getConvertedCurrency(promoDiscount));
 
+  let maskid = "";
+  let prefix = email.substring(0, email.lastIndexOf("@"));
+  let postfix = email.substring(email.lastIndexOf("@"));
+
+  for (let i = 0; i < prefix.length; i++) {
+    if (i == 0 || i == prefix.length - 1) {
+      ////////
+      maskid = maskid + prefix[i].toString();
+    } else {
+      maskid = maskid + "*";
+    }
+  }
+  maskid = maskid + postfix;
+
   const dduContent = (
     <div className="breakup-popup qa-font-san qa-tc-white">
       <div className="qa-border-bottom qa-pad-btm-15 qa-fs-14 qa-lh">
@@ -1399,10 +1415,7 @@ const CartSummary = (props) => {
       )}
       {id === "cart" && (
         <div>
-          {enable &&
-          deliver &&
-          !showCartError &&
-          user.emailVerified === true ? (
+          {enable && deliver && !showCartError && emailVerified === true ? (
             <Link href="/shipping">
               <Button className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-ship active">
                 Proceed to shipping
@@ -1499,7 +1512,7 @@ const CartSummary = (props) => {
         </div>
       )}
 
-      {user.emailVerified === false && (
+      {(emailVerified === false || emailVerified === null) && (
         <div className="otp-error-cart qa-mar-top-2">
           Please validate your email address to proceed to the shipping
           page.Please click on the button below to receive a One Time Password
@@ -1507,7 +1520,7 @@ const CartSummary = (props) => {
           validate your email.
         </div>
       )}
-      {user.emailVerified === false && (
+      {(emailVerified === false || emailVerified === null) && (
         <Button
           onClick={sendOtp}
           className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment active"
@@ -1519,7 +1532,7 @@ const CartSummary = (props) => {
       {(!deliver || disablePayment) &&
         !showCartError &&
         !hideCreateOrder &&
-        user.emailVerified === true && (
+        emailVerified === true && (
           <Button
             onClick={createOrder}
             className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment active"
@@ -1532,7 +1545,7 @@ const CartSummary = (props) => {
         id === "cart" &&
         !showCartError &&
         !hideCreateOrder &&
-        user.emailVerified === true && (
+        emailVerified === true && (
           <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-top-05 qa-txt-alg-cnt">
             *We currently don't have instant checkout enabled for your country.
             However, in most cases we can still arrange to deliver the order to
@@ -1550,7 +1563,7 @@ const CartSummary = (props) => {
         </div>
       )}
 
-      {deliver && !nonShippable && user.emailVerified === true ? (
+      {deliver && !nonShippable && emailVerified === true ? (
         <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-top-05 qa-txt-alg-cnt">
           {id === "cart" ? (
             <span>
@@ -1646,7 +1659,7 @@ const CartSummary = (props) => {
               <div>
                 <div className="otp-email-detail">
                   Enter the One Time Password (OTP) sent to your registered
-                  email address pavaxxxxx@gmail.com
+                  email address {maskid}
                 </div>
                 <div className="otp-input-field">
                   <OtpInput

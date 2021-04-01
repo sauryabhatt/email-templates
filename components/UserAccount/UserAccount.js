@@ -195,7 +195,7 @@ const UserAccount = (props) => {
 
   const formUpdate = (values) => {
     if (values) {
-      var data = { ...values };
+      let data = { ...values };
       if (values.profileType === "BUYER") {
         // data.inOrderTypes = values.interestsInOrderTypes;
         // data.inCategories = values.interestsInCategories;
@@ -1072,6 +1072,25 @@ const UserAccount = (props) => {
       return <QuotationMobile />;
     }
   };
+
+  let maskid = "";
+  let userEmailId =
+    props &&
+    props.userProfile &&
+    props.userProfile.userProfile &&
+    props.userProfile.userProfile.email;
+  let prefix = userEmailId.substring(0, userEmailId.lastIndexOf("@"));
+  let postfix = userEmailId.substring(userEmailId.lastIndexOf("@"));
+
+  for (let i = 0; i < prefix.length; i++) {
+    if (i == 0 || i == prefix.length - 1) {
+      ////////
+      maskid = maskid + prefix[i].toString();
+    } else {
+      maskid = maskid + "*";
+    }
+  }
+  maskid = maskid + postfix;
 
   if (showLoader) {
     return <Spinner />;
@@ -2330,7 +2349,7 @@ const UserAccount = (props) => {
               <div>
                 <div className="otp-email-detail">
                   Enter the One Time Password (OTP) sent to your registered
-                  email address pavaxxxxx@gmail.com
+                  email address {maskid}
                 </div>
                 <div className="otp-input-field">
                   <OtpInput

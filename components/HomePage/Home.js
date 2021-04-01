@@ -84,11 +84,16 @@ function Home(props) {
         profileType = "",
         emailVerified = false,
       } = props.userProfile;
-      console.log(verificationStatus, emailVerified);
-      if (emailVerified === false && verificationStatus !== "VERIFIED") {
+      if (
+        (emailVerified === false || emailVerified === null) &&
+        verificationStatus !== "VERIFIED"
+      ) {
         setNotificationMsg("ACCOUNT_EMAIL_NOT_VERIFIED");
         setVerificationModal(true);
-      } else if (emailVerified === false && verificationStatus === "VERIFIED") {
+      } else if (
+        (emailVerified === false || emailVerified === null) &&
+        verificationStatus === "VERIFIED"
+      ) {
         setNotificationMsg("EMAIL_NOT_VERIFIED");
         setVerificationModal(true);
       } else if (emailVerified === true && verificationStatus !== "VERIFIED") {
