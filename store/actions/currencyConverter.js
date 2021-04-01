@@ -25,56 +25,53 @@ export const getCurrentFormat = (convertToCurrency) => {
 export const getCurrencyConversion = (base, callback = "") => async (
   dispatch
 ) => {
-  let url = `https://api.exchangeratesapi.io/latest?base=${base}`;
-  // let url = `${process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL}/currencies/conversion-rates?base=${base}`;
+  let url = `${process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL}/currencies/conversion-rates?base=${base}`;
 
-  fetch(url, {
-    method: "GET",
-    // headers: {
-    //   "Content-Type": "application/json",
-    //   Authorization: "Bearer " + process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN,
-    // },
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        throw new Error("Something went wrong");
-      }
+  let hours = 2;
+  let saved = sessionStorage.getItem("currencySaved");
+  if (saved && new Date().getTime() - saved > hours * 60 * 60 * 1000) {
+    sessionStorage.removeItem("currencySaved");
+    sessionStorage.removeItem("currencyDetails");
+  }
+  console.log("Currency save time ", saved);
+  if (!sessionStorage.getItem("currencySaved")) {
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + process.env.NEXT_PUBLIC_ANONYMOUS_TOKEN,
+      },
     })
-    .then((res) => {
-      let currencies = res["rates"];
-      let rates = Object.keys(res["rates"]).sort();
-      if (callback) {
-        callback(res);
-      } else {
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("Something went wrong");
+        }
+      })
+      .then((res) => {
+        sessionStorage.setItem("currencySaved", new Date().getTime());
+        let currencies = res["rates"] || { USD: 1.0 };
+        let rates = Object.keys(currencies).sort();
+        let obj = {};
+        obj["rates"] = currencies;
+        if (callback) {
+          callback(obj);
+        }
+        sessionStorage.setItem("currencyDetails", JSON.stringify(obj));
         return dispatch(setCurrency(rates, currencies));
-      }
-    })
-    .catch((err) => {
-      // console.log(err);
-      // fetch(`https://api.exchangeratesapi.io/latest?base=${base}`, {
-      //   method: "GET",
-      // })
-      //   .then((res) => {
-      //     if (res.ok) {
-      //       return res.json();
-      //     } else {
-      //       throw new Error("Something went wrong");
-      //     }
-      //   })
-      //   .then((res) => {
-      //     console.log("API Resp 2 ", res);
-      //     let currencies = res["rates"];
-      //     let rates = Object.keys(res["rates"]).sort();
-      //     if (callback) {
-      //       callback(res);
-      //     } else {
-      //       return dispatch(setCurrency(rates, currencies));
-      //     }
-      //   })
-      //   .catch((err) => {
-      //     // console.log(err.message);
-      //   });
-    });
+      })
+      .catch((err) => {
+        console.log(err);
+        let currencies = { USD: 1.0 };
+        let rates = Object.keys(currencies).sort();
+        return dispatch(setCurrency(rates, currencies));
+      });
+  } else {
+    let obj = sessionStorage.getItem("currencyDetails") || {};
+    obj = JSON.parse(obj);
+    if (callback) {
+      callback(obj);
+    }
+  }
 };
