@@ -34,6 +34,7 @@ import {
   getSavedForLater,
   updateCart,
   checkInventory,
+  getUserProfile,
 } from "../../store/actions";
 import { QuantityInput } from "./QuantityInput";
 import _ from "lodash";
@@ -1580,6 +1581,7 @@ const CartDetails = (props) => {
                 clearCart={() => {
                   props.getCart(app_token);
                 }}
+                getUserProfile={() => props.getUserProfile(app_token)}
                 showAddrModal={() => {
                   setAddressModal(true);
                   setAddressFunc("add");
@@ -1675,6 +1677,7 @@ const CartDetails = (props) => {
                   clearCart={() => {
                     props.getCart(app_token);
                   }}
+                  getUserProfile={() => props.getUserProfile(app_token)}
                   showAddrModal={() => {
                     setAddressModal(true);
                     setAddressFunc("add");
@@ -3170,4 +3173,5 @@ export default connect(mapStateToProps, {
   getSavedForLater,
   updateCart,
   checkInventory,
+  getUserProfile,
 })(CartDetails);

@@ -421,6 +421,7 @@ const CartSummary = (props) => {
           setOtpVerificationModal(true);
           setOtpError(false);
           setOtpValidated(true);
+          props.getUserProfile();
         })
         .catch((err) => {
           setOtpError(true);

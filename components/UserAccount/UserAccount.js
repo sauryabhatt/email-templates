@@ -1044,6 +1044,7 @@ const UserAccount = (props) => {
           setOtpVerificationModal(true);
           setOtpError(false);
           setOtpValidated(true);
+          props.getUserProfile(keycloak.token);
         })
         .catch((err) => {
           setOtpError(true);
