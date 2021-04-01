@@ -12,7 +12,7 @@ import {
   Spin,
   Tooltip,
 } from "antd";
-import Icon from "@ant-design/icons";
+import Icon, { CheckCircleOutlined } from "@ant-design/icons";
 import closeButton from "../../public/filestore/closeButton";
 import infoIcon from "../../public/filestore/infoSuccess";
 import PayWithPaypal from "../PayWithPayPal/PayWithPaypal";
@@ -285,7 +285,6 @@ const CartSummary = (props) => {
       buyerId: buyerId,
       remarks: id === "shipping" ? shippingRemarks : cartRemarks,
       collectionName: "",
-      linkedQuotesId: [priceQuoteRef],
       deliveryAddress: shippingAddr,
     };
 
