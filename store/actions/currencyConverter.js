@@ -2,6 +2,8 @@
 
 import * as actionTypes from "../types";
 
+const ACCESS_KEY_CURRENCY = "87ae633e1a755dc2a6daca48416a3a46";
+
 export const setCurrency = (currencies, rates) => {
   return {
     type: actionTypes.GET_CURRENCY_CONVERSION,
@@ -26,7 +28,7 @@ export const getCurrentFormat = (convertToCurrency) => {
 export const getCurrencyConversion = (base, callback = "") => async (
   dispatch
 ) => {
-  let url = `https://api.fastforex.io/fetch-all?from=${base}&api_key=2ff4f48393-c9b2427d6e-qqvmak`;
+  let url = `https://api.exchangeratesapi.io/v1/latest?access_key=${ACCESS_KEY_CURRENCY}`;
   fetch(url, {
     method: "GET",
   })
@@ -41,9 +43,14 @@ export const getCurrencyConversion = (base, callback = "") => async (
       let fallbackData = {
         USD: 1,
       };
-      let currencies = res["results"] || fallbackData;
+      let currencies;
+      if (res["success"] === true) {
+        currencies = res["rates"];
+      } else {
+        currencies = fallbackData;
+      }
 
-      let rates = Object.keys(res["results"] || fallbackData).sort();
+      let rates = Object.keys(currencies).sort();
       if (callback) {
         callback(res);
       } else {
