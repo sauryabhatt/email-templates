@@ -28,7 +28,7 @@ export const getCurrentFormat = (convertToCurrency) => {
 export const getCurrencyConversion = (base, callback = "") => async (
   dispatch
 ) => {
-  let url = `https://api.exchangeratesapi.io/v1/latest?access_key=${ACCESS_KEY_CURRENCY}`;
+  let url = `https://api.exchangeratesapi.io/v1/latest?base=${base}&access_key=${ACCESS_KEY_CURRENCY}`;
   fetch(url, {
     method: "GET",
   })
