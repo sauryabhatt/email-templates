@@ -174,7 +174,7 @@ const CartSummary = (props) => {
     phoneNumber = "",
   } = shippingAddressDetails || {};
 
-  let { emailVerified = false, email = "" } = user || {};
+  let { verifiedEmail = false, email = "" } = user || {};
 
   const getConvertedCurrency = (baseAmount) => {
     let { convertToCurrency = "", rates = [] } = currencyDetails;
@@ -1416,7 +1416,7 @@ const CartSummary = (props) => {
       )}
       {id === "cart" && (
         <div>
-          {enable && deliver && !showCartError && emailVerified === true ? (
+          {enable && deliver && !showCartError && verifiedEmail === true ? (
             <Link href="/shipping">
               <Button className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-ship active">
                 Proceed to shipping
@@ -1513,7 +1513,7 @@ const CartSummary = (props) => {
         </div>
       )}
 
-      {(emailVerified === false || emailVerified === null) && (
+      {(verifiedEmail === false || verifiedEmail === null) && (
         <div className="otp-error-cart qa-mar-top-2">
           Please validate your email address to proceed to the shipping
           page.Please click on the button below to receive a One Time Password
@@ -1521,7 +1521,7 @@ const CartSummary = (props) => {
           validate your email.
         </div>
       )}
-      {(emailVerified === false || emailVerified === null) && (
+      {(verifiedEmail === false || verifiedEmail === null) && (
         <Button
           onClick={sendOtp}
           className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment active"
@@ -1533,7 +1533,7 @@ const CartSummary = (props) => {
       {(!deliver || disablePayment) &&
         !showCartError &&
         !hideCreateOrder &&
-        emailVerified === true && (
+        verifiedEmail === true && (
           <Button
             onClick={createOrder}
             className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment active"
@@ -1546,7 +1546,7 @@ const CartSummary = (props) => {
         id === "cart" &&
         !showCartError &&
         !hideCreateOrder &&
-        emailVerified === true && (
+        verifiedEmail === true && (
           <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-top-05 qa-txt-alg-cnt">
             *We currently don't have instant checkout enabled for your country.
             However, in most cases we can still arrange to deliver the order to
@@ -1564,7 +1564,7 @@ const CartSummary = (props) => {
         </div>
       )}
 
-      {deliver && !nonShippable && emailVerified === true ? (
+      {deliver && !nonShippable && verifiedEmail === true ? (
         <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-top-05 qa-txt-alg-cnt">
           {id === "cart" ? (
             <span>

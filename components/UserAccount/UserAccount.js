@@ -1253,7 +1253,7 @@ const UserAccount = (props) => {
             </div>
           ) : null}
           {props.userProfile.userProfile &&
-          props.userProfile.userProfile.emailVerified === false ? (
+          props.userProfile.userProfile.verifiedEmail === false ? (
             <div className="email-validation-banner">
               <div className="email-verification-text">
                 Validation of your email address is pending. You will not be

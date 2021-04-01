@@ -82,21 +82,21 @@ function Home(props) {
       let {
         verificationStatus = "",
         profileType = "",
-        emailVerified = false,
+        verifiedEmail = false,
       } = props.userProfile;
       if (
-        (emailVerified === false || emailVerified === null) &&
+        (verifiedEmail === false || verifiedEmail === null) &&
         verificationStatus !== "VERIFIED"
       ) {
         setNotificationMsg("ACCOUNT_EMAIL_NOT_VERIFIED");
         setVerificationModal(true);
       } else if (
-        (emailVerified === false || emailVerified === null) &&
+        (verifiedEmail === false || verifiedEmail === null) &&
         verificationStatus === "VERIFIED"
       ) {
         setNotificationMsg("EMAIL_NOT_VERIFIED");
         setVerificationModal(true);
-      } else if (emailVerified === true && verificationStatus !== "VERIFIED") {
+      } else if (verifiedEmail === true && verificationStatus !== "VERIFIED") {
         setNotificationMsg("ACCOUNT_NOT_VERIFIED");
         setVerificationModal(true);
       }

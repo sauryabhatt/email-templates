@@ -1587,7 +1587,7 @@ const CartDetails = (props) => {
                   setAddressFunc("add");
                 }}
               />
-              {userProfile.emailVerified === true && (
+              {userProfile.verifiedEmail === true && (
                 <div className=" qa-mar-btm-2">
                   <Checkbox
                     className="check-box-tnc"
@@ -1684,7 +1684,7 @@ const CartDetails = (props) => {
                   }}
                   isMobile={true}
                 />
-                {userProfile.emailVerified === true && (
+                {userProfile.verifiedEmail === true && (
                   <div className="qa-mar-top-05">
                     <Checkbox
                       className="check-box-tnc"
