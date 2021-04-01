@@ -26,7 +26,7 @@ export const getCurrentFormat = (convertToCurrency) => {
 export const getCurrencyConversion = (base, callback = "") => async (
   dispatch
 ) => {
-  let url = `https://api.exchangeratesapi.io/latest?base=${base}`;
+  let url = `https://api.fastforex.io/fetch-all?from=${base}&api_key=2ff4f48393-c9b2427d6e-qqvmak`;
   fetch(url, {
     method: "GET",
   })
@@ -38,8 +38,12 @@ export const getCurrencyConversion = (base, callback = "") => async (
       }
     })
     .then((res) => {
-      let currencies = res["rates"];
-      let rates = Object.keys(res["rates"]).sort();
+      let fallbackData = {
+        USD: 1,
+      };
+      let currencies = res["results"] || fallbackData;
+
+      let rates = Object.keys(res["results"] || fallbackData).sort();
       if (callback) {
         callback(res);
       } else {
@@ -47,6 +51,17 @@ export const getCurrencyConversion = (base, callback = "") => async (
       }
     })
     .catch((err) => {
+      let fallbackData = {
+        USD: 1,
+      };
+      let currencies = fallbackData;
+
+      let rates = Object.keys(fallbackData).sort();
+      if (callback) {
+        callback(res);
+      } else {
+        return dispatch(setCurrency(rates, currencies));
+      }
       // console.log(err.message);
     });
 };
