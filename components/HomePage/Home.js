@@ -786,7 +786,7 @@ function Home(props) {
 
       <Modal
         className="confirmation-modal"
-        visible={verificationModal}
+        visible={verificationModal && !confirmationModal}
         footer={null}
         closable={false}
         bodyStyle={{
