@@ -133,6 +133,7 @@ const ShippingDetails = (props) => {
             if (landingFactor > LANDING_LIMITER) {
               console.log("Landing factor is ", landingFactor);
               setPayment(true);
+              setLoading(false);
             } else {
               if (
                 shippingModesAvailable.includes("Air") &&
@@ -192,6 +193,7 @@ const ShippingDetails = (props) => {
 
           if (a_result && s_result) {
             setPayment(true);
+            setLoading(false);
           }
 
           let result =
@@ -199,6 +201,7 @@ const ShippingDetails = (props) => {
             seaQuote[shippingTerm]["tat"] === 0;
           if (result) {
             setPayment(true);
+            setLoading(false);
           }
         }
       } else {
@@ -209,8 +212,6 @@ const ShippingDetails = (props) => {
           setPayment(true);
         }
       }
-
-      setLoading(false);
     }
   }, [props.airQuote, props.seaQuote]);
 
@@ -478,9 +479,11 @@ const ShippingDetails = (props) => {
           }
           setCouponDiscount(discount);
           setPromoDiscount(promoDiscount);
+          setLoading(false);
         })
         .catch((err) => {
           console.log(err);
+          setLoading(false);
         });
     }
   };

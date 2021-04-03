@@ -126,6 +126,7 @@ const CartDetails = (props) => {
   const [zipCodeList, setZipcodeList] = useState([]);
   const [inventoryQty, setInventoryQty] = useState();
   const [serviceable, setServiceable] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   let showError = false;
   useEffect(() => {
     if (app_token) {
@@ -173,7 +174,10 @@ const CartDetails = (props) => {
             }
           }
         }
+        setIsLoading(false);
       });
+    } else {
+      setIsLoading(false);
     }
   }, [props.cart]);
 
@@ -631,6 +635,7 @@ const CartDetails = (props) => {
     let skuid = deleteProduct;
     let p_data = {};
     let s_count = 0;
+    setUpdate("");
 
     if (action === "OPT_SERVICES") {
       action = "UPDATE";
@@ -955,7 +960,7 @@ const CartDetails = (props) => {
     }
   };
 
-  if (!props.cart) {
+  if (!props.cart && isLoading) {
     return <Spinner />;
   }
 
@@ -1010,7 +1015,8 @@ const CartDetails = (props) => {
             className="qa-button qa-fs-12 qa-shop-btn"
             onClick={(e) => {
               if (buttonName === "Sign up as a buyer") {
-                router.push("/signup");
+                // router.push("/signup");
+                registerToApp(keycloak, { currentPath: router.asPath });
               } else {
                 router.push("/");
               }

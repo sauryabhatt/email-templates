@@ -10,6 +10,7 @@ import { getCollections } from "../../store/actions";
 import { useKeycloak } from "@react-keycloak/ssr";
 import { LoadingOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
+import { registerToApp } from "../AuthWithKeycloak";
 
 function Collections(props) {
   const { keycloak } = useKeycloak();
@@ -203,7 +204,10 @@ function Collections(props) {
                       <Button
                         className="qa-button quote-contact-seller"
                         onClick={() => {
-                          router.push("/signup");
+                          registerToApp(keycloak, {
+                            currentPath: router.asPath,
+                          });
+                          // router.push("/signup");
                         }}
                       >
                         <span className="qa-font-san qa-fw-b qa-fs-14">
@@ -285,9 +289,7 @@ function Collections(props) {
                             return (
                               <Col xs={22} sm={22} md={22} lg={22} key={k}>
                                 <div className="aspect-ratio-box">
-                                  <Link
-                                    href={`/product/${articleId}`}
-                                  >
+                                  <Link href={`/product/${articleId}`}>
                                     <img
                                       className="images qa-cursor"
                                       src={

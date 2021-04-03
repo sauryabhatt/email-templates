@@ -57,7 +57,7 @@ import Quotations from "../Quotations/Quotations";
 import QuotationMobile from "../mobile/QuotationMobile";
 import Orderss from "../Orders/Orderss";
 import Addresses from "../Addresses/Addresses";
-import { logoutFromApp } from "../AuthWithKeycloak";
+import { logoutFromApp, registerToApp } from "../AuthWithKeycloak";
 import Collections from "./../Collections/Collections";
 import closeButton from "../../public/filestore/closeButton";
 import OtpInput from "react-otp-input";
@@ -442,7 +442,8 @@ const UserAccount = (props) => {
   };
 
   const handleSignUpAsABuyer = () => {
-    logoutFromApp({ currentPath: "/signup" });
+    logoutFromApp();
+    registerToApp(keycloak, { currentPath: router.asPath });
   };
 
   const onSetPassword = () => {

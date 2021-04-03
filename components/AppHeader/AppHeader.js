@@ -23,7 +23,7 @@ import {
 } from "antd";
 import Icon from "@ant-design/icons";
 import LogoWithText from "../../public/filestore/logo_with_text.js";
-import { loginToApp } from "../AuthWithKeycloak";
+import { loginToApp, registerToApp } from "../AuthWithKeycloak";
 import userProfileIcon from "../../public/filestore/userProfileIcon";
 import homeIcon from "../../public/filestore/homeIcon";
 import menuIcon from "../../public/filestore/menuIcon";
@@ -118,7 +118,8 @@ function AppHeader(props) {
   };
 
   const handleSignUp = () => {
-    router.push("/signup");
+    // router.push("/signup");
+    registerToApp(keycloak, { currentPath: router.asPath });
   };
 
   const onSearch = () => {
