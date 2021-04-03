@@ -21,7 +21,6 @@ import { registerToApp } from "../AuthWithKeycloak";
 //import b2_m from "../../public/filestore/Homepage-banner2-mob.jpg"
 
 export default function HomePageCarousel(props) {
-  const { keycloak } = useKeycloak();
   const [isMobile, setIsMobile] = useState(false);
   const imgs = [
     {
@@ -205,6 +204,7 @@ export default function HomePageCarousel(props) {
 
 function SlideElement(props) {
   const router = useRouter();
+  const { keycloak } = useKeycloak();
   let {
     e,
     isVideoPlay,
