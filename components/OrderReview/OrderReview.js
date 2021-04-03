@@ -291,6 +291,7 @@ const OrderReview = (props) => {
 
   const saveOrder = (orderId, actions) => {
     setIsProcessing(true);
+    let retryCount = 0;
     fetch(
       process.env.NEXT_PUBLIC_REACT_APP_PAYMENTS_URL +
         "/payments/paypal/checkout/orders/" +
@@ -318,6 +319,10 @@ const OrderReview = (props) => {
       })
       .catch((err) => {
         message.error(err.message || err, 5);
+        if (retryCount < 3) {
+          saveOrder(orderId, actions);
+        }
+        retryCount++;
         // setLoading(false);
       });
   };

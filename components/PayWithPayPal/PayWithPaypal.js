@@ -179,6 +179,7 @@ const PaypalButton = (props) => {
   };
 
   const createOrder = (data, actions) => {
+    let retryCount = 0;
     let conversionFactor =
       props.currencyDetails == null ||
       props.currencyDetails.convertToCurrency == "USD"
@@ -485,6 +486,10 @@ const PaypalButton = (props) => {
       })
       .catch((err) => {
         console.log(err);
+        if (retryCount < 3) {
+          createOrder(data, actions);
+        }
+        retryCount++;
         message.error(err.message || err, 5);
         // setLoading(false);
       });
