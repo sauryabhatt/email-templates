@@ -541,7 +541,7 @@ class ProductFacets extends Component {
                 aggregateList.length > 0
               ) {
                 return (
-                  <SubMenu key={`key${key}`} title="MOQ Bucket">
+                  <SubMenu key={`key${key}`} title="Minimum order quantity">
                     <CheckboxGroup
                       key={key}
                       {...this.state}
