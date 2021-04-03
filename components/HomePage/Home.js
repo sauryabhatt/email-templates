@@ -62,7 +62,7 @@ function Home(props) {
     let hours = 2; // Reset when storage is more than 2 hours
     let now = new Date().getTime();
     mediaMatch = window.matchMedia("(min-width: 768px)");
-    let { username = "" } = props.userProfile || {};
+    let { profileCreated = "" } = props.userProfile || {};
     let newUser = localStorage.getItem("newUser");
     let userNameLS = localStorage.getItem("userName");
     let previousUrl = localStorage.getItem("productUrl");
@@ -101,6 +101,39 @@ function Home(props) {
         setVerificationModal(true);
       }
       sessionStorage.setItem("showNotification", true);
+    }
+    if (profileCreated === null || profileCreated === false) {
+      let data = {};
+      fetch("https://ipapi.co/json/", {
+        method: "GET",
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          let { ip = "", country = "" } = result;
+          data.ipAddress = ip;
+          data.country = country;
+          fetch(
+            process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
+              "/profiles/update/my",
+            {
+              method: "PATCH",
+              body: JSON.stringify(data),
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + keycloak.token,
+              },
+            }
+          )
+            .then((res) => {
+              // console.log(res);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }, [props.userProfile]);
 
