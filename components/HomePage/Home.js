@@ -17,6 +17,7 @@ import HotThisWeekCarousel from "./../HotThisWeekCarousel/HotThisWeekCarousel";
 import Tastimonial from "../Tastimonial";
 import closeButton from "../../public/filestore/closeButtonLite";
 import { connect } from "react-redux";
+import { getUserProfile } from "./../../store/actions";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
@@ -125,7 +126,17 @@ function Home(props) {
             }
           )
             .then((res) => {
-              // console.log(res);
+              if (res.ok) {
+                return res.json();
+              } else {
+                throw res.statusText || "Error while sending request.";
+              }
+            })
+            .then((res) => {
+              let { profileCreated = "" } = res;
+              if (profileCreated === true) {
+                props.getUserProfile(keycloak.token);
+              }
             })
             .catch((err) => {
               console.log(err);
@@ -1169,4 +1180,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, null)(Home);
+export default connect(mapStateToProps, getUserProfile)(Home);

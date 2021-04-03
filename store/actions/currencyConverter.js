@@ -33,7 +33,7 @@ export const getCurrencyConversion = (base, callback = "") => async (
     sessionStorage.removeItem("currencySaved");
     sessionStorage.removeItem("currencyDetails");
   }
-  console.log("Currency save time ", saved);
+  console.log("Currency saved time ", saved);
   if (!sessionStorage.getItem("currencySaved")) {
     fetch(url, {
       method: "GET",
@@ -73,5 +73,8 @@ export const getCurrencyConversion = (base, callback = "") => async (
     if (callback) {
       callback(obj);
     }
+    let currencies = obj["rates"] || { USD: 1.0 };
+    let rates = Object.keys(currencies).sort();
+    return dispatch(setCurrency(rates, currencies));
   }
 };
