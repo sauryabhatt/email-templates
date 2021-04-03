@@ -289,7 +289,8 @@ const CartDetails = (props) => {
 
   let { convertToCurrency = "" } = currencyDetails || {};
   let { products = [] } = sfl || {};
-  let { verificationStatus = "", profileType = "" } = userProfile || {};
+  let { verificationStatus = "", profileType = "", verifiedEmail = false } =
+    userProfile || {};
   let notificationMsg = "You do not have any product added to your cart";
   let buttonName = "Start shopping";
   if (
@@ -1593,7 +1594,7 @@ const CartDetails = (props) => {
                   setAddressFunc("add");
                 }}
               />
-              {userProfile.verifiedEmail === true && (
+              {verifiedEmail === true && (
                 <div className=" qa-mar-btm-2">
                   <Checkbox
                     className="check-box-tnc"
@@ -1690,7 +1691,7 @@ const CartDetails = (props) => {
                   }}
                   isMobile={true}
                 />
-                {userProfile.verifiedEmail === true && (
+                {verifiedEmail === true && (
                   <div className="qa-mar-top-05">
                     <Checkbox
                       className="check-box-tnc"

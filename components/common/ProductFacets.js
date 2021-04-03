@@ -540,9 +540,8 @@ class ProductFacets extends Component {
                 aggregateId === "f_moqBucket" &&
                 aggregateList.length > 0
               ) {
-                console.log("Bucket ", aggregateList);
                 return (
-                  <SubMenu key={`key${key}`} title={aggregateName}>
+                  <SubMenu key={`key${key}`} title="MOQ Bucket">
                     <CheckboxGroup
                       key={key}
                       {...this.state}
