@@ -1180,4 +1180,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, getUserProfile)(Home);
+export default connect(mapStateToProps, { getUserProfile })(Home);
