@@ -54,6 +54,8 @@ const CartSummary = (props) => {
   const [otpLengthError, setOtpLengthError] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
 
+  let retryCount = 0;
+
   useEffect(() => {
     if (props.cart) {
       getCountryCode();
@@ -613,7 +615,7 @@ const CartSummary = (props) => {
 
   const saveOrder = (orderId, actions) => {
     setIsProcessing(true);
-    let retryCount = 0;
+
     fetch(
       process.env.NEXT_PUBLIC_REACT_APP_PAYMENTS_URL +
         "/payments/paypal/checkout/orders/" +

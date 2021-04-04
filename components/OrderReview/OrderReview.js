@@ -41,6 +41,8 @@ const OrderReview = (props) => {
   const [showShipping, setShowShipping] = useState(false);
   const [paypalLoaded, setPaypalLoaded] = useState(false);
 
+  let retryCount = 0;
+
   let { order = {}, brandNameList = "" } = props || {};
   let { shippingMode = "", shippingTerms = "", miscCharges = [] } = order || {};
 
@@ -291,7 +293,7 @@ const OrderReview = (props) => {
 
   const saveOrder = (orderId, actions) => {
     setIsProcessing(true);
-    let retryCount = 0;
+
     fetch(
       process.env.NEXT_PUBLIC_REACT_APP_PAYMENTS_URL +
         "/payments/paypal/checkout/orders/" +

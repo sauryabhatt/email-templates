@@ -11,6 +11,7 @@ import countries from "../../public/filestore/countryCodes_en.json";
 // import { PayPalButton } from "react-paypal-button-v2";
 const PaypalButton = (props) => {
   const [sdkReady, setSdkReady] = useState(false);
+  let retryCount = 0;
 
   const updatePaypalSdk = () => {
     let url = null;
@@ -179,7 +180,6 @@ const PaypalButton = (props) => {
   };
 
   const createOrder = (data, actions) => {
-    let retryCount = 0;
     let conversionFactor =
       props.currencyDetails == null ||
       props.currencyDetails.convertToCurrency == "USD"
