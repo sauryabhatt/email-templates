@@ -181,7 +181,7 @@ const CartDetails = (props) => {
     } else {
       setTimeout(() => {
         setIsLoading(false);
-      }, 2000);
+      }, 3000);
     }
   }, [props.cart]);
 
@@ -1005,7 +1005,13 @@ const CartDetails = (props) => {
     );
   }
 
-  if (cart && subOrders && subOrders.length === 0 && products.length === 0) {
+  if (
+    cart &&
+    subOrders &&
+    subOrders.length === 0 &&
+    products.length === 0 &&
+    !isLoading
+  ) {
     return (
       <div id="cart-details" className="cart-section qa-font-san empty-cart">
         <div className="e-cart-title qa-txt-alg-cnt qa-mar-btm-1">
