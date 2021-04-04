@@ -118,6 +118,7 @@ const UserAccount = (props) => {
   const [otpError, setOtpError] = useState(false);
   const [otpValidated, setOtpValidated] = useState(false);
   const [otpLengthError, setOtpLengthError] = useState(false);
+  const [btnLoading, setBtnLoading] = useState(false);
 
   const settings = {
     infinite: false,
@@ -987,6 +988,7 @@ const UserAccount = (props) => {
   };
 
   const sendOtp = () => {
+    setBtnLoading(true);
     setOtpError(false);
     setOtpInput("");
     setOtpLengthError(false);
@@ -1007,9 +1009,11 @@ const UserAccount = (props) => {
       .then((res) => {
         console.log(res);
         setOtpVerificationModal(true);
+        setBtnLoading(false);
       })
       .catch((err) => {
         message.error(err.message || err, 5);
+        setBtnLoading(false);
       });
   };
 
@@ -1021,6 +1025,7 @@ const UserAccount = (props) => {
     if (otpInput.length !== 6) {
       setOtpLengthError(true);
     } else {
+      setBtnLoading(true);
       setOtpLengthError(false);
       fetch(
         process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/otp/validate",
@@ -1041,7 +1046,7 @@ const UserAccount = (props) => {
           }
         })
         .then((res) => {
-          console.log(res);
+          setBtnLoading(false);
           setOtpVerificationModal(true);
           setOtpError(false);
           setOtpValidated(true);
@@ -1050,6 +1055,7 @@ const UserAccount = (props) => {
         .catch((err) => {
           setOtpError(true);
           setOtpValidated(false);
+          setBtnLoading(false);
           // message.error(err.message || err, 5);
         });
     }
@@ -1264,7 +1270,11 @@ const UserAccount = (props) => {
                 your email.
               </div>
               <div className="otp-btn-section">
-                <Button onClick={sendOtp} className="qa-button qa-send-otp">
+                <Button
+                  onClick={sendOtp}
+                  disabled={btnLoading}
+                  className="qa-button qa-send-otp"
+                >
                   SEND VALIDATION OTP
                 </Button>
               </div>
@@ -2376,6 +2386,7 @@ const UserAccount = (props) => {
                 <div className="otp-btn-section qa-mar-top-2">
                   <Button
                     onClick={validateOtp}
+                    disabled={btnLoading}
                     className="qa-button qa-send-otp"
                   >
                     VALIDATE OTP
