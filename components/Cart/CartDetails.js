@@ -127,6 +127,8 @@ const CartDetails = (props) => {
   const [inventoryQty, setInventoryQty] = useState();
   const [serviceable, setServiceable] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [btnLoading, setBtnLoading] = useState(false);
+
   let showError = false;
   useEffect(() => {
     if (app_token) {
@@ -177,7 +179,9 @@ const CartDetails = (props) => {
         setIsLoading(false);
       });
     } else {
-      setIsLoading(false);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
     }
   }, [props.cart]);
 
@@ -423,6 +427,7 @@ const CartDetails = (props) => {
     });
 
   const addSFL = (order) => {
+    setBtnLoading(true);
     let { products = [], sellerCode = "" } = order || {};
     let data = [];
     for (let items of products) {
@@ -473,9 +478,11 @@ const CartDetails = (props) => {
       .then((res) => {
         updateCart("SFL_DELETE", sellerCode);
         message.success("Products have been moved to your wishlist!", 5);
+        setBtnLoading(false);
       })
       .catch((err) => {
         message.error("Error moving products to your wishlist!", 5);
+        setBtnLoading(false);
       });
   };
 
@@ -1504,6 +1511,7 @@ const CartDetails = (props) => {
                         <Button
                           className="qa-button qa-fs-12 cart-save-later qa-mar-top-2"
                           onClick={() => addSFL(order)}
+                          disabled={btnLoading}
                         >
                           Save for later
                         </Button>
@@ -2148,6 +2156,7 @@ const CartDetails = (props) => {
                         <Button
                           className="qa-button qa-fs-12 cart-save-later qa-mar-top-2"
                           onClick={() => addSFL(order)}
+                          disabled={btnLoading}
                         >
                           Save for later
                         </Button>

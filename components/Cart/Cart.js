@@ -71,11 +71,10 @@ const Cart = (props) => {
         setIsLoading(false);
       }
     }
-    console.log(initialLoad, showLoader);
     if (initialLoad && showLoader) {
       setTimeout(() => {
         setIsLoading(false);
-      }, 600);
+      }, 1500);
     }
     setInitialLoad(true);
   }, [props.user, initialLoad]);

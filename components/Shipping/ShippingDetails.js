@@ -59,6 +59,7 @@ const ShippingDetails = (props) => {
   const [disableSea, setDisableSea] = useState(false);
   const [promoDiscount, setPromoDiscount] = useState(0);
   const [landingFactorShip, setLandingFactorShip] = useState("");
+  const [btnLoading, setBtnLoading] = useState(false);
 
   useEffect(() => {
     if (props.cart && Object.keys(props.cart).length) {
@@ -365,6 +366,7 @@ const ShippingDetails = (props) => {
   };
 
   const applyCouponAPI = (data, couponApplied = "") => {
+    setBtnLoading(true);
     let cartId = orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
 
     let couponUrl = "";
@@ -413,10 +415,11 @@ const ShippingDetails = (props) => {
         } else if (couponApplied === false) {
           setCouponApplied(true);
         }
+        setBtnLoading(false);
       })
       .catch((err) => {
         console.log(err);
-        // setLoading(false);
+        setBtnLoading(false);
       });
   };
 
@@ -1393,6 +1396,7 @@ const ShippingDetails = (props) => {
                         <Button
                           className="qa-button coupon-btn"
                           onClick={applyCoupon}
+                          disabled={btnLoading}
                         >
                           <span className="qa-font-san qa-fs-14">
                             {couponApplied ? "REMOVE" : "APPLY"}
@@ -1479,6 +1483,7 @@ const ShippingDetails = (props) => {
                           <Button
                             className="qa-button coupon-btn"
                             onClick={applyCoupon}
+                            disabled={btnLoading}
                           >
                             <span className="qa-font-san qa-fs-14">
                               {couponApplied ? "REMOVE" : "APPLY"}
