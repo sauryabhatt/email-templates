@@ -52,6 +52,7 @@ const CartSummary = (props) => {
   const [otpError, setOtpError] = useState(false);
   const [otpValidated, setOtpValidated] = useState(false);
   const [otpLengthError, setOtpLengthError] = useState(false);
+  const [btnLoading, setBtnLoading] = useState(false);
 
   useEffect(() => {
     if (props.cart) {
@@ -203,6 +204,7 @@ const CartSummary = (props) => {
   };
 
   const checkCommitStatus = () => {
+    setBtnLoading(true);
     let cartId = orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
     let url = `${
       process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL
@@ -231,14 +233,16 @@ const CartSummary = (props) => {
           console.log("Not shippable");
           setNonShippable(true);
         }
+        setBtnLoading(false);
       })
       .catch((err) => {
         console.log(err);
-        // setLoading(false);
+        setBtnLoading(false);
       });
   };
 
   const createOrder = async () => {
+    setBtnLoading(true);
     let shippingRemarks = rfqReason
       ? rfqReason
       : "RFQ created from Shipping page";
@@ -354,6 +358,9 @@ const CartSummary = (props) => {
       const cartResponse = await cartResp;
       if (cartResponse && cartResponse["status"] === 200) {
         showOrderModal(true);
+        setBtnLoading(false);
+      } else {
+        setBtnLoading(false);
       }
     }
   };
@@ -364,6 +371,7 @@ const CartSummary = (props) => {
 
   const sendOtp = () => {
     setOtpError(false);
+    setBtnLoading(true);
     setOtpInput("");
     setOtpLengthError(false);
     fetch(process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/otp", {
@@ -383,9 +391,11 @@ const CartSummary = (props) => {
       .then((res) => {
         console.log(res);
         setOtpVerificationModal(true);
+        setBtnLoading(false);
       })
       .catch((err) => {
         message.error(err.message || err, 5);
+        setBtnLoading(false);
       });
   };
 
@@ -397,6 +407,7 @@ const CartSummary = (props) => {
     if (otpInput.length !== 6) {
       setOtpLengthError(true);
     } else {
+      setBtnLoading(true);
       setOtpLengthError(false);
       fetch(
         process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/otp/validate",
@@ -422,10 +433,12 @@ const CartSummary = (props) => {
           setOtpError(false);
           setOtpValidated(true);
           props.getUserProfile();
+          setBtnLoading(false);
         })
         .catch((err) => {
           setOtpError(true);
           setOtpValidated(false);
+          setBtnLoading(false);
           // message.error(err.message || err, 5);
         });
     }
@@ -977,10 +990,7 @@ const CartSummary = (props) => {
         </Link>
         <Link href="/">
           <div className="qa-txt-alg-cnt">
-            <Button
-              className="qa-button qa-fs-12 qa-shop-btn"
-              onClick={() => {}}
-            >
+            <Button className="qa-button qa-fs-12 qa-shop-btn">
               Start Shopping
             </Button>
           </div>
@@ -1459,6 +1469,7 @@ const CartSummary = (props) => {
           {enable && deliver && !showCartError && !disablePayment ? (
             <Button
               onClick={checkCommitStatus}
+              disabled={btnLoading}
               className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment active"
             >
               Proceed to payment
@@ -1529,6 +1540,7 @@ const CartSummary = (props) => {
       {(verifiedEmail === false || verifiedEmail === null) && (
         <Button
           onClick={sendOtp}
+          disabled={btnLoading}
           className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment active"
         >
           SEND VALIDATION OTP
@@ -1541,6 +1553,7 @@ const CartSummary = (props) => {
         verifiedEmail === true && (
           <Button
             onClick={createOrder}
+            disabled={btnLoading}
             className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment active"
           >
             ORDER QUOTE REQUEST
@@ -1691,6 +1704,7 @@ const CartSummary = (props) => {
                   <Button
                     onClick={validateOtp}
                     className="qa-button qa-send-otp"
+                    disabled={btnLoading}
                   >
                     VALIDATE OTP
                   </Button>
