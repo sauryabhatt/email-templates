@@ -48,12 +48,12 @@ export default ({ options, ...props }) => {
       let { value: name = "" } = list;
 
       if (
-        name.toLowerCase() === "bucket- d" ||
-        name.toLowerCase() === "bucket- f" ||
-        name.toLowerCase() === "bucket- h" ||
-        name.toLowerCase() === "bucket- p" ||
-        name.toLowerCase() === "bucket- q" ||
-        name.toLowerCase() === "bucket- r"
+        name.toLowerCase() === "bucket-d" ||
+        name.toLowerCase() === "bucket-f" ||
+        name.toLowerCase() === "bucket-h" ||
+        name.toLowerCase() === "bucket-p" ||
+        name.toLowerCase() === "bucket-q" ||
+        name.toLowerCase() === "bucket-r"
       ) {
         moqFilters.push("12 & below");
         moqFilters.push("24 & below");
@@ -61,32 +61,32 @@ export default ({ options, ...props }) => {
         moqFilters.push("100 & below");
         moqFilters.push("200 & below");
       } else if (
-        name.toLowerCase() === "bucket- b" ||
-        name.toLowerCase() === "bucket- e" ||
-        name.toLowerCase() === "bucket- g" ||
-        name.toLowerCase() === "bucket- o"
+        name.toLowerCase() === "bucket-b" ||
+        name.toLowerCase() === "bucket-e" ||
+        name.toLowerCase() === "bucket-g" ||
+        name.toLowerCase() === "bucket-o"
       ) {
         moqFilters.push("24 & below");
         moqFilters.push("50 & below");
         moqFilters.push("100 & below");
         moqFilters.push("200 & below");
       } else if (
-        name.toLowerCase() === "bucket- a" ||
-        name.toLowerCase() === "bucket- c" ||
-        name.toLowerCase() === "bucket- n"
+        name.toLowerCase() === "bucket-a" ||
+        name.toLowerCase() === "bucket-c" ||
+        name.toLowerCase() === "bucket-n"
       ) {
         moqFilters.push("50 & below");
         moqFilters.push("100 & below");
         moqFilters.push("200 & below");
-      } else if (name.toLowerCase() === "bucket- m") {
+      } else if (name.toLowerCase() === "bucket-m") {
         moqFilters.push("100 & below");
         moqFilters.push("200 & below");
-      } else if (name.toLowerCase() === "bucket- l") {
+      } else if (name.toLowerCase() === "bucket-l") {
         moqFilters.push("200 & below");
       } else if (
-        name.toLowerCase() === "bucket- k" ||
-        name.toLowerCase() === "bucket- j" ||
-        name.toLowerCase() === "bucket- i"
+        name.toLowerCase() === "bucket-k" ||
+        name.toLowerCase() === "bucket-j" ||
+        name.toLowerCase() === "bucket-i"
       ) {
         moqFilters.push("500 & above");
       }
