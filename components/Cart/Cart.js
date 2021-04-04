@@ -16,85 +16,58 @@ import Spinner from "../Spinner/Spinner";
 const Cart = (props) => {
   let { brandNameList = [], sfl = {} } = props;
   const [isLoading, setIsLoading] = useState(true);
-  const [initialLoad, setInitialLoad] = useState(false);
-  const [cart, setCart] = useState("");
   const { keycloak } = useKeycloak();
+  const [cartData, setCartData] = useState(false);
   let { token } = keycloak || {};
 
-  async function getCartDetails() {
-    console.log("Get cart details");
-    let response1 = await props.getCart(token, (res) => {
-      setIsLoading(false);
-    });
-    let cartResp = await response1;
-    let { cart = {} } =
-      cartResp && cartResp["payload"] ? cartResp["payload"] : {};
-
-    setCart(cart);
-
-    let response2 = await props.getSavedForLater(token);
-    let sflResp = await response2;
-    let { sfl = {} } = sflResp && sflResp["payload"] ? sflResp["payload"] : {};
-    let sellerCodeList = [];
-    let { products = [] } = sfl || {};
-    if (products.length) {
-      let groupedOrders = _.groupBy(products, "sellerCode");
-      for (let order in groupedOrders) {
-        sellerCodeList.push(order);
-      }
-    }
-    let { subOrders = [] } = cart || {};
-    if (subOrders.length) {
-      for (let sellers of subOrders) {
-        let { sellerCode = "" } = sellers;
-        if (!sellerCodeList.includes(sellerCode)) {
-          sellerCodeList.push(sellerCode);
-        }
-      }
-    }
-    if (sellerCodeList.length) {
-      let codes = sellerCodeList.join();
-      props.getBrandNameByCode(codes, token);
-    }
-  }
-
   useEffect(() => {
-    let showLoader = true;
-    if (props.user) {
-      showLoader = false;
+    if (props.user && Object.keys(props.user).length) {
       setIsLoading(true);
       let { user = {} } = props || {};
       let { profileType = "" } = user || {};
-      if (profileType === "BUYER") {
-        getCartDetails();
+      if (profileType === "BUYER" && cartData === false) {
+        props.getCart(token, (cart) => {
+          setIsLoading(false);
+          setCartData(true);
+          props.getSavedForLater(token, (sfl) => {
+            let sellerCodeList = [];
+            let { products = [] } = sfl || {};
+            if (products.length) {
+              let groupedOrders = _.groupBy(products, "sellerCode");
+              for (let order in groupedOrders) {
+                sellerCodeList.push(order);
+              }
+            }
+            let { subOrders = [] } = cart || {};
+            if (subOrders.length) {
+              for (let sellers of subOrders) {
+                let { sellerCode = "" } = sellers;
+                if (!sellerCodeList.includes(sellerCode)) {
+                  sellerCodeList.push(sellerCode);
+                }
+              }
+            }
+            if (sellerCodeList.length) {
+              let codes = sellerCodeList.join();
+              props.getBrandNameByCode(codes, token);
+            }
+          });
+        });
       } else {
         setIsLoading(false);
       }
     }
-    if (initialLoad && showLoader) {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1500);
-    }
-    setInitialLoad(true);
-  }, [props.user, initialLoad]);
 
-  useEffect(() => {
-    if (props.cartDetails && Object.keys(props.cartDetails).length) {
-      setCart(props.cartDetails);
-    }
-  }, [props.cartDetails]);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+  }, [props.user]);
 
   if (isLoading) {
     return <Spinner />;
   } else if (!isLoading && keycloak.authenticated) {
     return (
-      <CartDetails
-        app_token={token}
-        cart={cart}
-        sfl={sfl}
-        brandNames={brandNameList}
-      />
+      <CartDetails app_token={token} sfl={sfl} brandNames={brandNameList} />
     );
   } else if (!keycloak.authenticated) {
     return <AnonymousCart />;
@@ -103,7 +76,6 @@ const Cart = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    cartDetails: state.checkout.cart,
     brandNameList: state.userProfile.brandNameList,
     user: state.userProfile.userProfile,
     sfl: state.checkout.sfl,

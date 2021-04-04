@@ -33,8 +33,19 @@ export const getCurrencyConversion = (base, callback = "") => async (
     sessionStorage.removeItem("currencySaved");
     sessionStorage.removeItem("currencyDetails");
   }
-  console.log("Currency saved time ", saved);
-  if (!sessionStorage.getItem("currencySaved")) {
+  if (
+    sessionStorage.getItem("currencyDetails") &&
+    sessionStorage.getItem("currencySaved")
+  ) {
+    let obj = sessionStorage.getItem("currencyDetails") || {};
+    obj = JSON.parse(obj);
+    if (callback) {
+      callback(obj);
+    }
+    let currencies = obj["rates"] || { USD: 1.0 };
+    let rates = Object.keys(currencies).sort();
+    return dispatch(setCurrency(rates, currencies));
+  } else {
     fetch(url, {
       method: "GET",
       headers: {
@@ -67,14 +78,5 @@ export const getCurrencyConversion = (base, callback = "") => async (
         let rates = Object.keys(currencies).sort();
         return dispatch(setCurrency(rates, currencies));
       });
-  } else {
-    let obj = sessionStorage.getItem("currencyDetails") || {};
-    obj = JSON.parse(obj);
-    if (callback) {
-      callback(obj);
-    }
-    let currencies = obj["rates"] || { USD: 1.0 };
-    let rates = Object.keys(currencies).sort();
-    return dispatch(setCurrency(rates, currencies));
   }
 };

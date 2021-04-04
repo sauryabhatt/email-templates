@@ -722,18 +722,16 @@ function AppHeader(props) {
                     textDecoration: "none",
                   }}
                 >
-                  <a>
-                    <Icon
-                      component={cartIcon}
-                      className="cart-icon"
-                      style={{
-                        width: "32px",
-                        verticalAlign: "middle",
-                        marginRight: "20px",
-                        cursor: "pointer",
-                      }}
-                    />
-                  </a>
+                  <Icon
+                    component={cartIcon}
+                    className="cart-icon"
+                    style={{
+                      width: "32px",
+                      verticalAlign: "middle",
+                      marginRight: "20px",
+                      cursor: "pointer",
+                    }}
+                  />
                 </Link>
                 <Popover
                   placement="bottomRight"
@@ -810,16 +808,14 @@ function AppHeader(props) {
                   textDecoration: "none",
                 }}
               >
-                <a>
-                  <Icon
-                    component={cartIcon}
-                    className="cart-icon"
-                    style={{
-                      width: "40px",
-                      cursor: "pointer",
-                    }}
-                  />
-                </a>
+                <Icon
+                  component={cartIcon}
+                  className="cart-icon"
+                  style={{
+                    width: "40px",
+                    cursor: "pointer",
+                  }}
+                />
               </Link>
 
               <Drawer

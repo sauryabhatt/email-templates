@@ -128,6 +128,7 @@ const CartDetails = (props) => {
   const [serviceable, setServiceable] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [btnLoading, setBtnLoading] = useState(false);
+  const [emptyCart, setEmptyCart] = useState(false);
 
   let showError = false;
   useEffect(() => {
@@ -137,9 +138,19 @@ const CartDetails = (props) => {
   }, [app_token]);
 
   useEffect(() => {
+    console.log("inside cart ", props.cart);
+
     let { cart = {} } = props;
     let { shippingAddressDetails = "", shippingAddressId, subOrders = [] } =
       cart || {};
+    if (
+      cart &&
+      cart !== null &&
+      Object.keys(cart).length &&
+      subOrders.length === 0
+    ) {
+      setEmptyCart(true);
+    }
     if (shippingAddressDetails && Object.keys(shippingAddressDetails)) {
       let { countryCode = "", country = "", zipCode = "", dialCode = "" } =
         shippingAddressDetails || {};
@@ -181,7 +192,7 @@ const CartDetails = (props) => {
     } else {
       setTimeout(() => {
         setIsLoading(false);
-      }, 3000);
+      }, 2000);
     }
   }, [props.cart]);
 
@@ -208,7 +219,6 @@ const CartDetails = (props) => {
         }
       })
       .then((res) => {
-        console.log(res);
         setServiceable(res);
       })
       .catch((err) => {
@@ -819,6 +829,8 @@ const CartDetails = (props) => {
                 setUpdate("");
                 message.success("Quantity updated!", 5);
               });
+            } else {
+              setUpdate(sellerCode);
             }
           });
         }
@@ -1010,7 +1022,7 @@ const CartDetails = (props) => {
     subOrders &&
     subOrders.length === 0 &&
     products.length === 0 &&
-    !isLoading
+    emptyCart === true
   ) {
     return (
       <div id="cart-details" className="cart-section qa-font-san empty-cart">
@@ -3176,6 +3188,7 @@ const CartDetails = (props) => {
 
 const mapStateToProps = (state) => {
   return {
+    cart: state.checkout.cart,
     currencyDetails: state.currencyConverter,
     addresses: state.userProfile.addresses,
     sfl: state.checkout.sfl,
