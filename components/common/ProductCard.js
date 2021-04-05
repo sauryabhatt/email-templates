@@ -119,7 +119,7 @@ function ProductCard(props) {
     let sellerLink = `/seller/${sellerCode}/all-categories`;
 
     return (
-      <Link href={linkTo} className="product-card" scroll={false}>
+      <Link href={linkTo} className="product-card">
         <div
           onClick={(e) => {
             if (accessLocked) {
@@ -337,7 +337,7 @@ function ProductCard(props) {
       linkTo = `/seller/${id}/${categoryName}`;
     }
     return (
-      <Link href={linkTo} className="product-card" scroll={false}>
+      <Link href={linkTo} className="product-card">
         {pageId === "seller-listing" && (
           <SellerBanner
             orgName={brandName || orgName}
