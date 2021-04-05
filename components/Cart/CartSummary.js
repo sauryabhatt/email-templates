@@ -201,6 +201,11 @@ const CartSummary = (props) => {
     }
   };
 
+  const proceedToShipping = () => {
+    setBtnLoading(true);
+    router.push("/shipping");
+  };
+
   const checkCommitStatus = () => {
     setBtnLoading(true);
     let cartId = orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
@@ -1430,11 +1435,13 @@ const CartSummary = (props) => {
       {id === "cart" && (
         <div>
           {enable && deliver && !showCartError && verifiedEmail === true ? (
-            <Link href="/shipping">
-              <Button className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-ship active">
-                Proceed to shipping
-              </Button>
-            </Link>
+            <Button
+              className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-ship active"
+              onClick={proceedToShipping}
+              disabled={btnLoading}
+            >
+              Proceed to shipping
+            </Button>
           ) : (
             <Button className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-ship">
               Proceed to shipping

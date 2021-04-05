@@ -192,7 +192,7 @@ const CartDetails = (props) => {
     } else {
       setTimeout(() => {
         setIsLoading(false);
-      }, 2000);
+      }, 3000);
     }
   }, [props.cart]);
 
@@ -393,6 +393,7 @@ const CartDetails = (props) => {
     zipcode = selPincode,
     country = selCountry
   ) => {
+    setBtnLoading(true);
     fetch(
       `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/my/${orderId}/?addr_Id=${selectedShippingId}&postal_code=${zipcode}&country=${country}`,
       {
@@ -408,12 +409,15 @@ const CartDetails = (props) => {
         if (res.ok) {
           setAddressModal(false);
           props.getCart(app_token);
+          setBtnLoading(false);
         } else {
           throw res.statusText || "Error while sending e-mail.";
+          setBtnLoading(false);
         }
       })
       .catch((err) => {
         setAddressModal(false);
+        setBtnLoading(false);
         message.error("Error updating info!", 5);
       });
   };
@@ -493,6 +497,7 @@ const CartDetails = (props) => {
   };
 
   const saveAddress = (values) => {
+    setBtnLoading(true);
     setSelCountry(values.country);
     setSelPincode(values.zipCode);
     checkServiceability(values.country, values.zipCode);
@@ -534,13 +539,16 @@ const CartDetails = (props) => {
           setAddressModal(false);
           props.getAddresses(app_token);
         }
+        setBtnLoading(false);
       })
       .catch((err) => {
         message.error("Error updating info!", 5);
+        setBtnLoading(false);
       });
   };
 
   const updateAddress = (values) => {
+    setBtnLoading(true);
     setSelCountry(values.country);
     setSelPincode(values.zipCode);
     checkServiceability(values.country, values.zipCode);
@@ -583,9 +591,11 @@ const CartDetails = (props) => {
         // setSuccessUpdateVisible(true);
         setAddressModal(false);
         props.getCart(app_token);
+        setBtnLoading(false);
       })
       .catch((err) => {
         message.error("Error updating info!", 5);
+        setBtnLoading(false);
       });
   };
 
@@ -2725,18 +2735,12 @@ const CartDetails = (props) => {
               </Col>
 
               <Col xs={24} sm={24} md={0} lg={0} xl={0}>
-                <Col
-                  xs={24}
-                  sm={24}
-                  md={9}
-                  lg={9}
-                  xl={9}
-                  className="qa-pad-1"
-                  onClick={() => onFinish(selectedShippingId)}
-                >
+                <Col xs={24} sm={24} md={9} lg={9} xl={9} className="qa-pad-1">
                   <Button
                     htmlType="submit"
                     className="qa-button qa-cart-ship-btn"
+                    onClick={() => onFinish(selectedShippingId)}
+                    disabled={btnLoading}
                   >
                     Select and Ship to
                   </Button>
@@ -2767,17 +2771,12 @@ const CartDetails = (props) => {
                   >
                     <Button className="qa-button qa-cart-cancel">Cancel</Button>
                   </Col>
-                  <Col
-                    xs={24}
-                    sm={24}
-                    md={9}
-                    lg={9}
-                    xl={9}
-                    onClick={() => onFinish(selectedShippingId)}
-                  >
+                  <Col xs={24} sm={24} md={9} lg={9} xl={9}>
                     <Button
                       htmlType="submit"
                       className="qa-button qa-cart-ship-btn"
+                      disabled={btnLoading}
+                      onClick={() => onFinish(selectedShippingId)}
                     >
                       Select and Ship to
                     </Button>
@@ -3076,6 +3075,7 @@ const CartDetails = (props) => {
                   <Button
                     htmlType="submit"
                     className="qa-button qa-cart-ship-btn"
+                    disabled={btnLoading}
                   >
                     {addressFunc === "edit"
                       ? "Save and Ship to"
@@ -3112,6 +3112,7 @@ const CartDetails = (props) => {
                     <Button
                       htmlType="submit"
                       className="qa-button qa-cart-ship-btn"
+                      disabled={btnLoading}
                     >
                       {addressFunc === "edit"
                         ? "Save and Ship to"
