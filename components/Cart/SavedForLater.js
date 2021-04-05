@@ -48,11 +48,7 @@ const SavedForLater = (props) => {
 
   const getConvertedCurrency = (baseAmount) => {
     let { convertToCurrency = "", rates = [] } = currencyDetails;
-    return Number.parseFloat(
-      (baseAmount *
-        Math.round((rates[convertToCurrency] + Number.EPSILON) * 100)) /
-        100
-    ).toFixed(2);
+    return Number.parseFloat(baseAmount * rates[convertToCurrency]).toFixed(2);
   };
 
   const addToCart = (order, i = 0) => {

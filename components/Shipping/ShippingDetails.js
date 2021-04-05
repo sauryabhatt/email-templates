@@ -428,17 +428,11 @@ const ShippingDetails = (props) => {
   const getConvertedCurrency = (baseAmount, round = false) => {
     let { convertToCurrency = "", rates = [] } = props.currencyDetails;
     if (round) {
-      return Number.parseFloat(
-        (baseAmount *
-          Math.round((rates[convertToCurrency] + Number.EPSILON) * 100)) /
-          100
-      ).toFixed(0);
+      return Number.parseFloat(baseAmount * rates[convertToCurrency]).toFixed(
+        0
+      );
     }
-    return Number.parseFloat(
-      (baseAmount *
-        Math.round((rates[convertToCurrency] + Number.EPSILON) * 100)) /
-        100
-    ).toFixed(2);
+    return Number.parseFloat(baseAmount * rates[convertToCurrency]).toFixed(2);
   };
 
   const handleCancel = () => {
