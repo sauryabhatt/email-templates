@@ -839,8 +839,8 @@ const CartSummary = (props) => {
     parseFloat(getConvertedCurrency(promoDiscount));
 
   let maskid = "";
-  let prefix = email.substring(0, email.lastIndexOf("@"));
-  let postfix = email.substring(email.lastIndexOf("@"));
+  let prefix = email ? email.substring(0, email.lastIndexOf("@")) : "";
+  let postfix = email ? email.substring(email.lastIndexOf("@")) : "";
 
   for (let i = 0; i < prefix.length; i++) {
     if (i == 0 || i == prefix.length - 1) {

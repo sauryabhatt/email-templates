@@ -1087,8 +1087,12 @@ const UserAccount = (props) => {
     props.userProfile &&
     props.userProfile.userProfile &&
     props.userProfile.userProfile.email;
-  let prefix = userEmailId.substring(0, userEmailId.lastIndexOf("@"));
-  let postfix = userEmailId.substring(userEmailId.lastIndexOf("@"));
+  let prefix = userEmailId
+    ? userEmailId.substring(0, userEmailId.lastIndexOf("@"))
+    : "";
+  let postfix = userEmailId
+    ? userEmailId.substring(userEmailId.lastIndexOf("@"))
+    : "";
 
   for (let i = 0; i < prefix.length; i++) {
     if (i == 0 || i == prefix.length - 1) {
