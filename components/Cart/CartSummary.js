@@ -332,9 +332,9 @@ const CartSummary = (props) => {
       method: "GET",
     });
     userDetails = await response.json();
-    let { ip = "", country: ipCountry = "" } = userDetails;
-    data.fromIP = ip;
-    data.ipCountry = ipCountry;
+    let { ip = "", country: ipCountry = "" } = userDetails || {};
+    data.fromIP = ip || "";
+    data.ipCountry = ipCountry || "";
 
     const rfqResp = await fetch(
       process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/queries",

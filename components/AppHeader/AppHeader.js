@@ -181,13 +181,13 @@ function AppHeader(props) {
 
   const handleInvite = (values) => {
     setLoading(true);
-    // let ip = await getIP();
+    let data = {};
     fetch("https://ipapi.co/json/", {
       method: "GET",
     })
       .then((response) => response.json())
       .then((response) => {
-        let data = {
+        data = {
           fromEmailId: values.email,
           name: values.name,
           orgName: values.orgName,
@@ -198,7 +198,15 @@ function AppHeader(props) {
         sendInviteData(data);
       })
       .catch((err) => {
-        // console.log("Error ", err);
+        data = {
+          fromEmailId: values.email,
+          name: values.name,
+          orgName: values.orgName,
+          profileType: "BUYER",
+          ip: "",
+          ipCountry: "",
+        };
+        sendInviteData(data);
       });
   };
 

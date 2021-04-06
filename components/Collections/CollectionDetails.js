@@ -109,6 +109,41 @@ const CollectionDetails = (props) => {
     return Number.parseFloat(baseAmount * rates[convertToCurrency]).toFixed(2);
   };
 
+  const setCollectionRFQ = (data) => {
+    fetch(process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/queries", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw res.statusText || "Error while signing up.";
+        }
+      })
+      .then((res) => {
+        let { creationDate = "" } = res || {};
+        setRFQ(false);
+        setRfqSubmitted(true);
+        setSuccessQueryVisible(true);
+        setRfqCreatedTime(creationDate);
+        setFileList([]);
+        form.resetFields();
+        rfqform.resetFields();
+        props.getCollections(token, buyerId, (res) => {
+          refreshCollection(res);
+        });
+      })
+      .catch((err) => {
+        message.error(err.message || err, 5);
+        setRFQ(false);
+      });
+  };
+
   const onFinishRFQ = (values) => {
     let {
       destinationCountry = "",
@@ -170,44 +205,12 @@ const CollectionDetails = (props) => {
         let { ip = "", country = "" } = result;
         data.fromIP = ip;
         data.ipCountry = country;
-        fetch(
-          process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/queries",
-          {
-            method: "POST",
-            body: JSON.stringify(data),
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + token,
-            },
-          }
-        )
-          .then((res) => {
-            if (res.ok) {
-              return res.json();
-            } else {
-              throw res.statusText || "Error while signing up.";
-            }
-          })
-          .then((res) => {
-            let { creationDate = "" } = res || {};
-            setRFQ(false);
-            setRfqSubmitted(true);
-            setSuccessQueryVisible(true);
-            setRfqCreatedTime(creationDate);
-            setFileList([]);
-            form.resetFields();
-            rfqform.resetFields();
-            props.getCollections(token, buyerId, (res) => {
-              refreshCollection(res);
-            });
-          })
-          .catch((err) => {
-            message.error(err.message || err, 5);
-            setRFQ(false);
-          });
+        setCollectionRFQ(data);
       })
       .catch((err) => {
-        message.error(err.message, 5);
+        data.fromIP = "";
+        data.ipCountry = "";
+        setCollectionRFQ(data);
       });
   };
 

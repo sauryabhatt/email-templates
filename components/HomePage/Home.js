@@ -192,7 +192,15 @@ function Home(props) {
         sendInviteData(data);
       })
       .catch((err) => {
-        // console.log("Error ", err);
+        let data = {
+          fromEmailId: values.email,
+          name: values.name,
+          orgName: values.orgName,
+          profileType: "BUYER",
+          ip: "",
+          ipCountry: "",
+        };
+        sendInviteData(data);
       });
   };
 
