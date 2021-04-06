@@ -29,23 +29,11 @@ export const getCurrencyConversion = (base, callback = "") => async (
 
   let hours = 2;
   let saved = sessionStorage.getItem("currencySaved");
-  if (saved && new Date().getTime() - saved > hours * 60 * 60 * 1000) {
-    sessionStorage.removeItem("currencySaved");
-    sessionStorage.removeItem("currencyDetails");
-  }
-  if (
-    sessionStorage.getItem("currencyDetails") &&
-    sessionStorage.getItem("currencySaved")
-  ) {
-    let obj = sessionStorage.getItem("currencyDetails") || {};
-    obj = JSON.parse(obj);
-    if (callback) {
-      callback(obj);
-    }
-    let currencies = obj["rates"] || { USD: 1.0 };
-    let rates = Object.keys(currencies).sort();
-    return dispatch(setCurrency(rates, currencies));
-  } else {
+  let currencyDetails = sessionStorage.getItem("currencyDetails");
+  let retryCount = 0;
+  console.log(saved, currencyDetails);
+
+  const getCurrencyDetails = () => {
     fetch(url, {
       method: "GET",
       headers: {
@@ -73,10 +61,45 @@ export const getCurrencyConversion = (base, callback = "") => async (
         return dispatch(setCurrency(rates, currencies));
       })
       .catch((err) => {
-        console.log(err);
-        let currencies = { USD: 1.0 };
-        let rates = Object.keys(currencies).sort();
-        return dispatch(setCurrency(rates, currencies));
+        console.log("Error api call", err);
+
+        if (retryCount < 3) {
+          getCurrencyDetails();
+        } else {
+          let obj = sessionStorage.getItem("currencyDetails") || {};
+          obj = JSON.parse(obj);
+          let currencies = obj["rates"] || { USD: 1.0 };
+          let rates = Object.keys(currencies).sort();
+          return dispatch(setCurrency(rates, currencies));
+        }
+        retryCount++;
       });
+  };
+
+  if (
+    saved &&
+    currencyDetails &&
+    new Date().getTime() - saved > hours * 60 * 60 * 1000
+  ) {
+    console.log("More than 2 hours");
+    getCurrencyDetails();
+  } else {
+    if (
+      sessionStorage.getItem("currencyDetails") &&
+      sessionStorage.getItem("currencySaved")
+    ) {
+      console.log("From storage");
+      let obj = sessionStorage.getItem("currencyDetails") || {};
+      obj = JSON.parse(obj);
+      if (callback) {
+        callback(obj);
+      }
+      let currencies = obj["rates"] || { USD: 1.0 };
+      let rates = Object.keys(currencies).sort();
+      return dispatch(setCurrency(rates, currencies));
+    } else {
+      console.log("New api call");
+      getCurrencyDetails();
+    }
   }
 };

@@ -614,14 +614,15 @@ const CartSummary = (props) => {
       .catch((err) => {
         if (retryCountCP < 3) {
           capturePayment(authId, orderId, actions);
+        } else {
+          voidPPOrder(orderId);
+          let data = {
+            gbOrderNo: cart.orderId,
+          };
+          updateOrder(data, "FAILED");
+          // setLoading(false);
         }
         retryCountCP++;
-        voidPPOrder(orderId);
-        let data = {
-          gbOrderNo: cart.orderId,
-        };
-        updateOrder(data, "FAILED");
-        // setLoading(false);
       });
   };
 
@@ -735,16 +736,16 @@ const CartSummary = (props) => {
       .catch((err) => {
         if (retryCountAP < 3) {
           authorizePayment(orderId, actions);
+        } else {
+          voidPPOrder(orderId);
+          let data = {
+            gbOrderNo: cart.orderId,
+          };
+          updateOrder(data, "FAILED");
+          message.error(err.message || err, 5);
+          // setLoading(false);
         }
         retryCountAP++;
-
-        voidPPOrder(orderId);
-        let data = {
-          gbOrderNo: cart.orderId,
-        };
-        updateOrder(data, "FAILED");
-        message.error(err.message || err, 5);
-        // setLoading(false);
       });
   };
 

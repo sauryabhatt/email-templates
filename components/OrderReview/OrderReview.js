@@ -210,14 +210,15 @@ const OrderReview = (props) => {
       .catch((err) => {
         if (retryCountCP < 3) {
           capturePayment(authId, orderId, actions);
+        } else {
+          voidPPOrder(orderId);
+          let data = {
+            gbOrderNo: props.order.orderId,
+          };
+          updateOrder(data, "FAILED");
+          // setLoading(false);
         }
         retryCountCP++;
-        voidPPOrder(orderId);
-        let data = {
-          gbOrderNo: props.order.orderId,
-        };
-        updateOrder(data, "FAILED");
-        // setLoading(false);
       });
   };
 
@@ -294,15 +295,16 @@ const OrderReview = (props) => {
       .catch((err) => {
         if (retryCountAP < 3) {
           authorizePayment(orderId, actions);
+        } else {
+          voidPPOrder(orderId);
+          let data = {
+            gbOrderNo: props.order.orderId,
+          };
+          updateOrder(data, "FAILED");
+          message.error(err.message || err, 5);
+          // setLoading(false);
         }
         retryCountAP++;
-        voidPPOrder(orderId);
-        let data = {
-          gbOrderNo: props.order.orderId,
-        };
-        updateOrder(data, "FAILED");
-        message.error(err.message || err, 5);
-        // setLoading(false);
       });
   };
 
