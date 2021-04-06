@@ -147,7 +147,9 @@ const OrderReview = (props) => {
         if (res.status.toString().startsWith("2")) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw (
+            res.statusText || "Sorry something went wrong. Please try again!"
+          );
         }
       })
       .then((res) => {
@@ -159,15 +161,10 @@ const OrderReview = (props) => {
           updateOrder(data, status);
         }
         retryCountOR++;
-        console.log(err);
-        // setLoading(false);
       });
   };
 
   const checkCapturePayment = (authId, orderId, actions, data) => {
-    console.log("Inside capture");
-    console.log(authId, orderId);
-
     fetch(
       process.env.NEXT_PUBLIC_REACT_APP_PAYMENTS_URL +
         "/payments/paypal/check/getCaptureStatus/" +
@@ -188,18 +185,28 @@ const OrderReview = (props) => {
         if (res.status.toString().startsWith("2")) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw (
+            res.statusText ||
+            "Something went wrong with payment. Please try again!"
+          );
         }
       })
       .then((res) => {
-        console.log("Capture ", res);
-        setIsProcessing(false);
-        if (res.error === "INSTRUMENT_DECLINED") {
-          return actions.restart();
+        if (res && Object.keys(res).length) {
+          setIsProcessing(false);
+          if (res.error === "INSTRUMENT_DECLINED") {
+            return actions.restart();
+          } else {
+            delete res.qauthorizations[0].requestUUID;
+            delete res.currentAuth.requestUUID;
+            updateOrder(res, "CHECKED_OUT");
+          }
         } else {
-          delete res.qauthorizations[0].requestUUID;
-          delete res.currentAuth.requestUUID;
-          updateOrder(res, "CHECKED_OUT");
+          voidPPOrder(orderId);
+          let data = {
+            gbOrderNo: cart.orderId,
+          };
+          updateOrder(data, "FAILED");
         }
       })
       .catch((err) => {
@@ -247,7 +254,10 @@ const OrderReview = (props) => {
         if (res.status.toString().startsWith("2")) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw (
+            res.statusText ||
+            "Something went wrong with payment. Please try again!"
+          );
         }
       })
       .then((res) => {
@@ -283,7 +293,9 @@ const OrderReview = (props) => {
         if (res.status.toString().startsWith("2")) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw (
+            res.statusText || "Sorry something went wrong. Please try again!"
+          );
         }
       })
       .then((res) => {
@@ -317,15 +329,16 @@ const OrderReview = (props) => {
       }
     )
       .then((res) => {
-        console.log("Result ", res);
         if (res.ok) {
           return res.text();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw (
+            res.statusText ||
+            "There was an error authorizing the amount please try again"
+          );
         }
       })
       .then((res) => {
-        console.log("res ", res);
         if (res && res.length) {
           capturePayment(res, orderId);
         } else {
@@ -334,7 +347,9 @@ const OrderReview = (props) => {
             gbOrderNo: cart.orderId,
           };
           updateOrder(data, "FAILED");
-          message.error("Error while updating info.");
+          message.error(
+            "There was an error authorizing the amount please try again"
+          );
         }
       })
       .catch((err) => {
@@ -380,7 +395,10 @@ const OrderReview = (props) => {
         if (res.status.toString().startsWith("2")) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw (
+            res.statusText ||
+            "There was an error authorizing the amount please try again"
+          );
         }
       })
       .then((res) => {
@@ -411,7 +429,9 @@ const OrderReview = (props) => {
         if (res.ok) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw (
+            res.statusText || "Sorry something went wrong. Please try again!"
+          );
         }
       })
       .then((res) => {

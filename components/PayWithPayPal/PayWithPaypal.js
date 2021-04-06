@@ -476,7 +476,9 @@ const PaypalButton = (props) => {
         if (res.ok) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw (
+            res.statusText || "Sorry something went wrong. Please try again!"
+          );
         }
       })
       .then((res) => {

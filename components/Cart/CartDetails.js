@@ -137,8 +137,6 @@ const CartDetails = (props) => {
   }, [app_token]);
 
   useEffect(() => {
-    console.log("inside cart ", props.cart);
-
     let { cart = {} } = props;
     let { shippingAddressDetails = "", shippingAddressId, subOrders = [] } =
       cart || {};
