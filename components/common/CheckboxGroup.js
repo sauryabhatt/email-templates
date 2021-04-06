@@ -53,7 +53,8 @@ export default ({ options, ...props }) => {
         name === "Bucket-H" ||
         name === "Bucket-P" ||
         name === "Bucket-Q" ||
-        name === "Bucket-R"
+        name === "Bucket-R" ||
+        name === "Bucket-S"
       ) {
         moqFilters.push("12 & below");
         moqFilters.push("24 & below");
@@ -86,7 +87,8 @@ export default ({ options, ...props }) => {
       } else if (
         name === "Bucket-K" ||
         name === "Bucket-J" ||
-        name === "Bucket-I"
+        name === "Bucket-I" ||
+        name === "Bucket-A"
       ) {
         moqFilters.push("500 & above");
       }

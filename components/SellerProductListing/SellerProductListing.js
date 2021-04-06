@@ -109,6 +109,7 @@ const SellerProductListing = (props) => {
               "Bucket-P",
               "Bucket-Q",
               "Bucket-R",
+              "Bucket-S",
             ];
           } else if (filter === "24 & below") {
             bucketValues = [
@@ -123,6 +124,7 @@ const SellerProductListing = (props) => {
               "Bucket-E",
               "Bucket-G",
               "Bucket-O",
+              "Bucket-S",
             ];
           } else if (filter === "50 & below") {
             bucketValues = [
@@ -140,6 +142,7 @@ const SellerProductListing = (props) => {
               "Bucket-A",
               "Bucket-C",
               "Bucket-N",
+              "Bucket-S",
             ];
           } else if (filter === "100 & below") {
             bucketValues = [
@@ -158,6 +161,7 @@ const SellerProductListing = (props) => {
               "Bucket-C",
               "Bucket-N",
               "Bucket-M",
+              "Bucket-S",
             ];
           } else if (filter === "200 & below") {
             bucketValues = [
@@ -177,6 +181,7 @@ const SellerProductListing = (props) => {
               "Bucket-N",
               "Bucket-M",
               "Bucket-L",
+              "Bucket-S",
             ];
           } else if (filter === "500 & above") {
             bucketValues = [
@@ -184,6 +189,7 @@ const SellerProductListing = (props) => {
               "Bucket-K",
               "Bucket-J",
               "Bucket-I",
+              "Bucket-A",
             ];
           }
         }
