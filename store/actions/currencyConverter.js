@@ -27,11 +27,10 @@ export const getCurrencyConversion = (base, callback = "") => async (
 ) => {
   let url = `${process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL}/currencies/conversion-rates?base=${base}`;
 
-  let hours = 2;
+  let hours = 6;
   let saved = sessionStorage.getItem("currencySaved");
   let currencyDetails = sessionStorage.getItem("currencyDetails");
   let retryCount = 0;
-  console.log(saved, currencyDetails);
 
   const getCurrencyDetails = () => {
     fetch(url, {
@@ -61,8 +60,6 @@ export const getCurrencyConversion = (base, callback = "") => async (
         return dispatch(setCurrency(rates, currencies));
       })
       .catch((err) => {
-        console.log("Error api call", err);
-
         if (retryCount < 3) {
           getCurrencyDetails();
         } else {
@@ -81,14 +78,12 @@ export const getCurrencyConversion = (base, callback = "") => async (
     currencyDetails &&
     new Date().getTime() - saved > hours * 60 * 60 * 1000
   ) {
-    console.log("More than 2 hours");
     getCurrencyDetails();
   } else {
     if (
       sessionStorage.getItem("currencyDetails") &&
       sessionStorage.getItem("currencySaved")
     ) {
-      console.log("From storage");
       let obj = sessionStorage.getItem("currencyDetails") || {};
       obj = JSON.parse(obj);
       if (callback) {
@@ -98,7 +93,6 @@ export const getCurrencyConversion = (base, callback = "") => async (
       let rates = Object.keys(currencies).sort();
       return dispatch(setCurrency(rates, currencies));
     } else {
-      console.log("New api call");
       getCurrencyDetails();
     }
   }
