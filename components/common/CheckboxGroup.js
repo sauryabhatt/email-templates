@@ -71,11 +71,7 @@ export default ({ options, ...props }) => {
         moqFilters.push("50 & below");
         moqFilters.push("100 & below");
         moqFilters.push("200 & below");
-      } else if (
-        name === "Bucket-A" ||
-        name === "Bucket-C" ||
-        name === "Bucket-N"
-      ) {
+      } else if (name === "Bucket-C" || name === "Bucket-N") {
         moqFilters.push("50 & below");
         moqFilters.push("100 & below");
         moqFilters.push("200 & below");
@@ -87,9 +83,13 @@ export default ({ options, ...props }) => {
       } else if (
         name === "Bucket-K" ||
         name === "Bucket-J" ||
-        name === "Bucket-I" ||
-        name === "Bucket-A"
+        name === "Bucket-I"
       ) {
+        moqFilters.push("500 & above");
+      } else if (name === "Bucket-A") {
+        moqFilters.push("50 & below");
+        moqFilters.push("100 & below");
+        moqFilters.push("200 & below");
         moqFilters.push("500 & above");
       }
     }
