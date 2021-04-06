@@ -556,12 +556,20 @@ const CartSummary = (props) => {
         }
       })
       .then((res) => {
-        let url = "/order/" + cart.orderId + "/payment-success";
-        router.push(url);
+        if (status === "FAILED") {
+          let url = "/order/" + cart.orderId + "/payment-failure";
+          router.push(url);
+        } else {
+          let url = "/order/" + cart.orderId + "/payment-success";
+          router.push(url);
+        }
       })
       .catch((err) => {
         if (retryCountOR < 3) {
           updateOrder(data, status);
+        } else {
+          let url = "/order/" + cart.orderId + "/payment-failure";
+          router.push(url);
         }
         retryCountOR++;
         // setLoading(false);
@@ -606,7 +614,7 @@ const CartSummary = (props) => {
             updateOrder(res, "CHECKED_OUT");
           }
         } else {
-          voidPPOrder(orderId);
+          // voidPPOrder(orderId);
           let data = {
             gbOrderNo: cart.orderId,
           };
@@ -617,7 +625,7 @@ const CartSummary = (props) => {
         if (retryCountCP < 3) {
           checkCapturePayment(authId, orderId, actions);
         } else {
-          voidPPOrder(orderId);
+          // voidPPOrder(orderId);
           let data = {
             gbOrderNo: cart.orderId,
           };
@@ -782,26 +790,22 @@ const CartSummary = (props) => {
         if (res && res.length) {
           capturePayment(res, orderId);
         } else {
-          voidPPOrder(orderId);
+          // voidPPOrder(orderId);
           let data = {
             gbOrderNo: cart.orderId,
           };
           updateOrder(data, "FAILED");
-          message.error(
-            "There was an error authorizing the amount please try again"
-          );
         }
       })
       .catch((err) => {
         if (retryCountAP < 3) {
           checkAuthorizePaymentStatus(orderId, actions);
         } else {
-          voidPPOrder(orderId);
+          // voidPPOrder(orderId);
           let data = {
             gbOrderNo: cart.orderId,
           };
           updateOrder(data, "FAILED");
-          message.error(err.message || err, 5);
         }
         retryCountAP++;
       });
