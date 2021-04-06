@@ -480,18 +480,16 @@ const PaypalButton = (props) => {
         }
       })
       .then((res) => {
-        // message.success('Your info has been updated successfully.', 5);
-        // setSuccessUpdateVisible(true);
         return res.id;
       })
       .catch((err) => {
         console.log(err);
         if (retryCount < 3) {
           createOrder(data, actions);
+        } else {
+          message.error(err.message || err, 5);
         }
         retryCount++;
-        message.error(err.message || err, 5);
-        // setLoading(false);
       });
   };
 

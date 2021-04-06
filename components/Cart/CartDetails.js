@@ -128,7 +128,6 @@ const CartDetails = (props) => {
   const [serviceable, setServiceable] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [btnLoading, setBtnLoading] = useState(false);
-  const [emptyCart, setEmptyCart] = useState(false);
 
   let showError = false;
   useEffect(() => {
@@ -143,14 +142,7 @@ const CartDetails = (props) => {
     let { cart = {} } = props;
     let { shippingAddressDetails = "", shippingAddressId, subOrders = [] } =
       cart || {};
-    if (
-      cart &&
-      cart !== null &&
-      Object.keys(cart).length &&
-      subOrders.length === 0
-    ) {
-      setEmptyCart(true);
-    }
+
     if (shippingAddressDetails && Object.keys(shippingAddressDetails)) {
       let { countryCode = "", country = "", zipCode = "", dialCode = "" } =
         shippingAddressDetails || {};
@@ -1023,13 +1015,7 @@ const CartDetails = (props) => {
     );
   }
 
-  if (
-    cart &&
-    subOrders &&
-    subOrders.length === 0 &&
-    products.length === 0 &&
-    emptyCart === true
-  ) {
+  if (cart && subOrders && subOrders.length === 0 && products.length === 0) {
     return (
       <div id="cart-details" className="cart-section qa-font-san empty-cart">
         <div className="e-cart-title qa-txt-alg-cnt qa-mar-btm-1">

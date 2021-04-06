@@ -65,7 +65,8 @@ const Cart = (props) => {
 
   if (isLoading) {
     return <Spinner />;
-  } else if (!isLoading && keycloak.authenticated) {
+  }
+  if (!isLoading && keycloak.authenticated) {
     return (
       <CartDetails app_token={token} sfl={sfl} brandNames={brandNameList} />
     );

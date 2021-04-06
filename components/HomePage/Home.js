@@ -17,7 +17,6 @@ import HotThisWeekCarousel from "./../HotThisWeekCarousel/HotThisWeekCarousel";
 import Tastimonial from "../Tastimonial";
 import closeButton from "../../public/filestore/closeButtonLite";
 import { connect } from "react-redux";
-import { getUserProfile } from "./../../store/actions";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
@@ -102,49 +101,6 @@ function Home(props) {
         setVerificationModal(true);
       }
       sessionStorage.setItem("showNotification", true);
-    }
-    if (profileCreated === null || profileCreated === false) {
-      let data = {};
-      fetch("https://ipapi.co/json/", {
-        method: "GET",
-      })
-        .then((response) => response.json())
-        .then((result) => {
-          let { ip = "", country = "" } = result;
-          data.ipAddress = ip;
-          data.country = country;
-          fetch(
-            process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
-              "/profiles/update/my",
-            {
-              method: "PATCH",
-              body: JSON.stringify(data),
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: "Bearer " + keycloak.token,
-              },
-            }
-          )
-            .then((res) => {
-              if (res.ok) {
-                return res.json();
-              } else {
-                throw res.statusText || "Error while sending request.";
-              }
-            })
-            .then((res) => {
-              let { profileCreated = "" } = res;
-              if (profileCreated === true) {
-                props.getUserProfile(keycloak.token);
-              }
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
     }
   }, [props.userProfile]);
 
@@ -1180,4 +1136,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { getUserProfile })(Home);
+export default connect(mapStateToProps, null)(Home);

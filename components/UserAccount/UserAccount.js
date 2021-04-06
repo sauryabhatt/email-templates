@@ -2396,7 +2396,13 @@ const UserAccount = (props) => {
                     VALIDATE OTP
                   </Button>
                 </div>
-                <div className="resend-otp-btn" onClick={sendOtp}>
+                <div
+                  className="resend-otp-btn"
+                  onClick={() => {
+                    setOtpInput("");
+                    sendOtp();
+                  }}
+                >
                   RESEND OTP
                 </div>
                 <div className="otp-help-section">
