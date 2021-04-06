@@ -22,7 +22,7 @@ export const getCart = (token, callback = "") => async (dispatch) => {
       let result = { ...res };
       result["currency"] = "USD";
       if (callback) {
-        callback(res);
+        callback(result);
       }
       return dispatch(setCart(result));
     })
