@@ -58,6 +58,8 @@ const ShippingDetails = (props) => {
   const [disableAir, setDisableAir] = useState(false);
   const [disableSea, setDisableSea] = useState(false);
   const [promoDiscount, setPromoDiscount] = useState(0);
+  const [landingFactorShip, setLandingFactorShip] = useState("");
+  const [btnLoading, setBtnLoading] = useState(false);
 
   useEffect(() => {
     if (props.cart && Object.keys(props.cart).length) {
@@ -127,9 +129,12 @@ const ShippingDetails = (props) => {
             landingFactor =
               (total + (seaMax > airMax ? airMax : seaMax)) / totalAmount;
 
+            setLandingFactorShip(landingFactor);
+
             if (landingFactor > LANDING_LIMITER) {
               console.log("Landing factor is ", landingFactor);
               setPayment(true);
+              setLoading(false);
             } else {
               if (
                 shippingModesAvailable.includes("Air") &&
@@ -189,6 +194,7 @@ const ShippingDetails = (props) => {
 
           if (a_result && s_result) {
             setPayment(true);
+            setLoading(false);
           }
 
           let result =
@@ -196,6 +202,7 @@ const ShippingDetails = (props) => {
             seaQuote[shippingTerm]["tat"] === 0;
           if (result) {
             setPayment(true);
+            setLoading(false);
           }
         }
       } else {
@@ -206,8 +213,10 @@ const ShippingDetails = (props) => {
           setPayment(true);
         }
       }
-
-      setLoading(false);
+    } else {
+      setTimeout(() => {
+        setLoading(false);
+      }, 4000);
     }
   }, [props.airQuote, props.seaQuote]);
 
@@ -357,6 +366,7 @@ const ShippingDetails = (props) => {
   };
 
   const applyCouponAPI = (data, couponApplied = "") => {
+    setBtnLoading(true);
     let cartId = orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
 
     let couponUrl = "";
@@ -405,10 +415,11 @@ const ShippingDetails = (props) => {
         } else if (couponApplied === false) {
           setCouponApplied(true);
         }
+        setBtnLoading(false);
       })
       .catch((err) => {
         console.log(err);
-        // setLoading(false);
+        setBtnLoading(false);
       });
   };
 
@@ -417,17 +428,11 @@ const ShippingDetails = (props) => {
   const getConvertedCurrency = (baseAmount, round = false) => {
     let { convertToCurrency = "", rates = [] } = props.currencyDetails;
     if (round) {
-      return Number.parseFloat(
-        (baseAmount *
-          Math.round((rates[convertToCurrency] + Number.EPSILON) * 100)) /
-          100
-      ).toFixed(0);
+      return Number.parseFloat(baseAmount * rates[convertToCurrency]).toFixed(
+        0
+      );
     }
-    return Number.parseFloat(
-      (baseAmount *
-        Math.round((rates[convertToCurrency] + Number.EPSILON) * 100)) /
-        100
-    ).toFixed(2);
+    return Number.parseFloat(baseAmount * rates[convertToCurrency]).toFixed(2);
   };
 
   const handleCancel = () => {
@@ -475,9 +480,11 @@ const ShippingDetails = (props) => {
           }
           setCouponDiscount(discount);
           setPromoDiscount(promoDiscount);
+          setLoading(false);
         })
         .catch((err) => {
           console.log(err);
+          setLoading(false);
         });
     }
   };
@@ -1383,6 +1390,7 @@ const ShippingDetails = (props) => {
                         <Button
                           className="qa-button coupon-btn"
                           onClick={applyCoupon}
+                          disabled={btnLoading}
                         >
                           <span className="qa-font-san qa-fs-14">
                             {couponApplied ? "REMOVE" : "APPLY"}
@@ -1421,6 +1429,15 @@ const ShippingDetails = (props) => {
                 disablePayment={disablePayment}
                 tat={tat}
                 shippingTerm={shippingTerm}
+                rfqReason={`Landing factor : ${landingFactorShip}, TAT : ${tat}, Air freight charge ${
+                  airData[shippingTerm]["frightCostMax"]
+                    ? airData[shippingTerm]["frightCostMax"]
+                    : "0"
+                }: , Sea freight change : ${
+                  seaData[shippingTerm]["frightCostMax"]
+                    ? airData[shippingTerm]["frightCostMax"]
+                    : "0"
+                }`}
               />
             </Col>
           </Row>
@@ -1460,6 +1477,7 @@ const ShippingDetails = (props) => {
                           <Button
                             className="qa-button coupon-btn"
                             onClick={applyCoupon}
+                            disabled={btnLoading}
                           >
                             <span className="qa-font-san qa-fs-14">
                               {couponApplied ? "REMOVE" : "APPLY"}
@@ -2123,6 +2141,15 @@ const ShippingDetails = (props) => {
                     disablePayment={disablePayment}
                     tat={tat}
                     shippingTerm={shippingTerm}
+                    rfqReason={`Landing factor : ${landingFactorShip}, TAT : ${tat}, Air freight charge ${
+                      airData[shippingTerm]["frightCostMax"]
+                        ? airData[shippingTerm]["frightCostMax"]
+                        : "0"
+                    }: , Sea freight change : ${
+                      seaData[shippingTerm]["frightCostMax"]
+                        ? airData[shippingTerm]["frightCostMax"]
+                        : "0"
+                    }`}
                   />
                 </Col>
               )}

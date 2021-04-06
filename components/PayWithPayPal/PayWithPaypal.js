@@ -11,6 +11,7 @@ import countries from "../../public/filestore/countryCodes_en.json";
 // import { PayPalButton } from "react-paypal-button-v2";
 const PaypalButton = (props) => {
   const [sdkReady, setSdkReady] = useState(false);
+  let retryCount = 0;
 
   const updatePaypalSdk = () => {
     let url = null;
@@ -475,18 +476,22 @@ const PaypalButton = (props) => {
         if (res.ok) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw (
+            res.statusText || "Sorry something went wrong. Please try again!"
+          );
         }
       })
       .then((res) => {
-        // message.success('Your info has been updated successfully.', 5);
-        // setSuccessUpdateVisible(true);
         return res.id;
       })
       .catch((err) => {
         console.log(err);
-        message.error(err.message || err, 5);
-        // setLoading(false);
+        if (retryCount < 3) {
+          createOrder(data, actions);
+        } else {
+          message.error(err.message || err, 5);
+        }
+        retryCount++;
       });
   };
 

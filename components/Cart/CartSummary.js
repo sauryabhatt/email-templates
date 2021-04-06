@@ -46,6 +46,12 @@ const CartSummary = (props) => {
   const [reRender, setReRender] = useState(false);
   const [sellers, setSellers] = useState([]);
   const [qalaraMargin, setQalaraMargin] = useState(0);
+  const [btnLoading, setBtnLoading] = useState(false);
+
+  let retryCount = 0;
+  let retryCountCP = 0;
+  let retryCountAP = 0;
+  let retryCountOR = 0;
 
   useEffect(() => {
     if (props.cart) {
@@ -165,6 +171,7 @@ const CartSummary = (props) => {
     state = "",
     zipCode = "",
     country = "",
+    phoneNumber = "",
   } = shippingAddressDetails || {};
 
   const getConvertedCurrency = (baseAmount) => {
@@ -193,7 +200,13 @@ const CartSummary = (props) => {
     }
   };
 
+  const proceedToShipping = () => {
+    setBtnLoading(true);
+    router.push("/shipping");
+  };
+
   const checkCommitStatus = () => {
+    setBtnLoading(true);
     let cartId = orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
     let url = `${
       process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL
@@ -210,7 +223,7 @@ const CartSummary = (props) => {
         if (res.ok) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw res.statusText || "Something went wrong please try again!";
         }
       })
       .then((result) => {
@@ -219,13 +232,14 @@ const CartSummary = (props) => {
           let url = "/payment";
           router.push(url);
         } else {
-          console.log("Not shippable");
           setNonShippable(true);
+          message.error("Something went wrong please try again!", 5);
         }
+        setBtnLoading(false);
       })
       .catch((err) => {
-        console.log(err);
-        // setLoading(false);
+        setBtnLoading(false);
+        message.error(err.message || err, 5);
       });
   };
 
@@ -330,7 +344,9 @@ const CartSummary = (props) => {
         if (res.status.toString().startsWith("2")) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw (
+            res.statusText || "Sorry something went wrong. Please try again!"
+          );
         }
       })
       .then((res) => {
@@ -338,8 +354,70 @@ const CartSummary = (props) => {
         router.push(url);
       })
       .catch((err) => {
-        console.log(err);
+        if (retryCountOR < 3) {
+          updateOrder(data, status);
+        }
+        retryCountOR++;
         // setLoading(false);
+      });
+  };
+
+  const checkCapturePayment = (authId, orderId, actions, data) => {
+    fetch(
+      process.env.NEXT_PUBLIC_REACT_APP_PAYMENTS_URL +
+        "/payments/paypal/check/getCaptureStatus/" +
+        props.cart.orderId +
+        "/authorizations/" +
+        authId +
+        "/capture",
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + keycloak.token,
+        },
+      }
+    )
+      .then((res) => {
+        if (res.status.toString().startsWith("2")) {
+          return res.json();
+        } else {
+          throw (
+            res.statusText ||
+            "Something went wrong with payment. Please try again!"
+          );
+        }
+      })
+      .then((res) => {
+        if (res && Object.keys(res).length) {
+          setIsProcessing(false);
+          if (res.error === "INSTRUMENT_DECLINED") {
+            return actions.restart();
+          } else {
+            delete res.qauthorizations[0].requestUUID;
+            delete res.currentAuth.requestUUID;
+            updateOrder(res, "CHECKED_OUT");
+          }
+        } else {
+          voidPPOrder(orderId);
+          let data = {
+            gbOrderNo: cart.orderId,
+          };
+          updateOrder(data, "FAILED");
+        }
+      })
+      .catch((err) => {
+        if (retryCountCP < 3) {
+          checkCapturePayment(authId, orderId, actions);
+        } else {
+          voidPPOrder(orderId);
+          let data = {
+            gbOrderNo: cart.orderId,
+          };
+          updateOrder(data, "FAILED");
+        }
+        retryCountCP++;
       });
   };
 
@@ -372,7 +450,10 @@ const CartSummary = (props) => {
         if (res.status.toString().startsWith("2")) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw (
+            res.statusText ||
+            "Something went wrong with payment. Please try again!"
+          );
         }
       })
       .then((res) => {
@@ -386,12 +467,7 @@ const CartSummary = (props) => {
         }
       })
       .catch((err) => {
-        voidPPOrder(orderId);
-        let data = {
-          gbOrderNo: cart.orderId,
-        };
-        updateOrder(data, "FAILED");
-        // setLoading(false);
+        checkCapturePayment(authId, orderId, actions, data);
       });
   };
 
@@ -414,17 +490,21 @@ const CartSummary = (props) => {
         if (res.ok) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw (
+            res.statusText || "Sorry something went wrong. Please try again!"
+          );
         }
       })
       .then((res) => {
-        // setIsProcessing(false);
-        // router.push('/payment-success')
         authorizePayment(orderId, actions);
       })
       .catch((err) => {
-        message.error(err.message || err, 5);
-        // setLoading(false);
+        if (retryCount < 3) {
+          saveOrder(orderId, actions);
+        } else {
+          message.error(err.message || err, 5);
+        }
+        retryCount++;
       });
   };
 
@@ -446,7 +526,9 @@ const CartSummary = (props) => {
         if (res.status.toString().startsWith("2")) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw (
+            res.statusText || "Sorry something went wrong. Please try again!"
+          );
         }
       })
       .then((res) => {
@@ -459,6 +541,62 @@ const CartSummary = (props) => {
         let url = "/order/" + cart.orderId + "/payment-failure";
         router.push(url);
         // setLoading(false);
+      });
+  };
+
+  const checkAuthorizePaymentStatus = (orderId, actions) => {
+    setIsProcessing(true);
+    let finalValue = getConvertedCurrency(cart.total);
+    let value = parseFloat((finalValue * 20) / 100).toFixed(2);
+    let currency = currencyDetails.convertToCurrency;
+
+    fetch(
+      process.env.NEXT_PUBLIC_REACT_APP_PAYMENTS_URL +
+        `/payments/paypal/check/getAuthorizationStatus/${orderId}/${cart.orderId}/${value}/${currency}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + keycloak.token,
+        },
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.text();
+        } else {
+          throw (
+            res.statusText ||
+            "There was an error authorizing the amount please try again"
+          );
+        }
+      })
+      .then((res) => {
+        if (res && res.length) {
+          capturePayment(res, orderId);
+        } else {
+          voidPPOrder(orderId);
+          let data = {
+            gbOrderNo: cart.orderId,
+          };
+          updateOrder(data, "FAILED");
+          message.error(
+            "There was an error authorizing the amount please try again"
+          );
+        }
+      })
+      .catch((err) => {
+        if (retryCountAP < 3) {
+          checkAuthorizePaymentStatus(orderId, actions);
+        } else {
+          voidPPOrder(orderId);
+          let data = {
+            gbOrderNo: cart.orderId,
+          };
+          updateOrder(data, "FAILED");
+          message.error(err.message || err, 5);
+        }
+        retryCountAP++;
       });
   };
 
@@ -489,22 +627,17 @@ const CartSummary = (props) => {
         if (res.status.toString().startsWith("2")) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw (
+            res.statusText ||
+            "There was an error authorizing the amount please try again"
+          );
         }
       })
       .then((res) => {
         capturePayment(res.currentAuth.ppAuthId, orderId);
-        // setIsProcessing(false);
-        // router.push('/payment-success')
       })
       .catch((err) => {
-        voidPPOrder(orderId);
-        let data = {
-          gbOrderNo: cart.orderId,
-        };
-        updateOrder(data, "FAILED");
-        message.error(err.message || err, 5);
-        // setLoading(false);
+        checkAuthorizePaymentStatus(orderId, actions);
       });
   };
 
@@ -1200,11 +1333,13 @@ const CartSummary = (props) => {
       {id === "cart" && (
         <div>
           {enable && deliver && !showCartError ? (
-            <Link href="/shipping">
-              <Button className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-ship active">
-                Proceed to shipping
-              </Button>
-            </Link>
+            <Button
+              className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-ship active"
+              onClick={proceedToShipping}
+              disabled={btnLoading}
+            >
+              Proceed to shipping
+            </Button>
           ) : (
             <Button className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-ship">
               Proceed to shipping
@@ -1237,6 +1372,7 @@ const CartSummary = (props) => {
           {enable && deliver && !showCartError && !disablePayment ? (
             <Button
               onClick={checkCommitStatus}
+              disabled={btnLoading}
               className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment active"
             >
               Proceed to payment
@@ -1299,11 +1435,13 @@ const CartSummary = (props) => {
       {(!deliver || disablePayment) && !showCartError && !hideCreateOrder && (
         <Button
           onClick={createOrder}
+          disabled={btnLoading}
           className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment active"
         >
           ORDER QUOTE REQUEST
         </Button>
       )}
+
       {!deliver && id === "cart" && !showCartError && !hideCreateOrder && (
         <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-top-05 qa-txt-alg-cnt">
           *We currently don't have instant checkout enabled for your country.
@@ -1315,11 +1453,10 @@ const CartSummary = (props) => {
       )}
       {disablePayment && id === "shipping" && (
         <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-top-05 qa-txt-alg-cnt">
-          *We currently don't have instant checkout enabled for your country.
-          However, in most cases we can still arrange to deliver the order to
-          you. Please click on 'Order Quote Request' and we will share a link
-          over email with the necessary details to process your order. The link
-          will also be available in your Qalara Account section.
+          Freight cost appears to be high for this order. Please click on 'Order
+          Quote Request' and we will share a link over email with the necessary
+          details to process your order. The link will also be available in your
+          Qalara Account section.
         </div>
       )}
 
@@ -1333,7 +1470,7 @@ const CartSummary = (props) => {
             </span>
           ) : (
             <span>
-              {id === "shipping" && (
+              {id === "shipping" && !disablePayment && (
                 <span>*Proceed to review payment mode</span>
               )}
             </span>
