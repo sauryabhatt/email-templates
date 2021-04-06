@@ -22,7 +22,7 @@ export const getCart = (token, callback = "") => async (dispatch) => {
       let result = { ...res };
       result["currency"] = "USD";
       if (callback) {
-        callback(res);
+        callback(result);
       }
       return dispatch(setCart(result));
     })
@@ -40,7 +40,9 @@ export const setCart = (data) => {
   };
 };
 
-export const getSavedForLater = (token) => async (dispatch) => {
+export const getSavedForLater = (token, callback = false) => async (
+  dispatch
+) => {
   let url = `${process.env.NEXT_PUBLIC_REACT_APP_WISHLIST_URL}/v1/my/wish-list`;
   return await fetch(url, {
     method: "GET",
@@ -57,6 +59,9 @@ export const getSavedForLater = (token) => async (dispatch) => {
       }
     })
     .then((res) => {
+      if (callback) {
+        callback(res);
+      }
       return dispatch(setSFL(res));
     })
     .catch((err) => {
