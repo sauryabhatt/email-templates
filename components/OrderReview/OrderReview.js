@@ -163,6 +163,59 @@ const OrderReview = (props) => {
         // setLoading(false);
       });
   };
+
+  const checkCapturePayment = (authId, orderId, actions, data) => {
+    console.log("Inside capture");
+    console.log(authId, orderId);
+
+    fetch(
+      process.env.NEXT_PUBLIC_REACT_APP_PAYMENTS_URL +
+        "/payments/paypal/check/getCaptureStatus/" +
+        props.cart.orderId +
+        "/authorizations/" +
+        authId +
+        "/capture",
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + keycloak.token,
+        },
+      }
+    )
+      .then((res) => {
+        if (res.status.toString().startsWith("2")) {
+          return res.json();
+        } else {
+          throw res.statusText || "Error while updating info.";
+        }
+      })
+      .then((res) => {
+        console.log("Capture ", res);
+        setIsProcessing(false);
+        if (res.error === "INSTRUMENT_DECLINED") {
+          return actions.restart();
+        } else {
+          delete res.qauthorizations[0].requestUUID;
+          delete res.currentAuth.requestUUID;
+          updateOrder(res, "CHECKED_OUT");
+        }
+      })
+      .catch((err) => {
+        if (retryCountCP < 3) {
+          checkCapturePayment(authId, orderId, actions);
+        } else {
+          voidPPOrder(orderId);
+          let data = {
+            gbOrderNo: cart.orderId,
+          };
+          updateOrder(data, "FAILED");
+        }
+        retryCountCP++;
+      });
+  };
+
   const capturePayment = (authId, orderId, actions) => {
     let data = {
       amount: {
@@ -208,17 +261,7 @@ const OrderReview = (props) => {
         }
       })
       .catch((err) => {
-        if (retryCountCP < 3) {
-          capturePayment(authId, orderId, actions);
-        } else {
-          voidPPOrder(orderId);
-          let data = {
-            gbOrderNo: props.order.orderId,
-          };
-          updateOrder(data, "FAILED");
-          // setLoading(false);
-        }
-        retryCountCP++;
+        checkCapturePayment(authId, orderId, actions, data);
       });
   };
 
@@ -256,6 +299,59 @@ const OrderReview = (props) => {
       });
   };
 
+  const checkAuthorizePaymentStatus = (orderId, actions) => {
+    setIsProcessing(true);
+    let finalValue = getConvertedCurrency(cart.total);
+    let value = parseFloat((finalValue * 20) / 100).toFixed(2);
+    let currency = currencyDetails.convertToCurrency;
+
+    fetch(
+      process.env.NEXT_PUBLIC_REACT_APP_PAYMENTS_URL +
+        `/payments/paypal/check/getAuthorizationStatus/${orderId}/${cart.orderId}/${value}/${currency}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + keycloak.token,
+        },
+      }
+    )
+      .then((res) => {
+        console.log("Result ", res);
+        if (res.ok) {
+          return res.text();
+        } else {
+          throw res.statusText || "Error while updating info.";
+        }
+      })
+      .then((res) => {
+        console.log("res ", res);
+        if (res && res.length) {
+          capturePayment(res, orderId);
+        } else {
+          voidPPOrder(orderId);
+          let data = {
+            gbOrderNo: cart.orderId,
+          };
+          updateOrder(data, "FAILED");
+          message.error("Error while updating info.");
+        }
+      })
+      .catch((err) => {
+        if (retryCountAP < 3) {
+          checkAuthorizePaymentStatus(orderId, actions);
+        } else {
+          voidPPOrder(orderId);
+          let data = {
+            gbOrderNo: cart.orderId,
+          };
+          updateOrder(data, "FAILED");
+          message.error(err.message || err, 5);
+        }
+        retryCountAP++;
+      });
+  };
+
   const authorizePayment = (orderId, actions) => {
     setIsProcessing(true);
     let data = {
@@ -289,22 +385,9 @@ const OrderReview = (props) => {
       })
       .then((res) => {
         capturePayment(res.currentAuth.ppAuthId, orderId);
-        // setIsProcessing(false);
-        // router.push('/payment-success')
       })
       .catch((err) => {
-        if (retryCountAP < 3) {
-          authorizePayment(orderId, actions);
-        } else {
-          voidPPOrder(orderId);
-          let data = {
-            gbOrderNo: props.order.orderId,
-          };
-          updateOrder(data, "FAILED");
-          message.error(err.message || err, 5);
-          // setLoading(false);
-        }
-        retryCountAP++;
+        checkAuthorizePaymentStatus(orderId, actions);
       });
   };
 
@@ -332,8 +415,6 @@ const OrderReview = (props) => {
         }
       })
       .then((res) => {
-        // setIsProcessing(false);
-        // router.push('/payment-success')
         authorizePayment(orderId, actions);
       })
       .catch((err) => {
@@ -342,7 +423,6 @@ const OrderReview = (props) => {
           saveOrder(orderId, actions);
         }
         retryCount++;
-        // setLoading(false);
       });
   };
 
