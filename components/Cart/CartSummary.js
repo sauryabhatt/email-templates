@@ -55,6 +55,9 @@ const CartSummary = (props) => {
   const [btnLoading, setBtnLoading] = useState(false);
 
   let retryCount = 0;
+  let retryCountCP = 0;
+  let retryCountAP = 0;
+  let retryCountOR = 0;
 
   useEffect(() => {
     if (props.cart) {
@@ -558,6 +561,10 @@ const CartSummary = (props) => {
       })
       .catch((err) => {
         console.log(err);
+        if (retryCountOR < 3) {
+          updateOrder(data, status);
+        }
+        retryCountOR++;
         // setLoading(false);
       });
   };
@@ -605,6 +612,10 @@ const CartSummary = (props) => {
         }
       })
       .catch((err) => {
+        if (retryCountCP < 3) {
+          capturePayment(authId, orderId, actions);
+        }
+        retryCountCP++;
         voidPPOrder(orderId);
         let data = {
           gbOrderNo: cart.orderId,
@@ -722,6 +733,11 @@ const CartSummary = (props) => {
         // router.push('/payment-success')
       })
       .catch((err) => {
+        if (retryCountAP < 3) {
+          authorizePayment(orderId, actions);
+        }
+        retryCountAP++;
+
         voidPPOrder(orderId);
         let data = {
           gbOrderNo: cart.orderId,

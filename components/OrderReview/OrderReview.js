@@ -42,6 +42,9 @@ const OrderReview = (props) => {
   const [paypalLoaded, setPaypalLoaded] = useState(false);
 
   let retryCount = 0;
+  let retryCountCP = 0;
+  let retryCountAP = 0;
+  let retryCountOR = 0;
 
   let { order = {}, brandNameList = "" } = props || {};
   let { shippingMode = "", shippingTerms = "", miscCharges = [] } = order || {};
@@ -152,6 +155,10 @@ const OrderReview = (props) => {
         router.push(url);
       })
       .catch((err) => {
+        if (retryCountOR < 3) {
+          updateOrder(data, status);
+        }
+        retryCountOR++;
         console.log(err);
         // setLoading(false);
       });
@@ -201,6 +208,10 @@ const OrderReview = (props) => {
         }
       })
       .catch((err) => {
+        if (retryCountCP < 3) {
+          capturePayment(authId, orderId, actions);
+        }
+        retryCountCP++;
         voidPPOrder(orderId);
         let data = {
           gbOrderNo: props.order.orderId,
@@ -281,6 +292,10 @@ const OrderReview = (props) => {
         // router.push('/payment-success')
       })
       .catch((err) => {
+        if (retryCountAP < 3) {
+          authorizePayment(orderId, actions);
+        }
+        retryCountAP++;
         voidPPOrder(orderId);
         let data = {
           gbOrderNo: props.order.orderId,
