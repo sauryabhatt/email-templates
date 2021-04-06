@@ -125,6 +125,9 @@ const CartDetails = (props) => {
   const [zipCodeList, setZipcodeList] = useState([]);
   const [inventoryQty, setInventoryQty] = useState();
   const [serviceable, setServiceable] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [btnLoading, setBtnLoading] = useState(false);
+
   let showError = false;
   useEffect(() => {
     if (app_token) {
@@ -172,7 +175,12 @@ const CartDetails = (props) => {
             }
           }
         }
+        setIsLoading(false);
       });
+    } else {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 4000);
     }
   }, [props.cart]);
 
@@ -199,7 +207,6 @@ const CartDetails = (props) => {
         }
       })
       .then((res) => {
-        console.log(res);
         setServiceable(res);
       })
       .catch((err) => {
@@ -377,6 +384,7 @@ const CartDetails = (props) => {
     zipcode = selPincode,
     country = selCountry
   ) => {
+    setBtnLoading(true);
     fetch(
       `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/my/${orderId}/?addr_Id=${selectedShippingId}&postal_code=${zipcode}&country=${country}`,
       {
@@ -392,12 +400,15 @@ const CartDetails = (props) => {
         if (res.ok) {
           setAddressModal(false);
           props.getCart(app_token);
+          setBtnLoading(false);
         } else {
           throw res.statusText || "Error while sending e-mail.";
+          setBtnLoading(false);
         }
       })
       .catch((err) => {
         setAddressModal(false);
+        setBtnLoading(false);
         message.error("Error updating info!", 5);
       });
   };
@@ -417,6 +428,7 @@ const CartDetails = (props) => {
     });
 
   const addSFL = (order) => {
+    setBtnLoading(true);
     let { products = [], sellerCode = "" } = order || {};
     let data = [];
     for (let items of products) {
@@ -467,13 +479,16 @@ const CartDetails = (props) => {
       .then((res) => {
         updateCart("SFL_DELETE", sellerCode);
         message.success("Products have been moved to your wishlist!", 5);
+        setBtnLoading(false);
       })
       .catch((err) => {
         message.error("Error moving products to your wishlist!", 5);
+        setBtnLoading(false);
       });
   };
 
   const saveAddress = (values) => {
+    setBtnLoading(true);
     setSelCountry(values.country);
     setSelPincode(values.zipCode);
     checkServiceability(values.country, values.zipCode);
@@ -515,13 +530,16 @@ const CartDetails = (props) => {
           setAddressModal(false);
           props.getAddresses(app_token);
         }
+        setBtnLoading(false);
       })
       .catch((err) => {
         message.error("Error updating info!", 5);
+        setBtnLoading(false);
       });
   };
 
   const updateAddress = (values) => {
+    setBtnLoading(true);
     setSelCountry(values.country);
     setSelPincode(values.zipCode);
     checkServiceability(values.country, values.zipCode);
@@ -564,9 +582,11 @@ const CartDetails = (props) => {
         // setSuccessUpdateVisible(true);
         setAddressModal(false);
         props.getCart(app_token);
+        setBtnLoading(false);
       })
       .catch((err) => {
         message.error("Error updating info!", 5);
+        setBtnLoading(false);
       });
   };
 
@@ -630,6 +650,7 @@ const CartDetails = (props) => {
     let skuid = deleteProduct;
     let p_data = {};
     let s_count = 0;
+    setUpdate("");
 
     if (action === "OPT_SERVICES") {
       action = "UPDATE";
@@ -805,6 +826,8 @@ const CartDetails = (props) => {
                 setUpdate("");
                 message.success("Quantity updated!", 5);
               });
+            } else {
+              setUpdate(sellerCode);
             }
           });
         }
@@ -954,7 +977,7 @@ const CartDetails = (props) => {
     }
   };
 
-  if (!props.cart) {
+  if (!props.cart && isLoading) {
     return <Spinner />;
   }
 
@@ -1496,6 +1519,7 @@ const CartDetails = (props) => {
                         <Button
                           className="qa-button qa-fs-12 cart-save-later qa-mar-top-2"
                           onClick={() => addSFL(order)}
+                          disabled={btnLoading}
                         >
                           Save for later
                         </Button>
@@ -2131,6 +2155,7 @@ const CartDetails = (props) => {
                         <Button
                           className="qa-button qa-fs-12 cart-save-later qa-mar-top-2"
                           onClick={() => addSFL(order)}
+                          disabled={btnLoading}
                         >
                           Save for later
                         </Button>
@@ -2685,18 +2710,12 @@ const CartDetails = (props) => {
               </Col>
 
               <Col xs={24} sm={24} md={0} lg={0} xl={0}>
-                <Col
-                  xs={24}
-                  sm={24}
-                  md={9}
-                  lg={9}
-                  xl={9}
-                  className="qa-pad-1"
-                  onClick={() => onFinish(selectedShippingId)}
-                >
+                <Col xs={24} sm={24} md={9} lg={9} xl={9} className="qa-pad-1">
                   <Button
                     htmlType="submit"
                     className="qa-button qa-cart-ship-btn"
+                    onClick={() => onFinish(selectedShippingId)}
+                    disabled={btnLoading}
                   >
                     Select and Ship to
                   </Button>
@@ -2727,17 +2746,12 @@ const CartDetails = (props) => {
                   >
                     <Button className="qa-button qa-cart-cancel">Cancel</Button>
                   </Col>
-                  <Col
-                    xs={24}
-                    sm={24}
-                    md={9}
-                    lg={9}
-                    xl={9}
-                    onClick={() => onFinish(selectedShippingId)}
-                  >
+                  <Col xs={24} sm={24} md={9} lg={9} xl={9}>
                     <Button
                       htmlType="submit"
                       className="qa-button qa-cart-ship-btn"
+                      disabled={btnLoading}
+                      onClick={() => onFinish(selectedShippingId)}
                     >
                       Select and Ship to
                     </Button>
@@ -3036,6 +3050,7 @@ const CartDetails = (props) => {
                   <Button
                     htmlType="submit"
                     className="qa-button qa-cart-ship-btn"
+                    disabled={btnLoading}
                   >
                     {addressFunc === "edit"
                       ? "Save and Ship to"
@@ -3072,6 +3087,7 @@ const CartDetails = (props) => {
                     <Button
                       htmlType="submit"
                       className="qa-button qa-cart-ship-btn"
+                      disabled={btnLoading}
                     >
                       {addressFunc === "edit"
                         ? "Save and Ship to"
@@ -3144,6 +3160,7 @@ const CartDetails = (props) => {
 
 const mapStateToProps = (state) => {
   return {
+    cart: state.checkout.cart,
     currencyDetails: state.currencyConverter,
     addresses: state.userProfile.addresses,
     sfl: state.checkout.sfl,
