@@ -216,7 +216,7 @@ const ShippingDetails = (props) => {
     } else {
       setTimeout(() => {
         setLoading(false);
-      }, 5000);
+      }, 4000);
     }
   }, [props.airQuote, props.seaQuote]);
 
