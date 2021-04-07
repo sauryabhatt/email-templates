@@ -44,7 +44,7 @@ const Shipping = (props) => {
               })
               .catch((err) => {
                 console.log(err);
-                setAirData({});
+                setAirData({ ddp: {}, ddu: {} });
               });
 
             fetch(
@@ -68,7 +68,8 @@ const Shipping = (props) => {
                 setSeaData(seaDataResp);
               })
               .catch((err) => {
-                setSeaData({});
+                console.log(err);
+                setSeaData({ ddp: {}, ddu: {} });
               });
           }
         });
