@@ -858,15 +858,3 @@ a.qa-sm-color:hover {
 .price-breakup-popup .ant-popover-arrow {
   background-color: #f9f7f2;
 }
-.otp-error-cart {
-  font-family: senregular;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 140%;
-  /* or 20px */
-
-  text-align: center;
-
-  color: #af0000;
-}

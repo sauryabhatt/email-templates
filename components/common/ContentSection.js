@@ -21,28 +21,6 @@ function ContentSection(props) {
 
   const [selProductId, setSelProductId] = useState("");
   const [open, setOpen] = useState(false);
-  const [scrolling, setScrolling] = useState(false);
-  const [scrollTop, setScrollTop] = useState(0);
-
-  // useEffect(() => {
-  //   function onScroll() {
-  //     let currentPosition = window.pageYOffset; // or use document.documentElement.scrollTop;
-  //     console.log("Current pos ", currentPosition);
-  //     if (currentPosition > scrollTop) {
-  //       // downscroll code
-  //       setScrolling(false);
-  //       console.log("Set scrolling false");
-  //     } else {
-  //       // upscroll code
-  //       setScrolling(true);
-  //       console.log("Set scrolling true");
-  //     }
-  //     setScrollTop(currentPosition <= 0 ? 0 : currentPosition);
-  //   }
-
-  //   window.addEventListener("scroll", onScroll);
-  //   return () => window.removeEventListener("scroll", onScroll);
-  // }, [scrollTop]);
 
   const handleClickOutside = (e) => {
     setOpen(false);

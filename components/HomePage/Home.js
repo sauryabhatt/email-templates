@@ -31,13 +31,13 @@ function Home(props) {
   let mediaMatch = undefined;
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showNotification, setShowNotification] = useState(false);
   const [notificationMsg, setNotificationMsg] = useState("");
   const [inProgressMsg, setInProgressMsg] = useState("");
   const [newUser, setNewUser] = useState(false);
   const [previousUrl, setPreviousUrl] = useState("");
   const [confirmationModal, setConfirmationModal] = useState(false);
   const [uProfile, setUProfile] = useState("BUYER");
-  const [verificationModal, setVerificationModal] = useState(false);
 
   const token = useSelector(
     (state) => state.appToken.token && state.appToken.token.access_token
@@ -62,7 +62,7 @@ function Home(props) {
     let hours = 2; // Reset when storage is more than 2 hours
     let now = new Date().getTime();
     mediaMatch = window.matchMedia("(min-width: 768px)");
-    let { profileCreated = "" } = props.userProfile || {};
+    let { username = "" } = props.userProfile || {};
     let newUser = localStorage.getItem("newUser");
     let userNameLS = localStorage.getItem("userName");
     let previousUrl = localStorage.getItem("productUrl");
@@ -79,26 +79,34 @@ function Home(props) {
 
     let notification = sessionStorage.getItem("showNotification");
     if (props && props.userProfile && !notification) {
-      let {
-        verificationStatus = "",
-        profileType = "",
-        verifiedEmail = false,
-      } = props.userProfile;
-      if (
-        (verifiedEmail === false || verifiedEmail === null) &&
-        verificationStatus !== "VERIFIED"
-      ) {
-        setNotificationMsg("ACCOUNT_EMAIL_NOT_VERIFIED");
-        setVerificationModal(true);
+      let { verificationStatus = "", profileType = "" } = props.userProfile;
+      if (profileType === "BUYER" && verificationStatus === "IN_PROGRESS") {
+        setNotificationMsg(
+          "Welcome! Your Buyer Account will be verified within 48 hours, meanwhile we are providing temporary access to view seller catalogs, products, prices and place orders. Qalara offers secure payments, lowest freight costs, and quality inspections for your orders, so you can shop with confidence!"
+        );
+        setInProgressMsg(
+          "Just click on SHOP in the main menu to start discovering thousands of products! And click on Request for Quote for any custom order requirements."
+        );
+        setShowNotification(true);
+      } else if (profileType === "BUYER" && verificationStatus === "ON_HOLD") {
+        setNotificationMsg(
+          "We are in the process of verifying your buyer profile, and will revert within 48 hours. Once verified, you will have access to product catalogs, prices and will be able to order and checkout."
+        );
+        setInProgressMsg(
+          "Just click on SHOP in the main menu to start discovering thousands of products! And click on Request for Quote for any custom order requirements."
+        );
+        setShowNotification(true);
+      } else if (profileType === "BUYER" && verificationStatus === "REJECTED") {
+        setShowNotification(false);
       } else if (
-        (verifiedEmail === false || verifiedEmail === null) &&
-        verificationStatus === "VERIFIED"
+        profileType === "BUYER" &&
+        verificationStatus === "VERIFIED" &&
+        props.isGuest === "true"
       ) {
-        setNotificationMsg("EMAIL_NOT_VERIFIED");
-        setVerificationModal(true);
-      } else if (verifiedEmail === true && verificationStatus !== "VERIFIED") {
-        setNotificationMsg("ACCOUNT_NOT_VERIFIED");
-        setVerificationModal(true);
+        setNotificationMsg(
+          "As a invitee buyer you have access to all the products and prices. However to place an order please signup as a buyer"
+        );
+        setShowNotification(true);
       }
       sessionStorage.setItem("showNotification", true);
     }
@@ -161,10 +169,6 @@ function Home(props) {
     setConfirmationModal(false);
   };
 
-  const closeVerificationModal = () => {
-    setVerificationModal(false);
-  };
-
   const signIn = () => {
     loginToApp(keycloak, undefined);
   };
@@ -192,15 +196,7 @@ function Home(props) {
         sendInviteData(data);
       })
       .catch((err) => {
-        let data = {
-          fromEmailId: values.email,
-          name: values.name,
-          orgName: values.orgName,
-          profileType: "BUYER",
-          ip: "",
-          ipCountry: "",
-        };
-        sendInviteData(data);
+        // console.log("Error ", err);
       });
   };
 
@@ -793,136 +789,6 @@ function Home(props) {
         >
           Back to home page
         </Button> */}
-          </div>
-        </div>
-      </Modal>
-
-      <Modal
-        className="confirmation-modal"
-        visible={verificationModal && !confirmationModal}
-        footer={null}
-        closable={false}
-        bodyStyle={{
-          background: "#332F2F",
-          boxShadow: "0px 2px 2px rgba(0, 0, 0, 0.25)",
-          color: "#F9F7F2",
-        }}
-        width={750}
-        centered
-      >
-        <div className="qa-rel-pos qa-pad-1">
-          <div
-            onClick={closeVerificationModal}
-            style={{
-              position: "absolute",
-              right: "0px",
-              top: "0px",
-              cursor: "pointer",
-              zIndex: "2",
-            }}
-          >
-            <Icon
-              component={closeButton}
-              style={{ width: "30px", height: "30px" }}
-            />
-          </div>
-          <div>
-            {notificationMsg === "ACCOUNT_EMAIL_NOT_VERIFIED" ? (
-              <p className="verification-heading home-page">
-                Welcome to Qalara! Please validate your email address.
-              </p>
-            ) : notificationMsg === "EMAIL_NOT_VERIFIED" ? (
-              <p className="verification-heading home-page">
-                Welcome to Qalara! Please validate your email address.
-              </p>
-            ) : (
-              <p className="verification-heading home-page">
-                Welcome to Qalara! We are in the process of verifying your
-                account.
-              </p>
-            )}
-
-            {notificationMsg === "ACCOUNT_EMAIL_NOT_VERIFIED" ? (
-              <div>
-                <p className="verification-text">
-                  Welcome! Validation of your email address is pending. Please
-                  click on the link sent to reg. email add. to validate your
-                  email address.
-                </p>
-                <p className="verification-text qa-mar-top-2">
-                  Please check your promotions/spam/junk folder if you have not
-                  received the validation email in your primary inbox. If you
-                  haven't received the validation email or are facing any issues
-                  please write to us at{" "}
-                  <a
-                    href="mailto:help@qalara.com"
-                    className="qa-underline qa-primary-c"
-                  >
-                    help@qalara.com
-                  </a>{" "}
-                  from your registered email address.
-                </p>
-                <p className="verification-text qa-mar-top-2">
-                  Your Buyer Account will be verified within 48 hours, meanwhile
-                  we are providing temporary access to view catalogs, products,
-                  prices and place orders. Just click on SHOP in the main menu
-                  to start discovering thousands of curated handmade products!
-                  {previousUrl && (
-                    <span>
-                      To go back to the page you visited before signup please{" "}
-                      <Link href={previousUrl}>
-                        <span className="qa-underline qa-primary-c qa-cursor">
-                          click here
-                        </span>
-                      </Link>
-                      .
-                    </span>
-                  )}
-                </p>
-              </div>
-            ) : notificationMsg === "EMAIL_NOT_VERIFIED" ? (
-              <div>
-                <p className="verification-text">
-                  Welcome! Validation of your email address is pending. Please
-                  click on the link sent to reg. email add. to validate your
-                  email address.
-                </p>
-                <p className="verification-text qa-mar-top-2">
-                  Please check your promotions/spam/junk folder if you have not
-                  received the validation email in your primary inbox. If you
-                  haven't received the validation email or are facing any issues
-                  please write to us at{" "}
-                  <a
-                    href="mailto:help@qalara.com"
-                    className="qa-underline qa-primary-c"
-                  >
-                    help@qalara.com
-                  </a>{" "}
-                  from your registered email address.
-                </p>
-              </div>
-            ) : (
-              <p className="verification-text">
-                Welcome! Your Buyer Account will be verified within 48 hours,
-                meanwhile we are providing temporary access to view catalogs,
-                products, prices and place orders. Qalara offers secure
-                payments, low freight costs, and quality inspections for your
-                orders, so you can shop with confidence! Just click on SHOP in
-                the main menu to start discovering thousands of curated handmade
-                products!{" "}
-                {previousUrl && (
-                  <span>
-                    To go back to the page you visited before signup please{" "}
-                    <Link href={previousUrl}>
-                      <span className="qa-underline qa-primary-c qa-cursor">
-                        click here
-                      </span>
-                      .
-                    </Link>
-                  </span>
-                )}
-              </p>
-            )}
           </div>
         </div>
       </Modal>

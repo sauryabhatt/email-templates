@@ -14,9 +14,6 @@ import signUp_icon from "../../public/filestore/Sign_Up";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { useKeycloak } from "@react-keycloak/ssr";
-import { registerToApp } from "../AuthWithKeycloak";
-
 //import b2 from "../../public/filestore/Homepage-banner2.jpg"
 //import b2_m from "../../public/filestore/Homepage-banner2-mob.jpg"
 
@@ -204,7 +201,6 @@ export default function HomePageCarousel(props) {
 
 function SlideElement(props) {
   const router = useRouter();
-  const { keycloak } = useKeycloak();
   let {
     e,
     isVideoPlay,
@@ -328,21 +324,13 @@ function SlideElement(props) {
         )}
         {e.isSignupbtn ? (
           !isAuthenticated ? (
-            // <Link href="/signup">
-            <span
-              className="button qa-secondary-btn"
-              onClick={() => {
-                registerToApp(keycloak, {
-                  currentPath: router.asPath,
-                });
-                // router.push("/signup");
-              }}
-            >
-              <span className="sign-up-text-icon">{signUp_icon()} </span>
-              <span className="sign-up-text">Sign Up as a buyer</span>
-            </span>
+            <Link href="/signup">
+              <span className="button qa-secondary-btn">
+                <span className="sign-up-text-icon">{signUp_icon()} </span>
+                <span className="sign-up-text">Sign Up as a buyer</span>
+              </span>
+            </Link>
           ) : (
-            // </Link>
             <div
               className="button qa-secondary-btn"
               onClick={(e) => {

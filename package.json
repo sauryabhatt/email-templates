@@ -35,7 +35,6 @@
     "react-image-gallery": "^1.0.8",
     "react-infinite-scroll-component": "^5.1.0",
     "react-modal-video": "^1.2.6",
-    "react-otp-input": "^2.3.0",
     "react-pdf": "^5.0.0",
     "react-phone-input-2": "^2.13.8",
     "react-phone-number-input": "^3.1.0",
@@ -43,8 +42,7 @@
     "react-slick": "^0.27.11",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "slick-carousel": "^1.8.1",
-    "use-dynamic-refs": "^1.0.0"
+    "slick-carousel": "^1.8.1"
   },
   "devDependencies": {
     "redux-devtools-extension": "^2.13.8"

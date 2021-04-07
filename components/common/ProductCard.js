@@ -18,7 +18,11 @@ function ProductCard(props) {
   const { keycloak } = useKeycloak();
   const getConvertedCurrency = (baseAmount) => {
     let { convertToCurrency = "", rates = [] } = props.currencyDetails;
-    return Number.parseFloat(baseAmount * rates[convertToCurrency]).toFixed(2);
+    return Number.parseFloat(
+      (baseAmount *
+        Math.round((rates[convertToCurrency] + Number.EPSILON) * 100)) /
+        100
+    ).toFixed(2);
   };
 
   const signIn = (e) => {

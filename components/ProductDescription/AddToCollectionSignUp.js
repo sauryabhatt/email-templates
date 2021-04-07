@@ -5,7 +5,7 @@ import Link from "next/link";
 import Icon from "@ant-design/icons";
 import closeButton from "../../public/filestore/closeButton";
 import signUp_icon from "../../public/filestore/Sign_Up";
-import { loginToApp, registerToApp } from "../AuthWithKeycloak";
+import { loginToApp } from "../AuthWithKeycloak";
 import { useRouter } from "next/router";
 import { useKeycloak } from "@react-keycloak/ssr";
 
@@ -62,20 +62,12 @@ const AddToCollectionSignUp = (props) => {
 
         <div className="qa-txt-alg-cnt">
           <div className="login-modal-signup-btn">
-            {/* <Link href="/signup"> */}
-            <span
-              className="button"
-              onClick={() => {
-                registerToApp(keycloak, {
-                  currentPath: router.asPath,
-                });
-                // router.push("/signup");
-              }}
-            >
-              <span className="sign-up-text-icon">{signUp_icon()} </span>
-              <span className="sign-up-text">Sign Up as a buyer</span>
-            </span>
-            {/* </Link> */}
+            <Link href="/signup">
+              <span className="button">
+                <span className="sign-up-text-icon">{signUp_icon()} </span>
+                <span className="sign-up-text">Sign Up as a buyer</span>
+              </span>
+            </Link>
           </div>
         </div>
         <div className="product-login-modal-content qa-mar-top-1">

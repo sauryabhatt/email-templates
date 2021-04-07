@@ -81,7 +81,6 @@ const SearchListing = (props) => {
       f_l3name,
       search,
       f_l1_names,
-      searchBy: searchVal,
       sort_by: sort,
       ...rest
     } = queryParams;
@@ -103,125 +102,19 @@ const SearchListing = (props) => {
     }
     let defaultQuery = querystring.stringify(newObj);
     let query = getQueryParamString();
-    let urlQuery = getQueryParamString();
 
     if (query) {
-      let filterQuery = queryString.parse(query);
-      let { f_moqBucket = "" } = filterQuery || {};
-
-      if (f_moqBucket) {
-        let moqFilter = f_moqBucket.split(",");
-        let bucketValues = [];
-        for (let filter of moqFilter) {
-          if (filter === "12 & below") {
-            bucketValues = [
-              ...bucketValues,
-              "Bucket-D",
-              "Bucket-F",
-              "Bucket-H",
-              "Bucket-P",
-              "Bucket-Q",
-              "Bucket-R",
-              "Bucket-S",
-            ];
-          } else if (filter === "24 & below") {
-            bucketValues = [
-              ...bucketValues,
-              "Bucket-D",
-              "Bucket-F",
-              "Bucket-H",
-              "Bucket-P",
-              "Bucket-Q",
-              "Bucket-R",
-              "Bucket-B",
-              "Bucket-E",
-              "Bucket-G",
-              "Bucket-O",
-              "Bucket-S",
-            ];
-          } else if (filter === "50 & below") {
-            bucketValues = [
-              ...bucketValues,
-              "Bucket-D",
-              "Bucket-F",
-              "Bucket-H",
-              "Bucket-P",
-              "Bucket-Q",
-              "Bucket-R",
-              "Bucket-B",
-              "Bucket-E",
-              "Bucket-G",
-              "Bucket-O",
-              "Bucket-A",
-              "Bucket-C",
-              "Bucket-N",
-              "Bucket-S",
-            ];
-          } else if (filter === "100 & below") {
-            bucketValues = [
-              ...bucketValues,
-              "Bucket-D",
-              "Bucket-F",
-              "Bucket-H",
-              "Bucket-P",
-              "Bucket-Q",
-              "Bucket-R",
-              "Bucket-B",
-              "Bucket-E",
-              "Bucket-G",
-              "Bucket-O",
-              "Bucket-A",
-              "Bucket-C",
-              "Bucket-N",
-              "Bucket-M",
-              "Bucket-S",
-            ];
-          } else if (filter === "200 & below") {
-            bucketValues = [
-              ...bucketValues,
-              "Bucket-D",
-              "Bucket-F",
-              "Bucket-H",
-              "Bucket-P",
-              "Bucket-Q",
-              "Bucket-R",
-              "Bucket-B",
-              "Bucket-E",
-              "Bucket-G",
-              "Bucket-O",
-              "Bucket-A",
-              "Bucket-C",
-              "Bucket-N",
-              "Bucket-M",
-              "Bucket-L",
-              "Bucket-S",
-            ];
-          } else if (filter === "500 & above") {
-            bucketValues = [
-              ...bucketValues,
-              "Bucket-K",
-              "Bucket-J",
-              "Bucket-I",
-              "Bucket-A",
-            ];
-          }
-        }
-        bucketValues = _.uniq(bucketValues);
-        filterQuery["f_moqBucket"] = bucketValues.toString();
-      }
-      let filteredQuery = querystring.stringify(filterQuery);
-      query = defaultQuery + "&" + filteredQuery.replace("?", "");
-      urlQuery = defaultQuery + "&" + urlQuery.replace("?", "");
+      query = defaultQuery + "&" + query.replace("?", "");
     } else {
       query = defaultQuery;
-      urlQuery = defaultQuery;
     }
 
+    let jsonQuery = queryString.parse(query);
     if (keycloak.authenticated || cookie.get("kcToken")) {
+      jsonQuery = { ...jsonQuery, bird: "lion" };
       query = query.replace("apple", "lion");
-      urlQuery = urlQuery.replace("apple", "lion");
     }
-    let jsonQuery = queryString.parse(urlQuery);
+
     setQueryParams(jsonQuery);
     if (searchBy === "product") {
       props.getPLPDetails(query, true);

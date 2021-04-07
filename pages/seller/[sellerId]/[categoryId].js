@@ -102,6 +102,6 @@ export const getStaticProps = async ({ params }) => {
         categoryId: categoryId,
       },
     },
-    revalidate: 1000,
+    revalidate: 14400,
   };
 };

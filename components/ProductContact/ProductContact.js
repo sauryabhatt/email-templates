@@ -122,36 +122,6 @@ const ProductContact = (props) => {
       return;
     }
   };
-
-  const productRFQCall = (data) => {
-    fetch(process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/queries", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + props.token,
-      },
-    })
-      .then((res) => {
-        if (res.ok) {
-          props.sendQueryCancel("success");
-        } else {
-          message.error(res.statusText, 5);
-          setErrors(
-            errors.concat({
-              atStage: "Error while sending",
-              message: res.statusText,
-            })
-          );
-        }
-        setLoading(false);
-      })
-      .catch((err) => {
-        message.error(err.message, 5);
-        setErrors(errors.concat(err));
-        setLoading(false);
-      });
-  };
   const onFinish = (values) => {
     let isAnonymousUser = true;
     if (props.initialValues && props.initialValues.profileId) {
@@ -207,7 +177,6 @@ const ProductContact = (props) => {
       sellerId: props.sellerDetails.id.split("::")[2],
       buyerId: props.userId && props.userId.split("::")[1],
       productName: props.productDetails.productName,
-      // locationType: values.locationType,
     };
 
     if (keycloak.authenticated) {
@@ -230,12 +199,41 @@ const ProductContact = (props) => {
         let { ip = "", country = "" } = result;
         data.fromIP = ip;
         data.ipCountry = country;
-        productRFQCall(data);
+        fetch(
+          process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/queries",
+          {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + props.token,
+            },
+          }
+        )
+          .then((res) => {
+            if (res.ok) {
+              props.sendQueryCancel("success");
+            } else {
+              message.error(res.statusText, 5);
+              setErrors(
+                errors.concat({
+                  atStage: "Error while sending",
+                  message: res.statusText,
+                })
+              );
+            }
+            setLoading(false);
+          })
+          .catch((err) => {
+            message.error(err.message, 5);
+            setErrors(errors.concat(err));
+            setLoading(false);
+          });
       })
       .catch((err) => {
-        data.fromIP = "";
-        data.ipCountry = "";
-        productRFQCall(data);
+        message.error(err.message, 5);
+        setErrors(errors.concat(err));
+        setLoading(false);
       });
   };
 
@@ -319,9 +317,9 @@ const ProductContact = (props) => {
                 />
                 <span className="custom-quote-atc">Save to collection</span>
                 <div className="custom-quote-text">
-                  To receive a quotation for multiple products together, use our
-                  new Save to Collection feature and send a combined Quote
-                  request
+                  If you would like to Get Quote for multiple products, you can
+                  now use our new Save to Collection feature and send a combined
+                  Quote request easily
                 </div>
                 <span className="custom-quote-new">
                   <span>NEW</span>
@@ -364,9 +362,9 @@ const ProductContact = (props) => {
                   </div> 
                 </div>
               )} */}
-              {/* <div className="qa-fs-12 qa-mar-btm-2 qa-font-san qa-dark-body qa-lh">
+              <div className="qa-fs-12 qa-mar-btm-2 qa-font-san qa-dark-body qa-lh">
                 Base price per unit excl. margin and other charges
-              </div> */}
+              </div>
               <div>
                 <div
                   style={{
@@ -510,9 +508,9 @@ const ProductContact = (props) => {
                 />
                 <span className="custom-quote-atc">Save to collection</span>
                 <div className="custom-quote-text">
-                  To receive a quotation for multiple products together, use our
-                  new Save to Collection feature and send a combined Quote
-                  request
+                  If you would like to Get Quote for multiple products, you can
+                  now use our new Save to Collection feature and send a combined
+                  Quote request easily
                 </div>
                 <span className="custom-quote-new">
                   <span>NEW</span>
@@ -549,8 +547,9 @@ const ProductContact = (props) => {
             <p className="heading">Get quote</p>
 
             <p className="paragraph">
-              Please share your quantity requirement and delivery details so we
-              can respond with a quotation.
+              Please share your order requirement or any customization request
+              for this product. We will respond with images and quotation within
+              2 business days.
             </p>
           </Col>
         </Row>
@@ -589,75 +588,9 @@ const ProductContact = (props) => {
                   </Option>
                 </Select>
               </Form.Item> */}
+
               <span className="label-paragraph">
-                What quantity are you looking to order for this product?*
-              </span>
-              <Form.Item
-                name="quantity"
-                style={{ marginBottom: "1em" }}
-                rules={[
-                  { required: true, message: "Please enter target quantity." },
-                  {
-                    type: "string",
-                    message: "The input is not valid!",
-                  },
-                  {
-                    min: 1,
-                    max: 50,
-                    message: "Length should be 1-50 characters!",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-              <span className="label-paragraph">Destination Country*</span>
-              <Form.Item
-                name="destinationCountry"
-                style={{ marginBottom: "1em" }}
-                rules={[
-                  { required: true, message: "Please select your country." },
-                ]}
-              >
-                {country}
-              </Form.Item>
-              <span className="label-paragraph">Destination Pin Code*</span>
-              <Form.Item
-                name="zipcode"
-                style={{ marginBottom: "1em" }}
-                rules={[
-                  {
-                    required: true,
-                    message: "Please enter your zipcode.",
-                    whitespace: true,
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-              <span className="label-paragraph">Delivery location type</span>
-              <Form.Item
-                name="locationType"
-                style={{ marginBottom: "1em" }}
-                rules={[
-                  {
-                    required: true,
-                    message: "Please select your delivery location type.",
-                  },
-                ]}
-              >
-                <Select placeholder="Select location type" showSearch>
-                  <Option value="home">Home</Option>
-                  <Option value="store">Store</Option>
-                  <Option value="office">Office</Option>
-                  <Option value="warehouse">Warehouse</Option>
-                  <Option value="amazonWarehouse">Amazon Warehouse</Option>
-                  <Option value="others">Others</Option>
-                  );
-                </Select>
-              </Form.Item>
-              <span className="label-paragraph">
-                Please share any customization requirement (color, size,
-                packaging etc.)
+                Please share any customization requirement (color, size, etc.)
               </span>
               <Form.Item
                 name="requirementDetails"
@@ -684,7 +617,7 @@ const ProductContact = (props) => {
                 />
               </Form.Item>
 
-              {/* <span className="label-paragraph">
+              <span className="label-paragraph">
                 Please attach reference photos of designs you like.{" "}
                 <b>Highly recommended</b>
               </span>
@@ -714,7 +647,27 @@ const ProductContact = (props) => {
                   {fileList.length >= 10 ? null : <PlusOutlined />}
                 </Upload>
               </Form.Item>
-              */}
+              <span className="label-paragraph">
+                What is the quantity that you're looking to order?*
+              </span>
+              <Form.Item
+                name="quantity"
+                style={{ marginBottom: "1em" }}
+                rules={[
+                  { required: true, message: "Please enter target quantity." },
+                  {
+                    type: "string",
+                    message: "The input is not valid!",
+                  },
+                  {
+                    min: 1,
+                    max: 50,
+                    message: "Length should be 1-50 characters!",
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
               {/* <span className="label-paragraph">
                 What is your target cost (USD)?
               </span>
@@ -748,6 +701,30 @@ const ProductContact = (props) => {
                   style={{ width: "100%" }}
                 />
               </Form.Item>
+              <span className="label-paragraph">Destination Country*</span>
+              <Form.Item
+                name="destinationCountry"
+                style={{ marginBottom: "1em" }}
+                rules={[
+                  { required: true, message: "Please select your country." },
+                ]}
+              >
+                {country}
+              </Form.Item>
+              <span className="label-paragraph">Destination Pin Code*</span>
+              <Form.Item
+                name="zipcode"
+                style={{ marginBottom: "1em" }}
+                rules={[
+                  {
+                    required: true,
+                    message: "Please enter your zipcode.",
+                    whitespace: true,
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
               {/* <span className="label-paragraph">Destination City, State*</span>
               <Form.Item
                 name="destinationCity"
@@ -770,16 +747,14 @@ const ProductContact = (props) => {
               <span className="label-heading">
                 Please share your details so we can respond:
               </span>
-              <div
-                className="paragraph"
-                style={{
-                  margin: "0.5em 0px 1em",
-                  textAlign: "left",
-                }}
+              <br />
+              <span
+                className="label-paragraph"
+                style={{ marginBottom: "0.5em", marginTop: "0.5em" }}
               >
                 Your information is safe with us.
-              </div>
-
+              </span>
+              <br />
               <span className="label-paragraph">Your name*</span>
               <Form.Item
                 name="requesterName"
@@ -937,10 +912,10 @@ const ProductContact = (props) => {
                   Suggested retail price : <b>${suggestedRetailPrice}</b>
                 </div>
               </div> */}
-              {/* <div className="qa-mar-btm-1 qa-font-san qa-dark-body qa-fs-12 qa-lh">
+              <div className="qa-mar-btm-1 qa-font-san qa-dark-body qa-fs-12 qa-lh">
                 Base price per unit excl. margin and other charges
-              </div> */}
-              <div className="qa-mar-btm-2">
+              </div>
+              <div>
                 <div
                   style={{
                     display: "inline-block",

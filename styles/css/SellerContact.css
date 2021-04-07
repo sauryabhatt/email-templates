@@ -66,7 +66,7 @@
   font-weight: normal;
   font-size: 12px;
   text-align: center;
-  max-width: 325px;
+  max-width: 300px;
   color: rgba(51, 47, 47, 0.8);
   margin: 0 auto 1.5em auto;
   line-height: 140%;
@@ -80,21 +80,12 @@
 
 #seller-contact-form .label-paragraph {
   font-family: senregular;
-  font-size: 14px;
-  color: #191919;
+  font-size: 12px;
+  color: rgba(51, 47, 47);
   display: block;
   line-height: 130%;
-  padding-bottom: 3px;
 }
-#seller-contact-form .ant-select-selector,
-#seller-contact-form textarea {
-  background-color: #f2f0eb;
-  border: 1px solid #332f2f;
-}
-#seller-contact-form input[type="text"] {
-  background-color: #f2f0eb;
-  border: 1px solid #332f2f;
-}
+
 #seller-contact-form .check-box-tnc {
   font-family: senregular;
   font-size: 12px;
@@ -115,7 +106,6 @@
 
 #seller-contact-form .ant-picker {
   background-color: #f2f0eb;
-  border: 1px solid #191919;
 }
 
 #seller-contact-form .submit-button {
@@ -404,7 +394,6 @@
 }
 #seller-contact-form .ant-checkbox-inner {
   background: transparent;
-  border: 1px solid #191919;
 }
 #seller-contact-form .ant-form-item-explain {
   font-size: 12px;
@@ -436,27 +425,4 @@
 }
 #seller-contact-form .left-verified-seller.rfq-benefits-section .para {
   opacity: 0.6;
-}
-#seller-contact-form .ant-upload.ant-upload-select-picture-card {
-  background: rgba(217, 187, 127, 0.1);
-  border-radius: 15px;
-  border: none;
-  height: 45px;
-  width: 45px;
-}
-#seller-contact-form
-  .ant-upload.ant-upload-select-picture-card
-  span.anticon.anticon-plus {
-  background: #d9bb7f;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  color: #fff;
-  padding: 3px;
-}
-@media only screen and (max-width: 767px) {
-  #seller-contact-form .label-heading {
-    font-size: 12px;
-    font-weight: 700;
-  }
 }

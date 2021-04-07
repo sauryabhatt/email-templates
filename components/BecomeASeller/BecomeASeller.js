@@ -19,13 +19,12 @@ function BecomeASeller(props) {
   const [successVisible, setsuccessVisible] = useState(false);
 
   const onFinish = (values) => {
-    let data = {};
     fetch("https://ipapi.co/json/", {
       method: "GET",
     })
       .then((response) => response.json())
       .then((response) => {
-        data = {
+        let data = {
           fromEmailId: values.fromEmailId,
           name: values.name,
           phoneNumber: values.phoneNumber,
@@ -36,15 +35,7 @@ function BecomeASeller(props) {
         sendInviteData(data);
       })
       .catch((err) => {
-        data = {
-          fromEmailId: values.fromEmailId,
-          name: values.name,
-          phoneNumber: values.phoneNumber,
-          profileType: "SELLER",
-          ip: "",
-          ipCountry: "",
-        };
-        sendInviteData(data);
+        // console.log("Error ", err);
       });
     // console.log(values);
     // let data = {

@@ -22,8 +22,6 @@ const SavedForLater = (props) => {
   const mediaMatch = window.matchMedia("(min-width: 1024px)");
   const [error, setError] = useState({});
   const [showRow, setShowRow] = useState(true);
-  const [btnLoading, setBtnLoading] = useState(false);
-
   let { cart = {}, userProfile = {}, sfl = {} } = props;
   let { orderId = "" } = cart || {};
   let { products = [] } = sfl || {};
@@ -48,11 +46,14 @@ const SavedForLater = (props) => {
 
   const getConvertedCurrency = (baseAmount) => {
     let { convertToCurrency = "", rates = [] } = currencyDetails;
-    return Number.parseFloat(baseAmount * rates[convertToCurrency]).toFixed(2);
+    return Number.parseFloat(
+      (baseAmount *
+        Math.round((rates[convertToCurrency] + Number.EPSILON) * 100)) /
+        100
+    ).toFixed(2);
   };
 
   const addToCart = (order, i = 0) => {
-    setBtnLoading(true);
     let { products = [], sellerCode = "" } = order;
     let productIds = [];
 
@@ -124,7 +125,6 @@ const SavedForLater = (props) => {
           message.success("Products have been moved to your cart!", 5);
           deleteFromSFL(productIds);
           props.getCart(keycloak.token);
-          setBtnLoading(false);
         });
       } else {
         props.checkCart(keycloak.token, (result) => {
@@ -135,7 +135,6 @@ const SavedForLater = (props) => {
               message.success("Products have been moved to your cart!", 5);
               deleteFromSFL(productIds);
               props.getCart(keycloak.token);
-              setBtnLoading(false);
             });
           } else {
             fetch(
@@ -164,11 +163,9 @@ const SavedForLater = (props) => {
                   deleteFromSFL(productIds);
                   props.getCart(keycloak.token);
                 });
-                setBtnLoading(false);
               })
               .catch((err) => {
                 console.log(err);
-                setBtnLoading(false);
               });
           }
         });
@@ -401,7 +398,6 @@ const SavedForLater = (props) => {
                         <Button
                           className="qa-button qa-fs-12 cart-opt-service qa-mar-top-2"
                           onClick={() => addToCart(order, i)}
-                          disabled={btnLoading}
                         >
                           Add to Cart
                         </Button>
@@ -602,7 +598,6 @@ const SavedForLater = (props) => {
                         <Button
                           className="qa-button qa-fs-12 cart-opt-service qa-mar-top-2"
                           onClick={() => addToCart(order, i)}
-                          disabled={btnLoading}
                         >
                           Add to Cart
                         </Button>

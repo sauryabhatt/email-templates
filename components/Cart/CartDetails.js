@@ -34,7 +34,6 @@ import {
   getSavedForLater,
   updateCart,
   checkInventory,
-  getUserProfile,
 } from "../../store/actions";
 import { QuantityInput } from "./QuantityInput";
 import _ from "lodash";
@@ -140,7 +139,6 @@ const CartDetails = (props) => {
     let { cart = {} } = props;
     let { shippingAddressDetails = "", shippingAddressId, subOrders = [] } =
       cart || {};
-
     if (shippingAddressDetails && Object.keys(shippingAddressDetails)) {
       let { countryCode = "", country = "", zipCode = "", dialCode = "" } =
         shippingAddressDetails || {};
@@ -182,7 +180,7 @@ const CartDetails = (props) => {
     } else {
       setTimeout(() => {
         setIsLoading(false);
-      }, 3000);
+      }, 4000);
     }
   }, [props.cart]);
 
@@ -293,8 +291,7 @@ const CartDetails = (props) => {
 
   let { convertToCurrency = "" } = currencyDetails || {};
   let { products = [] } = sfl || {};
-  let { verificationStatus = "", profileType = "", verifiedEmail = false } =
-    userProfile || {};
+  let { verificationStatus = "", profileType = "" } = userProfile || {};
   let notificationMsg = "You do not have any product added to your cart";
   let buttonName = "Start shopping";
   if (
@@ -317,7 +314,11 @@ const CartDetails = (props) => {
 
   const getConvertedCurrency = (baseAmount) => {
     let { convertToCurrency = "", rates = [] } = props.currencyDetails;
-    return Number.parseFloat(baseAmount * rates[convertToCurrency]).toFixed(2);
+    return Number.parseFloat(
+      (baseAmount *
+        Math.round((rates[convertToCurrency] + Number.EPSILON) * 100)) /
+        100
+    ).toFixed(2);
   };
 
   const onChange = (e) => {
@@ -1031,8 +1032,7 @@ const CartDetails = (props) => {
             className="qa-button qa-fs-12 qa-shop-btn"
             onClick={(e) => {
               if (buttonName === "Sign up as a buyer") {
-                // router.push("/signup");
-                registerToApp(keycloak, { currentPath: router.asPath });
+                router.push("/signup");
               } else {
                 router.push("/");
               }
@@ -1604,30 +1604,27 @@ const CartDetails = (props) => {
                 clearCart={() => {
                   props.getCart(app_token);
                 }}
-                getUserProfile={() => props.getUserProfile(app_token)}
                 showAddrModal={() => {
                   setAddressModal(true);
                   setAddressFunc("add");
                 }}
               />
-              {verifiedEmail === true && (
-                <div className=" qa-mar-btm-2">
-                  <Checkbox
-                    className="check-box-tnc"
-                    onChange={(e) => {
-                      let { checked = "" } = e.target;
-                      setEnable(checked);
-                    }}
-                  >
-                    I agree to{" "}
-                    <Link className="c-breakup" href="/TermsOfUse">
-                      <a target="_blank">
-                        <span className="c-breakup">terms and conditions</span>
-                      </a>
-                    </Link>
-                  </Checkbox>
-                </div>
-              )}
+              <div className=" qa-mar-btm-2">
+                <Checkbox
+                  className="check-box-tnc"
+                  onChange={(e) => {
+                    let { checked = "" } = e.target;
+                    setEnable(checked);
+                  }}
+                >
+                  I agree to{" "}
+                  <Link className="c-breakup" href="/TermsOfUse">
+                    <a target="_blank">
+                      <span className="c-breakup">terms and conditions</span>
+                    </a>
+                  </Link>
+                </Checkbox>
+              </div>
             </Col>
           </Row>
         </Col>
@@ -1700,33 +1697,27 @@ const CartDetails = (props) => {
                   clearCart={() => {
                     props.getCart(app_token);
                   }}
-                  getUserProfile={() => props.getUserProfile(app_token)}
                   showAddrModal={() => {
                     setAddressModal(true);
                     setAddressFunc("add");
                   }}
-                  isMobile={true}
                 />
-                {verifiedEmail === true && (
-                  <div className="qa-mar-top-05">
-                    <Checkbox
-                      className="check-box-tnc"
-                      onChange={(e) => {
-                        let { checked = "" } = e.target;
-                        setEnable(checked);
-                      }}
-                    >
-                      I agree to{" "}
-                      <Link className="c-breakup" href="/TermsOfUse">
-                        <a target="_blank">
-                          <span className="c-breakup">
-                            terms and conditions
-                          </span>
-                        </a>
-                      </Link>
-                    </Checkbox>
-                  </div>
-                )}
+                <div className="qa-mar-top-05">
+                  <Checkbox
+                    className="check-box-tnc"
+                    onChange={(e) => {
+                      let { checked = "" } = e.target;
+                      setEnable(checked);
+                    }}
+                  >
+                    I agree to{" "}
+                    <Link className="c-breakup" href="/TermsOfUse">
+                      <a target="_blank">
+                        <span className="c-breakup">terms and conditions</span>
+                      </a>
+                    </Link>
+                  </Checkbox>
+                </div>
               </Col>
               {referralCode && (
                 <Col span={24}>
@@ -3189,5 +3180,4 @@ export default connect(mapStateToProps, {
   getSavedForLater,
   updateCart,
   checkInventory,
-  getUserProfile,
 })(CartDetails);
