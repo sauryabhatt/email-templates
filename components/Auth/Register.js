@@ -45,8 +45,8 @@ const Register = (props) => {
   const [step, setStep] = useState(0);
   const [btnDisabled, setBtnDisabled] = useState(false);
   const [visible, setVisible] = useState(false);
-  const [userIP, setUserIP] = useState();
-  const [userCountry, setUserCountry] = useState();
+  const [userIP, setUserIP] = useState("");
+  const [userCountry, setUserCountry] = useState("");
   const [linkError, setLinkError] = useState(false);
   const [selCountryCode, setSelCountryCode] = useState("us");
   const [promoCode, setPromoCode] = useState(null);
@@ -239,8 +239,8 @@ const Register = (props) => {
     };
 
     data.sourceSystemInfo = {
-      ipAddress: userIP,
-      country: userCountry,
+      ipAddress: userIP || "",
+      country: userCountry || "",
     };
 
     if (profileType === "BUYER") {

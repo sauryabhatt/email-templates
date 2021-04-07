@@ -451,9 +451,10 @@ const OrderReview = (props) => {
         authorizePayment(orderId, actions);
       })
       .catch((err) => {
-        message.error(err.message || err, 5);
         if (retryCount < 3) {
           saveOrder(orderId, actions);
+        } else {
+          message.error(err.message || err, 5);
         }
         retryCount++;
       });
