@@ -968,14 +968,17 @@ const CartDetails = (props) => {
             );
             setDeleteModal(false);
             props.getCart(app_token);
+            setBtnLoading(false);
             // return res.json();
           } else {
             throw res.statusText || "Error while signing up.";
+            setBtnLoading(false);
           }
         })
 
         .catch((err) => {
           message.error("Error deleting product from cart!", 5);
+          setBtnLoading(false);
         });
     }
   };
