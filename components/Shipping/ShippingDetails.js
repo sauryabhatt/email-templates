@@ -213,10 +213,6 @@ const ShippingDetails = (props) => {
           setPayment(true);
         }
       }
-    } else {
-      setTimeout(() => {
-        setLoading(false);
-      }, 4000);
     }
   }, [props.airQuote, props.seaQuote]);
 
@@ -252,7 +248,6 @@ const ShippingDetails = (props) => {
       })
       .catch((err) => {
         console.log(err);
-        // setLoading(false);
       });
   };
 
