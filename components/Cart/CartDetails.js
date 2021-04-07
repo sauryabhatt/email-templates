@@ -899,6 +899,7 @@ const CartDetails = (props) => {
             setDeleteModal(false);
             props.getCart(app_token);
             props.getSavedForLater(app_token);
+            setBtnLoading(false);
           });
         }
       }
@@ -3147,7 +3148,11 @@ const CartDetails = (props) => {
             </Button>
             <Button
               className="qa-button qa-fs-12 cart-delete qa-mar-top-2"
-              onClick={() => updateCart("DELETE")}
+              onClick={() => {
+                setBtnLoading(true);
+                updateCart("DELETE");
+              }}
+              disabled={btnLoading}
             >
               Delete
             </Button>
