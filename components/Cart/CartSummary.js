@@ -102,6 +102,7 @@ const CartSummary = (props) => {
     hideCreateOrder = false,
     tat = "",
     shippingTerm = "",
+    rfqReason = "",
   } = props;
   let {
     subOrders = [],
@@ -163,7 +164,6 @@ const CartSummary = (props) => {
   }
 
   let { convertToCurrency = "" } = currencyDetails || {};
-  let { orgName = "", email = "", firstName = "" } = user || {};
   let {
     addressLine1 = "",
     addressLine2 = "",
@@ -176,11 +176,7 @@ const CartSummary = (props) => {
 
   const getConvertedCurrency = (baseAmount) => {
     let { convertToCurrency = "", rates = [] } = currencyDetails;
-    return Number.parseFloat(
-      (baseAmount *
-        Math.round((rates[convertToCurrency] + Number.EPSILON) * 100)) /
-        100
-    ).toFixed(2);
+    return Number.parseFloat(baseAmount * rates[convertToCurrency]).toFixed(2);
   };
 
   const popupHover = (value) => {
@@ -243,76 +239,200 @@ const CartSummary = (props) => {
       });
   };
 
-  const createOrder = () => {
-    let url =
-      process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN + "/product/";
+  const createOrder = async () => {
+    setBtnLoading(true);
+    let shippingRemarks = rfqReason
+      ? rfqReason
+      : "RFQ created from Shipping page";
+    let cartRemarks = "Country/Zipcode not serviceable";
+
+    let {
+      profileId = "",
+      profileType = "",
+      email = "",
+      firstName = "",
+      orgName = "",
+      orgPhone = "",
+    } = user || {};
+    let buyerId = profileId.replace("BUYER::", "");
+
+    let shippingAddr = "";
+    shippingAddr =
+      firstName +
+      ", " +
+      addressLine1 +
+      ", " +
+      addressLine2 +
+      ", " +
+      city +
+      ", " +
+      state +
+      ", " +
+      country +
+      ", " +
+      zipCode +
+      ", " +
+      phoneNumber;
+
+    let data = {
+      profileId: profileId,
+      profileType: profileType,
+      targetDeliveryDate: "",
+      requesterName: firstName,
+      companyName: orgName,
+      emailId: email,
+      mobileNo: orgPhone,
+      destinationCountry: country,
+      destinationCity: city,
+      zipcode: zipCode,
+      rfqType: id === "shipping" ? "SHIPMENT RFQ" : "CART RFQ",
+      buyerId: buyerId,
+      remarks: id === "shipping" ? shippingRemarks : cartRemarks,
+      collectionName: "",
+      deliveryAddress: shippingAddr,
+    };
+
     let productList = [];
-    let currencyFormat = getSymbolFromCurrency(convertToCurrency);
+    let i = 0;
     for (let orders of subOrders) {
       let { products = [] } = orders;
       for (let product of products) {
         let {
-          productId = "",
-          productName = "",
-          quantity = "",
-          priceMin = "",
           articleId = "",
-          exfactoryListPrice = 0,
-          priceApplied = 0,
+          quantity = "",
+          priceApplied = "",
+          exfactoryListPrice = "",
         } = product;
-        let obj = {
-          productId: productId,
-          productName: productName,
-          quantity: quantity,
-          priceMin: currencyFormat + priceMin,
-          exfactoryListPrice:
-            priceApplied && priceApplied !== null
-              ? priceApplied
-              : exfactoryListPrice,
-          linkOfProduct: url + articleId,
-        };
+        let price = exfactoryListPrice;
+        if (priceApplied && priceApplied !== null) {
+          price = priceApplied;
+        }
+        let obj = {};
+        obj["articleId"] = articleId;
+        obj["quantity"] = quantity;
+        obj["priceApplied"] = price;
+        obj["remarks"] = "";
         productList.push(obj);
+        i++;
       }
     }
 
-    let data = {
-      buyerName: firstName,
-      buyerEmailId: email,
-      buyerOrgName: orgName,
-      orderId: orderId,
-      quoteId: priceQuoteRef,
-      addressLine1: addressLine1,
-      addressLine2: addressLine2,
-      city: city,
-      state: state,
-      country: country,
-      zipCode: zipCode,
-      products: productList,
-    };
-    fetch(process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL + "/v1/orders/assist", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + keycloak.token,
-      },
-    })
-      .then((res) => {
-        if (res.ok) {
-          showOrderModal(true);
-          // return res.json();
-        } else {
-          throw res.statusText || "Error in create order";
+    data.products = productList;
+
+    let userDetails = "";
+    const response = await fetch("https://ipapi.co/json/", {
+      method: "GET",
+    });
+    userDetails = await response.json();
+    let { ip = "", country: ipCountry = "" } = userDetails || {};
+    data.fromIP = ip || "";
+    data.ipCountry = ipCountry || "";
+
+    const rfqResp = await fetch(
+      process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/queries",
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + keycloak.token,
+        },
+      }
+    );
+    const rfqResponse = await rfqResp;
+    if (rfqResponse && rfqResponse["status"] === 200) {
+      const cartResp = await fetch(
+        process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL +
+          "/v1/orders/status/" +
+          orderId,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + keycloak.token,
+          },
         }
-      })
-      // .then((res) => {
-      //   showOrderModal(true);
-      // })
-      .catch((err) => {
-        message.error(err.message || err, 5);
-        // setLoading(false);
-      });
+      );
+      const cartResponse = await cartResp;
+      if (cartResponse && cartResponse["status"] === 200) {
+        showOrderModal(true);
+        setBtnLoading(false);
+      } else {
+        setBtnLoading(false);
+      }
+    }
   };
+
+  // const createOrder = () => {
+  //   let url =
+  //     process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN + "/product/";
+  //   let productList = [];
+  //   let currencyFormat = getSymbolFromCurrency(convertToCurrency);
+  //   for (let orders of subOrders) {
+  //     let { products = [] } = orders;
+  //     for (let product of products) {
+  //       let {
+  //         productId = "",
+  //         productName = "",
+  //         quantity = "",
+  //         priceMin = "",
+  //         articleId = "",
+  //         exfactoryListPrice = 0,
+  //         priceApplied = 0,
+  //       } = product;
+  //       let obj = {
+  //         productId: productId,
+  //         productName: productName,
+  //         quantity: quantity,
+  //         priceMin: currencyFormat + priceMin,
+  //         exfactoryListPrice:
+  //           priceApplied && priceApplied !== null
+  //             ? priceApplied
+  //             : exfactoryListPrice,
+  //         linkOfProduct: url + articleId,
+  //       };
+  //       productList.push(obj);
+  //     }
+  //   }
+
+  //   let data = {
+  //     buyerName: firstName,
+  //     buyerEmailId: email,
+  //     buyerOrgName: orgName,
+  //     orderId: orderId,
+  //     quoteId: priceQuoteRef,
+  //     addressLine1: addressLine1,
+  //     addressLine2: addressLine2,
+  //     city: city,
+  //     state: state,
+  //     country: country,
+  //     zipCode: zipCode,
+  //     products: productList,
+  //   };
+  //   fetch(process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL + "/v1/orders/assist", {
+  //     method: "POST",
+  //     body: JSON.stringify(data),
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: "Bearer " + keycloak.token,
+  //     },
+  //   })
+  //     .then((res) => {
+  //       if (res.ok) {
+  //         showOrderModal(true);
+  //         // return res.json();
+  //       } else {
+  //         throw res.statusText || "Error in create order";
+  //       }
+  //     })
+  //     // .then((res) => {
+  //     //   showOrderModal(true);
+  //     // })
+  //     .catch((err) => {
+  //       message.error(err.message || err, 5);
+  //       // setLoading(false);
+  //     });
+  // };
 
   const handleCancel = () => {
     showOrderModal(false);
@@ -350,12 +470,23 @@ const CartSummary = (props) => {
         }
       })
       .then((res) => {
-        let url = "/order/" + cart.orderId + "/payment-success";
-        router.push(url);
+        if (status === "FAILED") {
+          voidPPOrder(orderId);
+        } else {
+          let url = "/order/" + cart.orderId + "/payment-success";
+          router.push(url);
+        }
       })
       .catch((err) => {
         if (retryCountOR < 3) {
           updateOrder(data, status);
+        } else {
+          if (status === "FAILED") {
+            voidPPOrder(orderId);
+          } else {
+            let url = "/order/" + cart.orderId + "/payment-success";
+            router.push(url);
+          }
         }
         retryCountOR++;
         // setLoading(false);
@@ -400,7 +531,7 @@ const CartSummary = (props) => {
             updateOrder(res, "CHECKED_OUT");
           }
         } else {
-          voidPPOrder(orderId);
+          // voidPPOrder(orderId);
           let data = {
             gbOrderNo: cart.orderId,
           };
@@ -411,7 +542,7 @@ const CartSummary = (props) => {
         if (retryCountCP < 3) {
           checkCapturePayment(authId, orderId, actions);
         } else {
-          voidPPOrder(orderId);
+          // voidPPOrder(orderId);
           let data = {
             gbOrderNo: cart.orderId,
           };
@@ -575,26 +706,26 @@ const CartSummary = (props) => {
         if (res && res.length) {
           capturePayment(res, orderId);
         } else {
-          voidPPOrder(orderId);
+          // voidPPOrder(orderId);
           let data = {
             gbOrderNo: cart.orderId,
           };
           updateOrder(data, "FAILED");
-          message.error(
-            "There was an error authorizing the amount please try again"
-          );
+          // message.error(
+          //   "There was an error authorizing the amount please try again"
+          // );
         }
       })
       .catch((err) => {
         if (retryCountAP < 3) {
           checkAuthorizePaymentStatus(orderId, actions);
         } else {
-          voidPPOrder(orderId);
+          // voidPPOrder(orderId);
           let data = {
             gbOrderNo: cart.orderId,
           };
           updateOrder(data, "FAILED");
-          message.error(err.message || err, 5);
+          // message.error(err.message || err, 5);
         }
         retryCountAP++;
       });

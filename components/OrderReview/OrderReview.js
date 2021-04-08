@@ -153,12 +153,23 @@ const OrderReview = (props) => {
         }
       })
       .then((res) => {
-        let url = "/order/" + props.order.orderId + "/payment-success";
-        router.push(url);
+        if (status === "FAILED") {
+          voidPPOrder(orderId);
+        } else {
+          let url = "/order/" + props.order.orderId + "/payment-success";
+          router.push(url);
+        }
       })
       .catch((err) => {
         if (retryCountOR < 3) {
           updateOrder(data, status);
+        } else {
+          if (status === "FAILED") {
+            voidPPOrder(orderId);
+          } else {
+            let url = "/order/" + props.order.orderId + "/payment-success";
+            router.push(url);
+          }
         }
         retryCountOR++;
       });
@@ -202,7 +213,7 @@ const OrderReview = (props) => {
             updateOrder(res, "CHECKED_OUT");
           }
         } else {
-          voidPPOrder(orderId);
+          // voidPPOrder(orderId);
           let data = {
             gbOrderNo: cart.orderId,
           };
@@ -213,7 +224,7 @@ const OrderReview = (props) => {
         if (retryCountCP < 3) {
           checkCapturePayment(authId, orderId, actions);
         } else {
-          voidPPOrder(orderId);
+          // voidPPOrder(orderId);
           let data = {
             gbOrderNo: cart.orderId,
           };
@@ -342,26 +353,26 @@ const OrderReview = (props) => {
         if (res && res.length) {
           capturePayment(res, orderId);
         } else {
-          voidPPOrder(orderId);
+          // voidPPOrder(orderId);
           let data = {
             gbOrderNo: cart.orderId,
           };
           updateOrder(data, "FAILED");
-          message.error(
-            "There was an error authorizing the amount please try again"
-          );
+          // message.error(
+          //   "There was an error authorizing the amount please try again"
+          // );
         }
       })
       .catch((err) => {
         if (retryCountAP < 3) {
           checkAuthorizePaymentStatus(orderId, actions);
         } else {
-          voidPPOrder(orderId);
+          // voidPPOrder(orderId);
           let data = {
             gbOrderNo: cart.orderId,
           };
           updateOrder(data, "FAILED");
-          message.error(err.message || err, 5);
+          // message.error(err.message || err, 5);
         }
         retryCountAP++;
       });
@@ -438,9 +449,10 @@ const OrderReview = (props) => {
         authorizePayment(orderId, actions);
       })
       .catch((err) => {
-        message.error(err.message || err, 5);
         if (retryCount < 3) {
           saveOrder(orderId, actions);
+        } else {
+          message.error(err.message || err, 5);
         }
         retryCount++;
       });

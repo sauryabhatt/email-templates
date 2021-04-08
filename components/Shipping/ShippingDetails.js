@@ -149,8 +149,12 @@ const ShippingDetails = (props) => {
                 selectMode("AIR");
               } else if (shippingModesAvailable.includes("Sea")) {
                 selectMode("SEA");
+              } else {
+                setLoading(false);
               }
             }
+          } else {
+            setLoading(false);
           }
 
           if (!landedPrice) {
@@ -204,6 +208,8 @@ const ShippingDetails = (props) => {
             setPayment(true);
             setLoading(false);
           }
+        } else {
+          setLoading(false);
         }
       } else {
         let result =
@@ -211,6 +217,7 @@ const ShippingDetails = (props) => {
           Object.values(seaQuote[shippingTerm]).every((o) => o === 0);
         if (result) {
           setPayment(true);
+          setLoading(false);
         }
       }
     }
@@ -248,7 +255,6 @@ const ShippingDetails = (props) => {
       })
       .catch((err) => {
         console.log(err);
-        // setLoading(false);
       });
   };
 

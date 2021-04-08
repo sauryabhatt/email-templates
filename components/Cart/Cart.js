@@ -22,12 +22,10 @@ const Cart = (props) => {
 
   useEffect(() => {
     if (props.user && Object.keys(props.user).length) {
-      setIsLoading(true);
       let { user = {} } = props || {};
       let { profileType = "" } = user || {};
       if (profileType === "BUYER" && cartData === false) {
         props.getCart(token, (cart) => {
-          setIsLoading(false);
           setCartData(true);
           props.getSavedForLater(token, (sfl) => {
             let sellerCodeList = [];
@@ -51,6 +49,7 @@ const Cart = (props) => {
               let codes = sellerCodeList.join();
               props.getBrandNameByCode(codes, token);
             }
+            setIsLoading(false);
           });
         });
       } else {
@@ -58,9 +57,13 @@ const Cart = (props) => {
       }
     }
 
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3000);
+    if (props.user === null) {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 3000);
+    } else {
+      setIsLoading(true);
+    }
   }, [props.user]);
 
   if (isLoading) {
