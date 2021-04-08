@@ -153,6 +153,8 @@ const ShippingDetails = (props) => {
                 setLoading(false);
               }
             }
+          } else {
+            setLoading(false);
           }
 
           if (!landedPrice) {
