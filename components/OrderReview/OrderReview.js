@@ -154,8 +154,7 @@ const OrderReview = (props) => {
       })
       .then((res) => {
         if (status === "FAILED") {
-          let url = "/order/" + props.order.orderId + "/payment-failure";
-          router.push(url);
+          voidPPOrder(orderId);
         } else {
           let url = "/order/" + props.order.orderId + "/payment-success";
           router.push(url);
@@ -166,8 +165,7 @@ const OrderReview = (props) => {
           updateOrder(data, status);
         } else {
           if (status === "FAILED") {
-            let url = "/order/" + props.order.orderId + "/payment-failure";
-            router.push(url);
+            voidPPOrder(orderId);
           } else {
             let url = "/order/" + props.order.orderId + "/payment-success";
             router.push(url);
