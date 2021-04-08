@@ -156,6 +156,8 @@
 }
 #product-description .slick-slider {
   overflow: hidden;
+  display: block;
+  width: 100%;
 }
 #product-description .pc-subtitle {
   font-family: senregular;
