@@ -137,50 +137,52 @@ const CartDetails = (props) => {
 
   useEffect(() => {
     let { cart = {} } = props;
-    let { shippingAddressDetails = "", shippingAddressId, subOrders = [] } =
-      cart || {};
-    if (shippingAddressDetails && Object.keys(shippingAddressDetails)) {
-      let { countryCode = "", country = "", zipCode = "", dialCode = "" } =
-        shippingAddressDetails || {};
-      setSelectedShippingId(shippingAddressId);
-      setSelCountryCode(countryCode);
-      setSelCountryExpectedLength("success");
-      setSelPincode(zipCode);
-      setSelCountry(country);
-      handleCountry(country);
-      setDialCode(dialCode);
+    if (cart && cart !== null && Object.keys(cart).length) {
+      let { shippingAddressDetails = "", shippingAddressId, subOrders = [] } =
+        cart || {};
+      if (shippingAddressDetails && Object.keys(shippingAddressDetails)) {
+        let { countryCode = "", country = "", zipCode = "", dialCode = "" } =
+          shippingAddressDetails || {};
+        setSelectedShippingId(shippingAddressId);
+        setSelCountryCode(countryCode);
+        setSelCountryExpectedLength("success");
+        setSelPincode(zipCode);
+        setSelCountry(country);
+        handleCountry(country);
+        setDialCode(dialCode);
 
-      checkServiceability(country, zipCode);
-    }
-
-    if (subOrders.length > 0) {
-      let productIds = [];
-      for (let orders of subOrders) {
-        let { products = [] } = orders;
-        for (let product of products) {
-          let { productId = "" } = product;
-          productIds.push(productId);
-        }
+        checkServiceability(country, zipCode);
       }
 
-      props.checkInventory(app_token, productIds, (result) => {
-        setInventoryQty(result);
+      if (subOrders.length > 0) {
+        let productIds = [];
         for (let orders of subOrders) {
-          let { products = [], sellerCode = "" } = orders;
+          let { products = [] } = orders;
           for (let product of products) {
-            let { productId = "", quantity = 0 } = product;
-            if (result[productId] < quantity) {
-              setUpdate(sellerCode);
-              break;
-            }
+            let { productId = "" } = product;
+            productIds.push(productId);
           }
         }
-        setIsLoading(false);
-      });
-    } else {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 4000);
+
+        props.checkInventory(app_token, productIds, (result) => {
+          setInventoryQty(result);
+          for (let orders of subOrders) {
+            let { products = [], sellerCode = "" } = orders;
+            for (let product of products) {
+              let { productId = "", quantity = 0 } = product;
+              if (result[productId] < quantity) {
+                setUpdate(sellerCode);
+                break;
+              }
+            }
+          }
+          setIsLoading(false);
+        });
+      } else {
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 4000);
+      }
     }
   }, [props.cart]);
 
