@@ -471,7 +471,7 @@ const CartSummary = (props) => {
       })
       .then((res) => {
         if (status === "FAILED") {
-          voidPPOrder(orderId);
+          voidPPOrder(cart.orderId);
         } else {
           let url = "/order/" + cart.orderId + "/payment-success";
           router.push(url);
@@ -482,7 +482,7 @@ const CartSummary = (props) => {
           updateOrder(data, status);
         } else {
           if (status === "FAILED") {
-            voidPPOrder(orderId);
+            voidPPOrder(cart.orderId);
           } else {
             let url = "/order/" + cart.orderId + "/payment-success";
             router.push(url);
