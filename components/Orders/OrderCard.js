@@ -273,7 +273,6 @@ const OrderCard = (props) => {
               </span>
             )}
           {order &&
-            order.referralCode &&
             order.miscCharges &&
             order.miscCharges.find((x) => x.chargeId === "DISCOUNT") &&
             order.miscCharges.find((x) => x.chargeId === "DISCOUNT").amount >
@@ -283,12 +282,12 @@ const OrderCard = (props) => {
                   className="qa-fs-14 qa-fw-b qa-font-san"
                   style={{ color: "#02873A" }}
                 >
-                  {order && order.referralCode} applied
+                  {order && order.referralCode ? order.referralCode : "Coupon"}{" "}
+                  applied
                 </span>
               </div>
             )}
           {order &&
-            order.referralCode &&
             order.miscCharges &&
             order.miscCharges.find((x) => x.chargeId === "DISCOUNT") &&
             order.miscCharges.find((x) => x.chargeId === "DISCOUNT").amount >
