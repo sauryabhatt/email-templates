@@ -41,7 +41,7 @@ const LineSheet = (props) => {
 
    
   const { linesheetId } = router.query ; 
-  // console.log("orderSheetDetails",orderSheetDetails)
+  console.log("orderSheetDetails",orderSheetDetails)
     
   const getBuyerOrderSheetDetails = (linesheetId) => {
 
@@ -254,6 +254,7 @@ const LineSheet = (props) => {
           throw (res.statusText || "error while updating your comments")
         }
       }).then(res => {
+        console.log("res",res)
         document.getElementById("buyerValidateText").style.display = "none"
         let buyerComments = []
         for (let i = 0;i < res.buyerComments.length;i++){
@@ -295,14 +296,14 @@ const LineSheet = (props) => {
           <Row>
             <Col xs={22} sm={22} lg={10} xl={10}>
               {/* <span>LineSheet ID : {orderSheetDetails.lineSheetNumber}</span>  */}
-              <span>Quotation ID : {orderSheetDetails.quoteId}</span> 
+              <span>LinesheetID : {linesheetId}</span> 
 
             </Col>
           </Row>
           <Row>
             <Col xs={22} sm={22} lg={7} xl={7}>
             {/* <span>Shipping mode: {orderSheetDetails.products[0].shippingMode1}</span> */}
-            <span>Shipping mode: (Air)</span>
+            <span>Shipping mode: ({orderSheetDetails.shippingMode})</span>
 
             </Col>
           </Row>
@@ -389,14 +390,14 @@ const LineSheet = (props) => {
           <Card id="order-summary-details" style={{backgroundColor:'#F2F0EB', width:350 , height : 544 , }}>
             <Row justify="space-between">
               <Col><span id="order-summary">Order summary</span></Col>
-              <Col><span id="order-currency">USD</span></Col>
+              <Col><span id="order-currency">{orderSheetDetails?.currency}</span></Col>
             </Row>
             <Divider style={{'background-color':'#191919'}}/>
             <Row justify="space-between">
               <Col><span>Value of products purchsed</span></Col>
               <Col>
                 <span>
-                   ${orderSheetDetails.totalProductPurchasedValue}
+                   ${orderSheetDetails.totalProductValue}
                 </span>
               </Col>
             </Row>
@@ -404,7 +405,7 @@ const LineSheet = (props) => {
               <Col><span>Qalara Margin</span></Col>
               <Col>
                 <span>
-                  ${orderSheetDetails.qalaraMargin === null ? "00.00" : orderSheetDetails.qalaraMargin }
+                  {orderSheetDetails.qalaraMargin === null ? "00.00" : orderSheetDetails.qalaraMargin }
                 </span>
               </Col>
             </Row>
@@ -412,11 +413,12 @@ const LineSheet = (props) => {
               <Col><span>Estimated freight fees</span></Col>
               <Col>
                 <span>
-                  ${
+                  {/* {
                     orderSheetDetails.shippingTerms === "DDU" ?
                     orderSheetDetails && orderSheetDetails.allCharges && orderSheetDetails.allCharges.miscChargeDDU.find(x => x.chargeId === "FREIGHT_MAX").amount
                     : orderSheetDetails && orderSheetDetails.allCharges && orderSheetDetails.allCharges.miscChargeDDP.find(x => x.chargeId === "FREIGHT_MAX").amount
-                  }
+                  } */}
+                  {orderSheetDetails?.miscCharges?.find(x => x.chargeId == "TOTAL_COST_FREIGHT_MAX").amount}
                 </span>
               </Col>
             </Row>
@@ -424,7 +426,8 @@ const LineSheet = (props) => {
               <Col><span>Covid surcharge(freight)</span></Col>
               <Col>
                 <span>
-                   ${orderSheetDetails.covidSurchargeFreight === null ? "00.00" : orderSheetDetails.covidSurchargeFreight}
+                   {orderSheetDetails.covidSurchargeFreight === null ? "00.00" : orderSheetDetails.covidSurchargeFreight}
+                   {/* {orderSheetDetails?.covidSurchargeFreight} */}
                 </span>
               </Col>
             </Row>
@@ -441,11 +444,7 @@ const LineSheet = (props) => {
               <Col><span>Estimated Custom Duties</span></Col>
               <Col>
                 <span>
-                  ${
-                    orderSheetDetails.shippingTerms === "DDU" ?
-                    orderSheetDetails && orderSheetDetails.allCharges && orderSheetDetails.allCharges.miscChargeDDU.find(x => x.chargeId === "DUTY_MAX").amount
-                    : orderSheetDetails && orderSheetDetails.allCharges && orderSheetDetails.allCharges.miscChargeDDP.find(x => x.chargeId === "DUTY_MAX").amount
-                  }
+                  {orderSheetDetails?.miscCharges?.find(x => x.chargeId == "DUTY_MAX").amount}
                 </span>
               </Col>
             </Row>
@@ -454,11 +453,7 @@ const LineSheet = (props) => {
               <Col><span>Estimated VAT / GST / Taxes</span></Col>
               <Col>
                 <span>
-                  ${
-                    orderSheetDetails.shippingTerms === "DDU" ?
-                    orderSheetDetails && orderSheetDetails.allCharges && orderSheetDetails.allCharges.miscChargeDDU.find(x => x.chargeId === "VAT").amount
-                    : orderSheetDetails && orderSheetDetails.allCharges && orderSheetDetails.allCharges.miscChargeDDP.find(x => x.chargeId === "VAT").amount
-                  }
+                  {orderSheetDetails?.miscCharges?.find(x => x.chargeId == "VAT").amount}
                 </span>
               </Col>
             </Row>
@@ -467,11 +462,7 @@ const LineSheet = (props) => {
               <Col><span>Discount</span></Col>
               <Col>
                 <span>
-                  ${
-                    orderSheetDetails.shippingTerms === "DDU" ?
-                    orderSheetDetails && orderSheetDetails.allCharges && orderSheetDetails.allCharges.miscChargeDDU.find(x => x.chargeId === "DISCOUNT").amount
-                    : orderSheetDetails && orderSheetDetails.allCharges && orderSheetDetails.allCharges.miscChargeDDP.find(x => x.chargeId === "DISCOUNT").amount
-                  }
+                  {orderSheetDetails?.miscCharges?.find(x => x.chargeId == "DISCOUNT").amount}
                 </span>
               </Col>
             </Row>
@@ -479,7 +470,7 @@ const LineSheet = (props) => {
             <Divider style={{'background-color':'#191919'}}/>
             <Row justify="space-between" id="total-order-value">
               <Col><span> Total order value ({orderSheetDetails.shippingTerms})</span></Col>
-              <Col><span> ${orderSheetDetails.totalOrderValue}</span></Col>
+              <Col><span> {orderSheetDetails.totalOrderValue}</span></Col>
             </Row>
 
             <Row style={{marginTop:"20px"}}>
@@ -494,11 +485,7 @@ const LineSheet = (props) => {
               <Col><span>PAY NOW</span></Col>
               <Col>
                 <span>
-                  ${
-                    orderSheetDetails.shippingTerms === "DDU" ? 
-                    orderSheetDetails && orderSheetDetails.paymentTerms && orderSheetDetails.paymentTerms.paymentTermsDDU.find(x => x.chargeId === "ADVANCE").amount
-                    : orderSheetDetails && orderSheetDetails.paymentTerms && orderSheetDetails.paymentTerms.paymentTermsDDP.find(x => x.chargeId == "ADVANCE").amount
-                  }
+                  {orderSheetDetails?.paymentTerms?.find(x => x.chargeId == "ADVANCE").amount}
                 </span>
               </Col>
             </Row>
@@ -507,11 +494,7 @@ const LineSheet = (props) => {
               <Col><span>PAY LATER</span></Col>
               <Col>
                 <span>
-                  ${
-                    orderSheetDetails.shippingTerms === "DDU" ? 
-                    orderSheetDetails && orderSheetDetails.paymentTerms && orderSheetDetails.paymentTerms.paymentTermsDDU.find(x => x.chargeId === "POST_DELIVERY").amount
-                    : orderSheetDetails && orderSheetDetails.paymentTerms && orderSheetDetails.paymentTerms.paymentTermsDDP.find(x => x.chargeId == "POST_DELIVERY").amount
-                  }
+                  {orderSheetDetails?.paymentTerms?.find(x => x.chargeId == "POST_DELIVERY").amount}
                 </span>
               </Col>
             </Row>
@@ -523,7 +506,7 @@ const LineSheet = (props) => {
         <Col xs={22} sm={22} md={22} lg={22} xl={22} style={{marginTop:"25px" }}>
             <table style={{width:"100%"}}>
               <tr style={{height:"100px"}}>
-                <th style={{fontWeight:"900"}}><span>USD</span></th>
+                <th style={{fontWeight:"900"}}><span>{orderSheetDetails.currency}</span></th>
                 {productsDetails.map(ele => (
                   <td key={ele}>
                     <span>
@@ -655,14 +638,15 @@ const LineSheet = (props) => {
                   <span style={{color:"#02873A",fontSize:"17px"}} id="delivery-time">
                     {/* {moment(orderSheetDetails.targetDeliveryDate).format("MMM Do YY")}  */}
                     
-                      {orderSheetDetails && orderSheetDetails.shippingDetails && orderSheetDetails.shippingDetails.totalEstTimeMinDays === null
+                      {/* {orderSheetDetails && orderSheetDetails.shippingDetails && orderSheetDetails.shippingDetails.totalEstTimeMinDays === null
                         ? "1st April 21"
                         : moment(orderSheetDetails && orderSheetDetails.shippingDetails && orderSheetDetails.shippingDetails.totalEstTimeMinDays).format("MMM do YY")
                       }-{
                         orderSheetDetails && orderSheetDetails.shippingDetails && orderSheetDetails.shippingDetails.totalEstTimeMaxDays === null
                         ? "25th April 21"
                         : moment(orderSheetDetails && orderSheetDetails.shippingDetails && orderSheetDetails.shippingDetails.totalEstTimeMaxDays).format("MMM do YY")
-                      }
+                      } */}
+                      {orderSheetDetails?.shippingDetails?.totalEstTimeMinDays} - {orderSheetDetails?.shippingDetails?.totalEstTimeMaxDays} days
                     
                   </span>
                 </Row>
@@ -673,7 +657,7 @@ const LineSheet = (props) => {
                       <span>Estimated production/dispatch time</span>
                   </Col>
                   <span>
-                    {
+                    {/* {
                       orderSheetDetails && orderSheetDetails.shippingDetails && orderSheetDetails.shippingDetails.estimatedProductionTimeMinDays == null
                       ? "10"
                       : orderSheetDetails && orderSheetDetails.shippingDetails && orderSheetDetails.shippingDetails.estimatedProductionTimeMinDays
@@ -681,16 +665,17 @@ const LineSheet = (props) => {
                       orderSheetDetails && orderSheetDetails.shippingDetails && orderSheetDetails.shippingDetails.estimatedProductionTimeMaxDays == null
                       ? "20"
                       :orderSheetDetails && orderSheetDetails.shippingDetails && orderSheetDetails.shippingDetails.estimatedProductionTimeMaxDays
-                      } days
+                      } days */}
+                      {orderSheetDetails?.shippingDetails?.estimatedProductionTimeMinDays} - {orderSheetDetails?.shippingDetails?.estimatedProductionTimeMaxDays} days
                   </span>
                 </Row>
                 <Row justify="space-between" style={{marginTop:"6px"}} id="estimated-time">
                   <Col>
                     <Badge color="#D9BB7F"/>
-                    <span>Estimated shipping lead time (Air)</span>
+                    <span>Estimated shipping lead time ({orderSheetDetails.shippingMode})</span>
                   </Col>
                   <span>
-                    {
+                    {/* {
                       orderSheetDetails && orderSheetDetails.shippingDetails && orderSheetDetails.shippingDetails.estimatedLeadTimeMinDays == null
                       ? "10"
                       :orderSheetDetails && orderSheetDetails.shippingDetails && orderSheetDetails.shippingDetails.estimatedLeadTimeMinDays
@@ -698,7 +683,9 @@ const LineSheet = (props) => {
                       orderSheetDetails && orderSheetDetails.shippingDetails && orderSheetDetails.shippingDetails.estimatedLeadTimeMaxDays == null
                       ? "16"
                       :orderSheetDetails && orderSheetDetails.shippingDetails && orderSheetDetails.shippingDetails.estimatedLeadTimeMaxDays
-                    } days
+                    } days */}
+
+                    {orderSheetDetails?.shippingDetails?.estimatedLeadTimeMinDays} - {orderSheetDetails?.shippingDetails?.estimatedLeadTimeMaxDays} days
                   </span>
                 </Row>
               </Col>

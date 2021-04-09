@@ -9,6 +9,7 @@ import {
 import { connect } from "react-redux";
 
 const QuotationCard = (props) => {
+    console.log("props",props)
     const router = useRouter();
     const {keycloak} = useKeycloak();
 
@@ -171,7 +172,9 @@ const QuotationCard = (props) => {
                         <Col xs={24} sm={24} md={14} lg={14}>
                             <Col xs={24} sm={24} md={24} lg={22} style={{ top: '20%' }}>
                                 <Row justify="end">
-                                    <div style={{ textAlign: 'center' }}>
+                                    {
+                                        props.data.rfqStatus === "LINKED_PARTIAL" &&
+                                        <div style={{ textAlign: 'center' }}>
                                         <Button
                                             className="web-review-button"
                                             onClick={() => viewOrderPage(props.data.lineSheetNumber)}
@@ -183,7 +186,27 @@ const QuotationCard = (props) => {
                                             onClick={() => handleReview(props.data.quoteNumber)}
                                         >
                                             <span className="qa-font-san qa-fs-12 qa-fw-b" style={{ color: '#191919' }}>REVIEW AND CHECKOUT</span></Button> */}
-                                    </div>
+                                        </div>
+
+                                    }
+                                    {
+                                        props.data.quoteStatus === "ACCEPTED" &&
+                                        <div style={{ textAlign: 'center' }}>
+                                            {/* <Button
+                                                className="web-review-button"
+                                                onClick={() => viewOrderPage(props.data.lineSheetNumber)}
+                                            >
+                                                <span className="qa-font-san qa-fs-12 qa-fw-b" style={{ color: '#191919' }}>VIEW ORDER SHEET</span></Button> */}
+                                        <Button
+                                            className="web-review-button"
+                                            style={{marginLeft:"25px"}}
+                                            onClick={() => handleReview(props.data.quoteNumber)}
+                                        >
+                                            <span className="qa-font-san qa-fs-12 qa-fw-b" style={{ color: '#191919' }}>REVIEW AND CHECKOUT</span></Button>
+                                        </div>
+
+                                    }
+                                    
                                 </Row>
                                 
                             </Col>
