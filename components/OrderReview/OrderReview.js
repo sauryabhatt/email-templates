@@ -1013,7 +1013,7 @@ const OrderReview = (props) => {
     props.order.status !== "COMMITTED" &&
     props.order.payment_status !== "FAILED"
   ) {
-    return <Redirect href="/account/orders" />;
+    router.push("/account/orders");
   }
 
   if (props.order == undefined) {
