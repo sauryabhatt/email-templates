@@ -23,7 +23,7 @@ import {
 } from "antd";
 import Icon from "@ant-design/icons";
 import LogoWithText from "../../public/filestore/logo_with_text.js";
-import { loginToApp } from "../AuthWithKeycloak";
+import { loginToApp, registerToApp } from "../AuthWithKeycloak";
 import userProfileIcon from "../../public/filestore/userProfileIcon";
 import homeIcon from "../../public/filestore/homeIcon";
 import menuIcon from "../../public/filestore/menuIcon";
@@ -118,7 +118,8 @@ function AppHeader(props) {
   };
 
   const handleSignUp = () => {
-    router.push("/signup");
+    // router.push("/signup");
+    registerToApp(keycloak, { currentPath: router.asPath });
   };
 
   const onSearch = () => {
@@ -180,13 +181,13 @@ function AppHeader(props) {
 
   const handleInvite = (values) => {
     setLoading(true);
-    // let ip = await getIP();
+    let data = {};
     fetch("https://ipapi.co/json/", {
       method: "GET",
     })
       .then((response) => response.json())
       .then((response) => {
-        let data = {
+        data = {
           fromEmailId: values.email,
           name: values.name,
           orgName: values.orgName,
@@ -197,7 +198,15 @@ function AppHeader(props) {
         sendInviteData(data);
       })
       .catch((err) => {
-        // console.log("Error ", err);
+        data = {
+          fromEmailId: values.email,
+          name: values.name,
+          orgName: values.orgName,
+          profileType: "BUYER",
+          ip: "",
+          ipCountry: "",
+        };
+        sendInviteData(data);
       });
   };
 
@@ -721,18 +730,16 @@ function AppHeader(props) {
                     textDecoration: "none",
                   }}
                 >
-                  <a>
-                    <Icon
-                      component={cartIcon}
-                      className="cart-icon"
-                      style={{
-                        width: "32px",
-                        verticalAlign: "middle",
-                        marginRight: "20px",
-                        cursor: "pointer",
-                      }}
-                    />
-                  </a>
+                  <Icon
+                    component={cartIcon}
+                    className="cart-icon"
+                    style={{
+                      width: "32px",
+                      verticalAlign: "middle",
+                      marginRight: "20px",
+                      cursor: "pointer",
+                    }}
+                  />
                 </Link>
                 <Popover
                   placement="bottomRight"
@@ -809,16 +816,14 @@ function AppHeader(props) {
                   textDecoration: "none",
                 }}
               >
-                <a>
-                  <Icon
-                    component={cartIcon}
-                    className="cart-icon"
-                    style={{
-                      width: "40px",
-                      cursor: "pointer",
-                    }}
-                  />
-                </a>
+                <Icon
+                  component={cartIcon}
+                  className="cart-icon"
+                  style={{
+                    width: "40px",
+                    cursor: "pointer",
+                  }}
+                />
               </Link>
 
               <Drawer

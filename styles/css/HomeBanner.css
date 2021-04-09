@@ -1235,3 +1235,8 @@ right: 25%;
 .press-crousel.news-section .press-blk {
   padding: 0px 30px;
 }
+@media only screen and (max-width: 520px) {
+  .payment-banner-home-page button.ant-btn {
+    width: 100%;
+  }
+}

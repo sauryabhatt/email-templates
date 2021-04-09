@@ -15,14 +15,25 @@ const OrderDetail = (props) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const mediaMatch = window.matchMedia("(min-width: 768px)");
 
-  let { paymentTime = "",expectedDeliveryDateMin='',
-  expectedDeliveryDateMax='' } = order;
+  let {
+    paymentTime = "",
+    expectedDeliveryDateMin = "",
+    expectedDeliveryDateMax = "",
+  } = order;
 
-  let date1 = expectedDeliveryDateMin.split("-");
-  let minDate = new Date(date1[2], date1[0]-1, date1[1]);
-  
-  let date2 = expectedDeliveryDateMax.split("-");
-  let maxDate = new Date(date2[2], date2[0]-1, date2[1]);
+  let minDate = expectedDeliveryDateMin;
+
+  if (minDate && minDate.includes("-")) {
+    let date1 = expectedDeliveryDateMin.split("-");
+    minDate = new Date(date1[2], date1[0] - 1, date1[1]);
+  }
+
+  let maxDate = expectedDeliveryDateMax;
+
+  if (maxDate && maxDate.includes("-")) {
+    let date2 = expectedDeliveryDateMax.split("-");
+    maxDate = new Date(date2[2], date2[0] - 1, date2[1]);
+  }
 
   const diff_hours = (dt2, dt1) => {
     var diff = (dt2.getTime() - dt1.getTime()) / 1000;
@@ -190,6 +201,27 @@ const OrderDetail = (props) => {
 
           {subOrders.products && subOrders.products.length > 0
             ? subOrders.products.map((p, i) => {
+                let id = p.productId.replace("PRODUCT::", "") || "";
+                id = id.replace("SKU::", "");
+                id = id.substring(0, 11);
+                let imageUrl = "";
+                if (order.orderType === "RTS" && p.image) {
+                  imageUrl = p.image;
+                } else if (
+                  order.orderType !== "RTS" &&
+                  p.thumbnailMedia &&
+                  p.thumbnailMedia.mediaUrl
+                ) {
+                  imageUrl = p.thumbnailMedia.mediaUrl;
+                } else {
+                  imageUrl =
+                    process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
+                    "products/" +
+                    id +
+                    "/HR" +
+                    id +
+                    "00_1.jpg";
+                }
                 return (
                   <div key={i} className="qa-flex-row order-card-details-tile">
                     <div className="qa-flex-row" style={{ width: "100%" }}>
@@ -197,21 +229,14 @@ const OrderDetail = (props) => {
                         <img
                           className="images"
                           onError={addDefaultSrc}
-                          src={p.image}
+                          src={imageUrl}
                           alt="Order placeholder"
                         ></img>
                       ) : (
                         <img
                           className="images"
                           onError={addDefaultSrc}
-                          src={
-                            process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
-                            `${
-                              p.thumbnailMedia
-                                ? p.thumbnailMedia.mediaUrl
-                                : null
-                            }`
-                          }
+                          src={imageUrl}
                           alt="Order placeholder"
                         ></img>
                       )}

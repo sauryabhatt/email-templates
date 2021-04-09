@@ -34,6 +34,7 @@ import {
   getSavedForLater,
   updateCart,
   checkInventory,
+  getUserProfile,
 } from "../../store/actions";
 import { QuantityInput } from "./QuantityInput";
 import _ from "lodash";
@@ -125,6 +126,9 @@ const CartDetails = (props) => {
   const [zipCodeList, setZipcodeList] = useState([]);
   const [inventoryQty, setInventoryQty] = useState();
   const [serviceable, setServiceable] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [btnLoading, setBtnLoading] = useState(false);
+
   let showError = false;
   useEffect(() => {
     if (app_token) {
@@ -136,6 +140,7 @@ const CartDetails = (props) => {
     let { cart = {} } = props;
     let { shippingAddressDetails = "", shippingAddressId, subOrders = [] } =
       cart || {};
+
     if (shippingAddressDetails && Object.keys(shippingAddressDetails)) {
       let { countryCode = "", country = "", zipCode = "", dialCode = "" } =
         shippingAddressDetails || {};
@@ -172,7 +177,12 @@ const CartDetails = (props) => {
             }
           }
         }
+        setIsLoading(false);
       });
+    } else {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 3000);
     }
   }, [props.cart]);
 
@@ -199,7 +209,6 @@ const CartDetails = (props) => {
         }
       })
       .then((res) => {
-        console.log(res);
         setServiceable(res);
       })
       .catch((err) => {
@@ -284,7 +293,8 @@ const CartDetails = (props) => {
 
   let { convertToCurrency = "" } = currencyDetails || {};
   let { products = [] } = sfl || {};
-  let { verificationStatus = "", profileType = "" } = userProfile || {};
+  let { verificationStatus = "", profileType = "", verifiedEmail = false } =
+    userProfile || {};
   let notificationMsg = "You do not have any product added to your cart";
   let buttonName = "Start shopping";
   if (
@@ -307,11 +317,7 @@ const CartDetails = (props) => {
 
   const getConvertedCurrency = (baseAmount) => {
     let { convertToCurrency = "", rates = [] } = props.currencyDetails;
-    return Number.parseFloat(
-      (baseAmount *
-        Math.round((rates[convertToCurrency] + Number.EPSILON) * 100)) /
-        100
-    ).toFixed(2);
+    return Number.parseFloat(baseAmount * rates[convertToCurrency]).toFixed(2);
   };
 
   const onChange = (e) => {
@@ -377,6 +383,7 @@ const CartDetails = (props) => {
     zipcode = selPincode,
     country = selCountry
   ) => {
+    setBtnLoading(true);
     fetch(
       `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/my/${orderId}/?addr_Id=${selectedShippingId}&postal_code=${zipcode}&country=${country}`,
       {
@@ -392,12 +399,15 @@ const CartDetails = (props) => {
         if (res.ok) {
           setAddressModal(false);
           props.getCart(app_token);
+          setBtnLoading(false);
         } else {
           throw res.statusText || "Error while sending e-mail.";
+          setBtnLoading(false);
         }
       })
       .catch((err) => {
         setAddressModal(false);
+        setBtnLoading(false);
         message.error("Error updating info!", 5);
       });
   };
@@ -417,6 +427,7 @@ const CartDetails = (props) => {
     });
 
   const addSFL = (order) => {
+    setBtnLoading(true);
     let { products = [], sellerCode = "" } = order || {};
     let data = [];
     for (let items of products) {
@@ -467,13 +478,16 @@ const CartDetails = (props) => {
       .then((res) => {
         updateCart("SFL_DELETE", sellerCode);
         message.success("Products have been moved to your wishlist!", 5);
+        setBtnLoading(false);
       })
       .catch((err) => {
         message.error("Error moving products to your wishlist!", 5);
+        setBtnLoading(false);
       });
   };
 
   const saveAddress = (values) => {
+    setBtnLoading(true);
     setSelCountry(values.country);
     setSelPincode(values.zipCode);
     checkServiceability(values.country, values.zipCode);
@@ -515,13 +529,16 @@ const CartDetails = (props) => {
           setAddressModal(false);
           props.getAddresses(app_token);
         }
+        setBtnLoading(false);
       })
       .catch((err) => {
         message.error("Error updating info!", 5);
+        setBtnLoading(false);
       });
   };
 
   const updateAddress = (values) => {
+    setBtnLoading(true);
     setSelCountry(values.country);
     setSelPincode(values.zipCode);
     checkServiceability(values.country, values.zipCode);
@@ -564,9 +581,11 @@ const CartDetails = (props) => {
         // setSuccessUpdateVisible(true);
         setAddressModal(false);
         props.getCart(app_token);
+        setBtnLoading(false);
       })
       .catch((err) => {
         message.error("Error updating info!", 5);
+        setBtnLoading(false);
       });
   };
 
@@ -630,6 +649,7 @@ const CartDetails = (props) => {
     let skuid = deleteProduct;
     let p_data = {};
     let s_count = 0;
+    setUpdate("");
 
     if (action === "OPT_SERVICES") {
       action = "UPDATE";
@@ -805,6 +825,8 @@ const CartDetails = (props) => {
                 setUpdate("");
                 message.success("Quantity updated!", 5);
               });
+            } else {
+              setUpdate(sellerCode);
             }
           });
         }
@@ -954,7 +976,7 @@ const CartDetails = (props) => {
     }
   };
 
-  if (!props.cart) {
+  if (!props.cart && isLoading) {
     return <Spinner />;
   }
 
@@ -1009,7 +1031,8 @@ const CartDetails = (props) => {
             className="qa-button qa-fs-12 qa-shop-btn"
             onClick={(e) => {
               if (buttonName === "Sign up as a buyer") {
-                router.push("/signup");
+                // router.push("/signup");
+                registerToApp(keycloak, { currentPath: router.asPath });
               } else {
                 router.push("/");
               }
@@ -1496,6 +1519,7 @@ const CartDetails = (props) => {
                         <Button
                           className="qa-button qa-fs-12 cart-save-later qa-mar-top-2"
                           onClick={() => addSFL(order)}
+                          disabled={btnLoading}
                         >
                           Save for later
                         </Button>
@@ -1580,27 +1604,30 @@ const CartDetails = (props) => {
                 clearCart={() => {
                   props.getCart(app_token);
                 }}
+                getUserProfile={() => props.getUserProfile(app_token)}
                 showAddrModal={() => {
                   setAddressModal(true);
                   setAddressFunc("add");
                 }}
               />
-              <div className=" qa-mar-btm-2">
-                <Checkbox
-                  className="check-box-tnc"
-                  onChange={(e) => {
-                    let { checked = "" } = e.target;
-                    setEnable(checked);
-                  }}
-                >
-                  I agree to{" "}
-                  <Link className="c-breakup" href="/TermsOfUse">
-                    <a target="_blank">
-                      <span className="c-breakup">terms and conditions</span>
-                    </a>
-                  </Link>
-                </Checkbox>
-              </div>
+              {verifiedEmail === true && (
+                <div className=" qa-mar-btm-2">
+                  <Checkbox
+                    className="check-box-tnc"
+                    onChange={(e) => {
+                      let { checked = "" } = e.target;
+                      setEnable(checked);
+                    }}
+                  >
+                    I agree to{" "}
+                    <Link className="c-breakup" href="/TermsOfUse">
+                      <a target="_blank">
+                        <span className="c-breakup">terms and conditions</span>
+                      </a>
+                    </Link>
+                  </Checkbox>
+                </div>
+              )}
             </Col>
           </Row>
         </Col>
@@ -1673,27 +1700,33 @@ const CartDetails = (props) => {
                   clearCart={() => {
                     props.getCart(app_token);
                   }}
+                  getUserProfile={() => props.getUserProfile(app_token)}
                   showAddrModal={() => {
                     setAddressModal(true);
                     setAddressFunc("add");
                   }}
+                  isMobile={true}
                 />
-                <div className="qa-mar-top-05">
-                  <Checkbox
-                    className="check-box-tnc"
-                    onChange={(e) => {
-                      let { checked = "" } = e.target;
-                      setEnable(checked);
-                    }}
-                  >
-                    I agree to{" "}
-                    <Link className="c-breakup" href="/TermsOfUse">
-                      <a target="_blank">
-                        <span className="c-breakup">terms and conditions</span>
-                      </a>
-                    </Link>
-                  </Checkbox>
-                </div>
+                {verifiedEmail === true && (
+                  <div className="qa-mar-top-05">
+                    <Checkbox
+                      className="check-box-tnc"
+                      onChange={(e) => {
+                        let { checked = "" } = e.target;
+                        setEnable(checked);
+                      }}
+                    >
+                      I agree to{" "}
+                      <Link className="c-breakup" href="/TermsOfUse">
+                        <a target="_blank">
+                          <span className="c-breakup">
+                            terms and conditions
+                          </span>
+                        </a>
+                      </Link>
+                    </Checkbox>
+                  </div>
+                )}
               </Col>
               {referralCode && (
                 <Col span={24}>
@@ -2131,6 +2164,7 @@ const CartDetails = (props) => {
                         <Button
                           className="qa-button qa-fs-12 cart-save-later qa-mar-top-2"
                           onClick={() => addSFL(order)}
+                          disabled={btnLoading}
                         >
                           Save for later
                         </Button>
@@ -2685,18 +2719,12 @@ const CartDetails = (props) => {
               </Col>
 
               <Col xs={24} sm={24} md={0} lg={0} xl={0}>
-                <Col
-                  xs={24}
-                  sm={24}
-                  md={9}
-                  lg={9}
-                  xl={9}
-                  className="qa-pad-1"
-                  onClick={() => onFinish(selectedShippingId)}
-                >
+                <Col xs={24} sm={24} md={9} lg={9} xl={9} className="qa-pad-1">
                   <Button
                     htmlType="submit"
                     className="qa-button qa-cart-ship-btn"
+                    onClick={() => onFinish(selectedShippingId)}
+                    disabled={btnLoading}
                   >
                     Select and Ship to
                   </Button>
@@ -2727,17 +2755,12 @@ const CartDetails = (props) => {
                   >
                     <Button className="qa-button qa-cart-cancel">Cancel</Button>
                   </Col>
-                  <Col
-                    xs={24}
-                    sm={24}
-                    md={9}
-                    lg={9}
-                    xl={9}
-                    onClick={() => onFinish(selectedShippingId)}
-                  >
+                  <Col xs={24} sm={24} md={9} lg={9} xl={9}>
                     <Button
                       htmlType="submit"
                       className="qa-button qa-cart-ship-btn"
+                      disabled={btnLoading}
+                      onClick={() => onFinish(selectedShippingId)}
                     >
                       Select and Ship to
                     </Button>
@@ -3036,6 +3059,7 @@ const CartDetails = (props) => {
                   <Button
                     htmlType="submit"
                     className="qa-button qa-cart-ship-btn"
+                    disabled={btnLoading}
                   >
                     {addressFunc === "edit"
                       ? "Save and Ship to"
@@ -3072,6 +3096,7 @@ const CartDetails = (props) => {
                     <Button
                       htmlType="submit"
                       className="qa-button qa-cart-ship-btn"
+                      disabled={btnLoading}
                     >
                       {addressFunc === "edit"
                         ? "Save and Ship to"
@@ -3144,6 +3169,7 @@ const CartDetails = (props) => {
 
 const mapStateToProps = (state) => {
   return {
+    cart: state.checkout.cart,
     currencyDetails: state.currencyConverter,
     addresses: state.userProfile.addresses,
     sfl: state.checkout.sfl,
@@ -3163,4 +3189,5 @@ export default connect(mapStateToProps, {
   getSavedForLater,
   updateCart,
   checkInventory,
+  getUserProfile,
 })(CartDetails);

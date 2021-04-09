@@ -23,7 +23,7 @@ import ImageGallery from "react-image-gallery";
 import Slider from "react-slick";
 import { connect } from "react-redux";
 import closeButton from "../../public/filestore/closeButton";
-import { loginToApp } from "../AuthWithKeycloak";
+import { loginToApp, registerToApp } from "../AuthWithKeycloak";
 import infoIcon from "../../public/filestore/infoIcon";
 import amexPayment from "../../public/filestore/amexPayment";
 import visaPayment from "../../public/filestore/visaPayment";
@@ -503,7 +503,8 @@ const ProductDetails = (props) => {
   };
 
   const signUp = () => {
-    router.push("/signup");
+    // router.push("/signup");
+    registerToApp(keycloak, { currentPath: router.asPath });
   };
 
   const onCheck = () => {

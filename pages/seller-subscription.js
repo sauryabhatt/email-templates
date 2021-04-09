@@ -9,7 +9,7 @@ export default function BecomeASellerWrapper() {
     description:
       "Discover verified global buyers digitally. Export Handicrafts, Textiles, Furniture, Décor & more digitally.",
     keywords:
-      "Export from South East Asia, Export handicrafts, Find global buyers, Wholesale exports, Export home décor and textiles",
+      "Export from India and South East Asia, Export handicrafts, Find global buyers, Wholesale exports, Export home décor and textiles",
     url: "/seller-subscription",
   };
 

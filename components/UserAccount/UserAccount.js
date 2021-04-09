@@ -19,7 +19,11 @@ import {
   Alert,
   Breadcrumb,
 } from "antd";
-import Icon, { RightOutlined, LeftOutlined } from "@ant-design/icons";
+import Icon, {
+  RightOutlined,
+  LeftOutlined,
+  CheckCircleOutlined,
+} from "@ant-design/icons";
 import { useRouter } from "next/router";
 import { useKeycloak } from "@react-keycloak/ssr";
 import {
@@ -53,8 +57,10 @@ import Quotations from "../Quotations/Quotations";
 import QuotationMobile from "../mobile/QuotationMobile";
 import Orderss from "../Orders/Orderss";
 import Addresses from "../Addresses/Addresses";
-import { logoutFromApp } from "../AuthWithKeycloak";
+import { logoutFromApp, registerToApp } from "../AuthWithKeycloak";
 import Collections from "./../Collections/Collections";
+import closeButton from "../../public/filestore/closeButton";
+import OtpInput from "react-otp-input";
 
 const { Option } = Select;
 const { TabPane } = Tabs;
@@ -107,6 +113,12 @@ const UserAccount = (props) => {
   const [orderText, setOrderText] = useState("");
   const [collectionName, setCollectionName] = useState("");
   const [showCollectionDetails, setCollectionDetails] = useState(false);
+  const [otpVerificationModal, setOtpVerificationModal] = useState(false);
+  const [otpInput, setOtpInput] = useState("");
+  const [otpError, setOtpError] = useState(false);
+  const [otpValidated, setOtpValidated] = useState(false);
+  const [otpLengthError, setOtpLengthError] = useState(false);
+  const [btnLoading, setBtnLoading] = useState(false);
 
   const settings = {
     infinite: false,
@@ -184,7 +196,7 @@ const UserAccount = (props) => {
 
   const formUpdate = (values) => {
     if (values) {
-      var data = { ...values };
+      let data = { ...values };
       if (values.profileType === "BUYER") {
         // data.inOrderTypes = values.interestsInOrderTypes;
         // data.inCategories = values.interestsInCategories;
@@ -431,7 +443,8 @@ const UserAccount = (props) => {
   };
 
   const handleSignUpAsABuyer = () => {
-    logoutFromApp({ currentPath: "/signup" });
+    logoutFromApp();
+    registerToApp(keycloak, { currentPath: router.asPath });
   };
 
   const onSetPassword = () => {
@@ -781,9 +794,10 @@ const UserAccount = (props) => {
       }
     );
 
-    if(v.presenters[0].profileId){
-      let id = v.presenters[0].profileId.replace("SELLER::","") + "/all-categories";
-    
+    if (v.presenters[0].profileId) {
+      let id =
+        v.presenters[0].profileId.replace("SELLER::", "") + "/all-categories";
+
       return (
         <VideoRequestCarousel
           key={i}
@@ -808,7 +822,6 @@ const UserAccount = (props) => {
     } else {
       return null;
     }
-   
   });
 
   const getFormattedDate = (date) => {
@@ -970,6 +983,84 @@ const UserAccount = (props) => {
     setLoadCount(1);
   };
 
+  const hideOtpModal = () => {
+    setOtpVerificationModal(false);
+  };
+
+  const sendOtp = () => {
+    setBtnLoading(true);
+    setOtpError(false);
+    setOtpInput("");
+    setOtpLengthError(false);
+    fetch(process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/otp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + keycloak.token,
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.text();
+        } else {
+          throw res.statusText || "Error while signing up.";
+        }
+      })
+      .then((res) => {
+        console.log(res);
+        setOtpVerificationModal(true);
+        setBtnLoading(false);
+      })
+      .catch((err) => {
+        message.error(err.message || err, 5);
+        setBtnLoading(false);
+      });
+  };
+
+  const handleOtpChange = (otp) => {
+    setOtpInput(otp);
+  };
+
+  const validateOtp = () => {
+    if (otpInput.length !== 6) {
+      setOtpLengthError(true);
+    } else {
+      setBtnLoading(true);
+      setOtpLengthError(false);
+      fetch(
+        process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/otp/validate",
+        {
+          method: "POST",
+          body: otpInput,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + keycloak.token,
+          },
+        }
+      )
+        .then((res) => {
+          if (res.ok) {
+            return res.text();
+          } else {
+            throw res.statusText || "Error while signing up.";
+          }
+        })
+        .then((res) => {
+          setBtnLoading(false);
+          setOtpVerificationModal(true);
+          setOtpError(false);
+          setOtpValidated(true);
+          props.getUserProfile(keycloak.token);
+        })
+        .catch((err) => {
+          setOtpError(true);
+          setOtpValidated(false);
+          setBtnLoading(false);
+          // message.error(err.message || err, 5);
+        });
+    }
+  };
+
   const handleShowOrder = (value) => {
     setShowOrderDetails(value);
     if (!value) {
@@ -989,6 +1080,29 @@ const UserAccount = (props) => {
       return <QuotationMobile />;
     }
   };
+
+  let maskid = "";
+  let userEmailId =
+    props &&
+    props.userProfile &&
+    props.userProfile.userProfile &&
+    props.userProfile.userProfile.email;
+  let prefix = userEmailId
+    ? userEmailId.substring(0, userEmailId.lastIndexOf("@"))
+    : "";
+  let postfix = userEmailId
+    ? userEmailId.substring(userEmailId.lastIndexOf("@"))
+    : "";
+
+  for (let i = 0; i < prefix.length; i++) {
+    if (i == 0 || i == prefix.length - 1) {
+      ////////
+      maskid = maskid + prefix[i].toString();
+    } else {
+      maskid = maskid + "*";
+    }
+  }
+  maskid = maskid + postfix;
 
   if (showLoader) {
     return <Spinner />;
@@ -1098,7 +1212,7 @@ const UserAccount = (props) => {
             </Col>
           </Row>
         </Col>
-        <Col xs={21} sm={21} md={9} lg={9} xl={9}>
+        <Col xs={21} sm={21} md={7} lg={7} xl={7}>
           <p className="banner-heading">My account</p>
           <p className="banner-para1">
             <span>{profileType === "SELLER" ? "Seller" : "Buyer"}</span>
@@ -1130,7 +1244,7 @@ const UserAccount = (props) => {
             <span>{firstName}</span>
           </p>
         </Col>
-        <Col xs={21} sm={21} md={4} lg={4} xl={4}>
+        <Col xs={21} sm={21} md={9} lg={9} xl={9}>
           {props.userProfile.userProfile &&
           props.userProfile.userProfile.verificationStatus &&
           props.userProfile.userProfile.verificationStatus === "CREATED" ? (
@@ -1147,6 +1261,27 @@ const UserAccount = (props) => {
                 Please click here to initiate your application to be a supplier
                 on Qalara.
               </p>
+            </div>
+          ) : null}
+          {props.userProfile.userProfile &&
+          props.userProfile.userProfile.verifiedEmail === false ? (
+            <div className="email-validation-banner">
+              <div className="email-verification-text">
+                Validation of your email address is pending. You will not be
+                able to checkout orders till this step is complete. Please click
+                on the button below to receive a One Time Password (OTP) at your
+                registered email address and follow instructions to validate
+                your email.
+              </div>
+              <div className="otp-btn-section">
+                <Button
+                  onClick={sendOtp}
+                  disabled={btnLoading}
+                  className="qa-button qa-send-otp"
+                >
+                  SEND VALIDATION OTP
+                </Button>
+              </div>
             </div>
           ) : null}
         </Col>
@@ -2197,6 +2332,110 @@ const UserAccount = (props) => {
         >
           OK
         </Button>
+      </Modal>
+      <Modal
+        visible={otpVerificationModal}
+        className="otp-verification-modal"
+        footer={null}
+        closable={false}
+        onCancel={hideOtpModal}
+        centered
+        bodyStyle={{ padding: "30px", backgroundColor: "#f9f7f2" }}
+        width={mediaMatch.matches ? 800 : "100%"}
+      >
+        <div className="qa-rel-pos">
+          <div
+            onClick={hideOtpModal}
+            style={{
+              position: "absolute",
+              right: "0px",
+              top: "-15px",
+              cursor: "pointer",
+              zIndex: "1",
+            }}
+          >
+            <Icon
+              component={closeButton}
+              style={{ width: "30px", height: "30px" }}
+            />
+          </div>
+          <div>
+            <div className="otp-email-title">Validate your email address</div>
+            {!otpValidated ? (
+              <div>
+                <div className="otp-email-detail">
+                  Enter the One Time Password (OTP) sent to your registered
+                  email address {maskid}
+                </div>
+                <div className="otp-input-field">
+                  <OtpInput
+                    value={otpInput}
+                    onChange={handleOtpChange}
+                    numInputs={6}
+                    separator={<span></span>}
+                    focusStyle="focussed-input"
+                    shouldAutoFocus={true}
+                  />
+                </div>
+                {otpLengthError && (
+                  <div className="email-verification-text">
+                    Please enter 6 digits OTP
+                  </div>
+                )}
+                {otpError && (
+                  <div className="email-verification-text">
+                    The OTP entered is incorrect. Please enter the correct OTP
+                  </div>
+                )}
+                <div className="otp-btn-section qa-mar-top-2">
+                  <Button
+                    onClick={validateOtp}
+                    disabled={btnLoading}
+                    className="qa-button qa-send-otp"
+                  >
+                    VALIDATE OTP
+                  </Button>
+                </div>
+                <div
+                  className="resend-otp-btn"
+                  onClick={() => {
+                    setOtpInput("");
+                    sendOtp();
+                  }}
+                >
+                  RESEND OTP
+                </div>
+                <div className="otp-help-section">
+                  Please check your promotions/spam/junk folder if you have not
+                  received the OTP in your primary inbox. If you haven't
+                  received the OTP or are facing any issues please write to us
+                  at{" "}
+                  <a
+                    href="mailto:help@qalara.com"
+                    className="qa-sm-color qa-underline"
+                  >
+                    help@qalara.com
+                  </a>{" "}
+                  from your registered email address.
+                </div>
+              </div>
+            ) : (
+              <div style={{ textAlign: "center" }}>
+                <CheckCircleOutlined
+                  style={{
+                    fontSize: "100px",
+                    marginTop: "10px",
+                    marginBottom: "20px",
+                  }}
+                />
+                <div className="qa-mar-btm-3 otp-validated">
+                  Thank you for validating your email address. Online checkout
+                  is now enabled for your Qalara account.
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
       </Modal>
     </div>
   );

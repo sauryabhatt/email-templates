@@ -68,7 +68,7 @@ export default function CategoryEditDetails({ data }) {
         title:
           "Global online wholesale platform for sourcing artisanal and sustainable lifestyle goods from South Asia | Qalara",
         description:
-          "How to source from South East Asia? How to source handmade goods? How to find verified suppliers from South East Asia? How to find genuine suppliers? How to source genuine fair trade products from South East Asia?",
+          "How to source from India and South East Asia? How to source handmade goods? How to find verified suppliers from India and South East Asia? How to find genuine suppliers? How to source genuine fair trade products from India and South East Asia?",
       };
       break;
   }
@@ -131,6 +131,6 @@ export async function getStaticProps({ params: { category = "" } = {} }) {
         error: error,
       },
     },
-    revalidate: 14400,
+    revalidate: 1000,
   };
 }

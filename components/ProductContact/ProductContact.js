@@ -122,6 +122,36 @@ const ProductContact = (props) => {
       return;
     }
   };
+
+  const productRFQCall = (data) => {
+    fetch(process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/queries", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + props.token,
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          props.sendQueryCancel("success");
+        } else {
+          message.error(res.statusText, 5);
+          setErrors(
+            errors.concat({
+              atStage: "Error while sending",
+              message: res.statusText,
+            })
+          );
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        message.error(err.message, 5);
+        setErrors(errors.concat(err));
+        setLoading(false);
+      });
+  };
   const onFinish = (values) => {
     let isAnonymousUser = true;
     if (props.initialValues && props.initialValues.profileId) {
@@ -200,41 +230,12 @@ const ProductContact = (props) => {
         let { ip = "", country = "" } = result;
         data.fromIP = ip;
         data.ipCountry = country;
-        fetch(
-          process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/queries",
-          {
-            method: "POST",
-            body: JSON.stringify(data),
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + props.token,
-            },
-          }
-        )
-          .then((res) => {
-            if (res.ok) {
-              props.sendQueryCancel("success");
-            } else {
-              message.error(res.statusText, 5);
-              setErrors(
-                errors.concat({
-                  atStage: "Error while sending",
-                  message: res.statusText,
-                })
-              );
-            }
-            setLoading(false);
-          })
-          .catch((err) => {
-            message.error(err.message, 5);
-            setErrors(errors.concat(err));
-            setLoading(false);
-          });
+        productRFQCall(data);
       })
       .catch((err) => {
-        message.error(err.message, 5);
-        setErrors(errors.concat(err));
-        setLoading(false);
+        data.fromIP = "";
+        data.ipCountry = "";
+        productRFQCall(data);
       });
   };
 

@@ -325,8 +325,9 @@ class ProductFacets extends Component {
             obj["priority"] = priority;
 
             let categoryList = [];
-            let catObj = {};
+
             for (let category of aggregateList) {
+              let catObj = {};
               let { value = "", count = "" } = category;
               catObj["name"] = value;
 
@@ -364,8 +365,9 @@ class ProductFacets extends Component {
               }
 
               catObj["count"] = count;
+              categoryList.push(catObj);
             }
-            categoryList.push(catObj);
+
             obj["aggregateList"] = categoryList;
             dynamicCategories = obj;
           }
@@ -532,6 +534,21 @@ class ProductFacets extends Component {
                         {this.state.priceError}
                       </div>
                     </div>
+                  </SubMenu>
+                );
+              } else if (
+                aggregateId === "f_moqBucket" &&
+                aggregateList.length > 0
+              ) {
+                return (
+                  <SubMenu key={`key${key}`} title="Minimum order quantity">
+                    <CheckboxGroup
+                      key={key}
+                      {...this.state}
+                      options={aggregateList}
+                      filterType={aggregateId}
+                      handleChange={this.handleChange}
+                    />
                   </SubMenu>
                 );
               } else if (aggregateList.length > 0) {

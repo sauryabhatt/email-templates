@@ -12,7 +12,7 @@ import {
   Spin,
   Tooltip,
 } from "antd";
-import Icon from "@ant-design/icons";
+import Icon, { CheckCircleOutlined } from "@ant-design/icons";
 import closeButton from "../../public/filestore/closeButton";
 import infoIcon from "../../public/filestore/infoSuccess";
 import PayWithPaypal from "../PayWithPayPal/PayWithPaypal";
@@ -22,6 +22,7 @@ import getSymbolFromCurrency from "currency-symbol-map";
 import sellerList from "../../public/filestore/freeShippingSellers.json";
 import alertIcon from "../../public/filestore/alertIcon";
 import _ from "lodash";
+import OtpInput from "react-otp-input";
 
 const CartSummary = (props) => {
   const { keycloak } = useKeycloak();
@@ -46,6 +47,17 @@ const CartSummary = (props) => {
   const [reRender, setReRender] = useState(false);
   const [sellers, setSellers] = useState([]);
   const [qalaraMargin, setQalaraMargin] = useState(0);
+  const [otpVerificationModal, setOtpVerificationModal] = useState(false);
+  const [otpInput, setOtpInput] = useState("");
+  const [otpError, setOtpError] = useState(false);
+  const [otpValidated, setOtpValidated] = useState(false);
+  const [otpLengthError, setOtpLengthError] = useState(false);
+  const [btnLoading, setBtnLoading] = useState(false);
+
+  let retryCount = 0;
+  let retryCountCP = 0;
+  let retryCountAP = 0;
+  let retryCountOR = 0;
 
   useEffect(() => {
     if (props.cart) {
@@ -96,6 +108,7 @@ const CartSummary = (props) => {
     hideCreateOrder = false,
     tat = "",
     shippingTerm = "",
+    rfqReason = "",
   } = props;
   let {
     subOrders = [],
@@ -157,7 +170,6 @@ const CartSummary = (props) => {
   }
 
   let { convertToCurrency = "" } = currencyDetails || {};
-  let { orgName = "", email = "", firstName = "" } = user || {};
   let {
     addressLine1 = "",
     addressLine2 = "",
@@ -165,15 +177,14 @@ const CartSummary = (props) => {
     state = "",
     zipCode = "",
     country = "",
+    phoneNumber = "",
   } = shippingAddressDetails || {};
+
+  let { verifiedEmail = false, email = "" } = user || {};
 
   const getConvertedCurrency = (baseAmount) => {
     let { convertToCurrency = "", rates = [] } = currencyDetails;
-    return Number.parseFloat(
-      (baseAmount *
-        Math.round((rates[convertToCurrency] + Number.EPSILON) * 100)) /
-        100
-    ).toFixed(2);
+    return Number.parseFloat(baseAmount * rates[convertToCurrency]).toFixed(2);
   };
 
   const popupHover = (value) => {
@@ -193,7 +204,13 @@ const CartSummary = (props) => {
     }
   };
 
+  const proceedToShipping = () => {
+    setBtnLoading(true);
+    router.push("/shipping");
+  };
+
   const checkCommitStatus = () => {
+    setBtnLoading(true);
     let cartId = orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
     let url = `${
       process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL
@@ -210,7 +227,7 @@ const CartSummary = (props) => {
         if (res.ok) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw res.statusText || "Something went wrong please try again!";
         }
       })
       .then((result) => {
@@ -219,65 +236,152 @@ const CartSummary = (props) => {
           let url = "/payment";
           router.push(url);
         } else {
-          console.log("Not shippable");
           setNonShippable(true);
+          message.error("Something went wrong please try again!", 5);
         }
+        setBtnLoading(false);
       })
       .catch((err) => {
-        console.log(err);
-        // setLoading(false);
+        setBtnLoading(false);
+        message.error(err.message || err, 5);
       });
   };
 
-  const createOrder = () => {
-    let url =
-      process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN + "/product/";
+  const createOrder = async () => {
+    setBtnLoading(true);
+    let shippingRemarks = rfqReason
+      ? rfqReason
+      : "RFQ created from Shipping page";
+    let cartRemarks = "Country/Zipcode not serviceable";
+
+    let {
+      profileId = "",
+      profileType = "",
+      email = "",
+      firstName = "",
+      orgName = "",
+      orgPhone = "",
+    } = user || {};
+    let buyerId = profileId.replace("BUYER::", "");
+
+    let shippingAddr = "";
+    shippingAddr =
+      firstName +
+      ", " +
+      addressLine1 +
+      ", " +
+      addressLine2 +
+      ", " +
+      city +
+      ", " +
+      state +
+      ", " +
+      country +
+      ", " +
+      zipCode +
+      ", " +
+      phoneNumber;
+
+    let data = {
+      profileId: profileId,
+      profileType: profileType,
+      targetDeliveryDate: "",
+      requesterName: firstName,
+      companyName: orgName,
+      emailId: email,
+      mobileNo: orgPhone,
+      destinationCountry: country,
+      destinationCity: city,
+      zipcode: zipCode,
+      rfqType: id === "shipping" ? "SHIPMENT RFQ" : "CART RFQ",
+      buyerId: buyerId,
+      remarks: id === "shipping" ? shippingRemarks : cartRemarks,
+      collectionName: "",
+      deliveryAddress: shippingAddr,
+    };
+
     let productList = [];
-    let currencyFormat = getSymbolFromCurrency(convertToCurrency);
+    let i = 0;
     for (let orders of subOrders) {
       let { products = [] } = orders;
       for (let product of products) {
         let {
-          productId = "",
-          productName = "",
-          quantity = "",
-          priceMin = "",
           articleId = "",
-          exfactoryListPrice = 0,
-          priceApplied = 0,
+          quantity = "",
+          priceApplied = "",
+          exfactoryListPrice = "",
         } = product;
-        let obj = {
-          productId: productId,
-          productName: productName,
-          quantity: quantity,
-          priceMin: currencyFormat + priceMin,
-          exfactoryListPrice:
-            priceApplied && priceApplied !== null
-              ? priceApplied
-              : exfactoryListPrice,
-          linkOfProduct: url + articleId,
-        };
+        let price = exfactoryListPrice;
+        if (priceApplied && priceApplied !== null) {
+          price = priceApplied;
+        }
+        let obj = {};
+        obj["articleId"] = articleId;
+        obj["quantity"] = quantity;
+        obj["priceApplied"] = price;
+        obj["remarks"] = "";
         productList.push(obj);
+        i++;
       }
     }
 
-    let data = {
-      buyerName: firstName,
-      buyerEmailId: email,
-      buyerOrgName: orgName,
-      orderId: orderId,
-      quoteId: priceQuoteRef,
-      addressLine1: addressLine1,
-      addressLine2: addressLine2,
-      city: city,
-      state: state,
-      country: country,
-      zipCode: zipCode,
-      products: productList,
-    };
-    fetch(process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL + "/v1/orders/assist", {
+    data.products = productList;
+
+    let userDetails = "";
+    const response = await fetch("https://ipapi.co/json/", {
+      method: "GET",
+    });
+    userDetails = await response.json();
+    let { ip = "", country: ipCountry = "" } = userDetails || {};
+    data.fromIP = ip || "";
+    data.ipCountry = ipCountry || "";
+
+    const rfqResp = await fetch(
+      process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/queries",
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + keycloak.token,
+        },
+      }
+    );
+    const rfqResponse = await rfqResp;
+    if (rfqResponse && rfqResponse["status"] === 200) {
+      const cartResp = await fetch(
+        process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL +
+          "/v1/orders/status/" +
+          orderId,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + keycloak.token,
+          },
+        }
+      );
+      const cartResponse = await cartResp;
+      if (cartResponse && cartResponse["status"] === 200) {
+        showOrderModal(true);
+        setBtnLoading(false);
+      } else {
+        setBtnLoading(false);
+      }
+    }
+  };
+
+  const hideOtpModal = () => {
+    setOtpVerificationModal(false);
+  };
+
+  const sendOtp = () => {
+    setOtpError(false);
+    setBtnLoading(true);
+    setOtpInput("");
+    setOtpLengthError(false);
+    fetch(process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/otp", {
       method: "POST",
-      body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + keycloak.token,
@@ -285,20 +389,136 @@ const CartSummary = (props) => {
     })
       .then((res) => {
         if (res.ok) {
-          showOrderModal(true);
-          // return res.json();
+          return res.text();
         } else {
-          throw res.statusText || "Error in create order";
+          throw res.statusText || "Error while signing up.";
         }
       })
-      // .then((res) => {
-      //   showOrderModal(true);
-      // })
+      .then((res) => {
+        setOtpVerificationModal(true);
+        setBtnLoading(false);
+      })
       .catch((err) => {
         message.error(err.message || err, 5);
-        // setLoading(false);
+        setBtnLoading(false);
       });
   };
+
+  const handleOtpChange = (otp) => {
+    setOtpInput(otp);
+  };
+
+  const validateOtp = () => {
+    if (otpInput.length !== 6) {
+      setOtpLengthError(true);
+    } else {
+      setBtnLoading(true);
+      setOtpLengthError(false);
+      fetch(
+        process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/otp/validate",
+        {
+          method: "POST",
+          body: otpInput,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + keycloak.token,
+          },
+        }
+      )
+        .then((res) => {
+          if (res.ok) {
+            return res.text();
+          } else {
+            throw res.statusText || "Error while signing up.";
+          }
+        })
+        .then((res) => {
+          setOtpVerificationModal(true);
+          setOtpError(false);
+          setOtpValidated(true);
+          props.getUserProfile();
+          setBtnLoading(false);
+        })
+        .catch((err) => {
+          setOtpError(true);
+          setOtpValidated(false);
+          setBtnLoading(false);
+          // message.error(err.message || err, 5);
+        });
+    }
+  };
+
+  // const createOrder = () => {
+  //   console.log("Create order id ", id);
+  //   let url =
+  //     process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN + "/product/";
+  //   let productList = [];
+  //   let currencyFormat = getSymbolFromCurrency(convertToCurrency);
+  //   for (let orders of subOrders) {
+  //     let { products = [] } = orders;
+  //     for (let product of products) {
+  //       let {
+  //         productId = "",
+  //         productName = "",
+  //         quantity = "",
+  //         priceMin = "",
+  //         articleId = "",
+  //         exfactoryListPrice = 0,
+  //         priceApplied = 0,
+  //       } = product;
+  //       let obj = {
+  //         productId: productId,
+  //         productName: productName,
+  //         quantity: quantity,
+  //         priceMin: currencyFormat + priceMin,
+  //         exfactoryListPrice:
+  //           priceApplied && priceApplied !== null
+  //             ? priceApplied
+  //             : exfactoryListPrice,
+  //         linkOfProduct: url + articleId,
+  //       };
+  //       productList.push(obj);
+  //     }
+  //   }
+
+  //   let data = {
+  //     buyerName: firstName,
+  //     buyerEmailId: email,
+  //     buyerOrgName: orgName,
+  //     orderId: orderId,
+  //     quoteId: priceQuoteRef,
+  //     addressLine1: addressLine1,
+  //     addressLine2: addressLine2,
+  //     city: city,
+  //     state: state,
+  //     country: country,
+  //     zipCode: zipCode,
+  //     products: productList,
+  //   };
+  //   // fetch(process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL + "/v1/orders/assist", {
+  //   //   method: "POST",
+  //   //   body: JSON.stringify(data),
+  //   //   headers: {
+  //   //     "Content-Type": "application/json",
+  //   //     Authorization: "Bearer " + keycloak.token,
+  //   //   },
+  //   // })
+  //   //   .then((res) => {
+  //   //     if (res.ok) {
+  //   //       showOrderModal(true);
+  //   //       // return res.json();
+  //   //     } else {
+  //   //       throw res.statusText || "Error in create order";
+  //   //     }
+  //   //   })
+  //   // .then((res) => {
+  //   //   showOrderModal(true);
+  //   // })
+  //   // .catch((err) => {
+  //   //   message.error(err.message || err, 5);
+  //   //   // setLoading(false);
+  //   // });
+  // };
 
   const handleCancel = () => {
     showOrderModal(false);
@@ -330,16 +550,91 @@ const CartSummary = (props) => {
         if (res.status.toString().startsWith("2")) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw (
+            res.statusText || "Sorry something went wrong. Please try again!"
+          );
         }
       })
       .then((res) => {
-        let url = "/order/" + cart.orderId + "/payment-success";
-        router.push(url);
+        if (status === "FAILED") {
+          voidPPOrder(cart.orderId);
+        } else {
+          let url = "/order/" + cart.orderId + "/payment-success";
+          router.push(url);
+        }
       })
       .catch((err) => {
-        console.log(err);
+        if (retryCountOR < 3) {
+          updateOrder(data, status);
+        } else {
+          if (status === "FAILED") {
+            voidPPOrder(cart.orderId);
+          } else {
+            let url = "/order/" + cart.orderId + "/payment-success";
+            router.push(url);
+          }
+        }
+        retryCountOR++;
         // setLoading(false);
+      });
+  };
+
+  const checkCapturePayment = (authId, orderId, actions, data) => {
+    fetch(
+      process.env.NEXT_PUBLIC_REACT_APP_PAYMENTS_URL +
+        "/payments/paypal/check/getCaptureStatus/" +
+        props.cart.orderId +
+        "/authorizations/" +
+        authId +
+        "/capture",
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + keycloak.token,
+        },
+      }
+    )
+      .then((res) => {
+        if (res.status.toString().startsWith("2")) {
+          return res.json();
+        } else {
+          throw (
+            res.statusText ||
+            "Something went wrong with payment. Please try again!"
+          );
+        }
+      })
+      .then((res) => {
+        if (res && Object.keys(res).length) {
+          setIsProcessing(false);
+          if (res.error === "INSTRUMENT_DECLINED") {
+            return actions.restart();
+          } else {
+            delete res.qauthorizations[0].requestUUID;
+            delete res.currentAuth.requestUUID;
+            updateOrder(res, "CHECKED_OUT");
+          }
+        } else {
+          // voidPPOrder(orderId);
+          let data = {
+            gbOrderNo: cart.orderId,
+          };
+          updateOrder(data, "FAILED");
+        }
+      })
+      .catch((err) => {
+        if (retryCountCP < 3) {
+          checkCapturePayment(authId, orderId, actions);
+        } else {
+          // voidPPOrder(orderId);
+          let data = {
+            gbOrderNo: cart.orderId,
+          };
+          updateOrder(data, "FAILED");
+        }
+        retryCountCP++;
       });
   };
 
@@ -372,7 +667,10 @@ const CartSummary = (props) => {
         if (res.status.toString().startsWith("2")) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw (
+            res.statusText ||
+            "Something went wrong with payment. Please try again!"
+          );
         }
       })
       .then((res) => {
@@ -386,12 +684,7 @@ const CartSummary = (props) => {
         }
       })
       .catch((err) => {
-        voidPPOrder(orderId);
-        let data = {
-          gbOrderNo: cart.orderId,
-        };
-        updateOrder(data, "FAILED");
-        // setLoading(false);
+        checkCapturePayment(authId, orderId, actions, data);
       });
   };
 
@@ -414,17 +707,21 @@ const CartSummary = (props) => {
         if (res.ok) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw (
+            res.statusText || "Sorry something went wrong. Please try again!"
+          );
         }
       })
       .then((res) => {
-        // setIsProcessing(false);
-        // router.push('/payment-success')
         authorizePayment(orderId, actions);
       })
       .catch((err) => {
-        message.error(err.message || err, 5);
-        // setLoading(false);
+        if (retryCount < 3) {
+          saveOrder(orderId, actions);
+        } else {
+          message.error(err.message || err, 5);
+        }
+        retryCount++;
       });
   };
 
@@ -446,7 +743,9 @@ const CartSummary = (props) => {
         if (res.status.toString().startsWith("2")) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw (
+            res.statusText || "Sorry something went wrong. Please try again!"
+          );
         }
       })
       .then((res) => {
@@ -459,6 +758,58 @@ const CartSummary = (props) => {
         let url = "/order/" + cart.orderId + "/payment-failure";
         router.push(url);
         // setLoading(false);
+      });
+  };
+
+  const checkAuthorizePaymentStatus = (orderId, actions) => {
+    setIsProcessing(true);
+    let finalValue = getConvertedCurrency(cart.total);
+    let value = parseFloat((finalValue * 20) / 100).toFixed(2);
+    let currency = currencyDetails.convertToCurrency;
+
+    fetch(
+      process.env.NEXT_PUBLIC_REACT_APP_PAYMENTS_URL +
+        `/payments/paypal/check/getAuthorizationStatus/${orderId}/${cart.orderId}/${value}/${currency}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + keycloak.token,
+        },
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.text();
+        } else {
+          throw (
+            res.statusText ||
+            "There was an error authorizing the amount please try again"
+          );
+        }
+      })
+      .then((res) => {
+        if (res && res.length) {
+          capturePayment(res, orderId);
+        } else {
+          // voidPPOrder(orderId);
+          let data = {
+            gbOrderNo: cart.orderId,
+          };
+          updateOrder(data, "FAILED");
+        }
+      })
+      .catch((err) => {
+        if (retryCountAP < 3) {
+          checkAuthorizePaymentStatus(orderId, actions);
+        } else {
+          // voidPPOrder(orderId);
+          let data = {
+            gbOrderNo: cart.orderId,
+          };
+          updateOrder(data, "FAILED");
+        }
+        retryCountAP++;
       });
   };
 
@@ -489,22 +840,17 @@ const CartSummary = (props) => {
         if (res.status.toString().startsWith("2")) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw (
+            res.statusText ||
+            "There was an error authorizing the amount please try again"
+          );
         }
       })
       .then((res) => {
         capturePayment(res.currentAuth.ppAuthId, orderId);
-        // setIsProcessing(false);
-        // router.push('/payment-success')
       })
       .catch((err) => {
-        voidPPOrder(orderId);
-        let data = {
-          gbOrderNo: cart.orderId,
-        };
-        updateOrder(data, "FAILED");
-        message.error(err.message || err, 5);
-        // setLoading(false);
+        checkAuthorizePaymentStatus(orderId, actions);
       });
   };
 
@@ -614,6 +960,20 @@ const CartSummary = (props) => {
     parseFloat(getConvertedCurrency(couponDiscount)) +
     parseFloat(getConvertedCurrency(vatCharge)) -
     parseFloat(getConvertedCurrency(promoDiscount));
+
+  let maskid = "";
+  let prefix = email ? email.substring(0, email.lastIndexOf("@")) : "";
+  let postfix = email ? email.substring(email.lastIndexOf("@")) : "";
+
+  for (let i = 0; i < prefix.length; i++) {
+    if (i == 0 || i == prefix.length - 1) {
+      ////////
+      maskid = maskid + prefix[i].toString();
+    } else {
+      maskid = maskid + "*";
+    }
+  }
+  maskid = maskid + postfix;
 
   const dduContent = (
     <div className="breakup-popup qa-font-san qa-tc-white">
@@ -755,10 +1115,7 @@ const CartSummary = (props) => {
         </Link>
         <Link href="/">
           <div className="qa-txt-alg-cnt">
-            <Button
-              className="qa-button qa-fs-12 qa-shop-btn"
-              onClick={() => {}}
-            >
+            <Button className="qa-button qa-fs-12 qa-shop-btn">
               Start Shopping
             </Button>
           </div>
@@ -1199,12 +1556,14 @@ const CartSummary = (props) => {
       )}
       {id === "cart" && (
         <div>
-          {enable && deliver && !showCartError ? (
-            <Link href="/shipping">
-              <Button className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-ship active">
-                Proceed to shipping
-              </Button>
-            </Link>
+          {enable && deliver && !showCartError && verifiedEmail === true ? (
+            <Button
+              className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-ship active"
+              onClick={proceedToShipping}
+              disabled={btnLoading}
+            >
+              Proceed to shipping
+            </Button>
           ) : (
             <Button className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-ship">
               Proceed to shipping
@@ -1237,6 +1596,7 @@ const CartSummary = (props) => {
           {enable && deliver && !showCartError && !disablePayment ? (
             <Button
               onClick={checkCommitStatus}
+              disabled={btnLoading}
               className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment active"
             >
               Proceed to payment
@@ -1296,34 +1656,60 @@ const CartSummary = (props) => {
         </div>
       )}
 
-      {(!deliver || disablePayment) && !showCartError && !hideCreateOrder && (
-        <Button
-          onClick={createOrder}
-          className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment active"
-        >
-          ORDER QUOTE REQUEST
-        </Button>
-      )}
-      {!deliver && id === "cart" && !showCartError && !hideCreateOrder && (
-        <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-top-05 qa-txt-alg-cnt">
-          *We currently don't have instant checkout enabled for your country.
-          However, in most cases we can still arrange to deliver the order to
-          you. Please click on 'Order Quote Request' and we will share a link
-          over email with the necessary details to process your order. The link
-          will also be available in your Qalara Account section.
+      {(verifiedEmail === false || verifiedEmail === null) && (
+        <div className="otp-error-cart qa-mar-top-2">
+          Please validate your email address to proceed to the shipping
+          page.Please click on the button below to receive a One Time Password
+          (OTP) at your registered email address and follow instructions to
+          validate your email.
         </div>
       )}
+      {(verifiedEmail === false || verifiedEmail === null) && (
+        <Button
+          onClick={sendOtp}
+          disabled={btnLoading}
+          className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment active"
+        >
+          SEND VALIDATION OTP
+        </Button>
+      )}
+
+      {(!deliver || disablePayment) &&
+        !showCartError &&
+        !hideCreateOrder &&
+        verifiedEmail === true && (
+          <Button
+            onClick={createOrder}
+            disabled={btnLoading}
+            className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment active"
+          >
+            ORDER QUOTE REQUEST
+          </Button>
+        )}
+
+      {!deliver &&
+        id === "cart" &&
+        !showCartError &&
+        !hideCreateOrder &&
+        verifiedEmail === true && (
+          <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-top-05 qa-txt-alg-cnt">
+            *We currently don't have instant checkout enabled for your country.
+            However, in most cases we can still arrange to deliver the order to
+            you. Please click on 'Order Quote Request' and we will share a link
+            over email with the necessary details to process your order. The
+            link will also be available in your Qalara Account section.
+          </div>
+        )}
       {disablePayment && id === "shipping" && (
         <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-top-05 qa-txt-alg-cnt">
-          *We currently don't have instant checkout enabled for your country.
-          However, in most cases we can still arrange to deliver the order to
-          you. Please click on 'Order Quote Request' and we will share a link
-          over email with the necessary details to process your order. The link
-          will also be available in your Qalara Account section.
+          Freight cost appears to be high for this order. Please click on 'Order
+          Quote Request' and we will share a link over email with the necessary
+          details to process your order. The link will also be available in your
+          Qalara Account section.
         </div>
       )}
 
-      {deliver && !nonShippable ? (
+      {deliver && !nonShippable && verifiedEmail === true ? (
         <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-top-05 qa-txt-alg-cnt">
           {id === "cart" ? (
             <span>
@@ -1333,7 +1719,7 @@ const CartSummary = (props) => {
             </span>
           ) : (
             <span>
-              {id === "shipping" && (
+              {id === "shipping" && !disablePayment && (
                 <span>*Proceed to review payment mode</span>
               )}
             </span>
@@ -1384,6 +1770,110 @@ const CartSummary = (props) => {
             >
               Continue shopping
             </Button>
+          </div>
+        </div>
+      </Modal>
+      <Modal
+        visible={otpVerificationModal}
+        className="otp-verification-modal"
+        footer={null}
+        closable={false}
+        onCancel={hideOtpModal}
+        centered
+        bodyStyle={{ padding: "30px", backgroundColor: "#f9f7f2" }}
+        width={props.isMobile ? "100%" : 800}
+      >
+        <div className="qa-rel-pos">
+          <div
+            onClick={hideOtpModal}
+            style={{
+              position: "absolute",
+              right: "0px",
+              top: "-15px",
+              cursor: "pointer",
+              zIndex: "1",
+            }}
+          >
+            <Icon
+              component={closeButton}
+              style={{ width: "30px", height: "30px" }}
+            />
+          </div>
+          <div>
+            <div className="otp-email-title">Validate your email address</div>
+            {!otpValidated ? (
+              <div>
+                <div className="otp-email-detail">
+                  Enter the One Time Password (OTP) sent to your registered
+                  email address {maskid}
+                </div>
+                <div className="otp-input-field">
+                  <OtpInput
+                    value={otpInput}
+                    onChange={handleOtpChange}
+                    numInputs={6}
+                    separator={<span></span>}
+                    focusStyle="focussed-input"
+                    shouldAutoFocus={true}
+                  />
+                </div>
+                {otpLengthError && (
+                  <div className="email-verification-text">
+                    Please enter 6 digits OTP
+                  </div>
+                )}
+                {otpError && (
+                  <div className="email-verification-text">
+                    The OTP entered is incorrect. Please enter the correct OTP
+                  </div>
+                )}
+                <div className="otp-btn-section qa-mar-top-2">
+                  <Button
+                    onClick={validateOtp}
+                    className="qa-button qa-send-otp"
+                    disabled={btnLoading}
+                  >
+                    VALIDATE OTP
+                  </Button>
+                </div>
+                <div
+                  className="resend-otp-btn"
+                  onClick={() => {
+                    setOtpInput("");
+                    sendOtp();
+                  }}
+                >
+                  RESEND OTP
+                </div>
+                <div className="otp-help-section">
+                  Please check your promotions/spam/junk folder if you have not
+                  received the OTP in your primary inbox. If you haven't
+                  received the OTP or are facing any issues please write to us
+                  at{" "}
+                  <a
+                    href="mailto:help@qalara.com"
+                    className="qa-sm-color qa-underline"
+                  >
+                    help@qalara.com
+                  </a>{" "}
+                  from your registered email address.
+                </div>
+              </div>
+            ) : (
+              <div style={{ textAlign: "center" }}>
+                <CheckCircleOutlined
+                  style={{
+                    fontSize: "100px",
+                    marginTop: "10px",
+                    marginBottom: "20px",
+                  }}
+                />
+                <div className="qa-mar-btm-3 otp-validated">
+                  Thank you for validating your email address. Online checkout
+                  is now enabled for your Qalara account.
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </Modal>

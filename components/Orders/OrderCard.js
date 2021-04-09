@@ -36,16 +36,23 @@ const OrderCard = (props) => {
     subOrders = [],
     orderConfirmedDate = "",
     paymentTime = "",
-    expectedDeliveryDateMin='',
-    expectedDeliveryDateMax=''
+    expectedDeliveryDateMin = "",
+    expectedDeliveryDateMax = "",
   } = order;
 
-  let date1 = expectedDeliveryDateMin.split("-");
-  let minDate = new Date(date1[2], date1[0]-1, date1[1]);
-  
-  let date2 = expectedDeliveryDateMax.split("-");
-  let maxDate = new Date(date2[2], date2[0]-1, date2[1]);
+  let minDate = expectedDeliveryDateMin;
 
+  if (minDate && minDate.includes("-")) {
+    let date1 = expectedDeliveryDateMin.split("-");
+    minDate = new Date(date1[2], date1[0] - 1, date1[1]);
+  }
+
+  let maxDate = expectedDeliveryDateMax;
+
+  if (maxDate && maxDate.includes("-")) {
+    let date2 = expectedDeliveryDateMax.split("-");
+    maxDate = new Date(date2[2], date2[0] - 1, date2[1]);
+  }
 
   let paymentTimeDiff = diff_hours(new Date(paymentTime), new Date());
   const downloadInvoice = (data) => {
@@ -578,6 +585,27 @@ const OrderCard = (props) => {
         <div className="order-card-body">
           {order.subOrders && order.subOrders.length > 0
             ? order.subOrders.map((e, index) => {
+                let id = e.products[0].productId.replace("PRODUCT::", "") || "";
+                id = id.replace("SKU::", "");
+                id = id.substring(0, 11);
+                let imageUrl = "";
+                if (order.orderType === "RTS" && e.products[0].image) {
+                  imageUrl = e.products[0].image;
+                } else if (
+                  order.orderType !== "RTS" &&
+                  e.products[0].thumbnailMedia &&
+                  e.products[0].thumbnailMedia.mediaUrl
+                ) {
+                  imageUrl = e.products[0].thumbnailMedia.mediaUrl;
+                } else {
+                  imageUrl =
+                    process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
+                    "products/" +
+                    id +
+                    "/HR" +
+                    id +
+                    "00_1.jpg";
+                }
                 return (
                   <div className="qa-flex-row qa-border-bottom">
                     {e.products && e.products.length > 0 ? (
@@ -588,22 +616,14 @@ const OrderCard = (props) => {
                           <img
                             className="images"
                             onError={addDefaultSrc}
-                            src={e.products[0].image}
+                            src={imageUrl}
                             alt="Order placeholder"
                           ></img>
                         ) : (
                           <img
                             className="images"
                             onError={addDefaultSrc}
-                            src={
-                              process.env
-                                .NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
-                              `${
-                                e.products[0].thumbnailMedia
-                                  ? e.products[0].thumbnailMedia.mediaUrl
-                                  : null
-                              }`
-                            }
+                            src={imageUrl}
                             alt="Order placeholder"
                           ></img>
                         )}
@@ -767,6 +787,29 @@ const OrderCard = (props) => {
                       <div className="order-card-detail">
                         {e.products && e.products.length > 0
                           ? e.products.map((p, i) => {
+                              let id =
+                                p.productId.replace("PRODUCT::", "") || "";
+                              id = id.replace("SKU::", "");
+                              id = id.substring(0, 11);
+                              let imageUrl = "";
+                              if (order.orderType === "RTS" && p.image) {
+                                imageUrl = p.image;
+                              } else if (
+                                order.orderType !== "RTS" &&
+                                p.thumbnailMedia &&
+                                p.thumbnailMedia.mediaUrl
+                              ) {
+                                imageUrl = p.thumbnailMedia.mediaUrl;
+                              } else {
+                                imageUrl =
+                                  process.env
+                                    .NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
+                                  "products/" +
+                                  id +
+                                  "/HR" +
+                                  id +
+                                  "00_1.jpg";
+                              }
                               if (i > 2) {
                                 return null;
                               }
@@ -781,22 +824,14 @@ const OrderCard = (props) => {
                                     <img
                                       className="images"
                                       onError={addDefaultSrc}
-                                      src={p.image}
+                                      src={imageUrl}
                                       alt="Order placeholder"
                                     ></img>
                                   ) : (
                                     <img
                                       className="images"
                                       onError={addDefaultSrc}
-                                      src={
-                                        process.env
-                                          .NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
-                                        `${
-                                          p.thumbnailMedia
-                                            ? p.thumbnailMedia.mediaUrl
-                                            : null
-                                        }`
-                                      }
+                                      src={imageUrl}
                                       alt="Order placeholder"
                                     ></img>
                                   )}

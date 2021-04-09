@@ -41,6 +41,11 @@ const OrderReview = (props) => {
   const [showShipping, setShowShipping] = useState(false);
   const [paypalLoaded, setPaypalLoaded] = useState(false);
 
+  let retryCount = 0;
+  let retryCountCP = 0;
+  let retryCountAP = 0;
+  let retryCountOR = 0;
+
   let { order = {}, brandNameList = "" } = props || {};
   let { shippingMode = "", shippingTerms = "", miscCharges = [] } = order || {};
 
@@ -142,18 +147,93 @@ const OrderReview = (props) => {
         if (res.status.toString().startsWith("2")) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw (
+            res.statusText || "Sorry something went wrong. Please try again!"
+          );
         }
       })
       .then((res) => {
-        let url = "/order/" + props.order.orderId + "/payment-success";
-        router.push(url);
+        if (status === "FAILED") {
+          voidPPOrder(props.order.orderId);
+        } else {
+          let url = "/order/" + props.order.orderId + "/payment-success";
+          router.push(url);
+        }
       })
       .catch((err) => {
-        console.log(err);
-        // setLoading(false);
+        if (retryCountOR < 3) {
+          updateOrder(data, status);
+        } else {
+          if (status === "FAILED") {
+            voidPPOrder(props.order.orderId);
+          } else {
+            let url = "/order/" + props.order.orderId + "/payment-success";
+            router.push(url);
+          }
+        }
+        retryCountOR++;
       });
   };
+
+  const checkCapturePayment = (authId, orderId, actions, data) => {
+    fetch(
+      process.env.NEXT_PUBLIC_REACT_APP_PAYMENTS_URL +
+        "/payments/paypal/check/getCaptureStatus/" +
+        props.cart.orderId +
+        "/authorizations/" +
+        authId +
+        "/capture",
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + keycloak.token,
+        },
+      }
+    )
+      .then((res) => {
+        if (res.status.toString().startsWith("2")) {
+          return res.json();
+        } else {
+          throw (
+            res.statusText ||
+            "Something went wrong with payment. Please try again!"
+          );
+        }
+      })
+      .then((res) => {
+        if (res && Object.keys(res).length) {
+          setIsProcessing(false);
+          if (res.error === "INSTRUMENT_DECLINED") {
+            return actions.restart();
+          } else {
+            delete res.qauthorizations[0].requestUUID;
+            delete res.currentAuth.requestUUID;
+            updateOrder(res, "CHECKED_OUT");
+          }
+        } else {
+          // voidPPOrder(orderId);
+          let data = {
+            gbOrderNo: cart.orderId,
+          };
+          updateOrder(data, "FAILED");
+        }
+      })
+      .catch((err) => {
+        if (retryCountCP < 3) {
+          checkCapturePayment(authId, orderId, actions);
+        } else {
+          // voidPPOrder(orderId);
+          let data = {
+            gbOrderNo: cart.orderId,
+          };
+          updateOrder(data, "FAILED");
+        }
+        retryCountCP++;
+      });
+  };
+
   const capturePayment = (authId, orderId, actions) => {
     let data = {
       amount: {
@@ -185,7 +265,10 @@ const OrderReview = (props) => {
         if (res.status.toString().startsWith("2")) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw (
+            res.statusText ||
+            "Something went wrong with payment. Please try again!"
+          );
         }
       })
       .then((res) => {
@@ -199,12 +282,7 @@ const OrderReview = (props) => {
         }
       })
       .catch((err) => {
-        voidPPOrder(orderId);
-        let data = {
-          gbOrderNo: props.order.orderId,
-        };
-        updateOrder(data, "FAILED");
-        // setLoading(false);
+        checkCapturePayment(authId, orderId, actions, data);
       });
   };
 
@@ -226,7 +304,9 @@ const OrderReview = (props) => {
         if (res.status.toString().startsWith("2")) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw (
+            res.statusText || "Sorry something went wrong. Please try again!"
+          );
         }
       })
       .then((res) => {
@@ -239,6 +319,62 @@ const OrderReview = (props) => {
         let url = "/order/" + props.order.orderId + "/payment-failure";
         router.push(url);
         // setLoading(false);
+      });
+  };
+
+  const checkAuthorizePaymentStatus = (orderId, actions) => {
+    setIsProcessing(true);
+    let finalValue = getConvertedCurrency(cart.total);
+    let value = parseFloat((finalValue * 20) / 100).toFixed(2);
+    let currency = currencyDetails.convertToCurrency;
+
+    fetch(
+      process.env.NEXT_PUBLIC_REACT_APP_PAYMENTS_URL +
+        `/payments/paypal/check/getAuthorizationStatus/${orderId}/${cart.orderId}/${value}/${currency}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + keycloak.token,
+        },
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.text();
+        } else {
+          throw (
+            res.statusText ||
+            "There was an error authorizing the amount please try again"
+          );
+        }
+      })
+      .then((res) => {
+        if (res && res.length) {
+          capturePayment(res, orderId);
+        } else {
+          // voidPPOrder(orderId);
+          let data = {
+            gbOrderNo: cart.orderId,
+          };
+          updateOrder(data, "FAILED");
+          // message.error(
+          //   "There was an error authorizing the amount please try again"
+          // );
+        }
+      })
+      .catch((err) => {
+        if (retryCountAP < 3) {
+          checkAuthorizePaymentStatus(orderId, actions);
+        } else {
+          // voidPPOrder(orderId);
+          let data = {
+            gbOrderNo: cart.orderId,
+          };
+          updateOrder(data, "FAILED");
+          // message.error(err.message || err, 5);
+        }
+        retryCountAP++;
       });
   };
 
@@ -270,27 +406,23 @@ const OrderReview = (props) => {
         if (res.status.toString().startsWith("2")) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw (
+            res.statusText ||
+            "There was an error authorizing the amount please try again"
+          );
         }
       })
       .then((res) => {
         capturePayment(res.currentAuth.ppAuthId, orderId);
-        // setIsProcessing(false);
-        // router.push('/payment-success')
       })
       .catch((err) => {
-        voidPPOrder(orderId);
-        let data = {
-          gbOrderNo: props.order.orderId,
-        };
-        updateOrder(data, "FAILED");
-        message.error(err.message || err, 5);
-        // setLoading(false);
+        checkAuthorizePaymentStatus(orderId, actions);
       });
   };
 
   const saveOrder = (orderId, actions) => {
     setIsProcessing(true);
+
     fetch(
       process.env.NEXT_PUBLIC_REACT_APP_PAYMENTS_URL +
         "/payments/paypal/checkout/orders/" +
@@ -308,17 +440,21 @@ const OrderReview = (props) => {
         if (res.ok) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw (
+            res.statusText || "Sorry something went wrong. Please try again!"
+          );
         }
       })
       .then((res) => {
-        // setIsProcessing(false);
-        // router.push('/payment-success')
         authorizePayment(orderId, actions);
       })
       .catch((err) => {
-        message.error(err.message || err, 5);
-        // setLoading(false);
+        if (retryCount < 3) {
+          saveOrder(orderId, actions);
+        } else {
+          message.error(err.message || err, 5);
+        }
+        retryCount++;
       });
   };
 

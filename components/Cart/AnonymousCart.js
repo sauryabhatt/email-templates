@@ -4,7 +4,7 @@ import React from "react";
 import { useKeycloak } from "@react-keycloak/ssr";
 import _ from "lodash";
 import signUp_icon from "../../public/filestore/Sign_Up";
-import { loginToApp } from "../AuthWithKeycloak";
+import { loginToApp, registerToApp } from "../AuthWithKeycloak";
 import { useRouter } from "next/router";
 import { Button } from "antd";
 
@@ -31,7 +31,8 @@ export default function AnonymousCart() {
         <Button
           className="qa-button qa-fs-12 qa-shop-btn"
           onClick={(e) => {
-            router.push("/signup");
+            // router.push("/signup");
+            registerToApp(keycloak, { currentPath: router.asPath });
           }}
         >
           <span className="sign-up-cart-icon">{signUp_icon()} </span>
