@@ -16,6 +16,20 @@ export const loginToApp = (keycloak, options) => {
   }
 };
 
+export const registerToApp = (keycloak, options) => {
+  // if (options && options.currentPath) {
+  //   keycloak.register({
+  //     redirectUri:
+  //       process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN +
+  //       options.currentPath,
+  //   });
+  // } else {
+  keycloak.register({
+    redirectUri: process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN,
+  });
+  // }
+};
+
 export const logoutFromApp = (keycloak, options) => {
   // cookie.remove("kcToken");
   // document.cookie = "kcToken=; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";

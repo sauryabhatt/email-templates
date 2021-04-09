@@ -114,6 +114,6 @@ export const getStaticProps = async ({ params: { sellerId = "" } = {} }) => {
         sellerId: sellerId,
       },
     },
-    revalidate: 14400,
+    revalidate: 1000,
   };
 };

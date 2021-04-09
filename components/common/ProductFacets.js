@@ -536,6 +536,21 @@ class ProductFacets extends Component {
                     </div>
                   </SubMenu>
                 );
+              } else if (
+                aggregateId === "f_moqBucket" &&
+                aggregateList.length > 0
+              ) {
+                return (
+                  <SubMenu key={`key${key}`} title="Minimum order quantity">
+                    <CheckboxGroup
+                      key={key}
+                      {...this.state}
+                      options={aggregateList}
+                      filterType={aggregateId}
+                      handleChange={this.handleChange}
+                    />
+                  </SubMenu>
+                );
               } else if (aggregateList.length > 0) {
                 return (
                   <SubMenu key={`key${key}`} title={aggregateName}>

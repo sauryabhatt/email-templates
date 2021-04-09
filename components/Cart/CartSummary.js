@@ -12,7 +12,7 @@ import {
   Spin,
   Tooltip,
 } from "antd";
-import Icon from "@ant-design/icons";
+import Icon, { CheckCircleOutlined } from "@ant-design/icons";
 import closeButton from "../../public/filestore/closeButton";
 import infoIcon from "../../public/filestore/infoSuccess";
 import PayWithPaypal from "../PayWithPayPal/PayWithPaypal";
@@ -22,6 +22,7 @@ import getSymbolFromCurrency from "currency-symbol-map";
 import sellerList from "../../public/filestore/freeShippingSellers.json";
 import alertIcon from "../../public/filestore/alertIcon";
 import _ from "lodash";
+import OtpInput from "react-otp-input";
 
 const CartSummary = (props) => {
   const { keycloak } = useKeycloak();
@@ -46,6 +47,11 @@ const CartSummary = (props) => {
   const [reRender, setReRender] = useState(false);
   const [sellers, setSellers] = useState([]);
   const [qalaraMargin, setQalaraMargin] = useState(0);
+  const [otpVerificationModal, setOtpVerificationModal] = useState(false);
+  const [otpInput, setOtpInput] = useState("");
+  const [otpError, setOtpError] = useState(false);
+  const [otpValidated, setOtpValidated] = useState(false);
+  const [otpLengthError, setOtpLengthError] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
 
   let retryCount = 0;
@@ -174,13 +180,11 @@ const CartSummary = (props) => {
     phoneNumber = "",
   } = shippingAddressDetails || {};
 
+  let { verifiedEmail = false, email = "" } = user || {};
+
   const getConvertedCurrency = (baseAmount) => {
     let { convertToCurrency = "", rates = [] } = currencyDetails;
-    return Number.parseFloat(
-      (baseAmount *
-        Math.round((rates[convertToCurrency] + Number.EPSILON) * 100)) /
-        100
-    ).toFixed(2);
+    return Number.parseFloat(baseAmount * rates[convertToCurrency]).toFixed(2);
   };
 
   const popupHover = (value) => {
@@ -367,7 +371,85 @@ const CartSummary = (props) => {
     }
   };
 
+  const hideOtpModal = () => {
+    setOtpVerificationModal(false);
+  };
+
+  const sendOtp = () => {
+    setOtpError(false);
+    setBtnLoading(true);
+    setOtpInput("");
+    setOtpLengthError(false);
+    fetch(process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/otp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + keycloak.token,
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.text();
+        } else {
+          throw res.statusText || "Error while signing up.";
+        }
+      })
+      .then((res) => {
+        setOtpVerificationModal(true);
+        setBtnLoading(false);
+      })
+      .catch((err) => {
+        message.error(err.message || err, 5);
+        setBtnLoading(false);
+      });
+  };
+
+  const handleOtpChange = (otp) => {
+    setOtpInput(otp);
+  };
+
+  const validateOtp = () => {
+    if (otpInput.length !== 6) {
+      setOtpLengthError(true);
+    } else {
+      setBtnLoading(true);
+      setOtpLengthError(false);
+      fetch(
+        process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/otp/validate",
+        {
+          method: "POST",
+          body: otpInput,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + keycloak.token,
+          },
+        }
+      )
+        .then((res) => {
+          if (res.ok) {
+            return res.text();
+          } else {
+            throw res.statusText || "Error while signing up.";
+          }
+        })
+        .then((res) => {
+          setOtpVerificationModal(true);
+          setOtpError(false);
+          setOtpValidated(true);
+          props.getUserProfile();
+          setBtnLoading(false);
+        })
+        .catch((err) => {
+          setOtpError(true);
+          setOtpValidated(false);
+          setBtnLoading(false);
+          // message.error(err.message || err, 5);
+        });
+    }
+  };
+
   // const createOrder = () => {
+  //   console.log("Create order id ", id);
   //   let url =
   //     process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN + "/product/";
   //   let productList = [];
@@ -413,29 +495,29 @@ const CartSummary = (props) => {
   //     zipCode: zipCode,
   //     products: productList,
   //   };
-  //   fetch(process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL + "/v1/orders/assist", {
-  //     method: "POST",
-  //     body: JSON.stringify(data),
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: "Bearer " + keycloak.token,
-  //     },
-  //   })
-  //     .then((res) => {
-  //       if (res.ok) {
-  //         showOrderModal(true);
-  //         // return res.json();
-  //       } else {
-  //         throw res.statusText || "Error in create order";
-  //       }
-  //     })
-  //     // .then((res) => {
-  //     //   showOrderModal(true);
-  //     // })
-  //     .catch((err) => {
-  //       message.error(err.message || err, 5);
-  //       // setLoading(false);
-  //     });
+  //   // fetch(process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL + "/v1/orders/assist", {
+  //   //   method: "POST",
+  //   //   body: JSON.stringify(data),
+  //   //   headers: {
+  //   //     "Content-Type": "application/json",
+  //   //     Authorization: "Bearer " + keycloak.token,
+  //   //   },
+  //   // })
+  //   //   .then((res) => {
+  //   //     if (res.ok) {
+  //   //       showOrderModal(true);
+  //   //       // return res.json();
+  //   //     } else {
+  //   //       throw res.statusText || "Error in create order";
+  //   //     }
+  //   //   })
+  //   // .then((res) => {
+  //   //   showOrderModal(true);
+  //   // })
+  //   // .catch((err) => {
+  //   //   message.error(err.message || err, 5);
+  //   //   // setLoading(false);
+  //   // });
   // };
 
   const handleCancel = () => {
@@ -715,9 +797,6 @@ const CartSummary = (props) => {
             gbOrderNo: cart.orderId,
           };
           updateOrder(data, "FAILED");
-          // message.error(
-          //   "There was an error authorizing the amount please try again"
-          // );
         }
       })
       .catch((err) => {
@@ -729,7 +808,6 @@ const CartSummary = (props) => {
             gbOrderNo: cart.orderId,
           };
           updateOrder(data, "FAILED");
-          // message.error(err.message || err, 5);
         }
         retryCountAP++;
       });
@@ -883,6 +961,20 @@ const CartSummary = (props) => {
     parseFloat(getConvertedCurrency(vatCharge)) -
     parseFloat(getConvertedCurrency(promoDiscount));
 
+  let maskid = "";
+  let prefix = email ? email.substring(0, email.lastIndexOf("@")) : "";
+  let postfix = email ? email.substring(email.lastIndexOf("@")) : "";
+
+  for (let i = 0; i < prefix.length; i++) {
+    if (i == 0 || i == prefix.length - 1) {
+      ////////
+      maskid = maskid + prefix[i].toString();
+    } else {
+      maskid = maskid + "*";
+    }
+  }
+  maskid = maskid + postfix;
+
   const dduContent = (
     <div className="breakup-popup qa-font-san qa-tc-white">
       <div className="qa-border-bottom qa-pad-btm-15 qa-fs-14 qa-lh">
@@ -1023,10 +1115,7 @@ const CartSummary = (props) => {
         </Link>
         <Link href="/">
           <div className="qa-txt-alg-cnt">
-            <Button
-              className="qa-button qa-fs-12 qa-shop-btn"
-              onClick={() => {}}
-            >
+            <Button className="qa-button qa-fs-12 qa-shop-btn">
               Start Shopping
             </Button>
           </div>
@@ -1467,7 +1556,7 @@ const CartSummary = (props) => {
       )}
       {id === "cart" && (
         <div>
-          {enable && deliver && !showCartError ? (
+          {enable && deliver && !showCartError && verifiedEmail === true ? (
             <Button
               className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-ship active"
               onClick={proceedToShipping}
@@ -1567,25 +1656,50 @@ const CartSummary = (props) => {
         </div>
       )}
 
-      {(!deliver || disablePayment) && !showCartError && !hideCreateOrder && (
+      {(verifiedEmail === false || verifiedEmail === null) && (
+        <div className="otp-error-cart qa-mar-top-2">
+          Please validate your email address to proceed to the shipping
+          page.Please click on the button below to receive a One Time Password
+          (OTP) at your registered email address and follow instructions to
+          validate your email.
+        </div>
+      )}
+      {(verifiedEmail === false || verifiedEmail === null) && (
         <Button
-          onClick={createOrder}
+          onClick={sendOtp}
           disabled={btnLoading}
           className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment active"
         >
-          ORDER QUOTE REQUEST
+          SEND VALIDATION OTP
         </Button>
       )}
 
-      {!deliver && id === "cart" && !showCartError && !hideCreateOrder && (
-        <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-top-05 qa-txt-alg-cnt">
-          *We currently don't have instant checkout enabled for your country.
-          However, in most cases we can still arrange to deliver the order to
-          you. Please click on 'Order Quote Request' and we will share a link
-          over email with the necessary details to process your order. The link
-          will also be available in your Qalara Account section.
-        </div>
-      )}
+      {(!deliver || disablePayment) &&
+        !showCartError &&
+        !hideCreateOrder &&
+        verifiedEmail === true && (
+          <Button
+            onClick={createOrder}
+            disabled={btnLoading}
+            className="qa-button qa-fs-12 qa-mar-top-1 proceed-to-payment active"
+          >
+            ORDER QUOTE REQUEST
+          </Button>
+        )}
+
+      {!deliver &&
+        id === "cart" &&
+        !showCartError &&
+        !hideCreateOrder &&
+        verifiedEmail === true && (
+          <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-top-05 qa-txt-alg-cnt">
+            *We currently don't have instant checkout enabled for your country.
+            However, in most cases we can still arrange to deliver the order to
+            you. Please click on 'Order Quote Request' and we will share a link
+            over email with the necessary details to process your order. The
+            link will also be available in your Qalara Account section.
+          </div>
+        )}
       {disablePayment && id === "shipping" && (
         <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-top-05 qa-txt-alg-cnt">
           Freight cost appears to be high for this order. Please click on 'Order
@@ -1595,7 +1709,7 @@ const CartSummary = (props) => {
         </div>
       )}
 
-      {deliver && !nonShippable ? (
+      {deliver && !nonShippable && verifiedEmail === true ? (
         <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-top-05 qa-txt-alg-cnt">
           {id === "cart" ? (
             <span>
@@ -1656,6 +1770,110 @@ const CartSummary = (props) => {
             >
               Continue shopping
             </Button>
+          </div>
+        </div>
+      </Modal>
+      <Modal
+        visible={otpVerificationModal}
+        className="otp-verification-modal"
+        footer={null}
+        closable={false}
+        onCancel={hideOtpModal}
+        centered
+        bodyStyle={{ padding: "30px", backgroundColor: "#f9f7f2" }}
+        width={props.isMobile ? "100%" : 800}
+      >
+        <div className="qa-rel-pos">
+          <div
+            onClick={hideOtpModal}
+            style={{
+              position: "absolute",
+              right: "0px",
+              top: "-15px",
+              cursor: "pointer",
+              zIndex: "1",
+            }}
+          >
+            <Icon
+              component={closeButton}
+              style={{ width: "30px", height: "30px" }}
+            />
+          </div>
+          <div>
+            <div className="otp-email-title">Validate your email address</div>
+            {!otpValidated ? (
+              <div>
+                <div className="otp-email-detail">
+                  Enter the One Time Password (OTP) sent to your registered
+                  email address {maskid}
+                </div>
+                <div className="otp-input-field">
+                  <OtpInput
+                    value={otpInput}
+                    onChange={handleOtpChange}
+                    numInputs={6}
+                    separator={<span></span>}
+                    focusStyle="focussed-input"
+                    shouldAutoFocus={true}
+                  />
+                </div>
+                {otpLengthError && (
+                  <div className="email-verification-text">
+                    Please enter 6 digits OTP
+                  </div>
+                )}
+                {otpError && (
+                  <div className="email-verification-text">
+                    The OTP entered is incorrect. Please enter the correct OTP
+                  </div>
+                )}
+                <div className="otp-btn-section qa-mar-top-2">
+                  <Button
+                    onClick={validateOtp}
+                    className="qa-button qa-send-otp"
+                    disabled={btnLoading}
+                  >
+                    VALIDATE OTP
+                  </Button>
+                </div>
+                <div
+                  className="resend-otp-btn"
+                  onClick={() => {
+                    setOtpInput("");
+                    sendOtp();
+                  }}
+                >
+                  RESEND OTP
+                </div>
+                <div className="otp-help-section">
+                  Please check your promotions/spam/junk folder if you have not
+                  received the OTP in your primary inbox. If you haven't
+                  received the OTP or are facing any issues please write to us
+                  at{" "}
+                  <a
+                    href="mailto:help@qalara.com"
+                    className="qa-sm-color qa-underline"
+                  >
+                    help@qalara.com
+                  </a>{" "}
+                  from your registered email address.
+                </div>
+              </div>
+            ) : (
+              <div style={{ textAlign: "center" }}>
+                <CheckCircleOutlined
+                  style={{
+                    fontSize: "100px",
+                    marginTop: "10px",
+                    marginBottom: "20px",
+                  }}
+                />
+                <div className="qa-mar-btm-3 otp-validated">
+                  Thank you for validating your email address. Online checkout
+                  is now enabled for your Qalara account.
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </Modal>

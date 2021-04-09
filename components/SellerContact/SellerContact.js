@@ -129,6 +129,38 @@ const SellerContact = (props) => {
     }
   };
 
+  const sellerRFQCall = (data) => {
+    fetch(process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/queries", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + props.token,
+      },
+    })
+      .then((res) => {
+        // console.log(res);
+        if (res.ok) {
+          // message.success('Your query has been sent successfully.', 5);
+          props.sendQueryCancel("success");
+        } else {
+          message.error(res.statusText, 5);
+          setErrors(
+            errors.concat({
+              atStage: "Error while sending",
+              message: res.statusText,
+            })
+          );
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        message.error(err.message, 5);
+        setErrors(errors.concat(err));
+        setLoading(false);
+      });
+  };
+
   const onFinish = (values) => {
     // console.log('Received values of form: ', values);
     let isAnonymousUser = true;
@@ -162,6 +194,8 @@ const SellerContact = (props) => {
       sellerId: props.sellerDetails.id.split("::")[2],
       buyerId: props.userId && props.userId.split("::")[1],
       sellerBrandName: props.sellerDetails.brandName,
+      // aboutCompany: values.aboutCompany,
+      // locationType: values.locationType,
     };
 
     if (keycloak.authenticated) {
@@ -186,43 +220,12 @@ const SellerContact = (props) => {
         let { ip = "", country = "" } = result;
         data.fromIP = ip;
         data.ipCountry = country;
-        fetch(
-          process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/queries",
-          {
-            method: "POST",
-            body: JSON.stringify(data),
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + props.token,
-            },
-          }
-        )
-          .then((res) => {
-            // console.log(res);
-            if (res.ok) {
-              // message.success('Your query has been sent successfully.', 5);
-              props.sendQueryCancel("success");
-            } else {
-              message.error(res.statusText, 5);
-              setErrors(
-                errors.concat({
-                  atStage: "Error while sending",
-                  message: res.statusText,
-                })
-              );
-            }
-            setLoading(false);
-          })
-          .catch((err) => {
-            message.error(err.message, 5);
-            setErrors(errors.concat(err));
-            setLoading(false);
-          });
+        sellerRFQCall(data);
       })
       .catch((err) => {
-        message.error(err.message, 5);
-        setErrors(errors.concat(err));
-        setLoading(false);
+        data.fromIP = "";
+        data.ipCountry = "";
+        sellerRFQCall(data);
       });
   };
 
@@ -299,7 +302,7 @@ const SellerContact = (props) => {
                   (props.sellerDetails.verificationStatus === "VERIFIED" ||
                     props.sellerDetails.verificationStatus ===
                       "REGISTERED") && ( */}
-                {/* <span
+      {/* <span
                   style={{
                     color: "#d9bb7f",
                     verticalAlign: "middle",
@@ -307,7 +310,7 @@ const SellerContact = (props) => {
                 >
                   <Icon component={certifiedIcon} className="certified-icon" />
                 </span> */}
-                {/* )} }
+      {/* )} }
               </div>
               {/* <p className="para">
                 <span className="label">Organisation type</span>
@@ -320,7 +323,7 @@ const SellerContact = (props) => {
                 <Col span={24}>
                   <span className="label">City</span>
                   {/* </Col> */}
-                  {/* <Col span={24} className="qa-txt-alg-lft"> }
+      {/* <Col span={24} className="qa-txt-alg-lft"> }
                   <span className="text">
                     {props.sellerDetails && props.sellerDetails.city}
                   </span>
@@ -331,7 +334,7 @@ const SellerContact = (props) => {
                 <Col span={24}>
                   <span className="label">Country</span>
                   {/* </Col> */}
-                  {/* <Col span={24} className="qa-txt-alg-lft"> }
+      {/* <Col span={24} className="qa-txt-alg-lft"> }
                   <span className="text">
                     {props.sellerDetails && props.sellerDetails.country}
                   </span>
@@ -480,8 +483,8 @@ const SellerContact = (props) => {
             <p className="paragraph">
               You may share any sourcing requirement relating to this seller's
               portfolio, or even share your own designs for the seller to
-              produce. We will contact the seller and respond with product
-              images and quotation within 2 business days.
+              produce. We will contact the seller and respond with a quotation
+              within 3-5 business days.
             </p>
           </Col>
         </Row>
@@ -503,8 +506,37 @@ const SellerContact = (props) => {
                 What would you like help sourcing from India?
               </span>
               <br /> */}
-              <span className="label-paragraph">What are you looking for?</span>
+              <span className="label-paragraph">
+                Tell us briefly about your brand / business.
+              </span>
               <Form.Item
+                name="aboutCompany"
+                style={{ marginBottom: "1em" }}
+                rules={[
+                  {
+                    type: "string",
+                    message: "The input is not valid!",
+                  },
+                  {
+                    required: true,
+                    message: "Please enter your requirement.",
+                  },
+                  {
+                    min: 5,
+                    max: 500,
+                    message: "Please enter message within 25-500 characters",
+                  },
+                ]}
+              >
+                <Input.TextArea
+                  value={"value"}
+                  // onChange={onChange}
+                  // placeholder="Please input the details here"
+                  autoSize={{ minRows: 2, maxRows: 4 }}
+                />
+              </Form.Item>
+
+              {/* <Form.Item
                 name="category"
                 style={{ marginBottom: "1em" }}
                 // label='I am looking for'
@@ -515,7 +547,7 @@ const SellerContact = (props) => {
                 <Select placeholder="Select category">
                   {typeOfCategories}
                 </Select>
-              </Form.Item>
+              </Form.Item> */}
               {/* <Form.Item
                         name="greeting"
                         rules={[
@@ -537,9 +569,7 @@ const SellerContact = (props) => {
                             autoSize={{ minRows: 1, maxRows: 5 }} />
                     </Form.Item> */}
               <span className="label-paragraph">
-                Please share product details (include product code with any
-                customization requirements, if available). The more details the
-                better.
+                Please share product details and customisation requirements.
               </span>
               <Form.Item
                 name="requirementDetails"
@@ -547,7 +577,7 @@ const SellerContact = (props) => {
                 rules={[
                   {
                     type: "string",
-                      message: "The input is not valid!",
+                    message: "The input is not valid!",
                   },
                   {
                     required: true,
@@ -586,17 +616,16 @@ const SellerContact = (props) => {
                         </Select>
                     </Form.Item> */}
               <span className="label-paragraph">
-                Please attach reference photos of designs you like.{" "}
-                <b>Highly recommended</b>
+                Attach reference images of designs, if available.
               </span>
-              <br />
+
               <Form.Item
                 name="upload"
                 style={{ marginBottom: "1em" }}
                 // rules={[{ required: true, message: 'Please upload atleast one item.' }]}
                 // getValueFromEvent={normFile}
                 extra={
-                  <span className="label-paragraph">
+                  <span className="paragraph">
                     Max Size per attachment: 2Mb
                   </span>
                 }
@@ -620,7 +649,7 @@ const SellerContact = (props) => {
                 </Upload>
               </Form.Item>
               <span className="label-paragraph">
-                What is the quantity that you're looking to order?*
+                Please give an indication of quantities required per product*
               </span>
               <Form.Item
                 name="quantity"
@@ -628,7 +657,7 @@ const SellerContact = (props) => {
                 rules={[
                   {
                     type: "string",
-                      message: "The input is not valid!",
+                    message: "The input is not valid!",
                   },
                   {
                     required: true,
@@ -642,15 +671,15 @@ const SellerContact = (props) => {
                 ]}
               >
                 <Input
-                  // style={{
-                  //     width: '100%',
-                  // }}
-                  // min={1}
-                  // max={1000}
-                  // placeholder="Quantity"
+                // style={{
+                //     width: '100%',
+                // }}
+                // min={1}
+                // max={1000}
+                // placeholder="Quantity"
                 />
               </Form.Item>
-              <span className="label-paragraph">
+              {/* <span className="label-paragraph">
                 What is your target cost (USD)?
               </span>
               <Form.Item
@@ -659,7 +688,7 @@ const SellerContact = (props) => {
                 rules={[
                   {
                     type: "string",
-                      message: "The input is not valid!",
+                    message: "The input is not valid!",
                   },
                   {
                     min: 1,
@@ -669,12 +698,12 @@ const SellerContact = (props) => {
                 ]}
               >
                 <Input
-                  // style={{
-                  //     width: '100%',
-                  // }}
-                  // min={1}
-                  // max={1000000}
-                  // placeholder="Target price per piece (In USD)"
+                // style={{
+                //     width: '100%',
+                // }}
+                // min={1}
+                // max={1000000}
+                // placeholder="Target price per piece (In USD)"
                 />
               </Form.Item>
               <span className="label-paragraph">
@@ -690,7 +719,7 @@ const SellerContact = (props) => {
                   style={{ width: "100%" }}
                   // placeholderplaceholder="Target delivery date"
                 />
-              </Form.Item>
+              </Form.Item> */}
               <span className="label-paragraph">Destination Country*</span>
               <Form.Item
                 name="destinationCountry"
@@ -701,6 +730,27 @@ const SellerContact = (props) => {
               >
                 {country}
               </Form.Item>
+              <span className="label-paragraph">Delivery location type</span>
+              <Form.Item
+                name="locationType"
+                style={{ marginBottom: "1em" }}
+                rules={[
+                  {
+                    required: true,
+                    message: "Please select your delivery location type.",
+                  },
+                ]}
+              >
+                <Select placeholder="Select location type" showSearch>
+                  <Option value="home">Home</Option>
+                  <Option value="store">Store</Option>
+                  <Option value="office">Office</Option>
+                  <Option value="warehouse">Warehouse</Option>
+                  <Option value="amazonWarehouse">Amazon Warehouse</Option>
+                  <Option value="others">Others</Option>
+                  );
+                </Select>
+              </Form.Item>
               <span className="label-paragraph">Destination Pin Code*</span>
               <Form.Item
                 name="zipcode"
@@ -708,8 +758,8 @@ const SellerContact = (props) => {
                 rules={[
                   {
                     required: true,
-                      message: "Please enter your zipcode.",
-                      whitespace: true,
+                    message: "Please enter your zipcode.",
+                    whitespace: true,
                   },
                 ]}
               >
@@ -735,17 +785,19 @@ const SellerContact = (props) => {
 // placeholder="State, City"
                 />
               </Form.Item> */}
-              <br />
+              {/* <br /> */}
               <div className="label-heading qa-lh">
                 Please share your details so we can respond:
               </div>
-              <span
-                className="label-paragraph"
-                style={{ marginBottom: "0.5em", marginTop: "0.5em" }}
+              <div
+                className="paragraph"
+                style={{
+                  margin: "0.5em 0px 1em",
+                  textAlign: "left",
+                }}
               >
                 Your information is safe with us.
-              </span>
-              <br />
+              </div>
               {/* <p style={{ fontWeight: 'bold', fontSize: '15px', marginBottom: '0.5em' }}>From,</p> */}
               <span className="label-paragraph">Your name*</span>
               <Form.Item
@@ -761,7 +813,7 @@ const SellerContact = (props) => {
                 ]}
               >
                 <Input
-                  // placeholder="Your Name"
+                // placeholder="Your Name"
                 />
               </Form.Item>
               <span className="label-paragraph">Company name*</span>
@@ -771,7 +823,7 @@ const SellerContact = (props) => {
                 rules={[
                   {
                     required: true,
-                      message: "Please enter your company name.",
+                    message: "Please enter your company name.",
                   },
                   {
                     min: 3,
@@ -781,7 +833,7 @@ const SellerContact = (props) => {
                 ]}
               >
                 <Input
-                  // placeholder="Company Name"
+                // placeholder="Company Name"
                 />
               </Form.Item>
               <span className="label-paragraph">Email address*</span>
@@ -791,7 +843,7 @@ const SellerContact = (props) => {
                 rules={[
                   {
                     type: "email",
-                      message: "Please enter a correct email address.",
+                    message: "Please enter a correct email address.",
                   },
                   {
                     required: true,
@@ -800,7 +852,7 @@ const SellerContact = (props) => {
                 ]}
               >
                 <Input
-                  // placeholder="E-mail ID"
+                // placeholder="E-mail ID"
                 />
               </Form.Item>
               {/* <span className="label-paragraph">Country*</span>
@@ -841,12 +893,12 @@ const SellerContact = (props) => {
                   // },
                   {
                     pattern: new RegExp("^[0-9]{6,15}$"),
-                      message: "Wrong format!",
+                    message: "Wrong format!",
                   },
                 ]}
               >
                 <Input
-                  // placeholder="Phone Number"
+                // placeholder="Phone Number"
                 />
               </Form.Item>
               {/* <Form.Item
