@@ -1,0 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda&family=Sen&display=swap');
+
+
+:root {
+    --font-family: Sen;
+    --font: #191919;
+}
+#order-sheet{
+    font-family: 'Bodoni Moda', serif;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 34px;
+    letter-spacing: 0.2800000011920929px;
+    text-align: left;
+    color: var(--font)
+}
+.card-border {
+    width: 169%;
+    border:18px solid #E6E4DF;
+}
+#order-sheet-details{
+    font-family: var(--font-family);;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 17px;
+    line-height: 25.45px;
+    letter-spacing: 0.28px;
+    color: var(--font)
+}
+#details-header{
+    font-family: 'Bodoni Moda', serif;
+    font-size: 19px;
+}
+#order-details{
+    font-family: var(--font-family);;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 28.45px;
+    letter-spacing: 0.28px;
+    color: var(--font)
+}
+#order-summary{
+    font-family: 'Bodoni Moda', serif;
+    font-size: 19px;
+
+}
+#order-currency{
+    font-family: var(--font-family);;
+    font-size: 17px;
+    font-weight: bolder;
+}
+#order-summary-details{
+    font-size: 14px;
+    font-family: var(--font-family);;
+    line-height: 28px;
+}
+#order-summary-details-green{
+    color: #02873A;
+    font-weight:600;
+}
+#total-order-value{
+    font-family: var(--font-family);
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 9.7px;
+}
+#reviewBtn{
+    background: #D9BB7F;
+    font-weight: bold;
+    font-family: Sen;
+    font-size: 13px;
+    color: var(--font);
+    line-height: 6px;
+}
+#paynow{
+    margin: "15px";
+    color: #005098;
+    font-family: Sen;
+    font-weight: 700;
+    line-height: 12px;
+    margin-top: 11px;
+}
+#paylater{
+    color: var(--font);
+    font-size: 17px;
+    font-weight: 400;
+    margin-top: 5px;
+}
+
+
+
+#previous-version{
+    border: 1px solid #D9BB7F;
+    width: 70%;
+    font-weight: bold;
+    font-family: Sen;
+    font-size: 13px;
+    color: var(--font);
+    line-height: 6px;
+
+}
+
+#review-checkout{
+    background: #D9BB7F;
+    font-weight: bold;
+    font-family: Sen;
+    font-size: 13px;
+    color: var(--font);
+    line-height: 6px;
+}
+
+#secure-msg{
+    font-family: 'Bodoni Moda', serif;
+    font-size:15px;
+    margin-left: 6%;
+    /* font-weight: 600; */
+
+}
+#paylater1{
+    font-family: var(--font-family);
+    font-size:14px;
+    color: #005098;
+    font-weight: bolder;
+    margin-left: 16%;
+    margin-top: -17px!important;
+}
+#estimated-date{
+    color: var(--font);
+    font-family: var(--font-family);
+    font-weight: normal;
+    font-size: 17px;
+}
+
+#estimated-time{
+    color: rgba(25, 25, 25, 0.6);
+    font-family: var(--font);
+    font-size: 14px;    
+}
+
+
+#disclamer{
+    font-family: var(--font-family);
+    font-size: 14px;
+    line-height: 20px;
+}
+
+th{
+    width: 18%;
+    font-family: var(--font-family);
+    font-weight: normal;
+    border: 1px solid rgb(204, 204, 204);
+    background: rgba(0, 0, 0, 0.05);
+    /* position: fixed; */
+} 
+td{
+    width: 18%;
+    border: 1px solid rgb(204, 204, 204);
+    font-family: var(--font-family);
+    font-weight: normal;
+    /* overflow-x: auto; */
+    /* float: ; */
+    
+} 
+th span{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+td span{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.ant-modal-close-x{
+    background: black;
+    border-radius: 30%;
+    margin-top: 11px;
+    margin-right: 12px;
+    color: white;
+    height: 45px;
+    width: 45px;
+}
+/* .anticon{
+    position: absolute;
+    top: 19px;
+    right: 18px;
+    font-size: 10px;
+} */
+.ant-modal-title{
+    font-family: 'Sen';
+    margin-top: 15px;
+    font-size: 15px;
+    font-weight: 600;
+   
+}
+
+
+
+
+
+
+
+
+@media only screen and (max-width: 600px) {
+    #card {
+        width: 310px !important;    
+    }
+    #mobile-view{
+        margin-top: 15px;
+    }
+    #order-sheet-details{
+        margin-top: 10px;
+    }
+ 
+    #order-details{
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: flex-start;
+        font-size: 14px;
+        line-height: 18.45px;
+        letter-spacing: 0.28px;
+    }
+    #previous-version{
+        width: 100% !important;
+        margin-bottom: 10px;
+    }
+    #estimated-date{
+        font-size: 14px;
+    }
+    #delivery-time{
+        font-size: 14px !important;
+    }
+    #estimated-time{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    #final-checkout{
+        margin-top: 25px;
+    }
+    #mobile-popup{
+        font-size: 11px !important;
+        font-weight: 600;
+    }
+  }

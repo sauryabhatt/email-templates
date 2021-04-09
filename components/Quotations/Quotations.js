@@ -22,7 +22,13 @@ const Quotations = (props) => {
   const [showLoader, setShowLoader] = useState(false);
   const [successQueryVisible, setSuccessQueryVisible] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [lineSheetRes, setLineSheetRes ] = useState([])
 
+  const mergedlineSheetRes = [...lineSheetRes,...props.quotes]
+  // console.log("object",mergedlineSheetRes)
+
+  let buyer_id = props.userProfile && props.userProfile !== null && props.userProfile.profileId.replace("BUYER::","");
+  
   let requesterName = "";
   if (
     props.userProfile &&
@@ -50,6 +56,30 @@ const Quotations = (props) => {
     city: "",
     mobileNo: props.userProfile && props.userProfile.orgPhone,
   };
+
+ const getRfq = () => {
+  let url = process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/forms/queries/status?buyer_id=" + buyer_id + "&status=LINKED_PARTIAL"
+
+  fetch(url , {
+      method:"GET",
+      headers: {
+        "Authorization": "Bearer " + keycloak.token,
+        "Content-Type": "application/json"
+      },   
+    }).then(res => {
+      if(res.ok){
+        return res.json()
+      }
+    }).then(res => {
+     
+      setLineSheetRes(res);
+    })
+ }
+  useEffect(()=>{
+    if(keycloak?.token){
+      getRfq();
+    }
+  },[keycloak.token,props.quote])
 
   const downloadBuyerAgreement = () => {
     var a = document.createElement("a");
@@ -96,7 +126,14 @@ const Quotations = (props) => {
     );
   };
 
-  const quotaionCard = props.quotes.map((quote, i) => {
+  const quotaionCard = mergedlineSheetRes.map((quote, i) => {
+
+    let linesheet = false
+    
+    if(quote.rfqStatus === "LINKED_PARTIAL"){
+      linesheet = true
+    }
+
     let date = null;
     let day = null;
     let quoteCreatedDate = null;
@@ -115,7 +152,9 @@ const Quotations = (props) => {
     return (
       <QuotationCard
         status={current}
+        linesheet={linesheet}
         data={quote}
+        // data={mergedlineSheetRes}
         formattedDate={date}
         day={day}
         quoteCreatedDate={quoteCreatedDate}
@@ -417,6 +456,7 @@ const Quotations = (props) => {
               zIndex: "1",
             }}
           >
+            {/* hello */}
             <Icon
               component={closeButton}
               style={{ width: "30px", height: "30px" }}
