@@ -116,7 +116,7 @@ function ProductCard(props) {
 
     return (
       <Link href={linkTo} className="product-card">
-        <a>
+        <a target="_blank">
           <div
             onClick={(e) => {
               if (accessLocked) {
@@ -342,7 +342,7 @@ function ProductCard(props) {
     }
     return (
       <Link href={linkTo} className="product-card">
-        <a>
+        <a target="_blank">
           {pageId === "seller-listing" && (
             <SellerBanner
               orgName={brandName || orgName}

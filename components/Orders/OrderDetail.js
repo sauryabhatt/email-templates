@@ -212,7 +212,9 @@ const OrderDetail = (props) => {
                   p.thumbnailMedia &&
                   p.thumbnailMedia.mediaUrl
                 ) {
-                  imageUrl = p.thumbnailMedia.mediaUrl;
+                  imageUrl =
+                    process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
+                    p.thumbnailMedia.mediaUrl;
                 } else {
                   imageUrl =
                     process.env.NEXT_PUBLIC_REACT_APP_ASSETS_FILE_URL +
