@@ -40,22 +40,19 @@ const OrderCard = (props) => {
     expectedDeliveryDateMax = "",
   } = order;
 
-  let date1 = expectedDeliveryDateMin.split("-");
   let minDate = expectedDeliveryDateMin;
 
-  if (date1 && date1.length) {
+  if (minDate && minDate.includes("-")) {
+    let date1 = expectedDeliveryDateMin.split("-");
     minDate = new Date(date1[2], date1[0] - 1, date1[1]);
   }
 
-  let date2 = expectedDeliveryDateMax.split("-");
   let maxDate = expectedDeliveryDateMax;
 
-  if (date2 && date2.length) {
+  if (maxDate && maxDate.includes("-")) {
+    let date2 = expectedDeliveryDateMax.split("-");
     maxDate = new Date(date2[2], date2[0] - 1, date2[1]);
   }
-
-  console.log(expectedDeliveryDateMin, expectedDeliveryDateMax);
-  console.log("MMM ", minDate, maxDate);
 
   let paymentTimeDiff = diff_hours(new Date(paymentTime), new Date());
   const downloadInvoice = (data) => {

@@ -21,11 +21,19 @@ const OrderDetail = (props) => {
     expectedDeliveryDateMax = "",
   } = order;
 
-  let date1 = expectedDeliveryDateMin.split("-");
-  let minDate = new Date(date1[2], date1[0] - 1, date1[1]);
+  let minDate = expectedDeliveryDateMin;
 
-  let date2 = expectedDeliveryDateMax.split("-");
-  let maxDate = new Date(date2[2], date2[0] - 1, date2[1]);
+  if (minDate && minDate.includes("-")) {
+    let date1 = expectedDeliveryDateMin.split("-");
+    minDate = new Date(date1[2], date1[0] - 1, date1[1]);
+  }
+
+  let maxDate = expectedDeliveryDateMax;
+
+  if (maxDate && maxDate.includes("-")) {
+    let date2 = expectedDeliveryDateMax.split("-");
+    maxDate = new Date(date2[2], date2[0] - 1, date2[1]);
+  }
 
   const diff_hours = (dt2, dt1) => {
     var diff = (dt2.getTime() - dt1.getTime()) / 1000;
