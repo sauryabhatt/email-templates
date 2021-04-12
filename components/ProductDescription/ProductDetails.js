@@ -931,7 +931,8 @@ const ProductDetails = (props) => {
             >
               <div>
                 <div className="qa-fw-sb qa-tc-white qa-fs-14">
-                  <Link href={`/seller/${vanityId}`}>
+                  {/* <Link href={`/seller/${vanityId}`}> */}
+                  <Link href={splpLink}>
                     <span
                       style={{
                         color: "#874439",
@@ -2120,7 +2121,8 @@ const ProductDetails = (props) => {
                   showPrice ? "pdp-explore-sec" : "pdp-explore-sec pdp-fw"
                 }`}
               >
-                <Link href={`/seller/${vanityId}`}>
+                {/* <Link href={`/seller/${vanityId}`}> */}
+                <Link href={splpLink}>
                   <a target="_blank">
                     <div
                       style={{
