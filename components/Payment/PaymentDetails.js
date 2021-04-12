@@ -93,6 +93,7 @@ const PaymentDetails = (props) => {
   let dutyMax = 0;
   let dutyMin = 0;
   let mov = false;
+  let maxQty = 0;
 
   for (let charge of miscCharges) {
     let { chargeId = "", amount = 0 } = charge;
@@ -152,10 +153,12 @@ const PaymentDetails = (props) => {
           productType = "",
         } = items;
 
-        if (productType === "ERTM") {
+        if (productType !== "RTS") {
           mov = true;
         }
-
+        if (quantity > maxQty) {
+          maxQty = quantity;
+        }
         samplePrice = samplePrice + sampleCost;
         testingPrice = testingPrice + qualityTestingCharge;
         if (priceApplied && priceApplied !== null) {
@@ -202,8 +205,16 @@ const PaymentDetails = (props) => {
   let eddMin = "";
   let eddMax = "";
   if (mov) {
-    eddMin = deliveryDateMin.setDate(today.getDate() + 30 + tat);
-    eddMax = deliveryDateMax.setDate(today.getDate() + 40 + tat);
+    if (maxQty < 200) {
+      eddMin = deliveryDateMin.setDate(today.getDate() + 35 + tat);
+      eddMax = deliveryDateMax.setDate(today.getDate() + 45 + tat);
+    } else if (maxQty >= 200 && maxQty <= 500) {
+      eddMin = deliveryDateMin.setDate(today.getDate() + 45 + tat);
+      eddMax = deliveryDateMax.setDate(today.getDate() + 60 + tat);
+    } else {
+      eddMin = deliveryDateMin.setDate(today.getDate() + 60 + tat);
+      eddMax = deliveryDateMax.setDate(today.getDate() + 90 + tat);
+    }
   } else {
     eddMin = deliveryDateMin.setDate(today.getDate() + 7 + tat);
     eddMax = deliveryDateMax.setDate(today.getDate() + 10 + tat);
@@ -471,7 +482,14 @@ const PaymentDetails = (props) => {
                       <li>Estimated production/ dispatch time</li>
                     </div>
                     <div className="c-right-blk qa-txt-alg-rgt">
-                      {mov ? "30-40" : "7-10"} days
+                      {mov
+                        ? maxQty < 200
+                          ? "35-45"
+                          : maxQty >= 200 && maxQty <= 500
+                          ? "45-60"
+                          : "60-90"
+                        : "7-10"}{" "}
+                      days
                     </div>
                   </div>
 
@@ -1282,7 +1300,14 @@ const PaymentDetails = (props) => {
                         Estimated production/ dispatch time
                       </div>
                       <div className="c-right-blk qa-txt-alg-rgt">
-                        {mov ? "30-40" : "7-10"} days
+                        {mov
+                          ? maxQty < 200
+                            ? "35-45"
+                            : maxQty >= 200 && maxQty <= 500
+                            ? "45-60"
+                            : "60-90"
+                          : "7-10"}{" "}
+                        days
                       </div>
                     </li>
                   </div>

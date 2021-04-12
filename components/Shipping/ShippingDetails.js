@@ -60,6 +60,7 @@ const ShippingDetails = (props) => {
   const [promoDiscount, setPromoDiscount] = useState(0);
   const [landingFactorShip, setLandingFactorShip] = useState("");
   const [btnLoading, setBtnLoading] = useState(false);
+  const [maxQty, setMaxQty] = useState(0);
 
   let retryCountCoupon = 0;
   let retryCountMode = 0;
@@ -92,6 +93,7 @@ const ShippingDetails = (props) => {
         let { subOrders = [], total = 0, shippingModesAvailable = [] } =
           cart || {};
         let landedPrice = false;
+        let maxQuantity = 0;
         if (subOrders && subOrders.length) {
           let totalAmount = 0;
           for (let sellers of subOrders) {
@@ -115,12 +117,16 @@ const ShippingDetails = (props) => {
                 basePrice = basePrice + exfactoryListPrice * quantity;
               }
 
-              if (productType === "ERTM") {
+              if (productType !== "RTS") {
                 setMov(true);
+              }
+              if (quantity > maxQuantity) {
+                maxQuantity = quantity;
               }
             }
             totalAmount = totalAmount + basePrice;
           }
+          setMaxQty(maxQuantity);
           let seaMax =
             seaQuote[shippingTerm]["dutyMax"] +
             seaQuote[shippingTerm]["frightCostMax"];
@@ -526,8 +532,16 @@ const ShippingDetails = (props) => {
   let eddMin = "";
   let eddMax = "";
   if (mov) {
-    eddMin = deliveryDateMin.setDate(today.getDate() + 30 + tat);
-    eddMax = deliveryDateMax.setDate(today.getDate() + 40 + tat);
+    if (maxQty < 200) {
+      eddMin = deliveryDateMin.setDate(today.getDate() + 35 + tat);
+      eddMax = deliveryDateMax.setDate(today.getDate() + 45 + tat);
+    } else if (maxQty >= 200 && maxQty <= 500) {
+      eddMin = deliveryDateMin.setDate(today.getDate() + 45 + tat);
+      eddMax = deliveryDateMax.setDate(today.getDate() + 60 + tat);
+    } else {
+      eddMin = deliveryDateMin.setDate(today.getDate() + 60 + tat);
+      eddMax = deliveryDateMax.setDate(today.getDate() + 90 + tat);
+    }
   } else {
     eddMin = deliveryDateMin.setDate(today.getDate() + 7 + tat);
     eddMax = deliveryDateMax.setDate(today.getDate() + 10 + tat);
@@ -1077,7 +1091,14 @@ const ShippingDetails = (props) => {
                           <li>Estimated production/ dispatch time</li>
                         </div>
                         <div className="c-right-blk qa-txt-alg-rgt">
-                          {mov ? "30-40" : "7-10"} days
+                          {mov
+                            ? maxQty < 200
+                              ? "35-45"
+                              : maxQty >= 200 && maxQty <= 500
+                              ? "45-60"
+                              : "60-90"
+                            : "7-10"}{" "}
+                          days
                         </div>
                       </div>
                       <div>
@@ -2082,7 +2103,14 @@ const ShippingDetails = (props) => {
                             Estimated production/ dispatch time
                           </div>
                           <div className="c-right-blk qa-txt-alg-rgt">
-                            {mov ? "30-40" : "7-10"} days
+                            {mov
+                              ? maxQty < 200
+                                ? "35-45"
+                                : maxQty >= 200 && maxQty <= 500
+                                ? "45-60"
+                                : "60-90"
+                              : "7-10"}{" "}
+                            days
                           </div>
                         </li>
                       </div>
