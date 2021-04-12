@@ -2,6 +2,8 @@
 
 import * as actionTypes from "./../types";
 
+let retryInventoryCount = 0;
+
 export const getCart = (token, callback = "") => async (dispatch) => {
   let url = `${process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL}/orders/my/cart`;
   return await fetch(url, {
@@ -28,6 +30,9 @@ export const getCart = (token, callback = "") => async (dispatch) => {
     })
     .catch((err) => {
       console.log(err);
+      if (callback) {
+        callback({ error: "There is an error" });
+      }
     });
 };
 
@@ -134,7 +139,12 @@ export const checkInventory = (token, skuId = "", callback = "") => async (
       callback(res);
     })
     .catch((err) => {
-      console.log(err);
+      if (retryInventoryCount < 3) {
+        checkInventory(token, skuId, callback);
+      } else {
+        console.log(err);
+      }
+      retryInventoryCount++;
     });
 };
 

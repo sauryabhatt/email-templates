@@ -12,67 +12,101 @@ const Shipping = (props) => {
   const [cart, setCart] = useState({});
   const [airData, setAirData] = useState({});
   const [seaData, setSeaData] = useState({});
+  let retryCountAir = 0;
+  let retryCountSea = 0;
+  let retryCountCart = 0;
+
+  const getAirData = (priceQuoteRef) => {
+    fetch(
+      `${process.env.NEXT_PUBLIC_REACT_APP_PRICE_QUOTATION_URL}/quotes/rts/${priceQuoteRef}?mode=AIR`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + keycloak.token,
+        },
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw res.statusText || "Error while updating info.";
+        }
+      })
+      .then((airDataResp) => {
+        setAirData(airDataResp);
+      })
+      .catch((err) => {
+        console.log(err);
+        if (retryCountAir < 3) {
+          getAirData(priceQuoteRef);
+        } else {
+          setAirData({ ddp: {}, ddu: {} });
+        }
+        retryCountAir++;
+      });
+  };
+
+  const getSeaData = (priceQuoteRef) => {
+    fetch(
+      `${process.env.NEXT_PUBLIC_REACT_APP_PRICE_QUOTATION_URL}/quotes/rts/${priceQuoteRef}?mode=SEA`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + keycloak.token,
+        },
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw res.statusText || "Error while updating info.";
+        }
+      })
+      .then((seaDataResp) => {
+        setSeaData(seaDataResp);
+      })
+      .catch((err) => {
+        console.log(err);
+        if (retryCountSea < 3) {
+          getSeaData(priceQuoteRef);
+        } else {
+          setSeaData({ ddp: {}, ddu: {} });
+        }
+        retryCountSea++;
+      });
+  };
+
+  const getCartDetails = () => {
+    props.getCart(keycloak.token, (result) => {
+      let { error = "" } = result;
+      if (!error) {
+        setCart(result);
+        let { priceQuoteRef = "" } = result || {};
+        if (priceQuoteRef) {
+          getAirData(priceQuoteRef);
+          getSeaData(priceQuoteRef);
+        }
+      } else {
+        if (retryCountCart < 3) {
+          getCartDetails();
+        } else {
+          console.log("Get Cart API Failed!");
+        }
+        retryCountCart++;
+      }
+    });
+  };
 
   useEffect(() => {
     if (props.user) {
       let { user = {} } = props || {};
       let { profileType = "" } = user || {};
       if (profileType === "BUYER") {
-        props.getCart(keycloak.token, (result) => {
-          setCart(result);
-          let { priceQuoteRef = "" } = result || {};
-          if (priceQuoteRef) {
-            fetch(
-              `${process.env.NEXT_PUBLIC_REACT_APP_PRICE_QUOTATION_URL}/quotes/rts/${priceQuoteRef}?mode=AIR`,
-              {
-                method: "GET",
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: "Bearer " + keycloak.token,
-                },
-              }
-            )
-              .then((res) => {
-                if (res.ok) {
-                  return res.json();
-                } else {
-                  throw res.statusText || "Error while updating info.";
-                }
-              })
-              .then((airDataResp) => {
-                setAirData(airDataResp);
-              })
-              .catch((err) => {
-                console.log(err);
-                setAirData({ ddp: {}, ddu: {} });
-              });
-
-            fetch(
-              `${process.env.NEXT_PUBLIC_REACT_APP_PRICE_QUOTATION_URL}/quotes/rts/${priceQuoteRef}?mode=SEA`,
-              {
-                method: "GET",
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: "Bearer " + keycloak.token,
-                },
-              }
-            )
-              .then((res) => {
-                if (res.ok) {
-                  return res.json();
-                } else {
-                  throw res.statusText || "Error while updating info.";
-                }
-              })
-              .then((seaDataResp) => {
-                setSeaData(seaDataResp);
-              })
-              .catch((err) => {
-                console.log(err);
-                setSeaData({ ddp: {}, ddu: {} });
-              });
-          }
-        });
+        getCartDetails();
       }
     }
   }, [props.user]);

@@ -61,6 +61,10 @@ const ShippingDetails = (props) => {
   const [landingFactorShip, setLandingFactorShip] = useState("");
   const [btnLoading, setBtnLoading] = useState(false);
 
+  let retryCountCoupon = 0;
+  let retryCountMode = 0;
+  let retryCountStatus = 0;
+
   useEffect(() => {
     if (props.cart && Object.keys(props.cart).length) {
       let { cart = {} } = props || {};
@@ -255,6 +259,10 @@ const ShippingDetails = (props) => {
       })
       .catch((err) => {
         console.log(err);
+        if (retryCountStatus < 3) {
+          checkCommitStatus();
+        }
+        retryCountStatus++;
       });
   };
 
@@ -367,7 +375,7 @@ const ShippingDetails = (props) => {
     }
   };
 
-  const applyCouponAPI = (data, couponApplied = "") => {
+  const applyCouponAPI = (couponApplied = "") => {
     setBtnLoading(true);
     let cartId = orderId || subOrders.length > 0 ? subOrders[0]["orderId"] : "";
 
@@ -421,7 +429,12 @@ const ShippingDetails = (props) => {
       })
       .catch((err) => {
         console.log(err);
-        setBtnLoading(false);
+        if (retryCountCoupon < 3) {
+          applyCouponAPI(couponApplied);
+        } else {
+          setBtnLoading(false);
+        }
+        retryCountCoupon++;
       });
   };
 
@@ -486,7 +499,12 @@ const ShippingDetails = (props) => {
         })
         .catch((err) => {
           console.log(err);
-          setLoading(false);
+          if (retryCountMode) {
+            selectShippingMode(mode, term);
+          } else {
+            setLoading(false);
+          }
+          retryCountMode++;
         });
     }
   };

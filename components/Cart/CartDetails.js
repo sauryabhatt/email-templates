@@ -130,6 +130,11 @@ const CartDetails = (props) => {
   const [btnLoading, setBtnLoading] = useState(false);
 
   let showError = false;
+  let retryCountPincode = 0;
+  let retryCountZipcodeOpt = 0;
+  let retryCountSaveAddr = 0;
+  let retryCountAddAddr = 0;
+
   useEffect(() => {
     if (app_token) {
       props.getAddresses(app_token);
@@ -212,7 +217,12 @@ const CartDetails = (props) => {
         setServiceable(res);
       })
       .catch((err) => {
-        console.log(error);
+        if (retryCountPincode < 3) {
+          checkServiceability(country, zipCode);
+        } else {
+          console.log(error);
+        }
+        retryCountPincode++;
       });
   };
 
@@ -519,7 +529,9 @@ const CartDetails = (props) => {
         if (res.ok) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw (
+            res.statusText || "Error while adding address! Please try again"
+          );
         }
       })
       .then((res) => {
@@ -532,8 +544,13 @@ const CartDetails = (props) => {
         setBtnLoading(false);
       })
       .catch((err) => {
-        message.error("Error updating info!", 5);
-        setBtnLoading(false);
+        if (retryCountSaveAddr < 3) {
+          saveAddress(values);
+        } else {
+          message.error("Error while adding address! Please try again", 5);
+          setBtnLoading(false);
+        }
+        retryCountSaveAddr++;
       });
   };
 
@@ -573,7 +590,9 @@ const CartDetails = (props) => {
         if (res.ok) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw (
+            res.statusText || "Error while updating address! Please try again"
+          );
         }
       })
       .then((res) => {
@@ -584,8 +603,13 @@ const CartDetails = (props) => {
         setBtnLoading(false);
       })
       .catch((err) => {
-        message.error("Error updating info!", 5);
-        setBtnLoading(false);
+        if (retryCountAddAddr < 3) {
+          updateAddress(values);
+        } else {
+          message.error("Error while updating address! Please try again", 5);
+          setBtnLoading(false);
+        }
+        retryCountAddAddr++;
       });
   };
 
@@ -637,7 +661,12 @@ const CartDetails = (props) => {
           }
         })
         .catch((err) => {
-          message.error(err.message || err, 5);
+          if (retryCountZipcodeOpt < 3) {
+            handleZipCode(e);
+          } else {
+            message.error(err.message || err, 5);
+          }
+          retryCountZipcodeOpt++;
         });
     } else {
       setZipcodeList([value]);
@@ -2721,7 +2750,6 @@ const CartDetails = (props) => {
               <Col xs={24} sm={24} md={0} lg={0} xl={0}>
                 <Col xs={24} sm={24} md={9} lg={9} xl={9} className="qa-pad-1">
                   <Button
-                    htmlType="submit"
                     className="qa-button qa-cart-ship-btn"
                     onClick={() => onFinish(selectedShippingId)}
                     disabled={btnLoading}
@@ -2757,7 +2785,6 @@ const CartDetails = (props) => {
                   </Col>
                   <Col xs={24} sm={24} md={9} lg={9} xl={9}>
                     <Button
-                      htmlType="submit"
                       className="qa-button qa-cart-ship-btn"
                       disabled={btnLoading}
                       onClick={() => onFinish(selectedShippingId)}
