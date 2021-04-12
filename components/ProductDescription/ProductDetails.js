@@ -1407,7 +1407,7 @@ const ProductDetails = (props) => {
                 form={rtsform}
                 scrollToFirstError
               >
-                {(productType === "RTS" || productType === "ERTM") && skuId ? (
+                {skuId ? (
                   <div>
                     <Row>
                       <Col xs={24} sm={24} md={11} lg={11} xl={11}>
@@ -1687,7 +1687,7 @@ const ProductDetails = (props) => {
                 >
                   Available shipping modes
                 </div>
-                {(productType === "RTS" || productType === "ERTM") && skuId && (
+                {skuId && (
                   <div
                     style={{
                       display: "inline-block",
@@ -1818,9 +1818,7 @@ const ProductDetails = (props) => {
                 <div>
                   <Button
                     className={`${
-                      (productType === "RTS" || productType === "ERTM") && skuId
-                        ? "rfq-button"
-                        : "rfq-button rfq-active"
+                      skuId ? "rfq-button" : "rfq-button rfq-active"
                     }`}
                     onClick={() => {
                       setRfqModal(true);
@@ -1829,7 +1827,7 @@ const ProductDetails = (props) => {
                   >
                     <div>Get Quote</div>
                   </Button>
-                  {(productType === "RTS" || productType === "ERTM") && skuId && (
+                  {skuId && (
                     <span>
                       {(profileType === "BUYER" &&
                         verificationStatus === "VERIFIED" &&
@@ -1895,24 +1893,22 @@ const ProductDetails = (props) => {
                     mentioned
                   </div>
                 )}
-                {errorMsg &&
-                  (productType === "RTS" || productType === "ERTM") &&
-                  skuId && (
-                    <div className="qa-error-atc qa-mar-top-05">
-                      {isGuest === "true" ||
-                      profileType === "SELLER" ||
-                      !authenticated ? (
-                        <>
-                          {errorMsg}{" "}
-                          <span onClick={signUp} className="p-custom">
-                            signup as a buyer
-                          </span>
-                        </>
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                  )}
+                {errorMsg && skuId && (
+                  <div className="qa-error-atc qa-mar-top-05">
+                    {isGuest === "true" ||
+                    profileType === "SELLER" ||
+                    !authenticated ? (
+                      <>
+                        {errorMsg}{" "}
+                        <span onClick={signUp} className="p-custom">
+                          signup as a buyer
+                        </span>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                )}
                 {showCart && (
                   <div className="add-to-cart-success">
                     Product added successfully!
@@ -2558,7 +2554,7 @@ const ProductDetails = (props) => {
                 form={rtsform}
                 scrollToFirstError
               >
-                {(productType === "RTS" || productType === "ERTM") && skuId ? (
+                {skuId ? (
                   <div>
                     <Row>
                       <Col xs={24} sm={24} md={11} lg={11} xl={11}>
@@ -2883,7 +2879,7 @@ const ProductDetails = (props) => {
                 )}
 
                 <div>
-                  {(productType === "RTS" || productType === "ERTM") && skuId && (
+                  {skuId && (
                     <div className="qa-mar-btm-2 qa-font-san">
                       <span
                         style={{
@@ -2938,9 +2934,7 @@ const ProductDetails = (props) => {
                   )}
                   <Button
                     className={`${
-                      (productType === "RTS" || productType === "ERTM") && skuId
-                        ? "rfq-button"
-                        : "rfq-button rfq-active"
+                      skuId ? "rfq-button" : "rfq-button rfq-active"
                     }`}
                     onClick={() => {
                       setRfqModal(true);
@@ -2949,7 +2943,7 @@ const ProductDetails = (props) => {
                   >
                     <div>Get Quote</div>
                   </Button>
-                  {(productType === "RTS" || productType === "ERTM") && skuId && (
+                  {skuId && (
                     <span>
                       {(profileType === "BUYER" &&
                         verificationStatus === "VERIFIED" &&
@@ -3016,22 +3010,20 @@ const ProductDetails = (props) => {
                       mentioned
                     </div>
                   )}
-                  {errorMsg &&
-                    (productType === "RTS" || productType === "ERTM") &&
-                    skuId && (
-                      <div className="qa-error-atc qa-mar-top-25 qa-mar-btm-3">
-                        {errorMsg}{" "}
-                        {isGuest === "true" ||
-                        profileType === "SELLER" ||
-                        !authenticated ? (
-                          <span onClick={signUp} className="p-custom">
-                            signup as a buyer
-                          </span>
-                        ) : (
-                          ""
-                        )}
-                      </div>
-                    )}
+                  {errorMsg && skuId && (
+                    <div className="qa-error-atc qa-mar-top-25 qa-mar-btm-3">
+                      {errorMsg}{" "}
+                      {isGuest === "true" ||
+                      profileType === "SELLER" ||
+                      !authenticated ? (
+                        <span onClick={signUp} className="p-custom">
+                          signup as a buyer
+                        </span>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                  )}
 
                   {showCart && (
                     <div className="add-to-cart-success">
