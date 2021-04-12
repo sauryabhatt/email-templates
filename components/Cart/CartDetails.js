@@ -412,7 +412,6 @@ const CartDetails = (props) => {
           setBtnLoading(false);
         } else {
           throw res.statusText || "Error while sending e-mail.";
-          setBtnLoading(false);
         }
       })
       .catch((err) => {
@@ -1109,7 +1108,7 @@ const CartDetails = (props) => {
                   </div>
                 )}
 
-                {/* {!addressFlag && (
+                {!addressFlag && (
                   <div className="qa-disp-table-cell c-edit-address addr-error">
                     <div className="display-flex qa-tc1">
                       <div className="qa-lh qa-fw-b">
@@ -1128,7 +1127,7 @@ const CartDetails = (props) => {
                       </div>
                     </div>
                   </div>
-                )} */}
+                )}
                 {addressFlag && (
                   <div
                     className="qa-disp-table-cell c-edit-address qa-cursor"
@@ -1617,6 +1616,25 @@ const CartDetails = (props) => {
                   Black Friday offer discount automatically applied on Shipping page.
                 </span>
               </div>*/}
+
+              {!addressFlag && (
+                <div className="qa-pad-2 qa-mar-btm-2 cart-error-block cart-err display-flex">
+                  <div className="margin-right-2p">
+                    <Icon
+                      component={alertIcon}
+                      className="alert-icon"
+                      style={{
+                        width: "15px",
+                        verticalAlign: "top",
+                      }}
+                    />
+                  </div>
+                  <div className="qa-error qa-fs-14 qa-lh">
+                    Please enter your shipping address in order to proceed to
+                    the next page
+                  </div>
+                </div>
+              )}
               <CartSummary
                 id="cart"
                 enable={enable && isFulfillable && addressFlag}
@@ -1680,6 +1698,24 @@ const CartDetails = (props) => {
                 span={24}
                 className="qa-border-bottom qa-pad-btm-2 qa-mar-btm-2"
               >
+                {!addressFlag && (
+                  <div className="qa-pad-2 qa-mar-btm-2 cart-error-block cart-err display-flex">
+                    <div className="margin-right-2p">
+                      <Icon
+                        component={alertIcon}
+                        className="alert-icon"
+                        style={{
+                          width: "15px",
+                          verticalAlign: "top",
+                        }}
+                      />
+                    </div>
+                    <div className="qa-error qa-fs-14 qa-lh">
+                      Please enter your shipping address in order to proceed to
+                      the next page
+                    </div>
+                  </div>
+                )}
                 {showError && (
                   <div className="qa-pad-2 qa-mar-btm-2 cart-error-block display-flex cart-err">
                     <div className="margin-right-2p">
