@@ -207,7 +207,8 @@ const ProductContact = (props) => {
       sellerId: props.sellerDetails.id.split("::")[2],
       buyerId: props.userId && props.userId.split("::")[1],
       productName: props.productDetails.productName,
-      // locationType: values.locationType,
+      deliverylocationType: values.deliverylocationType,
+      preferedCurrency: values.preferedCurrency,
     };
 
     if (keycloak.authenticated) {
@@ -636,7 +637,7 @@ const ProductContact = (props) => {
               </Form.Item>
               <span className="label-paragraph">Delivery location type</span>
               <Form.Item
-                name="locationType"
+                name="deliverylocationType"
                 style={{ marginBottom: "1em" }}
                 rules={[
                   {
@@ -867,6 +868,29 @@ const ProductContact = (props) => {
                 ]}
               >
                 <Input />
+              </Form.Item>
+
+              <span className="label-paragraph">
+                Preferred currency for quotation
+              </span>
+              <Form.Item
+                name="preferedCurrency"
+                style={{ marginBottom: "1em" }}
+                rules={[
+                  {
+                    required: true,
+                    message:
+                      "Please select your preferred currency for quotation.",
+                  },
+                ]}
+              >
+                <Select placeholder="Select preferred currency" showSearch>
+                  <Option value="USD">USD</Option>
+                  <Option value="AUD">AUD</Option>
+                  <Option value="EUR">EUR</Option>
+                  <Option value="GBP">GBP</Option>
+                  );
+                </Select>
               </Form.Item>
 
               <Form.Item
