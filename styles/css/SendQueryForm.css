@@ -75,7 +75,7 @@
 
 #send-query-form .label-paragraph {
   font-family: senregular;
-  font-size: 12px;
+  font-size: calc(14px + (26 - 14) * ((100vw - 300px) / (1600 - 300)));
   color: rgba(51, 47, 47, 0.8);
 }
 

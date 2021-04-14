@@ -119,7 +119,7 @@
   }
 
   #send-query-form .label-heading {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: bold;
   }
 
@@ -140,7 +140,7 @@
   }
 
   #send-query-form .paragraph {
-    font-size: 10px;
+    font-size: 12px;
     margin-bottom: 0.625em;
   }
 
@@ -231,7 +231,7 @@
   }
 
   #send-query-form .label-paragraph {
-    font-size: 14px;
+    font-size: calc(14px + (26 - 14) * ((100vw - 300px) / (1900 - 300)));
     line-height: 19px;
     color: #191919;
     display: inline-block;
