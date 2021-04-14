@@ -1292,7 +1292,7 @@ input:-webkit-autofill:active  {
   font-family: senregular;
   font-style: normal;
   font-weight: normal;
-  font-size: 18px;
+  font-size: 17px;
   line-height: 140%;
   text-transform: uppercase;
   color: #191919;
@@ -1333,14 +1333,18 @@ input:-webkit-autofill:active  {
 }
 .otp-input-field {
   text-align: center;
-  padding: 30px 80px 10px;
+  padding: 30px 0px 10px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
 }
 .otp-input-field input {
-  width: 4em !important;
+  width: 60px !important;
   border: none;
   background: transparent;
   border-bottom: 1px solid #ddd;
-  margin: 0px 20px;
+  margin: 0px 10px;
+  font-size: 20px;
 }
 .otp-input-field input.focussed-input {
   border-bottom: 2px solid rgba(78, 72, 72, 0.65);
@@ -1364,7 +1368,7 @@ input:-webkit-autofill:active  {
     padding: 30px 0px 10px;
   }
   .otp-input-field input {
-    width: 30px !important;
+    width: 32px !important;
     margin: 0px 6px;
   }
   .otp-email-title {

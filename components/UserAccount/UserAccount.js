@@ -120,6 +120,8 @@ const UserAccount = (props) => {
   const [otpLengthError, setOtpLengthError] = useState(false);
   const [btnLoading, setBtnLoading] = useState(false);
 
+  let retryCountOtp = 0;
+
   const settings = {
     infinite: false,
     speed: 500,
@@ -1003,7 +1005,7 @@ const UserAccount = (props) => {
         if (res.ok) {
           return res.text();
         } else {
-          throw res.statusText || "Error while signing up.";
+          throw res.statusText || "Error while sending otp. Please try again";
         }
       })
       .then((res) => {
@@ -1012,8 +1014,13 @@ const UserAccount = (props) => {
         setBtnLoading(false);
       })
       .catch((err) => {
-        message.error(err.message || err, 5);
-        setBtnLoading(false);
+        if (retryCountOtp < 3) {
+          sendOtp();
+        } else {
+          message.error(err.message || err, 5);
+          setBtnLoading(false);
+        }
+        retryCountOtp++;
       });
   };
 
@@ -2349,7 +2356,7 @@ const UserAccount = (props) => {
             style={{
               position: "absolute",
               right: "0px",
-              top: "-15px",
+              top: "0px",
               cursor: "pointer",
               zIndex: "1",
             }}
@@ -2423,7 +2430,7 @@ const UserAccount = (props) => {
               <div style={{ textAlign: "center" }}>
                 <CheckCircleOutlined
                   style={{
-                    fontSize: "100px",
+                    fontSize: "60px",
                     marginTop: "10px",
                     marginBottom: "20px",
                   }}

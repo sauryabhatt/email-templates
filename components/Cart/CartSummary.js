@@ -58,6 +58,7 @@ const CartSummary = (props) => {
   let retryCountCP = 0;
   let retryCountAP = 0;
   let retryCountOR = 0;
+  let retryCountOtp = 0;
 
   useEffect(() => {
     if (props.cart) {
@@ -391,7 +392,7 @@ const CartSummary = (props) => {
         if (res.ok) {
           return res.text();
         } else {
-          throw res.statusText || "Error while signing up.";
+          throw res.statusText || "Error while sending otp. Please try again";
         }
       })
       .then((res) => {
@@ -399,8 +400,13 @@ const CartSummary = (props) => {
         setBtnLoading(false);
       })
       .catch((err) => {
-        message.error(err.message || err, 5);
-        setBtnLoading(false);
+        if (retryCountOtp < 3) {
+          sendOtp();
+        } else {
+          message.error(err.message || err, 5);
+          setBtnLoading(false);
+        }
+        retryCountOtp++;
       });
   };
 
@@ -1789,7 +1795,7 @@ const CartSummary = (props) => {
             style={{
               position: "absolute",
               right: "0px",
-              top: "-15px",
+              top: "0px",
               cursor: "pointer",
               zIndex: "1",
             }}
@@ -1863,7 +1869,7 @@ const CartSummary = (props) => {
               <div style={{ textAlign: "center" }}>
                 <CheckCircleOutlined
                   style={{
-                    fontSize: "100px",
+                    fontSize: "60px",
                     marginTop: "10px",
                     marginBottom: "20px",
                   }}
