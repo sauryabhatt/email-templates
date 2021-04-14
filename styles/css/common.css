@@ -363,6 +363,7 @@
 .ant-select-dropdown .ant-select-item-option-content {
   overflow: visible;
   white-space: initial;
+  font-family: senregular;
 }
 
 .ant-select-dropdown ::-webkit-scrollbar,
@@ -726,4 +727,10 @@
 }
 .qa-mar-top-04 {
   margin-top: 4px;
+}
+#seller-contact-form .info-safe.paragraph,
+#product-contact-form .info-safe.paragraph {
+  color: rgba(51, 47, 47, 0.8);
+  font-size: 14px;
+  padding-bottom: 3px;
 }

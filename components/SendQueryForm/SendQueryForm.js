@@ -158,6 +158,7 @@ const SendQueryForm = (props) => {
       country: values.destinationCountry,
       destinationCountry: values.destinationCountry,
       zipcode: values.zipcode,
+      deliverylocationType: values.deliverylocationType,
       mobileNo: values.mobileNo,
       rfqType: "QALARA",
       buyerId: props.userId && props.userId.split("::")[1],
@@ -520,6 +521,27 @@ const SendQueryForm = (props) => {
                 ]}
               >
                 {country}
+              </Form.Item>
+              <span className="label-paragraph">Delivery location type</span>
+              <Form.Item
+                name="deliverylocationType"
+                style={{ marginBottom: "1em" }}
+                // rules={[
+                //   {
+                //     required: true,
+                //     message: "Please select your delivery location type.",
+                //   },
+                // ]}
+              >
+                <Select placeholder="Select location type" showSearch>
+                  <Option value="home">Home</Option>
+                  <Option value="store">Store</Option>
+                  <Option value="office">Office</Option>
+                  <Option value="warehouse">Warehouse</Option>
+                  <Option value="amazonWarehouse">Amazon Warehouse</Option>
+                  <Option value="others">Others</Option>
+                  );
+                </Select>
               </Form.Item>
               <span className="label-paragraph">
                 Destination Pin / Zip Code*

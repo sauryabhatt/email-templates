@@ -303,33 +303,31 @@ const ProductContact = (props) => {
     <Row id="seller-contact-form">
       <Col className="left-details" span={mediaMatch.matches ? 8 : 0}>
         <Row>
-          {showPrice && (
-            <Col span={24} className="left-verified-seller">
-              <div
-                style={{ backgroundColor: "#f2f0eb", padding: "17px" }}
-                className="qa-pos-rel"
-              >
-                <Icon
-                  component={addToCollectionIcon}
-                  className="atc-icon"
-                  style={{
-                    width: "30px",
-                    verticalAlign: "middle",
-                    marginRight: "5px",
-                  }}
-                />
-                <span className="custom-quote-atc">Save to collection</span>
-                <div className="custom-quote-text">
-                  To receive a quotation for multiple products together, use our
-                  new Save to Collection feature and send a combined Quote
-                  request
-                </div>
-                <span className="custom-quote-new">
-                  <span>NEW</span>
-                </span>
+          <Col span={24} className="left-verified-seller">
+            <div
+              style={{ backgroundColor: "#f2f0eb", padding: "17px" }}
+              className="qa-pos-rel"
+            >
+              <Icon
+                component={addToCollectionIcon}
+                className="atc-icon"
+                style={{
+                  width: "30px",
+                  verticalAlign: "middle",
+                  marginRight: "5px",
+                }}
+              />
+              <span className="custom-quote-atc">Save to collection</span>
+              <div className="custom-quote-text">
+                To receive a quotation for multiple products together, use our
+                new Save to Collection feature and send a combined Quote request
               </div>
-            </Col>
-          )}
+              <span className="custom-quote-new">
+                <span>NEW</span>
+              </span>
+            </div>
+          </Col>
+
           <Col span={props.productDetails ? 24 : 0}>
             <div
               className="left-verified-seller"
@@ -639,12 +637,12 @@ const ProductContact = (props) => {
               <Form.Item
                 name="deliverylocationType"
                 style={{ marginBottom: "1em" }}
-                rules={[
-                  {
-                    required: true,
-                    message: "Please select your delivery location type.",
-                  },
-                ]}
+                // rules={[
+                //   {
+                //     required: true,
+                //     message: "Please select your delivery location type.",
+                //   },
+                // ]}
               >
                 <Select placeholder="Select location type" showSearch>
                   <Option value="home">Home</Option>
@@ -663,21 +661,21 @@ const ProductContact = (props) => {
               <Form.Item
                 name="requirementDetails"
                 style={{ marginBottom: "1em" }}
-                rules={[
-                  {
-                    type: "string",
-                    message: "The input is not valid!",
-                  },
-                  {
-                    required: true,
-                    message: "Please enter your requirement.",
-                  },
-                  {
-                    min: 5,
-                    max: 500,
-                    message: "Please enter message within 25-500 characters",
-                  },
-                ]}
+                // rules={[
+                //   {
+                //     type: "string",
+                //     message: "The input is not valid!",
+                //   },
+                //   {
+                //     required: true,
+                //     message: "Please enter your requirement.",
+                //   },
+                //   {
+                //     min: 5,
+                //     max: 500,
+                //     message: "Please enter message within 25-500 characters",
+                //   },
+                // ]}
               >
                 <Input.TextArea
                   value={"value"}
@@ -772,9 +770,10 @@ const ProductContact = (props) => {
                 Please share your details so we can respond:
               </span>
               <div
-                className="paragraph"
+                className="paragraph info-safe"
                 style={{
-                  margin: "0.5em 0px 1em",
+                  margin: "5px 0px 12px",
+                  lineHeight: "100%",
                   textAlign: "left",
                 }}
               >

@@ -508,7 +508,7 @@ const SellerContact = (props) => {
               </span>
               <br /> */}
               <span className="label-paragraph">
-                Tell us briefly about your brand / business.
+                Tell us briefly about your brand / business.*
               </span>
               <Form.Item
                 name="aboutCompany"
@@ -570,7 +570,7 @@ const SellerContact = (props) => {
                             autoSize={{ minRows: 1, maxRows: 5 }} />
                     </Form.Item> */}
               <span className="label-paragraph">
-                Please share product details and customisation requirements.
+                Please share product details and customisation requirements.*
               </span>
               <Form.Item
                 name="requirementDetails"
@@ -735,12 +735,12 @@ const SellerContact = (props) => {
               <Form.Item
                 name="deliverylocationType"
                 style={{ marginBottom: "1em" }}
-                rules={[
-                  {
-                    required: true,
-                    message: "Please select your delivery location type.",
-                  },
-                ]}
+                // rules={[
+                //   {
+                //     required: true,
+                //     message: "Please select your delivery location type.",
+                //   },
+                // ]}
               >
                 <Select placeholder="Select location type" showSearch>
                   <Option value="home">Home</Option>
@@ -791,9 +791,10 @@ const SellerContact = (props) => {
                 Please share your details so we can respond:
               </div>
               <div
-                className="paragraph"
+                className="paragraph info-safe"
                 style={{
-                  margin: "0.5em 0px 1em",
+                  margin: "5px 0px 12px",
+                  lineHeight: "100%",
                   textAlign: "left",
                 }}
               >

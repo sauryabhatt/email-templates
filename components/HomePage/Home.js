@@ -62,7 +62,6 @@ function Home(props) {
     let hours = 2; // Reset when storage is more than 2 hours
     let now = new Date().getTime();
     mediaMatch = window.matchMedia("(min-width: 768px)");
-    let { profileCreated = "" } = props.userProfile || {};
     let newUser = localStorage.getItem("newUser");
     let userNameLS = localStorage.getItem("userName");
     let previousUrl = localStorage.getItem("productUrl");
