@@ -362,7 +362,7 @@ const ShippingDetails = (props) => {
   }
 
   const applyCoupon = () => {
-    if (couponCode.length > 3) {
+    if (couponCode.length > 0) {
       applyCouponAPI(couponApplied);
       setCouponErr(false);
     } else {
@@ -380,6 +380,7 @@ const ShippingDetails = (props) => {
         process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL
       }/orders/my/${cartId}/${mode}?shippingTerms=${shippingTerm.toUpperCase()}&promoCode=${couponCode}&promoDiscount=${couponDiscount}`;
     } else {
+      setCouponCode("");
       couponUrl = `${
         process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL
       }/orders/my/${cartId}/${mode}?shippingTerms=${shippingTerm.toUpperCase()}&promoCode=&promoDiscount=0`;
