@@ -17,6 +17,7 @@ function ContentSection(props) {
     isMobile = false,
     loadMoreData,
     sellerId = "",
+    recentlyViewed = false,
   } = props;
 
   const [selProductId, setSelProductId] = useState("");
@@ -98,9 +99,9 @@ function ContentSection(props) {
                 key={index}
                 xs={24}
                 sm={24}
-                md={12}
-                lg={8}
-                xl={8}
+                md={recentlyViewed ? 8 : 12}
+                lg={recentlyViewed ? 6 : 8}
+                xl={recentlyViewed ? 6 : 8}
               >
                 <ProductCard
                   key={index}

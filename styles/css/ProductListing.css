@@ -343,3 +343,32 @@ span.ant-input-affix-wrapper.ant-input-search:active {
 .filter-search-box .ant-input-affix-wrapper:focus {
   border-color: #d9d9d9;
 }
+.recently-viewed-title {
+  font-family: senregular;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 17px;
+  line-height: 140%;
+  text-align: center;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #191919;
+}
+.recently-viewed-stitle {
+  color: #874439;
+  font-family: senregular;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 17px;
+  line-height: 140%;
+  text-align: center;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+@media only screen and (max-width: 768px) {
+  .recently-viewed-title,
+  .recently-viewed-stitle {
+    font-size: 14px;
+  }
+}

@@ -38,6 +38,28 @@ const ProductDescription = (props) => {
   useEffect(() => {
     let { articleId } = router.query;
     props.getProductDetails(app_token, articleId);
+    fetch(
+      `${process.env.NEXT_PUBLIC_REACT_APP_COLLECTION_URL}/recently/viewed/add/product?article_id=${articleId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + app_token,
+        },
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          console.log("Added product to recently viewed");
+        } else {
+          throw (
+            res.statusText || "Oops something went wrong. Please try again!"
+          );
+        }
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
     setCount(1);
     setCartCount(1);
   }, [router.query]);
