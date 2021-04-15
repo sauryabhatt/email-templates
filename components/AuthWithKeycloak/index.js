@@ -31,9 +31,6 @@ export const registerToApp = (keycloak, options) => {
 };
 
 export const logoutFromApp = (keycloak, options) => {
-  // cookie.remove("kcToken");
-  // document.cookie = "kcToken=; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
-  // document.cookie = "appToken=; path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
   if (options && options.currentPath) {
     keycloak.logout({
       redirectUri:
@@ -45,4 +42,5 @@ export const logoutFromApp = (keycloak, options) => {
       redirectUri: process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN,
     });
   }
+  cookie.remove("loggedInUser");
 };

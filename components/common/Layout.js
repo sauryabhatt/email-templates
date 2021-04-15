@@ -41,8 +41,8 @@ export const Layout = ({ children, meta = {} }) => {
       keycloak
         .loadUserProfile()
         .then((profile) => {
-          if (!cookie.get("kcToken")) {
-            console.log("Inside login event check");
+          if (!cookie.get("loggedInUser")) {
+            cookie.set("loggedInUser", true);
             const { attributes: { parentProfileId = [] } = {} } = profile;
             let profileId = parentProfileId[0] || "";
             profileId = profileId.replace("BUYER::", "");
