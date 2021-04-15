@@ -60,6 +60,7 @@ function ProductCard(props) {
     visibleTo = "",
     sellerCode = "",
     freeShippingEligible = false,
+    categoryDescs = [],
   } = productDetails;
 
   let { convertToCurrency = "" } = currencyDetails || {};
@@ -371,7 +372,7 @@ function ProductCard(props) {
                 <span className="qa-tc-white qa-fw-sb">Product range: </span>
               </span>{" "}
               <span className="qa-text-body">
-                {productTypeDescs.join(", ")}
+                {productTypeDescs.join(", ") || categoryDescs.join(",")}
               </span>
             </div>
             <div>

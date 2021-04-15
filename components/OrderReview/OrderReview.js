@@ -17,6 +17,7 @@ import Air from "../../public/filestore/air";
 import Sea from "../../public/filestore/sea";
 import sellerList from "../../public/filestore/freeShippingSellers.json";
 import Link from "next/link";
+import moment from "moment";
 
 const OrderReview = (props) => {
   const router = useRouter();
@@ -222,8 +223,12 @@ const OrderReview = (props) => {
     let { order = {} } = props || {};
     let { shippingMode = "" } = order || {};
     formData["shippingMode"] = shippingMode;
-    formData["expectedDeliveryDateMin"] = deliveryDateMin;
-    formData["expectedDeliveryDateMax"] = deliveryDateMax;
+    formData["expectedDeliveryDateMin"] = moment(deliveryDateMin).format(
+      "MM-DD-YYYY"
+    );
+    formData["expectedDeliveryDateMax"] = moment(deliveryDateMax).format(
+      "MM-DD-YYYY"
+    );
     fetch(
       process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL +
         "/v1/orders/my/payments-reference?order_updated_Status=" +

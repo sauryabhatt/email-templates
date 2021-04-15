@@ -919,8 +919,8 @@ const PaymentDetails = (props) => {
                   user={user}
                   brandNames={brandNames}
                   currencyDetails={currencyDetails}
-                  deliveryDateMin={deliveryDateMin}
-                  deliveryDateMax={deliveryDateMax}
+                  deliveryDateMin={moment(deliveryDateMin).format("MM-DD-YYYY")}
+                  deliveryDateMax={moment(deliveryDateMax).format("MM-DD-YYYY")}
                 />
               </Col>
             )}
