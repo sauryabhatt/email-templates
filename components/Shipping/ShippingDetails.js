@@ -362,22 +362,8 @@ const ShippingDetails = (props) => {
   }
 
   const applyCoupon = () => {
-    let data = {
-      postalCode: postalCode,
-      country: s_country,
-      shippingMode: mode || "DEFAULT",
-      shippingTerms: shippingTerm.toUpperCase(),
-      referralCode: referralCode,
-      promoDiscount: promoDiscount,
-      promoCode: couponCode,
-      subOrders: allOrders,
-    };
-    if (couponApplied) {
-      data["promoCode"] = "";
-      setCouponCode("");
-    }
-    if (couponCode.length > 0 || couponApplied) {
-      applyCouponAPI(data, couponApplied);
+    if (couponCode.length > 3) {
+      applyCouponAPI(couponApplied);
       setCouponErr(false);
     } else {
       setCouponErr(true);
