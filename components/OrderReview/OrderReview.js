@@ -47,11 +47,19 @@ const OrderReview = (props) => {
   let retryCountOR = 0;
 
   let { order = {}, brandNameList = "" } = props || {};
-  let { shippingMode = "", shippingTerms = "", miscCharges = [] } = order || {};
+  let {
+    shippingMode = "",
+    shippingTerms = "",
+    miscCharges = [],
+    orderType = "",
+    subOrders = [],
+  } = order || {};
 
   let dutyMax = 0;
   let dutyMin = 0;
   let vat = 0;
+  let tat = 0;
+  let maxQty = 0;
 
   for (let charge of miscCharges) {
     let { chargeId = "", amount = 0 } = charge;
@@ -61,9 +69,93 @@ const OrderReview = (props) => {
       dutyMax = amount;
     } else if (chargeId === "DDP_DUTY_MIN") {
       dutyMin = amount;
+    } else if (chargeId === "TAT") {
+      tat = amount;
     }
   }
 
+  if (subOrders && subOrders.length > 0) {
+    for (let order of subOrders) {
+      let { products = "" } = order;
+
+      for (let items of products) {
+        let { quantity = 0 } = items;
+
+        if (quantity > maxQty) {
+          maxQty = quantity;
+        }
+      }
+    }
+  }
+  let today = new Date();
+  let deliveryDateMin = new Date();
+  let deliveryDateMax = new Date();
+
+  let eddMin = "";
+  let eddMax = "";
+  if (orderType === "CUSTOM") {
+    if (maxQty < 200) {
+      eddMin = deliveryDateMin.setDate(today.getDate() + 35 + tat);
+      eddMax = deliveryDateMax.setDate(today.getDate() + 45 + tat);
+    } else if (maxQty >= 200 && maxQty <= 500) {
+      eddMin = deliveryDateMin.setDate(today.getDate() + 45 + tat);
+      eddMax = deliveryDateMax.setDate(today.getDate() + 60 + tat);
+    } else {
+      eddMin = deliveryDateMin.setDate(today.getDate() + 60 + tat);
+      eddMax = deliveryDateMax.setDate(today.getDate() + 90 + tat);
+    }
+  } else {
+    eddMin = deliveryDateMin.setDate(today.getDate() + 7 + tat);
+    eddMax = deliveryDateMax.setDate(today.getDate() + 10 + tat);
+  }
+
+  deliveryDateMin = new Date(eddMin);
+  deliveryDateMax = new Date(eddMax);
+
+  const getCountryCode = () => {
+    let code =
+      countries[props.order.shippingAddressDetails["country"].toUpperCase()];
+    if (
+      code === "BR" ||
+      code === "RU" ||
+      code === "IN" ||
+      code === "BG" ||
+      code === "JP" ||
+      code === "LT" ||
+      code === "LV" ||
+      code === "IS" ||
+      code === "CN" ||
+      code === "MX" ||
+      code === "LI"
+    ) {
+      setLocale(`en_${code}`);
+      setLocaleUpdated(true);
+    } else {
+      setLocale(null);
+      setLocaleUpdated(true);
+    }
+  };
+  const getEstimateCharge = () => {
+    let sum = 0;
+    if (props.order) {
+      props.order.miscCharges.map((charges) => {
+        if (charges.chargeId == "FREIGHT_CHARGES") {
+          sum =
+            sum +
+              props.order.miscCharges.find(
+                (x) => x.chargeId === "FREIGHT_CHARGES"
+              ).amount || 0;
+        } else if (charges.chargeId == "CUSTOM_CHARGES") {
+          sum =
+            sum +
+              props.order.miscCharges.find(
+                (x) => x.chargeId === "CUSTOM_CHARGES"
+              ).amount || 0;
+        }
+      });
+    }
+    setEstimateCharge(sum);
+  };
   useEffect(() => {
     if (keycloak?.token && orderIdParam) {
       props.getOrderByOrderId(keycloak.token, orderIdParam);
@@ -130,6 +222,8 @@ const OrderReview = (props) => {
     let { order = {} } = props || {};
     let { shippingMode = "" } = order || {};
     formData["shippingMode"] = shippingMode;
+    formData["expectedDeliveryDateMin"] = deliveryDateMin;
+    formData["expectedDeliveryDateMax"] = deliveryDateMax;
     fetch(
       process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL +
         "/v1/orders/my/payments-reference?order_updated_Status=" +
@@ -960,52 +1054,6 @@ const OrderReview = (props) => {
   const handleCheck = (e) => {
     setIsTermsAccepted(e.target.checked);
     document.getElementsByClassName("termsError")[0].style.display = "none";
-  };
-
-  const getEstimateCharge = () => {
-    let sum = 0;
-    if (props.order) {
-      props.order.miscCharges.map((charges) => {
-        if (charges.chargeId == "FREIGHT_CHARGES") {
-          sum =
-            sum +
-              props.order.miscCharges.find(
-                (x) => x.chargeId === "FREIGHT_CHARGES"
-              ).amount || 0;
-        } else if (charges.chargeId == "CUSTOM_CHARGES") {
-          sum =
-            sum +
-              props.order.miscCharges.find(
-                (x) => x.chargeId === "CUSTOM_CHARGES"
-              ).amount || 0;
-        }
-      });
-    }
-    setEstimateCharge(sum);
-  };
-
-  const getCountryCode = () => {
-    let code =
-      countries[props.order.shippingAddressDetails["country"].toUpperCase()];
-    if (
-      code === "BR" ||
-      code === "RU" ||
-      code === "IN" ||
-      code === "BG" ||
-      code === "JP" ||
-      code === "LT" ||
-      code === "LV" ||
-      code === "IS" ||
-      code === "CN" ||
-      code === "MX" ||
-      code === "LI"
-    ) {
-      setLocale(`en_${code}`);
-      setLocaleUpdated(true);
-    } else {
-      setLocale(null);
-      setLocaleUpdated(true);
-    }
   };
 
   if (

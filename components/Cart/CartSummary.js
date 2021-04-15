@@ -538,9 +538,12 @@ const CartSummary = (props) => {
   };
 
   const updateOrder = (data, status) => {
+    let { deliveryDateMin = "", deliveryDateMax = "" } = props;
     let formData = { ...data };
     let { shippingMode = "" } = cart || {};
     formData["shippingMode"] = shippingMode;
+    formData["expectedDeliveryDateMin"] = deliveryDateMin;
+    formData["expectedDeliveryDateMax"] = deliveryDateMax;
     fetch(
       process.env.NEXT_PUBLIC_REACT_APP_ORDER_URL +
         "/v1/orders/my/payments-reference?order_updated_Status=" +

@@ -919,6 +919,8 @@ const PaymentDetails = (props) => {
                   user={user}
                   brandNames={brandNames}
                   currencyDetails={currencyDetails}
+                  deliveryDateMin={deliveryDateMin}
+                  deliveryDateMax={deliveryDateMax}
                 />
               </Col>
             )}
@@ -1074,6 +1076,8 @@ const PaymentDetails = (props) => {
                 user={user}
                 brandNames={brandNames}
                 currencyDetails={currencyDetails}
+                deliveryDateMin={deliveryDateMin}
+                deliveryDateMax={deliveryDateMax}
               />
             </Col>
 
