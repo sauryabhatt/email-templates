@@ -233,6 +233,20 @@ function Home(props) {
       });
   };
 
+  let maskid = "";
+  let prefix = email ? email.substring(0, email.lastIndexOf("@")) : "";
+  let postfix = email ? email.substring(email.lastIndexOf("@")) : "";
+
+  for (let i = 0; i < prefix.length; i++) {
+    if (i == 0 || i == prefix.length - 1) {
+      ////////
+      maskid = maskid + prefix[i].toString();
+    } else {
+      maskid = maskid + "*";
+    }
+  }
+  maskid = maskid + postfix;
+
   const sellerItems = [
     {
       imageHeading: "Shop Fair & Social",
@@ -830,31 +844,32 @@ function Home(props) {
           <div>
             {notificationMsg === "ACCOUNT_EMAIL_NOT_VERIFIED" ? (
               <p className="verification-heading home-page">
-                Welcome to Qalara! Please validate your email address.
+                Welcome! Please validate your email address.
               </p>
             ) : notificationMsg === "EMAIL_NOT_VERIFIED" ? (
               <p className="verification-heading home-page">
-                Welcome to Qalara! Please validate your email address.
+                Welcome! Please validate your email address.
               </p>
             ) : (
               <p className="verification-heading home-page">
-                Welcome to Qalara! We are in the process of verifying your
-                account.
+                Welcome! We are in the process of verifying your account.
               </p>
             )}
 
             {notificationMsg === "ACCOUNT_EMAIL_NOT_VERIFIED" ? (
               <div>
                 <p className="verification-text">
-                  Welcome! Validation of your email address is pending. Please
-                  click on the link sent to reg. email add. to validate your
-                  email address.
+                  Your Buyer Account will be verified within 48 hours and we may
+                  reach out to you for additional information. We do this to
+                  ensure a trusted platform for buyers and sellers.
                 </p>
+
                 <p className="verification-text qa-mar-top-2">
-                  Please check your promotions/spam/junk folder if you have not
-                  received the validation email in your primary inbox. If you
-                  haven't received the validation email or are facing any issues
-                  please write to us at{" "}
+                  Meanwhile, please click on the link sent to {maskid} to
+                  validate your email address. If you have not received the
+                  validation email in your primary inbox, please check your
+                  promotions/ spam/ junk folder. If you still don’t find it or
+                  are facing any issues please write to us at{" "}
                   <a
                     href="mailto:help@qalara.com"
                     className="qa-underline qa-primary-c"
@@ -862,23 +877,6 @@ function Home(props) {
                     help@qalara.com
                   </a>{" "}
                   from your registered email address.
-                </p>
-                <p className="verification-text qa-mar-top-2">
-                  Your Buyer Account will be verified within 48 hours, meanwhile
-                  we are providing temporary access to view catalogs, products,
-                  prices and place orders. Just click on SHOP in the main menu
-                  to start discovering thousands of curated handmade products!
-                  {previousUrl && (
-                    <span>
-                      To go back to the page you visited before signup please{" "}
-                      <Link href={previousUrl}>
-                        <span className="qa-underline qa-primary-c qa-cursor">
-                          click here
-                        </span>
-                      </Link>
-                      .
-                    </span>
-                  )}
                 </p>
               </div>
             ) : notificationMsg === "EMAIL_NOT_VERIFIED" ? (
