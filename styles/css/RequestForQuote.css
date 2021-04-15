@@ -231,7 +231,7 @@
   }
 
   #send-query-form .label-paragraph {
-    font-size: calc(14px + (26 - 14) * ((100vw - 300px) / (1900 - 300)));
+    font-size: calc(14px + (16 - 14) * ((100vw - 300px) / (1900 - 300)));
     line-height: 19px;
     color: #191919;
     display: inline-block;

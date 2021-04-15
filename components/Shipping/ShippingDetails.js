@@ -24,6 +24,7 @@ import PaymentBanner from "../common/PaymentBanner";
 import moment from "moment";
 
 const LANDING_LIMITER = 2;
+const CBM_LIMITER = 15;
 
 const ShippingDetails = (props) => {
   const router = useRouter();
@@ -217,6 +218,11 @@ const ShippingDetails = (props) => {
           if (result) {
             setPayment(true);
             setLoading(false);
+          }
+
+          let { cbm = "" } = airQuote[shippingTerm] || seaQuote[shippingTerm];
+          if (cbm > CBM_LIMITER) {
+            setPayment(true);
           }
         } else {
           setLoading(false);
