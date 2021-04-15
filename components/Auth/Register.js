@@ -301,7 +301,8 @@ const Register = (props) => {
           return res.json();
         } else {
           setLoading(false);
-          let message = res.statusText || "Error while signing up.";
+          let message =
+            res.statusText || "Oops something went wrong. Please try again!";
           if (res.statusText === "Conflict") {
             message = "Email id/Phone number already registered";
           }

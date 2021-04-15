@@ -306,7 +306,7 @@ export const getBrandNameByCode = (codes, token, quoteData) => async (
       if (res.ok) {
         return res.json();
       } else {
-        throw res.statusText || "Error while signing up.";
+        throw res.statusText || "Oops something went wrong. Please try again!";
       }
     })
     .then((res) => {
@@ -340,7 +340,7 @@ export const getQuoteByStatus = (token, status, currentTab, buyerId) => async (
       if (res.ok) {
         return res.json();
       } else {
-        throw res.statusText || "Error while signing up.";
+        throw res.statusText || "Oops something went wrong. Please try again!";
       }
     })
     .then((res) => {
@@ -413,7 +413,7 @@ export const getOrderByOrderId = (token, orderId) => async (dispatch) => {
       if (res.ok) {
         return res.json();
       } else {
-        throw res.statusText || "Error while signing up.";
+        throw res.statusText || "Oops something went wrong. Please try again!";
       }
     })
     .then((res) => {
@@ -520,7 +520,7 @@ export const getRfqByStatus = (status, token, buyerId) => async (dispatch) => {
       if (res.ok) {
         return res.json();
       } else {
-        throw res.statusText || "Error while signing up.";
+        throw res.statusText || "Oops something went wrong. Please try again!";
       }
     })
     .then((res) => {

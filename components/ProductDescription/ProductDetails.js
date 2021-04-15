@@ -561,7 +561,10 @@ const ProductDetails = (props) => {
                         }, 5000);
                         setLoading(false);
                       } else {
-                        throw res.statusText || "Error while signing up.";
+                        throw (
+                          res.statusText ||
+                          "Oops something went wrong. Please try again!"
+                        );
                       }
                     })
                     .catch((err) => {
@@ -599,7 +602,10 @@ const ProductDetails = (props) => {
                       if (res.ok) {
                         return res.json();
                       } else {
-                        throw res.statusText || "Error while signing up.";
+                        throw (
+                          res.statusText ||
+                          "Oops something went wrong. Please try again!"
+                        );
                       }
                     })
                     .then((res) => {
@@ -625,7 +631,10 @@ const ProductDetails = (props) => {
                             }, 5000);
                             setLoading(false);
                           } else {
-                            throw res.statusText || "Error while signing up.";
+                            throw (
+                              res.statusText ||
+                              "Oops something went wrong. Please try again!"
+                            );
                           }
                         })
                         .catch((err) => {

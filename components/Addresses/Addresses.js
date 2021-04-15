@@ -386,7 +386,7 @@ const Addresses = (props) => {
           if (res.ok) {
             return res.json();
           } else {
-            throw res.statusText || "Error while updating info.";
+            throw res.statusText || "Oops something went wrong. Please try again!";
           }
         })
         .then((res) => {
@@ -455,7 +455,7 @@ const Addresses = (props) => {
           if (res.ok) {
             return res.json();
           } else {
-            throw res.statusText || "Error while updating info.";
+            throw res.statusText || "Oops something went wrong. Please try again!";
           }
         })
         .then((res) => {
@@ -522,7 +522,7 @@ const Addresses = (props) => {
           if (res.ok) {
             return res.json();
           } else {
-            throw res.statusText || "Error while updating info.";
+            throw res.statusText || "Oops something went wrong. Please try again!";
           }
         })
         .then((res) => {
@@ -568,7 +568,7 @@ const Addresses = (props) => {
         if (res.ok) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw res.statusText || "Oops something went wrong. Please try again!";
         }
       })
       .then((res) => {

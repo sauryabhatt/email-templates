@@ -122,7 +122,9 @@ const CollectionDetails = (props) => {
         if (res.ok) {
           return res.json();
         } else {
-          throw res.statusText || "Error while signing up.";
+          throw (
+            res.statusText || "Oops something went wrong. Please try again!"
+          );
         }
       })
       .then((res) => {

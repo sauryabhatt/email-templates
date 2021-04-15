@@ -219,11 +219,6 @@ const ShippingDetails = (props) => {
             setPayment(true);
             setLoading(false);
           }
-
-          let { cbm = "" } = airQuote[shippingTerm] || seaQuote[shippingTerm];
-          if (cbm > CBM_LIMITER) {
-            setPayment(true);
-          }
         } else {
           setLoading(false);
         }
@@ -256,7 +251,9 @@ const ShippingDetails = (props) => {
         if (res.ok) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw (
+            res.statusText || "Oops something went wrong. Please try again!"
+          );
         }
       })
       .then((result) => {
@@ -413,7 +410,9 @@ const ShippingDetails = (props) => {
         if (res.ok) {
           return res.json();
         } else {
-          throw res.statusText || "Error while updating info.";
+          throw (
+            res.statusText || "Oops something went wrong. Please try again!"
+          );
         }
       })
       .then((result) => {
@@ -486,17 +485,25 @@ const ShippingDetails = (props) => {
           if (res.ok) {
             return res.json();
           } else {
-            throw res.statusText || "Error while sending e-mail.";
+            throw (
+              res.statusText || "Oops something went wrong. Please try again!"
+            );
           }
         })
         .then((result) => {
           setCartData(result);
           if (mode === "AIR") {
-            let { tat = 0 } = airQuote[shippingTerm] || {};
+            let { tat = 0, cbm = 0 } = airQuote[shippingTerm] || {};
             setTat(tat);
+            if (cbm > CBM_LIMITER) {
+              setPayment(true);
+            }
           } else {
-            let { tat = 0 } = seaQuote[shippingTerm] || {};
+            let { tat = 0, cbm = 0 } = seaQuote[shippingTerm] || {};
             setTat(tat);
+            if (cbm > CBM_LIMITER) {
+              setPayment(true);
+            }
           }
           let { miscCharges = [], promoDiscount = 0 } = result || {};
           let discount = 0;

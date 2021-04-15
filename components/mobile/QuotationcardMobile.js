@@ -2,12 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 import { Row, Col, Menu, Button } from "antd";
-import {useRouter} from "next/router";
+import { useRouter } from "next/router";
 import { useKeycloak } from "@react-keycloak/ssr";
 import moment from "moment";
 
 const QuotationcardMobile = (props) => {
-  const {keycloak} = useKeycloak();
+  const { keycloak } = useKeycloak();
   const router = useRouter();
   const [rfqIds, setRfqIds] = useState(null);
 
@@ -29,7 +29,9 @@ const QuotationcardMobile = (props) => {
         if (res.ok) {
           return res.json();
         } else {
-          throw res.statusText || "Error while signing up.";
+          throw (
+            res.statusText || "Oops something went wrong. Please try again!"
+          );
         }
       })
       .then((res) => {
@@ -62,7 +64,9 @@ const QuotationcardMobile = (props) => {
   }, []);
   const createOrderFromQuote = (quoteNumber) => {
     fetch(
-      process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL + "/orders/custom/" + quoteNumber,
+      process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL +
+        "/orders/custom/" +
+        quoteNumber,
       {
         method: "POST",
         headers: {
@@ -75,7 +79,9 @@ const QuotationcardMobile = (props) => {
         if (res.ok) {
           return res.json();
         } else {
-          throw res.statusText || "Error while signing up.";
+          throw (
+            res.statusText || "Oops something went wrong. Please try again!"
+          );
         }
       })
       .then((res) => {
@@ -129,7 +135,7 @@ const QuotationcardMobile = (props) => {
               )
             }
           >
-            {subOrder.sellerCode }
+            {subOrder.sellerCode}
           </span>
         </Col>
       );
@@ -273,11 +279,11 @@ const QuotationcardMobile = (props) => {
               {props.status == "received" || props.status == "closed" ? (
                 <React.Fragment>
                   <Row>
-                    <Col xs={7} sm={7} md={7} lg={0} >
-                      <span className = "qa-font-san"> Seller Id: </span>
+                    <Col xs={7} sm={7} md={7} lg={0}>
+                      <span className="qa-font-san"> Seller Id: </span>
                     </Col>
-                    <Col xs={14} sm={14} md={14} lg={0} >
-                    {getBrandName}
+                    <Col xs={14} sm={14} md={14} lg={0}>
+                      {getBrandName}
                     </Col>
                     <Col
                       xs={6}
