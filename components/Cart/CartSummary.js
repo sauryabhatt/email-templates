@@ -435,7 +435,9 @@ const CartSummary = (props) => {
           if (res.ok) {
             return res.text();
           } else {
-            throw res.statusText || "Error while signing up.";
+            throw (
+              res.statusText || "Error while validating otp. Please try again"
+            );
           }
         })
         .then((res) => {

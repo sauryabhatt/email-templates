@@ -71,8 +71,8 @@
   }
 
   #user-account .banner-verified {
-    position: relative;
-    top: 50%;
+    /* position: relative;
+    top: 50%; */
     transform: translateY(-50%);
   }
 
@@ -391,10 +391,9 @@
   }
 
   #user-account .banner-verified {
-    position: relative;
-    top: 50%;
+    /* position: relative;
+    top: 50%; */
     transform: translateY(-50%);
-    margin-top: 20px;
   }
 
   #user-account .banner-button {

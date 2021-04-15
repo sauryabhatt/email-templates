@@ -68,6 +68,7 @@ const Cart = (props) => {
 
   useEffect(() => {
     if (props.user && Object.keys(props.user).length) {
+      setIsLoading(true);
       let { user = {} } = props || {};
       let { profileType = "" } = user || {};
       if (profileType === "BUYER" && cartData === false) {
@@ -81,8 +82,6 @@ const Cart = (props) => {
       setTimeout(() => {
         setIsLoading(false);
       }, 3000);
-    } else {
-      setIsLoading(true);
     }
   }, [props.user]);
 
