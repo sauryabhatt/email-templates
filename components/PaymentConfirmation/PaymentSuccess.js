@@ -68,6 +68,7 @@ const PaymentSuccess = (props) => {
     subOrders = [],
   } = order || {};
 
+  let maxQty = 0;
   let minDate = expectedDeliveryDateMin;
 
   if (minDate && minDate.includes("-")) {
@@ -127,6 +128,9 @@ const PaymentSuccess = (props) => {
               parseFloat(exfactoryListPrice * conversionFactor).toFixed(2)
             ) *
               quantity;
+        }
+        if (quantity > maxQty) {
+          maxQty = quantity;
         }
       }
       qalaraSellerMargin = parseFloat(
@@ -436,7 +440,14 @@ const PaymentSuccess = (props) => {
                         <li>Estimated production/ dispatch time</li>
                       </div>
                       <div className="c-right-blk qa-txt-alg-rgt">
-                        {typeOfOrder === "ERTM" ? "30-40" : "7-10"} days
+                        {typeOfOrder === "RTS"
+                          ? "7-10"
+                          : maxQty < 200
+                          ? "35-45"
+                          : maxQty >= 200 && maxQty <= 500
+                          ? "45-60"
+                          : "60-90"}{" "}
+                        days
                       </div>
                     </div>
                     <div>

@@ -96,8 +96,9 @@ const RtsOrderReview = (props) => {
   let vat = 0;
   let dutyMax = 0;
   let dutyMin = 0;
-
+  let maxQty = 0;
   let tat = 0;
+
   if (data && data["tat"]) {
     tat = data["tat"];
   }
@@ -168,6 +169,9 @@ const RtsOrderReview = (props) => {
           basePrice =
             basePrice +
             parseFloat(getConvertedCurrency(exfactoryListPrice)) * quantity;
+        }
+        if (quantity > maxQty) {
+          maxQty = quantity;
         }
       }
 
@@ -505,7 +509,13 @@ const RtsOrderReview = (props) => {
                       <li>Estimated production/ dispatch time</li>
                     </div>
                     <div className="c-right-blk qa-txt-alg-rgt">
-                      {typeOfOrder === "ERTM" ? "30-40" : "7-10"} days
+                      {typeOfOrder === "RTS"
+                        ? "7-10"
+                        : maxQty < 200
+                        ? "35-45"
+                        : maxQty >= 200 && maxQty <= 500
+                        ? "45-60"
+                        : "60-90"}{" "}
                     </div>
                   </div>
 
@@ -1215,7 +1225,13 @@ const RtsOrderReview = (props) => {
                         Estimated production/ dispatch time
                       </div>
                       <div className="c-right-blk qa-txt-alg-rgt">
-                        {typeOfOrder === "ERTM" ? "30-40" : "7-10"} days
+                        {typeOfOrder === "RTS"
+                          ? "7-10"
+                          : maxQty < 200
+                          ? "35-45"
+                          : maxQty >= 200 && maxQty <= 500
+                          ? "45-60"
+                          : "60-90"}{" "}
                       </div>
                     </li>
                   </div>

@@ -17,6 +17,7 @@ const FAQ = (props) => {
   const ref1 = useRef();
   const ref2 = useRef();
   const ref3 = useRef();
+  const account = useRef();
 
   useEffect(() => {
     let { refs = "" } = router.query;
@@ -260,6 +261,56 @@ const FAQ = (props) => {
             values - artisanal, eco friendly, organic, fair & social, recycled,
             sustainable - and aspires to have the largest and most reliable
             selection of such manufacturers.
+          </div>
+        </Panel>
+
+        <div className="panel-header" ref={account}>
+          CREATING ACCOUNT ON QALARA
+        </div>
+        <Panel
+          header="Why should I validate my email address?"
+          key="acc1"
+          className="panel-title"
+        >
+          <div className="panel-body">
+            Email address validation is required to ensure that you have
+            registered with the correct email address. If you have entered the
+            wrong address you will miss out on important updates regarding your
+            Queries, Orders and Request For Quotes. Additionally, we will not be
+            able to send you the collections curated exclusively for your
+            requirements. Validation also helps in preventing any misuse as it
+            ensures that your address cannot be used by anyone else to place an
+            order on Qalara.
+          </div>
+        </Panel>
+        <Panel
+          header="I have not received the validation One Time Password (OTP) email. What do I do?"
+          key="acc2"
+          className="panel-title"
+        >
+          <div className="panel-body">
+            In rare scenarios, the validation email may land in your Promotions
+            /Spam /Junk folder. We request you to check these folders for the
+            email with the subject line 'One Time Password (OTP) to validate
+            your email address | Qalara'.<br></br>
+            <br></br>Please write to us at help@qalara.com from your registered
+            email address if you have not received the One Time Password email
+            in any of the folders mentioned above.
+          </div>
+        </Panel>
+        <Panel
+          header="What happens if I don’t validate my email address?"
+          key="acc3"
+          className="panel-title"
+        >
+          <div className="panel-body">
+            You will not be able to place orders on Qalara if your email address
+            is not validated. Validating an email address also acts as a check
+            for you to ensure that you have entered the correct email address.
+            In absence of a correct email address, you will miss out on the
+            response sent by our team regarding your RFQ and order requests.
+            Additionally, we will not be able to send you the periodic exclusive
+            curated collections for your sourcing needs.
           </div>
         </Panel>
 
