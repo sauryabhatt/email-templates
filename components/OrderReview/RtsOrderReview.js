@@ -98,6 +98,7 @@ const RtsOrderReview = (props) => {
   let dutyMin = 0;
   let maxQty = 0;
   let tat = 0;
+  let mov = false;
 
   if (data && data["tat"]) {
     tat = data["tat"];
@@ -158,6 +159,7 @@ const RtsOrderReview = (props) => {
           quantity = 0,
           exfactoryListPrice = 0,
           priceApplied = 0,
+          productType = "",
         } = items;
         samplePrice = samplePrice + sampleCost;
         testingPrice = testingPrice + qualityTestingCharge;
@@ -169,6 +171,9 @@ const RtsOrderReview = (props) => {
           basePrice =
             basePrice +
             parseFloat(getConvertedCurrency(exfactoryListPrice)) * quantity;
+        }
+        if (productType !== "RTS") {
+          mov = true;
         }
         if (quantity > maxQty) {
           maxQty = quantity;
@@ -509,13 +514,14 @@ const RtsOrderReview = (props) => {
                       <li>Estimated production/ dispatch time</li>
                     </div>
                     <div className="c-right-blk qa-txt-alg-rgt">
-                      {typeOfOrder === "RTS"
-                        ? "7-10"
-                        : maxQty < 200
-                        ? "35-45"
-                        : maxQty >= 200 && maxQty <= 500
-                        ? "45-60"
-                        : "60-90"}{" "}
+                      {mov
+                        ? maxQty < 200
+                          ? "35-45"
+                          : maxQty >= 200 && maxQty <= 500
+                          ? "45-60"
+                          : "60-90"
+                        : "7-10"}{" "}
+                      days
                     </div>
                   </div>
 
@@ -1225,13 +1231,14 @@ const RtsOrderReview = (props) => {
                         Estimated production/ dispatch time
                       </div>
                       <div className="c-right-blk qa-txt-alg-rgt">
-                        {typeOfOrder === "RTS"
-                          ? "7-10"
-                          : maxQty < 200
-                          ? "35-45"
-                          : maxQty >= 200 && maxQty <= 500
-                          ? "45-60"
-                          : "60-90"}{" "}
+                        {mov
+                          ? maxQty < 200
+                            ? "35-45"
+                            : maxQty >= 200 && maxQty <= 500
+                            ? "45-60"
+                            : "60-90"
+                          : "7-10"}{" "}
+                        days
                       </div>
                     </li>
                   </div>

@@ -69,6 +69,7 @@ const PaymentSuccess = (props) => {
   } = order || {};
 
   let maxQty = 0;
+  let mov = false;
   let minDate = expectedDeliveryDateMin;
 
   if (minDate && minDate.includes("-")) {
@@ -106,6 +107,7 @@ const PaymentSuccess = (props) => {
           quantity = 0,
           exfactoryListPrice = 0,
           priceApplied = 0,
+          productType = "",
         } = items;
         samplePrice =
           samplePrice +
@@ -128,6 +130,9 @@ const PaymentSuccess = (props) => {
               parseFloat(exfactoryListPrice * conversionFactor).toFixed(2)
             ) *
               quantity;
+        }
+        if (productType !== "RTS") {
+          mov = true;
         }
         if (quantity > maxQty) {
           maxQty = quantity;
@@ -440,13 +445,13 @@ const PaymentSuccess = (props) => {
                         <li>Estimated production/ dispatch time</li>
                       </div>
                       <div className="c-right-blk qa-txt-alg-rgt">
-                        {typeOfOrder === "RTS"
-                          ? "7-10"
-                          : maxQty < 200
-                          ? "35-45"
-                          : maxQty >= 200 && maxQty <= 500
-                          ? "45-60"
-                          : "60-90"}{" "}
+                        {mov
+                          ? maxQty < 200
+                            ? "35-45"
+                            : maxQty >= 200 && maxQty <= 500
+                            ? "45-60"
+                            : "60-90"
+                          : "7-10"}{" "}
                         days
                       </div>
                     </div>
