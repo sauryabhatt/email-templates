@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Button, Col, Row, Modal, Input, Form, message } from "antd";
+import { Button, Col, Row, Modal, Form, message } from "antd";
 import { useKeycloak } from "@react-keycloak/ssr";
-import Icon from "@ant-design/icons";
+import Icon, { CheckCircleOutlined } from "@ant-design/icons";
 // import { loginToApp } from "./../../AuthWithKeycloak/AuthWithKeycloak";
 import HomeBanner from "./../HomeBanner/HomeBanner";
 import CategoryBannerCarousel from "../CategoryBannerCarousel";
@@ -19,6 +19,8 @@ import closeButton from "../../public/filestore/closeButtonLite";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import OtpInput from "react-otp-input";
+import { getUserProfile } from "../../store/actions";
 
 function Home(props) {
   const router = useRouter();
@@ -28,7 +30,8 @@ function Home(props) {
   const [successQueryVisible, setSuccessQueryVisible] = useState(false);
   const [inviteAccess, setInviteAccess] = useState(false);
   const [form] = Form.useForm();
-  let mediaMatch = undefined;
+  let mediaMatch =
+    typeof window == "undefined" ? "" : window.matchMedia("(min-width: 768px)");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [notificationMsg, setNotificationMsg] = useState("");
@@ -38,6 +41,14 @@ function Home(props) {
   const [confirmationModal, setConfirmationModal] = useState(false);
   const [uProfile, setUProfile] = useState("BUYER");
   const [verificationModal, setVerificationModal] = useState(false);
+  const [otpVerificationModal, setOtpVerificationModal] = useState(false);
+  const [otpInput, setOtpInput] = useState("");
+  const [otpError, setOtpError] = useState(false);
+  const [otpValidated, setOtpValidated] = useState(false);
+  const [otpLengthError, setOtpLengthError] = useState(false);
+  const [btnLoading, setBtnLoading] = useState(false);
+
+  let retryCountOtp = 0;
 
   const token = useSelector(
     (state) => state.appToken.token && state.appToken.token.access_token
@@ -75,7 +86,6 @@ function Home(props) {
       localStorage.removeItem("productUrl");
       localStorage.removeItem("userName");
     }
-
     let notification = sessionStorage.getItem("showNotification");
     if (props && props.userProfile && !notification) {
       let {
@@ -170,6 +180,91 @@ function Home(props) {
 
   const handleCancel = () => {
     setShowNotification(false);
+  };
+
+  const sendOtp = () => {
+    setBtnLoading(true);
+    setOtpError(false);
+    setOtpVerificationModal(true);
+    setOtpInput("");
+    setOtpLengthError(false);
+    setVerificationModal(false);
+    fetch(process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/otp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + keycloak.token,
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.text();
+        } else {
+          throw res.statusText || "Error while sending otp. Please try again";
+        }
+      })
+      .then((res) => {
+        console.log(res);
+        setBtnLoading(false);
+      })
+      .catch((err) => {
+        if (retryCountOtp < 3) {
+          sendOtp();
+        } else {
+          message.error(err.message || err, 5);
+          setBtnLoading(false);
+        }
+        retryCountOtp++;
+      });
+  };
+
+  const hideOtpModal = () => {
+    setOtpVerificationModal(false);
+  };
+  const handleOtpChange = (otp) => {
+    setOtpInput(otp);
+  };
+
+  const validateOtp = () => {
+    if (otpInput.length !== 6) {
+      setOtpLengthError(true);
+    } else {
+      setBtnLoading(true);
+      setOtpLengthError(false);
+      fetch(
+        process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/otp/validate",
+        {
+          method: "POST",
+          body: otpInput,
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + keycloak.token,
+          },
+        }
+      )
+        .then((res) => {
+          if (res.ok) {
+            return res.text();
+          } else {
+            throw (
+              res.statusText || "Oops something went wrong. Please try again!"
+            );
+          }
+        })
+        .then((res) => {
+          setBtnLoading(false);
+          setOtpVerificationModal(true);
+          setOtpError(false);
+          setOtpValidated(true);
+          props.getUserProfile(keycloak.token);
+        })
+        .catch((err) => {
+          setOtpError(true);
+          setOtpValidated(false);
+          setBtnLoading(false);
+          // message.error(err.message || err, 5);
+        });
+    }
   };
 
   const handleInvite = (values) => {
@@ -848,11 +943,12 @@ function Home(props) {
               </p>
             ) : notificationMsg === "EMAIL_NOT_VERIFIED" ? (
               <p className="verification-heading home-page">
-                Welcome! Please validate your email address.
+                Welcome to Qalara! Please validate your email address to enable
+                online checkout.
               </p>
             ) : (
               <p className="verification-heading home-page">
-                Welcome! We are in the process of verifying your account.
+                Welcome! Your account verification is in progress.
               </p>
             )}
 
@@ -865,62 +961,161 @@ function Home(props) {
                 </p>
 
                 <p className="verification-text qa-mar-top-2">
-                  Meanwhile, please click on the link sent to {maskid} to
-                  validate your email address. If you have not received the
-                  validation email in your primary inbox, please check your
-                  promotions/ spam/ junk folder. If you still don’t find it or
-                  are facing any issues please write to us at{" "}
-                  <a
-                    href="mailto:help@qalara.com"
-                    className="qa-underline qa-primary-c"
+                  Meanwhile, please click on the button below to receive a One
+                  Time Password (OTP) at your registered email address and
+                  follow instructions to validate your email address.
+                </p>
+                <p
+                  className="verification-text qa-mar-top-4"
+                  style={{ textAlign: "center" }}
+                >
+                  <Button
+                    onClick={sendOtp}
+                    disabled={btnLoading}
+                    className="qa-button qa-send-otp"
                   >
-                    help@qalara.com
-                  </a>{" "}
-                  from your registered email address.
+                    SEND VALIDATION OTP
+                  </Button>
                 </p>
               </div>
             ) : notificationMsg === "EMAIL_NOT_VERIFIED" ? (
               <div>
                 <p className="verification-text">
-                  Welcome! Validation of your email address is pending. Please
-                  click on the link sent to reg. email add. to validate your
-                  email address.
+                  You can now browse all products, view prices, create
+                  collections, add to cart and more!{" "}
+                  <b>
+                    But you will need to validate your email address to enable
+                    online checkout.
+                  </b>
                 </p>
                 <p className="verification-text qa-mar-top-2">
-                  Please check your promotions/spam/junk folder if you have not
-                  received the validation email in your primary inbox. If you
-                  haven't received the validation email or are facing any issues
-                  please write to us at{" "}
-                  <a
-                    href="mailto:help@qalara.com"
-                    className="qa-underline qa-primary-c"
+                  Please click on the button below to receive a One Time
+                  Password (OTP) at your registered email address and follow
+                  instructions to validate your email address.
+                </p>
+                <p
+                  className="verification-text qa-mar-top-4"
+                  style={{ textAlign: "center" }}
+                >
+                  <Button
+                    onClick={sendOtp}
+                    disabled={btnLoading}
+                    className="qa-button qa-send-otp"
                   >
-                    help@qalara.com
-                  </a>{" "}
-                  from your registered email address.
+                    SEND VALIDATION OTP
+                  </Button>
                 </p>
               </div>
             ) : (
               <p className="verification-text">
-                Welcome! Your Buyer Account will be verified within 48 hours,
-                meanwhile we are providing temporary access to view catalogs,
-                products, prices and place orders. Qalara offers secure
-                payments, low freight costs, and quality inspections for your
-                orders, so you can shop with confidence! Just click on SHOP in
-                the main menu to start discovering thousands of curated handmade
-                products!{" "}
-                {previousUrl && (
-                  <span>
-                    To go back to the page you visited before signup please{" "}
-                    <Link href={previousUrl}>
-                      <span className="qa-underline qa-primary-c qa-cursor">
-                        click here
-                      </span>
-                      .
-                    </Link>
-                  </span>
-                )}
+                Your Buyer Account will be verified within 48 hours and we may
+                reach out to you for additional information. We do this to
+                ensure a trusted platform for buyers and sellers.
               </p>
+            )}
+          </div>
+        </div>
+      </Modal>
+      <Modal
+        visible={otpVerificationModal}
+        className="otp-verification-modal"
+        footer={null}
+        closable={false}
+        onCancel={hideOtpModal}
+        centered
+        bodyStyle={{ padding: "30px", backgroundColor: "#f9f7f2" }}
+        width={mediaMatch.matches ? 800 : "100%"}
+      >
+        <div className="qa-rel-pos">
+          <div
+            onClick={hideOtpModal}
+            style={{
+              position: "absolute",
+              right: "0px",
+              top: "0px",
+              cursor: "pointer",
+              zIndex: "1",
+            }}
+          >
+            <Icon
+              component={closeButton}
+              style={{ width: "30px", height: "30px" }}
+            />
+          </div>
+          <div>
+            <div className="otp-email-title">Validate your email address</div>
+            {!otpValidated ? (
+              <div>
+                <div className="otp-email-detail">
+                  Enter the One Time Password (OTP) sent to your registered
+                  email address {maskid}
+                </div>
+                <div className="otp-input-field">
+                  <OtpInput
+                    value={otpInput}
+                    onChange={handleOtpChange}
+                    numInputs={6}
+                    separator={<span></span>}
+                    focusStyle="focussed-input"
+                    shouldAutoFocus={true}
+                  />
+                </div>
+                {otpLengthError && (
+                  <div className="email-verification-text">
+                    Please enter 6 digits OTP
+                  </div>
+                )}
+                {otpError && (
+                  <div className="email-verification-text">
+                    The OTP entered is incorrect. Please enter the correct OTP
+                  </div>
+                )}
+                <div className="otp-btn-section qa-mar-top-2">
+                  <Button
+                    onClick={validateOtp}
+                    disabled={btnLoading}
+                    className="qa-button qa-send-otp"
+                  >
+                    VALIDATE OTP
+                  </Button>
+                </div>
+                <div
+                  className="resend-otp-btn"
+                  onClick={() => {
+                    setOtpInput("");
+                    sendOtp();
+                  }}
+                >
+                  RESEND OTP
+                </div>
+                <div className="otp-help-section">
+                  Please check your promotions/spam/junk folder if you have not
+                  received the OTP in your primary inbox. If you haven't
+                  received the OTP or are facing any issues please write to us
+                  at{" "}
+                  <a
+                    href="mailto:help@qalara.com"
+                    className="qa-sm-color qa-underline"
+                  >
+                    help@qalara.com
+                  </a>{" "}
+                  from your registered email address.
+                </div>
+              </div>
+            ) : (
+              <div style={{ textAlign: "center" }}>
+                <CheckCircleOutlined
+                  style={{
+                    fontSize: "60px",
+                    marginTop: "10px",
+                    marginBottom: "20px",
+                  }}
+                />
+                <div className="qa-mar-btm-3 otp-validated">
+                  Thank you for validating your email address. Online checkout
+                  is now enabled for your Qalara account.
+                </div>
+              </div>
             )}
           </div>
         </div>
@@ -1143,4 +1338,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, null)(Home);
+export default connect(mapStateToProps, { getUserProfile })(Home);
