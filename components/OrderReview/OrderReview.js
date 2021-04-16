@@ -80,10 +80,11 @@ const OrderReview = (props) => {
       let { products = "" } = order;
 
       for (let items of products) {
-        let { quantity = 0 } = items;
-
-        if (quantity > maxQty) {
-          maxQty = quantity;
+        let { quantity = 0, productType = "" } = items;
+        if (productType !== "RTS") {
+          if (quantity > maxQty) {
+            maxQty = quantity;
+          }
         }
       }
     }
@@ -94,19 +95,21 @@ const OrderReview = (props) => {
 
   let eddMin = "";
   let eddMax = "";
-  if (orderType === "CUSTOM") {
+  let modeTat =
+    tat - (props.order && props.order.shippingMode === "AIR" ? 3 : 7);
+  if (orderType === "CUSTOM" && maxQty > 0) {
     if (maxQty < 200) {
-      eddMin = deliveryDateMin.setDate(today.getDate() + 35 + tat);
+      eddMin = deliveryDateMin.setDate(today.getDate() + 35 + modeTat);
       eddMax = deliveryDateMax.setDate(today.getDate() + 45 + tat);
     } else if (maxQty >= 200 && maxQty <= 500) {
-      eddMin = deliveryDateMin.setDate(today.getDate() + 45 + tat);
+      eddMin = deliveryDateMin.setDate(today.getDate() + 45 + modeTat);
       eddMax = deliveryDateMax.setDate(today.getDate() + 60 + tat);
     } else {
-      eddMin = deliveryDateMin.setDate(today.getDate() + 60 + tat);
+      eddMin = deliveryDateMin.setDate(today.getDate() + 60 + modeTat);
       eddMax = deliveryDateMax.setDate(today.getDate() + 90 + tat);
     }
   } else {
-    eddMin = deliveryDateMin.setDate(today.getDate() + 7 + tat);
+    eddMin = deliveryDateMin.setDate(today.getDate() + 7 + modeTat);
     eddMax = deliveryDateMax.setDate(today.getDate() + 10 + tat);
   }
 

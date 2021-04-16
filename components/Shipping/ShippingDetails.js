@@ -120,9 +120,9 @@ const ShippingDetails = (props) => {
 
               if (productType !== "RTS") {
                 setMov(true);
-              }
-              if (quantity > maxQuantity) {
-                maxQuantity = quantity;
+                if (quantity > maxQuantity) {
+                  maxQuantity = quantity;
+                }
               }
             }
             totalAmount = totalAmount + basePrice;
@@ -531,19 +531,20 @@ const ShippingDetails = (props) => {
 
   let eddMin = "";
   let eddMax = "";
-  if (mov) {
+  let modeTat = tat - (mode === "AIR" ? 3 : 7);
+  if (mov && maxQty > 0) {
     if (maxQty < 200) {
-      eddMin = deliveryDateMin.setDate(today.getDate() + 35 + tat);
+      eddMin = deliveryDateMin.setDate(today.getDate() + 35 + modeTat);
       eddMax = deliveryDateMax.setDate(today.getDate() + 45 + tat);
     } else if (maxQty >= 200 && maxQty <= 500) {
-      eddMin = deliveryDateMin.setDate(today.getDate() + 45 + tat);
+      eddMin = deliveryDateMin.setDate(today.getDate() + 45 + modeTat);
       eddMax = deliveryDateMax.setDate(today.getDate() + 60 + tat);
     } else {
-      eddMin = deliveryDateMin.setDate(today.getDate() + 60 + tat);
+      eddMin = deliveryDateMin.setDate(today.getDate() + 60 + modeTat);
       eddMax = deliveryDateMax.setDate(today.getDate() + 90 + tat);
     }
   } else {
-    eddMin = deliveryDateMin.setDate(today.getDate() + 7 + tat);
+    eddMin = deliveryDateMin.setDate(today.getDate() + 7 + modeTat);
     eddMax = deliveryDateMax.setDate(today.getDate() + 10 + tat);
   }
 
@@ -1091,7 +1092,7 @@ const ShippingDetails = (props) => {
                           <li>Estimated production/ dispatch time</li>
                         </div>
                         <div className="c-right-blk qa-txt-alg-rgt">
-                          {mov
+                          {mov && maxQty > 0
                             ? maxQty < 200
                               ? "35-45"
                               : maxQty >= 200 && maxQty <= 500
@@ -2103,7 +2104,7 @@ const ShippingDetails = (props) => {
                             Estimated production/ dispatch time
                           </div>
                           <div className="c-right-blk qa-txt-alg-rgt">
-                            {mov
+                            {mov && maxQty > 0
                               ? maxQty < 200
                                 ? "35-45"
                                 : maxQty >= 200 && maxQty <= 500

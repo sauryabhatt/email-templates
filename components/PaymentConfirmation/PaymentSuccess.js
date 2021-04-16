@@ -133,9 +133,9 @@ const PaymentSuccess = (props) => {
         }
         if (productType !== "RTS") {
           mov = true;
-        }
-        if (quantity > maxQty) {
-          maxQty = quantity;
+          if (quantity > maxQty) {
+            maxQty = quantity;
+          }
         }
       }
       qalaraSellerMargin = parseFloat(
@@ -445,7 +445,7 @@ const PaymentSuccess = (props) => {
                         <li>Estimated production/ dispatch time</li>
                       </div>
                       <div className="c-right-blk qa-txt-alg-rgt">
-                        {mov
+                        {mov && maxQty > 0
                           ? maxQty < 200
                             ? "35-45"
                             : maxQty >= 200 && maxQty <= 500
