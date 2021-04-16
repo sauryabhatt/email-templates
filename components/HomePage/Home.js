@@ -955,9 +955,10 @@ function Home(props) {
             {notificationMsg === "ACCOUNT_EMAIL_NOT_VERIFIED" ? (
               <div>
                 <p className="verification-text">
-                  Your Buyer Account will be verified within 48 hours and we may
-                  reach out to you for additional information. We do this to
-                  ensure a trusted platform for buyers and sellers.
+                  Your {profileType === "BUYER" && "Buyer"} Account will be
+                  verified within 48 hours and we may reach out to you for
+                  additional information. We do this to ensure a trusted
+                  platform for buyers and sellers.
                 </p>
 
                 <p className="verification-text qa-mar-top-2">
@@ -1008,9 +1009,10 @@ function Home(props) {
               </div>
             ) : (
               <p className="verification-text">
-                Your Buyer Account will be verified within 48 hours and we may
-                reach out to you for additional information. We do this to
-                ensure a trusted platform for buyers and sellers.
+                Your {profileType === "BUYER" && "Buyer"} Account will be
+                verified within 48 hours and we may reach out to you for
+                additional information. We do this to ensure a trusted platform
+                for buyers and sellers.
               </p>
             )}
           </div>
@@ -1112,8 +1114,9 @@ function Home(props) {
                   }}
                 />
                 <div className="qa-mar-btm-3 otp-validated">
-                  Thank you for validating your email address. Online checkout
-                  is now enabled for your Qalara account.
+                  Thank you for validating your email address.{" "}
+                  {verificationStatus === "VERIFIED" &&
+                    "Online checkout is now enabled for your Qalara account."}
                 </div>
               </div>
             )}

@@ -181,7 +181,8 @@ const CartSummary = (props) => {
     phoneNumber = "",
   } = shippingAddressDetails || {};
 
-  let { verifiedEmail = false, email = "" } = user || {};
+  let { verifiedEmail = false, email = "", verificationStatus = "" } =
+    user || {};
 
   const getConvertedCurrency = (baseAmount) => {
     let { convertToCurrency = "", rates = [] } = currencyDetails;
@@ -1880,8 +1881,9 @@ const CartSummary = (props) => {
                   }}
                 />
                 <div className="qa-mar-btm-3 otp-validated">
-                  Thank you for validating your email address. Online checkout
-                  is now enabled for your Qalara account.
+                  Thank you for validating your email address.{" "}
+                  {verificationStatus === "VERIFIED" &&
+                    "Online checkout is now enabled for your Qalara account."}
                 </div>
               </div>
             )}

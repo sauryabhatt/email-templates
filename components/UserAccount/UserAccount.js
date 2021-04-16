@@ -1108,6 +1108,11 @@ const UserAccount = (props) => {
     props.userProfile &&
     props.userProfile.userProfile &&
     props.userProfile.userProfile.email;
+  let verificationStatus =
+    props &&
+    props.userProfile &&
+    props.userProfile.userProfile &&
+    props.userProfile.userProfile.verificationStatus;
   let prefix = userEmailId
     ? userEmailId.substring(0, userEmailId.lastIndexOf("@"))
     : "";
@@ -2450,8 +2455,9 @@ const UserAccount = (props) => {
                   }}
                 />
                 <div className="qa-mar-btm-3 otp-validated">
-                  Thank you for validating your email address. Online checkout
-                  is now enabled for your Qalara account.
+                  Thank you for validating your email address.{" "}
+                  {verificationStatus === "VERIFIED" &&
+                    "Online checkout is now enabled for your Qalara account."}
                 </div>
               </div>
             )}
