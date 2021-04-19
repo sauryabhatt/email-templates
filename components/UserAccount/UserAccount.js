@@ -2454,11 +2454,19 @@ const UserAccount = (props) => {
                     marginBottom: "20px",
                   }}
                 />
-                <div className="qa-mar-btm-3 otp-validated">
-                  Thank you for validating your email address.{" "}
-                  {verificationStatus === "VERIFIED" &&
-                    "Online checkout is now enabled for your Qalara account."}
-                </div>
+                {verificationStatus === "VERIFIED" ? (
+                  <div className="qa-mar-btm-3 otp-validated">
+                    Thank you for validating your email address. Online checkout
+                    is now enabled for your Qalara account.
+                  </div>
+                ) : (
+                  <div
+                    className="qa-mar-btm-3 otp-validated"
+                    style={{ textAlign: "center" }}
+                  >
+                    Thank you for validating your email address.{" "}
+                  </div>
+                )}
               </div>
             )}
           </div>

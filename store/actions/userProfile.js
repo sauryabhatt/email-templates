@@ -32,7 +32,7 @@ export const setUserProfileFailed = (error) => {
   };
 };
 
-const setUserProfileData = (data, token) => {
+const setUserProfileData = (data, token, callback = "") => {
   fetch(
     process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/profiles/update/my",
     {
@@ -52,10 +52,7 @@ const setUserProfileData = (data, token) => {
       }
     })
     .then((res) => {
-      let { profileCreated = "" } = res;
-      if (profileCreated === true) {
-        getUserProfile(token);
-      }
+      callback(res);
     })
     .catch((err) => {
       console.log(err);
@@ -85,6 +82,7 @@ export const getUserProfile = (token) => {
       .then((result) => {
         // dispatch(getMeetingCount(result.profileId, token));
         let { profileCreated = false } = result || {};
+        console.log("Profile craete ", profileCreated);
         if (profileCreated === null || profileCreated === false) {
           let data = {};
           fetch("https://ipapi.co/json/", {
@@ -95,14 +93,20 @@ export const getUserProfile = (token) => {
               let { ip = "", country_name = "" } = result;
               data.ipAddress = ip;
               data.country = country_name;
-              setUserProfileData(data, token);
+              setUserProfileData(data, token, (result) => {
+                dispatch(setUserProfileLoading(false));
+                return dispatch(setUserProfile(result));
+              });
             })
             .catch((err) => {
               console.log(err);
               let { ip = "", country_name = "" } = {};
               data.ipAddress = ip;
               data.country = country_name;
-              setUserProfileData(data, token);
+              setUserProfileData(data, token, (result) => {
+                dispatch(setUserProfileLoading(false));
+                return dispatch(setUserProfile(result));
+              });
             });
         } else {
           dispatch(setUserProfileLoading(false));

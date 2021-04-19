@@ -42,37 +42,39 @@ export const Layout = ({ children, meta = {} }) => {
         .loadUserProfile()
         .then((profile) => {
           if (!cookie.get("loggedInUser")) {
-            cookie.set("loggedInUser", true);
             const { attributes: { parentProfileId = [] } = {} } = profile;
             let profileId = parentProfileId[0] || "";
             profileId = profileId.replace("BUYER::", "");
             profileId = profileId.replace("SELLER::", "");
-            fetch(
-              process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
-                "/profiles/" +
-                profileId +
-                "/events/login",
-              {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: "Bearer " + keycloak.token,
-                },
-              }
-            )
-              .then((res) => {
-                if (res.ok) {
-                  return res.json();
-                } else {
-                  throw res.statusText || "Error while getting user deatils.";
+            if (profileId) {
+              fetch(
+                process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL +
+                  "/profiles/" +
+                  profileId +
+                  "/events/login",
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + keycloak.token,
+                  },
                 }
-              })
-              .then((res) => {
-                return true;
-              })
-              .catch((err) => {
-                console.log(err);
-              });
+              )
+                .then((res) => {
+                  if (res.ok) {
+                    cookie.set("loggedInUser", true);
+                    return res.json();
+                  } else {
+                    throw res.statusText || "Error while getting user deatils.";
+                  }
+                })
+                .then((res) => {
+                  return true;
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            }
           }
           store.dispatch(setAuth(keycloak.authenticated, profile));
         })
