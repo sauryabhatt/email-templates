@@ -32,6 +32,7 @@ const ProductContact = (props) => {
   const [loading, setLoading] = useState(false);
   const [fileList, setFileList] = useState([]);
   const mediaMatch = window.matchMedia("(min-width: 768px)");
+  let retryCount = 0;
 
   const { keycloak } = useKeycloak();
 
@@ -147,9 +148,14 @@ const ProductContact = (props) => {
         setLoading(false);
       })
       .catch((err) => {
-        message.error(err.message, 5);
-        setErrors(errors.concat(err));
-        setLoading(false);
+        if (retryCount < 3) {
+          productRFQCall(data);
+        } else {
+          message.error(err.message, 5);
+          setErrors(errors.concat(err));
+          setLoading(false);
+        }
+        retryCount++;
       });
   };
   const onFinish = (values) => {

@@ -32,7 +32,7 @@ const SendQueryForm = (props) => {
   const [loading, setLoading] = useState(false);
   const [fileList, setFileList] = useState([]);
   const { keycloak } = useKeycloak();
-
+  let retryCount = 0;
   const { initialValues = {} } = props || {};
 
   const acceptedFileTypes = [
@@ -131,9 +131,14 @@ const SendQueryForm = (props) => {
         setLoading(false);
       })
       .catch((err) => {
-        message.error(err.message, 5);
-        setErrors(errors.concat(err));
-        setLoading(false);
+        if (retryCount < 3) {
+          rfqCall(data);
+        } else {
+          message.error(err.message, 5);
+          setErrors(errors.concat(err));
+          setLoading(false);
+        }
+        retryCount++;
       });
   };
 

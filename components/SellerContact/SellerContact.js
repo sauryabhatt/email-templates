@@ -36,6 +36,7 @@ const SellerContact = (props) => {
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(false);
   const [fileList, setFileList] = useState([]);
+  let retryCount = 0;
 
   // const currentUser = useSelector(state => state.auth.currentUser);
   const { keycloak } = useKeycloak();
@@ -155,9 +156,14 @@ const SellerContact = (props) => {
         setLoading(false);
       })
       .catch((err) => {
-        message.error(err.message, 5);
-        setErrors(errors.concat(err));
-        setLoading(false);
+        if (retryCount < 3) {
+          sellerRFQCall(data);
+        } else {
+          message.error(err.message, 5);
+          setErrors(errors.concat(err));
+          setLoading(false);
+        }
+        retryCount++;
       });
   };
 
