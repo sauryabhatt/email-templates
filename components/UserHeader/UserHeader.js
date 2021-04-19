@@ -412,63 +412,12 @@ function UserHeader(props) {
     );
   }, [props.userProfile.userProfile]);
 
-  const setUserProfile = (data) => {
-    fetch(
-      process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/profiles/update/my",
-      {
-        method: "PATCH",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + keycloak.token,
-        },
-      }
-    )
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          throw res.statusText || "Error while sending request.";
-        }
-      })
-      .then((res) => {
-        let { profileCreated = "" } = res;
-        if (profileCreated === true) {
-          props.getUserProfile(keycloak.token);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   useEffect(() => {
     let userLastActive = sessionStorage.getItem("userLastActive");
     if (
       props.userProfile.userProfile &&
       props.userProfile.userProfile.profileId
     ) {
-      let { profileCreated = false } = props.userProfile.userProfile;
-      if (profileCreated === null || profileCreated === false) {
-        let data = {};
-        fetch("https://ipapi.co/json/", {
-          method: "GET",
-        })
-          .then((response) => response.json())
-          .then((result) => {
-            let { ip = "", country_name = "" } = result;
-            data.ipAddress = ip;
-            data.country = country_name;
-            setUserProfile(data);
-          })
-          .catch((err) => {
-            console.log(err);
-            let { ip = "", country_name = "" } = {};
-            data.ipAddress = ip;
-            data.country = country_name;
-            setUserProfile(data);
-          });
-      }
       if (userLastActive !== props.userProfile.userProfile.profileId) {
         let profileId = props.userProfile.userProfile.profileId || "";
         profileId = profileId.replace("BUYER::", "");

@@ -32,6 +32,37 @@ export const setUserProfileFailed = (error) => {
   };
 };
 
+const setUserProfileData = (data, token) => {
+  fetch(
+    process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL + "/profiles/update/my",
+    {
+      method: "PATCH",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    }
+  )
+    .then((res) => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw res.statusText || "Error while sending request.";
+      }
+    })
+    .then((res) => {
+      let { profileCreated = "" } = res;
+      if (profileCreated === true) {
+        getUserProfile(token);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      getUserProfile(token);
+    });
+};
+
 export const getUserProfile = (token) => {
   return (dispatch) => {
     dispatch(setUserProfileLoading(true));
@@ -53,8 +84,30 @@ export const getUserProfile = (token) => {
       })
       .then((result) => {
         // dispatch(getMeetingCount(result.profileId, token));
-        dispatch(setUserProfileLoading(false));
-        return dispatch(setUserProfile(result));
+        let { profileCreated = false } = result || {};
+        if (profileCreated === null || profileCreated === false) {
+          let data = {};
+          fetch("https://ipapi.co/json/", {
+            method: "GET",
+          })
+            .then((response) => response.json())
+            .then((result) => {
+              let { ip = "", country_name = "" } = result;
+              data.ipAddress = ip;
+              data.country = country_name;
+              setUserProfileData(data, token);
+            })
+            .catch((err) => {
+              console.log(err);
+              let { ip = "", country_name = "" } = {};
+              data.ipAddress = ip;
+              data.country = country_name;
+              setUserProfileData(data, token);
+            });
+        } else {
+          dispatch(setUserProfileLoading(false));
+          return dispatch(setUserProfile(result));
+        }
       })
       .catch((error) => {
         console.log("Inside profile error");

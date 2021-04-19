@@ -74,7 +74,7 @@
     font-weight: 300;
     /* top: -23%; */
     /* left: 28vw; */
-    width: 62vw;
+    /* width: 62vw; */
     text-align: center;
     color: #191919;
   }
@@ -89,7 +89,7 @@
     margin-bottom: 10px;
     /* top: -23%; */
     /* left: 28vw; */
-    width: 62vw;
+    /* width: 62vw; */
     color: #191919 !important;
   }
 
@@ -148,7 +148,7 @@
     font-weight: 300;
     /* top: -43%;
     left: -14vw; */
-    width: 72vw;
+    /* width: 72vw; */
     color: white;
     text-align: center;
   }

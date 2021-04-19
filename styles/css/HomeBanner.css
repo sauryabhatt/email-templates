@@ -903,7 +903,7 @@ top: 2.48vh; */
   border: none;
   padding: 10px 10px;
   height: 48px !important;
-  width: 280px;
+  width: 300px;
 }
 .payment-banner-home-page .send-query-button.secondary-btn {
   background-color: #f9f7f2;
@@ -1083,7 +1083,7 @@ top: 2.48vh; */
     line-height: 130%;
   }
   .payment-banner-home-page button.ant-btn {
-    width: 280px;
+    width: 300px;
   }
   .payment-banner-home-page .send-query-button.secondary-btn {
     margin-right: 0px;
