@@ -20,39 +20,41 @@ function RecentlyViewedProducts() {
   const router = useRouter();
   let retryCount = 0;
 
-  const getRecentlyViewedProducts = () => {
-    fetch(
-      `${process.env.NEXT_PUBLIC_REACT_APP_COLLECTION_URL}/recently/viewed/buyer/product`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      }
-    )
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          throw (
-            res.statusText || "Oops something went wrong. Please try again!"
-          );
+  const getRecentlyViewedProducts = (token) => {
+    if (token) {
+      fetch(
+        `${process.env.NEXT_PUBLIC_REACT_APP_COLLECTION_URL}/recently/viewed/buyer/product`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + keycloak.token,
+          },
         }
-      })
-      .then((res) => {
-        setIsLoading(false);
-        setProductList(res);
-      })
-      .catch((err) => {
-        if (retryCount < 3) {
-          getRecentlyViewedProducts();
-        } else {
+      )
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            throw (
+              res.statusText || "Oops something went wrong. Please try again!"
+            );
+          }
+        })
+        .then((res) => {
           setIsLoading(false);
-          console.log(err.message);
-        }
-        retryCount++;
-      });
+          setProductList(res);
+        })
+        .catch((err) => {
+          if (retryCount < 3) {
+            getRecentlyViewedProducts(token);
+          } else {
+            setIsLoading(false);
+            console.log(err.message);
+          }
+          retryCount++;
+        });
+    }
   };
 
   useEffect(() => {
@@ -61,7 +63,7 @@ function RecentlyViewedProducts() {
       setMobile(true);
     }
     if (keycloak.token) {
-      getRecentlyViewedProducts();
+      getRecentlyViewedProducts(keycloak.token);
     }
   }, [keycloak.token]);
 

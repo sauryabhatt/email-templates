@@ -20,39 +20,41 @@ function RecentlyViewedSellers() {
   const router = useRouter();
   let retryCount = 0;
 
-  const getRecentlyViewedSellers = () => {
-    fetch(
-      `${process.env.NEXT_PUBLIC_REACT_APP_COLLECTION_URL}/recently/viewed/buyer/seller`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-      }
-    )
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        } else {
-          throw (
-            res.statusText || "Oops something went wrong. Please try again!"
-          );
+  const getRecentlyViewedSellers = (token) => {
+    if (token) {
+      fetch(
+        `${process.env.NEXT_PUBLIC_REACT_APP_COLLECTION_URL}/recently/viewed/buyer/seller`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + keycloak.token,
+          },
         }
-      })
-      .then((res) => {
-        setIsLoading(false);
-        setProductList(res);
-      })
-      .catch((err) => {
-        if (retryCount < 3) {
-          getRecentlyViewedSellers();
-        } else {
+      )
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            throw (
+              res.statusText || "Oops something went wrong. Please try again!"
+            );
+          }
+        })
+        .then((res) => {
           setIsLoading(false);
-          console.log(err.message);
-        }
-        retryCount++;
-      });
+          setProductList(res);
+        })
+        .catch((err) => {
+          if (retryCount < 3) {
+            getRecentlyViewedSellers(token);
+          } else {
+            setIsLoading(false);
+            console.log(err.message);
+          }
+          retryCount++;
+        });
+    }
   };
 
   useEffect(() => {
@@ -61,7 +63,7 @@ function RecentlyViewedSellers() {
       setMobile(true);
     }
     if (keycloak.token) {
-      getRecentlyViewedSellers();
+      getRecentlyViewedSellers(keycloak.token);
     }
   }, [keycloak.token]);
 

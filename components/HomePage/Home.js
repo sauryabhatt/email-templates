@@ -21,6 +21,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import OtpInput from "react-otp-input";
 import { getUserProfile } from "../../store/actions";
+import RecentlyViewed from "./RecentlyViewed";
 
 function Home(props) {
   const router = useRouter();
@@ -468,6 +469,7 @@ function Home(props) {
           setVisible(true);
         }}
       />
+      {/* <RecentlyViewed /> */}
       <Row id="q-source-banner">
         <div className="q-source-title">
           <div className="banner-text">

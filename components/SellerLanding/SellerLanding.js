@@ -40,10 +40,8 @@ const SellerLanding = (props) => {
       false,
       (result) => {
         setSellerDetails(result);
-        console.log(result);
         let id = result?.id?.replace("HOME::", "");
         id = id?.replace("SELLER::", "");
-        console.log("dsss ", id);
         fetch(
           `${process.env.NEXT_PUBLIC_REACT_APP_API_PROFILE_URL}/seller-home/ABOUT::SELLER::${id}/about`,
           {
@@ -64,7 +62,6 @@ const SellerLanding = (props) => {
             }
           })
           .then((result) => {
-            console.log("RR ", result);
             let aboutCompany =
               result.length > 0 ? result[0]["htmlContent"] : "";
             setAboutCompany(aboutCompany);
@@ -79,7 +76,7 @@ const SellerLanding = (props) => {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: "Bearer " + app_token,
+              Authorization: "Bearer " + keycloak.token,
             },
           }
         )
