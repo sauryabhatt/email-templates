@@ -136,7 +136,7 @@ const ProductDetails = (props) => {
   const [variantId, setVariantId] = useState();
   const [zoomImg, setZoomImg] = useState(false);
   const [loginModal, setLoginModal] = useState(false);
-  const [overlayDiv, setOverlayDiv] = useState(false);
+  const [overlayDiv, setOverlayDiv] = useState(true);
   const [nonServiceableCountry, setNonServiceableCountry] = useState(false);
   const [selProductId, setSelProductId] = useState("");
   const [showCart, setCart] = useState(false);
@@ -162,6 +162,16 @@ const ProductDetails = (props) => {
     setOpen(false);
     setSelProductId("");
   };
+
+  useEffect(() => {
+    let pdpOverlay = localStorage.getItem("pdpOverlay");
+    if (pdpOverlay) {
+      setOverlayDiv(false);
+    } else {
+      setOverlayDiv(true);
+      localStorage.setItem("pdpOverlay", true);
+    }
+  }, []);
 
   useEffect(() => {
     if (open) {
@@ -201,13 +211,7 @@ const ProductDetails = (props) => {
     setAccordionView("");
     setQtyErr(false);
     setInRange("");
-    let pdpOverlay = localStorage.getItem("pdpOverlay");
-    if (pdpOverlay) {
-      setOverlayDiv(false);
-    } else {
-      setOverlayDiv(true);
-      localStorage.setItem("pdpOverlay", true);
-    }
+
     rtsform.resetFields();
     setCart(false);
     let { data = {}, userProfile = {} } = props;
