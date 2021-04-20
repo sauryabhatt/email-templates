@@ -61,6 +61,7 @@ function ProductCard(props) {
     sellerCode = "",
     freeShippingEligible = false,
     categoryDescs = [],
+    articleId = "",
   } = productDetails;
 
   let { convertToCurrency = "" } = currencyDetails || {};
@@ -107,7 +108,7 @@ function ProductCard(props) {
       : "custom order";
 
   if (pageId === "seller-product-listing" || pageId === "product-listing") {
-    id = id.replace("PRODUCT::", "");
+    id = id.replace("PRODUCT::", "") || articleId;
     let linkTo = `/product/${id}`;
 
     if (accessLocked) {

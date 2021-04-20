@@ -4,15 +4,25 @@ import cookie from "js-cookie";
 
 export const loginToApp = (keycloak, options) => {
   if (options && options.currentPath) {
-    keycloak.login({
+    const url = keycloak.createLoginUrl({
       redirectUri:
         process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN +
         options.currentPath,
     });
+    location.assign(url);
+    // keycloak.login({
+    //   redirectUri:
+    //     process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN +
+    //     options.currentPath,
+    // });
   } else {
-    keycloak.login({
+    // keycloak.login({
+    //   redirectUri: process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN,
+    // });
+    const url = keycloak.createLoginUrl({
       redirectUri: process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN,
     });
+    location.assign(url);
   }
 };
 
@@ -24,10 +34,15 @@ export const registerToApp = (keycloak, options) => {
   //       options.currentPath,
   //   });
   // } else {
-  keycloak.register({
+  // keycloak.register({
+  //   redirectUri: process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN,
+  // });
+  // }
+
+  const url = keycloak.createRegisterUrl({
     redirectUri: process.env.NEXT_PUBLIC_REACT_APP_REDIRECT_APP_DOMAIN,
   });
-  // }
+  location.assign(url);
 };
 
 export const logoutFromApp = (keycloak, options) => {
