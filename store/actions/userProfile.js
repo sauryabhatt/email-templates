@@ -1,9 +1,8 @@
 /** @format */
 
 import * as actionTypes from "./../types";
-import Router from "next/router";
-import queryString from "query-string";
-import { message } from "antd";
+
+let retryCount = 0;
 
 export const setUserProfileLoading = (isLoading) => {
   return {
@@ -55,8 +54,12 @@ const setUserProfileData = (data, token, callback = "") => {
       callback(res);
     })
     .catch((err) => {
-      console.log(err);
-      getUserProfile(token);
+      if (retryCount < 3) {
+        setUserProfileData(data, token, callback);
+      } else {
+        console.log(err);
+      }
+      retryCount++;
     });
 };
 
@@ -82,7 +85,6 @@ export const getUserProfile = (token) => {
       .then((result) => {
         // dispatch(getMeetingCount(result.profileId, token));
         let { profileCreated = false } = result || {};
-        console.log("Profile craete ", profileCreated);
         if (profileCreated === null || profileCreated === false) {
           let data = {};
           fetch("https://ipapi.co/json/", {
@@ -99,7 +101,6 @@ export const getUserProfile = (token) => {
               });
             })
             .catch((err) => {
-              console.log(err);
               let { ip = "", country_name = "" } = {};
               data.ipAddress = ip;
               data.country = country_name;
