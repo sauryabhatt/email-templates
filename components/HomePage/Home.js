@@ -523,8 +523,8 @@ function Home(props) {
 
               <span style={{ color: "#4e4848" }}>
                 Browse our growing range of ready stock products that can be
-                dispatched within 7-10 days. Add to cart and checkout instantly,
-                subject to reasonable order minimums.
+                dispatched within 10-14 days. Add to cart and checkout
+                instantly, subject to reasonable order minimums.
               </span>
               <div className="qa-fixed-btns">
                 <div className="q-button-link">Shop now</div>

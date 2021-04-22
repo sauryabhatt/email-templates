@@ -117,7 +117,7 @@ const CartDetails = (props) => {
   const [selectedShippingId, setSelectedShippingId] = useState();
   const [optService, setOptService] = useState("");
   const [selectedServices, setSelectedServices] = useState({});
-  const [enable, setEnable] = useState(false);
+  const [enable, setEnable] = useState(true);
   const [error, setError] = useState({});
   const [selCountry, setSelCountry] = useState("");
   const [selPincode, setSelPincode] = useState("");
@@ -1673,6 +1673,7 @@ const CartDetails = (props) => {
                       let { checked = "" } = e.target;
                       setEnable(checked);
                     }}
+                    checked={enable}
                   >
                     I agree to{" "}
                     <Link className="c-breakup" href="/TermsOfUse">
@@ -1788,6 +1789,7 @@ const CartDetails = (props) => {
                         let { checked = "" } = e.target;
                         setEnable(checked);
                       }}
+                      checked={enable}
                     >
                       I agree to{" "}
                       <Link className="c-breakup" href="/TermsOfUse">

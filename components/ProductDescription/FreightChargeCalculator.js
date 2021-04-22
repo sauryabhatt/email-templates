@@ -504,7 +504,7 @@ const FreightChargeCalculator = (props) => {
         <Col span={24} className="cart-fr-detail">
           Estimated time to prepare and ship your order is{" "}
           {productType === "RTS"
-            ? "7-10 days"
+            ? "10-14 days"
             : productType === "ERTM"
             ? "30-40 days"
             : "30-40 days"}

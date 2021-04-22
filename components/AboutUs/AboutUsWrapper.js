@@ -765,7 +765,7 @@ function AboutUsWrapper() {
                     <p className="aboutus-detail">
                       These are products for which inventory is readily
                       available with the supplier and are generally dispatched
-                      within 7-10 days of the order confirmation, after being
+                      within 10-14 days of the order confirmation, after being
                       quality inspected by Qalara. Many of these products are
                       fast moving and can run out of stock!
                     </p>
@@ -893,7 +893,7 @@ function AboutUsWrapper() {
                     <p className="aboutus-detail">
                       These are products for which inventory is readily
                       available with the supplier and are generally dispatched
-                      within 7-10 days of the order confirmation, after being
+                      within 10-14 days of the order confirmation, after being
                       quality inspected by Qalara. Many of these products are
                       fast moving and can run out of stock!
                     </p>

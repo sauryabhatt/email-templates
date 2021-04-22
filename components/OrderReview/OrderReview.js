@@ -109,8 +109,8 @@ const OrderReview = (props) => {
       eddMax = deliveryDateMax.setDate(today.getDate() + 90 + tat);
     }
   } else {
-    eddMin = deliveryDateMin.setDate(today.getDate() + 7 + modeTat);
-    eddMax = deliveryDateMax.setDate(today.getDate() + 10 + tat);
+    eddMin = deliveryDateMin.setDate(today.getDate() + 10 + modeTat);
+    eddMax = deliveryDateMax.setDate(today.getDate() + 14 + tat);
   }
 
   deliveryDateMin = new Date(eddMin);

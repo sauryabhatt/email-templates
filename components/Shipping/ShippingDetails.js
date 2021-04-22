@@ -544,8 +544,8 @@ const ShippingDetails = (props) => {
       eddMax = deliveryDateMax.setDate(today.getDate() + 90 + tat);
     }
   } else {
-    eddMin = deliveryDateMin.setDate(today.getDate() + 7 + modeTat);
-    eddMax = deliveryDateMax.setDate(today.getDate() + 10 + tat);
+    eddMin = deliveryDateMin.setDate(today.getDate() + 10 + modeTat);
+    eddMax = deliveryDateMax.setDate(today.getDate() + 14 + tat);
   }
 
   deliveryDateMin = new Date(eddMin);
@@ -1098,7 +1098,7 @@ const ShippingDetails = (props) => {
                               : maxQty >= 200 && maxQty <= 500
                               ? "45-60"
                               : "60-90"
-                            : "7-10"}{" "}
+                            : "10-14"}{" "}
                           days
                         </div>
                       </div>
@@ -2110,7 +2110,7 @@ const ShippingDetails = (props) => {
                                 : maxQty >= 200 && maxQty <= 500
                                 ? "45-60"
                                 : "60-90"
-                              : "7-10"}{" "}
+                              : "10-14"}{" "}
                             days
                           </div>
                         </li>

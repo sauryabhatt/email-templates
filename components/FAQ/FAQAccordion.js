@@ -363,7 +363,7 @@ const FAQ = (props) => {
             <br></br>
             <b>Ready to ship</b> - These are products for which inventory is
             readily available with the supplier. Generally ready to ship
-            products are dispatched within 7-10 days of the order confirmation,
+            products are dispatched within 10-14 days of the order confirmation,
             after being quality inspected by Qalara. Many of these products are
             fast moving and can run out of stock!<br></br>
             <br></br>

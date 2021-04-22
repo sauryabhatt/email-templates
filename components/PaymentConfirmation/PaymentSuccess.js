@@ -451,7 +451,7 @@ const PaymentSuccess = (props) => {
                             : maxQty >= 200 && maxQty <= 500
                             ? "45-60"
                             : "60-90"
-                          : "7-10"}{" "}
+                          : "10-14"}{" "}
                         days
                       </div>
                     </div>
