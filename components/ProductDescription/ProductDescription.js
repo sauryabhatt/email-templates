@@ -44,7 +44,6 @@ const ProductDescription = (props) => {
 
   useEffect(() => {
     let { productDetails = "" } = props;
-    let { articleId } = router.query;
     if (productDetails) {
       let { sellerCode = "" } = productDetails;
       let query = {
@@ -59,6 +58,25 @@ const ProductDescription = (props) => {
       let queryResult = querystring.stringify(query);
       if (count === 1) {
         props.getSPLPDetails(queryResult);
+        props.checkCart(keycloak.token);
+        setCount(2);
+      }
+    }
+  }, [props.productDetails]);
+
+  useEffect(() => {
+    let { articleId } = router.query;
+    let { userProfile = "" } = props;
+    let { profileType = "", verificationStatus = "", profileId = "" } =
+      userProfile || {};
+    if (
+      profileType === "BUYER" &&
+      (verificationStatus === "VERIFIED" ||
+        verificationStatus === "IN_PROGRESS")
+    ) {
+      if (cartCount === 1) {
+        profileId = profileId.replace("BUYER::", "");
+        props.getCollections(app_token, profileId);
         fetch(
           `${process.env.NEXT_PUBLIC_REACT_APP_COLLECTION_URL}/recently/viewed/add/product?article_id=${articleId}`,
           {
@@ -81,24 +99,6 @@ const ProductDescription = (props) => {
           .catch((err) => {
             console.log(err.message);
           });
-        setCount(2);
-      }
-    }
-  }, [props.productDetails]);
-
-  useEffect(() => {
-    let { userProfile = "" } = props;
-    let { profileType = "", verificationStatus = "", profileId = "" } =
-      userProfile || {};
-    if (
-      profileType === "BUYER" &&
-      (verificationStatus === "VERIFIED" ||
-        verificationStatus === "IN_PROGRESS")
-    ) {
-      if (cartCount === 1) {
-        props.checkCart(keycloak.token);
-        profileId = profileId.replace("BUYER::", "");
-        props.getCollections(app_token, profileId);
         setCartCount(2);
       }
     }

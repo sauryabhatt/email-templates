@@ -551,6 +551,10 @@ function UserHeader(props) {
     logoutFromApp(keycloak, undefined);
   };
 
+  const handleRecentlyViewed = () => {
+    router.push("/recently-viewed/product");
+  };
+
   const userMenu = (
     <Menu
       style={{ width: "100%", border: "none" }}
@@ -639,6 +643,17 @@ function UserHeader(props) {
         }
       >
         <span className="qa-fs-14 qa-font-san">My Addresses</span>
+      </Menu.Item>
+      <Menu.Item
+        key="12"
+        onClick={handleRecentlyViewed}
+        style={
+          props.profileType === "SELLER" || props.isGuest == "true"
+            ? { display: "none" }
+            : {}
+        }
+      >
+        <span className="qa-fs-14 qa-font-san">Recently viewed</span>
       </Menu.Item>
       <Menu.Divider
         style={{
@@ -1130,6 +1145,20 @@ function UserHeader(props) {
                     }
                   >
                     <span className="qa-fs-14 qa-font-san">My Addresses</span>
+                  </Menu.Item>
+                  <Menu.Item
+                    key="12"
+                    onClick={handleRecentlyViewed}
+                    style={
+                      props.profileType === "SELLER" || props.isGuest == "true"
+                        ? { display: "none" }
+                        : {}
+                    }
+                  >
+                    <span className="qa-fs-14 qa-font-san">
+                      {" "}
+                      Recently viewed
+                    </span>
                   </Menu.Item>
                   <Menu.Divider style={{ height: "0.5px" }} />
                   {verificationStatus === "CREATED" &&

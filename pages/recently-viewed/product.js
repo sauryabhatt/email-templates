@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 import { Layout } from "../../components/common/Layout";
 import Spinner from "../../components/Spinner/Spinner";
+import Auth from "../../components/common/Auth";
 
 const DynamicRecentlyViewedProductsWrapper = dynamic(
   () => import("../../components/RecentlyViewed/RecentlyViewedProducts"),
@@ -17,7 +18,11 @@ export default function RecentlyViewedProducts() {
 
   return (
     <Layout meta={meta} privateRoute>
-      <DynamicRecentlyViewedProductsWrapper />
+      <Auth path={`/recently-viewed/product`}>
+        <>
+          <DynamicRecentlyViewedProductsWrapper />
+        </>
+      </Auth>
     </Layout>
   );
 }

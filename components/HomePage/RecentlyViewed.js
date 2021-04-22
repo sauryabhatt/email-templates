@@ -6,17 +6,17 @@ import Link from "next/link";
 function RecentlyViewed() {
   return (
     <div className="recently-viewed-container">
-      <div className="qa-disp-ib">
-        <div className="rv-title">Recently Viewed</div>
+      <div className="rv-disp-ib rv-section-one">
+        <div className="rv-title">Recently viewed</div>
         <div className="rv-subtext">
           Continue from where you left. Review your previously viewed products
           or sellers in the past 30 days.
         </div>
       </div>
-      <div className="qa-disp-ib">
+      <div className="rv-disp-ib rv-section-two">
         <Link href="/recently-viewed/product">
           <div className="rv-btn-block qa-cursor">
-            <span className="rv-title" style={{ color: "#191919" }}>
+            <span className="rv-btn" style={{ color: "#191919" }}>
               RECENTLY VIEWED
             </span>
 
@@ -43,7 +43,7 @@ function RecentlyViewed() {
 
         <Link href="/recently-viewed/seller">
           <div className="rv-btn-block qa-cursor">
-            <span className="rv-title" style={{ color: "#191919" }}>
+            <span className="rv-btn" style={{ color: "#191919" }}>
               RECENTLY VIEWED
             </span>
 

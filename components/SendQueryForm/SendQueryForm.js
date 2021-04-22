@@ -165,6 +165,7 @@ const SendQueryForm = (props) => {
       zipcode: values.zipcode,
       deliverylocationType: values.deliverylocationType,
       mobileNo: values.mobileNo,
+      preferedCurrency: value.preferedCurrency,
       rfqType: "QALARA",
       buyerId: props.userId && props.userId.split("::")[1],
     };
@@ -696,6 +697,29 @@ const SendQueryForm = (props) => {
                             I am interested in live demo with seller.
                         </Checkbox>
                     </Form.Item> */}
+
+              <span className="label-paragraph">
+                Preferred currency for quotation
+              </span>
+              <Form.Item
+                name="preferedCurrency"
+                style={{ marginBottom: "1em" }}
+                rules={[
+                  {
+                    required: true,
+                    message:
+                      "Please select your preferred currency for quotation.",
+                  },
+                ]}
+              >
+                <Select placeholder="Select preferred currency" showSearch>
+                  <Option value="USD">USD</Option>
+                  <Option value="AUD">AUD</Option>
+                  <Option value="EUR">EUR</Option>
+                  <Option value="GBP">GBP</Option>
+                  );
+                </Select>
+              </Form.Item>
               <Form.Item
                 className="agreement"
                 name="agreement"

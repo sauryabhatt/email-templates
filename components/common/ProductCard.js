@@ -62,8 +62,8 @@ function ProductCard(props) {
     freeShippingEligible = false,
     categoryDescs = [],
     articleId = "",
+    imageUrl = "",
   } = productDetails;
-
   let { convertToCurrency = "" } = currencyDetails || {};
 
   let { profileType = "", verificationStatus = "", profileId = "" } =
@@ -144,6 +144,7 @@ function ProductCard(props) {
               productId={id}
               sellerId={sellerId}
               visibleTo={visibleTo}
+              image={imageUrl}
             />
             <div
               className={
@@ -359,6 +360,7 @@ function ProductCard(props) {
             showArrows={true}
             data={publicCategoryMedias}
             userProfile={userProfile}
+            image={imageUrl}
           />
           <div className="seller-list-details">
             <div

@@ -69,29 +69,6 @@ const SellerLanding = (props) => {
           .catch((err) => {
             console.log(err.message);
           });
-
-        fetch(
-          `${process.env.NEXT_PUBLIC_REACT_APP_COLLECTION_URL}/recently/viewed/add/seller?seller_code=${id}`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + keycloak.token,
-            },
-          }
-        )
-          .then((res) => {
-            if (res.ok) {
-              console.log("Added seller to recently viewed");
-            } else {
-              throw (
-                res.statusText || "Oops something went wrong. Please try again!"
-              );
-            }
-          })
-          .catch((err) => {
-            console.log(err.message);
-          });
       }
     );
   }, [router.query]);
@@ -103,6 +80,7 @@ const SellerLanding = (props) => {
     }
 
     if (props.userProfile) {
+      console.log("In user profile");
       let { verificationStatus = "", profileType = "" } = props.userProfile;
       props.getSellerDetails(
         app_token,
@@ -110,6 +88,31 @@ const SellerLanding = (props) => {
         verificationStatus,
         (result) => {
           setSellerDetails(result);
+          let id = result?.id?.replace("HOME::", "");
+          id = id?.replace("SELLER::", "");
+          fetch(
+            `${process.env.NEXT_PUBLIC_REACT_APP_COLLECTION_URL}/recently/viewed/add/seller?seller_code=${id}`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + keycloak.token,
+              },
+            }
+          )
+            .then((res) => {
+              if (res.ok) {
+                console.log("Added seller to recently viewed");
+              } else {
+                throw (
+                  res.statusText ||
+                  "Oops something went wrong. Please try again!"
+                );
+              }
+            })
+            .catch((err) => {
+              console.log(err.message);
+            });
         }
       );
 
