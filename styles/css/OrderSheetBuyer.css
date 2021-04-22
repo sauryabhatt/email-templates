@@ -19,6 +19,13 @@
     width: 169%;
     border:18px solid #E6E4DF;
 }
+/* th{
+    width: 30%;
+}
+td{
+    width: 200%;
+    overflow-x: scroll;
+} */
 #order-sheet-details{
     font-family: var(--font-family);;
     font-style: normal;
@@ -148,20 +155,17 @@
 
 th{
     width: 18%;
+    /* position: fixed; */
     font-family: var(--font-family);
     font-weight: normal;
     border: 1px solid rgb(204, 204, 204);
     background: rgba(0, 0, 0, 0.05);
-    /* position: fixed; */
 } 
 td{
     width: 18%;
     border: 1px solid rgb(204, 204, 204);
     font-family: var(--font-family);
-    font-weight: normal;
-    /* overflow-x: auto; */
-    /* float: ; */
-    
+    font-weight: normal; 
 } 
 th span{
     display: flex;
@@ -171,8 +175,7 @@ th span{
 td span{
     display: flex;
     justify-content: center;
-    align-items: center;
-    
+    align-items: center;    
 }
 
 .ant-modal-close-x{
