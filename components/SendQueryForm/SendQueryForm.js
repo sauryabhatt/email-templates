@@ -165,7 +165,7 @@ const SendQueryForm = (props) => {
       zipcode: values.zipcode,
       deliverylocationType: values.deliverylocationType,
       mobileNo: values.mobileNo,
-      preferedCurrency: value.preferedCurrency,
+      preferedCurrency: values.preferedCurrency,
       rfqType: "QALARA",
       buyerId: props.userId && props.userId.split("::")[1],
     };
