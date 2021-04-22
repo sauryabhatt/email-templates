@@ -714,14 +714,9 @@ function AppHeader(props) {
               }}
             >
               <div>
-                <Button
-                  className="send-query-button"
-                  onClick={() => {
-                    setVisible(true);
-                  }}
-                >
+                <Button className="send-query-button" onClick={handleSignUp}>
                   <div className="send-query-button-text qa-rfq-button">
-                    Help me Source
+                    SIGN UP AS A BUYER
                   </div>
                 </Button>
                 <CurrencyConverter mobile={false} />

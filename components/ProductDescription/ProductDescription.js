@@ -58,7 +58,7 @@ const ProductDescription = (props) => {
       let queryResult = querystring.stringify(query);
       if (count === 1) {
         props.getSPLPDetails(queryResult);
-        props.checkCart(keycloak.token);
+
         setCount(2);
       }
     }
@@ -75,6 +75,7 @@ const ProductDescription = (props) => {
         verificationStatus === "IN_PROGRESS")
     ) {
       if (cartCount === 1) {
+        props.checkCart(keycloak.token);
         profileId = profileId.replace("BUYER::", "");
         props.getCollections(app_token, profileId);
         fetch(
@@ -89,7 +90,7 @@ const ProductDescription = (props) => {
         )
           .then((res) => {
             if (res.ok) {
-              console.log("Added product to recently viewed");
+              // console.log("Added product to recently viewed");
             } else {
               throw (
                 res.statusText || "Oops something went wrong. Please try again!"

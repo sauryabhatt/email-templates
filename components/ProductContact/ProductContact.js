@@ -667,21 +667,21 @@ const ProductContact = (props) => {
               <Form.Item
                 name="requirementDetails"
                 style={{ marginBottom: "1em" }}
-                // rules={[
-                //   {
-                //     type: "string",
-                //     message: "The input is not valid!",
-                //   },
-                //   {
-                //     required: true,
-                //     message: "Please enter your requirement.",
-                //   },
-                //   {
-                //     min: 5,
-                //     max: 500,
-                //     message: "Please enter message within 25-500 characters",
-                //   },
-                // ]}
+                rules={[
+                  {
+                    type: "string",
+                    message: "The input is not valid!",
+                  },
+                  {
+                    required: true,
+                    message: "Please enter your requirement.",
+                  },
+                  {
+                    min: 25,
+                    max: 500,
+                    message: "Please enter message within 25-500 characters.",
+                  },
+                ]}
               >
                 <Input.TextArea
                   value={"value"}

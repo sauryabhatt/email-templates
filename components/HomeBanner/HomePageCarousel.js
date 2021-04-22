@@ -327,32 +327,32 @@ function SlideElement(props) {
           </Link>
         )}
         {e.isSignupbtn ? (
-          !isAuthenticated ? (
-            // <Link href="/signup">
-            <span
-              className="button qa-secondary-btn"
-              onClick={() => {
-                registerToApp(keycloak, {
-                  currentPath: router.asPath,
-                });
-                // router.push("/signup");
-              }}
-            >
-              <span className="sign-up-text-icon">{signUp_icon()} </span>
-              <span className="sign-up-text">Sign Up as a buyer</span>
-            </span>
-          ) : (
-            // </Link>
-            <div
-              className="button qa-secondary-btn"
-              onClick={(e) => {
-                handleRFQAction(e);
-              }}
-            >
-              <span className="sign-up-text">Help me Source</span>
-            </div>
-          )
-        ) : null}
+          // !isAuthenticated ? (
+          //   // <Link href="/signup">
+          //   <span
+          //     className="button qa-secondary-btn"
+          //     onClick={() => {
+          //       registerToApp(keycloak, {
+          //         currentPath: router.asPath,
+          //       });
+          //       // router.push("/signup");
+          //     }}
+          //   >
+          //     <span className="sign-up-text-icon">{signUp_icon()} </span>
+          //     <span className="sign-up-text">Sign Up as a buyer</span>
+          //   </span>
+          // ) : (
+          // </Link>
+          <div
+            className="button qa-secondary-btn"
+            onClick={(e) => {
+              handleRFQAction(e);
+            }}
+          >
+            <span className="sign-up-text">Help me Source</span>
+          </div>
+        ) : // )
+        null}
       </div>
       {e.video_link && isVideo ? (
         <span
