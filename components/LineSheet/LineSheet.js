@@ -493,6 +493,10 @@ const LineSheet = (props) => {
   const text = (
     <div style={{ padding:"0 25px 25px 25px" }} id="disclamer">
       {orderSheetDetails.disclaimer !== null ? <p>{orderSheetDetails.disclaimer} </p> : ""}
+
+      <p style={{fontWeight:"bold",marginBottom:"5px"}}>Validity</p>
+      <p>Prices quoted above are valid for a period of 4 weeks from the date of the quotation. 
+      <br/>* Taxes are refundable if you have the required registration to avail the refunds.</p>
     </div>
   );
 
@@ -536,14 +540,14 @@ const LineSheet = (props) => {
 
   return(
     <React.Fragment>
-      <Row justify="space-around" style={{ marginBottom: "20px"}}>
+      <Row justify="space-around">
         <Col xs={22} sm={22} md={22} lg={22} xl={22} style={{marginTop:"25px" }}>
           <h2 id="order-sheet">Order sheet</h2>
         </Col>
         <Col span={15} xs={22} sm={22} md={22} lg={13} xl={13} id="order-sheet-details">
           <Row justify="space-between">
             <Col xs={22} sm={22} lg={7} xl={7}>
-              <span>Date : {moment(orderSheetDetails.targetDeliveryDate).format("MMM Do YY")}</span>
+              <span >Date : {moment(orderSheetDetails.targetDeliveryDate).format("Do MMM YY")}</span>
             </Col>
           </Row>
           <Row>
@@ -556,7 +560,7 @@ const LineSheet = (props) => {
           <Row>
             <Col xs={22} sm={22} lg={7} xl={7}>
             {/* <span>Shipping mode: {orderSheetDetails.products[0].shippingMode1}</span> */}
-            <span>Shipping mode: ({orderSheetDetails.shippingMode})</span>
+            <span>Shipping mode: {orderSheetDetails.shippingMode}</span>
 
             </Col>
           </Row>
@@ -574,7 +578,7 @@ const LineSheet = (props) => {
           <Row style={{marginTop:"28px"}}>
             <Col xs={23} sm={23} md={22} lg={13} xl={13} id="order-details">
               <div className="site-card-border-less-wrapper card-border">
-                <Card bordered={false} style={{ width: 592 }} id="card">
+                <Card bordered={false} style={{ width: 592 ,background:"#F9F7F2"}} id="card">
                   <h3 id="details-header">Your details</h3>
                   <Divider style={{'background-color':'#191919'}}/>
                   <Row justify="start" id="mobile-view">
@@ -603,11 +607,11 @@ const LineSheet = (props) => {
                     </Col>
                   </Row>
                   <Row justify="start" id="mobile-view">
-                    <Col id="order-details" xs={22} sm={22} lg={7} xl={7}>
-                      <span>ABN / VAT / EORI / UEN /Tax Number: </span>
+                    <Col id="order-details" style={{lineHeight:"21px"}} xs={22} sm={22} lg={7} xl={7}>
+                      <span>ABN / VAT / EORI / UEN /Tax Number : </span>
                     </Col>
-                    <Col id="order-details" xs={22} sm={22} lg={12} xl={12}>
-                      <span>324563728</span>
+                    <Col id="order-details" style={{marginTop:"3.3%"}} xs={22} sm={22} lg={12} xl={12}>
+                      <span>{orderSheetDetails.taxNumber}</span>
                     </Col>
                   </Row>
                   <Row justify="start" id="mobile-view">
@@ -643,13 +647,13 @@ const LineSheet = (props) => {
         {/* Payment Section  */}
 
         <Col span={9} xs={22} sm={22} md={22} lg={7} xl={7} id="order-sheet-details">
-          <Card id="order-summary-details" style={{backgroundColor:'#F2F0EB', width:350 , height : 544 , }}>
-            <Row justify="space-between">
+          <Card id="order-summary-details" style={{backgroundColor:'#F2F0EB', width:350 , height : 544 ,boxShadow:"0px 1px 1px rgba(25, 25, 25, 0.2)"}}>
+            <Row justify="space-between" className="order-details-name">
               <Col><span id="order-summary">Order summary</span></Col>
               <Col><span id="order-currency">{orderSheetDetails?.currency}</span></Col>
             </Row>
-            <Divider style={{'background-color':'#191919'}}/>
-            <Row justify="space-between">
+            <Divider style={{'background-color':'#191919',marginTop:"9px",marginBottom:"9px"}}/>
+            <Row justify="space-between" className="order-details-name">
               <Col><span>Value of products purchsed</span></Col>
               <Col>
                 <span>
@@ -661,7 +665,7 @@ const LineSheet = (props) => {
                 </span>
               </Col>
             </Row>
-            <Row justify="space-between">
+            <Row justify="space-between" className="order-details-name">
               <Col><span>Qalara Margin</span></Col>
               <Col>
                 <span>
@@ -673,7 +677,7 @@ const LineSheet = (props) => {
                 </span>
               </Col>
             </Row>
-            <Row justify="space-between">
+            <Row justify="space-between" className="order-details-name">
               <Col><span>Estimated freight fees</span></Col>
               <Col>
                 <span>
@@ -690,7 +694,7 @@ const LineSheet = (props) => {
                 </span>
               </Col>
             </Row>
-            <Row justify="space-between">
+            <Row justify="space-between" className="order-details-name">
               <Col><span>Covid surcharge(freight)</span></Col>
               <Col>
                 <span>
@@ -703,8 +707,8 @@ const LineSheet = (props) => {
                 </span>
               </Col>
             </Row>
-            <Row justify="space-between" id="order-summary-details-green">
-              <Col lg={19}><span>Qalara margin/Covid surcharge discounted</span></Col>
+            <Row justify="space-between" id="order-summary-details-green" className="order-details-name" style={{lineHeight:"19px"}}>
+              <Col xs={18} sm={18} md={19} lg={19} xl={19}><span>Qalara margin/Covid surcharge discounted</span></Col>
               <Col>
                 <span>
                   
@@ -712,7 +716,7 @@ const LineSheet = (props) => {
               </Col>
             </Row>
 
-            <Row justify="space-between">
+            <Row justify="space-between" className="order-details-name">
               <Col><span>Estimated Custom Duties</span></Col>
               <Col>
                 <span>
@@ -725,7 +729,7 @@ const LineSheet = (props) => {
               </Col>
             </Row>
 
-            <Row justify="space-between">
+            <Row justify="space-between" className="order-details-name">
               <Col><span>Estimated VAT / GST / Taxes</span></Col>
               <Col>
                 <span>
@@ -738,7 +742,7 @@ const LineSheet = (props) => {
               </Col>
             </Row>
 
-            <Row justify="space-between" id="order-summary-details-green">
+            <Row justify="space-between" id="order-summary-details-green" className="order-details-name">
               <Col><span>Discount</span></Col>
               <Col>
                 <span>
@@ -751,7 +755,7 @@ const LineSheet = (props) => {
               </Col>
             </Row>
 
-            <Divider style={{'background-color':'#191919'}}/>
+            <Divider style={{'background-color':'#191919',marginBottom:"20px",marginTop:"13px"}}/>
             <Row justify="space-between" id="total-order-value">
               <Col><span> Total order value ({orderSheetDetails.shippingTerms})</span></Col>
               <Col>
@@ -766,7 +770,7 @@ const LineSheet = (props) => {
             <Row style={{marginTop:"20px"}}>
                 <Col span={24}>
                   <span id="review-and-checkout">
-                    <Button style={{width:"100%"}} id="reviewBtn" loading={reviewCheckout.loading} disabled={reviewCheckout.isDisabled} onClick={checkOut} >REVIEW & CHECKOUT </Button>
+                    <Button style={{width:"100%",height:"46px"}} id="reviewBtn" loading={reviewCheckout.loading} disabled={reviewCheckout.isDisabled} onClick={checkOut} >REVIEW & CHECKOUT </Button>
                   </span>
                 </Col>
             </Row>
@@ -811,14 +815,12 @@ const LineSheet = (props) => {
                 <span>
                   {
                     <Image
-                      width={130}
-                      height={97}
+                      width={170}
+                      height={148}
                       style={{
                         border : "1px solid rgb(204, 204, 204)",
-                        marginTop:"2px",
                       }}
-                      src={"https://" + ele.imageUrl}
-                      fallback="data:image/png;base64,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"
+                      src={ele.imageUrl !== null ? "https://" + ele.imageUrl : process.env.NEXT_PUBLIC_URL + "/placeholder.png"}
                     />
                   }
                 </span>
@@ -826,7 +828,7 @@ const LineSheet = (props) => {
             ))}
           </tr>
           <tr style={{height:"45px"}}>
-            <th><span>Product name/<br/> Description</span></th>
+            <th><span>Product name/ Description</span></th>
             {productsDetails.map((ele,i) =><td key={i}><span>{ele.productName}</span></td>)}
           </tr>
           <tr style={{height:"45px"}}>
@@ -835,7 +837,7 @@ const LineSheet = (props) => {
           </tr>
           <tr style={{height:"45px"}}>
             <th style={{fontWeight:"900"}}><span>Quantity</span></th>
-            {productsDetails.map((ele,i) =><td key={i}><span>{ele.quantity}</span></td>)}
+            {productsDetails.map((ele,i) =><td key={i} style={{fontWeight:"bold"}}><span>{ele.quantity}</span></td>)}
           </tr>
           <tr style={{height:"45px"}}>
             <th><span><span>Item ID</span></span></th>
@@ -847,7 +849,7 @@ const LineSheet = (props) => {
           </tr>
           <tr style={{height:"45px"}}>
             <th style={{fontWeight:"900"}}><span>Door Delivered Price incl.<br/> Duties and taxes DDP</span></th>
-            {productsDetails.map((ele,i) => <td key={i}><span>{ele.doorDeliveredPrice}</span></td>)}
+            {productsDetails.map((ele,i) => <td key={i} style={{fontWeight:"bold"}}><span>{ele.doorDeliveredPrice}</span></td>)}
           </tr>
           <tr style={{height:"45px"}}>
             <th><span>Color / Finish</span></th>
@@ -894,15 +896,15 @@ const LineSheet = (props) => {
               {productsDetails.map((ele,i) => <td key={i}><span>{ele.priceApplied}</span></td>)}
           </tr>
           <tr style={{height:"45px"}}>
-            <th>
-              <span style={{color:"#005098"}}>Enter your comments here</span>
-              <span><button style={{border:"none",textDecoration:"underline",cursor:"pointer"}} onClick={saveComments}>Save</button></span>
+            <th style={{background:"rgba(234, 218, 169, 0.1)"}}>
+              <span style={{color:"#005098",fontWeight:"bold"}}>Enter your comments here</span>
+              <span><button style={{border:"none",fontWeight:"bold",textDecoration:"underline",cursor:"pointer",background:"rgba(234, 218, 169, 0.1)"}} onClick={saveComments}>SAVE</button></span>
             </th>
             {
               productsDetails.map((ele,i) =>(
-                <td key={i}>
+                <td key={i} style={{background:"rgba(234, 218, 169, 0.1)"}}>
                   <span>
-                    {<TextArea id="buyerValidate" value={lastComments.comment} style={{marginTop:"1px",marginBottom:"1px",width:"70%"}} onChange={ (e) => setBuyerComments(e.target.value)} />}
+                    {<TextArea id="buyerValidate" value={lastComments.comment} onChange={ (e) => setBuyerComments(e.target.value)} />}
                   </span>
                   <Row id="buyerValidateText" style={{display:"none"}}>
                     <span style={{color : "red",display:"flex",justifyContent:"center",alignItems:"center"}}>* Comments can not be blank</span>
@@ -977,7 +979,7 @@ const LineSheet = (props) => {
               <Col xs={24} sm={24} md={24} lg={24} xl={24} style={{marginTop:"10px"}}>
                 <Row justify="space-between" style={{marginTop:"18px"}}>
                   <span id="estimated-date">Estimated delivery date:</span>
-                  <span style={{color:"#02873A",fontSize:"17px"}} id="delivery-time">
+                  <span id="delivery-time">
                       {orderSheetDetails?.shippingDetails?.totalEstTimeMinDays} - {orderSheetDetails?.shippingDetails?.totalEstTimeMaxDays} days
                   </span>
                 </Row>
@@ -985,37 +987,18 @@ const LineSheet = (props) => {
                 <Row justify="space-between" style={{marginTop:"6px"}} id="estimated-time">
                   <Col>
                       <Badge color="#D9BB7F"/>
-                      <span>Estimated production/dispatch time</span>
+                      <span style={{fontFamily:"Sen",fontSize:"14px"}}>Estimated production/dispatch time</span>
                   </Col>
-                  <span>
-                    {/* {
-                      orderSheetDetails && orderSheetDetails.shippingDetails && orderSheetDetails.shippingDetails.estimatedProductionTimeMinDays == null
-                      ? "10"
-                      : orderSheetDetails && orderSheetDetails.shippingDetails && orderSheetDetails.shippingDetails.estimatedProductionTimeMinDays
-                    }-{
-                      orderSheetDetails && orderSheetDetails.shippingDetails && orderSheetDetails.shippingDetails.estimatedProductionTimeMaxDays == null
-                      ? "20"
-                      :orderSheetDetails && orderSheetDetails.shippingDetails && orderSheetDetails.shippingDetails.estimatedProductionTimeMaxDays
-                      } days */}
+                  <span id="shipping-details-time">
                       {orderSheetDetails?.shippingDetails?.estimatedProductionTimeMinDays} - {orderSheetDetails?.shippingDetails?.estimatedProductionTimeMaxDays} days
                   </span>
                 </Row>
                 <Row justify="space-between" style={{marginTop:"6px"}} id="estimated-time">
                   <Col>
                     <Badge color="#D9BB7F"/>
-                    <span>Estimated shipping lead time ({orderSheetDetails.shippingMode})</span>
+                    <span style={{fontFamily:"Sen",fontSize:"14px"}}>Estimated shipping lead time ({orderSheetDetails.shippingMode})</span>
                   </Col>
-                  <span>
-                    {/* {
-                      orderSheetDetails && orderSheetDetails.shippingDetails && orderSheetDetails.shippingDetails.estimatedLeadTimeMinDays == null
-                      ? "10"
-                      :orderSheetDetails && orderSheetDetails.shippingDetails && orderSheetDetails.shippingDetails.estimatedLeadTimeMinDays
-                    }-{
-                      orderSheetDetails && orderSheetDetails.shippingDetails && orderSheetDetails.shippingDetails.estimatedLeadTimeMaxDays == null
-                      ? "16"
-                      :orderSheetDetails && orderSheetDetails.shippingDetails && orderSheetDetails.shippingDetails.estimatedLeadTimeMaxDays
-                    } days */}
-
+                  <span id="shipping-details-time">
                     {orderSheetDetails?.shippingDetails?.estimatedLeadTimeMinDays} - {orderSheetDetails?.shippingDetails?.estimatedLeadTimeMaxDays} days
                   </span>
                 </Row>
