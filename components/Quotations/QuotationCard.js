@@ -181,7 +181,7 @@ const QuotationCard = (props) => {
           sm={24}
           md={24}
           lg={24}
-          style={{ background: "#f2f0eb", marginBottom: "20px" }}
+          style={{ background: "#f2f0eb", marginBottom: "20px",paddingTop:"30px",paddingBottom:"30px" }}
         >
           <Row>
             <Col
@@ -266,7 +266,7 @@ const QuotationCard = (props) => {
                 </Col>
               </Row>
             </Col>
-            <Col xs={24} sm={24} md={14} lg={14}>
+            <Col xs={24} sm={24} md={14} lg={14} xl={14}>
               <Col xs={24} sm={24} md={24} lg={22} style={{ top: "20%" }}>
                 <Row justify="end">
                   {props.data.rfqStatus === "LINKED_PARTIAL" && (

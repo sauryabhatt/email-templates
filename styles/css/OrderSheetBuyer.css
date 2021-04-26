@@ -2,30 +2,24 @@
 
 
 :root {
-    --font-family: Sen;
-    --font: #191919;
+    --font-family: 'Sen';
+    --color: #191919;
 }
 #order-sheet{
-    font-family: 'Bodoni Moda', serif;
+    font-family: "Butler";
     font-size: 28px;
     font-style: normal;
     font-weight: 400;
     line-height: 34px;
     letter-spacing: 0.2800000011920929px;
     text-align: left;
-    color: var(--font)
+    color: var(--color)
 }
 .card-border {
     width: 169%;
     border:18px solid #E6E4DF;
 }
-/* th{
-    width: 30%;
-}
-td{
-    width: 200%;
-    overflow-x: scroll;
-} */
+
 #order-sheet-details{
     font-family: var(--font-family);;
     font-style: normal;
@@ -33,11 +27,14 @@ td{
     font-size: 17px;
     line-height: 25.45px;
     letter-spacing: 0.28px;
-    color: var(--font)
+    color: var(--color)
 }
 #details-header{
-    font-family: 'Bodoni Moda', serif;
+    font-family: 'Butler';
+    font-style: normal;
+    font-weight: normal;
     font-size: 19px;
+    color: var(--color)
 }
 #order-details{
     font-family: var(--font-family);;
@@ -46,10 +43,10 @@ td{
     font-size: 14px;
     line-height: 28.45px;
     letter-spacing: 0.28px;
-    color: var(--font)
+    color: var(--color)
 }
 #order-summary{
-    font-family: 'Bodoni Moda', serif;
+    font-family: "Butler";
     font-size: 19px;
 
 }
@@ -62,6 +59,7 @@ td{
     font-size: 14px;
     font-family: var(--font-family);;
     line-height: 28px;
+    width: 100%;
 }
 #order-summary-details-green{
     color: #02873A;
@@ -75,11 +73,11 @@ td{
 }
 #reviewBtn{
     background: #D9BB7F;
+    font-family: var(--font-family);
+    font-style: normal;
     font-weight: bold;
-    font-family: Sen;
-    font-size: 13px;
-    color: var(--font);
-    line-height: 6px;
+    font-size: 17px;
+    color: #000000;
 }
 #paynow{
     margin: "15px";
@@ -90,10 +88,19 @@ td{
     margin-top: 11px;
 }
 #paylater{
-    color: var(--font);
+    color: var(--color);
     font-size: 17px;
     font-weight: 400;
     margin-top: 5px;
+}
+
+#buyerValidate{
+    margin: 1px;
+    margin-bottom: 1px;
+    width: 70%;
+    background: #F9F7F2;
+    border: 1px solid rgba(25, 25, 25, 0.3);
+    border-radius: 3px 0px 0px 3px;
 }
 
 
@@ -101,10 +108,12 @@ td{
 #previous-version{
     border: 1px solid #D9BB7F;
     width: 70%;
+    height: 46px;
+    background:#F9F7F2;
     font-weight: bold;
-    font-family: Sen;
-    font-size: 13px;
-    color: var(--font);
+    font-family: var(--font-family);
+    font-size: 14px;
+    color: #000000;
     line-height: 6px;
 
 }
@@ -112,14 +121,30 @@ td{
 #review-checkout{
     background: #D9BB7F;
     font-weight: bold;
-    font-family: Sen;
-    font-size: 13px;
-    color: var(--font);
+    font-family: var(--font-family);
+    font-size: 14px;
+    color: var(--color);
     line-height: 6px;
+    height: 46px;
+    color: #000000;
+}
+#delivery-time{
+    font-family: var(--font-family);
+    font-style: normal;
+    font-weight: bold;
+    font-size: 17px;
+    color: #02873A
+}
+#shipping-details-time{
+    font-family: var(--font-family);
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    color: #191919;
 }
 
 #secure-msg{
-    font-family: 'Bodoni Moda', serif;
+    font-family: "Butler";
     font-size:15px;
     margin-left: 6%;
     /* font-weight: 600; */
@@ -134,7 +159,7 @@ td{
     margin-top: -17px!important;
 }
 #estimated-date{
-    color: var(--font);
+    color: var(--color);
     font-family: var(--font-family);
     font-weight: normal;
     font-size: 17px;
@@ -142,7 +167,7 @@ td{
 
 #estimated-time{
     color: rgba(25, 25, 25, 0.6);
-    font-family: var(--font);
+    font-family:var(--color);
     font-size: 14px;    
 }
 
@@ -151,18 +176,19 @@ td{
     font-family: var(--font-family);
     font-size: 14px;
     line-height: 20px;
+    font-style: normal;
+    font-weight: normal;
+    color: var(--color);
 }
-
 th{
-    width: 18%;
-    /* position: fixed; */
+    width: 16%;
     font-family: var(--font-family);
     font-weight: normal;
     border: 1px solid rgb(204, 204, 204);
     background: rgba(0, 0, 0, 0.05);
 } 
 td{
-    width: 18%;
+    width: 16%;
     border: 1px solid rgb(204, 204, 204);
     font-family: var(--font-family);
     font-weight: normal; 
@@ -171,28 +197,29 @@ th span{
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: var(--font-family);
 }
+
 td span{
     display: flex;
     justify-content: center;
-    align-items: center;    
+    align-items: center;   
+    color: #000000; 
+    font-family: var(--font-family);
 }
 
 .ant-modal-close-x{
-    background: black;
-    border-radius: 30%;
+    background: #332F2F;
+    border-radius: 11px;
     margin-top: 11px;
     margin-right: 12px;
     color: white;
-    height: 45px;
-    width: 45px;
+    height: 40px;
+    width: 40px;
 }
-/* .anticon{
-    position: absolute;
-    top: 19px;
-    right: 18px;
-    font-size: 10px;
-} */
+.order-details-name{
+    line-height: 32px;
+}
 .ant-modal-title{
     font-family: 'Sen';
     margin-top: 15px;
@@ -200,13 +227,6 @@ td span{
     font-weight: 600;
    
 }
-
-
-
-
-
-
-
 
 @media only screen and (max-width: 600px) {
     #card {
@@ -232,7 +252,11 @@ td span{
         margin-bottom: 10px;
     }
     #estimated-date{
-        font-size: 14px;
+        font-family: var(--font-family);
+        font-style: normal;
+        font-weight: normal;
+        font-size: 17px;
+        color: var(--color);
     }
     #delivery-time{
         font-size: 14px !important;
