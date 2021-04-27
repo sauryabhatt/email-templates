@@ -1179,17 +1179,19 @@ const ProductDetails = (props) => {
                   (profileType === "SELLER" && profileId === sellerCode) ||
                   showPrice ? (
                     <div className="qa-mar-btm-05">
-                      <span
-                        style={{
-                          fontSize: "26px",
-                          fontFamily: "Butler",
-                          color: "#191919",
-                          verticalAlign: "middle",
-                        }}
-                      >
-                        {getSymbolFromCurrency(convertToCurrency)}
-                        {getConvertedCurrency(displayPrice, currencyDetails)}*
-                      </span>
+                      {displayPrice && (
+                        <span
+                          style={{
+                            fontSize: "26px",
+                            fontFamily: "Butler",
+                            color: "#191919",
+                            verticalAlign: "middle",
+                          }}
+                        >
+                          {getSymbolFromCurrency(convertToCurrency)}
+                          {getConvertedCurrency(displayPrice, currencyDetails)}*
+                        </span>
+                      )}
                       {/* {priceMin && (
                         <span className="qa-fs-20 qa-font-butler qa-va-m">
                           {" "}
@@ -2317,21 +2319,23 @@ const ProductDetails = (props) => {
                     <div className="qa-mar-btm-1">
                       <Row>
                         <Col span={12}>
-                          <span
-                            style={{
-                              fontSize: "24px",
-                              fontFamily: "Butler",
-                              color: "#191919",
-                              verticalAlign: "middle",
-                            }}
-                          >
-                            {getSymbolFromCurrency(convertToCurrency)}
-                            {getConvertedCurrency(
-                              displayPrice,
-                              currencyDetails
-                            )}
-                            *
-                          </span>
+                          {displayPrice && (
+                            <span
+                              style={{
+                                fontSize: "24px",
+                                fontFamily: "Butler",
+                                color: "#191919",
+                                verticalAlign: "middle",
+                              }}
+                            >
+                              {getSymbolFromCurrency(convertToCurrency)}
+                              {getConvertedCurrency(
+                                displayPrice,
+                                currencyDetails
+                              )}
+                              *
+                            </span>
+                          )}
                           {/* {priceMin && (
                             <span className="qa-fs-20 qa-font-butler qa-va-m">
                               {" "}
