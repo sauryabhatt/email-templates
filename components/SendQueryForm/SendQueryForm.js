@@ -370,10 +370,6 @@ const SendQueryForm = (props) => {
                 style={{ marginBottom: "1em" }}
                 rules={[
                   {
-                    type: "string",
-                    message: "The input is not valid!",
-                  },
-                  {
                     required: true,
                     message: "Please enter your requirement.",
                   },
@@ -749,7 +745,7 @@ const SendQueryForm = (props) => {
                   >
                     T&C
                   </span>{" "}
-                  apply.
+                  apply.*
                 </Checkbox>
               </Form.Item>
             </Col>

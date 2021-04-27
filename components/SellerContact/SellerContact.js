@@ -521,10 +521,6 @@ const SellerContact = (props) => {
                 style={{ marginBottom: "1em" }}
                 rules={[
                   {
-                    type: "string",
-                    message: "The input is not valid!",
-                  },
-                  {
                     required: true,
                     message: "Please enter your requirement.",
                   },
@@ -582,10 +578,6 @@ const SellerContact = (props) => {
                 name="requirementDetails"
                 style={{ marginBottom: "1em" }}
                 rules={[
-                  {
-                    type: "string",
-                    message: "The input is not valid!",
-                  },
                   {
                     required: true,
                     message: "Please enter your requirement.",
@@ -962,7 +954,7 @@ const SellerContact = (props) => {
                       T&C
                     </a>
                   </Link>{" "}
-                  apply.
+                  apply.*
                 </Checkbox>
               </Form.Item>
             </Col>

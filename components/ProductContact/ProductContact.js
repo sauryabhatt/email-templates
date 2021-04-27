@@ -668,10 +668,6 @@ const ProductContact = (props) => {
                 style={{ marginBottom: "1em" }}
                 rules={[
                   {
-                    type: "string",
-                    message: "The input is not valid!",
-                  },
-                  {
                     required: true,
                     message: "Please enter your requirement.",
                   },
@@ -917,7 +913,7 @@ const ProductContact = (props) => {
                       T&C
                     </a>
                   </Link>{" "}
-                  apply.
+                  apply.*
                 </Checkbox>
               </Form.Item>
             </Col>
