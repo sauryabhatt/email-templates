@@ -469,7 +469,7 @@ function Home(props) {
           setVisible(true);
         }}
       />
-      <RecentlyViewed />
+      {profileType === "BUYER" && <RecentlyViewed />}
       <Row id="q-source-banner">
         <div className="q-source-title">
           <div className="banner-text">
