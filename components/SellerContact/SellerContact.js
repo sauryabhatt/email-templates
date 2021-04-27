@@ -529,7 +529,7 @@ const SellerContact = (props) => {
                     message: "Please enter your requirement.",
                   },
                   {
-                    min: 5,
+                    min: 25,
                     max: 500,
                     message: "Please enter message within 25-500 characters",
                   },

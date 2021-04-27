@@ -601,15 +601,14 @@ const ProductContact = (props) => {
                 name="quantity"
                 style={{ marginBottom: "1em" }}
                 rules={[
-                  { required: true, message: "Please enter target quantity." },
                   {
-                    type: "string",
-                    message: "The input is not valid!",
+                    required: true,
+                    message: "Please enter target quantity",
                   },
+
                   {
-                    min: 1,
-                    max: 50,
-                    message: "Length should be 1-50 characters!",
+                    pattern: new RegExp("^[0-9]*$"),
+                    message: "Please enter in correct format!",
                   },
                 ]}
               >
