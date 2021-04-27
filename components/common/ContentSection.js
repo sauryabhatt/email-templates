@@ -111,6 +111,7 @@ function ContentSection(props) {
                   selectedProductId={selProductId}
                   selectProduct={selectProduct}
                   sellerId={sellerId}
+                  recentlyViewed={recentlyViewed}
                 />
               </Col>
             ))}

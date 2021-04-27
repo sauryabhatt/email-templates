@@ -36,6 +36,7 @@ function ProductCard(props) {
     selectProduct,
     currencyDetails = {},
     sellerId = "",
+    recentlyViewed = false,
   } = props;
   let {
     orgName = "",
@@ -338,7 +339,7 @@ function ProductCard(props) {
     );
   } else {
     let linkTo = `/seller/${vanityId}`;
-    if (showSPLP === "true" || showSPLP === true) {
+    if (showSPLP === "true" || showSPLP === true || recentlyViewed) {
       id = id.replace("HOME::SELLER::", "");
       let categoryName = "all-categories";
       linkTo = `/seller/${id}/${categoryName}`;
