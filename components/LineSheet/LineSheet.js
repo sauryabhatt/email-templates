@@ -1,5 +1,5 @@
 /** @format */
-import React, { useState, useEffect ,Fragment } from "react";
+import React, { useState, useEffect } from "react";
 import 'antd/dist/antd.css';
 import { connect } from "react-redux";
 import {useRouter} from "next/router";
@@ -19,18 +19,16 @@ import {
   Upload
 } from "antd";
 import { InfoCircleOutlined ,FilePdfOutlined ,ExportOutlined} from '@ant-design/icons';
-import PayWithPaypal from "../PayWithPayPal/PayWithPaypal";
 import { useKeycloak } from "@react-keycloak/ssr";
 import moment from "moment"
-import { Router } from "next/router";
-import { countBy } from "lodash";
+
 const { Panel } = Collapse;
 const { TextArea } = Input;
 
 
 const LineSheet = (props) => {
-  const router = useRouter();
 
+  const router = useRouter();
   const [ orderSheetDetails , setOrderSheetDetails ] = useState([])
   const [ productsDetails , setProductsDetails ] = useState([])
   const [ isModalVisible, setIsModalVisible ] = useState(false);
@@ -42,18 +40,11 @@ const LineSheet = (props) => {
   const [ lastComments,setLastComments ] = useState("")
   const [orderId , setOrderId ] = useState("")
 
-   
+  console.log("orderSheetDetails",orderSheetDetails) 
+
   const { linesheetId } = router.query ; 
-  // console.log("productsDetails",productsDetails)
-  // console.log("buyerComments",buyerComments)
-
-
-  // for(let i = 0 ; i < productsDetails.length; i++ ){
-  //   console.log(productsDetails[i].id)
-  // }
     
   const getBuyerOrderSheetDetails = (linesheetId) => {
-
       let url = process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/lineSheet/order_page/" + linesheetId;
       fetch(url)
       .then(res => {
@@ -64,9 +55,7 @@ const LineSheet = (props) => {
       .then( res =>{
         setOrderSheetDetails(res)
         setBuyerComments(res.comment)
-
         let productsAlldata = []
-        
         for(let i = 0;i<res.products.length;i++){
           productsAlldata.push(res.products[i])
           console.log("productsAlldata",productsAlldata)
@@ -81,125 +70,6 @@ const LineSheet = (props) => {
   },[router.query])
 
 
-
-  
-
-  // const checkOut = () => {
-  //      setReviewCheckout({
-  //       loading: true,
-  //       isDisabled : true
-  //     })
-  //     const { status } = orderSheetDetails;
-  //     console.log("status",status)
-  //     if(status == "SUBMITTED_TO_BUYER"){
-  //       let url = process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/lineSheet/approve/" + linesheetId;
-  //       fetch(url)
-  //       .then(res => {
-  //         if(res.ok){
-  //           return res.json()
-  //         }
-  //       })
-  //       .then(res => {
-  //         console.log("order",res)
-  //         document.getElementById("buyerValidateText").style.display = "none"
-  //         const {quoteId} = res;
-  //         let url = process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL + "/orders/custom/" + quoteId;
-  //         fetch(url,{
-  //           method: "POST",
-  //           headers: {
-  //               "Authorization": "Bearer " + keycloak.token,
-  //               "Content-Type": "application/json"
-  //           },          
-  //         }).then(res => {
-  //           if(res.ok){
-  //             return res.json()
-  //           }
-  //         })
-  //         .then(res => {
-  //           // console.log("res",res)
-  //           setReviewCheckout({
-  //             loading: false,
-  //             isDisabled : false
-  //           })
-
-  //           const { orderId } = res;
-
-  //           let updateUrl = process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/lineSheet/update/" + linesheetId + "/for-quote-with/" + orderId;
-  //           fetch(updateUrl,{
-  //             method: "PUT",
-  //             headers: {
-  //                 "Authorization": "Bearer " + keycloak.token,
-  //                 "Content-Type": "application/json"
-  //             },          
-  //           }).then(res => {
-  //             if(res.ok){
-  //               return res.json()
-  //             }else{
-  //               throw(res.statusText || 'error while fetching ..')
-  //             }
-  //           }).then(res => {
-  //             console.log("payment",res)
-  //           })
-  //           let url = '/order-review/' + res.orderId
-  //           router.push(url);
-  //         })
-  //       })
-  //       .catch( err => {
-  //         throw (err.statusText || 'Error While making payment.')
-  //       })
-
-  //     }else if(status == "APPROVED"){
-  //       document.getElementById("buyerValidateText").style.display = "none"
-  //       setReviewCheckout({
-  //         loading: true,
-  //         isDisabled : true
-  //       })
-
-  //       const { quoteId } = orderSheetDetails;
-  //       let url = process.env.NEXT_PUBLIC_REACT_APP_ORDER_ORC_URL + "/orders/custom/" + quoteId;
-  //       // console.log("url",url)
-  //       fetch(url,{
-  //         method: "POST",
-  //         headers: {
-  //             "Authorization": "Bearer " + keycloak.token,
-  //             "Content-Type": "application/json"
-  //         },          
-  //       }).then(res => {
-  //         if(res.ok){
-  //           return res.json()
-  //         }
-  //       })
-  //       .then(res => {
-  //         setReviewCheckout({
-  //           loading: false,
-  //           isDisabled : false
-  //         })
-  //         const { orderId } = res;
-
-  //         let UpdateUrl = process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/lineSheet/update/" + linesheetId + "/for-quote-with/" + orderId;
-  //         console.log("url",url)
-  //         fetch(UpdateUrl,{
-  //           method: "PUT",
-  //           headers: {
-  //               "Authorization": "Bearer " + keycloak.token,
-  //               "Content-Type": "application/json"
-  //           },          
-  //         }).then(res => {
-  //           if(res.ok){
-  //             return res.json()
-  //           }else{
-  //             throw(res.statusText || 'error while fetching ..')
-  //           }
-  //         }).then(res => {
-  //           console.log("payment",res)
-  //         })
-
-  //         console.log("review & Checkout",res);
-  //         let url = '/order-review/' + res.orderId
-  //         router.push(url);
-  //       })
-  //     }
-  // }
 
   const checkOut = () => {
     setReviewCheckout({
@@ -233,9 +103,7 @@ const LineSheet = (props) => {
                   throw(res.statusText || 'Error while getting order id')
                 }
               }).then(res =>{
-
-                console.log("res",res)
-                setOrderId(res.orderId)
+                const { orderId } = res;
                 let url = process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/lineSheet/update/" + linesheetId + "/for-quote-with/" + orderId;
                 fetch(url,{
                   method: "PUT",
@@ -282,7 +150,7 @@ const LineSheet = (props) => {
               throw(res.statusText || 'Error while getting order id')
             }
           }).then(res =>{
-            setOrderId(res.orderId)
+              const {orderId} = res;
               let url = process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/lineSheet/update/" + linesheetId + "/for-quote-with/" + orderId;
                 fetch(url,{
                   method: "PUT",
@@ -315,15 +183,12 @@ const LineSheet = (props) => {
     setIsModalVisible(true);
     const { queryNumber } = orderSheetDetails;
     let url = process.env.NEXT_PUBLIC_REACT_APP_API_FORM_URL + "/lineSheet/get/older_versions/" + queryNumber
-    // console.log("url",url)
     fetch(url)
     .then(res => {
       if(res.ok){
         return res.json()
       }
     }).then(res => {
-      console.log("resOlderVersion",res)
-
       if(res.length == 0 ){
         document.getElementById("myQuotationNoData").style.display = "block"
       }else{
@@ -515,7 +380,7 @@ const LineSheet = (props) => {
         imgWindow.document.write(image.outerHTML);
   }
 
-  console.log("object",orderSheetDetails?.productSpecificationUrls?.length === 0)
+  // console.log("object",orderSheetDetails?.productSpecificationUrls?.length === 0) q 
 
   const ddutext = <span
             style={{
@@ -552,22 +417,18 @@ const LineSheet = (props) => {
           </Row>
           <Row>
             <Col xs={22} sm={22} lg={10} xl={10}>
-              {/* <span>LineSheet ID : {orderSheetDetails.lineSheetNumber}</span>  */}
               <span>LinesheetID : {linesheetId}</span> 
-
             </Col>
           </Row>
           <Row>
             <Col xs={22} sm={22} lg={7} xl={7}>
-            {/* <span>Shipping mode: {orderSheetDetails.products[0].shippingMode1}</span> */}
-            <span>Shipping mode: {orderSheetDetails.shippingMode}</span>
-
+              <span>Shipping mode: {orderSheetDetails.shippingMode}</span>
             </Col>
           </Row>
           <Row>
             <Col xs={22} sm={22} lg={7} xl={7}>
               <span>Shipping term : {orderSheetDetails.shippingTerms} </span> 
-              <Tooltip placement="bottom" title={orderSheetDetails.shippingTerms === "DDU" ? ddutext : ddptext}>
+              <Tooltip color="#191919" placement="bottom" title={orderSheetDetails.shippingTerms === "DDU" ? ddutext : ddptext}>
                 <InfoCircleOutlined style={{ fontSize: '14px', color: '#874439'}}/>
               </Tooltip>
             </Col>
@@ -711,7 +572,11 @@ const LineSheet = (props) => {
               <Col xs={18} sm={18} md={19} lg={19} xl={19}><span>Qalara margin/Covid surcharge discounted</span></Col>
               <Col>
                 <span>
-                  
+                  {orderSheetDetails?.currency === "AUD" ? "$" : ""}
+                  {orderSheetDetails?.currency === "USD" ? "$" : ""}
+                  {orderSheetDetails?.currency === "GBP" ? "£" : ""}
+                  {orderSheetDetails?.currency === "EUR" ? "€" : ""}{' '}
+                  0
                 </span>
               </Col>
             </Row>

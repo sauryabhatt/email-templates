@@ -80,12 +80,11 @@
     color: #000000;
 }
 #paynow{
-    margin: "15px";
     color: #005098;
     font-family: Sen;
     font-weight: 700;
     line-height: 12px;
-    margin-top: 11px;
+    margin-top: 11px !important;
 }
 #paylater{
     color: var(--color);
