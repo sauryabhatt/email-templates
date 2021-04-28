@@ -269,6 +269,9 @@ const CartDetails = (props) => {
         let sellerMov =
           brandNames[sellerCode] &&
           brandNames[sellerCode].mov &&
+          brandNames[sellerCode].mov.find(
+            (x) => x.productType === productType
+          ) &&
           brandNames[sellerCode].mov.find((x) => x.productType === productType)
             .amount;
 
@@ -1194,6 +1197,9 @@ const CartDetails = (props) => {
                         brandNames[sellerCode].mov &&
                         brandNames[sellerCode].mov.find(
                           (x) => x.productType === productType
+                        ) &&
+                        brandNames[sellerCode].mov.find(
+                          (x) => x.productType === productType
                         ).amount;
 
                       if (mov < sellerMov) {
@@ -1268,11 +1274,7 @@ const CartDetails = (props) => {
                                 setBulkdelete(true);
                                 setDeleteItem(sellerCode);
                                 setDeleteModal(true);
-                                setDeleteName(
-                                  brandNames &&
-                                    brandNames[sellerCode] &&
-                                    brandNames[sellerCode].brandName
-                                );
+                                setDeleteName(sellerCode);
                               }}
                             >
                               Delete cart
@@ -1904,6 +1906,9 @@ const CartDetails = (props) => {
                         brandNames[sellerCode].mov &&
                         brandNames[sellerCode].mov.find(
                           (x) => x.productType === productType
+                        ) &&
+                        brandNames[sellerCode].mov.find(
+                          (x) => x.productType === productType
                         ).amount;
 
                       if (mov < sellerMov) {
@@ -1962,11 +1967,7 @@ const CartDetails = (props) => {
                                 setDeleteModal(true);
                                 setBulkdelete(true);
                                 setDeleteItem(sellerCode);
-                                setDeleteName(
-                                  brandNames &&
-                                    brandNames[sellerCode] &&
-                                    brandNames[sellerCode].brandName
-                                );
+                                setDeleteName(sellerCode);
                               }}
                             >
                               Delete cart
