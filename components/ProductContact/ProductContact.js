@@ -256,8 +256,15 @@ const ProductContact = (props) => {
       {getCountries().map((country) => {
         if (country === "US") {
           return (
-            <Option key={country} value={en[country] + "(USA)"}>
-              {en[country]}
+            <Option key={country} value={en[country] + " (US)"}>
+              {en[country] + " (US)"}
+            </Option>
+          );
+        }
+        if (country === "GB") {
+          return (
+            <Option key={country} value={en[country] + " (UK)"}>
+              {en[country] + " (UK)"}
             </Option>
           );
         }
@@ -268,7 +275,8 @@ const ProductContact = (props) => {
           country !== "SD" &&
           country !== "SY" &&
           country !== "PK" &&
-          country !== "SO"
+          country !== "SO" &&
+          country !== "SS"
         ) {
           return (
             <Option key={country} value={en[country]}>

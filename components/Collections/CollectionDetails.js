@@ -313,11 +313,17 @@ const CollectionDetails = (props) => {
   const country = (
     <Select placeholder="Select country" showSearch>
       {getCountries().map((country) => {
-        // console.log(country);
         if (country === "US") {
           return (
-            <Option key={country} value={en[country] + "(USA)"}>
-              {en[country]}
+            <Option key={country} value={en[country] + " (US)"}>
+              {en[country] + " (US)"}
+            </Option>
+          );
+        }
+        if (country === "GB") {
+          return (
+            <Option key={country} value={en[country] + " (UK)"}>
+              {en[country] + " (UK)"}
             </Option>
           );
         }
@@ -328,7 +334,8 @@ const CollectionDetails = (props) => {
           country !== "SD" &&
           country !== "SY" &&
           country !== "PK" &&
-          country !== "SO"
+          country !== "SO" &&
+          country !== "SS"
         ) {
           return (
             <Option key={country} value={en[country]}>
