@@ -945,8 +945,7 @@ function Home(props) {
               </p>
             ) : notificationMsg === "EMAIL_NOT_VERIFIED" ? (
               <p className="verification-heading home-page">
-                Welcome to Qalara! Please validate your email address to enable
-                online checkout.
+                Welcome! You are now signed in.
               </p>
             ) : (
               <p className="verification-heading home-page">
