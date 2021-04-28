@@ -1715,9 +1715,9 @@ const CartSummary = (props) => {
       {disablePayment && id === "shipping" && (
         <div className="qa-tc-white qa-fs-12 qa-lh qa-mar-top-05 qa-txt-alg-cnt">
           Freight cost appears to be high for this order. Please click on 'Order
-          Quote Request' and we will share a link over email with the necessary
-          details to process your order. The link will also be available in your
-          Qalara Account section.
+          Quote Request' for the best negotiated rates to be shared on your
+          registered email address, alongwith instructions to process the order
+          securely.
         </div>
       )}
 
