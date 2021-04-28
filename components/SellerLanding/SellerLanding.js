@@ -24,6 +24,7 @@ const SellerLanding = (props) => {
     props.data.category_product_range
   );
   const [sellerDetails, setSellerDetails] = useState(props.data.sellerDetails);
+  const [count, setCount] = useState(0);
 
   let app_token = null;
 
@@ -78,9 +79,7 @@ const SellerLanding = (props) => {
     if (width <= 768) {
       setMobile(true);
     }
-
-    if (props.userProfile) {
-      console.log("In user profile");
+    if (props.userProfile && count === 0) {
       let { verificationStatus = "", profileType = "" } = props.userProfile;
       props.getSellerDetails(
         app_token,
@@ -102,7 +101,7 @@ const SellerLanding = (props) => {
           )
             .then((res) => {
               if (res.ok) {
-                console.log("Added seller to recently viewed");
+                // console.log("Added seller to recently viewed");
               } else {
                 throw (
                   res.statusText ||
@@ -141,6 +140,7 @@ const SellerLanding = (props) => {
             // console.log("Error ", err);
           });
       }
+      setCount(1);
     }
   }, [props.userProfile]);
 
