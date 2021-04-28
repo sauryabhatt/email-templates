@@ -337,12 +337,12 @@ const PaypalButton = (props) => {
             surname: props.user.lastName || props.user.firstName,
           },
           email_address: props.user.email,
-          phone: {
-            phone_type: "MOBILE",
-            phone_number: {
-              national_number: props.user.orgPhone || props.user.personalPhone,
-            },
-          },
+          // phone: {
+          //   phone_type: "MOBILE",
+          //   phone_number: {
+          //     national_number: props.user.orgPhone || props.user.personalPhone,
+          //   },
+          // },
           address: {
             address_line_1: props.order.billingAddressDetails["addressLine1"],
             address_line_2: props.order.billingAddressDetails["addressLine2"],
